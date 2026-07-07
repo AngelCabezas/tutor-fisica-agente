@@ -1,0 +1,1231 @@
+\documentclass[12pt, a4paper]{article}
+
+% --- PAQUETES ---
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{geometry}
+\usepackage[most]{tcolorbox}
+\usepackage{siunitx}
+\usepackage{enumitem}
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usepackage{verbatim} 
+\usepackage{xcolor}
+
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta, calc, babel}
+\geometry{a4paper, margin=1in}
+
+\title{Ejercicios Teóricos: Impulso y Cantidad de Movimiento Lineal}
+\author{Dataset Entrenamiento LLM}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\subsection*{Enunciado}
+Un cajón abierto desliza sobre una superficie horizontal lisa con rapidez constante. De repente pasa por una región en donde le cae agua verticalmente, por lo que el agua se acumula en el cajón. La rapidez del cajón:
+\begin{enumerate}[label=\alph*)]
+    \item permanece constante
+    \item aumenta
+    \item disminuye
+    \item puede aumentar o disminuir
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Conservación de la Cantidad de Movimiento Horizontal}
+Analizamos el sistema "Cajón + Agua" en el eje horizontal (eje $X$). 
+El enunciado indica que la superficie es "lisa", lo que significa que no existe fuerza de fricción exterior en el plano horizontal. El agua cae "verticalmente", lo que implica que la fuerza externa que el agua ejerce al caer solo tiene componente en el eje $Y$, sin aportar ningún impulso en el eje $X$.
+
+Al no existir fuerzas externas netas en la dirección horizontal ($\sum F_x = 0$), la Cantidad de Movimiento Lineal del sistema en ese eje debe conservarse obligatoriamente:
+$$ p_{\text{inicial}} = p_{\text{final}} $$
+$$ m_0 v_0 = (m_0 + \Delta m) v_f $$
+Donde $m_0$ es la masa inicial del cajón vacío, $\Delta m$ es la masa del agua acumulada, $v_0$ es la rapidez inicial y $v_f$ es la rapidez final.
+
+Despejamos la rapidez final $v_f$:
+$$ v_f = v_0 \left( \frac{m_0}{m_0 + \Delta m} \right) $$
+Como el denominador ($m_0 + \Delta m$) es indiscutiblemente mayor que el numerador ($m_0$), la fracción es menor a $1$. Al multiplicar la rapidez inicial por un factor menor a la unidad, el resultado $v_f$ será un valor más pequeño. El incremento de inercia (masa) sin un aporte de impulso horizontal frena progresivamente al sistema.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) disminuye
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Para poner en movimiento dos cuerpos diferentes ($m_1 > m_2$) desde el reposo hasta que alcancen igual cantidad de movimiento lineal ($\vec{p}_1 = \vec{p}_2$), en el mismo intervalo de tiempo, debe actuar una fuerza neta:
+\begin{enumerate}[label=\alph*)]
+    \item mayor sobre el cuerpo de masa $m_1$
+    \item mayor sobre el cuerpo de masa $m_2$
+    \item igual sobre cada cuerpo
+    \item diferente, sobre cada cuerpo
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Refutación del Error Intuitivo: El Teorema del Impulso}
+\textit{Nota de Tutor: El estudiante marcó la opción 'b', asumiendo erróneamente que la diferencia de masas exige una compensación asimétrica de fuerzas. Demostraremos algebraicamente por qué esto es falso analizando el Teorema del Impulso.}
+
+El Teorema del Impulso y la Cantidad de Movimiento establece que el impulso neto ($\vec{I}$) aplicado a un cuerpo es igual a su variación de cantidad de movimiento ($\Delta\vec{p}$):
+$$ \vec{I} = \vec{F}_{\text{neta}} \cdot \Delta t = \Delta\vec{p} $$
+$$ \vec{F}_{\text{neta}} \cdot \Delta t = \vec{p}_{\text{final}} - \vec{p}_{\text{inicial}} $$
+
+El problema establece condiciones iniciales y finales idénticas para ambos cuerpos:
+\begin{itemize}
+    \item Ambos parten desde el reposo ($\vec{p}_{\text{inicial}} = \vec{0}$).
+    \item Ambos alcanzan la misma cantidad de movimiento final ($\vec{p}_{1\text{final}} = \vec{p}_{2\text{final}} = \vec{p}$).
+    \item Ambos procesos ocurren en el "mismo intervalo de tiempo" ($\Delta t_1 = \Delta t_2 = \Delta t$).
+\end{itemize}
+
+Sustituimos estas condiciones en las ecuaciones de cada cuerpo:
+\begin{align*}
+    \text{Cuerpo 1: } & \vec{F}_1 \cdot \Delta t = \vec{p} - \vec{0} \implies \vec{F}_1 \cdot \Delta t = \vec{p} \\
+    \text{Cuerpo 2: } & \vec{F}_2 \cdot \Delta t = \vec{p} - \vec{0} \implies \vec{F}_2 \cdot \Delta t = \vec{p}
+\end{align*}
+
+Al igualar ambas ecuaciones obtenemos:
+$$ \vec{F}_1 \cdot \Delta t = \vec{F}_2 \cdot \Delta t $$
+Dividiendo ambos lados para el mismo intervalo de tiempo $\Delta t$, llegamos a la conclusión innegable:
+$$ \vec{F}_1 = \vec{F}_2 $$
+La fuerza necesaria es exactamente la misma. La diferencia de masas se manifestará en la velocidad final ($v_2$ será mayor que $v_1$), pero el esfuerzo total sostenido en el tiempo (Impulso) es idéntico.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) igual sobre cada cuerpo
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una pelota de masa $m$ impacta en el piso como indica la figura. Durante el impacto, para la pelota se cumple que:
+
+\begin{center}
+\begin{tikzpicture}[scale=1]
+    \draw[->] (-0.5,0) -- (1,0) node[right] {$x$};
+    \draw[->] (0,-0.5) -- (0,1.5) node[above] {$y$};
+    
+    \draw[thick] (2,0) -- (6,0);
+    
+    \draw[->, thick] (3,1) -- (4,0);
+    \node[right] at (3.5, 0.6) {$v$};
+    
+    \draw[->, thick] (4,0) -- (5,1);
+    \node[right] at (5, 0.5) {$v$};
+    
+    \draw (3.5,0) arc (180:135:0.5);
+    \node at (3.3, 0.2) {$\theta$};
+    
+    \draw (4.5,0) arc (0:45:0.5);
+    \node at (4.7, 0.2) {$\theta$};
+\end{tikzpicture}
+\end{center}
+
+\begin{enumerate}[label=\alph*)]
+    \item $\Delta \vec{p} = \vec{0}$
+    \item $\Delta p_x = 0$ y $\Delta p_y \neq 0$
+    \item $\Delta p_x \neq 0$ y $\Delta p_y = 0$
+    \item $\Delta p_x \neq 0$ y $\Delta p_y \neq 0$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Resta Vectorial de Momentos}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(5, 5))
+ax.spines['left'].set_position('zero')
+ax.spines['bottom'].set_position('zero')
+ax.spines['right'].set_color('none')
+ax.spines['top'].set_color('none')
+
+ax.arrow(0, 0, 2, -2, head_width=0.2, color='blue', length_includes_head=True)
+ax.text(1, -1.5, r'$\vec{p}_i$', color='blue', fontsize=12)
+
+ax.arrow(0, 0, 2, 2, head_width=0.2, color='red', length_includes_head=True)
+ax.text(1, 1.5, r'$\vec{p}_f$', color='red', fontsize=12)
+
+ax.arrow(2, -2, 0, 4, head_width=0.2, color='green', length_includes_head=True)
+ax.text(2.2, 0, r'$\Delta\vec{p} = \vec{p}_f - \vec{p}_i$', color='green', fontsize=12)
+
+ax.set_xlim(-1, 4)
+ax.set_ylim(-3, 3)
+ax.set_xticks([])
+ax.set_yticks([])
+plt.show()
+\end{verbatim}
+
+Para calcular la variación de la cantidad de movimiento ($\Delta\vec{p} = \vec{p}_f - \vec{p}_i$), debemos descomponer los vectores de velocidad inicial y final en sus componentes cartesianas.
+Observando la figura:
+\begin{itemize}
+    \item \textbf{Vector inicial (antes del choque):} La pelota se mueve hacia la derecha (X positivo) y hacia abajo (Y negativo). 
+    $$ \vec{p}_i = m(v \cos\theta \hat{i} - v \sin\theta \hat{j}) $$
+    \item \textbf{Vector final (después del choque):} La pelota rebota moviéndose hacia la derecha (X positivo) y hacia arriba (Y positivo).
+    $$ \vec{p}_f = m(v \cos\theta \hat{i} + v \sin\theta \hat{j}) $$
+\end{itemize}
+
+Realizamos la resta vectorial para hallar $\Delta\vec{p}$:
+$$ \Delta\vec{p} = \vec{p}_f - \vec{p}_i $$
+$$ \Delta\vec{p} = (mv \cos\theta \hat{i} + mv \sin\theta \hat{j}) - (mv \cos\theta \hat{i} - mv \sin\theta \hat{j}) $$
+Agrupando componentes:
+$$ \Delta\vec{p} = (mv \cos\theta - mv \cos\theta)\hat{i} + (mv \sin\theta - (-mv \sin\theta))\hat{j} $$
+$$ \Delta\vec{p} = 0\hat{i} + 2mv \sin\theta\hat{j} $$
+
+Como se observa en el álgebra (y en la gráfica generada por Python donde el vector verde apunta netamente hacia arriba), la componente horizontal se cancela por completo ($\Delta p_x = 0$), mientras que la componente vertical se duplica ($\Delta p_y \neq 0$). 
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) $\Delta p_x = 0$ y $\Delta p_y \neq 0$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+En el choque frontal de un auto y un camión, la magnitud del impulso que realiza el auto sobre el camión comparada con la magnitud del impulso que realiza el camión sobre el auto:
+\begin{enumerate}[label=\alph*)]
+    \item es mayor
+    \item es menor
+    \item es igual
+    \item no guarda ninguna relación
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Simetría de Interacciones (Tercera Ley de Newton)}
+El impulso mecánico ($\vec{I}$) se define como la integral de la fuerza aplicada en el tiempo, o en el caso de fuerzas promedio durante un impacto constante, como el producto escalar:
+$$ \vec{I} = \vec{F} \cdot \Delta t $$
+
+Analicemos los dos factores que componen el impulso durante el choque frontal:
+\begin{enumerate}
+    \item \textbf{La Fuerza ($\vec{F}$):} Según la Tercera Ley de Newton (Acción y Reacción), si el camión ejerce una fuerza masiva sobre el auto, el auto ejerce simultáneamente una fuerza de magnitud exactamente idéntica sobre el camión, pero en dirección opuesta ($\vec{F}_{\text{Auto} \to \text{Camión}} = -\vec{F}_{\text{Camión} \to \text{Auto}}$). Sus magnitudes son iguales.
+    \item \textbf{El Tiempo ($\Delta t$):} El tiempo de contacto es un evento único compartido. El camión está en contacto con el auto exactamente la misma cantidad de milisegundos que el auto está en contacto con el camión.
+\end{enumerate}
+
+Si multiplicamos una fuerza de magnitud idéntica por un lapso de tiempo idéntico, el resultado será obligatoriamente un Impulso de \textbf{magnitud igual} para ambos vehículos ($|\vec{I}_{\text{Auto}}| = |\vec{I}_{\text{Camión}}|$). 
+*(La diferencia letal en los accidentes no radica en el impulso o la fuerza, sino en la aceleración resultante que sufre cada pasajero, la cual es muchísimo mayor para el auto por tener menor masa, $\vec{a} = \vec{F}/m$).*
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) es igual
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un bloque $A$ de $1\,\si{kg}$ que se mueve con velocidad de $2\hat{i}\,\si{m/s}$, choca y se pega con un bloque $B$ de $2\,\si{kg}$ que estaba en reposo. Durante el choque, la magnitud del impulso que hace $A$ sobre $B$ es:
+\begin{enumerate}[label=\alph*)]
+    \item $0$
+    \item $1/3\,\si{Ns}$
+    \item $4/3\,\si{Ns}$
+    \item $2\,\si{Ns}$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Choque Inelástico y Transferencia de Impulso}
+\textit{Nota del Tutor: El estudiante resolvió el problema correctamente. Vamos a formalizar sus cálculos aplicando la conservación de la cantidad de movimiento.}
+
+Al chocar y pegarse, estamos ante un choque perfectamente inelástico. La cantidad de movimiento lineal total del sistema se conserva ($\vec{p}_{\text{inicial}} = \vec{p}_{\text{final}}$):
+$$ m_A \vec{v}_{A_i} + m_B \vec{v}_{B_i} = (m_A + m_B) \vec{v}_f $$
+Sustituyendo los datos ($m_A = 1$, $v_{A_i} = 2$, $m_B = 2$, $v_{B_i} = 0$):
+$$ (1)(2) + (2)(0) = (1 + 2) v_f $$
+$$ 2 = 3 v_f \implies v_f = \frac{2}{3}\,\si{m/s} $$
+
+El impulso que el bloque A ejerce sobre el bloque B ($\vec{I}_{A \to B}$) es exactamente igual al cambio en la cantidad de movimiento que experimenta el bloque B ($\Delta\vec{p}_B$):
+$$ I_{A \to B} = \Delta p_B = m_B v_f - m_B v_{B_i} $$
+$$ I_{A \to B} = (2)\left(\frac{2}{3}\right) - (2)(0) = \frac{4}{3}\,\si{Ns} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) $4/3\,\si{Ns}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Se deja caer una pelota de masa $m$ desde cierta altura, sobre el piso, la pelota choca y rebota hasta llegar al mismo punto de partida. La variación de la cantidad de movimiento lineal de la pelota durante el choque es:
+\begin{enumerate}[label=\alph*)]
+    \item cero
+    \item diferente de cero y está dirigida hacia abajo
+    \item diferente de cero y está dirigida hacia arriba
+    \item diferente de cero y su dirección depende del tiempo que dura el choque
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Dirección de la Variación del Momentum}
+Definimos nuestro eje de coordenadas con la dirección positiva hacia arriba ($+\hat{j}$).
+\begin{itemize}
+    \item Justo antes del impacto, la pelota cae con una rapidez $v$. Su cantidad de movimiento inicial es $\vec{p}_i = -mv\hat{j}$.
+    \item Justo después del impacto, el enunciado indica que la pelota rebota "hasta llegar al mismo punto de partida". Por conservación de energía, esto significa que rebotó con exactamente la misma rapidez $v$, pero hacia arriba. Su cantidad de movimiento final es $\vec{p}_f = +mv\hat{j}$.
+\end{itemize}
+
+Calculamos la variación de la cantidad de movimiento ($\Delta\vec{p}$):
+$$ \Delta\vec{p} = \vec{p}_f - \vec{p}_i $$
+$$ \Delta\vec{p} = (+mv\hat{j}) - (-mv\hat{j}) $$
+$$ \Delta\vec{p} = +2mv\hat{j} $$
+El resultado es un vector matemáticamente diferente de cero y con signo positivo, lo que indica que está dirigido \textbf{hacia arriba}. Físicamente, el piso tuvo que entregar un tremendo impulso ascendente para frenar la caída y además relanzar la pelota.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) diferente de cero y está dirigida hacia arriba
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+La figura representa la fuerza neta horizontal sobre el eje $x$, que actúa sobre un cuerpo de masa $m$ durante $3\,\si{s}$. La fuerza media que actúa sobre el cuerpo durante los $3\,\si{s}$ es:
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    \draw[->] (-0.5,0) -- (5,0) node[right] {$t(\si{s})$};
+    \draw[->] (0,-0.5) -- (0,3) node[above] {$F_x(\si{N})$};
+    
+    \draw[thick] (0,0) -- (1,2) -- (3,2) -- (3,0);
+    
+    \draw[dashed] (0,2) node[left] {15} -- (1,2);
+    \draw[dashed] (1,0) node[below] {1} -- (1,2);
+    
+    \node[below left] at (0,0) {0};
+    \node[below] at (2,0) {2};
+    \node[below] at (3,0) {3};
+\end{tikzpicture}
+\end{center}
+
+\begin{enumerate}[label=\alph*)]
+    \item $5\hat{i}\,\si{N}$
+    \item $7.5\hat{i}\,\si{N}$
+    \item $12.5\hat{i}\,\si{N}$
+    \item $15\hat{i}\,\si{N}$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Cálculo Geométrico del Impulso y Fuerza Media}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(6, 3))
+ax.spines['left'].set_position('zero')
+ax.spines['bottom'].set_position('zero')
+ax.spines['right'].set_color('none')
+ax.spines['top'].set_color('none')
+
+t = [0, 1, 3, 3]
+F = [0, 15, 15, 0]
+ax.plot(t[:3], F[:3], 'k-', lw=2)
+
+ax.fill_between([0, 1], [0, 15], color='lightblue', alpha=0.5)
+ax.fill_between([1, 3], [15, 15], color='lightgreen', alpha=0.5)
+
+ax.plot([0, 3], [12.5, 12.5], 'r--', lw=2)
+ax.text(1.5, 13.5, r'$F_{media} = 12.5\,\mathrm{N}$', color='red', ha='center', fontsize=12)
+ax.text(0.5, 5, r'$A_1$', ha='center')
+ax.text(2, 7.5, r'$A_2$', ha='center')
+
+ax.set_xticks([1, 2, 3])
+ax.set_yticks([15])
+ax.set_xlim(-0.5, 4)
+ax.set_ylim(-1, 18)
+plt.show()
+\end{verbatim}
+
+\textit{Nota de Tutor: El estudiante planteó de forma excelente el cálculo del área bajo la curva. Validamos su procedimiento.}
+
+El impulso neto es numéricamente igual al área bajo la gráfica Fuerza-Tiempo. Dividimos el área en dos figuras conocidas:
+\begin{itemize}
+    \item Triángulo ($A_1$ de $0$ a $1\,\si{s}$): $\text{Área}_1 = \frac{\text{base} \times \text{altura}}{2} = \frac{(1)(15)}{2} = 7.5\,\si{Ns}$
+    \item Rectángulo ($A_2$ de $1$ a $3\,\si{s}$): $\text{Área}_2 = \text{base} \times \text{altura} = (2)(15) = 30\,\si{Ns}$
+\end{itemize}
+El Impulso total es $I = 7.5 + 30 = 37.5\,\si{Ns}$.
+
+La Fuerza Media ($F_m$) se define como la fuerza constante hipotética que produciría el mismo impulso en el mismo intervalo de tiempo ($\Delta t = 3\,\si{s}$):
+$$ F_m = \frac{I}{\Delta t} = \frac{37.5}{3} = 12.5\,\si{N} $$
+Al estar la gráfica en el eje positivo de las ordenadas, la fuerza actúa en la dirección $+\hat{i}$.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) $12.5\hat{i}\,\si{N}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Dos bloques $A$ y $B$, de igual masa $m$ se mueven con la misma rapidez $v$, sobre una superficie horizontal lisa el uno hacia el otro, si el movimiento se da a lo largo del eje $x$ la cantidad de movimiento lineal del sistema formado por los dos bloques después del choque es:
+\begin{enumerate}[label=\alph*)]
+    \item cero
+    \item $mv\hat{i}$
+    \item $2mv\hat{i}$
+    \item $-2mv\hat{i}$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Conservación de la Cantidad de Movimiento}
+Al ser una superficie lisa (sin fricción), el sistema está aislado de fuerzas externas en el eje horizontal, por lo que la cantidad de movimiento total del sistema se conserva estrictamente ($\vec{p}_{\text{inicial}} = \vec{p}_{\text{final}}$).
+
+Calculamos la cantidad de movimiento inicial del sistema sumando vectorialmente los momentos de ambos bloques. Al moverse "el uno hacia el otro", viajan en direcciones opuestas:
+\begin{itemize}
+    \item Bloque A (asumimos viaja hacia la derecha): $\vec{p}_A = m(+v\hat{i})$
+    \item Bloque B (viaja hacia la izquierda): $\vec{p}_B = m(-v\hat{i})$
+\end{itemize}
+$$ \vec{p}_{\text{inicial}} = \vec{p}_A + \vec{p}_B = mv\hat{i} - mv\hat{i} = 0 $$
+
+Dado que la cantidad de movimiento debe conservarse sin importar si el choque fue elástico o inelástico, la cantidad de movimiento total \textbf{después} del choque seguirá siendo irremediablemente cero.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large a) cero
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un bloque de masa $m$ se mueve sobre el eje $x$, de acuerdo al gráfico posición contra tiempo que se indica. Para el intervalo de $t_1$ a $t_2$, el impulso neto sobre el bloque:
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    \draw[->] (-0.5,0) -- (4,0) node[right] {$t(\si{s})$};
+    \draw[->] (0,-0.5) -- (0,3) node[above] {$x(\si{m})$};
+    
+    \draw[thick] (0.5,-0.5) parabola bend (2,2) (3.5,-0.5);
+    \node[right] at (2.8, 2.2) {\footnotesize parábola};
+    
+    \node[below] at (0.8,0) {$t_1$};
+    \node[below] at (3.2,0) {$t_2$};
+    \node[below left] at (0,0) {$0$};
+\end{tikzpicture}
+\end{center}
+
+\begin{enumerate}[label=\alph*)]
+    \item es cero
+    \item está en la dirección $\hat{i}$
+    \item está en la dirección $-\hat{i}$
+    \item primero está en la dirección $\hat{i}$ y luego en la dirección $-\hat{i}$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Deducción del Impulso a través de la Cinemática}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig, ax = plt.subplots(figsize=(5, 3))
+ax.spines['left'].set_position('zero')
+ax.spines['bottom'].set_position('zero')
+ax.spines['right'].set_color('none')
+ax.spines['top'].set_color('none')
+
+t = np.linspace(0.5, 3.5, 100)
+x = - (t - 2)**2 + 2
+ax.plot(t, x, 'k-', lw=2)
+
+t1, t2 = 1, 3
+v1, v2 = 2, -2
+x1, x2 = 1, 1
+
+ax.plot([t1-0.5, t1+0.5], [x1 - v1*0.5, x1 + v1*0.5], 'b-', lw=2)
+ax.plot([t2-0.5, t2+0.5], [x2 - v2*0.5, x2 + v2*0.5], 'r-', lw=2)
+
+ax.text(0.2, 1.8, r'$\vec{v}_1 > 0$', color='blue', fontsize=12)
+ax.text(3.1, 1.8, r'$\vec{v}_2 < 0$', color='red', fontsize=12)
+
+ax.set_xticks([t1, t2])
+ax.set_xticklabels(['$t_1$', '$t_2$'])
+ax.set_yticks([])
+ax.set_xlim(0, 4)
+ax.set_ylim(-1, 3)
+plt.show()
+\end{verbatim}
+
+\textit{Nota de Tutor: El estudiante eligió correctamente la opción 'c'. Vamos a justificarlo de dos maneras para mayor rigurosidad.}
+
+El Impulso Neto es igual a la variación de la cantidad de movimiento ($\vec{I} = \Delta\vec{p} = m\vec{v}_2 - m\vec{v}_1$). En una gráfica de posición versus tiempo, la velocidad instantánea corresponde a la pendiente de la recta tangente.
+\begin{itemize}
+    \item En $t_1$, la pendiente de la curva es \textbf{positiva} (el bloque avanza). $\vec{v}_1 = +v\hat{i}$.
+    \item En $t_2$, la pendiente de la curva es \textbf{negativa} (el bloque retrocede). $\vec{v}_2 = -v\hat{i}$.
+\end{itemize}
+Aplicamos la fórmula del impulso:
+$$ \vec{I} = m(-v\hat{i}) - m(+v\hat{i}) = -2mv\hat{i} $$
+El resultado es un vector negativo, lo que indica que el Impulso Neto apunta en la dirección $-\hat{i}$.
+
+\textit{Método alternativo:} Geométricamente, toda parábola cóncava hacia abajo implica una aceleración constante negativa ($a_x < 0$). Por la Segunda Ley de Newton, una aceleración negativa constante es generada por una fuerza constante negativa ($\vec{F} = -F\hat{i}$). El impulso es la fuerza por el tiempo ($\vec{I} = \vec{F}\Delta t$), por ende, el impulso generado por una fuerza negativa apuntará inevitablemente en la dirección $-\hat{i}$.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) está en la dirección $-\hat{i}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un insecto choca frontalmente contra el vidrio de un auto. Señale la afirmación correcta:
+\begin{enumerate}[label=\alph*)]
+    \item la variación de la rapidez del insecto es igual a la del auto
+    \item la variación de la cantidad de movimiento lineal del insecto es igual a la del auto
+    \item el impulso que actúa sobre el insecto es mayor que el que actúa sobre el auto
+    \item el impulso que actúa sobre el insecto tiene la misma magnitud que el que actúa sobre el auto
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Tercera Ley de Newton en Colisiones}
+Para analizar cualquier choque, recurrimos a la Tercera Ley de Newton (Principio de Acción y Reacción). Durante el instante exacto del impacto, la fuerza que el parabrisas ejerce sobre el insecto es matemáticamente idéntica en magnitud a la fuerza que el insecto ejerce sobre el parabrisas ($\vec{F}_{\text{auto} \to \text{insecto}} = -\vec{F}_{\text{insecto} \to \text{auto}}$).
+
+El impulso se define como la fuerza multiplicada por el intervalo de tiempo ($\vec{I} = \vec{F} \Delta t$). 
+Dado que el tiempo de contacto es un evento compartido (el insecto toca al auto exactamente la misma cantidad de milisegundos que el auto toca al insecto), ambos factores de la ecuación son idénticos.
+Por lo tanto, la \textbf{magnitud del impulso} entregado y recibido por ambos cuerpos es exactamente la misma. 
+
+*(Nota para descarte: La opción 'a' es falsa porque la variación de velocidad o aceleración es $\vec{a} = \vec{F}/m$. Como la masa del insecto es minúscula, sufre una aceleración letal, mientras que el auto ni se inmuta. La opción 'b' es capciosa; la variación de cantidad de movimiento es igual en magnitud, pero opuesta en dirección, por lo que los vectores no son iguales).*
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large d) el impulso que actúa sobre el insecto tiene la misma magnitud que el que actúa sobre el auto
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Cuando se patea una pelota, el impulso sobre la pelota tiene necesariamente la dirección de la:
+\begin{enumerate}[label=\alph*)]
+    \item velocidad final de la pelota
+    \item cantidad de movimiento lineal inicial de la pelota
+    \item cantidad de movimiento lineal final de la pelota
+    \item variación de la cantidad de movimiento lineal de la pelota
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Teorema del Impulso y Cantidad de Movimiento}
+\textit{Nota del Tutor: El estudiante inicialmente marcó la opción 'c', pero rectificó tachándola y eligiendo la 'd'. Su rectificación es totalmente acertada. Validemos la teoría detrás de esto.}
+
+El Teorema fundamental que rige este tema establece una igualdad matemática estricta entre el impulso neto aplicado a un sistema y el cambio que este produce:
+$$ \vec{I} = \Delta\vec{p} = \vec{p}_f - \vec{p}_i $$
+Al ser una igualdad vectorial directa ($\vec{I} = \Delta\vec{p}$), el vector Impulso ($\vec{I}$) hereda obligatoria e instantáneamente la misma magnitud, unidad y \textbf{dirección} que el vector Variación de Cantidad de Movimiento ($\Delta\vec{p}$). 
+
+No tiene necesariamente la dirección del movimiento final ($\vec{p}_f$), a menos que la pelota hubiera partido exactamente desde el reposo ($\vec{p}_i = \vec{0}$).
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large d) variación de la cantidad de movimiento lineal de la pelota
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una granada que se desplaza por el aire explota en tres fragmentos de igual masa. La cantidad de movimiento lineal de uno de los fragmentos después de la explosión, comparada con la cantidad de movimiento lineal de la granada antes de la explosión:
+\begin{enumerate}[label=\alph*)]
+    \item es menor
+    \item es mayor
+    \item es igual
+    \item puede ser igual, menor o mayor
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Corrección Conceptual: Sistemas frente a Individuos en Explosiones}
+\textit{Nota de Tutor: El estudiante marcó la opción 'a'. Esta es una falacia muy común en física. Se asume que, al dividirse la masa, las propiedades individuales siempre se reducen. Demostraremos por qué esto es incorrecto al tratar con magnitudes vectoriales.}
+
+En una explosión, las fuerzas internas son inmensamente superiores a las externas (como la gravedad durante esos milisegundos), por lo que garantizamos la \textbf{conservación de la cantidad de movimiento total del sistema}:
+$$ \vec{P}_{\text{inicial (granada)}} = \vec{p}_{\text{frag1}} + \vec{p}_{\text{frag2}} + \vec{p}_{\text{frag3}} $$
+
+La clave está en que esta es una suma \textbf{vectorial}. 
+Imaginemos una granada en reposo total flotando en el aire ($\vec{P}_{\text{inicial}} = \vec{0}$). Al explotar, el fragmento 1 sale disparado violentamente hacia la derecha a $1000\,\si{m/s}$. Su cantidad de movimiento individual $\vec{p}_1$ es inmensa. Los otros fragmentos contrarrestan este momento saliendo hacia la izquierda, manteniendo la suma total en cero.
+En este caso, la magnitud del momentum de un solo fragmento ($|\vec{p}_1| \gg 0$) resultó ser muchísimo \textbf{mayor} que el momentum de la granada original ($P = 0$).
+
+Dependiendo de la asimetría de la explosión y las velocidades alcanzadas, el momentum de un individuo puede contrarrestar a los demás adoptando valores gigantescos, igualar al original, o ser menor. El espectro de posibilidades es total.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large d) puede ser igual, menor o mayor
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un sistema $S$ está compuesto por dos cuerpos $A$ y $B$ ($m_A > m_B$) situados en una superficie horizontal lisa y separados una distancia $d$, inicialmente en reposo. Si se aplica a cada uno de ellos una fuerza horizontal de igual magnitud y en dirección contraria, durante el mismo tiempo. Durante ese tiempo se cumple que:
+\begin{enumerate}[label=\alph*)]
+    \item $\Delta p_S = 0, \Delta p_A = 0, \Delta p_B = 0$
+    \item $\Delta p_S = 0, \Delta p_A \neq 0, \Delta p_B \neq 0$
+    \item $\Delta p_S \neq 0, \Delta p_A \neq 0, \Delta p_B \neq 0$
+    \item $\Delta p_S \neq 0, \Delta p_A = 0, \Delta p_B = 0$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Impulso del Sistema frente a Impulso Individual}
+El estudiante resolvió algebraicamente este problema con mucha destreza a un costado de su hoja. Repasemos ese formalismo.
+
+1. \textbf{A nivel individual:} 
+El cuerpo A recibe una fuerza externa $\vec{F}$ durante un tiempo $\Delta t$. Por el teorema del impulso, $\Delta\vec{p}_A = \vec{F} \Delta t$. Al existir una fuerza neta, el cuerpo saldrá del reposo y su variación será distinta de cero ($\Delta p_A \neq 0$).
+Lo mismo ocurre para B. Recibe una fuerza $-\vec{F}$ durante el mismo $\Delta t$. $\Delta\vec{p}_B = -\vec{F} \Delta t$. Por lo tanto, $\Delta p_B \neq 0$.
+
+2. \textbf{A nivel de sistema (S):}
+El impulso neto sobre el sistema $S$ completo es la suma de todos los impulsos externos aplicados a sus componentes.
+$$ \vec{I}_{\text{neto,S}} = \vec{I}_A + \vec{I}_B = (\vec{F}\Delta t) + (-\vec{F}\Delta t) = \vec{0} $$
+Si el impulso neto exterior sobre la "caja" imaginaria que encierra al sistema es nulo, el sistema como un todo no experimenta variación en su cantidad de movimiento global. Sus partes internas se mueven en direcciones opuestas compensándose perfectamente. Por ende, $\Delta p_S = 0$.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) $\Delta p_S = 0, \Delta p_A \neq 0, \Delta p_B \neq 0$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un hombre de masa $M$, que se encuentra en reposo sobre una superficie horizontal lisa, ve que un objeto de masa $m$ desliza hacia él, desde el norte, con una rapidez $v$. El hombre coge el objeto e inmediatamente después lo lanza hacia el sur con la misma rapidez $v$. La velocidad final del hombre con respecto a la superficie después de lanzar el objeto, es:
+\begin{enumerate}[label=\alph*)]
+    \item cero
+    \item $v$, hacia el norte
+    \item $v$, hacia el sur
+    \item $(m/M) v$ hacia el norte
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Atajo Analítico mediante Conservación Global}
+Este problema plantea dos eventos secuenciales (atrapar y lanzar). Sin embargo, al ser una superficie lisa (sin fricción), la cantidad de movimiento total del sistema "Hombre + Objeto" se conserva íntegramente desde el segundo 0 hasta el final de la historia ($\vec{P}_{\text{inicial}} = \vec{P}_{\text{final}}$). Podemos ignorar la fase intermedia y comparar directamente el inicio y el final.
+
+Establecemos el Sur como la dirección positiva.
+\begin{itemize}
+    \item \textbf{Estado Inicial:} El hombre está en reposo. El objeto desliza \textit{desde} el Norte, lo que significa que viaja \textit{hacia} el Sur a velocidad $v$.
+    $$ \vec{P}_{\text{inicial}} = M(0) + m(+v) = +mv $$
+    \item \textbf{Estado Final:} El hombre ha lanzado el objeto "hacia el Sur con la misma rapidez $v$". La velocidad final del objeto es nuevamente $+v$. Asignamos una velocidad incógnita $\vec{v}_h$ al hombre.
+    $$ \vec{P}_{\text{final}} = M(\vec{v}_h) + m(+v) $$
+\end{itemize}
+
+Igualamos el estado inicial con el final:
+$$ +mv = M\vec{v}_h + mv $$
+Restamos $mv$ a ambos lados de la ecuación:
+$$ 0 = M\vec{v}_h $$
+Puesto que la masa del hombre ($M$) no es cero, la única solución matemática posible es que su velocidad final sea nula ($\vec{v}_h = 0$). 
+Físicamente: El hombre absorbió un impulso del objeto para detenerlo, y luego gastó exactamente esa misma cantidad de impulso almacenado para volver a lanzarlo a la misma velocidad en la misma dirección, quedando en reposo.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large a) cero
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una pelota, de masa $m$ y rapidez $v$, choca con una pared vertical y rebota con la misma rapidez $v$, como indica la figura. El impulso que recibe la pared:
+
+\begin{center}
+\begin{tikzpicture}[scale=1]
+    \draw[->] (-2,0) -- (3,0) node[right] {$x$};
+    \draw[->] (0,-2) -- (0,2) node[above] {$y$};
+    
+    % Trayectoria de llegada
+    \draw[->, thick] (2, -2) -- (0.2, -0.2);
+    \draw (0,0) circle (0.2cm); % Origen contacto
+    \draw[thick, fill=white] (2, -2) circle (0.2cm);
+    \draw (1.5,0) arc (180:225:0.5);
+    \node at (1.2, -0.3) {$45^\circ$};
+    
+    % Trayectoria de salida
+    \draw[->, thick] (0.2, 0.2) -- (2, 2);
+    \draw[thick, fill=white] (2, 2) circle (0.2cm);
+    \draw (1.5,0) arc (180:135:0.5);
+    \node at (1.2, 0.3) {$45^\circ$};
+\end{tikzpicture}
+\end{center}
+
+\begin{enumerate}[label=\alph*)]
+    \item es cero
+    \item tiene solo una componente horizontal
+    \item tiene solo una componente vertical
+    \item tiene una componente horizontal y una componente vertical
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Descomposición Vectorial en Rebote de Superficies}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(5, 5))
+ax.spines['left'].set_position('zero')
+ax.spines['bottom'].set_position('zero')
+ax.spines['right'].set_color('none')
+ax.spines['top'].set_color('none')
+
+ax.arrow(1.5, -1.5, -1.3, 1.3, head_width=0.15, color='blue')
+ax.text(1.2, -1.2, r'$\vec{v}_i$', color='blue', fontsize=12)
+
+ax.arrow(0.2, 0.2, 1.3, 1.3, head_width=0.15, color='red')
+ax.text(1.2, 1.5, r'$\vec{v}_f$', color='red', fontsize=12)
+
+ax.plot([0,0], [-2, 2], 'k-', lw=3)
+ax.text(-0.5, 1.5, 'Pared\n(Eje Y)', ha='center')
+
+ax.arrow(1.5, -1.5, -3, 0, head_width=0.15, color='green', length_includes_head=True)
+ax.text(-1, -1.3, r'$\Delta\vec{v} = \vec{v}_f - \vec{v}_i$', color='green', fontsize=10)
+
+ax.set_xlim(-2, 2)
+ax.set_ylim(-2, 2)
+ax.set_xticks([])
+ax.set_yticks([])
+plt.show()
+\end{verbatim}
+
+Analizamos las componentes cartesianas del vector velocidad antes y después del impacto contra la pared vertical (Eje Y).
+\begin{itemize}
+    \item \textbf{Antes ($\vec{v}_i$):} La pelota avanza hacia la izquierda (X negativo) y hacia arriba (Y positivo). 
+    $$ \vec{v}_i = -v_x \hat{i} + v_y \hat{j} $$
+    \item \textbf{Después ($\vec{v}_f$):} La pelota rebota y ahora avanza hacia la derecha (X positivo), pero continúa subiendo en la misma dirección (Y positivo).
+    $$ \vec{v}_f = +v_x \hat{i} + v_y \hat{j} $$
+\end{itemize}
+
+Calculamos la variación de la cantidad de movimiento de la pelota ($\Delta\vec{p}_{\text{pelota}}$):
+$$ \Delta\vec{p}_{\text{pelota}} = m(\vec{v}_f - \vec{v}_i) $$
+$$ \Delta\vec{p}_{\text{pelota}} = m [ (v_x \hat{i} + v_y \hat{j}) - (-v_x \hat{i} + v_y \hat{j}) ] $$
+$$ \Delta\vec{p}_{\text{pelota}} = m (2v_x \hat{i} + 0 \hat{j}) = +2mv_x \hat{i} $$
+
+La pelota sufre un impulso puramente horizontal hacia la derecha. Por la Tercera Ley de Newton, el impulso que la pelota entrega \textbf{a la pared} es exactamente el mismo pero en sentido contrario ($\vec{I}_{\text{pared}} = -2mv_x \hat{i}$). Al carecer de término $\hat{j}$, el impulso recibido por el muro posee únicamente componente horizontal.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) tiene solo una componente horizontal
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un hombre de masa $m$ está de pie sobre la parte trasera de un trineo grande de masa $M$ y longitud $L$, y que se mueve sin rozamiento sobre un lago helado en línea recta con una rapidez constante. El hombre empieza a moverse sobre el trineo, hacia su parte delantera con una rapidez constante, la rapidez del trineo, respecto a tierra:
+\begin{enumerate}[label=\alph*)]
+    \item permanece constante
+    \item aumenta
+    \item disminuye
+    \item puede aumentar o disminuir
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Conservación de la Cantidad de Movimiento en Sistemas Compuestos}
+\textit{Nota del Tutor: El estudiante llegó a la respuesta correcta y planteó acertadamente ecuaciones de velocidad relativa. Formalicemos esto usando la conservación del momentum.}
+
+Al no existir rozamiento con el lago, el sistema "Hombre + Trineo" está aislado de fuerzas externas horizontales. La cantidad de movimiento total del sistema debe conservarse estrictamente.
+\begin{itemize}
+    \item \textbf{Estado Inicial:} Ambos se mueven juntos a una rapidez inicial $v_0$.
+    $$ P_{\text{inicial}} = (M + m)v_0 $$
+    \item \textbf{Estado Final:} El hombre camina hacia adelante. Si llamamos $u$ a la rapidez del hombre \textit{respecto al trineo}, su rapidez \textit{respecto a la tierra} será la velocidad del trineo más $u$ ($v_{\text{trineo}} + u$). 
+    $$ P_{\text{final}} = M(v_{\text{trineo}}) + m(v_{\text{trineo}} + u) $$
+\end{itemize}
+
+Igualamos los estados:
+$$ (M + m)v_0 = M(v_{\text{trineo}}) + m(v_{\text{trineo}}) + mu $$
+$$ (M + m)v_0 = (M + m)v_{\text{trineo}} + mu $$
+Despejamos la rapidez final del trineo:
+$$ (M + m)v_{\text{trineo}} = (M + m)v_0 - mu $$
+$$ v_{\text{trineo}} = v_0 - \frac{mu}{M + m} $$
+
+El álgebra demuestra que a la rapidez inicial del trineo ($v_0$) se le está \textbf{restando} un valor positivo (producto del avance del hombre). Para compensar el aumento de cantidad de movimiento del hombre hacia adelante y mantener el equilibrio del sistema, el trineo obligatoriamente debe ceder velocidad y frenarse.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) disminuye
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un niño empuja un bloque de madera sobre un piso horizontal rugoso describiendo una circunferencia con rapidez constante. El impulso neto que actúa sobre el bloque es:
+\begin{enumerate}[label=\alph*)]
+    \item igual a cero durante cualquier intervalo de tiempo
+    \item igual a cero durante un intervalo de tiempo igual a un período
+    \item diferente de cero durante cualquier intervalo de tiempo
+    \item diferente de cero durante un intervalo de tiempo igual a un período
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Impulso en el Movimiento Circular Uniforme}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig, ax = plt.subplots(figsize=(4, 4))
+ax.axis('off')
+
+circle = plt.Circle((0, 0), 2, fill=False, color='black', lw=2)
+ax.add_patch(circle)
+
+ax.plot(2, 0, 'ko')
+ax.arrow(2, 0, 0, 1, head_width=0.2, color='blue', lw=2)
+ax.text(2.3, 0.5, r'$\vec{v}_i$', color='blue', fontsize=12)
+
+ax.plot(-2, 0, 'ko')
+ax.arrow(-2, 0, 0, -1, head_width=0.2, color='red', lw=2)
+ax.text(-2.7, -0.8, r'$\vec{v}_{T/2}$', color='red', fontsize=12)
+
+ax.set_xlim(-3, 3)
+ax.set_ylim(-3, 3)
+plt.show()
+\end{verbatim}
+
+
+El impulso neto se define estrictamente como el cambio en el vector cantidad de movimiento ($\vec{I} = \Delta\vec{p} = \vec{p}_f - \vec{p}_i$).
+En un movimiento circular con rapidez constante, la magnitud de la velocidad no cambia, pero su \textbf{dirección} sí lo hace continuamente. Por lo tanto, en casi cualquier instante de tiempo evaluado, el vector final será diferente al inicial, dando un impulso distinto de cero.
+
+Sin embargo, existe una excepción geométrica exacta. Un \textbf{período ($T$)} se define como el tiempo exacto que le toma al bloque dar una vuelta completa.
+Si analizamos el intervalo de un período completo, el bloque regresa a la misma coordenada exacta de la cual partió, apuntando en la misma dirección exacta.
+$$ \vec{p}_{\text{final}(t+T)} = \vec{p}_{\text{inicial}(t)} $$
+Al restar dos vectores espacialmente idénticos, el resultado es el vector nulo.
+$$ \vec{I} = \vec{p}_{\text{inicial}} - \vec{p}_{\text{inicial}} = \vec{0} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) igual a cero durante un intervalo de tiempo igual a un período
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Se lanza una granada verticalmente hacia arriba y en el punto más alto de su trayectoria explota en dos fragmentos, de diferente masa. Inmediatamente después de la explosión:
+\begin{enumerate}[label=\alph*)]
+    \item los dos fragmentos, se mueven en la misma dirección
+    \item los dos fragmentos, se mueven en direcciones contrarias
+    \item solo se mueve el fragmento de mayor masa
+    \item solo se mueve el fragmento de menor masa
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Conservación Bidireccional en Explosiones}
+El enunciado contiene un dato clave: la explosión ocurre \textbf{"en el punto más alto de su trayectoria"}.
+En la cinemática de un tiro vertical, cuando un objeto alcanza su altura máxima, se detiene por un microsegundo para invertir su movimiento. Su velocidad en ese instante es cero ($v_y = 0$).
+Por ende, justo un milisegundo antes de explotar, la granada no tiene cantidad de movimiento:
+$$ \vec{P}_{\text{inicial}} = \vec{0} $$
+
+Durante la explosión se aplican fuerzas internas, por lo que se conserva el momentum total del sistema ($\vec{P}_{\text{inicial}} = \vec{P}_{\text{final}}$):
+$$ \vec{0} = \vec{p}_{\text{frag1}} + \vec{p}_{\text{frag2}} $$
+Despejamos un fragmento:
+$$ \vec{p}_{\text{frag1}} = -\vec{p}_{\text{frag2}} $$
+La ecuación resultante revela que los vectores de momento de ambos fragmentos deben ser matemáticamente iguales en magnitud pero \textbf{diametralmente opuestos en dirección} (representado por el signo negativo), sin importar que sus masas sean diferentes. (El fragmento más ligero saldrá más rápido para compensar, pero sus vectores de movimiento estarán a $180^\circ$ de separación).
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) los dos fragmentos, se mueven en direcciones contrarias
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un pequeño auto que recorre una carretera a gran velocidad pierde el control. El conductor tiene dos opciones: chocar con un muro de concreto o con un camión de 10 toneladas, que se aproxima en dirección opuesta también a gran velocidad. Si se considera que en ambos casos el automóvil pequeño queda en reposo después de la colisión, qué opción produce la colisión más fuerte;
+\begin{enumerate}[label=\alph*)]
+    \item la colisión con el camión
+    \item la colisión con el muro de concreto
+    \item las dos colisiones serán igualmente serias, pues el mismo impulso se aplica al auto en ambos casos
+    \item las dos colisiones serán igualmente serias, aunque no se podría saber que impulso se aplica al auto en cada caso
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Corrección de Sesgo Intuitivo por Restricción del Enunciado}
+\textit{Nota de Tutor: El estudiante eligió la opción 'a', asumiendo correctamente que en la vida real chocar contra un camión de frente es más catastrófico porque la velocidad relativa arrastraría al auto hacia atrás. Sin embargo, en física debemos ceñirnos a las condiciones de frontera planteadas en el texto.}
+
+El texto nos impone una condición absolutamente estricta: \textbf{"en ambos casos el automóvil pequeño queda en reposo después de la colisión"}.
+Para evaluar "qué tan fuerte" es una colisión en términos físicos, medimos el Impulso ($\vec{I}$) que experimenta el pasajero, el cual es igual a su variación de cantidad de movimiento ($\Delta\vec{p}$).
+
+Calculamos la variación en ambos escenarios teóricos propuestos:
+\begin{itemize}
+    \item \textbf{Caso Muro:} El auto viaja a velocidad $v_0$. Tras el impacto, cumple la premisa y queda en reposo ($v_f = 0$). 
+    $$ \vec{I}_{\text{muro}} = \Delta\vec{p} = m(0) - m(v_0) = -mv_0 $$
+    \item \textbf{Caso Camión:} El auto viaja a velocidad $v_0$. Tras el impacto, \textit{según dicta la regla inquebrantable del enunciado}, también queda mágicamente en reposo absoluto ($v_f = 0$).
+    $$ \vec{I}_{\text{camión}} = \Delta\vec{p} = m(0) - m(v_0) = -mv_0 $$
+\end{itemize}
+
+Bajo la premisa restrictiva de que en ambos casos la velocidad final del auto es cero, la variación de momento es exactamente la misma. Por lo tanto, el auto debe absorber el mismo impulso frenante en ambos escenarios. (El error del estudiante fue no leer analíticamente la condición "queda en reposo" y responder basado en su intuición empírica).
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) las dos colisiones serán igualmente serias, pues el mismo impulso se aplica al auto en ambos casos
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+A menudo, la policía antimotines utiliza balas de goma en vez de balas de plomo. Suponga que ni unas ni otras penetran en la piel, que tienen la misma masa, el mismo tiempo de contacto y velocidad inicial. La diferencia radica en que las de plomo se "adhieren" y las de goma rebotan. El impulso con el que impactan las balas de plomo, comparado con el impulso con el que impactan las balas de goma:
+\begin{enumerate}[label=\alph*)]
+    \item es mayor
+    \item es menor
+    \item es igual
+    \item no guarda relación
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Transferencia de Momentum en Choques Elásticos vs Inelásticos}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(6, 3))
+
+ax1.axis('off')
+ax1.plot([0, 0], [-1, 1], 'k-', lw=3)
+ax1.arrow(-0.8, 0.2, 0.6, 0, head_width=0.1, color='gray')
+ax1.plot(-0.1, 0, 'ko', markersize=8)
+ax1.set_title('Plomo (Inelástico)')
+ax1.text(-0.8, -0.4, r'$\Delta p = mv$', fontsize=10)
+
+ax2.axis('off')
+ax2.plot([0, 0], [-1, 1], 'k-', lw=3)
+ax2.arrow(-0.8, 0.2, 0.6, 0, head_width=0.1, color='gray')
+ax2.arrow(-0.2, -0.2, -0.6, 0, head_width=0.1, color='blue')
+ax2.set_title('Goma (Elástico)')
+ax2.text(-0.8, -0.6, r'$\Delta p = 2mv$', fontsize=10)
+
+plt.tight_layout()
+plt.show()
+\end{verbatim}
+
+
+Ambas balas son disparadas hacia una persona (superficie objetivo). Analizamos el impulso ($\vec{I} = \Delta\vec{p} = \vec{p}_f - \vec{p}_i$) ejercido por la piel sobre la bala en cada caso. Asumimos la dirección de impacto como positiva.
+\begin{itemize}
+    \item \textbf{Bala de Plomo ("se adhiere"):} Es un choque perfectamente inelástico. La bala llega a $v_i = v$ y se detiene a $v_f = 0$.
+    $$ I_{\text{plomo}} = m(0) - m(v) = -mv $$
+    \item \textbf{Bala de Goma ("rebota"):} Es un choque elástico. La bala llega a $v_i = v$, es frenada a cero, y luego la piel debe empujarla con fuerza para que rebote hacia atrás a $v_f = -v$.
+    $$ I_{\text{goma}} = m(-v) - m(v) = -2mv $$
+\end{itemize}
+
+El choque de la bala de goma requiere \textbf{el doble} de variación de cantidad de movimiento (y por lo tanto, el doble de impulso neto) que la bala de plomo, porque la superficie no solo debe absorber la inercia de llegada, sino que debe entregar energía adicional para propulsar el rebote. En consecuencia, el impulso de la bala de plomo es mucho \textbf{menor}.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) es menor
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un patinador de masa $M$ se encuentra inicialmente en reposo sobre una pista de hielo horizontal lisa (sin fricción), sosteniendo una mochila de masa $m$. En cierto instante, el patinador lanza la mochila horizontalmente hacia adelante con una rapidez $v$ (medida con respecto al hielo). Justo después del lanzamiento, la velocidad del patinador será:
+\begin{enumerate}[label=\alph*)]
+    \item $(m/M)v$ hacia atrás
+    \item $(M/m)v$ hacia atrás
+    \item $v$ hacia atrás
+    \item cero, ya que la fricción es nula
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Conservación de la Cantidad de Movimiento Lineal (Explosión Inversa)}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(6, 3))
+ax.axis('off')
+
+ax.plot([-3, 3], [0, 0], 'k-', lw=2)
+
+ax.plot([-0.5, 0.5], [0.1, 0.1], 'k-', lw=4)
+ax.plot(-0.3, 0.1, 'ko', markersize=6)
+ax.plot(0.3, 0.1, 'ko', markersize=6)
+
+ax.plot([0, 0], [0.2, 1.2], 'b-', lw=3)
+ax.plot(0, 1.4, 'bo', markersize=15)
+ax.text(-0.4, 1.5, 'M', color='blue', fontsize=12)
+
+ax.plot(1.5, 0.8, 'ro', markersize=10)
+ax.text(1.4, 1.0, 'm', color='red', fontsize=12)
+
+ax.arrow(1.7, 0.8, 0.8, 0, head_width=0.15, color='red', lw=2)
+ax.text(2.0, 0.5, r'$\vec{v}$', color='red', fontsize=12)
+
+ax.arrow(-0.2, 0.8, -0.8, 0, head_width=0.15, color='blue', lw=2)
+ax.text(-1.2, 0.5, r'$\vec{v}_p$', color='blue', fontsize=12)
+
+ax.set_xlim(-3, 3)
+ax.set_ylim(-0.5, 2)
+plt.show()
+\end{verbatim}
+
+\textit{Nota del Tutor: Este escenario es el equivalente cinemático a una pequeña "explosión" donde un sistema en reposo se divide en dos partes.}
+
+Dado que la pista de hielo es lisa, no existen fuerzas externas horizontales actuando sobre el sistema "Patinador + Mochila". Por lo tanto, la cantidad de movimiento lineal total del sistema debe conservarse:
+$$ \vec{P}_{\text{inicial}} = \vec{P}_{\text{final}} $$
+
+En el estado inicial, ambos cuerpos están en reposo, por lo que el momento inicial es nulo:
+$$ \vec{0} = \vec{p}_{\text{patinador}} + \vec{p}_{\text{mochila}} $$
+
+Establecemos la dirección hacia adelante (el lanzamiento de la mochila) como el eje positivo. El momento de la mochila es $m(+v)$. Asignamos una velocidad incógnita $\vec{v}_p$ al patinador de masa $M$:
+$$ 0 = M(\vec{v}_p) + m(v) $$
+
+Despejamos la velocidad del patinador ($\vec{v}_p$):
+$$ M(\vec{v}_p) = -mv $$
+$$ \vec{v}_p = -\left(\frac{m}{M}\right)v $$
+
+El signo negativo nos indica vectorialmente que el patinador se moverá en la dirección opuesta al lanzamiento (hacia atrás). La magnitud de su velocidad de retroceso es la fracción de masas $(m/M)$ multiplicada por la velocidad de la mochila. Como la masa de la mochila es mucho menor que la del patinador ($m < M$), su velocidad de retroceso será correspondientemente menor.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large a) $(m/M)v$ hacia atrás
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Dos esferas $A$ y $B$ de masas idénticas ($m_A = m_B = m$) se encuentran sobre una superficie horizontal lisa. La esfera $A$ se mueve con una velocidad $v\hat{i}$ hacia la esfera $B$, la cual se encuentra en reposo. Si ambas esferas experimentan un choque frontal perfectamente elástico, es correcto afirmar que inmediatamente después del choque:
+\begin{enumerate}[label=\alph*)]
+    \item ambas se mueven juntas con velocidad $(v/2)\hat{i}$
+    \item la esfera $A$ rebota con velocidad $-v\hat{i}$ y $B$ se mueve con $v\hat{i}$
+    \item la esfera $A$ se queda en reposo y la esfera $B$ se mueve con velocidad $v\hat{i}$
+    \item ambas esferas quedan en reposo absoluto
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Intercambio de Velocidades en Choques Elásticos}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+
+fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(6, 4))
+
+ax1.axis('off')
+ax1.plot([0, 6], [0, 0], 'k-', lw=2)
+ax1.plot(2, 0.4, 'bo', markersize=20)
+ax1.text(1.85, 0.25, 'A', color='white', fontweight='bold')
+ax1.plot(4, 0.4, 'ro', markersize=20)
+ax1.text(3.85, 0.25, 'B', color='white', fontweight='bold')
+ax1.arrow(2.4, 0.4, 0.8, 0, head_width=0.15, color='blue', lw=2)
+ax1.text(2.6, 0.6, r'$\vec{v}_i = v\hat{i}$', color='blue')
+ax1.text(4, 0.8, r'$\vec{v}_i = \vec{0}$', color='red', ha='center')
+ax1.set_title('Antes del choque', fontsize=12)
+ax1.set_xlim(0, 6)
+ax1.set_ylim(-0.2, 1.5)
+
+ax2.axis('off')
+ax2.plot([0, 6], [0, 0], 'k-', lw=2)
+ax2.plot(2, 0.4, 'bo', markersize=20)
+ax2.text(1.85, 0.25, 'A', color='white', fontweight='bold')
+ax2.plot(4, 0.4, 'ro', markersize=20)
+ax2.text(3.85, 0.25, 'B', color='white', fontweight='bold')
+ax2.arrow(4.4, 0.4, 0.8, 0, head_width=0.15, color='red', lw=2)
+ax2.text(4.6, 0.6, r'$\vec{v}_f = v\hat{i}$', color='red')
+ax2.text(2, 0.8, r'$\vec{v}_f = \vec{0}$', color='blue', ha='center')
+ax2.set_title('Después del choque', fontsize=12)
+ax2.set_xlim(0, 6)
+ax2.set_ylim(-0.2, 1.5)
+
+plt.tight_layout()
+plt.show()
+\end{verbatim}
+
+En un choque \textbf{perfectamente elástico}, se deben cumplir simultáneamente dos leyes de conservación:
+1. Conservación de la Cantidad de Movimiento Lineal.
+2. Conservación de la Energía Cinética.
+
+Planteamos la conservación de la cantidad de movimiento ($\vec{P}_i = \vec{P}_f$):
+$$ m_A v_{A_i} + m_B v_{B_i} = m_A v_{A_f} + m_B v_{B_f} $$
+Como las masas son iguales ($m_A = m_B = m$) y $B$ parte del reposo ($v_{B_i} = 0$):
+$$ m(v) + m(0) = m(v_{A_f}) + m(v_{B_f}) $$
+Dividiendo todo para $m$, obtenemos nuestra primera ecuación:
+$$ v = v_{A_f} + v_{B_f} $$
+
+Para no desarrollar el sistema cuadrático de la energía cinética, utilizamos el corolario de las velocidades relativas en choques elásticos unidimensionales, el cual dicta que la velocidad relativa de acercamiento es igual a la velocidad relativa de alejamiento cambiada de signo:
+$$ v_{A_i} - v_{B_i} = -(v_{A_f} - v_{B_f}) $$
+Sustituyendo los valores iniciales:
+$$ v - 0 = -v_{A_f} + v_{B_f} $$
+$$ v = v_{B_f} - v_{A_f} $$
+
+Si sumamos esta segunda ecuación con nuestra primera ecuación ($v = v_{A_f} + v_{B_f}$), se cancela $v_{A_f}$:
+$$ 2v = 2v_{B_f} \implies v_{B_f} = v $$
+Sustituyendo este resultado en la primera ecuación:
+$$ v = v_{A_f} + v \implies v_{A_f} = 0 $$
+
+El álgebra demuestra que la esfera $A$ se detiene por completo transfiriendo el 100\% de su cantidad de movimiento y energía a la esfera $B$, la cual sale disparada con la velocidad original de $A$.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) la esfera $A$ se queda en reposo y la esfera $B$ se mueve con velocidad $v\hat{i}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un proyectil de masa $m$ se dispara horizontalmente con una velocidad $v\hat{i}$ contra un bloque de madera de masa $M$ que se encuentra en reposo sobre una superficie horizontal lisa. Si el proyectil queda incrustado en el bloque, la velocidad del sistema bloque-proyectil inmediatamente después del impacto es:
+\begin{enumerate}[label=\alph*)]
+    \item $(m/M)v\hat{i}$
+    \item $\left(\frac{m}{m+M}\right)v\hat{i}$
+    \item $\left(\frac{M}{m+M}\right)v\hat{i}$
+    \item $v\hat{i}$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Choque Perfectamente Inelástico}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+
+fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(6, 4))
+
+ax1.axis('off')
+ax1.plot([0, 6], [0, 0], 'k-', lw=2)
+rect1 = plt.Rectangle((3, 0), 1.5, 1.5, fc='saddlebrown', ec='black')
+ax1.add_patch(rect1)
+ax1.text(3.75, 0.75, 'M', color='white', ha='center', va='center', fontsize=14)
+ax1.plot(1, 0.75, 'ko', markersize=6)
+ax1.text(1, 1.1, 'm', color='black', ha='center')
+ax1.arrow(1.2, 0.75, 0.8, 0, head_width=0.15, color='red', lw=2)
+ax1.text(1.5, 1, r'$\vec{v}_i = v\hat{i}$', color='red')
+ax1.set_xlim(0, 6)
+ax1.set_ylim(-0.2, 2)
+
+ax2.axis('off')
+ax2.plot([0, 6], [0, 0], 'k-', lw=2)
+rect2 = plt.Rectangle((3.5, 0), 1.5, 1.5, fc='saddlebrown', ec='black')
+ax2.add_patch(rect2)
+ax2.plot(3.8, 0.75, 'ko', markersize=6)
+ax2.text(4.4, 0.75, 'M+m', color='white', ha='center', va='center', fontsize=12)
+ax2.arrow(5.1, 0.75, 0.5, 0, head_width=0.15, color='blue', lw=2)
+ax2.text(5.2, 1.1, r'$\vec{v}_f$', color='blue')
+ax2.set_xlim(0, 6)
+ax2.set_ylim(-0.2, 2)
+
+plt.tight_layout()
+plt.show()
+\end{verbatim}
+
+Cuando el proyectil se incrusta en el bloque, ambos cuerpos pasan a formar una sola masa combinada ($m + M$) que se mueve con una única velocidad final $\vec{v}_f$. Este tipo de interacción se conoce como choque perfectamente inelástico.
+
+Al encontrarse sobre una superficie lisa, el sistema "proyectil + bloque" está libre de fuerzas externas en el eje horizontal, garantizando la conservación de la cantidad de movimiento lineal ($\vec{P}_i = \vec{P}_f$):
+$$ \vec{p}_{\text{proyectil\_i}} + \vec{p}_{\text{bloque\_i}} = \vec{P}_{\text{sistema\_f}} $$
+$$ m(v\hat{i}) + M(0) = (m + M)\vec{v}_f $$
+
+Despejando la velocidad final del sistema ($\vec{v}_f$):
+$$ mv\hat{i} = (m + M)\vec{v}_f $$
+$$ \vec{v}_f = \left(\frac{m}{m+M}\right)v\hat{i} $$
+
+La inercia total del sistema aumenta significativamente al sumar ambas masas, por lo que la velocidad resultante es apenas una pequeña fracción de la velocidad original del proyectil.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) $\left(\frac{m}{m+M}\right)v\hat{i}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un proyectil de masa $3m$ viaja horizontalmente con una velocidad $v\hat{i}$. De repente, el proyectil explota dividiéndose en dos fragmentos. Inmediatamente después de la explosión, el primer fragmento, de masa $m$, sale disparado verticalmente hacia arriba con una velocidad $v_1\hat{j}$. El vector cantidad de movimiento lineal del segundo fragmento (de masa $2m$) será:
+\begin{enumerate}[label=\alph*)]
+    \item $3mv\hat{i} - mv_1\hat{j}$
+    \item $3mv\hat{i} + mv_1\hat{j}$
+    \item $1.5mv\hat{i} - 0.5mv_1\hat{j}$
+    \item $2mv\hat{i} - mv_1\hat{j}$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Conservación de la Cantidad de Movimiento en 2D}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(6, 5))
+ax.spines['left'].set_position('zero')
+ax.spines['bottom'].set_position('zero')
+ax.spines['right'].set_color('none')
+ax.spines['top'].set_color('none')
+
+ax.arrow(0, 0, 6, 0, head_width=0.3, color='black', lw=2, length_includes_head=True)
+ax.text(6.2, 0.2, r'$\vec{P}_i = 3mv\hat{i}$', color='black', fontsize=12, fontweight='bold')
+
+ax.arrow(0, 0, 0, 4, head_width=0.3, color='blue', lw=2, length_includes_head=True)
+ax.text(0.2, 4.2, r'$\vec{p}_1 = mv_1\hat{j}$', color='blue', fontsize=12)
+
+ax.arrow(0, 0, 6, -4, head_width=0.3, color='red', lw=2, length_includes_head=True)
+ax.text(6.2, -4.2, r'$\vec{p}_2$', color='red', fontsize=12)
+
+ax.plot([0, 6], [4, 0], 'k--', alpha=0.5)
+ax.plot([6, 6], [0, -4], 'k--', alpha=0.5)
+
+ax.set_xlim(-1, 8)
+ax.set_ylim(-5, 5)
+ax.set_xticks([])
+ax.set_yticks([])
+plt.show()
+\end{verbatim}
+
+Durante una explosión, las fuerzas internas superan con creces a las externas, por lo que la cantidad de movimiento lineal total del sistema se conserva vectorialmente ($\vec{P}_{\text{inicial}} = \vec{P}_{\text{final}}$).
+
+1. \textbf{Estado Inicial:} El proyectil original viaja entero en el eje horizontal.
+$$ \vec{P}_{\text{inicial}} = (3m)(v\hat{i}) = 3mv\hat{i} $$
+
+2. \textbf{Estado Final:} El proyectil se ha dividido en el fragmento 1 (masa $m$, velocidad $v_1\hat{j}$) y el fragmento 2 (masa $2m$, cantidad de movimiento $\vec{p}_2$ desconocida).
+$$ \vec{P}_{\text{final}} = \vec{p}_1 + \vec{p}_2 $$
+$$ \vec{P}_{\text{final}} = m(v_1\hat{j}) + \vec{p}_2 $$
+
+Igualamos los estados y despejamos la cantidad de movimiento del segundo fragmento ($\vec{p}_2$):
+$$ 3mv\hat{i} = mv_1\hat{j} + \vec{p}_2 $$
+$$ \vec{p}_2 = 3mv\hat{i} - mv_1\hat{j} $$
+
+Físicamente, esto significa que el segundo fragmento debe heredar el $100\%$ de la inercia horizontal original del sistema ($3mv\hat{i}$) porque el primer fragmento no se llevó nada en el eje X. Además, como el primer fragmento salió hacia arriba ($+mv_1\hat{j}$), el segundo fragmento está obligado a salir con la misma cantidad de movimiento hacia abajo ($-mv_1\hat{j}$) para que, al sumarse, el momento vertical siga siendo nulo como lo era al inicio.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large a) $3mv\hat{i} - mv_1\hat{j}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Dos vehículos $A$ y $B$, de masas idénticas $m$, se aproximan a una intersección. El vehículo $A$ viaja hacia el Este con una rapidez $v$, mientras que el vehículo $B$ viaja hacia el Norte con la misma rapidez $v$. En la intersección, sufren un choque perfectamente inelástico (quedan unidos). Inmediatamente después del impacto, la magnitud de la velocidad del conjunto formado por ambos vehículos es:
+\begin{enumerate}[label=\alph*)]
+    \item $v$
+    \item $\sqrt{2}v$
+    \item $\frac{\sqrt{2}}{2}v$
+    \item $2v$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Choque Inelástico en Dos Dimensiones}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(5, 5))
+ax.spines['left'].set_position('zero')
+ax.spines['bottom'].set_position('zero')
+ax.spines['right'].set_color('none')
+ax.spines['top'].set_color('none')
+
+ax.arrow(-3, 0.2, 2.5, 0, head_width=0.2, color='blue', lw=2)
+ax.text(-2, 0.5, r'$m\vec{v}_A$', color='blue', fontsize=12)
+ax.plot(-3, 0.2, 'bs', markersize=10)
+
+ax.arrow(0.2, -3, 0, 2.5, head_width=0.2, color='red', lw=2)
+ax.text(0.5, -2, r'$m\vec{v}_B$', color='red', fontsize=12)
+ax.plot(0.2, -3, 'rs', markersize=10)
+
+ax.arrow(0, 0, 1.5, 1.5, head_width=0.2, color='purple', lw=3)
+ax.text(1.6, 1.6, r'$(2m)\vec{v}_f$', color='purple', fontsize=12)
+ax.plot(0, 0, 'ms', markersize=12)
+
+ax.plot([0, 1.5], [1.5, 1.5], 'k--', alpha=0.5)
+ax.plot([1.5, 1.5], [0, 1.5], 'k--', alpha=0.5)
+
+ax.set_xlim(-4, 4)
+ax.set_ylim(-4, 4)
+ax.set_xticks([])
+ax.set_yticks([])
+plt.show()
+\end{verbatim}
+
+Para encontrar la velocidad final, aplicamos el principio de conservación de la cantidad de movimiento lineal en un plano bidimensional ($\vec{P}_{\text{inicial}} = \vec{P}_{\text{final}}$).
+
+1. \textbf{Estado Inicial:} Analizamos la cantidad de movimiento de cada vehículo antes del impacto.
+$$ \vec{P}_{\text{inicial}} = \vec{p}_A + \vec{p}_B = m(v\hat{i}) + m(v\hat{j}) $$
+
+2. \textbf{Estado Final:} Al ser un choque perfectamente inelástico, ambos vehículos quedan unidos formando una sola masa de $2m$ que se mueve con una velocidad final $\vec{v}_f$.
+$$ \vec{P}_{\text{final}} = (2m)\vec{v}_f $$
+
+Igualamos ambos estados:
+$$ m(v\hat{i}) + m(v\hat{j}) = (2m)\vec{v}_f $$
+
+Dividimos toda la ecuación para la masa total $2m$ y despejamos el vector $\vec{v}_f$:
+$$ \vec{v}_f = \frac{v}{2}\hat{i} + \frac{v}{2}\hat{j} $$
+
+El enunciado nos pide la \textbf{magnitud} (rapidez) de este vector. Aplicamos el teorema de Pitágoras a sus componentes cartesianas:
+$$ |\vec{v}_f| = \sqrt{\left(\frac{v}{2}\right)^2 + \left(\frac{v}{2}\right)^2} $$
+$$ |\vec{v}_f| = \sqrt{\frac{v^2}{4} + \frac{v^2}{4}} = \sqrt{\frac{2v^2}{4}} $$
+$$ |\vec{v}_f| = \frac{\sqrt{2}}{2}v $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) $\frac{\sqrt{2}}{2}v$
+\end{tcolorbox}
+
+\end{document}

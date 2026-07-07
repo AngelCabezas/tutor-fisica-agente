@@ -1,0 +1,1131 @@
+\documentclass[12pt, a4paper]{article}
+
+% --- PAQUETES ---
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{geometry}
+\usepackage[most]{tcolorbox}
+\usepackage{siunitx}
+\usepackage{enumitem}
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usepackage{verbatim} 
+\usepackage{listings}
+\usepackage{xcolor}
+
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta, calc, babel}
+\geometry{a4paper, margin=1in}
+
+% --- CONFIGURACION DE LISTINGS (PYTHON) ---
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstset{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2,
+    language=Python
+}
+
+\title{Ejercicios Teóricos: Cinemática (Movimiento Rectilíneo)}
+\author{Dataset Entrenamiento LLM}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\subsection*{Enunciado}
+El movimiento rectilíneo uniforme (MRU) se caracteriza por:
+\begin{enumerate}[label=\alph*)]
+    \item moverse solo en el eje $x$
+    \item tener aceleración no nula en la misma dirección de su velocidad
+    \item su aceleración variable y diferente de cero
+    \item su velocidad constante y diferente de cero
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Definición Teórica del MRU}
+Analizamos las características fundamentales que le dan el nombre a este movimiento:
+\begin{itemize}
+    \item \textbf{Rectilíneo:} La trayectoria es una línea recta. Esto implica que la dirección del vector velocidad no cambia jamás (no hay aceleración centrípeta). Puede darse en el eje $x$, en el eje $y$, o en cualquier diagonal, no está restringido solo al eje $x$ (opción a es falsa).
+    \item \textbf{Uniforme:} La rapidez con la que se desplaza la partícula no cambia. Esto implica que no hay aceleración tangencial.
+\end{itemize}
+Si combinamos ambas condiciones (dirección constante y rapidez constante), concluimos que el vector velocidad total se mantiene inalterable en el tiempo. Matemáticamente, esto significa que la aceleración total es estrictamente cero ($\vec{a} = \vec{0}$). La única opción que define correctamente este principio de invariabilidad es la \textit{d}.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large d) su velocidad constante y diferente de cero
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una partícula se desplaza $\Delta\vec{r} = 3\hat{i} + 2\hat{j} + 6\hat{k}$ m con MRU en 10 s, entonces:
+\begin{enumerate}[label=\alph*)]
+    \item en 30 s su desplazamiento es $\Delta\vec{r} = 90\hat{i} + 60\hat{j} + 180\hat{k}$ m
+    \item la distancia total recorrida en 20 s es 196 m
+    \item la rapidez de la partícula es de 1.2 m/s
+    \item la velocidad a los 5 s es $0.3\hat{i} + 0.2\hat{j} + 0.6\hat{k}$ m/s
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Cálculo de Variables en MRU}
+Puesto que la partícula se mueve con MRU, su velocidad es constante en cualquier instante. Calculamos el vector velocidad a partir del desplazamiento total y el tiempo total:
+$$ \vec{v} = \frac{\Delta\vec{r}}{\Delta t} = \frac{3\hat{i} + 2\hat{j} + 6\hat{k}}{10} $$
+$$ \vec{v} = 0.3\hat{i} + 0.2\hat{j} + 0.6\hat{k} \text{ m/s} $$
+
+Comprobemos la veracidad de las opciones:
+\begin{itemize}
+    \item \textbf{Rapidez (opción c):} $v = |\vec{v}| = \sqrt{0.3^2 + 0.2^2 + 0.6^2} = \sqrt{0.09 + 0.04 + 0.36} = \sqrt{0.49} = 0.7 \text{ m/s}$. (Falsa).
+    \item \textbf{Distancia en 20s (opción b):} $d = v \cdot t = (0.7)(20) = 14 \text{ m}$. (Falsa).
+    \item \textbf{Desplazamiento en 30s (opción a):} $\Delta\vec{r}_{30} = \vec{v} \cdot 30 = (0.3\hat{i} + 0.2\hat{j} + 0.6\hat{k}) \cdot 30 = 9\hat{i} + 6\hat{j} + 18\hat{k} \text{ m}$. (Falsa).
+    \item \textbf{Velocidad a los 5s (opción d):} Al ser MRU, la velocidad calculada es exactamente la misma en $t=1\text{s}$, $t=5\text{s}$, o $t=100\text{s}$. (Verdadera).
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large d) la velocidad a los 5 s es $0.3\hat{i} + 0.2\hat{j} + 0.6\hat{k}$ m/s
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+La gráfica velocidad - tiempo para el MRU es una recta:
+\begin{enumerate}[label=\alph*)]
+    \item inclinada de pendiente positiva
+    \item horizontal de valor igual a la velocidad inicial
+    \item inclinada de pendiente negativa
+    \item vertical de valor igual a la velocidad inicial
+\end{enumerate}
+
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Gráfico del MRU}
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(5, 3))
+ax.spines['left'].set_position('zero')
+ax.spines['bottom'].set_position('zero')
+ax.spines['right'].set_color('none')
+ax.spines['top'].set_color('none')
+ax.set_xlabel('$t$', loc='right')
+ax.set_ylabel('$v$', loc='top')
+
+ax.plot([0, 5], [3, 3], 'b-', lw=2)
+ax.text(-0.5, 3, '$v_0$', color='blue')
+ax.text(2.5, 3.5, '$v(t) = v_0$', color='blue')
+
+ax.set_xlim(-1, 6)
+ax.set_ylim(-1, 5)
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+En el Movimiento Rectilíneo Uniforme, la aceleración es nula ($a = 0$). 
+Sabiendo que la ecuación de la velocidad en función del tiempo es $v(t) = v_0 + at$, si sustituimos $a=0$ obtenemos:
+$$ v(t) = v_0 $$
+Esta es la ecuación matemática de una función constante. Al representarla en un plano cartesiano donde el eje $Y$ es la velocidad y el eje $X$ es el tiempo, una función constante se grafica como una línea recta perfectamente horizontal. Su intersección con el eje $Y$ corresponde al valor de la velocidad con la que inició el movimiento.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) horizontal de valor igual a la velocidad inicial
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Cuando una partícula tiene en su movimiento horizontal una velocidad negativa y una aceleración positiva, en ese instante se puede afirmar que tiene un movimiento:
+\begin{enumerate}[label=\alph*)]
+    \item uniforme o que su rapidez es constante
+    \item necesariamente retardado o que su rapidez disminuye
+    \item acelerado o que su rapidez aumenta
+    \item rectilíneo uniforme o que su velocidad no cambia
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Dirección Relativa de Vectores Cinemáticos}
+El tipo de movimiento rectilíneo (acelerado o retardado) se define analizando el producto escalar entre el vector velocidad y el vector aceleración. 
+En un eje unidimensional (movimiento horizontal), los signos nos indican la dirección espacial:
+\begin{itemize}
+    \item Velocidad negativa ($v < 0$): La partícula se desplaza hacia la izquierda.
+    \item Aceleración positiva ($a > 0$): La fuerza resultante empuja hacia la derecha.
+\end{itemize}
+Dado que apuntan en sentidos opuestos, la aceleración está actuando "en contra" del movimiento de la partícula. Este choque vectorial causa ineludiblemente una pérdida progresiva de rapidez. A esto se le conoce formalmente como un movimiento rectilíneo retardado.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) necesariamente retardado o que su rapidez disminuye
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Para el movimiento rectilíneo uniformemente variado acelerado MRUV(A) que parte del reposo, se tiene como gráfica posición - tiempo una:
+\begin{enumerate}[label=\alph*)]
+    \item recta de pendiente positiva partiendo de cero
+    \item recta de pendiente negativa partiendo de cero
+    \item parábola con sus ramas hacia abajo
+    \item parábola con su ramas hacia arriba
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Gráfico del MRUV}
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig, ax = plt.subplots(figsize=(5, 3))
+ax.spines['left'].set_position('zero')
+ax.spines['bottom'].set_position('zero')
+ax.spines['right'].set_color('none')
+ax.spines['top'].set_color('none')
+ax.set_xlabel('$t$', loc='right')
+ax.set_ylabel('$x$', loc='top')
+
+t = np.linspace(0, 3, 50)
+x = 0.5 * 2 * t**2
+ax.plot(t, x, 'b-', lw=2)
+ax.text(1, 6, '$x(t) = \\frac{1}{2}at^2$', color='blue')
+
+ax.set_xlim(-0.5, 4)
+ax.set_ylim(-1, 10)
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+La ecuación general de la posición para un MRUV es:
+$$ x(t) = x_0 + v_0 t + \frac{1}{2} a t^2 $$
+El enunciado nos da dos condiciones iniciales clave:
+\begin{itemize}
+    \item "Parte del reposo": $v_0 = 0$.
+    \item "Acelerado": El signo de la aceleración apoya el avance, generando una concavidad positiva ($a > 0$).
+\end{itemize}
+Asumiendo el origen como punto de partida ($x_0 = 0$), la ecuación se reduce a $x(t) = \frac{1}{2} a t^2$.
+Esta es una función cuadrática de la forma $y = kx^2$ (con $k > 0$). Geométricamente, toda función cuadrática positiva corresponde a una parábola cóncava hacia arriba (con sus ramas apuntando hacia el eje Y positivo).
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large d) parábola con su ramas hacia arriba
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Se deja caer desde una altura de $10\text{ m}$ una esfera, el tiempo que tarda la esfera en llegar al piso en segundos es:
+\begin{enumerate}[label=\alph*)]
+    \item $1$
+    \item $\sqrt{2}$
+    \item $2$
+    \item $\sqrt{10}$
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Cálculo de Tiempo en Caída Libre}
+En caída libre, una partícula "se deja caer", lo que implica que su velocidad inicial es nula ($v_{0y} = 0$).
+La ecuación de posición para un movimiento uniformemente acelerado en el eje vertical es:
+$$ y(t) = y_0 + v_{0y}t - \frac{1}{2}gt^2 $$
+
+Si colocamos el origen de coordenadas ($y=0$) en el piso, la altura inicial es $y_0 = 10\text{ m}$ y la posición final al llegar al piso es $y(t) = 0$.
+Sustituyendo estos valores en la ecuación:
+$$ 0 = 10 + (0)t - \frac{1}{2}gt^2 $$
+$$ \frac{1}{2}gt^2 = 10 $$
+$$ gt^2 = 20 $$
+$$ t = \sqrt{\frac{20}{g}} $$
+
+\textit{Nota: Por lo general, en este tipo de exámenes de opción múltiple, se asume el valor aproximado de la gravedad como $g = 10\text{ m/s}^2$ para facilitar los cálculos sin calculadora.}
+Sustituyendo $g = 10$:
+$$ t = \sqrt{\frac{20}{10}} = \sqrt{2}\text{ s} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) $\sqrt{2}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Dos niños A y B saltan verticalmente hacia arriba, A lo hace con los $3/4$ de la velocidad de B. Es correcto afirmar que la altura máxima de A comparada con la de B es:
+\begin{enumerate}[label=\alph*)]
+    \item $3/4$
+    \item $9/16$
+    \item $16/9$
+    \item $4/3$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Proporcionalidad en Cinemática (Tiro Vertical)}
+Cuando un cuerpo se lanza hacia arriba y alcanza su altura máxima ($h_{max}$), su velocidad final en ese instante es cero ($v_f = 0$). 
+Utilizamos la ecuación cinemática independiente del tiempo:
+$$ v_f^2 = v_0^2 - 2g \Delta y $$
+$$ 0 = v_0^2 - 2g(h_{max}) $$
+$$ h_{max} = \frac{v_0^2}{2g} $$
+
+Esta ecuación nos demuestra que la altura máxima es directamente proporcional al \textbf{cuadrado} de la velocidad inicial.
+El enunciado nos da la relación entre las velocidades: $v_{0A} = \frac{3}{4} v_{0B}$.
+Calculamos la altura máxima del niño A ($h_A$) sustituyendo su velocidad:
+$$ h_A = \frac{v_{0A}^2}{2g} = \frac{\left(\frac{3}{4} v_{0B}\right)^2}{2g} $$
+Elevando la fracción al cuadrado:
+$$ h_A = \frac{\frac{9}{16} v_{0B}^2}{2g} = \frac{9}{16} \left( \frac{v_{0B}^2}{2g} \right) $$
+
+Como el término entre paréntesis es exactamente la definición de la altura máxima del niño B ($h_B$), concluimos:
+$$ h_A = \frac{9}{16} h_B $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) 9/16
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Cuando se lanza verticalmente hacia arriba una esfera, es correcto afirmar que:
+\begin{enumerate}[label=\alph*)]
+    \item la aceleración es positiva cuando sube y negativa cuando baja
+    \item la aceleración es cero en el punto más alto de su trayectoria
+    \item el tiempo que tarda en subir es igual al que tarda en bajar
+    \item el tiempo que tarda en subir es menor que el que tarda en bajar
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Simetría del Tiro Vertical (Despreciando la fricción)}
+Evaluemos las aseveraciones bajo las leyes de la física clásica ideal:
+\begin{itemize}
+    \item \textbf{Opción a y b:} Falsas. Una vez que la esfera abandona la mano, la única fuerza que actúa sobre ella es la fuerza gravitacional de la Tierra. Por lo tanto, la aceleración es la gravedad ($\vec{g} \approx -9.8\hat{j}\text{ m/s}^2$), la cual es una constante que siempre apunta hacia abajo (negativa en un sistema referencial estándar) durante todo el vuelo, incluso en el punto más alto.
+    \item \textbf{Opción c (Correcta):} Demostrémoslo analíticamente. El tiempo de subida ($t_{subida}$) hasta que $v_f=0$ es: 
+    $$ 0 = v_0 - g t_{subida} \implies t_{subida} = \frac{v_0}{g} $$
+    Para el trayecto de bajada, la esfera cae desde el reposo desde una altura $h = v_0^2 / 2g$. El tiempo de bajada ($t_{bajada}$) es:
+    $$ h = \frac{1}{2}g t_{bajada}^2 \implies \frac{v_0^2}{2g} = \frac{1}{2}g t_{bajada}^2 \implies t_{bajada}^2 = \frac{v_0^2}{g^2} \implies t_{bajada} = \frac{v_0}{g} $$
+    Ambas expresiones son algebraicamente idénticas.
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) el tiempo que tarda en subir es igual al que tarda en bajar
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Desde lo alto de un edificio se suelta una esfera A y luego de 1 segundo una esfera B. Para la esfera A parecería que la esfera B:
+\begin{enumerate}[label=\alph*)]
+    \item se aleja con rapidez constante
+    \item se aproxima con rapidez constante
+    \item mantiene su distancia
+    \item se aleja con rapidez variable
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Refutación del Error Intuitivo: Distancia vs Velocidad Relativa}
+\textit{Nota del Tutor: La respuesta marcada por el estudiante "mantiene su distancia" es un error intuitivo muy recurrente. A simple vista, si ambas caen con la misma aceleración, parecería que no se acercan ni se alejan. Demostraremos matemáticamente por qué esto es completamente falso.}
+
+Definamos la velocidad de ambas esferas. Como parten del reposo, su ecuación de velocidad es $v(t) = gt$.
+\begin{itemize}
+    \item Velocidad de A: $v_A(t) = gt$
+    \item Velocidad de B (se suelta 1 segundo después, por lo que lleva menos tiempo cayendo): $v_B(t) = g(t-1)$
+\end{itemize}
+
+Primero, evaluemos la \textbf{distancia} entre ellas integrando para hallar posiciones:
+$y_A = \frac{1}{2}gt^2$ y $y_B = \frac{1}{2}g(t-1)^2$.
+La separación entre ellas es $\Delta y = y_A - y_B = \frac{1}{2}g[t^2 - (t^2 - 2t + 1)] = \frac{1}{2}g(2t - 1) = g(t - 0.5)$.
+Como el factor tiempo ($t$) está multiplicando, a medida que pasan los segundos la distancia $\Delta y$ se hace cada vez más grande. Por lo tanto, \textbf{no mantienen su distancia}, se alejan constantemente.
+
+Segundo, evaluemos \textbf{cómo percibe A a B} calculando la \textbf{velocidad relativa} de B respecto a A ($v_{B/A}$):
+$$ v_{B/A} = v_B - v_A $$
+$$ v_{B/A} = g(t-1) - gt = gt - g - gt = -g $$
+Desde el marco de referencia de A (si A se sintiera quieta), A observa que B tiene una velocidad relativa igual a $-g$. Una velocidad de $-g$ (negativa) indica que B se está moviendo hacia atrás/arriba (alejándose), y al ser $g$ una constante, el alejamiento ocurre a una **rapidez constante**.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large a) se aleja con rapidez constante
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+De acuerdo con la gráfica \textit{posición - tiempo} de una partícula, es correcto afirmar que:
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    \draw[->] (-0.5,0) -- (7,0) node[right] {\footnotesize $t(s)$};
+    \draw[->] (0,-0.5) -- (0,4) node[above] {\footnotesize $x(m)$};
+    
+    \draw[thick] (0,3) parabola bend (3,0.5) (6,3);
+    
+    \draw[dashed] (3,0) node[below] {\footnotesize 3} -- (3,0.5);
+    \draw[dashed] (6,0) node[below] {\footnotesize 6} -- (6,3);
+    
+    \node[below] at (0,0) {\footnotesize 0};
+    \node[below] at (1,0) {\footnotesize 1};
+    \node[below] at (2,0) {\footnotesize 2};
+    \node[below] at (4,0) {\footnotesize 4};
+    \node[below] at (5,0) {\footnotesize 5};
+    
+    \node[rotate=65] at (6.5, 2.5) {\footnotesize parábola};
+\end{tikzpicture}
+\end{center}
+
+\begin{enumerate}[label=\alph*)]
+    \item de $0$ a $3$ segundos el movimiento es MRUV retardado
+    \item de $4$ a $6$ segundos es MRUV retardado
+    \item la aceleración del movimiento es variable
+    \item el movimiento es curvilíneo
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Interpretación de Pendientes en una Gráfica $x-t$}
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig, ax = plt.subplots(figsize=(6, 4))
+ax.spines['left'].set_position('zero')
+ax.spines['bottom'].set_position('zero')
+ax.spines['right'].set_color('none')
+ax.spines['top'].set_color('none')
+ax.set_xlabel('$t (s)$', loc='right')
+ax.set_ylabel('$x (m)$', loc='top')
+
+t = np.linspace(0, 6, 100)
+x = 0.5 * (t - 3)**2 + 0.5
+ax.plot(t, x, 'b-', lw=2)
+
+t_p1 = 1
+slope1 = t_p1 - 3
+intercept1 = (0.5*(t_p1-3)**2 + 0.5) - slope1*t_p1
+ax.plot([t_p1-1, t_p1+1], [slope1*(t_p1-1)+intercept1, slope1*(t_p1+1)+intercept1], 'r--')
+ax.plot(t_p1, 0.5*(t_p1-3)**2 + 0.5, 'ko')
+
+t_p2 = 2
+slope2 = t_p2 - 3
+intercept2 = (0.5*(t_p2-3)**2 + 0.5) - slope2*t_p2
+ax.plot([t_p2-1, t_p2+1], [slope2*(t_p2-1)+intercept2, slope2*(t_p2+1)+intercept2], 'r--')
+ax.plot(t_p2, 0.5*(t_p2-3)**2 + 0.5, 'ko')
+
+t_p3 = 3
+slope3 = t_p3 - 3
+intercept3 = (0.5*(t_p3-3)**2 + 0.5) - slope3*t_p3
+ax.plot([t_p3-1, t_p3+1], [slope3*(t_p3-1)+intercept3, slope3*(t_p3+1)+intercept3], 'r--')
+ax.plot(t_p3, 0.5*(t_p3-3)**2 + 0.5, 'ko')
+
+ax.text(0.5, 4, 'Pendiente (velocidad) negativa', color='red', fontsize=10)
+ax.text(0.5, 3.5, 'pero acercandose a cero.', color='red', fontsize=10)
+
+ax.set_xticks([0, 1, 2, 3, 4, 5, 6])
+ax.set_xlim(-0.5, 6.5)
+ax.set_ylim(-0.5, 5)
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+En un gráfico de posición respecto al tiempo, la pendiente de la recta tangente a la curva en un punto representa la velocidad instantánea ($v = dx/dt$). 
+\begin{itemize}
+    \item \textbf{Descarte general:} Es una gráfica parabólica en $x-t$, esto corresponde a una ecuación cuadrática del tipo $x(t) = at^2 + bt + c$, la firma matemática de un Movimiento Rectilíneo Uniformemente Variado (aceleración constante). Con esto se descartan las opciones 'c' (no es variable) y 'd' (es un movimiento rectilíneo en 1D, la "curva" es solo representación temporal, no espacial).
+    \item \textbf{Intervalo de 0 a 3 segundos:} En este tramo descendente, las rectas tangentes tienen pendiente negativa (velocidad negativa, la partícula se mueve en reversa). A medida que se acerca al tiempo $t=3\text{ s}$ (el vértice), la curva se va aplanando hasta hacerse completamente horizontal (pendiente cero, $v=0$). Como la magnitud de la velocidad (la rapidez) pasó de un valor alto a cero, la partícula se está \textbf{frenando}. Por definición, esto es un movimiento \textbf{retardado}.
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large a) de 0 a 3 segundos el movimiento es MRUV retardado
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+De acuerdo con la gráfica \textit{velocidad - tiempo} de una partícula, es correcto afirmar que:
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    \draw[->] (-0.5,0) -- (7,0) node[right] {\footnotesize $t(s)$};
+    \draw[->] (0,-0.5) -- (0,4) node[above] {\footnotesize $v_x(m/s)$};
+    
+    % Eje Y
+    \node[left] at (0,1) {\footnotesize 10};
+    \node[left] at (0,2) {\footnotesize 20};
+    
+    % Curva
+    \draw[thick] (0,2) -- (2,0) -- (4,1) -- (6,1);
+    
+    % Lineas punteadas y sombreado ilustrativo
+    \draw[dashed] (4,0) node[below] {\footnotesize 4} -- (4,1);
+    \draw[dashed] (0,1) -- (4,1);
+    
+    \node[below] at (0,0) {\footnotesize 0};
+    \node[below] at (1,0) {\footnotesize 1};
+    \node[below] at (2,0) {\footnotesize 2};
+    \node[below] at (3,0) {\footnotesize 3};
+    \node[below] at (5,0) {\footnotesize 5};
+    \node[below] at (6,0) {\footnotesize 6};
+\end{tikzpicture}
+\end{center}
+
+\begin{enumerate}[label=\alph*)]
+    \item de $0$ a $4\,\si{s}$, el desplazamiento es $+30\,\si{m}$
+    \item de $0$ a $2\,\si{s}$, la aceleración es $+10\,\si{m/s^2}$
+    \item a los $2\,\si{s}$, la aceleración es cero
+    \item a los $2\,\si{s}$, la rapidez es $-20\,\si{m/s}$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis de Áreas y Pendientes}
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(5, 3))
+ax.spines['left'].set_position('zero')
+ax.spines['bottom'].set_position('zero')
+ax.spines['right'].set_color('none')
+ax.spines['top'].set_color('none')
+
+ax.plot([0, 2, 4, 6], [20, 0, 10, 10], 'b-', lw=2)
+
+ax.fill_between([0, 2], [20, 0], color='lightblue', alpha=0.5)
+ax.text(0.7, 5, 'Area 1\n(20 m)', ha='center')
+
+ax.fill_between([2, 4], [0, 10], color='lightgreen', alpha=0.5)
+ax.text(3.3, 3, 'Area 2\n(10 m)', ha='center')
+
+ax.set_xlim(-0.5, 6.5)
+ax.set_ylim(-2, 25)
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+Evaluamos las opciones utilizando los principios del cálculo gráfico:
+\begin{itemize}
+    \item \textbf{Aceleración (Pendiente):} De $0$ a $2\,\si{s}$, la recta desciende. Su pendiente es $a = \frac{0 - 20}{2 - 0} = -10\,\si{m/s^2}$. (La opción 'b' es falsa). En $t=2$, hay un cambio brusco de pendiente, no es cero (opción 'c' falsa).
+    \item \textbf{Rapidez:} A los $2\,\si{s}$, la gráfica toca el eje $X$, por lo que $v = 0\,\si{m/s}$. (Opción 'd' falsa).
+    \item \textbf{Desplazamiento (Área bajo la curva):} El desplazamiento total ($\Delta x$) es la suma algebraica de las áreas.
+    $$ \text{Área 1 (triángulo de 0 a 2s)} = \frac{\text{base} \times \text{altura}}{2} = \frac{2 \times 20}{2} = +20\,\si{m} $$
+    $$ \text{Área 2 (triángulo de 2 a 4s)} = \frac{2 \times 10}{2} = +10\,\si{m} $$
+    $$ \Delta x_{0\to4} = 20 + 10 = +30\,\si{m} $$
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large a) de $0$ a $4\,\si{s}$, el desplazamiento es $+30\,\si{m}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+De acuerdo con las gráficas \textit{velocidad - tiempo} de 2 partículas $A$ y $B$ que parten del mismo sitio, es correcto afirmar que a los:
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    \draw[->] (-0.5,0) -- (7,0) node[right] {\footnotesize $t(s)$};
+    \draw[->] (0,-0.5) -- (0,4) node[above] {\footnotesize $v_x(m/s)$};
+    
+    % Eje Y
+    \node[left] at (0,1) {\footnotesize 10};
+    \node[left] at (0,2) {\footnotesize 20};
+    
+    % Curva B
+    \draw[thick] (0,0) -- (4,2) node[above] {$B$};
+    
+    % Curva A
+    \draw[thick] (0,2) -- (3,0) -- (6,1.5);
+    \node[above] at (5.5, 1.3) {$A$};
+    
+    % Lineas punteadas
+    \draw[dashed] (0,1) -- (5,1);
+    \draw[dashed] (2,0) node[below] {\footnotesize 2} -- (2,1);
+    \draw[dashed] (5,0) node[below] {\footnotesize 5} -- (5,1);
+    
+    \node[below] at (0,0) {\footnotesize 0};
+    \node[below] at (1,0) {\footnotesize 1};
+    \node[below] at (3,0) {\footnotesize 3};
+    \node[below] at (4,0) {\footnotesize 4};
+    \node[below] at (6,0) {\footnotesize 6};
+\end{tikzpicture}
+\end{center}
+
+\begin{enumerate}[label=\alph*)]
+    \item $2\,\si{s}$, $B$ tiene la misma posición que $A$
+    \item $5\,\si{s}$, las aceleraciones de $A$ y $B$ son iguales
+    \item $5\,\si{s}$, las velocidades de $A$ y $B$ son iguales
+    \item $4\,\si{s}$, la aceleración $a_B > a_A$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Comparación de Pendientes}
+En una gráfica $v-t$, la aceleración instantánea corresponde a la inclinación (pendiente) de la recta ($m = a_x$). 
+Calculemos las aceleraciones en el entorno de $t = 5\,\si{s}$:
+\begin{itemize}
+    \item \textbf{Partícula B:} Es una sola línea recta que pasa por $(0,0)$ y por $(2,10)$. Su pendiente es constante en todo el viaje: 
+    $$ a_B = \frac{10 - 0}{2 - 0} = +5\,\si{m/s^2} $$
+    \item \textbf{Partícula A (a los 5s):} A los $5\,\si{s}$, la partícula se encuentra sobre la rama derecha de su trayectoria en forma de 'V'. Esta recta pasa por el vértice en $(3,0)$ y por el punto $(5,10)$. Su pendiente es:
+    $$ a_A = \frac{10 - 0}{5 - 3} = \frac{10}{2} = +5\,\si{m/s^2} $$
+\end{itemize}
+Dado que geométricamente ambas rectas tienen la misma pendiente matemática en ese instante (son rectas paralelas), sus aceleraciones son idénticas.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) $5\,\si{s}$, las aceleraciones de $A$ y $B$ son iguales
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+De acuerdo con las gráficas \textit{velocidad - tiempo} de 2 partículas $A$ y $B$, es correcto afirmar que de:
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    \draw[->] (-0.5,0) -- (7,0) node[right] {\footnotesize $t(s)$};
+    \draw[->] (0,-2) -- (0,3) node[above] {\footnotesize $v_x(m/s)$};
+    
+    % Eje Y
+    \node[left] at (0,1.5) {\footnotesize 10};
+    \node[left] at (0,-1.5) {\footnotesize -10};
+    
+    % Curva B
+    \draw[thick] (0,-1.5) -- (6,1.5) node[above left] {$B$};
+    
+    % Curva A
+    \draw[thick] (0,1.5) -- (6,-1.5) node[below left] {$A$};
+    
+    \node[below left] at (0,0) {\footnotesize 0};
+    \node[below] at (1,0) {\footnotesize 1};
+    \node[below] at (2,0) {\footnotesize 2};
+    \node[below] at (3,0) {\footnotesize 3};
+    \node[below] at (4,0) {\footnotesize 4};
+    \node[below] at (5,0) {\footnotesize 5};
+    \node[below] at (6,0) {\footnotesize 6};
+\end{tikzpicture}
+\end{center}
+
+\begin{enumerate}[label=\alph*)]
+    \item $0$ a $6\,\si{s}$ $A$ y $B$ se alejan
+    \item $0$ a $6\,\si{s}$ $A$ y $B$ se aproximan
+    \item $3$ a $6\,\si{s}$ $A$ y $B$ se aproximan
+    \item $3$ a $6\,\si{s}$ $A$ y $B$ se alejan
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Corrección: Posición Relativa e Integración}
+\textit{Nota de Tutor: El estudiante marcó la opción 'a', afirmando que siempre se alejan. Esto es falso. Para saber si se acercan o alejan, debemos integrar la velocidad para obtener su posición geométrica a lo largo del tiempo.}
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig, ax = plt.subplots(figsize=(6, 4))
+ax.set_title("Distancia entre particulas: $D(t) = |x_A - x_B|$")
+ax.spines['left'].set_position('zero')
+ax.spines['bottom'].set_position('zero')
+ax.spines['right'].set_color('none')
+ax.spines['top'].set_color('none')
+
+t = np.linspace(0, 6, 100)
+x_A = 10*t - (10/6)*t**2
+x_B = -10*t + (10/6)*t**2
+dist = np.abs(x_A - x_B)
+
+ax.plot(t, dist, 'purple', lw=2)
+ax.fill_between(t, 0, dist, where=(t<=3), color='red', alpha=0.3, label='Se Alejan')
+ax.fill_between(t, 0, dist, where=(t>=3), color='green', alpha=0.3, label='Se Aproximan')
+
+ax.text(1.5, 10, 'Distancia\nAumenta', ha='center', color='darkred')
+ax.text(4.5, 10, 'Distancia\nDisminuye', ha='center', color='darkgreen')
+
+ax.set_xlim(-0.5, 6.5); ax.set_ylim(0, 35)
+ax.set_xlabel('$t (s)$', loc='right')
+plt.show()
+\end{lstlisting}
+
+Asumiendo que parten del mismo origen ($x_0 = 0$), calculamos el desplazamiento (área) para cada intervalo:
+\begin{itemize}
+    \item \textbf{De 0 a 3s:} La velocidad de A es positiva (se mueve a la derecha) y la de B es negativa (se mueve a la izquierda). $\Delta x_A = +15\,\si{m}$ y $\Delta x_B = -15\,\si{m}$. Evidentemente, al ir en direcciones contrarias partiendo del mismo punto, \textbf{se alejan} hasta estar a $30\,\si{m}$ de distancia.
+    \item \textbf{De 3 a 6s:} Ahora A tiene velocidad negativa (regresa a la izquierda) y B tiene velocidad positiva (regresa a la derecha). El área de este tramo anula exactamente al área anterior. En $t=6\,\si{s}$, ambos regresan a la posición $0\,\si{m}$. Si desde $30\,\si{m}$ de separación terminan estrellándose en el origen, obligatoriamente \textbf{se aproximan}.
+\end{itemize}
+
+La aseveración correcta no es absoluta para todo el viaje, sino segmentada. 
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) $3$ a $6\,\si{s}$ $A$ y $B$ se aproximan
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+De acuerdo con las gráficas \textit{posición - tiempo} de 2 partículas $A$ y $B$, es correcto afirmar que de $0$ a $3\,\si{s}$ el movimiento de:
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    \draw[->] (-0.5,0) -- (7,0) node[right] {\footnotesize $t(s)$};
+    \draw[->] (0,-0.5) -- (0,5) node[above] {\footnotesize $x(m)$};
+    
+    % Eje Y
+    \node[left] at (0,2) {\footnotesize 20};
+    \node[left] at (0,4) {\footnotesize 40};
+    
+    % Curva B (Parabola concava hacia abajo)
+    \draw[thick] (0,0) parabola bend (3,4) (6,0);
+    \node[above] at (3,4) {$B$};
+    
+    % Curva A (Parabola concava hacia arriba)
+    \draw[thick] (0,4) parabola bend (3,0) (6,4);
+    \node[above] at (6,4) {$A$};
+    
+    % Lineas punteadas
+    \draw[dashed] (3,0) node[below] {\footnotesize 3} -- (3,4);
+    \node[right] at (6.5, 1.5) {\footnotesize parábolas};
+    
+    \node[below left] at (0,0) {\footnotesize 0};
+    \node[below] at (1,0) {\footnotesize 1};
+    \node[below] at (2,0) {\footnotesize 2};
+    \node[below] at (4,0) {\footnotesize 4};
+    \node[below] at (5,0) {\footnotesize 5};
+    \node[below] at (6,0) {\footnotesize 6};
+\end{tikzpicture}
+\end{center}
+
+\begin{enumerate}[label=\alph*)]
+    \item $A$ y $B$ es acelerado
+    \item $A$ y $B$ es retardado
+    \item $A$ es acelerado y de $B$ retardado
+    \item $A$ es retardado y de $B$ es acelerado
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Corrección: Definición Geométrica de Retardado}
+\textit{Nota de Tutor: El alumno seleccionó la opción 'd', creyendo que por tener concavidades inversas, sus cinemáticas eran inversas. Demostraremos que ambas se rigen por el mismo principio en ese intervalo.}
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig, ax = plt.subplots(figsize=(6, 4))
+ax.set_title("Tangentes (Velocidades) de 0 a 3s")
+ax.spines['left'].set_position('zero'); ax.spines['bottom'].set_position('zero')
+ax.spines['right'].set_color('none'); ax.spines['top'].set_color('none')
+
+t = np.linspace(0, 3, 50)
+x_B = -40/9 * (t - 3)**2 + 40
+x_A = 40/9 * (t - 3)**2
+
+ax.plot(t, x_B, 'b-', lw=2, label='Partícula B')
+ax.plot(t, x_A, 'r-', lw=2, label='Partícula A')
+
+# Tangentes iniciales (Alta rapidez)
+ax.plot([0, 1], [0, 80/9], 'b--', lw=1.5)
+ax.plot([0, 1], [40, 40 - 80/9], 'r--', lw=1.5)
+
+# Tangentes finales (Rapidez Cero)
+ax.plot([2, 4], [40, 40], 'b--', lw=1.5)
+ax.plot([2, 4], [0, 0], 'r--', lw=1.5)
+
+ax.text(1.5, 30, 'Pendientes se\naplanan (v -> 0)', ha='center')
+
+ax.set_xlim(-0.5, 3.5); ax.set_ylim(-5, 45)
+ax.legend()
+plt.show()
+\end{lstlisting}
+
+Un movimiento es "retardado" si la magnitud de su velocidad (la rapidez $|v|$) disminuye a lo largo del tiempo. En un gráfico $x-t$, la rapidez es el valor absoluto de la inclinación de la recta tangente.
+Analicemos el tramo de $t=0$ a $t=3\,\si{s}$:
+\begin{itemize}
+    \item \textbf{Partícula A:} Empieza en $t=0$ con una pendiente negativa muy empinada (gran rapidez). A medida que se acerca al vértice en $t=3$, la curva se aplana hasta hacerse horizontal ($v=0$). Como pasó de tener mucha rapidez a tener rapidez nula, está frenando. Es \textbf{retardado}.
+    \item \textbf{Partícula B:} Empieza en $t=0$ con una pendiente positiva muy empinada (gran rapidez). Al igual que A, conforme se acerca a su propio vértice en $t=3$, la curva se aplana ($v=0$). También está frenando. Es \textbf{retardado}.
+\end{itemize}
+
+Independientemente del sentido espacial hacia donde viajen, \textbf{ambas} partículas pierden velocidad al acercarse a los $3\,\si{s}$.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) $A$ y $B$ es retardado
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+De acuerdo con las gráficas \textit{posición - tiempo} anteriores de 2 partículas $A$ y $B$, es correcto afirmar que:
+\begin{enumerate}[label=\alph*)]
+    \item a los $3\,\si{s}$ $A$ y $B$ tienen la misma posición
+    \item a los $3\,\si{s}$ $A$ y $B$ tienen la misma velocidad
+    \item de $0$ a $6\,\si{s}$ $A$ y $B$ se cruzan solo una vez
+    \item de $3$ a $6\,\si{s}$ $A$ y $B$ se mueven en la misma dirección
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Corrección: Lectura Espacial vs Vectorial}
+\textit{Nota de Tutor: El estudiante marcó la opción 'a'. Esta es una desatención visual directa al eje coordenado de la gráfica anterior. Corrijamos punto por punto.}
+
+Mirando atentamente la gráfica del ejercicio 14:
+\begin{itemize}
+    \item \textbf{Opción a (Falsa):} A los $3\,\si{s}$, la parábola de A toca el fondo en $x = 0\,\si{m}$. En ese mismo instante $t=3\,\si{s}$, la parábola de B alcanza su pico en $x = 40\,\si{m}$. Sus posiciones espaciales son diametralmente opuestas. (Tienen la misma posición únicamente en los puntos donde las líneas se intersecan, cerca de $t=1$ y $t=5$).
+    \item \textbf{Opción c (Falsa):} Las parábolas se cruzan visualmente dos veces (tienen dos puntos de intersección).
+    \item \textbf{Opción d (Falsa):} De 3 a 6s, A se mueve hacia posiciones positivas (sube) y B hacia posiciones negativas (baja). Viajan en direcciones contrarias.
+    \item \textbf{Opción b (Verdadera):} A los $3\,\si{s}$, \textbf{ambas} parábolas se encuentran exactamente en su vértice. En matemáticas, la recta tangente en un vértice parabólico es perfectamente horizontal. Una pendiente horizontal significa que la derivada es cero ($dx/dt = 0$). Por lo tanto, en ese instante preciso, $v_A = 0\,\si{m/s}$ y $v_B = 0\,\si{m/s}$. Comparten exactamente la misma velocidad nula.
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) a los $3\,\si{s}$ $A$ y $B$ tienen la misma velocidad
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una persona camina en línea recta $100\,\si{m}$ hacia el Este en $50\,\si{s}$, e inmediatamente después camina $100\,\si{m}$ de regreso hacia el Oeste (al mismo punto de partida) en otros $50\,\si{s}$. Para todo el recorrido de $100\,\si{s}$, es correcto afirmar que:
+\begin{enumerate}[label=\alph*)]
+    \item Su rapidez media es $0\,\si{m/s}$ y su velocidad media es $2\,\si{m/s}$
+    \item Su rapidez media es $2\,\si{m/s}$ y su velocidad media es $0\,\si{m/s}$
+    \item Ambas son iguales a $2\,\si{m/s}$
+    \item Ambas son nulas
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Diferencia entre Magnitudes Escalares y Vectoriales}
+Analizamos cada concepto por separado para todo el viaje de ida y vuelta:
+
+\textbf{1. Rapidez Media (Escalar):}
+Depende de la distancia total recorrida (longitud de la trayectoria).
+$$ d = 100\,\si{m} \text{ (ida)} + 100\,\si{m} \text{ (vuelta)} = 200\,\si{m} $$
+$$ \text{Rapidez} = \frac{d}{\Delta t} = \frac{200\,\si{m}}{100\,\si{s}} = 2\,\si{m/s} $$
+
+\textbf{2. Velocidad Media (Vectorial):}
+Depende exclusivamente del vector desplazamiento ($\Delta \vec{r} = \vec{r}_f - \vec{r}_0$).
+Como la persona regresó exactamente al mismo punto del cual partió, su posición final es igual a su posición inicial.
+$$ \Delta \vec{r} = 0\,\si{m} $$
+$$ \vec{v}_m = \frac{\Delta \vec{r}}{\Delta t} = \frac{0}{100} = 0\,\si{m/s} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) Su rapidez media es $2\,\si{m/s}$ y su velocidad media es $0\,\si{m/s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una partícula se desplaza a lo largo del eje $x$. En un instante dado, su velocidad es $\vec{v} = -5\hat{i}\,\si{m/s}$ y su aceleración es $\vec{a} = -2\hat{i}\,\si{m/s^2}$. En ese instante, el movimiento de la partícula es:
+\begin{enumerate}[label=\alph*)]
+    \item Uniformemente retardado, porque la aceleración es negativa
+    \item Uniforme, porque ambas tienen el mismo signo
+    \item Uniformemente acelerado, porque su rapidez está aumentando
+    \item Curvilíneo hacia la izquierda
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Signos de los Vectores Cinemáticos en 1D}
+El error más común es asociar "aceleración negativa" con "frenado". El signo menos ($-$) en un vector unidimensional solo indica dirección espacial (hacia la izquierda), no el tipo de movimiento.
+
+Para saber si un movimiento es acelerado o retardado, debemos comparar las direcciones (signos) de la velocidad y la aceleración:
+\begin{itemize}
+    \item La velocidad apunta hacia la izquierda ($\leftarrow$). La partícula viaja hacia la izquierda.
+    \item La aceleración apunta hacia la izquierda ($\leftarrow$). La fuerza resultante empuja hacia la izquierda.
+\end{itemize}
+Como ambos vectores apuntan exactamente en el \textbf{mismo sentido} (son paralelos), la aceleración está "ayudando" al movimiento, empujando a la partícula hacia donde ya se dirige. Esto provoca que la magnitud de la velocidad (la rapidez) aumente progresivamente ($|-5|, |-7|, |-9|\dots$). Por lo tanto, es un movimiento acelerado.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) Uniformemente acelerado, porque su rapidez está aumentando
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un automóvil frena con una desaceleración constante hasta detenerse por completo. Si el mismo automóvil intentara frenar con la misma desaceleración, pero viajando al \textbf{doble} de su velocidad inicial, la distancia de frenado requerida sería:
+\begin{enumerate}[label=\alph*)]
+    \item El doble
+    \item La mitad
+    \item Cuatro veces mayor
+    \item La misma, porque la aceleración no cambia
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Dependencia Cuadrática en la Cinemática}
+Utilizamos la ecuación cinemática que relaciona velocidad, aceleración y desplazamiento, independiente del tiempo:
+$$ v_f^2 = v_0^2 + 2a\Delta x $$
+Como el auto frena hasta detenerse por completo, la velocidad final es nula ($v_f = 0$). Despejamos la distancia de frenado ($\Delta x$):
+$$ 0 = v_0^2 + 2a\Delta x $$
+$$ \Delta x = \frac{-v_0^2}{2a} $$
+*(El signo de $a$ será negativo al frenar, por lo que $\Delta x$ queda positivo).*
+
+Esta ecuación revela que la distancia de frenado es directamente proporcional al \textbf{cuadrado} de la velocidad inicial. 
+Si la nueva velocidad es el doble ($v_{nueva} = 2v_0$), calculamos la nueva distancia:
+$$ \Delta x_{nueva} = \frac{-(2v_0)^2}{2a} = \frac{-4v_0^2}{2a} = 4 \left( \frac{-v_0^2}{2a} \right) $$
+$$ \Delta x_{nueva} = 4 (\Delta x) $$
+La distancia requerida para detenerse crece de manera exponencial (se cuadruplica).
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) Cuatro veces mayor
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+El área bajo la curva en un gráfico de Aceleración versus Tiempo ($a_x$ vs $t$) entre dos instantes $t_1$ y $t_2$ corresponde a:
+\begin{enumerate}[label=\alph*)]
+    \item La velocidad media en el intervalo
+    \item La posición final de la partícula
+    \item La velocidad instantánea de la partícula
+    \item El cambio de velocidad ($\Delta v$) en ese intervalo de tiempo
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Relaciones Integrales en Cinemática}
+La aceleración instantánea es la derivada temporal de la velocidad:
+$$ a = \frac{dv}{dt} $$
+Para encontrar la relación de áreas, separamos las variables e integramos en el intervalo de tiempo dado:
+$$ dv = a \cdot dt $$
+$$ \int_{v_1}^{v_2} dv = \int_{t_1}^{t_2} a \cdot dt $$
+$$ v_2 - v_1 = \int_{t_1}^{t_2} a \cdot dt $$
+$$ \Delta v = \int_{t_1}^{t_2} a \cdot dt $$
+Matemáticamente, la integral definida de una función representa el área bajo su curva gráfica. Por lo tanto, el área calculada en el gráfico no es la velocidad absoluta de la partícula, sino la cantidad exacta de velocidad que ganó o perdió ($\Delta v$) durante ese tiempo.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large d) El cambio de velocidad ($\Delta v$) en ese intervalo de tiempo
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+En un experimento ideal dentro de una cámara de vacío, se dejan caer simultáneamente desde la misma altura una bola de plomo de $10\,\si{kg}$ y una pluma de $1\,\si{g}$. Es correcto afirmar que:
+\begin{enumerate}[label=\alph*)]
+    \item La bola de plomo llega primero al suelo porque tiene mayor masa
+    \item La bola de plomo llega primero porque experimenta mayor aceleración gravitacional
+    \item Ambas llegan al suelo exactamente al mismo tiempo
+    \item La pluma cae más lento debido a su forma aerodinámica
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Independencia de la Masa en la Caída Libre}
+El error aristotélico clásico es asumir que los objetos pesados caen más rápido que los ligeros.
+Según la Segunda Ley de Newton, el peso de un objeto es la fuerza gravitacional que la Tierra ejerce sobre él: $F_g = m \cdot g$.
+Si aplicamos la sumatoria de fuerzas para un cuerpo en caída libre en el vacío (sin resistencia del aire):
+$$ \sum F_y = m \cdot a_y $$
+$$ -F_g = m \cdot a_y $$
+$$ -(m \cdot g) = m \cdot a_y $$
+La masa inercial ($m$) de la partícula se cancela algebraicamente en ambos lados de la ecuación:
+$$ a_y = -g $$
+Esto demuestra matemáticamente el principio de equivalencia de Galileo: \textbf{la aceleración de caída libre es absolutamente independiente de la masa del cuerpo}. Al caer desde la misma altura inicial, partiendo del reposo y sometidas a la misma aceleración constante ($9.8\,\si{m/s^2}$), las ecuaciones cinemáticas dictan que ambas tocarán el suelo en el mismo instante $t$.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) Ambas llegan al suelo exactamente al mismo tiempo
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Se lanza una piedra verticalmente hacia arriba desde el nivel del suelo. La piedra alcanza su altura máxima y luego cae libremente hasta impactar de nuevo contra el piso. Despreciando el rozamiento del aire, la gráfica que mejor representa la Posición ($y$) versus el Tiempo ($t$) para todo el vuelo es:
+\begin{enumerate}[label=\alph*)]
+    \item Una línea recta con pendiente positiva
+    \item Una parábola cóncava hacia arriba (ramas hacia arriba)
+    \item Una parábola cóncava hacia abajo (ramas hacia abajo)
+    \item Dos líneas rectas formando un triángulo
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Representación Gráfica del Tiro Vertical}
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig, ax = plt.subplots(figsize=(5, 4))
+ax.spines['left'].set_position('zero')
+ax.spines['bottom'].set_position('zero')
+ax.spines['right'].set_color('none')
+ax.spines['top'].set_color('none')
+ax.set_xlabel('$t$', loc='right')
+ax.set_ylabel('$y$', loc='top')
+
+t = np.linspace(0, 4, 100)
+y = 20*t - 5*t**2
+ax.plot(t, y, 'b-', lw=2)
+
+ax.plot([2, 2], [0, 20], 'k--')
+ax.text(2, 21, 'Altura Maxima', ha='center', color='black')
+
+ax.set_xlim(-0.5, 4.5)
+ax.set_ylim(-2, 25)
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+La ecuación de la posición para un cuerpo sujeto a la gravedad en el eje Y es:
+$$ y(t) = y_0 + v_0 t - \frac{1}{2}g t^2 $$
+Al partir del suelo, $y_0 = 0$. La ecuación es una función cuadrática dependiente del tiempo. 
+En matemáticas, la gráfica de cualquier polinomio de grado 2 ($t^2$) es una parábola. El sentido de sus ramas está definido exclusivamente por el signo del término que acompaña al factor cuadrático.
+En este caso, el término es $-\frac{1}{2}g$. Al ser un valor \textbf{negativo}, la geometría analítica dicta que la curva debe ser una \textbf{parábola cóncava hacia abajo}. 
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) Una parábola cóncava hacia abajo (ramas hacia abajo)
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Dos automóviles, A y B, se mueven a lo largo de una carretera recta. Sus movimientos son analizados en una gráfica de \textbf{Velocidad versus Tiempo ($v$ vs $t$)}. En cierto instante $t^*$, las dos curvas se intersecan (se cruzan). Esto significa físicamente que en ese instante:
+\begin{enumerate}[label=\alph*)]
+    \item Los automóviles chocan o están uno al lado del otro
+    \item Ambos automóviles tienen la misma aceleración
+    \item Ambos automóviles tienen exactamente la misma velocidad
+    \item El automóvil que estaba atrás rebasó al otro
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Lectura Rigurosa de Ejes en Gráficas Cinemáticas}
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(5, 3))
+ax.spines['left'].set_position('zero')
+ax.spines['bottom'].set_position('zero')
+ax.spines['right'].set_color('none')
+ax.spines['top'].set_color('none')
+ax.set_xlabel('$t$', loc='right')
+ax.set_ylabel('$v$', loc='top')
+
+ax.plot([0, 5], [5, 25], 'b-', lw=2, label='Auto A')
+ax.plot([0, 5], [20, 10], 'r-', lw=2, label='Auto B')
+
+ax.plot(2.5, 15, 'ko', markersize=6)
+ax.plot([2.5, 2.5], [0, 15], 'k--')
+ax.text(2.6, 2, '$t^*$', fontsize=12)
+
+ax.set_xlim(-0.5, 5.5)
+ax.set_ylim(-2, 30)
+ax.legend()
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+El error de lectura más común entre estudiantes es confundir una gráfica de velocidad con una de posición. 
+\begin{itemize}
+    \item Si la gráfica fuera $x$ vs $t$ (posición vs tiempo), una intersección significaría que están en la misma coordenada, es decir, un encuentro o choque (Opciones 'a' y 'd').
+    \item Si la gráfica fuera $a$ vs $t$ (aceleración vs tiempo), significaría igual aceleración (Opción 'b').
+\end{itemize}
+Como el eje de las ordenadas (Y) representa el valor de la \textbf{velocidad}, el punto donde las gráficas se cruzan indica que en ese tiempo horizontal $t^*$, el valor de Y (rapidez y dirección) es idéntico para ambos cuerpos. No sabemos si uno está 100 kilómetros por delante del otro, solo sabemos que los velocímetros de ambos marcan exactamente lo mismo.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) Ambos automóviles tienen exactamente la misma velocidad
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un policía parte desde el reposo y acelera uniformemente (MRUV) para alcanzar a un ladrón que pasa a su lado moviéndose en línea recta a una velocidad constante (MRU). En el instante exacto en que el policía logra alcanzar al ladrón (lo empareja en distancia), ¿qué relación existe entre las velocidades de ambos?
+\begin{enumerate}[label=\alph*)]
+    \item Tienen la misma velocidad
+    \item El policía viaja exactamente al doble de la velocidad del ladrón
+    \item El ladrón sigue yendo más rápido que el policía
+    \item El policía viaja a la mitad de la velocidad del ladrón
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Igualación de Posiciones Relativas}
+Planteamos las ecuaciones de posición para ambos, asumiendo que parten del mismo punto de origen ($x_0 = 0$) en el mismo tiempo inicial ($t=0$).
+\begin{itemize}
+    \item \textbf{Ladrón (MRU):} Su ecuación es $x_L = v_L \cdot t$.
+    \item \textbf{Policía (MRUV partiendo del reposo):} Su ecuación es $x_P = \frac{1}{2} a_P \cdot t^2$.
+\end{itemize}
+
+Para que el policía alcance al ladrón, sus posiciones deben igualarse ($x_L = x_P$):
+$$ v_L \cdot t = \frac{1}{2} a_P \cdot t^2 $$
+Dividimos ambos lados para $t$ (ya que $t > 0$):
+$$ v_L = \frac{1}{2} a_P \cdot t $$
+Multiplicamos por 2 para despejar el término de la derecha:
+$$ 2 v_L = a_P \cdot t $$
+
+Ahora, analizamos la velocidad final del policía en ese mismo instante $t$. La ecuación de velocidad de un MRUV partiendo del reposo es:
+$$ v_P = a_P \cdot t $$
+Si sustituimos este hallazgo en nuestra igualación anterior, obtenemos que:
+$$ 2 v_L = v_P $$
+La física matemática nos demuestra que, para igualar la ventaja posicional que tomó un cuerpo a velocidad constante, el perseguidor que acelera desde el reposo debe alcanzar exactamente el \textbf{doble} de dicha velocidad en el momento del cruce.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) El policía viaja exactamente al doble de la velocidad del ladrón
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un tren viaja en línea recta por las vías a una velocidad constante de $15\,\si{m/s}$ hacia el Norte. Un pasajero dentro del tren camina hacia la parte trasera del vagón a una velocidad constante de $2\,\si{m/s}$. Para un observador estacionario sentado en la estación, el pasajero:
+\begin{enumerate}[label=\alph*)]
+    \item Se mueve hacia el Norte a $17\,\si{m/s}$
+    \item Se mueve hacia el Norte a $13\,\si{m/s}$
+    \item Se mueve hacia el Sur a $2\,\si{m/s}$
+    \item Está en reposo relativo
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Transformación Clásica de Velocidades (1D)}
+Este es un problema de velocidad relativa colineal. Definimos un sistema de referencia respecto al observador en la tierra, donde el Norte es positivo ($+$) y el Sur es negativo ($-$).
+\begin{itemize}
+    \item La velocidad del tren respecto a la tierra es: $v_{t/T} = +15\,\si{m/s}$
+    \item La velocidad del pasajero respecto al tren (se mueve hacia la parte trasera, o sea, hacia el Sur) es: $v_{p/t} = -2\,\si{m/s}$
+\end{itemize}
+
+La ecuación de la velocidad absoluta del pasajero respecto a la tierra ($v_{p/T}$) es la suma vectorial de su velocidad respecto al marco móvil más la velocidad del marco móvil respecto a la tierra:
+$$ v_{p/T} = v_{p/t} + v_{t/T} $$
+Sustituyendo los valores con sus respectivos signos:
+$$ v_{p/T} = (-2) + (+15) = +13\,\si{m/s} $$
+El resultado es un valor positivo, lo que indica que, para el observador en la estación, el pasajero sigue avanzando hacia el Norte, pero lo hace un poco más lento que la cabina del tren.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) Se mueve hacia el Norte a $13\,\si{m/s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Se estudia el movimiento unidimensional de una partícula. El análisis experimental arroja que su ecuación de posición en función del tiempo está dada por $x(t) = -12 + 4t$ (en unidades del SI). Al leer esta ecuación física, es correcto asegurar que la partícula:
+\begin{enumerate}[label=\alph*)]
+    \item Es un MRUV porque tiene un término negativo en su posición inicial
+    \item Es un MRU y se mueve hacia la izquierda con una rapidez de $12\,\si{m/s}$
+    \item Es un MRU, partió desde una posición negativa y se mueve hacia la derecha
+    \item Partió desde el reposo en el origen del sistema de coordenadas
+\end{enumerate}
+
+\\subsection*{Solución}
+
+\subsubsection*{1. Identificación de Funciones de Estado Cinemáticas}
+Comparamos la ecuación obtenida en el experimento con la forma polinómica general de la posición cinemática unidimensional:
+$$ x(t) = x_0 + v_0 t + \frac{1}{2} a t^2 $$
+La ecuación del problema es $x(t) = -12 + 4t$.
+\begin{itemize}
+    \item Al no existir un término elevado al cuadrado ($t^2$), deducimos de inmediato que el factor $\frac{1}{2}a$ debe ser cero. Si la aceleración es nula ($a = 0$), el movimiento es, sin lugar a dudas, un Movimiento Rectilíneo Uniforme (\textbf{MRU}). Descartamos opciones como MRUV o partir del reposo (lo cual requeriría aceleración para empezar a moverse).
+    \item El término independiente (sin $t$) corresponde a la posición inicial. Al ser $x_0 = -12$, significa que la partícula \textbf{comenzó su recorrido en una posición negativa} en el eje.
+    \item El término lineal que multiplica al tiempo es la velocidad constante. Al ser $v_0 = +4$, sabemos que la partícula avanza hacia valores positivos (hacia la derecha) con una rapidez de $4\,\si{m/s}$.
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) Es un MRU, partió desde una posición negativa y se mueve hacia la derecha
+\end{tcolorbox}
+
+\end{document}

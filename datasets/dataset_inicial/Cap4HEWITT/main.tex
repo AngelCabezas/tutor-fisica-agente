@@ -1,0 +1,1705 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\usepackage{pgfplots}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\pgfplotsset{compat=1.18}
+
+\lstdefinestyle{pythonstyle}{
+    language=Python,
+    basicstyle=\ttfamily\footnotesize,
+    keywordstyle=\color{blue},
+    stringstyle=\color{teal},
+    showstringspaces=false,
+    breaklines=true,
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    backgroundcolor=\color{white!95!gray}
+}
+
+\lstset{style=pythonstyle}
+
+\begin{document}
+
+\subsection*{Enunciado}
+Un estudiante dice: "Siempre que aplico una fuerza estoy realizando trabajo mecánico". 
+¿Es correcta esta afirmación? Justifica usando la definición formal de trabajo.
+
+\subsection*{Solución}
+
+\subsubsection*{Análisis del Concepto de Trabajo Físico}
+De acuerdo con la literatura de Física Conceptual de Paul G. Hewitt, la palabra "trabajo" en la física tiene un significado mucho más riguroso y específico que en el lenguaje cotidiano. En la vida diaria, sostener un objeto pesado durante mucho tiempo o empujar una pared sin éxito puede considerarse un "trabajo duro" porque genera fatiga muscular. Sin embargo, en física, el trabajo mecánico requiere que se cumplan condiciones estrictas relacionadas con la cinemática del objeto sobre el cual se aplica la fuerza. Si la fuerza no logra modificar el estado de movimiento del objeto desplazándolo, no se ha efectuado trabajo sobre él.
+
+\subsubsection*{Definición Formal y Matemática}
+Para evaluar la afirmación del estudiante, debemos remitirnos a la definición matemática del trabajo mecánico lineal. El trabajo $W$ realizado por una fuerza constante $\vec{F}$ que actúa sobre un objeto que experimenta un desplazamiento $\vec{d}$ se define como el producto escalar entre el vector fuerza y el vector desplazamiento:
+$$W = \vec{F} \cdot \vec{d}$$
+Desarrollando este producto escalar a partir de las magnitudes de los vectores y el ángulo $\theta$ entre ellos, obtenemos la ecuación fundamental:
+$$W = |\vec{F}| |\vec{d}| \cos(\theta)$$
+Esta ecuación nos indica que el trabajo depende directamente de tres factores independientes: la magnitud de la fuerza aplicada, la magnitud del desplazamiento logrado y el ángulo relativo entre estos dos vectores.
+
+\subsubsection*{Evaluación de la Afirmación}
+La afirmación del estudiante indica que la sola presencia de una fuerza ($|\vec{F}| > 0$) garantiza la existencia de trabajo ($W \neq 0$). Al observar la ecuación fundamental, resulta evidente que esta premisa falla si el desplazamiento es nulo ($|\vec{d}| = 0$). Es decir, por más gigantesca que sea la fuerza aplicada, si el objeto no se mueve, el desplazamiento es cero y, en consecuencia, el producto multiplicativo resultará en un trabajo de cero Joules. La afirmación del estudiante es incompleta porque ignora la necesidad indispensable del desplazamiento.
+
+\subsubsection*{Conclusión}
+La afirmación es incorrecta. En física, no basta con aplicar una fuerza para realizar trabajo mecánico; es absolutamente necesario que dicha fuerza provoque un desplazamiento en el objeto a lo largo de una distancia en la misma dirección (o en un componente) de la fuerza aplicada.
+
+
+\newpage
+\subsection*{Enunciado}
+Un estudiante dice: "Siempre que aplico una fuerza estoy realizando trabajo mecánico". 
+Explica el papel del ángulo entre fuerza y desplazamiento.
+
+\subsection*{Solución}
+
+\subsubsection*{Naturaleza Vectorial y el Producto Escalar}
+En la mecánica clásica impartida por Hewitt, la interacción entre fuerza y desplazamiento no es una simple multiplicación de números, sino una interacción entre dos cantidades que poseen magnitud y dirección (vectores). El papel del ángulo $\theta$ nace directamente de la definición matemática del trabajo como un producto escalar ($W = \vec{F} \cdot \vec{d}$). Físicamente, el ángulo determina qué proporción de la fuerza aplicada está siendo verdaderamente útil para mover el objeto en la dirección de su trayectoria.
+
+\subsubsection*{Descomposición de la Fuerza}
+Cualquier fuerza que actúa en un ángulo respecto a la dirección del movimiento puede descomponerse en dos componentes rectangulares:
+Un componente perpendicular al movimiento ($F \sin(\theta)$) y un componente paralelo al movimiento ($F \cos(\theta)$). 
+La física establece que solo el componente de la fuerza que es paralelo a la dirección del desplazamiento realiza trabajo mecánico. Por lo tanto, el factor $\cos(\theta)$ actúa como un filtro matemático que extrae únicamente la porción de la fuerza que contribuye al cambio de energía del sistema a lo largo del desplazamiento $\vec{d}$.
+
+\subsubsection*{Análisis de Casos Notables del Ángulo}
+El valor de $\cos(\theta)$ varía entre 1 y -1, lo que crea diferentes escenarios físicos dictados por el ángulo:
+Cuando el ángulo es de 0 grados (fuerza y desplazamiento en la misma dirección), $\cos(0) = 1$, lo que maximiza el trabajo mecánico.
+Cuando el ángulo es de 90 grados (fuerza perpendicular al desplazamiento), $\cos(90) = 0$, resultando en un trabajo nulo. Esto sucede porque ninguna porción de la fuerza está ayudando u oponiéndose al movimiento.
+Cuando el ángulo es mayor a 90 grados y hasta 180 grados, el coseno se vuelve negativo, lo que indica que la fuerza se opone al movimiento, extrayendo energía del sistema.
+
+\subsubsection*{Representación Computacional del Factor de Trabajo}
+Para comprender pedagógicamente cómo el ángulo filtra la fuerza efectiva, podemos modelar el comportamiento de la función coseno aplicada a este contexto físico. El siguiente código en Python utiliza la biblioteca Matplotlib para graficar cómo el factor de trabajo varía a medida que el ángulo entre la fuerza y el desplazamiento cambia de 0 a 180 grados.
+
+\begin{lstlisting}[language=Python]
+import numpy as np
+import matplotlib.pyplot as plt
+
+angulo = np.linspace(0, 180, 200)
+factor_trabajo = np.cos(np.radians(angulo))
+
+plt.figure(figsize=(8, 5))
+plt.plot(angulo, factor_trabajo, label="Componente de Fuerza Efectiva", color="navy", linewidth=2.5)
+
+plt.axhline(0, color='black', linewidth=1.2)
+plt.axvline(90, color='red', linestyle='--', label="Trabajo Nulo (90 grados)")
+
+plt.fill_between(angulo, factor_trabajo, 0, where=(factor_trabajo>0), color='green', alpha=0.3, label="Trabajo Positivo")
+plt.fill_between(angulo, factor_trabajo, 0, where=(factor_trabajo<0), color='orange', alpha=0.3, label="Trabajo Negativo")
+
+plt.title("El papel del Angulo en el Trabajo Mecanico", fontsize=14)
+plt.xlabel("Angulo entre Fuerza y Desplazamiento (grados)", fontsize=12)
+plt.ylabel("Factor Multiplicador cos(theta)", fontsize=12)
+plt.legend()
+plt.grid(True, linestyle=':', alpha=0.7)
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+El papel del ángulo es fundamental, ya que actúa como un proyector trigonométrico. Define geométricamente qué fracción exacta de la fuerza total aplicada se alinea con el movimiento, determinando si el trabajo realizado sobre el sistema es máximo, parcial, nulo o negativo.
+
+\newpage
+\subsection*{Enunciado}
+Un estudiante dice: "Siempre que aplico una fuerza estoy realizando trabajo mecánico". 
+Describe una situación donde exista fuerza pero no trabajo mecánico.
+
+\subsection*{Solución}
+
+\subsubsection*{Condiciones Analíticas para un Trabajo Nulo}
+Partiendo de la definición fundamental de trabajo mecánico evaluada en los incisos anteriores ($W = F d \cos(\theta)$), podemos observar que para que el trabajo total sea igual a cero, basta con que cualquiera de los tres términos multiplicativos sea igual a cero. Dado que la premisa establece que sí existe una fuerza aplicada ($F > 0$), nos quedan dos posibles avenidas matemáticas y físicas para lograr un trabajo nulo: que el desplazamiento sea cero ($d = 0$) o que el término del coseno sea cero ($\cos(\theta) = 0$, lo que implica un ángulo de 90 grados). 
+
+\subsubsection*{Situación por Desplazamiento Nulo}
+El ejemplo clásico presentado en la física conceptual involucra a una persona intentando empujar un muro de concreto sólido. La persona aplica una fuerza muscular considerable, sus músculos se contraen y gastan energía biológica, pero la pared, debido a su enorme masa y anclaje estructural, permanece estática. Dado que la posición inicial y final de la pared es exactamente la misma, la magnitud del vector desplazamiento $\vec{d}$ es estrictamente $0$ metros. Al sustituir esto en la ecuación:
+$$W = F \cdot 0 \cdot \cos(\theta) = 0 \text{ J}$$
+A pesar de la existencia indudable de una fuerza aplicada, el trabajo mecánico realizado sobre la pared es cero.
+
+\subsubsection*{Situación por Fuerza Perpendicular}
+El segundo caso ocurre cuando el desplazamiento sí existe, pero la orientación de la fuerza aplicada no favorece ni entorpece el movimiento. Imaginemos a un mesero que sostiene una bandeja pesada y camina hacia adelante con una velocidad constante a lo largo de un pasillo horizontal. El mesero está aplicando una fuerza vertical hacia arriba para vencer a la gravedad y evitar que la bandeja caiga. Sin embargo, su desplazamiento es puramente horizontal. El ángulo entre el vector de la fuerza (hacia arriba) y el vector de desplazamiento (hacia adelante) es de 90 grados.
+Al evaluar el coseno de 90 grados en nuestra ecuación, obtenemos un valor de cero, lo que anula todo el producto. La fuerza aplicada para sostener la bandeja no realiza trabajo sobre ella durante el movimiento horizontal.
+
+\subsubsection*{Conclusión}
+Existen dos situaciones cotidianas principales: empujar una estructura inamovible como una pared donde el desplazamiento es cero, o sostener un objeto pesado mientras se camina horizontalmente a velocidad constante, donde la fuerza aplicada y el desplazamiento forman un ángulo de 90 grados, anulando el trabajo mecánico.
+
+\newpage
+\subsection*{Enunciado}
+Un estudiante dice: "Siempre que aplico una fuerza estoy realizando trabajo mecánico". 
+¿Puede existir trabajo negativo? Explica con un ejemplo.
+
+\subsection*{Solución}
+
+\subsubsection*{Interpretación Energética del Trabajo}
+Para comprender el trabajo negativo, es esencial entender el trabajo no solo como un producto de vectores, sino desde el teorema del trabajo y la energía. Según Hewitt, el trabajo mecánico es el mecanismo por el cual se transfiere energía hacia o desde un sistema físico. Cuando el trabajo es positivo, la fuerza está inyectando energía al sistema (aumentando su energía cinética o potencial). Siguiendo esta lógica, el trabajo negativo debe representar físicamente una sustracción o pérdida de energía del sistema. 
+
+\subsubsection*{Condición Matemática para el Trabajo Negativo}
+Retomando la ecuación $W = F d \cos(\theta)$, sabemos que la fuerza $F$ y la distancia $d$ son magnitudes vectoriales, por lo que su valor numérico es siempre positivo o cero. El único responsable de otorgar un signo algebraico al trabajo es el factor direccional $\cos(\theta)$. En trigonometría, la función coseno entrega valores negativos cuando el ángulo $\theta$ se encuentra en el rango $(90^\circ, 270^\circ)$. En la mecánica clásica, el caso más extremo y común ocurre cuando los vectores son antiparalelos, es decir, cuando el ángulo es exactamente de $180^\circ$. En este escenario, $\cos(180^\circ) = -1$, haciendo que el resultado del trabajo sea directamente negativo. Esto indica que la fuerza actúa en sentido completamente opuesto al movimiento del objeto.
+
+\subsubsection*{Ejemplo Físico: La Fuerza de Fricción}
+El ejemplo por excelencia de trabajo negativo es la fuerza de fricción cinética. Imaginemos un bloque de madera que se ha empujado sobre una mesa horizontal. Una vez que soltamos el bloque, este se desliza libremente y comienza a frenarse. El bloque tiene un vector de desplazamiento $\vec{d}$ que apunta hacia adelante. Sin embargo, la fuerza de fricción cinética $f_k$ ejercida por la superficie de la mesa sobre el bloque actúa en dirección opuesta, apuntando hacia atrás para resistir el deslizamiento. 
+El ángulo entre el vector $\vec{d}$ y el vector $f_k$ es de $180^\circ$.
+El cálculo matemático del trabajo realizado por la fricción sería:
+$$W_{\text{fricción}} = f_k \cdot d \cdot \cos(180^\circ)$$
+$$W_{\text{fricción}} = - f_k d$$
+Este signo negativo indica que la fricción está extrayendo energía cinética del bloque, transformándola gradualmente en energía térmica, lo que explica por qué el bloque finalmente se detiene. Otro ejemplo cotidiano es la fuerza que ejercen los frenos de un automóvil para detener su marcha.
+
+\subsubsection*{Conclusión}
+Sí, el trabajo negativo no solo es posible, sino sumamente común en la naturaleza. Ocurre siempre que una fuerza se aplica en dirección contraria al desplazamiento del objeto (como la fricción o la resistencia del aire), indicando que la fuerza está restando o extrayendo energía mecánica del sistema en movimiento.
+
+\newpage
+
+\subsection*{Enunciado}
+Dos personas suben el mismo saco de cemento hasta un segundo piso: una lo hace rápidamente y la otra lo hace lentamente.
+¿Quién realiza más trabajo? Justifica.
+
+\subsection*{Solución}
+
+\subsubsection*{Análisis de las Variables del Trabajo Mecánico}
+De acuerdo con los principios de la Física Conceptual de Paul G. Hewitt, el trabajo mecánico se define estrictamente en términos de la fuerza aplicada y la distancia recorrida. El trabajo no toma en cuenta qué tan rápido o qué tan lento se realiza la acción. La fórmula fundamental es el producto de la fuerza por la distancia en la dirección de la fuerza, expresada matemáticamente como $W = F \cdot d$.
+
+\subsubsection*{Cálculo del Trabajo contra la Gravedad}
+En este escenario, ambas personas deben vencer la misma fuerza de gravedad para elevar el objeto. La fuerza requerida es equivalente al peso del saco de cemento, el cual se calcula multiplicando su masa por la aceleración de la gravedad ($F = mg$). Además, el desplazamiento vertical es exactamente el mismo para ambos individuos: la altura desde el suelo hasta el segundo piso ($d = h$).
+Al sustituir estas variables en la ecuación de trabajo, obtenemos que el trabajo realizado contra la gravedad es $W = mgh$. Como la masa del saco es la misma y la altura del edificio no cambia, el producto de estas variables es idéntico en ambos casos, independientemente del cronómetro.
+
+\subsubsection*{Conclusión}
+Ambas personas realizan exactamente la misma cantidad de trabajo mecánico. El esfuerzo físico subjetivo o la fatiga pueden variar según la velocidad, pero desde el punto de vista de la física, la energía transferida al saco de cemento para elevarlo a esa altura es idéntica en ambos casos.
+
+\newpage
+\subsection*{Enunciado}
+Dos personas suben el mismo saco de cemento hasta un segundo piso: una lo hace rápidamente y la otra lo hace lentamente.
+¿Quién desarrolla mayor potencia? Explica.
+
+\subsection*{Solución}
+
+\subsubsection*{El Concepto de Potencia y la Tasa de Energía}
+Mientras que el trabajo nos dice cuánta energía se ha transferido, no nos da información sobre el ritmo al que ocurrió dicha transferencia. Aquí es donde Hewitt introduce el concepto de potencia. La potencia es la medida de la rapidez con la que se realiza un trabajo mecánico. Físicamente, representa la tasa de transferencia de energía.
+
+\subsubsection*{Relación Inversamente Proporcional}
+La ecuación matemática para la potencia promedio es $P = \frac{W}{t}$, donde $W$ es el trabajo realizado y $t$ es el intervalo de tiempo empleado. Como demostramos en el inciso anterior, el numerador de esta fracción ($W$) es una constante para ambas personas. Por lo tanto, la potencia $P$ se vuelve inversamente proporcional al tiempo $t$. Esto significa matemáticamente que un divisor más pequeño (menos tiempo) resultará en un cociente mucho más grande (mayor potencia).
+
+\subsubsection*{Visualización de la Relación Potencia-Tiempo}
+Para comprender pedagógicamente esta relación inversa, podemos modelarla utilizando Python. El siguiente código grafica cómo decae la potencia a medida que aumenta el tiempo necesario para realizar un trabajo constante de 1000 Joules.
+
+\begin{lstlisting}[language=Python]
+import numpy as np
+import matplotlib.pyplot as plt
+
+trabajo_constante = 1000
+tiempo = np.linspace(2, 20, 100)
+potencia = trabajo_constante / tiempo
+
+tiempo_rapido = 4
+tiempo_lento = 15
+potencia_rapida = trabajo_constante / tiempo_rapido
+potencia_lenta = trabajo_constante / tiempo_lento
+
+plt.figure(figsize=(8, 5))
+plt.plot(tiempo, potencia, color='purple', linewidth=2.5, label='Curva de Potencia P = W/t')
+
+plt.scatter([tiempo_rapido], [potencia_rapida], color='red', s=100, zorder=5)
+plt.annotate('Persona Rapida\n(Alto P, Bajo t)', xy=(tiempo_rapido, potencia_rapida), 
+             xytext=(tiempo_rapido+1, potencia_rapida+20),
+             arrowprops=dict(facecolor='black', arrowstyle='->'))
+
+plt.scatter([tiempo_lento], [potencia_lenta], color='blue', s=100, zorder=5)
+plt.annotate('Persona Lenta\n(Bajo P, Alto t)', xy=(tiempo_lento, potencia_lenta), 
+             xytext=(tiempo_lento+1, potencia_lenta+20),
+             arrowprops=dict(facecolor='black', arrowstyle='->'))
+
+plt.title('Potencia Desarrollada para un Trabajo Constante de 1000 J', fontsize=14)
+plt.xlabel('Tiempo empleado (segundos)', fontsize=12)
+plt.ylabel('Potencia (Watts)', fontsize=12)
+plt.grid(True, linestyle='--', alpha=0.6)
+plt.legend()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+La persona que sube el saco rápidamente desarrolla una mayor potencia. Al completar el mismo trabajo en un intervalo de tiempo significativamente menor, la tasa de transferencia de energía de su cuerpo al saco es mucho más alta.
+
+\newpage
+\subsection*{Enunciado}
+Dos personas suben el mismo saco de cemento hasta un segundo piso: una lo hace rápidamente y la otra lo hace lentamente.
+Relaciona tu respuesta con la definición de potencia.
+
+\subsection*{Solución}
+
+\subsubsection*{Interpretación Analítica de la Definición}
+La respuesta dada en el inciso anterior se fundamenta estrictamente en la definición formal enseñada en la Física Conceptual: la potencia es el cociente entre el trabajo y el tiempo ($P = \frac{W}{t}$). Esta fórmula no es una simple ecuación aislada, sino una declaración de proporcionalidad. 
+
+\subsubsection*{El Vatio como Unidad de Análisis}
+Para relacionarlo directamente, debemos analizar las unidades del Sistema Internacional. El trabajo se mide en Julios (J) y el tiempo en segundos (s). Por lo tanto, la unidad de potencia es el Julio por segundo (J/s), al cual se le denomina Vatio o Watt (W). 
+Si la persona rápida gasta 1000 J de energía en 5 segundos, está entregando energía a un ritmo de 200 J/s (200 W).
+Si la persona lenta gasta los mismos 1000 J en 20 segundos, está entregando energía a un ritmo de solo 50 J/s (50 W).
+La definición de potencia trata sobre la intensidad momentánea del flujo de energía, no sobre el volumen total de la energía gastada al final del día.
+
+\subsubsection*{Conclusión}
+La respuesta se relaciona de forma directa: al afirmar que la persona rápida tiene mayor potencia, estamos aplicando la definición literal de que la potencia es inversamente proporcional al tiempo empleado para una cantidad fija de trabajo mecánico.
+
+\newpage
+\subsection*{Enunciado}
+Dos personas suben el mismo saco de cemento hasta un segundo piso: una lo hace rápidamente y la otra lo hace lentamente.
+¿Por qué la potencia es un concepto clave en máquinas?
+
+\subsection*{Solución}
+
+\subsubsection*{El Valor del Tiempo en la Ingeniería}
+Desde una perspectiva práctica e ingenieril, realizar un trabajo mecánico no siempre es suficiente si este toma una cantidad impracticable de tiempo. Si necesitamos elevar vigas de acero para construir un rascacielos, cualquier motor (incluso uno diminuto) eventualmente podría realizar el trabajo si se utilizan suficientes engranajes y poleas, pero podría tomar semanas levantar una sola viga. Las máquinas industriales no se valoran solo por su capacidad de aplicar fuerza, sino por su capacidad de hacerlo en un marco de tiempo útil para la sociedad.
+
+\subsubsection*{Capacidad de Rendimiento y Diseño de Motores}
+La potencia es el indicador principal de la capacidad de rendimiento de una máquina. Cuando comparamos el motor de un automóvil deportivo con el motor de un tractor pequeño, ambos son capaces de transportar a una persona del punto A al punto B (realizan el mismo trabajo). Sin embargo, el automóvil deportivo tiene un motor de mayor potencia, medido frecuentemente en caballos de fuerza (HP) o kilovatios (kW), lo que le permite realizar ese trabajo mecánico en una fracción del tiempo, logrando aceleraciones mucho mayores. La potencia define los límites de velocidad y productividad de cualquier sistema mecánico.
+
+\subsubsection*{Conclusión}
+La potencia es fundamental en las máquinas porque determina la velocidad a la que pueden operar de forma sostenida y ser económicamente viables. Nos indica el tamaño, la capacidad de aceleración y la utilidad en el mundo real de un motor o sistema mecánico más allá de su simple habilidad para mover un objeto.
+
+\newpage
+
+\subsection*{Enunciado}
+Un automóvil acelera en una carretera recta. 
+Explica cómo se relaciona el trabajo realizado por el motor con el cambio de energía del automóvil.
+
+\subsection*{Solución}
+
+\subsubsection*{El Teorema del Trabajo y la Energía}
+En la Física Conceptual de Hewitt, el trabajo no es un concepto aislado, sino que se define funcionalmente como el mecanismo a través del cual se transfiere energía a un sistema físico. El teorema fundamental del trabajo y la energía establece que el trabajo neto realizado sobre un objeto es exactamente igual al cambio en su energía cinética. Matemáticamente, esto se expresa como:
+$$W_{\text{neto}} = \Delta E_k$$
+
+\subsubsection*{Análisis Cinemático del Automóvil}
+Cuando el automóvil acelera en una carretera recta y horizontal, su altura respecto al centro de la Tierra no cambia, lo que significa que su energía potencial gravitatoria permanece constante ($\Delta E_p = 0$). Por lo tanto, toda la energía química del combustible que el motor transforma en trabajo mecánico útil se destina exclusivamente a modificar el estado de movimiento del vehículo. La energía cinética de un objeto depende de su masa $m$ y del cuadrado de su velocidad $v$:
+$$E_k = \frac{1}{2} m v^2$$
+Al acelerar, la velocidad del automóvil aumenta de un valor inicial $v_i$ a un valor final $v_f$. El trabajo del motor provee la energía necesaria para lograr este incremento.
+
+\subsubsection*{Conclusión}
+El trabajo realizado por el motor se relaciona de manera directa y proporcional con el cambio de energía del automóvil: el motor transfiere energía al sistema para vencer la inercia, y esta transferencia se manifiesta en su totalidad como un aumento en la energía cinética del vehículo, logrando así su aceleración.
+
+\newpage
+\subsection*{Enunciado}
+Un automóvil acelera en una carretera recta. 
+¿Qué indica la potencia del motor en este proceso?
+
+\subsection*{Solución}
+
+\subsubsection*{Definición de Potencia Mecánica}
+Mientras que el trabajo nos indica la cantidad total de energía que el motor ha transferido al automóvil, este valor por sí solo es insuficiente para describir completamente el rendimiento del vehículo, ya que ignora la dimensión temporal. Hewitt introduce el concepto de potencia como la tasa o el ritmo al cual se realiza el trabajo. Su formulación matemática es el cociente entre el trabajo realizado y el intervalo de tiempo:
+$$P = \frac{W}{\Delta t}$$
+
+\subsubsection*{Interpretación en el Contexto de la Aceleración}
+En el proceso de aceleración de un automóvil, la potencia indica la rapidez con la que el motor es capaz de inyectar energía cinética al sistema. Un motor altamente potente es aquel que puede transformar una gran cantidad de energía química en energía cinética en un lapso muy breve. Esto se traduce en la experiencia cotidiana como un vehículo que puede pasar de cero a cien kilómetros por hora en muy pocos segundos.
+
+\subsubsection*{Conclusión}
+La potencia del motor indica la tasa de transferencia de energía; es decir, representa la rapidez y la intensidad con la que el motor puede realizar el trabajo mecánico necesario para aumentar la energía cinética del automóvil y lograr la aceleración deseada.
+
+\newpage
+\subsection*{Enunciado}
+Un automóvil acelera en una carretera recta. 
+¿Por qué dos autos pueden realizar el mismo trabajo, pero tener potencias diferentes?
+
+\subsection*{Solución}
+
+\subsubsection*{Independencia de las Variables Físicas}
+El trabajo mecánico y la potencia, aunque estrechamente relacionados, miden propiedades distintas del movimiento. El trabajo ($W = F \cdot d$) depende exclusivamente de la fuerza aplicada y la distancia recorrida, o bien, del cambio total de energía cinética logrado. No está condicionado por el tiempo. Por otro lado, la potencia sí depende críticamente del tiempo.
+
+\subsubsection*{Análisis de Casos Comparativos}
+Imaginemos dos automóviles idénticos en masa (por ejemplo, 1000 kg) que aceleran desde el reposo hasta alcanzar exactamente la misma velocidad de 100 km/h. Como ambos experimentan el mismo cambio de energía cinética, la física dictamina que el trabajo neto realizado sobre ambos es idéntico. 
+Sin embargo, el primer auto es un vehículo deportivo y logra este cambio en 4 segundos, mientras que el segundo es un vehículo familiar y le toma 12 segundos. Al calcular la potencia ($P = W / t$), el auto deportivo divide el mismo trabajo entre un denominador tres veces menor, resultando en una potencia tres veces mayor.
+
+\subsubsection*{Modelado Computacional de la Transferencia de Energía}
+Para visualizar pedagógicamente cómo la misma cantidad de trabajo puede asociarse a diferentes niveles de potencia, el siguiente código en Python utiliza Matplotlib para graficar la acumulación de energía en función del tiempo para dos motores distintos que alcanzan el mismo objetivo energético.
+
+\begin{lstlisting}[language=Python]
+import numpy as np
+import matplotlib.pyplot as plt
+
+trabajo_total = 500000 
+tiempo_deportivo = np.linspace(0, 4, 100)
+energia_deportivo = (trabajo_total / 4) * tiempo_deportivo
+
+tiempo_familiar = np.linspace(0, 12, 100)
+energia_familiar = (trabajo_total / 12) * tiempo_familiar
+
+plt.figure(figsize=(8, 5))
+plt.plot(tiempo_deportivo, energia_deportivo, label="Auto Deportivo (Alta Potencia)", color="red", linewidth=2.5)
+plt.plot(tiempo_familiar, energia_familiar, label="Auto Familiar (Baja Potencia)", color="blue", linewidth=2.5)
+
+plt.axhline(trabajo_total, color="black", linestyle="--", label="Mismo Trabajo Realizado (500 kJ)")
+
+plt.title("Mismo Trabajo, Distinta Potencia", fontsize=14)
+plt.xlabel("Tiempo de aceleracion (s)", fontsize=12)
+plt.ylabel("Trabajo Acumulado (Joules)", fontsize=12)
+plt.legend()
+plt.grid(True, linestyle=":", alpha=0.7)
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+Dos autos pueden realizar el mismo trabajo si cambian su energía cinética en la misma magnitud (por ejemplo, alcanzando la misma velocidad partiendo del reposo). Sin embargo, tendrán potencias diferentes si emplean distintos intervalos de tiempo para lograrlo; el auto que lo haga en menos tiempo poseerá una mayor potencia.
+
+\newpage
+\subsection*{Enunciado}
+Un automóvil acelera en una carretera recta. 
+Relaciona este análisis con el tiempo en que ocurre el proceso.
+
+\subsection*{Solución}
+
+\subsubsection*{La Relación Inversamente Proporcional}
+La síntesis de este análisis recae en la relación matemática fundamental de la potencia: $P = \frac{W}{t}$. Si asumimos que la cantidad de trabajo $W$ requerido para acelerar un automóvil hasta una velocidad específica es una constante física inamovible, la ecuación nos revela una proporcionalidad inversa directa entre la potencia y el tiempo. 
+
+\subsubsection*{Implicaciones Físicas del Límite Temporal}
+Esta relación inversa significa que a medida que el tiempo $t$ tiende a hacerse más pequeño (una aceleración extremadamente rápida), la potencia $P$ exigida al motor crece exponencialmente hacia valores muy grandes. Físicamente, comprimir el intervalo de tiempo exige una maquinaria capaz de gestionar flujos de energía masivos por segundo. Por el contrario, si un motor dispone de mucho tiempo (un valor de $t$ grande), puede permitirse realizar el trabajo con una potencia mínima y modesta, transfiriendo la energía de a poco.
+
+\subsubsection*{Conclusión}
+El tiempo es la variable discriminante que vincula el trabajo y la potencia. Para una cantidad de trabajo fija, la potencia desarrollada es estrictamente inversamente proporcional al tiempo que dura el proceso de aceleración. A menor tiempo de ejecución, mayor será la exigencia de potencia requerida por el motor.
+
+\newpage
+
+\subsection*{Enunciado}
+Un bloque se desliza sobre una superficie con fricción hasta detenerse.
+¿Qué tipo de trabajo realiza la fuerza de fricción?
+
+\subsection*{Solución}
+
+\subsubsection*{Análisis Vectorial del Deslizamiento}
+Para determinar el tipo de trabajo que realiza una fuerza, debemos evaluar la relación direccional entre el vector de la fuerza aplicada y el vector del desplazamiento del objeto. Cuando un bloque se desliza sobre una superficie, su vector de desplazamiento apunta en la dirección del movimiento. Por otro lado, de acuerdo con los principios de la mecánica, la fuerza de fricción cinética es una fuerza de resistencia que siempre se opone al movimiento relativo de las superficies en contacto. Por lo tanto, el vector de la fuerza de fricción apunta en la dirección exactamente opuesta al vector de desplazamiento.
+
+\subsubsection*{Evaluación Trigonométrica del Trabajo}
+La definición formal del trabajo mecánico es el producto escalar entre la fuerza y el desplazamiento, cuya magnitud se calcula con la ecuación $W = F d \cos(\theta)$, donde $\theta$ es el ángulo entre ambos vectores. Dado que el desplazamiento va hacia adelante y la fricción hacia atrás, estos vectores son antiparalelos, lo que significa que forman un ángulo de 180 grados.
+Al evaluar el coseno de 180 grados obtenemos un valor de -1. Sustituyendo esto en la ecuación:
+$$W = f_k \cdot d \cdot \cos(180^\circ)$$
+$$W = f_k \cdot d \cdot (-1)$$
+$$W = - f_k d$$
+El resultado matemático arroja un valor estrictamente negativo.
+
+\subsubsection*{Representación Computacional de los Vectores}
+Para ilustrar esta configuración antiparalela, el siguiente código en Python genera un diagrama de vectores básico que muestra la oposición entre el movimiento y la fricción.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+plt.figure(figsize=(8, 3))
+
+plt.quiver(0, 0, 4, 0, angles='xy', scale_units='xy', scale=1, color='blue', width=0.015)
+plt.text(2, 0.2, 'Vector Desplazamiento (d)', color='blue', fontsize=12, fontweight='bold')
+
+plt.quiver(0, 0, -2, 0, angles='xy', scale_units='xy', scale=1, color='red', width=0.015)
+plt.text(-1.8, 0.2, 'Vector Friccion (f_k)', color='red', fontsize=12, fontweight='bold')
+
+plt.plot(0, 0, marker='o', markersize=10, color='black')
+
+plt.xlim(-3, 5)
+plt.ylim(-1, 1)
+plt.axhline(0, color='gray', linestyle='--', linewidth=0.5)
+plt.axis('off')
+plt.title('Vectores Antiparalelos (Angulo = 180 grados)', fontsize=14)
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+La fuerza de fricción realiza un trabajo mecánico negativo. Esto se debe a que la fuerza actúa en dirección directamente opuesta al desplazamiento del bloque durante su trayectoria.
+
+\newpage
+\subsection*{Enunciado}
+Un bloque se desliza sobre una superficie con fricción hasta detenerse.
+¿Cómo se relaciona este trabajo con la energía del sistema?
+
+\subsection*{Solución}
+
+\subsubsection*{El Teorema del Trabajo y la Energía}
+La Física Conceptual de Hewitt establece que el trabajo y la energía son dos caras de la misma moneda; el trabajo es la forma en que se transfiere la energía. Esta relación se formaliza en el Teorema del Trabajo y la Energía, el cual dicta que el trabajo neto realizado sobre un objeto es igual a su cambio en la energía cinética. 
+Matemáticamente, esto se expresa como:
+$$W_{\text{neto}} = \Delta E_k = E_{k_f} - E_{k_i}$$
+
+\subsubsection*{Interpretación del Trabajo Negativo}
+Como determinamos en el inciso anterior, el trabajo realizado por la fricción es negativo ($W_{\text{neto}} < 0$). Si sustituimos un valor negativo en el lado izquierdo del teorema, la física nos obliga a que el lado derecho ($\Delta E_k$) también sea negativo. 
+Un cambio negativo en la energía cinética significa que la energía final es menor que la energía inicial. En el contexto de este problema, el bloque inicialmente tiene una velocidad y, por tanto, una energía cinética inicial ($E_{k_i} > 0$). A medida que se desliza, la fricción realiza trabajo negativo, sustrayendo esa energía del bloque hasta que la velocidad, y por consiguiente su energía cinética final, se vuelve cero ($E_{k_f} = 0$).
+
+\subsubsection*{Conclusión}
+El trabajo negativo realizado por la fuerza de fricción se relaciona directamente con la disminución de la energía mecánica del sistema. Funciona como un mecanismo de extracción, removiendo gradualmente la energía cinética del bloque hasta llevarlo al reposo absoluto.
+
+\newpage
+\subsection*{Enunciado}
+Un bloque se desliza sobre una superficie con fricción hasta detenerse.
+¿Qué ocurre con la energía "perdida"?
+
+\subsection*{Solución}
+
+\subsubsection*{El Principio de Conservación de la Energía}
+Una de las leyes fundamentales del universo es la Primera Ley de la Termodinámica, o el Principio de Conservación de la Energía. Esta ley establece que la energía no puede crearse ni destruirse, únicamente puede transformarse de un tipo a otro. Por lo tanto, aunque desde la perspectiva del bloque macroscópico parezca que su energía cinética se "perdió" al detenerse, a nivel microscópico esa energía debe haber ido a alguna parte.
+
+\subsubsection*{Transformación a Energía Térmica}
+Cuando las irregularidades microscópicas de la superficie inferior del bloque rozan contra las irregularidades de la superficie del suelo, los átomos y moléculas de ambos materiales son perturbados y comienzan a vibrar con mayor intensidad. En la física de Hewitt, este aumento en el movimiento aleatorio molecular se conoce como energía térmica. 
+El trabajo mecánico negativo realizado por la fricción es exactamente la cantidad de energía cinética macroscópica que se transformó en energía térmica microscópica (y en menor medida, en energía sonora). Como resultado, tanto el bloque como la superficie se calientan ligeramente.
+
+\subsubsection*{Representación de la Transformación Energética}
+Para visualizar esta conservación, el siguiente código en Python modela cómo, a medida que el bloque se detiene, la disminución de energía cinética es compensada perfectamente por un aumento en la energía térmica del sistema, manteniendo la energía total constante.
+
+\begin{lstlisting}[language=Python]
+import numpy as np
+import matplotlib.pyplot as plt
+
+tiempo = np.linspace(0, 10, 100)
+energia_total = 100 
+energia_cinetica = energia_total * np.exp(-0.5 * tiempo)
+energia_termica = energia_total - energia_cinetica
+
+plt.figure(figsize=(8, 5))
+plt.plot(tiempo, energia_cinetica, label="Energia Cinetica (Bloque)", color="blue", linewidth=2.5)
+plt.plot(tiempo, energia_termica, label="Energia Termica (Calor disipado)", color="red", linewidth=2.5)
+plt.axhline(energia_total, color="black", linestyle="--", label="Energia Total del Sistema")
+
+plt.title("Transformacion de Energia por Friccion", fontsize=14)
+plt.xlabel("Tiempo de deslizamiento (s)", fontsize=12)
+plt.ylabel("Energia (Joules)", fontsize=12)
+plt.legend()
+plt.grid(True, linestyle=":", alpha=0.7)
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+La energía no se pierde en absoluto. La energía cinética macroscópica que tenía el bloque en movimiento se transforma íntegramente en energía térmica (calor) debido a la interacción intermolecular de las superficies en fricción, provocando un aumento en la temperatura de ambos objetos.
+
+\newpage
+\subsection*{Enunciado}
+Un bloque se desliza sobre una superficie con fricción hasta detenerse.
+¿Se puede hablar de potencia en este proceso? Explica.
+
+\subsection*{Solución}
+
+\subsubsection*{Generalización del Concepto de Potencia}
+Usualmente, asociamos la potencia con motores que generan movimiento, elevando pesos o acelerando vehículos. Sin embargo, la definición física de potencia es universal y no discrimina la dirección de la transferencia de energía. La potencia ($P$) se define rigurosamente como la rapidez con la que se realiza un trabajo, sea este positivo o negativo. La ecuación es $P = \frac{W}{t}$, que también puede leerse como la tasa de transferencia o transformación de energía: $P = \frac{\Delta E}{t}$.
+
+\subsubsection*{Potencia de Disipación}
+En el caso del bloque que se desliza, existe una cantidad definida de trabajo negativo que se realiza en un intervalo de tiempo específico (desde que el bloque empieza a deslizarse hasta que se detiene por completo). Al dividir este trabajo de fricción entre el tiempo empleado, obtenemos un valor de potencia.
+Dado que la energía cinética se está transformando en calor, en este contexto se habla de "potencia disipada". Esta nos indica cuántos Joules de energía cinética se están transformando en energía térmica por cada segundo (Watts). Por ejemplo, el sistema de frenos de un automóvil moderno está diseñado no solo para aplicar fricción, sino para tener una enorme "potencia de frenado", capaz de disipar millones de Joules de energía cinética en apenas unos pocos segundos sin fundirse.
+
+\subsubsection*{Conclusión}
+Sí, es completamente correcto hablar de potencia en este proceso. Se le denomina potencia de disipación e indica el ritmo temporal (en Joules por segundo o Watts) con el cual la fuerza de fricción extrae la energía cinética del bloque y la transforma en energía térmica para lograr detenerlo.
+
+\newpage
+
+\subsection*{Enunciado}
+Considera una esfera unida a una cuerda, un péndulo simple, que se balancea de ida y vuelta.
+¿Por qué la fuerza de tensión en la cuerda no realiza trabajo sobre el péndulo?
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2]
+\draw[thick] (-2,0) -- (2,0);
+\foreach \x in {-1.8,-1.5,-1.2,-0.9,-0.6,-0.3,0,0.3,0.6,0.9,1.2,1.5,1.8}
+  \draw (\x,0) -- (\x+0.2, 0.2);
+\draw[dashed] (-1.5,-2.598) arc (240:300:3);
+\draw[thick] (0,0) -- (-1.5,-2.598);
+\filldraw[fill=gray!10, draw=black, thick] (-1.5,-2.598) circle (0.4);
+\draw[thick, ->, >=stealth] (-1.5,-2.598) -- (-0.75,-1.299) node[right] {T};
+\draw[thick, ->, >=stealth] (-1.5,-2.598) -- (-1.5,-4) node[right] {$\text{F}_\text{g}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{Análisis de la Trayectoria y Desplazamiento}
+Para comprender el trabajo en un sistema de péndulo, primero debemos analizar la geometría de su movimiento. Según la física conceptual de Hewitt, la masa del péndulo (la esfera) se mueve a lo largo de un arco circular restringido por la longitud constante de la cuerda. En cualquier instante dado, la dirección del movimiento del péndulo está representada por su vector de velocidad o su vector de desplazamiento diferencial, el cual siempre es tangencial a la trayectoria circular.
+
+\subsubsection*{La Naturaleza de la Fuerza de Tensión}
+Simultáneamente, la cuerda ejerce una fuerza sobre la esfera llamada Tensión (T). Para que la cuerda mantenga a la esfera en su trayectoria circular y evite que salga volando en línea recta, esta fuerza de tensión siempre debe apuntar hacia el centro de rotación, es decir, a lo largo de la cuerda hacia el punto de pivote en el techo. Esta es una fuerza puramente radial.
+
+\subsubsection*{Evaluación Matemática del Trabajo}
+La ecuación fundamental del trabajo mecánico es $W = F d \cos(\theta)$. Geométricamente, una línea radial (la tensión) y una línea tangencial (el desplazamiento) que se intersectan en un punto sobre un círculo siempre forman un ángulo exacto de 90 grados. 
+Al evaluar el componente trigonométrico de la ecuación con este ángulo:
+$$W_T = T \cdot d \cdot \cos(90^\circ)$$
+Dado que $\cos(90^\circ) = 0$, el producto entero se anula. 
+
+\subsubsection*{Conclusión}
+La fuerza de tensión en la cuerda no realiza trabajo mecánico porque siempre actúa en una dirección exactamente perpendicular al movimiento del péndulo. Al no existir ninguna componente de la fuerza de tensión que apunte a lo largo de la trayectoria del desplazamiento, la transferencia de energía por parte de la cuerda es cero.
+
+\newpage
+\subsection*{Enunciado}
+Considera una esfera unida a una cuerda, un péndulo simple, que se balancea de ida y vuelta.
+ Sin embargo, explica por qué la fuerza debida a la gravedad sobre el péndulo casi en cada punto sí realiza trabajo sobre el péndulo.
+
+\subsection*{Solución}
+
+\subsubsection*{Comportamiento del Vector Gravedad}
+A diferencia de la tensión que cambia constantemente de dirección para apuntar siempre hacia el pivote, la fuerza debida a la gravedad ($F_g$ o peso) es constante en magnitud y en dirección. Independientemente de dónde se encuentre el péndulo en su arco, el vector de gravedad apunta rígidamente hacia abajo, en dirección al centro de la Tierra.
+
+\subsubsection*{Descomposición Vectorial y Trabajo}
+Debido a que la trayectoria del péndulo es un arco, la dirección de su desplazamiento cambia continuamente. Como la gravedad siempre apunta hacia abajo y el desplazamiento cambia de ángulo, el ángulo $\theta$ entre ambos vectores rara vez es de 90 grados. 
+Cuando el péndulo desciende desde su punto más alto hacia el centro, el ángulo entre la gravedad (hacia abajo) y el desplazamiento (hacia abajo y al centro) es agudo (menor a 90 grados). El $\cos(\theta)$ es positivo, lo que significa que la gravedad realiza un trabajo positivo, acelerando la masa y transformando la energía potencial en cinética.
+Cuando el péndulo sube desde el centro hacia el extremo opuesto, el ángulo es obtuso (mayor a 90 grados). El $\cos(\theta)$ es negativo, por lo que la gravedad realiza un trabajo negativo, frenando la masa y transformando la energía cinética de vuelta en potencial.
+
+\subsubsection*{Análisis Pedagógico con Python}
+Para visualizar cómo la componente útil de la gravedad varía a lo largo de la oscilación, el siguiente código modela el trabajo realizado por la gravedad en función del ángulo del péndulo respecto a la vertical.
+
+\begin{lstlisting}[language=Python]
+import numpy as np
+import matplotlib.pyplot as plt
+
+angulo_pendulo = np.linspace(-60, 60, 200)
+componente_tangencial_gravedad = -np.sin(np.radians(angulo_pendulo))
+
+plt.figure(figsize=(8, 5))
+plt.plot(angulo_pendulo, componente_tangencial_gravedad, color='darkred', linewidth=2.5, label='Fuerza Tangencial Efectiva')
+
+plt.axhline(0, color='black', linewidth=1)
+plt.axvline(0, color='gray', linestyle='--', label='Punto mas bajo (Equilibrio)')
+
+plt.fill_between(angulo_pendulo, componente_tangencial_gravedad, 0, where=(angulo_pendulo < 0), color='green', alpha=0.3, label='Trabajo Positivo (Acelerando)')
+plt.fill_between(angulo_pendulo, componente_tangencial_gravedad, 0, where=(angulo_pendulo > 0), color='orange', alpha=0.3, label='Trabajo Negativo (Frenando)')
+
+plt.title('Trabajo de la Gravedad durante la Oscilacion', fontsize=14)
+plt.xlabel('Angulo del Pendulo respecto a la Vertical (grados)', fontsize=12)
+plt.ylabel('Proporcion de Gravedad que realiza Trabajo', fontsize=12)
+plt.legend()
+plt.grid(True, linestyle=':', alpha=0.7)
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+La gravedad sí realiza trabajo porque, a lo largo de casi toda la trayectoria curva, el vector desplazamiento tiene una componente paralela (o antiparalela) a la dirección vertical de la fuerza de gravedad. Esto permite que exista una transferencia continua de energía (trabajo positivo y negativo) que mantiene el ciclo de oscilación.
+
+\newpage
+\subsection*{Enunciado}
+Considera una esfera unida a una cuerda, un péndulo simple, que se balancea de ida y vuelta.
+¿Cuál es la única posición del péndulo donde no ocurre "trabajo por la gravedad"?
+
+\subsection*{Solución}
+
+\subsubsection*{Condición Matemática para el Trabajo Nulo}
+Basados en la ecuación fundamental del trabajo $W = F d \cos(\theta)$, y sabiendo que la masa de la esfera no desaparece ($F_g \neq 0$) y que la esfera está en movimiento continuo ($d \neq 0$), la única forma de que el trabajo sea exactamente cero es que el componente trigonométrico sea cero. Esto exige que $\cos(\theta) = 0$, lo cual ocurre únicamente cuando el ángulo $\theta$ entre la fuerza y el desplazamiento es exactamente de 90 grados.
+
+\subsubsection*{Análisis Geométrico en el Punto de Equilibrio}
+Sabemos que la gravedad apunta verticalmente hacia abajo en todo momento. Para que el desplazamiento forme un ángulo de 90 grados con una línea vertical, el vector de desplazamiento debe ser estrictamente horizontal. 
+Al observar el arco que dibuja el péndulo, existe un único punto geométrico donde la línea tangente a la curva es perfectamente horizontal: el punto más bajo de la trayectoria (también conocido como la posición de equilibrio). 
+
+\subsubsection*{Comportamiento Instantáneo}
+A medida que la esfera pasa por el punto más bajo, en ese microinstante infinitesimal, la masa no sube ni baja, solo se mueve hacia adelante de forma puramente horizontal. En este instante exacto, la gravedad (hacia abajo) y el movimiento (horizontal) son ortogonales. Un milímetro antes, el péndulo estaba bajando (trabajo positivo); un milímetro después, el péndulo estará subiendo (trabajo negativo). Pero justo en el vértice inferior de la parábola invertida, la transferencia de energía se pausa momentáneamente.
+
+\subsubsection*{Conclusión}
+La única posición del péndulo donde la gravedad no realiza trabajo mecánico es en el punto más bajo de su trayectoria (su posición de equilibrio vertical). En ese instante exacto, el vector de movimiento es puramente horizontal, formando un ángulo de 90 grados con el vector vertical de la gravedad, resultando en un trabajo instantáneo de cero.
+
+\newpage
+
+\subsection*{Enunciado}
+Al subir por la colina, el motor de gasolina de un automóvil híbrido gasolina-eléctrico suministra 75 caballos de fuerza mientras que la potencia total que lo impulsa es de 90 caballos de fuerza. Quemar gasolina proporciona los 75 caballos de fuerza. Discute qué proporciona los otros 15 caballos de fuerza.
+
+\subsection*{Solución}
+
+\subsubsection*{Análisis del Sistema Híbrido}
+Según los principios expuestos en la Física Conceptual de Hewitt, la energía no se crea de la nada, sino que se transforma de una forma a otra. Un automóvil híbrido está diseñado con una dualidad en su sistema de propulsión para maximizar la eficiencia energética. A diferencia de un vehículo convencional que depende de una sola fuente de energía mecánica, el híbrido integra inteligentemente un motor de combustión interna tradicional con uno o más motores eléctricos.
+
+\subsubsection*{Balance Matemático de Potencia}
+El problema nos plantea una demanda total de potencia que el vehículo necesita para vencer la componente de la fuerza de gravedad al subir la colina. La potencia total requerida por el automóvil es de 90 caballos de fuerza (hp). Si el motor de combustión aporta únicamente 75 hp producto de las reacciones termodinámicas de la gasolina, existe un déficit en el sistema que debe ser cubierto obligatoriamente por una fuente secundaria.
+La ecuación de suma de potencias mecánicas se define como:
+$$P_{\text{total}} = P_{\text{gasolina}} + P_{\text{secundaria}}$$
+Sustituyendo los valores conocidos obtenidos del enunciado:
+$$90 \text{ hp} = 75 \text{ hp} + P_{\text{secundaria}}$$
+Despejando la variable desconocida:
+$$P_{\text{secundaria}} = 15 \text{ hp}$$
+La física exige que esta diferencia energética provenga de algún componente real dentro del sistema del automóvil.
+
+\subsubsection*{El Rol del Motor Eléctrico y el Almacenamiento de Energía}
+Esos 15 caballos de fuerza faltantes son proporcionados de forma directa por el motor eléctrico del vehículo. En situaciones de alta demanda de trabajo mecánico, como escalar una colina empinada o realizar un rebase a alta velocidad, la computadora del automóvil híbrido extrae energía eléctrica que se encuentra previamente almacenada en el banco de baterías de alto voltaje. 
+El motor eléctrico recibe esta corriente y la transforma en energía mecánica (torque), sumando su esfuerzo rotacional al mismo eje de transmisión que mueve el motor de gasolina. Es importante recalcar desde la conservación de la energía que estas baterías se recargaron previamente capturando energía cinética mediante el frenado regenerativo o usando el exceso de potencia del motor de gasolina en tramos planos.
+
+\subsubsection*{Visualización de la Distribución de Potencia}
+Para ilustrar de manera clara cómo ambos sistemas de propulsión suman sus capacidades para alcanzar el requerimiento total, el siguiente código en Python modela un gráfico de barras comparativo de los aportes energéticos.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+fuentes_energia = ['Motor de Gasolina', 'Motor Electrico']
+aportes_potencia = [75, 15]
+colores_grafico = ['red', 'blue']
+
+plt.figure(figsize=(7, 5))
+barras = plt.bar(fuentes_energia, aportes_potencia, color=colores_grafico)
+
+plt.ylabel('Potencia Aportada (Caballos de Fuerza - hp)', fontsize=12)
+plt.title('Distribucion de Potencia en Colina (Total: 90 hp)', fontsize=14)
+plt.ylim(0, 100)
+
+for barra in barras:
+    altura = barra.get_height()
+    plt.text(barra.get_x() + barra.get_width()/2.0, altura + 2,
+             str(altura) + ' hp', ha='center', va='bottom', 
+             fontsize=12, fontweight='bold')
+
+plt.grid(axis='y', linestyle='--', alpha=0.6)
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+Los 15 caballos de fuerza restantes son proporcionados por el motor eléctrico del automóvil. Este motor extrae energía de las baterías del vehículo para asistir al motor de gasolina, logrando así impulsar el auto cuesta arriba con la potencia combinada requerida de 90 caballos de fuerza.
+
+\newpage
+
+\subsection*{Enunciado}
+Dos personas que pesan lo mismo suben un tramo de escaleras. La primera persona sube las escaleras en 30 s, y la segunda persona, en 40 s. 
+¿Cuál persona realiza más trabajo?
+
+\subsection*{Solución}
+
+\subsubsection*{Independencia del Tiempo en el Trabajo Mecánico}
+De acuerdo con los principios de la Física Conceptual de Paul G. Hewitt, el trabajo mecánico es una medida estricta de la energía transferida mediante la aplicación de una fuerza a lo largo de una distancia. La fórmula matemática es el producto de la fuerza por el desplazamiento en la misma dirección: $W = F \cdot d$. En esta definición, la variable del tiempo no existe, lo que significa que el trabajo mecánico es completamente independiente de qué tan rápido o lento se lleve a cabo la acción.
+
+\subsubsection*{Análisis de las Variables del Sistema}
+Para subir un tramo de escaleras a velocidad constante, cada persona debe ejercer una fuerza ascendente que iguale la fuerza de gravedad que tira de ellos hacia abajo. Es decir, la fuerza aplicada es igual a su propio peso ($F = mg$). 
+El enunciado establece explícitamente que ambas personas "pesan lo mismo", por lo que la magnitud de la fuerza $F$ es idéntica para ambas. Además, ambas suben el mismo "tramo de escaleras", lo que implica que el desplazamiento vertical (altura $h$) es también idéntico.
+Al sustituir estas variables en la ecuación de trabajo contra la gravedad ($W = mgh$), el producto resultante es exactamente igual para los dos individuos.
+
+\subsubsection*{Conclusión}
+Ambas personas realizan exactamente la misma cantidad de trabajo mecánico. Puesto que elevan el mismo peso a través de la misma distancia vertical, la energía total transferida al sistema para llegar a la cima de las escaleras es idéntica, sin importar el cronómetro.
+
+\newpage
+\subsection*{Enunciado}
+Dos personas que pesan lo mismo suben un tramo de escaleras. La primera persona sube las escaleras en 30 s, y la segunda persona, en 40 s. 
+¿Cuál usa más potencia?
+
+\subsection*{Solución}
+
+\subsubsection*{La Potencia como Tasa de Transferencia}
+Mientras que el trabajo evalúa el total de la "misión cumplida" desde el punto de vista energético, la potencia evalúa la intensidad con la que se cumple esa misión. Hewitt define la potencia como la rapidez con la que se realiza un trabajo. Es la tasa de transferencia de energía dividida por el intervalo de tiempo empleado. Su expresión matemática es:
+$$P = \frac{W}{t}$$
+
+\subsubsection*{Relación Inversa con el Tiempo}
+Dado que demostramos en el inciso anterior que el trabajo $W$ es una constante compartida por ambas personas (el numerador de nuestra fracción es el mismo), la ecuación revela que la potencia $P$ depende de forma inversamente proporcional al tiempo $t$ (el denominador). 
+La primera persona realiza el trabajo en 30 segundos, mientras que la segunda requiere 40 segundos. Matemáticamente, dividir la misma cantidad de energía entre un número más pequeño (30) dará como resultado un cociente mayor. Físicamente, esto significa que el motor biológico de la primera persona está entregando los Joules de energía a un ritmo más intenso.
+
+\subsubsection*{Comparación Computacional de Rendimiento}
+Para visualizar cómo el tiempo de ejecución afecta directamente la potencia desarrollada para una misma tarea física, el siguiente código de Python genera un gráfico de barras comparando ambos escenarios. Se asume un trabajo arbitrario de 1200 Joules para fines didácticos.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+trabajo_constante = 1200 
+tiempo_persona_1 = 30
+tiempo_persona_2 = 40
+
+potencia_1 = trabajo_constante / tiempo_persona_1
+potencia_2 = trabajo_constante / tiempo_persona_2
+
+etiquetas = ['Primera Persona (30 s)', 'Segunda Persona (40 s)']
+valores_potencia = [potencia_1, potencia_2]
+colores = ['orange', 'dodgerblue']
+
+plt.figure(figsize=(7, 5))
+barras = plt.bar(etiquetas, valores_potencia, color=colores, width=0.5)
+
+plt.title('Potencia Desarrollada (Trabajo Constante = 1200 J)', fontsize=14)
+plt.ylabel('Potencia (Watts)', fontsize=12)
+plt.ylim(0, max(valores_potencia) + 10)
+
+for barra in barras:
+    altura = barra.get_height()
+    plt.text(barra.get_x() + barra.get_width()/2.0, altura + 1, 
+             str(round(altura, 1)) + ' W', ha='center', va='bottom', 
+             fontsize=12, fontweight='bold')
+
+plt.grid(axis='y', linestyle='--', alpha=0.6)
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+La primera persona usa más potencia. Al completar exactamente el mismo trabajo mecánico en un intervalo de tiempo menor (30 segundos frente a 40 segundos), la primera persona transfiere la energía a una tasa mayor, demostrando un nivel superior de potencia física.
+
+\newpage
+
+\subsection*{Enunciado}
+Imagina un carrito a control remoto que se desplaza por el parque El Ejido en el centro de Quito, desde un extremo hasta el otro, siguiendo un plano horizontal. El punto inicial es $A(-7,-3)\text{ m}$ y su punto final es $B(8,1)\text{ m}$, medidas en un sistema de coordenadas que colocamos en un extremo del parque. Durante este trayecto, actúa sobre él una fuerza constante generada por el motor del carrito, representada por el vector $\vec{F} = 14\hat{i} - 17\hat{j}\text{ N}$. Determine el trabajo mecánico ($W$) realizado por dicha fuerza.
+
+\subsection*{Solución}
+
+\subsubsection*{El Trabajo como Producto Escalar}
+En la física clásica fundamentada por Hewitt, cuando las magnitudes dinámicas y cinemáticas (fuerza y desplazamiento) se expresan mediante sus componentes vectoriales en un plano cartesiano, el trabajo mecánico se define matemáticamente como el producto escalar (o producto punto) de ambos vectores. Esto se expresa con la ecuación $W = \vec{F} \cdot \Delta\vec{r}$. Este operador matemático es ideal porque toma en cuenta automáticamente la geometría espacial, multiplicando únicamente las componentes de la fuerza que actúan paralelos a las respectivas componentes del movimiento.
+
+\subsubsection*{Determinación del Vector Desplazamiento}
+Antes de calcular el trabajo, es indispensable definir la trayectoria rectilínea calculando el vector desplazamiento $\Delta\vec{r}$. Físicamente, el desplazamiento es el cambio neto de posición, el cual se halla restando el vector de posición inicial ($\vec{r}_A$) del vector de posición final ($\vec{r}_B$).
+$$\Delta\vec{r} = \vec{r}_B - \vec{r}_A$$
+Sustituyendo las coordenadas espaciales proporcionadas en el planteamiento:
+$$\Delta\vec{r} = (8\hat{i} + 1\hat{j}) - (-7\hat{i} - 3\hat{j})$$
+Para resolver esto, distribuimos el signo negativo y agrupamos de forma independiente los componentes horizontales ($\hat{i}$) y los verticales ($\hat{j}$):
+$$\Delta\vec{r} = (8 - (-7))\hat{i} + (1 - (-3))\hat{j}$$
+$$\Delta\vec{r} = (15\hat{i} + 4\hat{j})\text{ m}$$
+
+\subsubsection*{Cálculo Analítico del Trabajo Mecánico}
+Disponiendo del vector fuerza $\vec{F} = 14\hat{i} - 17\hat{j}\text{ N}$ y habiendo hallado el vector desplazamiento $\Delta\vec{r} = 15\hat{i} + 4\hat{j}\text{ m}$, procedemos a evaluar el producto escalar. El desarrollo algebraico del producto punto dicta la suma del producto de las componentes rectangulares homólogas:
+$$W = F_x \Delta r_x + F_y \Delta r_y$$
+Reemplazando nuestros valores numéricos extraídos de los vectores:
+$$W = (14)(15) + (-17)(4)$$
+$$W = 210 - 68$$
+$$W = 142\text{ J}$$
+
+\subsubsection*{Representación Vectorial Computacional}
+Para comprender pedagógicamente la interacción espacial entre la fuerza impulsora y la trayectoria resultante, es útil visualizar los vectores trasladados al origen del plano. El ángulo formado entre ellos dictamina el resultado algebraico del trabajo. El siguiente bloque en Python (Matplotlib) modela geométricamente este escenario.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+desplazamiento_x, desplazamiento_y = 15, 4
+fuerza_x, fuerza_y = 14, -17
+
+plt.figure(figsize=(8, 6))
+plt.quiver(0, 0, desplazamiento_x, desplazamiento_y, angles='xy', scale_units='xy', scale=1, color='dodgerblue', width=0.008)
+plt.text(desplazamiento_x/2 - 2, desplazamiento_y/2 + 2, 'Desplazamiento $\Delta r$ (15i + 4j) m', color='dodgerblue', fontsize=11, fontweight='bold')
+
+plt.quiver(0, 0, fuerza_x, fuerza_y, angles='xy', scale_units='xy', scale=1, color='crimson', width=0.008)
+plt.text(fuerza_x/2 + 1, fuerza_y/2, 'Fuerza $F$ (14i - 17j) N', color='crimson', fontsize=11, fontweight='bold')
+
+plt.xlim(-2, 18)
+plt.ylim(-20, 8)
+plt.axhline(0, color='black', linewidth=1.2)
+plt.axvline(0, color='black', linewidth=1.2)
+plt.grid(True, linestyle=':', alpha=0.8)
+plt.title('Relacion Vectorial: Fuerza y Desplazamiento', fontsize=14)
+plt.xlabel('Eje X (metros / Newtons)', fontsize=12)
+plt.ylabel('Eje Y (metros / Newtons)', fontsize=12)
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+El trabajo mecánico total realizado por la fuerza constante generada por el motor del carrito a lo largo de su desplazamiento por el parque es de $142\text{ J}$.
+
+\newpage
+\subsection*{Enunciado}
+Imagina un carrito a control remoto que se desplaza por un plano horizontal. Durante este trayecto, el trabajo mecánico calculado producto de la fuerza del motor y el vector desplazamiento resulta ser de $142\text{ J}$.
+¿Qué significa el signo de este resultado?
+
+\subsection*{Solución}
+
+\subsubsection*{El Significado Físico del Signo en la Energía}
+En el estudio de la física y la mecánica clásica, el trabajo es inherentemente una cantidad escalar, lo que significa que carece de dirección espacial (no apunta hacia el norte ni hacia el sur). Sin embargo, ostenta un signo algebraico (positivo o negativo) que resulta crucial para realizar un balance energético. Este signo actúa como un indicador de contabilidad que nos muestra la dirección en la que fluye la transferencia de energía respecto al objeto de estudio.
+
+\subsubsection*{Trabajo Positivo frente a Trabajo Negativo}
+Cuando la evaluación matemática arroja un resultado positivo ($W > 0$), como en nuestro cálculo de $142\text{ J}$, nos indica que el ángulo subyacente entre el vector fuerza y el vector desplazamiento es agudo (está en el rango de $0^\circ$ a $90^\circ$ exclusivos). En términos conceptuales, esto revela que la fuerza aplicada tiene una componente proyectada que apunta en la misma dirección general que el movimiento. Por consiguiente, la fuerza del motor está favoreciendo la marcha del carrito, inyectándole energía mecánica pura al sistema que, en ausencia de disipación, se manifestaría como un aumento neto en su velocidad (energía cinética).
+Por el contrario, un signo negativo evidenciaría que el vector fuerza se opone a la trayectoria (como ocurre con las fuerzas de fricción), indicando que el sistema está perdiendo o cediendo energía.
+
+\subsubsection*{Conclusión}
+El signo algebraico positivo significa que la fuerza del motor del carrito actúa a favor del movimiento; esto comprueba que el motor está realizando una transferencia energética hacia el carrito, favoreciendo su impulso.
+
+\newpage
+\subsection*{Enunciado}
+Imagina un carrito a control remoto que se desplaza por un plano horizontal bajo la acción de una fuerza constante.
+¿Y si la fuerza fuera perpendicular al desplazamiento?
+
+\subsection*{Solución}
+
+\subsubsection*{Análisis Trigonométrico de la Ortogonalidad}
+Para predecir el impacto de una fuerza perpendicular en el sistema, es útil expandir la fórmula del producto escalar a su definición trigonométrica basada en las magnitudes absolutas de los vectores: $W = |\vec{F}| |\Delta\vec{r}| \cos(\theta)$. 
+El término "perpendicular" u "ortogonal" establece por definición geométrica que el ángulo $\theta$ que separa la línea de acción de la fuerza y la línea de desplazamiento es de exactamente $90^\circ$. Al introducir esta condición en el operador trigonométrico de nuestra ecuación, obtenemos que el coseno de 90 grados es estrictamente nulo ($\cos(90^\circ) = 0$). Como este término se multiplica por el resto de la ecuación, todo el producto se colapsa a cero, anulando las magnitudes de la fuerza y la distancia.
+
+\subsubsection*{Interpretación Conceptual y Dinámica Orbital}
+A nivel dinámico, una fuerza perpendicular no ejerce influencia ni a favor ni en contra del avance del cuerpo sobre su línea de trayectoria actual. Al no proyectar ninguna "sombra" vectorial sobre el eje de movimiento, su capacidad para transferir energía cinética a lo largo de esa ruta es nula. La fuerza puede, sin embargo, desviar la trayectoria del objeto cambiando la dirección de la velocidad sin alterar su magnitud (aceleración centrípeta).
+El ejemplo estelar que la física conceptual utiliza para ilustrar este fenómeno es un satélite en órbita perfectamente circular. La fuerza de gravedad tira del satélite agresivamente hacia el centro gravitacional del planeta, pero su inercia lo mantiene en un vector de desplazamiento tangencial. Dado que la dirección radial de la gravedad y el desplazamiento tangencial forman perennemente un ángulo de 90 grados, el trabajo de la gravedad es perpetuamente cero. Es por ello que el satélite puede orbitar indefinidamente a velocidad constante sin que la gravedad lo frene o lo acelere a lo largo de su órbita.
+
+\subsubsection*{Conclusión}
+Si la fuerza y el desplazamiento fueran perpendiculares, el producto escalar arrojaría un trabajo mecánico nulo ($0\text{ J}$). Esto implica que la fuerza no transferiría ni extraería energía cinética del objeto a lo largo de esa trayectoria específica.
+
+\newpage
+
+\subsection*{Enunciado}
+Imagina un carrito a control remoto que se desplaza por el parque El Ejido en el centro de Quito, desde un extremo hasta el otro, siguiendo un plano horizontal. El punto inicial es $A(-7,-3)\text{ m}$ y su punto final es $B(8,1)\text{ m}$, medidas en un sistema de coordenadas que colocamos en un extremo del parque. Durante este trayecto, actúa sobre él una fuerza constante generada por el motor del carrito, representada por el vector $\vec{F} = 14\hat{i} - 17\hat{j}\text{ N}$. Determine el trabajo mecánico ($W$) realizado por dicha fuerza.
+
+\subsection*{Solución}
+
+\subsubsection*{El Trabajo como Producto Escalar}
+En la física clásica fundamentada por Hewitt, cuando las magnitudes dinámicas y cinemáticas (fuerza y desplazamiento) se expresan mediante sus componentes vectoriales en un plano cartesiano, el trabajo mecánico se define matemáticamente como el producto escalar (o producto punto) de ambos vectores. Esto se expresa con la ecuación $W = \vec{F} \cdot \Delta\vec{r}$. Este operador matemático es ideal porque toma en cuenta automáticamente la geometría espacial, multiplicando únicamente las componentes de la fuerza que actúan paralelos a las respectivas componentes del movimiento.
+
+\subsubsection*{Determinación del Vector Desplazamiento}
+Antes de calcular el trabajo, es indispensable definir la trayectoria rectilínea calculando el vector desplazamiento $\Delta\vec{r}$. Físicamente, el desplazamiento es el cambio neto de posición, el cual se halla restando el vector de posición inicial ($\vec{r}_A$) del vector de posición final ($\vec{r}_B$).
+$$\Delta\vec{r} = \vec{r}_B - \vec{r}_A$$
+Sustituyendo las coordenadas espaciales proporcionadas en el planteamiento:
+$$\Delta\vec{r} = (8\hat{i} + 1\hat{j}) - (-7\hat{i} - 3\hat{j})$$
+Para resolver esto, distribuimos el signo negativo y agrupamos de forma independiente los componentes horizontales ($\hat{i}$) y los verticales ($\hat{j}$):
+$$\Delta\vec{r} = (8 - (-7))\hat{i} + (1 - (-3))\hat{j}$$
+$$\Delta\vec{r} = (15\hat{i} + 4\hat{j})\text{ m}$$
+
+\subsubsection*{Cálculo Analítico del Trabajo Mecánico}
+Disponiendo del vector fuerza $\vec{F} = 14\hat{i} - 17\hat{j}\text{ N}$ y habiendo hallado el vector desplazamiento $\Delta\vec{r} = 15\hat{i} + 4\hat{j}\text{ m}$, procedemos a evaluar el producto escalar. El desarrollo algebraico del producto punto dicta la suma del producto de las componentes rectangulares homólogas:
+$$W = F_x \Delta r_x + F_y \Delta r_y$$
+Reemplazando nuestros valores numéricos extraídos de los vectores:
+$$W = (14)(15) + (-17)(4)$$
+$$W = 210 - 68$$
+$$W = 142\text{ J}$$
+
+\subsubsection*{Representación Vectorial Computacional}
+Para comprender pedagógicamente la interacción espacial entre la fuerza impulsora y la trayectoria resultante, es útil visualizar los vectores trasladados al origen del plano. El ángulo formado entre ellos dictamina el resultado algebraico del trabajo. El siguiente bloque en Python (Matplotlib) modela geométricamente este escenario.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+desplazamiento_x, desplazamiento_y = 15, 4
+fuerza_x, fuerza_y = 14, -17
+
+plt.figure(figsize=(8, 6))
+plt.quiver(0, 0, desplazamiento_x, desplazamiento_y, angles='xy', scale_units='xy', scale=1, color='dodgerblue', width=0.008)
+plt.text(desplazamiento_x/2 - 2, desplazamiento_y/2 + 2, 'Desplazamiento $\Delta r$ (15i + 4j) m', color='dodgerblue', fontsize=11, fontweight='bold')
+
+plt.quiver(0, 0, fuerza_x, fuerza_y, angles='xy', scale_units='xy', scale=1, color='crimson', width=0.008)
+plt.text(fuerza_x/2 + 1, fuerza_y/2, 'Fuerza $F$ (14i - 17j) N', color='crimson', fontsize=11, fontweight='bold')
+
+plt.xlim(-2, 18)
+plt.ylim(-20, 8)
+plt.axhline(0, color='black', linewidth=1.2)
+plt.axvline(0, color='black', linewidth=1.2)
+plt.grid(True, linestyle=':', alpha=0.8)
+plt.title('Relacion Vectorial: Fuerza y Desplazamiento', fontsize=14)
+plt.xlabel('Eje X (metros / Newtons)', fontsize=12)
+plt.ylabel('Eje Y (metros / Newtons)', fontsize=12)
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+El trabajo mecánico total realizado por la fuerza constante generada por el motor del carrito a lo largo de su desplazamiento por el parque es de $142\text{ J}$.
+
+\newpage
+\subsection*{Enunciado}
+Imagina un carrito a control remoto que se desplaza por un plano horizontal. Durante este trayecto, el trabajo mecánico calculado producto de la fuerza del motor y el vector desplazamiento resulta ser de $142\text{ J}$.
+¿Qué significa el signo de este resultado?
+
+\subsection*{Solución}
+
+\subsubsection*{El Significado Físico del Signo en la Energía}
+En el estudio de la física y la mecánica clásica, el trabajo es inherentemente una cantidad escalar, lo que significa que carece de dirección espacial (no apunta hacia el norte ni hacia el sur). Sin embargo, ostenta un signo algebraico (positivo o negativo) que resulta crucial para realizar un balance energético. Este signo actúa como un indicador de contabilidad que nos muestra la dirección en la que fluye la transferencia de energía respecto al objeto de estudio.
+
+\subsubsection*{Trabajo Positivo frente a Trabajo Negativo}
+Cuando la evaluación matemática arroja un resultado positivo ($W > 0$), como en nuestro cálculo de $142\text{ J}$, nos indica que el ángulo subyacente entre el vector fuerza y el vector desplazamiento es agudo (está en el rango de $0^\circ$ a $90^\circ$ exclusivos). En términos conceptuales, esto revela que la fuerza aplicada tiene una componente proyectada que apunta en la misma dirección general que el movimiento. Por consiguiente, la fuerza del motor está favoreciendo la marcha del carrito, inyectándole energía mecánica pura al sistema que, en ausencia de disipación, se manifestaría como un aumento neto en su velocidad (energía cinética).
+Por el contrario, un signo negativo evidenciaría que el vector fuerza se opone a la trayectoria (como ocurre con las fuerzas de fricción), indicando que el sistema está perdiendo o cediendo energía.
+
+\subsubsection*{Conclusión}
+El signo algebraico positivo significa que la fuerza del motor del carrito actúa a favor del movimiento; esto comprueba que el motor está realizando una transferencia energética hacia el carrito, favoreciendo su impulso.
+
+\newpage
+\subsection*{Enunciado}
+Imagina un carrito a control remoto que se desplaza por un plano horizontal bajo la acción de una fuerza constante.
+¿Y si la fuerza fuera perpendicular al desplazamiento?
+
+\subsection*{Solución}
+
+\subsubsection*{Análisis Trigonométrico de la Ortogonalidad}
+Para predecir el impacto de una fuerza perpendicular en el sistema, es útil expandir la fórmula del producto escalar a su definición trigonométrica basada en las magnitudes absolutas de los vectores: $W = |\vec{F}| |\Delta\vec{r}| \cos(\theta)$. 
+El término "perpendicular" u "ortogonal" establece por definición geométrica que el ángulo $\theta$ que separa la línea de acción de la fuerza y la línea de desplazamiento es de exactamente $90^\circ$. Al introducir esta condición en el operador trigonométrico de nuestra ecuación, obtenemos que el coseno de 90 grados es estrictamente nulo ($\cos(90^\circ) = 0$). Como este término se multiplica por el resto de la ecuación, todo el producto se colapsa a cero, anulando las magnitudes de la fuerza y la distancia.
+
+\subsubsection*{Interpretación Conceptual y Dinámica Orbital}
+A nivel dinámico, una fuerza perpendicular no ejerce influencia ni a favor ni en contra del avance del cuerpo sobre su línea de trayectoria actual. Al no proyectar ninguna "sombra" vectorial sobre el eje de movimiento, su capacidad para transferir energía cinética a lo largo de esa ruta es nula. La fuerza puede, sin embargo, desviar la trayectoria del objeto cambiando la dirección de la velocidad sin alterar su magnitud (aceleración centrípeta).
+El ejemplo estelar que la física conceptual utiliza para ilustrar este fenómeno es un satélite en órbita perfectamente circular. La fuerza de gravedad tira del satélite agresivamente hacia el centro gravitacional del planeta, pero su inercia lo mantiene en un vector de desplazamiento tangencial. Dado que la dirección radial de la gravedad y el desplazamiento tangencial forman perennemente un ángulo de 90 grados, el trabajo de la gravedad es perpetuamente cero. Es por ello que el satélite puede orbitar indefinidamente a velocidad constante sin que la gravedad lo frene o lo acelere a lo largo de su órbita.
+
+\subsubsection*{Conclusión}
+Si la fuerza y el desplazamiento fueran perpendiculares, el producto escalar arrojaría un trabajo mecánico nulo ($0\text{ J}$). Esto implica que la fuerza no transferiría ni extraería energía cinética del objeto a lo largo de esa trayectoria específica.
+
+\newpage
+
+\subsection*{Enunciado}
+Un automóvil de 1200 kg se desplaza por una vía horizontal y recta. El vehículo acelera uniformemente desde una velocidad de 45 km/h hasta 80 km/h a lo largo de un tramo de 160 m. La fuerza de resistencia al rodamiento es constante y equivale al 2\% del peso del automóvil. Considera que la aceleración de la gravedad es $g = 10\text{ m/s}^2$. 
+Determinar:
+a) La potencia instantánea máxima requerida durante la aceleración.
+
+\subsection*{Solución}
+
+\subsubsection*{Cinemática y Conversión de Unidades}
+Para realizar un análisis coherente bajo el Sistema Internacional de Unidades, el primer paso pedagógico es homogeneizar las magnitudes. Convertimos las velocidades de kilómetros por hora a metros por segundo dividiendo por el factor de 3.6:
+Velocidad inicial: $v_0 = \frac{45\text{ km/h}}{3.6} = 12.5\text{ m/s}$
+Velocidad final: $v_f = \frac{80\text{ km/h}}{3.6} \approx 22.2\text{ m/s}$
+Sabiendo que la aceleración es uniforme, aplicamos la ecuación cinemática independiente del tiempo:
+$$v_f^2 = v_0^2 + 2 a d$$
+Despejando la aceleración ($a$):
+$$a = \frac{v_f^2 - v_0^2}{2d}$$
+$$a = \frac{(22.2)^2 - (12.5)^2}{2(160)}$$
+$$a = \frac{492.84 - 156.25}{320} \approx 1.05\text{ m/s}^2$$
+
+\subsubsection*{Análisis Dinámico de Fuerzas}
+De acuerdo con la Segunda Ley de Newton explorada por Hewitt, la fuerza neta ($F_N$) responsable de esta aceleración es el producto de la masa del automóvil por su aceleración:
+$$F_N = m \cdot a = 1200 \cdot 1.05 = 1260\text{ N}$$
+Sin embargo, el motor no solo debe generar esta fuerza neta, sino que también debe vencer continuamente la resistencia al rodamiento ($f_r$). El enunciado establece que esta fricción es el 2\% del peso del automóvil ($P = mg$):
+$$f_r = 0.02 \cdot m \cdot g = 0.02 \cdot 1200 \cdot 10 = 240\text{ N}$$
+Por lo tanto, la fuerza total y constante que el motor debe ejercer hacia adelante ($F_{\text{motor}}$) es la suma de la fuerza necesaria para acelerar más la fuerza necesaria para vencer la resistencia:
+$$F_{\text{motor}} = F_N + f_r = 1260 + 240 = 1500\text{ N}$$
+
+\subsubsection*{Relación entre Potencia Instantánea y Velocidad}
+La potencia instantánea se define como la rapidez con la que se realiza trabajo en un momento específico. Matemáticamente, cuando una fuerza es colineal a la velocidad, la potencia se expresa como $P = F \cdot v$.
+Durante este tramo de 160 metros, el motor empuja con una fuerza constante de 1500 N, pero la velocidad del vehículo está aumentando continuamente. Dado que $P$ es directamente proporcional a $v$, la potencia desarrollada por el motor no es estática; crece segundo a segundo. Lógicamente, el valor máximo de esta potencia exigida al motor ocurrirá en el instante exacto en que la velocidad alcanza su punto más alto (al final del tramo).
+Evaluando en el punto de máxima velocidad ($v_f = 22.2\text{ m/s}$):
+$$P_{\text{max}} = F_{\text{motor}} \cdot v_f$$
+$$P_{\text{max}} = 1500 \cdot 22.2$$
+$$P_{\text{max}} = 33300\text{ W} = 33.3\text{ kW}$$
+
+\subsubsection*{Conclusión}
+La potencia instantánea máxima requerida por el motor ocurre justo al final de la fase de aceleración y tiene un valor de $33300\text{ W}$ (o $33.3\text{ kW}$).
+
+\newpage
+\subsection*{Enunciado}
+Un automóvil de 1200 kg se desplaza por una vía horizontal y recta. El vehículo aceleró uniformemente desde una velocidad de 45 km/h hasta 80 km/h a lo largo de un tramo de 160 m. La fuerza de resistencia al rodamiento es constante y equivale al 2\% del peso del automóvil. Considera que la aceleración de la gravedad es $g = 10\text{ m/s}^2$. 
+Determinar:
+b) La potencia necesaria para mantener el automóvil a una velocidad constante de 80 km/h.
+
+\subsection*{Solución}
+
+\subsubsection*{El Principio de Inercia y el Equilibrio Dinámico}
+Desde la perspectiva de la física conceptual, la Primera Ley de Newton (Inercia) establece que un objeto en movimiento a velocidad constante tenderá a permanecer en ese estado a menos que actúe sobre él una fuerza neta. Si viviéramos en un vacío perfecto y sin fricción en los ejes, el automóvil no necesitaría que el motor hiciera ningún trabajo para mantener los 80 km/h; la potencia requerida sería cero.
+No obstante, en la realidad, la fricción extrae continuamente energía cinética del sistema. Para mantener la velocidad constante (y por ende, aceleración cero), el motor debe inyectar energía a la misma tasa exacta a la que la fricción la disipa. Esto se logra igualando la fuerza impulsora del motor con la fuerza resistiva:
+$$F_{\text{motor}} = f_r = 240\text{ N}$$
+
+\subsubsection*{Cálculo de la Potencia de Mantenimiento}
+Una vez que el vehículo deja de acelerar, la exigencia sobre el motor cae drásticamente. Ahora solo debe proporcionar los 240 N de empuje a una velocidad de crucero constante de $80\text{ km/h}$ ($22.2\text{ m/s}$).
+Aplicando la ecuación de potencia instantánea:
+$$P = F_{\text{motor}} \cdot v$$
+$$P = 240 \cdot 22.2$$
+$$P \approx 5328\text{ W} \approx 5.33\text{ kW}$$
+
+\subsubsection*{Modelado Computacional del Perfil de Demanda Energética}
+Para ilustrar pedagógicamente el contraste masivo en la exigencia del motor entre una fase de aceleración y una de velocidad de crucero, el siguiente código en Python modela el consumo de potencia a lo largo del tiempo para este trayecto específico.
+
+\begin{lstlisting}[language=Python]
+import numpy as np
+import matplotlib.pyplot as plt
+
+v_0 = 12.5
+v_f = 22.2
+a = 1.05
+f_motor_aceleracion = 1500
+f_motor_crucero = 240
+
+tiempo_aceleracion = (v_f - v_0) / a
+t_acel = np.linspace(0, tiempo_aceleracion, 100)
+v_acel = v_0 + a * t_acel
+potencia_acel = f_motor_aceleracion * v_acel / 1000
+
+t_crucero = np.linspace(tiempo_aceleracion, tiempo_aceleracion + 10, 100)
+potencia_crucero = np.full_like(t_crucero, (f_motor_crucero * v_f) / 1000)
+
+plt.figure(figsize=(9, 5))
+plt.plot(t_acel, potencia_acel, color='red', linewidth=3, label='Fase de Aceleracion (F = 1500 N)')
+plt.plot(t_crucero, potencia_crucero, color='green', linewidth=3, label='Velocidad Constante (F = 240 N)')
+
+plt.axvline(x=tiempo_aceleracion, color='black', linestyle='--', alpha=0.7)
+plt.scatter([tiempo_aceleracion], [33.3], color='darkred', zorder=5)
+plt.annotate('Potencia Maxima (33.3 kW)', xy=(tiempo_aceleracion, 33.3), xytext=(tiempo_aceleracion - 6, 28),
+             arrowprops=dict(facecolor='black', arrowstyle='->'))
+
+plt.title('Perfil de Potencia del Motor en Funcion del Tiempo', fontsize=14)
+plt.xlabel('Tiempo (segundos)', fontsize=12)
+plt.ylabel('Potencia Demandada (kW)', fontsize=12)
+plt.legend()
+plt.grid(True, linestyle=':', alpha=0.8)
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+Para mantener el automóvil a una velocidad constante de 80 km/h, la potencia requerida se reduce drásticamente a aproximadamente $5330\text{ W}$ (o $5.33\text{ kW}$), ya que el motor solo necesita realizar trabajo para vencer la resistencia al rodamiento, sin gastar energía adicional en incrementar la velocidad del vehículo.
+
+\newpage
+
+\subsection*{Enunciado}
+En la figura se muestra a un niño que empuja una caja de 25 kg sobre una rampa de 100 m, a rapidez constante. Por otro lado, un levantador de pesas sostiene una barra pesada sobre su cabeza de manera estática durante 3 minutos. 
+
+1. ¿En cuál de los dos casos se realiza trabajo físico sobre el objeto (la caja o las pesas)? Justifica tu respuesta diferenciando entre la sensación biológica de cansancio y la definición de trabajo como fuerza multiplicada por el desplazamiento en la dirección de dicha fuerza.
+
+\subsection*{Solución}
+
+\subsubsection*{Análisis del Esfuerzo Biológico frente al Trabajo Físico}
+En el estudio de la Física Conceptual, existe una frontera muy estricta entre lo que el cuerpo humano percibe como un "esfuerzo" y la definición de trabajo mecánico. La sensación biológica de cansancio proviene del gasto de energía química en nuestro cuerpo. Cuando los músculos se tensan, miles de fibras musculares microscópicas se contraen y relajan continuamente, generando calor y consumiendo energía metabólica. Sin embargo, para la física, esta actividad interna no constituye trabajo realizado sobre un objeto externo a menos que se cumpla una condición matemática y geométrica fundamental: la fuerza debe provocar un desplazamiento. La ecuación rectora es $W = F \cdot d$.
+
+\subsubsection*{Caso del Levantador de Pesas (Sistema Estático)}
+El levantador de pesas está aplicando una inmensa fuerza vertical hacia arriba para evitar que la barra caiga por efecto de la gravedad. Permanece en esta postura durante 3 minutos. Su cuerpo está realizando un esfuerzo colosal y gastando energía, lo que se evidencia en su fatiga y temblor muscular. 
+No obstante, al evaluar las variables mecánicas del sistema conformado por la barra de pesas, observamos que su posición en el espacio no cambia. El vector desplazamiento de la barra es estrictamente cero ($d = 0\text{ m}$). Al sustituir esto en la ecuación:
+$$W = F_{\text{aplicada}} \cdot 0\text{ m} = 0\text{ J}$$
+Dado que no hay desplazamiento, la fuerza no logra transferir energía mecánica a la barra. Por lo tanto, el trabajo físico sobre el objeto es nulo.
+
+\subsubsection*{Caso del Niño en la Rampa (Sistema Dinámico)}
+El niño aplica una fuerza constante dirigida hacia arriba a lo largo del plano inclinado para vencer tanto la componente paralela del peso de la caja como cualquier posible fricción. A diferencia del levantador, el niño logra que la caja se mueva a lo largo de toda la superficie de la rampa.
+En este escenario, tenemos una fuerza aplicada ($F > 0$) y un vector de desplazamiento efectivo de magnitud considerable ($d = 100\text{ m}$). Al estar la fuerza orientada en la misma dirección general que el desplazamiento de la caja, el producto escalar arroja un valor estrictamente positivo:
+$$W = F_{\text{aplicada}} \cdot 100\text{ m} > 0\text{ J}$$
+El niño está realizando un trabajo mecánico efectivo sobre la caja, transfiriéndole energía y aumentando progresivamente su energía potencial gravitatoria a medida que gana altura.
+
+\subsubsection*{Modelado Computacional de la Transferencia de Energía}
+Para consolidar pedagógicamente la diferencia entre aplicar una fuerza estacionaria y una fuerza que produce desplazamiento, el siguiente script en Python genera un gráfico comparativo del trabajo mecánico resultante para ambos escenarios.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+etiquetas = ['Levantador (Estatico)', 'Niño (Dinámico)']
+trabajo = [0, 15000] 
+colores = ['lightcoral', 'mediumseagreen']
+
+plt.figure(figsize=(8, 5))
+barras = plt.bar(etiquetas, trabajo, color=colores, width=0.5, edgecolor='black')
+
+plt.title('Comparacion de Trabajo Mecanico sobre el Objeto', fontsize=14)
+plt.ylabel('Trabajo Mecanico (Joules)', fontsize=12)
+plt.ylim(0, 20000)
+
+for barra in barras:
+    altura = barra.get_height()
+    if altura == 0:
+        plt.text(barra.get_x() + barra.get_width()/2.0, 500, 'W = 0 J\n(Desplazamiento = 0)', ha='center', va='bottom', fontsize=11, fontweight='bold', color='darkred')
+    else:
+        plt.text(barra.get_x() + barra.get_width()/2.0, altura + 500, 'W > 0 J\n(Desplazamiento = 100 m)', ha='center', va='bottom', fontsize=11, fontweight='bold', color='darkgreen')
+
+plt.grid(axis='y', linestyle='--', alpha=0.7)
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+El trabajo físico se realiza únicamente en el caso del niño que empuja la caja. A pesar de que el levantador de pesas experimenta una fatiga biológica extrema por mantener la fuerza, la falta de un desplazamiento ($d = 0$) anula matemáticamente cualquier trabajo mecánico sobre la barra. El niño, al lograr que la fuerza desplace la caja 100 metros, es el único que transfiere energía de manera efectiva al objeto.
+
+\newpage
+
+\subsection*{Enunciado}
+Imagina que conduces un automóvil a $30\text{ km/h}$ y, al aplicar los frenos, el vehículo derrapa una distancia $d$ antes de detenerse. Si ahora decides conducir a $90\text{ km/h}$ (el triple de la rapidez inicial):
+
+1. ¿Cuántas veces más energía cinética posee el auto al viajar a esa nueva rapidez? ¿Por qué?
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, transform shape]
+  \draw[thick, dashed] (0, -2) -- (0, 3) node[above] {Inicio del frenado};
+
+  \node[above] at (1, 2.5) {$v_1 = 30\text{ km/h}$};
+  \draw[line width=3pt, gray] (0, 2.1) -- (2, 2.1);
+  \draw[line width=3pt, gray] (0, 1.9) -- (2, 1.9);
+  \filldraw[fill=blue!10, draw=black, thick] (2, 1.7) rectangle (3.5, 2.3) node[midway] {Auto};
+  \draw[<->, thick] (0, 1.4) -- (2, 1.4) node[midway, below] {Distancia $d$};
+
+  \node[above] at (1, 0.5) {$v_2 = 90\text{ km/h}$};
+  \draw[line width=3pt, gray] (0, 0.1) -- (8, 0.1);
+  \draw[line width=3pt, gray] (0, -0.1) -- (8, -0.1);
+  \filldraw[fill=red!10, draw=black, thick] (8, -0.3) rectangle (9.5, 0.3) node[midway] {Auto};
+  \draw[<->, thick] (0, -0.6) -- (8, -0.6) node[midway, below] {Distancia $9d$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{Definición de la Energía Cinética}
+Para responder a esta pregunta, debemos basarnos en la definición fundamental de la energía de movimiento, conocida como energía cinética ($E_k$). Según la física conceptual de Paul G. Hewitt, la energía cinética de un objeto de masa $m$ que se desplaza a una rapidez $v$ se determina mediante la siguiente ecuación matemática:
+$$E_k = \frac{1}{2} m v^2$$
+
+\subsubsection*{Análisis de Proporcionalidad}
+Al observar detenidamente la ecuación, es crucial notar que la energía cinética no es directamente proporcional a la rapidez, sino al cuadrado de la rapidez ($E_k \propto v^2$). Esto significa que cualquier cambio en la rapidez del vehículo no tendrá un efecto lineal en su energía, sino un efecto exponencial cuadrático.
+
+\subsubsection*{Cálculo del Incremento Energético}
+El problema establece que la nueva rapidez es el triple de la rapidez inicial. Es decir, si la rapidez inicial es $v$, la nueva rapidez será $3v$. 
+Sustituyendo esta nueva rapidez en la ecuación de energía cinética, obtenemos:
+$$E_{k\text{ nueva}} = \frac{1}{2} m (3v)^2$$
+Al elevar el término entre paréntesis al cuadrado (tanto el coeficiente como la variable), el resultado es:
+$$E_{k\text{ nueva}} = \frac{1}{2} m (9 v^2) = 9 \left( \frac{1}{2} m v^2 \right)$$
+Dado que la expresión original de la energía cinética es $(\frac{1}{2} m v^2)$, podemos observar claramente que el nuevo valor es exactamente 9 veces el valor original. 
+
+\subsubsection*{Conclusión}
+El auto posee nueve veces más energía cinética al viajar a $90\text{ km/h}$. Esto se debe a que la energía cinética depende del cuadrado de la rapidez; al triplicar la rapidez ($3^2 = 9$), la energía contenida en el vehículo en movimiento se multiplica por nueve.
+
+\newpage
+\subsection*{Enunciado}
+Imagina que conduces un automóvil a $30\text{ km/h}$ y, al aplicar los frenos, el vehículo derrapa una distancia $d$ antes de detenerse. Si ahora decides conducir a $90\text{ km/h}$ (el triple de la rapidez inicial):
+
+2. Dado que el trabajo que realizan los frenos para detenerte es (fuerza de fricción por distancia de frenado), ¿cuánta más distancia necesitará el auto para detenerse por completo?
+
+\subsection*{Solución}
+
+\subsubsection*{Relación entre Trabajo de Fricción y Distancia}
+En este escenario de frenado de emergencia, la fuerza física encargada de disipar la energía del automóvil es la fuerza de fricción ($F_f$) que existe entre los neumáticos bloqueados y la superficie del pavimento. El trabajo mecánico ($W$) realizado por esta fuerza se define como el producto de la fuerza por la distancia de derrape ($D$):
+$$W = F_f \cdot D$$
+
+\subsubsection*{Constancia de la Fuerza de Frenado}
+Desde un punto de vista mecánico y material, la fuerza máxima de fricción que pueden ejercer los neumáticos contra el asfalto depende del peso del auto y del coeficiente de fricción del suelo. Ninguno de estos dos factores cambia independientemente de si el auto va a $30\text{ km/h}$ o a $90\text{ km/h}$. Por lo tanto, para nuestro análisis, la fuerza de fricción $F_f$ se considera una constante inamovible.
+
+\subsubsection*{Deducción de la Nueva Distancia}
+Como se demostró en el inciso anterior, al triplicar la velocidad, el auto ahora posee 9 veces más energía cinética. Para que el auto se detenga por completo, los frenos deben realizar 9 veces más trabajo para extraer toda esa energía extra.
+Tomando la ecuación del trabajo $W = F_f \cdot D$, si sabemos que $W$ debe aumentar en un factor de 9, y $F_f$ está estancada en su valor máximo y no puede aumentar, la única variable que la física permite modificar es la distancia $D$. Inevitablemente, la distancia debe multiplicarse por el mismo factor de 9.
+
+\subsubsection*{Visualización Computacional del Fenómeno}
+Este comportamiento no lineal es una de las causas principales de accidentes graves, ya que contradice la intuición humana que espera relaciones lineales. El siguiente bloque en Python modela gráficamente cómo la distancia requerida escala vertiginosamente al aumentar la rapidez.
+
+\begin{lstlisting}[language=Python]
+import numpy as np
+import matplotlib.pyplot as plt
+
+velocidades = np.linspace(0, 100, 200)
+constante_proporcionalidad = 1 / (30**2)
+distancias = constante_proporcionalidad * velocidades**2
+
+plt.figure(figsize=(8, 5))
+plt.plot(velocidades, distancias, color='indigo', linewidth=2.5, label='Curva de Distancia (d proporcional a v^2)')
+
+plt.scatter([30], [1], color='dodgerblue', s=80, zorder=5)
+plt.annotate('Rapidez Original (v)\nDistancia = 1d', xy=(30, 1), xytext=(5, 3), 
+             arrowprops=dict(facecolor='black', arrowstyle='->'), fontsize=10)
+
+plt.scatter([90], [9], color='crimson', s=80, zorder=5)
+plt.annotate('Triple Rapidez (3v)\nDistancia = 9d', xy=(90, 9), xytext=(55, 8), 
+             arrowprops=dict(facecolor='black', arrowstyle='->'), fontsize=10)
+
+plt.title('Crecimiento Cuadratico de la Distancia de Frenado', fontsize=14)
+plt.xlabel('Rapidez Inicial (km/h)', fontsize=12)
+plt.ylabel('Distancia Requerida (en unidades de d)', fontsize=12)
+plt.grid(True, linestyle=':', alpha=0.8)
+plt.legend()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+El auto necesitará nueve veces más distancia ($9d$) para detenerse por completo. Al ser constante la fuerza de fricción, la distancia de frenado asume la carga completa de igualar el incremento de la energía, creciendo en proporción directa al cuadrado de la rapidez.
+
+\newpage
+\subsection*{Enunciado}
+Imagina que conduces un automóvil a $30\text{ km/h}$ y, al aplicar los frenos, el vehículo derrapa una distancia $d$ antes de detenerse. Si ahora decides conducir a $90\text{ km/h}$ (el triple de la rapidez inicial):
+
+3. Relaciona este análisis con el teorema trabajo-energía, el cual establece que el trabajo neto es igual al cambio en la energía cinética.
+
+\subsection*{Solución}
+
+\subsubsection*{El Teorema Trabajo-Energía}
+Todo el análisis lógico realizado en las dos preguntas anteriores es simplemente una aplicación práctica y conceptual de uno de los pilares de la mecánica clásica: el Teorema del Trabajo y la Energía. Este teorema formaliza la relación dictaminando que el trabajo neto ($W_{\text{neto}}$) realizado por todas las fuerzas sobre un objeto es matemáticamente idéntico a su cambio en la energía cinética ($\Delta E_k$).
+$$W_{\text{neto}} = \Delta E_k$$
+$$W_{\text{neto}} = E_{k\text{ final}} - E_{k\text{ inicial}}$$
+
+\subsubsection*{Sustitución de Variables Dinámicas}
+Apliquemos el teorema específicamente al caso del frenado. Sabemos que el auto derrapa hasta detenerse completamente, lo que implica que su rapidez final es cero y, por ende, su energía cinética final es nula ($E_{k\text{ final}} = 0$).
+Por el lado del trabajo, la fuerza de fricción $F_f$ es antiparalela al desplazamiento $d$, formando un ángulo de $180^\circ$. Por tanto, el trabajo de fricción es negativo: $W_{\text{neto}} = - F_f \cdot d$.
+Sustituyendo esto en el teorema, obtenemos:
+$$- F_f \cdot d = 0 - E_{k\text{ inicial}}$$
+$$F_f \cdot d = \frac{1}{2} m v^2$$
+
+\subsubsection*{El Vínculo Algebraico Definitivo}
+Al despejar la distancia $d$ de esta ecuación resultante, se revela la estructura oculta de la naturaleza de este fenómeno:
+$$d = \frac{m v^2}{2 F_f}$$
+Esta única ecuación consolida todo nuestro razonamiento. Nos indica explícitamente que si la masa ($m$) del vehículo y la fuerza de los frenos ($F_f$) se mantienen constantes, la distancia de frenado ($d$) queda atada inevitable e indisolublemente al cuadrado de la rapidez ($v^2$). 
+El teorema unifica el concepto del trabajo de disipación (fuerza a lo largo de una distancia) con el reservorio de energía del movimiento (masa y rapidez), demostrando matemáticamente por qué una pequeña infracción en los límites de velocidad exige distancias abismales de espacio seguro en la carretera para evitar una colisión.
+
+\subsubsection*{Conclusión}
+El teorema trabajo-energía formaliza analíticamente la situación al igualar el trabajo de los frenos ($F_f \cdot d$) con la energía cinética inicial ($\frac{1}{2}mv^2$). Al despejar la distancia en esta igualdad matemática, se evidencia de manera irrefutable que la distancia de frenado es directamente proporcional al cuadrado de la velocidad del vehículo.
+
+\newpage
+
+\subsection*{Enunciado}
+La fuerza gravitacional que ejerce el Sol sobre la Tierra la mantiene en una órbita que podemos considerar aproximadamente circular. 
+1. ¿Realiza la gravedad del Sol algún trabajo neto sobre la Tierra durante su movimiento orbital? Considera que el trabajo es cero cuando la fuerza aplicada es perpendicular al desplazamiento en todo momento.
+
+a) Sí, la fuerza es la que empuja a la tierra a lo largo de su órbita.
+b) No, la fuerza gravitacional del sol sobre la tierra es perpendicular al movimiento.
+c) No, en el espacio vacío no existen fuerzas.
+d) No, la fuerza de gravedad se contrarresta con la que la tierra ejerce sobre el sol.
+e) Sí, la fuerza gravitacional del sol sobre la tierra la frena.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.5]
+\filldraw[fill=yellow!50, draw=orange, thick] (0,0) circle (0.6);
+\node at (0,0) {\textbf{SOL}};
+\draw[thick, dashed, gray] (0,0) circle (2.5);
+\filldraw[fill=blue!30, draw=blue, thick] (2.5,0) circle (0.3);
+\node[right, font=\footnotesize] at (2.8, 0) {\textbf{TIERRA}};
+\draw[thick, ->, >=stealth, purple, line width=1.5pt] (2.5,0) -- (0.8,0) node[midway, below, align=center, font=\scriptsize] {$\text{F}_\text{g}$: Fuerza \\ Gravitacional};
+\draw[thick, ->, >=stealth, purple, line width=1.5pt] (2.5,0) -- (2.5,1.5) node[above, align=center, font=\scriptsize] {ds: Desplazamiento \\ Tangencial};
+\draw[thick, purple] (2.3,0) -- (2.3,0.2) -- (2.5,0.2);
+\node[purple, font=\tiny] at (2.2, 0.3) {$\perp$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{Análisis Vectorial de la Dinámica Orbital}
+En la Física Conceptual de Paul G. Hewitt, se establece que para que un objeto masivo como la Tierra se mantenga en una órbita circular alrededor del Sol, requiere de una fuerza centrípeta. Esta fuerza es proporcionada íntegramente por la atracción gravitacional del Sol ($\text{F}_\text{g}$). La característica fundamental de una fuerza centrípeta es que siempre apunta hacia el centro de rotación (en este caso, hacia el núcleo del Sol). 
+Simultáneamente, debido a la inercia del planeta, la dirección instantánea de su movimiento (el vector desplazamiento $\text{ds}$ o vector velocidad) es siempre tangente a la trayectoria circular.
+
+\subsubsection*{Evaluación Matemática del Trabajo Mecánico}
+Por definición matemática, una línea que se dirige al centro de un círculo (el radio) y una línea tangente a la circunferencia en ese mismo punto de intersección forman geométricamente un ángulo exacto de 90 grados.
+Retomando la ecuación fundamental del trabajo mecánico evaluada mediante el producto escalar, tenemos que $W = |\text{F}_\text{g}| |\text{ds}| \cos(\theta)$. 
+Dado que el ángulo $\theta$ entre la fuerza y el desplazamiento es perpetuamente de 90 grados en una órbita circular perfecta, y sabiendo que el $\cos(90^\circ) = 0$, el resultado del producto es estrictamente cero.
+
+\subsubsection*{Análisis de las Opciones Múltiples}
+Evaluemos las premisas presentadas a la luz de los conceptos físicos:
+La opción (a) es falsa porque la gravedad no "empuja" en la dirección del movimiento, sino que "tira" de lado.
+La opción (c) es un error conceptual grave; la gravedad sí existe y domina la mecánica del vacío espacial.
+La opción (d) menciona la Tercera Ley de Newton (acción y reacción), pero estas fuerzas actúan sobre cuerpos distintos y no se anulan entre sí sobre la Tierra.
+La opción (e) es incorrecta porque, al ser perpendicular, la gravedad no posee ninguna componente proyectada hacia atrás que logre frenar al planeta.
+La opción (b) describe exactamente el fenómeno físico y matemático: la perpendicularidad perpetua entre la fuerza y la trayectoria anula el trabajo mecánico.
+
+\subsubsection*{Conclusión}
+La respuesta correcta es la opción b). No se realiza trabajo neto sobre la Tierra porque la fuerza gravitacional del Sol actúa en todo momento de manera exactamente perpendicular a la dirección del movimiento orbital.
+
+\newpage
+\subsection*{Enunciado}
+La fuerza gravitacional que ejerce el Sol sobre la Tierra la mantiene en una órbita que podemos considerar aproximadamente circular. 
+2. ¿Qué sucede con la rapidez de un satélite en órbita circular según el teorema trabajo-energía?
+
+\subsection*{Solución}
+
+\subsubsection*{El Teorema Trabajo-Energía}
+Para comprender el comportamiento cinemático de un satélite en órbita circular, debemos invocar el Teorema del Trabajo y la Energía. Este principio fundamental de la mecánica establece que el trabajo neto realizado sobre un sistema físico es directamente responsable del cambio en su energía cinética. La ecuación que formaliza este vínculo es:
+$$W_{\text{neto}} = \Delta E_k = E_{k_f} - E_{k_i}$$
+
+\subsubsection*{Implicaciones del Trabajo Nulo en la Órbita}
+Como se demostró exhaustivamente en el literal anterior, cuando un satélite describe una trayectoria circular perfecta alrededor de un cuerpo masivo, la fuerza de gravedad y el vector de desplazamiento son siempre ortogonales. Esto da como resultado que el trabajo neto realizado por la gravedad sobre el satélite sea exactamente de $0\text{ J}$ en cualquier intervalo de tiempo.
+Si introducimos este valor en nuestro teorema, obtenemos:
+$$0 = E_{k_f} - E_{k_i}$$
+$$E_{k_f} = E_{k_i}$$
+Esta igualdad matemática nos revela un hecho físico profundo: la energía cinética del satélite no cambia, es decir, se conserva intacta a lo largo de toda su órbita.
+
+\subsubsection*{Relación Directa con la Rapidez}
+Sabiendo que la energía cinética permanece constante, podemos evaluar la fórmula de esta energía: $E_k = \frac{1}{2} m v^2$. La masa ($m$) del satélite no sufre alteraciones durante su viaje. Por lo tanto, para que el valor de $E_k$ se mantenga constante, la magnitud de la velocidad, que es la rapidez ($v$), debe obligatoriamente mantenerse constante. La gravedad altera la dirección de la velocidad del satélite (creando la trayectoria curva), pero es mecánicamente incapaz de alterar su magnitud.
+
+\subsubsection*{Modelado Computacional del Teorema en Órbita}
+El siguiente código en Python modela gráficamente este teorema. Visualiza cómo, a medida que un satélite orbita a lo largo del tiempo, la ausencia de trabajo realizado sobre él asegura que su nivel de energía cinética permanezca como una línea plana y constante.
+
+\begin{lstlisting}[language=Python]
+import numpy as np
+import matplotlib.pyplot as plt
+
+tiempo_orbital = np.linspace(0, 100, 200)
+trabajo_acumulado = np.zeros_like(tiempo_orbital)
+energia_cinetica = np.full_like(tiempo_orbital, 50)
+
+plt.figure(figsize=(8, 4))
+
+plt.plot(tiempo_orbital, energia_cinetica, color='dodgerblue', linewidth=3, label='Energia Cinetica ($E_k$)')
+plt.plot(tiempo_orbital, trabajo_acumulado, color='crimson', linewidth=3, linestyle='--', label='Trabajo de la Gravedad ($W$)')
+
+plt.title('Teorema Trabajo-Energia en Orbita Circular', fontsize=14)
+plt.xlabel('Tiempo de vuelo orbital', fontsize=12)
+plt.ylabel('Magnitud Energetica', fontsize=12)
+plt.ylim(-10, 80)
+
+plt.annotate('$\Delta E_k = 0$ (Rapidez Constante)', xy=(50, 50), xytext=(40, 65),
+             arrowprops=dict(facecolor='black', arrowstyle='->'), fontsize=11, fontweight='bold')
+
+plt.legend(loc='center right')
+plt.grid(True, linestyle=':', alpha=0.7)
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+Según el teorema trabajo-energía, dado que el trabajo neto realizado sobre el satélite es nulo ($W = 0$), no existe ningún cambio en su energía cinética ($\Delta E_k = 0$). En consecuencia, la rapidez del satélite se mantiene rigurosamente constante en todo punto de su órbita circular.
+
+\newpage
+
+\subsection*{Enunciado}
+Un hombre quiere cargar un refrigerador en una camioneta como en la figura. Él afirma que, si utiliza una rampa más larga, el trabajo total requerido para subir el equipo será menor. 
+
+1. ¿Es válido el razonamiento del hombre? Utiliza el concepto de energía potencial gravitacional para explicar si el trabajo neto realizado contra la gravedad depende de la longitud del camino o solo del cambio de altura.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+\draw[thick, fill=brown!50] (3,0) rectangle (4,1.5);
+\draw[thick] (0,0) -- (3,0) node[midway, below] {Rampa Corta};
+\draw[thick] (0,0) -- (3,1.5);
+\draw[thick, fill=gray!30, rotate around={26.56:(1.5,0.75)}] (1.2,0.95) rectangle (1.8,1.75);
+\draw[->, thick, magenta, line width=1.5pt] (1.5,1.35) -- (2.3, 1.75);
+
+\begin{scope}[shift={(5,0)}]
+\draw[thick, fill=brown!50] (5,0) rectangle (6,1.5);
+\draw[thick] (0,0) -- (5,0) node[midway, below] {Rampa Larga};
+\draw[thick] (0,0) -- (5,1.5);
+\draw[thick, fill=gray!30, rotate around={16.7:(2.5,0.75)}] (2.2,0.95) rectangle (2.8,1.75);
+\draw[->, thick, magenta, line width=1.5pt] (2.5,1.35) -- (3.3, 1.59);
+\end{scope}
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{El Trabajo y la Energía Potencial Gravitacional}
+En la Física Conceptual propuesta por Paul G. Hewitt, el trabajo realizado para elevar un objeto contra la fuerza de gravedad se manifiesta físicamente como un almacenamiento de energía. Esta energía adquirida en virtud de la posición del objeto se denomina energía potencial gravitacional ($E_p$). El teorema fundamental nos indica que el trabajo neto realizado en contra de la gravedad es estrictamente igual al cambio en esta energía potencial. 
+Matemáticamente, la energía potencial gravitacional se define como el producto del peso del objeto ($mg$) por la altura vertical alcanzada ($h$):
+$$E_p = mgh$$
+
+\subsubsection*{Independencia de la Trayectoria}
+La fuerza de gravedad es catalogada como una fuerza conservativa en la mecánica clásica. Una propiedad intrínseca de las fuerzas conservativas es que el trabajo realizado contra ellas es completamente independiente de la trayectoria tomada; depende única y exclusivamente de la diferencia de altura entre el punto de inicio y el punto final. 
+En el problema planteado, el refrigerador comienza en el suelo ($h_i = 0$) y termina en la plataforma de la camioneta ($h_f = h$). Ya sea que el hombre lo levante verticalmente con sus brazos, use la rampa corta, o camine por una rampa de cientos de metros, el cambio vertical neto de la masa siempre será exactamente el mismo ($h$).
+
+\subsubsection*{Análisis del Escenario}
+Al aplicar la ecuación del trabajo contra la gravedad ($W = mgh$), podemos observar que ninguna de las variables del lado derecho de la ecuación contempla la distancia inclinada de la rampa ($d$). La masa del refrigerador ($m$), la constante de gravedad ($g$) y la altura de la camioneta ($h$) son valores fijos y constantes en ambos escenarios (rampa corta y rampa larga). Al multiplicar constantes, el producto resultante será invariable.
+
+\subsubsection*{Conclusión}
+El razonamiento del hombre no es válido. El trabajo neto requerido para subir el refrigerador es exactamente el mismo sin importar la longitud de la rampa elegida. Esto se debe a que el trabajo contra la gravedad depende exclusivamente del cambio de altura vertical y del peso del objeto, factores que no se alteran al cambiar la inclinación del camino.
+
+\newpage
+\subsection*{Enunciado}
+Un hombre quiere cargar un refrigerador en una camioneta como en la figura. Él afirma que, si utiliza una rampa más larga, el trabajo total requerido para subir el equipo será menor. 
+
+2. Explica por qué, aunque el trabajo sea el mismo, es preferible usar la rampa larga en términos de la fuerza de entrada necesaria.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+\draw[thick, fill=brown!50] (3,0) rectangle (4,1.5);
+\draw[thick] (0,0) -- (3,0) node[midway, below] {Rampa Corta};
+\draw[thick] (0,0) -- (3,1.5);
+\draw[thick, fill=gray!30, rotate around={26.56:(1.5,0.75)}] (1.2,0.95) rectangle (1.8,1.75);
+\draw[->, thick, magenta, line width=1.5pt] (1.5,1.35) -- (2.3, 1.75);
+
+\begin{scope}[shift={(5,0)}]
+\draw[thick, fill=brown!50] (5,0) rectangle (6,1.5);
+\draw[thick] (0,0) -- (5,0) node[midway, below] {Rampa Larga};
+\draw[thick] (0,0) -- (5,1.5);
+\draw[thick, fill=gray!30, rotate around={16.7:(2.5,0.75)}] (2.2,0.95) rectangle (2.8,1.75);
+\draw[->, thick, magenta, line width=1.5pt] (2.5,1.35) -- (3.3, 1.59);
+\end{scope}
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{La Rampa como Máquina Simple}
+En la física conceptual, un plano inclinado (una rampa) es una máquina simple. El propósito fundamental de cualquier máquina no es disminuir o multiplicar el trabajo total a realizar (lo cual violaría la conservación de la energía), sino multiplicar o redireccionar las fuerzas. El principio de funcionamiento de estas máquinas dicta que el trabajo de entrada que la persona suministra debe ser igual al trabajo de salida útil (asumiendo que se minimiza la fricción):
+$$W_{\text{entrada}} = W_{\text{salida}}$$
+
+\subsubsection*{La Compensación entre Fuerza y Distancia}
+Sabiendo por el inciso anterior que el trabajo total necesario para elevar el refrigerador ($W$) es una cantidad fija, y recordando la definición de trabajo como el producto de la fuerza aplicada por la distancia recorrida ($W = F \cdot d$), establecemos una relación de conservación. 
+Para mantener la constante $W$ inalterada, la fuerza de empuje del hombre ($F$) y la distancia recorrida sobre la rampa ($d$) deben ser inversamente proporcionales:
+$$F = \frac{W}{d}$$
+Esta ecuación nos revela el "truco" de las máquinas simples: si aumentamos deliberadamente la distancia sobre la cual aplicamos nuestro esfuerzo, la física nos premia reduciendo drásticamente la fuerza muscular intensa que debemos ejercer en cada instante.
+
+\subsubsection*{Ventaja Mecánica de la Rampa Larga}
+Al seleccionar la rampa larga, el hombre se compromete a caminar una distancia mucho mayor ($d$ aumenta considerablemente). Al estar $d$ en el denominador de nuestra ecuación, el resultado del cociente se vuelve más pequeño. Por lo tanto, la componente de la gravedad que el hombre debe vencer se reduce, haciendo que el acto de empujar el refrigerador requiera una fuerza menor, más dócil y manejable para el cuerpo humano, aunque la acción tome más tiempo o pasos en completarse.
+
+\subsubsection*{Modelado de la Relación Inversamente Proporcional}
+Para que el estudiante pueda asimilar visualmente cómo se comporta esta compensación matemática, el siguiente código en Python modela la fuerza requerida en función de la longitud de la rampa para lograr un trabajo constante hipotético de 1000 Joules.
+
+\begin{lstlisting}[language=Python]
+import numpy as np
+import matplotlib.pyplot as plt
+
+trabajo_constante = 1000
+longitud_rampa = np.linspace(2, 10, 100)
+fuerza_requerida = trabajo_constante / longitud_rampa
+
+plt.figure(figsize=(8, 5))
+plt.plot(longitud_rampa, fuerza_requerida, color='darkorange', linewidth=2.5, label='Fuerza F = W / d')
+
+plt.scatter([3], [trabajo_constante/3], color='red', s=80, zorder=5)
+plt.annotate('Rampa Corta\n(Menor distancia, Mayor Fuerza)', xy=(3, trabajo_constante/3), xytext=(4, 300), 
+             arrowprops=dict(facecolor='black', arrowstyle='->'), fontsize=10)
+
+plt.scatter([8], [trabajo_constante/8], color='green', s=80, zorder=5)
+plt.annotate('Rampa Larga\n(Mayor distancia, Menor Fuerza)', xy=(8, trabajo_constante/8), xytext=(5, 50), 
+             arrowprops=dict(facecolor='black', arrowstyle='->'), fontsize=10)
+
+plt.title('Compensacion Fuerza-Distancia para un Trabajo Constante', fontsize=14)
+plt.xlabel('Longitud de la Rampa (metros)', fontsize=12)
+plt.ylabel('Fuerza de Empuje Requerida (Newtons)', fontsize=12)
+plt.grid(True, linestyle=':', alpha=0.7)
+plt.legend()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+Aunque el trabajo mecánico total sea el mismo, es preferible utilizar la rampa larga porque permite realizar la tarea ejerciendo una fuerza muscular mucho menor. Esto se debe al principio de conservación de la energía y las máquinas simples: al aumentar la distancia sobre la cual se aplica el esfuerzo, la intensidad de la fuerza requerida se reduce proporcionalmente, logrando la ventaja mecánica necesaria para levantar objetos pesados.
+
+\newpage
+
+\subsection*{Enunciado}
+¿Por qué la fuerza de gravedad funciona sobre un automóvil que rueda por una colina mas no funciona cuando rueda a lo largo de una parte a nivel del camino?
+
+a) Porque la magnitud de la fuerza de gravedad disminuye significativamente cuando el automóvil se encuentra en una superficie horizontal hasta volverse despreciable.
+
+b) Porque el trabajo depende del producto escalar entre la fuerza y el desplazamiento; en un camino nivelado, la fuerza de gravedad es perpendicular al movimiento.
+
+c) Porque en una superficie nivelada, la fuerza normal es igual y opuesta a la gravedad, lo que causa que la fuerza de gravedad deje de existir físicamente.
+d) Porque la gravedad solo puede realizar trabajo sobre objetos que se encuentran en caída libre vertical, no en desplazamientos horizontales o inclinados.
+e) Porque el trabajo solo se define cuando hay un cambio en la energía potencial, y en un camino nivelado el automóvil se mueve demasiado rápido para que la gravedad actúe.
+
+\subsection*{Solución}
+
+\subsubsection*{Interpretación de la Terminología}
+Para abordar esta pregunta desde la óptica de la Física Conceptual de Hewitt, es fundamental realizar una aclaración terminológica. En muchos textos traducidos del inglés, la palabra "funciona" se utiliza como una traducción directa de "does work". Por lo tanto, la pregunta indaga estrictamente por qué la gravedad "realiza trabajo mecánico" en una colina, pero no lo hace en un camino plano.
+
+\subsubsection*{El Requisito Direccional del Trabajo}
+Como se ha establecido en los principios de la mecánica, no basta con la simple coexistencia de una fuerza aplicada y un desplazamiento para que exista trabajo físico. Es un imperativo matemático y geométrico que la fuerza posea al menos una componente vectorial que apunte en la misma dirección (o en la dirección exactamente opuesta) del movimiento. La ecuación que gobierna esta regla es el producto escalar: $W = F d \cos(\theta)$, donde $\theta$ es el ángulo entre el vector de la fuerza y el vector del desplazamiento.
+
+\subsubsection*{Análisis del Camino Nivelado (Ortogonalidad)}
+Cuando el automóvil rueda por una parte a nivel del camino, su vector de desplazamiento es puramente horizontal. Simultáneamente, la fuerza de gravedad es un vector que apunta inquebrantablemente en dirección vertical hacia el centro de la Tierra. 
+La intersección de una línea horizontal y una línea vertical forma un ángulo perfecto de 90 grados. Al introducir este valor en nuestra ecuación trigonométrica ($\cos(90^\circ) = 0$), el producto completo se anula. En un plano nivelado, la gravedad es geométricamente "ciega" al movimiento horizontal; al ser perpendicular, no puede sumar ni restar energía cinética al vehículo a lo largo de ese eje.
+
+\subsubsection*{Análisis de la Colina (Proyección Efectiva)}
+El panorama cambia drásticamente cuando el automóvil entra a una colina. La superficie inclinada obliga al vector de desplazamiento a adquirir una componente vertical (hacia arriba o hacia abajo). Ahora, el ángulo entre el movimiento del auto y la fuerza vertical de la gravedad ya no es de 90 grados. 
+Si el auto baja, el ángulo es agudo, el coseno es positivo y la gravedad realiza trabajo positivo (acelera el auto). Si el auto sube, el ángulo es obtuso, el coseno es negativo y la gravedad realiza trabajo negativo (frena el auto).
+
+\subsubsection*{Visualización de la Dependencia Angular}
+Para comprender cómo la inclinación del camino "activa" la capacidad de la gravedad para realizar trabajo, el siguiente código en Python modela la proporción del trabajo gravitacional en función del ángulo de inclinación de la colina.
+
+\begin{lstlisting}[language=Python]
+import numpy as np
+import matplotlib.pyplot as plt
+
+angulo_inclinacion = np.linspace(0, 90, 100)
+factor_trabajo = np.sin(np.radians(angulo_inclinacion))
+
+plt.figure(figsize=(8, 5))
+plt.plot(angulo_inclinacion, factor_trabajo, color='purple', linewidth=2.5, label='Componente Efectiva de Gravedad')
+
+plt.scatter([0], [0], color='blue', s=80, zorder=5)
+plt.annotate('Camino Nivelado\n(Trabajo Nulo, Angulo = 0)', xy=(0, 0), xytext=(10, 0.15),
+             arrowprops=dict(facecolor='black', arrowstyle='->'), fontsize=10)
+
+plt.scatter([30], [0.5], color='green', s=80, zorder=5)
+plt.annotate('Colina Inclinada\n(La gravedad realiza trabajo)', xy=(30, 0.5), xytext=(40, 0.4),
+             arrowprops=dict(facecolor='black', arrowstyle='->'), fontsize=10)
+
+plt.title('Trabajo de la Gravedad vs. Inclinacion del Camino', fontsize=14)
+plt.xlabel('Angulo de inclinacion de la colina (grados)', fontsize=12)
+plt.ylabel('Proporcion de Trabajo Gravitacional Máximo', fontsize=12)
+plt.grid(True, linestyle=':', alpha=0.7)
+plt.legend()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+La opción correcta es la b. La gravedad realiza trabajo en la colina porque existe una componente del movimiento alineada con ella, mientras que no realiza trabajo en el camino nivelado porque el desplazamiento horizontal es perpendicular a la fuerza de gravedad vertical, haciendo que el producto escalar sea cero.
+
+\newpage
+
+\subsection*{Enunciado}
+A continuación, se muestran la masa y la rapidez de los tres vehículos, A, B y C. Clasifícalos de mayor a menor según su energía cinética:
+
+\begin{center}
+\shorthandoff{>}
+\begin{tikzpicture}[scale=0.9, transform shape]
+\draw[thick, fill=red!20] (0, 0) rectangle (2, 1);
+\node[font=\bfseries] at (1, 0.5) {Auto A};
+\node[below] at (1, 0) {$800\text{ kg}$};
+\draw[->, thick, >=stealth] (0.5, 1.3) -- (1.5, 1.3) node[midway, above] {$1.0\text{ m/s}$};
+
+\begin{scope}[shift={(3.5, 0)}]
+\draw[thick, fill=orange!20] (0, 0) rectangle (2.5, 1.2);
+\node[font=\bfseries] at (1.25, 0.6) {Camioneta B};
+\node[below] at (1.25, 0) {$1000\text{ kg}$};
+\draw[->, thick, >=stealth] (0.5, 1.5) -- (2.0, 1.5) node[midway, above] {$2.0\text{ m/s}$};
+\end{scope}
+
+\begin{scope}[shift={(8, 0.5)}]
+\draw[thick, fill=green!20] (0, 0) circle (0.6);
+\node[font=\bfseries] at (0, 0) {Bici C};
+\node[below] at (0, -0.6) {$90\text{ kg}$};
+\draw[->, thick, >=stealth] (-0.5, 0.9) -- (0.5, 0.9) node[midway, above] {$8.0\text{ m/s}$};
+\end{scope}
+\end{tikzpicture}
+\end{center}
+
+a) A > B > C\\
+b) B > C > A\\
+c) C > B > A\\
+d) B > A > C
+
+\subsection*{Solución}
+
+\subsubsection*{Dependencia Cuadrática de la Energía Cinética}
+Para clasificar correctamente los vehículos, debemos basarnos en la definición de la energía cinética ($E_k$), que es la energía asociada al movimiento de un cuerpo. Según la física conceptual, esta energía depende tanto de la masa ($m$) del objeto como del cuadrado de su rapidez ($v$). La ecuación fundamental es:
+$$E_k = \frac{1}{2} m v^2$$
+Es fundamental notar pedagógicamente que la rapidez está elevada al cuadrado. Esto significa que un incremento en la rapidez tiene un impacto exponencialmente mayor en la energía total que un incremento proporcional en la masa. 
+
+\subsubsection*{Cálculo Individual por Vehículo}
+Procedemos a evaluar la ecuación para cada uno de los sistemas físicos presentados en el problema:
+
+Para el Vehículo A (Auto):
+$$E_A = \frac{1}{2} (800\text{ kg}) (1.0\text{ m/s})^2$$
+$$E_A = 400 \cdot 1 = 400\text{ J}$$
+
+Para el Vehículo B (Camioneta):
+$$E_B = \frac{1}{2} (1000\text{ kg}) (2.0\text{ m/s})^2$$
+$$E_B = 500 \cdot 4 = 2000\text{ J}$$
+Cabe recalcar que el cálculo riguroso arroja $2000\text{ J}$, corrigiendo así el error tipográfico común de "$200\text{ J}$" que suele aparecer en algunas ediciones impresas de este ejercicio.
+
+Para el Vehículo C (Ciclista):
+$$E_C = \frac{1}{2} (90\text{ kg}) (8.0\text{ m/s})^2$$
+$$E_C = 45 \cdot 64 = 2880\text{ J}$$
+
+\subsubsection*{Análisis de Resultados y Clasificación}
+Al comparar los resultados matemáticos obtenidos ($400\text{ J}$, $2000\text{ J}$ y $2880\text{ J}$), procedemos a ordenarlos de mayor a menor:
+$$2880\text{ J} > 2000\text{ J} > 400\text{ J}$$
+Lo cual corresponde a la relación de los vehículos:
+$$C > B > A$$
+Este resultado es un excelente ejemplo contra-intuitivo para el estudiante: a pesar de que el ciclista (Vehículo C) tiene una masa casi diez veces menor que el auto y la camioneta, posee la mayor energía cinética de todos. La alta rapidez de $8.0\text{ m/s}$, al ser elevada al cuadrado en la fórmula, domina abrumadoramente el resultado final.
+
+\subsubsection*{Modelado Computacional de la Paradoja Masa-Rapidez}
+Para visualizar cómo la rapidez compensa y supera a la masa en la generación de energía cinética, el siguiente código en Python genera un diagrama de barras comparativo.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+vehiculos = ['Auto A\n(800 kg, 1 m/s)', 'Camioneta B\n(1000 kg, 2 m/s)', 'Bicicleta C\n(90 kg, 8 m/s)']
+energia = [400, 2000, 2880]
+colores = ['salmon', 'orange', 'mediumseagreen']
+
+plt.figure(figsize=(8, 5))
+barras = plt.bar(vehiculos, energia, color=colores, edgecolor='black', width=0.6)
+
+plt.title('Comparacion de Energia Cinetica', fontsize=14)
+plt.ylabel('Energia Cinetica (Joules)', fontsize=12)
+plt.ylim(0, 3500)
+
+for barra in barras:
+    altura = barra.get_height()
+    plt.text(barra.get_x() + barra.get_width()/2.0, altura + 50,
+             f'{int(altura)} J', ha='center', va='bottom',
+             fontsize=12, fontweight='bold')
+
+plt.grid(axis='y', linestyle='--', alpha=0.7)
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+Al ordenar las energías calculadas de mayor a menor, la secuencia correcta es C > B > A. Por lo tanto, la opción correcta es la c.
+
+\newpage
+
+\subsection*{Enunciado}
+Empujas una caja horizontalmente con una fuerza de 100 N a lo largo de 10 m. Si la fuerza de fricción entre la caja y el suelo es de 70 N constantes, ¿cuánto trabajo realizas tú?
+
+\subsection*{Solución}
+\subsubsection*{Análisis Teórico}
+De acuerdo con los principios expuestos en la Física Conceptual, el trabajo mecánico se define como el producto de la fuerza ejercida sobre un objeto y la distancia paralela sobre la cual actúa dicha fuerza. Cuando la fuerza y el desplazamiento apuntan en la misma dirección, el trabajo es positivo, indicando una transferencia de energía hacia el sistema. En este escenario, tanto tu fuerza de empuje como el movimiento de la caja comparten la misma dirección horizontal.
+
+Para ilustrar las fuerzas que interactúan sobre la caja, el siguiente script en Python genera un Diagrama de Cuerpo Libre utilizando la librería Matplotlib. Esta representación gráfica es fundamental para entender la direccionalidad de los vectores antes del cálculo matemático.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(6, 4))
+ax.plot(0, 0, 'ks', markersize=50, color='magenta')
+
+ax.annotate('Fuerza de Empuje (100 N)', xy=(0, 0.1), xytext=(0.5, 0.1),
+            arrowprops=dict(facecolor='magenta', shrink=0.05),
+            fontsize=10, ha='left')
+
+ax.annotate('Fuerza de Friccion (70 N)', xy=(0, -0.1), xytext=(-0.5, -0.1),
+            arrowprops=dict(facecolor='cyan', shrink=0.05),
+            fontsize=10, ha='right')
+
+ax.set_xlim(-1, 1)
+ax.set_ylim(-0.5, 0.5)
+ax.axis('off')
+plt.title('Diagrama de Fuerzas Horizontales')
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Cálculos Matemáticos}
+La ecuación fundamental para el trabajo lineal es:
+$$W=F\cdot d$$
+Donde $F$ es la magnitud de la fuerza aplicada por ti y $d$ es la distancia recorrida. Reemplazando los datos del problema:
+$$W_{aplicada}=(100)(10)$$
+$$W_{aplicada}=1000\text{ J}$$
+
+\subsubsection*{Conclusión}
+El trabajo que realizas tú al empujar la caja es de 1000 J.
+
+
+\subsection*{Enunciado}
+Empujas una caja horizontalmente con una fuerza de 100 N a lo largo de 10 m. Si la fuerza de fricción entre la caja y el suelo es de 70 N constantes, ¿cuánto trabajo realiza la fricción?
+
+\subsection*{Solución}
+\subsubsection*{Análisis Teórico}
+La fuerza de fricción es una fuerza de resistencia que invariablemente se opone al movimiento relativo entre dos superficies en contacto. Dado que el vector de la fuerza de fricción apunta en sentido estrictamente contrario al vector del desplazamiento, el ángulo entre ellos es de 180 grados. Conceptualmente, esto implica que la fricción realiza un trabajo negativo, el cual se encarga de extraer energía del sistema, transformándola típicamente en calor.
+
+\subsubsection*{Cálculos Matemáticos}
+Empleamos la fórmula de trabajo, incorporando el signo negativo que dicta el sentido opuesto de la fuerza de fricción respecto al desplazamiento:
+$$W_{fr}=F_{fr}\cdot d$$
+$$W_{fr}=(-70)(10)$$
+$$W_{fr}=-700\text{ J}$$
+
+\subsubsection*{Conclusión}
+El trabajo que realiza la fuerza de fricción es de -700 J.
+
+
+\subsection*{Enunciado}
+Empujas una caja horizontalmente con una fuerza de 100 N a lo largo de 10 m. Si la fuerza de fricción entre la caja y el suelo es de 70 N constantes, ¿cuánta energía cinética gana la caja?
+
+\subsection*{Solución}
+\subsubsection*{Análisis Teórico}
+La resolución de esta interrogante se fundamenta en el teorema del trabajo y la energía. Este principio físico establece que el trabajo neto realizado sobre un cuerpo es directamente equivalente a su cambio en la energía cinética. El trabajo neto se obtiene mediante la suma algebraica de los trabajos individuales efectuados por todas las fuerzas actuantes a lo largo de la trayectoria. Al balancear la energía ingresada al sistema mediante el empuje y la energía disipada por la fricción, obtenemos la cantidad real de energía que se traduce en movimiento.
+
+\subsubsection*{Cálculos Matemáticos}
+Primero establecemos la suma del trabajo neto:
+$$W_{neto}=W_{aplicada}+W_{fr}$$
+Sustituyendo los valores previamente encontrados:
+$$W_{neto}=1000-700$$
+$$W_{neto}=300\text{ J}$$
+Sabiendo que el cambio en la energía cinética $\Delta E_c$ es igual al trabajo neto calculado:
+$$\Delta E_c=300\text{ J}$$
+
+\subsubsection*{Conclusión}
+La caja gana 300 J de energía cinética.
+
+\newpage
+\subsection*{Enunciado}
+Al elevar un piano de 5000 N con un sistema de poleas ideal, los trabajadores observan que, por cada 2 m de soga jalados hacia abajo, el piano se eleva 0.2 m. Si el sistema transmite todo el trabajo sin pérdidas, ¿cuánta fuerza se aplicó a la soga para levantar el piano?
+
+\subsection*{Solución}
+\subsubsection*{Análisis Teórico}
+En el estudio de las máquinas simples, como un sistema de poleas, la Física Conceptual nos enseña que estas herramientas no pueden crear energía; su función principal es multiplicar la fuerza o cambiar su dirección. De acuerdo con el principio de conservación de la energía, si consideramos un sistema ideal libre de fricción, el trabajo que se introduce al sistema (trabajo de entrada) debe ser exactamente igual al trabajo que el sistema realiza sobre la carga (trabajo de salida). 
+
+El trabajo de salida es el necesario para vencer el peso del piano a lo largo de la distancia vertical requerida. Por otro lado, el trabajo de entrada es el que realizan los trabajadores al jalar la soga. Al jalar una gran cantidad de soga, los trabajadores compensan aplicando una fuerza considerablemente menor al peso del piano.
+
+\subsubsection*{Cálculos Matemáticos}
+Primero determinamos el trabajo de salida, que es el trabajo útil para levantar el peso del piano:
+$$W_{salida}=Peso\cdot altura$$
+$$W_{salida}=(5000)(0.2)$$
+$$W_{salida}=1000\text{ J}$$
+
+Ahora planteamos la ecuación para el trabajo de entrada, dejando la fuerza aplicada $F$ como nuestra incógnita:
+$$W_{entrada}=F\cdot distancia$$
+$$W_{entrada}=F(2)$$
+
+Aplicando el principio de conservación de la energía para un sistema sin pérdidas:
+$$W_{entrada}=W_{salida}$$
+$$F(2)=1000$$
+$$F=\frac{1000}{2}$$
+$$F=500\text{ N}$$
+
+\subsubsection*{Conclusión}
+La fuerza que se aplicó a la soga para levantar el piano fue de 500 N.
+
+
+\subsection*{Enunciado}
+Al elevar un piano de 5000 N con un sistema de poleas ideal, los trabajadores observan que, por cada 2 m de soga jalados hacia abajo, el piano se eleva 0.2 m. En lugar de aplicar la fuerza teórica calculada para un equilibrio perfecto, los trabajadores aplican una fuerza constante de 550 N a lo largo de los 2 m de soga. ¿Cuál será la energía cinética del piano cuando haya subido los 0.2 m? (Suponga que el piano parte del reposo).
+
+\subsection*{Solución}
+\subsubsection*{Análisis Teórico}
+Cuando la fuerza aplicada supera la fuerza estrictamente necesaria para equilibrar el peso, el sistema experimenta un trabajo neto mayor a cero. Según el teorema del trabajo y la energía, el trabajo neto realizado sobre un objeto es igual a su cambio en la energía cinética. 
+
+En este escenario, actúan dos trabajos principales sobre el piano: el trabajo positivo introducido por el esfuerzo de los trabajadores y el trabajo negativo realizado por la fuerza de gravedad (el peso del piano), ya que esta última se opone al movimiento ascendente. La diferencia entre esta energía de entrada y la energía consumida en elevar la masa se manifiesta como un "excedente" energético. Este excedente no desaparece, sino que se transforma íntegramente en energía de movimiento, es decir, energía cinética.
+
+Para ilustrar este balance energético de manera pedagógica, el siguiente script de Python genera un gráfico de barras que compara los trabajos involucrados y el trabajo neto resultante.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+categorias = ['Trabajo Trabajadores', 'Trabajo Gravedad', 'Trabajo Neto (Energia Cinetica)']
+valores = [1100, -1000, 100]
+colores = ['green', 'red', 'blue']
+
+fig, ax = plt.subplots(figsize=(8, 5))
+ax.bar(categorias, valores, color=colores)
+
+ax.axhline(0, color='black', linewidth=1)
+ax.set_ylabel('Energia (Joules)')
+ax.set_title('Teorema del Trabajo y la Energia: Balance del Piano')
+
+for i, v in enumerate(valores):
+    ax.text(i, v + (50 if v > 0 else -100), str(v) + ' J', ha='center', fontweight='bold')
+
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Cálculos Matemáticos}
+Calculamos el trabajo de entrada real realizado por los trabajadores:
+$$W_{entrada}=(550)(2)$$
+$$W_{entrada}=1100\text{ J}$$
+
+Calculamos el trabajo realizado por el peso del piano. Es negativo porque la gravedad actúa hacia abajo mientras el piano se mueve hacia arriba:
+$$W_{peso}=(-5000)(0.2)$$
+$$W_{peso}=-1000\text{ J}$$
+
+Determinamos el trabajo neto sumando ambas contribuciones:
+$$W_{neto}=W_{entrada}+W_{peso}$$
+$$W_{neto}=1100-1000$$
+$$W_{neto}=100\text{ J}$$
+
+Aplicando el teorema del trabajo y la energía, sabemos que el trabajo neto es igual al cambio de la energía cinética $\Delta E_c$. Como el piano parte del reposo, su energía cinética inicial es cero, por lo tanto:
+$$W_{neto}=\Delta E_c$$
+$$\Delta E_c=E_{c\_final}-E_{c\_inicial}$$
+$$100=E_{c\_final}-0$$
+$$E_{c\_final}=100\text{ J}$$
+
+\subsubsection*{Conclusión}
+La energía cinética del piano al haber subido los 0.2 m será de 100 J.
+
+\end{document}

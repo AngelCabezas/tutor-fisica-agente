@@ -1,0 +1,607 @@
+\documentclass[12pt, a4paper]{article}
+
+% --- PAQUETES ---
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{geometry}
+\usepackage[most]{tcolorbox}
+\usepackage{siunitx}
+\usepackage{enumitem}
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usepackage{listings} 
+\usepackage{xcolor}
+
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta, calc, babel}
+\geometry{a4paper, margin=1in}
+
+ % --- CONFIGURACIÓN DE LISTINGS (PYTHON) ---
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstset{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2,
+    language=Python
+}
+
+\title{Ejercicio: Impulso y Cantidad de Movimiento}
+\author{Dataset Entrenamiento LLM}
+\date{\today}
+
+\begin{document}
+
+\newpage
+
+\maketitle
+
+% --- ENUNCIADO (USER) ---
+\subsection*{Enunciado}
+Una partícula, de $2 \, \si{kg}$, es impulsada por una fuerza neta $F_x$, que varía con el tiempo como se indica en la figura. A $t = 0$ su velocidad $\vec{v}_x$ es de $10 \hat{i} \, \si{m/s}$. Determine su velocidad a $t = 5 \, \si{s}$. Utilice la ecuación impulso-cantidad de movimiento lineal.
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    % Ejes
+    \draw[->] (0,0) -- (6,0) node[right] {$t(s)$};
+    \draw[->] (0,0) -- (0,4) node[above] {$F_x(N)$};
+    
+    % Gráfica (Triángulo)
+    % Usamos coordenadas visuales: (5, 3) representa (5s, 100N) para que no quede muy alto
+    \draw[thick] (0,0) -- (5,3);
+    \draw[thick] (5,0) -- (5,3); % Línea vertical de cierre del intervalo
+    
+    % Líneas guía
+    \draw[dashed] (0,3) node[left] {$100$} -- (5,3);
+    \node at (5,0) [below] {$5$};
+    \node at (0,0) [below left] {$0$};
+    
+\end{tikzpicture}
+\end{center}
+
+% --- SOLUCIÓN (ASSISTANT) ---
+\subsection*{Solución}
+
+\subsubsection*{1. Concepto Físico}
+El Teorema del Impulso y la Cantidad de Movimiento establece que el impulso ($\vec{J}$) aplicado a un objeto es igual al cambio en su cantidad de movimiento lineal ($\Delta \vec{p}$).
+$$ \vec{J} = \Delta \vec{p} = m(\vec{v}_f - \vec{v}_0) $$
+
+Cuando tenemos una gráfica de Fuerza vs. Tiempo, el impulso se calcula como el \textbf{área bajo la curva} en el intervalo de tiempo dado.
+
+\subsubsection*{2. Visualización y Cálculo del Área (Python)}
+A continuación, visualizamos el área que representa el impulso.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def resolver_impulso():
+    # Configuración del gráfico
+    fig, ax = plt.subplots(figsize=(8, 5))
+    
+    # Datos
+    t = [0, 5]
+    F = [0, 100] # La fuerza va de 0 a 100 N linealmente
+    
+    # Graficar la línea de fuerza
+    ax.plot(t, F, label='Fuerza $F_x$', color='blue', linewidth=2)
+    
+    # Sombrear el área bajo la curva (Impulso)
+    ax.fill_between(t, F, color='skyblue', alpha=0.4, label='Impulso (Área)')
+    
+    # Etiquetas y límites
+    ax.set_title("Gráfica Fuerza vs. Tiempo")
+    ax.set_xlabel("Tiempo $t$ (s)")
+    ax.set_ylabel("Fuerza $F_x$ (N)")
+    ax.set_xlim(0, 6)
+    ax.set_ylim(0, 120)
+    
+    # Anotaciones
+    ax.text(3, 30, r'Área = $\frac{b \cdot h}{2}$', fontsize=12, ha='center')
+    ax.legend()
+    ax.grid(True, linestyle='--', alpha=0.7)
+    
+    plt.show()
+
+resolver_impulso()
+\end{lstlisting}
+
+\subsubsection*{3. Cálculo Matemático}
+
+\textbf{Paso 1: Calcular el Impulso ($J_x$)} \\
+El área bajo la gráfica es un triángulo rectángulo con base $b = 5 \, \si{s}$ y altura $h = 100 \, \si{N}$.
+$$ J_x = \text{Área} = \frac{b \cdot h}{2} $$
+$$ J_x = \frac{(5)(100)}{2} = 250 \, \si{N \cdot s} $$
+
+\textbf{Paso 2: Relacionar con la Cantidad de Movimiento} \\
+Sabemos que $J_x = \Delta p_x = m (v_{xf} - v_{xo})$.
+Datos proporcionados:
+\begin{itemize}
+    \item Masa $m = 2 \, \si{kg}$
+    \item Velocidad inicial $v_{xo} = 10 \, \si{m/s}$
+\end{itemize}
+
+Sustituimos en la ecuación:
+$$ 250 = 2 (v_{xf} - 10) $$
+
+\textbf{Paso 3: Despejar la velocidad final ($v_{xf}$)} \\
+Dividimos para la masa:
+$$ \frac{250}{2} = v_{xf} - 10 $$
+$$ 125 = v_{xf} - 10 $$
+$$ v_{xf} = 125 + 10 $$
+$$ v_{xf} = 135 \, \si{m/s} $$
+
+Dado que el movimiento es en el eje $x$, expresamos el resultado en forma vectorial:
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{v} = 135 \, \hat{i} \, \si{m/s}$
+\end{tcolorbox}
+
+% --- ENUNCIADO (USER) ---
+\subsection*{Enunciado}
+Sobre un plano inclinado $30^\circ$, se patea hacia arriba un bloque de $0.5 \, \si{kg}$, el mismo que se detiene luego de recorrer sobre el plano una distancia de $8 \, \si{m}$. El coeficiente de rozamiento es de $0.4$. ¿Cuál es la magnitud de la fuerza media requerida para patear el bloque? Considere que el contacto entre el bloque y el pie duró $0.1 \, \si{s}$. (Use $g=10\,\si{m/s^2}$).
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2, >=Latex]
+    % Triángulo Plano Inclinado
+    \coordinate (O) at (0,0);
+    \coordinate (B) at (6,0);
+    \coordinate (Top) at (6, 3.464); % 6 * tan(30)
+    
+    \draw[thick] (O) -- (B) -- (Top) -- cycle;
+    
+    % Ángulo
+    \draw (1,0) arc (0:30:1);
+    \node at (1.3, 0.3) {$30^\circ$};
+    
+    % Bloque (Rotado 30 grados)
+    \begin{scope}[rotate=30, shift={(2,0)}] % Posicionamos sobre la hipotenusa
+        \draw[thick, fill=blue!10] (0,0) rectangle (1, 0.6);
+        \coordinate (Center) at (0.5, 0.3);
+        
+        % Ejes coordenados locales
+        \draw[->, dashed] (-1, 0.3) -- (3, 0.3) node[right] {$x$};
+        \draw[->, dashed] (0.5, -1) -- (0.5, 2) node[above] {$y$};
+        
+        % Vectores de fuerza referenciales
+        \draw[->, thick, blue] (Center) -- (0.5, 1.5) node[right] {$N$};
+        \draw[->, thick, red] (Center) -- (-0.5, 0.3) node[above] {$f_r$};
+        
+        % Peso (Debe apuntar verticalmente hacia abajo en coordenadas globales)
+        % En local, el peso rota -30 grados respecto a la vertical local (-y)
+        % Como estamos dentro del scope rotado, dibujamos hacia abajo relativo al papel rotando -30
+    \end{scope}
+    
+    % Peso Global
+    % Calculamos la posición del centro del bloque en coordenadas globales para dibujar W hacia abajo
+    \path (O) -- (Top) coordinate[pos=0.3] (SlopePos); 
+    % Ajuste manual aproximado para el centro visual
+    \draw[->, thick, black] (2.1, 1.5) -- (2.1, 0.5) node[right] {$P \approx 5\,\si{N}$};
+    
+    % Cota de distancia
+    \draw[|<->|, rotate=30, shift={(0, -0.5)}] (2,0) -- (5,0) node[midway, below] {$d = 8\,\si{m}$};
+
+\end{tikzpicture}
+\end{center}
+
+% --- SOLUCIÓN (ASSISTANT) ---
+\subsection*{Solución}
+
+\subsubsection*{1. Descomposición de Fuerzas}
+Primero calculamos el peso del bloque ($W = mg$) y sus componentes en los ejes inclinado ($x$) y perpendicular ($y$).
+$$ W = m g = (0.5)(10) = 5 \, \si{N} $$
+
+\begin{itemize}
+    \item Componente en Y (perpendicular al plano):
+    $$ P_y = W \cos(30^\circ) = 5(0.866) = 4.33 \, \si{N} $$
+    \item Componente en X (paralela al plano, hacia abajo):
+    $$ P_x = W \sin(30^\circ) = 5(0.5) = 2.5 \, \si{N} $$
+\end{itemize}
+
+\subsubsection*{2. Diagrama de Cuerpo Libre (Python)}
+Visualizamos las fuerzas que actúan sobre el bloque mientras desliza hacia arriba.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def dcl_plano_inclinado():
+    fig, ax = plt.subplots(figsize=(6, 6))
+    
+    # Configuración de ejes rotados visualmente para Físicos
+    ax.set_xlim(-2, 2)
+    ax.set_ylim(-2, 2)
+    ax.axis('off')
+    ax.set_title("DCL (Ejes rotados)")
+    
+    # Bloque
+    rect = plt.Rectangle((-0.5, -0.5), 1, 1, angle=0, color='white', ec='black', lw=2)
+    ax.add_patch(rect)
+    ax.text(0, 0, 'm', ha='center', va='center', fontsize=12)
+    
+    # Vectores
+    # Normal (Eje +y)
+    ax.arrow(0, 0.5, 0, 1, head_width=0.1, fc='blue', ec='blue')
+    ax.text(0.1, 1.6, '$N$', color='blue')
+    
+    # Peso en Y (Eje -y)
+    ax.arrow(0, -0.5, 0, -1, head_width=0.1, fc='green', ec='green')
+    ax.text(0.1, -1.6, '$P_y$', color='green')
+    
+    # Peso en X (Eje -x, se opone a subida)
+    ax.arrow(-0.5, 0, -0.8, 0, head_width=0.1, fc='green', ec='green')
+    ax.text(-1.4, 0.1, '$P_x$', color='green')
+    
+    # Fricción (Eje -x, se opone al movimiento de subida)
+    ax.arrow(-0.5, -0.2, -1.2, 0, head_width=0.1, fc='red', ec='red')
+    ax.text(-1.8, -0.4, '$f_r$', color='red')
+    
+    # Velocidad (Eje +x)
+    ax.arrow(0.6, 0, 0.5, 0, head_width=0.05, color='gray', linestyle='--')
+    ax.text(1.2, 0, '$v$ (sube)', color='gray')
+
+    plt.show()
+
+dcl_plano_inclinado()
+\end{lstlisting}
+
+\subsubsection*{3. Cálculo de la Aceleración}
+\textbf{Eje Y (Equilibrio):}
+$$ \sum F_y = 0 \Rightarrow N - P_y = 0 $$
+$$ N = 4.33 \, \si{N} $$
+
+\textbf{Eje X (Dinámica):}
+El bloque sube, por lo tanto, la fricción ($f_r$) apunta hacia abajo. La componente del peso $P_x$ también apunta hacia abajo. Ambas fuerzas frenan el bloque.
+$$ f_r = \mu N = (0.4)(4.33) = 1.732 \, \si{N} $$
+
+Aplicamos la Segunda Ley de Newton:
+$$ \sum F_x = m a $$
+$$ -f_r - P_x = m a $$
+$$ -1.732 - 2.5 = 0.5 a $$
+$$ -4.232 = 0.5 a $$
+$$ a = \frac{-4.232}{0.5} = -8.464 \, \si{m/s^2} $$
+(El signo negativo indica desaceleración).
+
+\subsubsection*{4. Cinemática: Velocidad de Lanzamiento}
+Necesitamos la velocidad inicial justo después de la patada ($v_A$). Sabemos que en el punto más alto ($B$) la velocidad es cero ($v_B=0$) y la distancia recorrida es $d=8\,\si{m}$.
+$$ v_B^2 = v_A^2 + 2 a d $$
+$$ 0 = v_A^2 + 2(-8.464)(8) $$
+$$ v_A^2 = 135.424 $$
+$$ v_A = \sqrt{135.424} \approx 11.64 \, \si{m/s} $$
+
+\subsubsection*{5. Cálculo de la Fuerza Media (Impulso)}
+Usamos el Teorema del Impulso y la Cantidad de Movimiento para el breve instante de la patada ($\Delta t = 0.1\,\si{s}$).
+Consideramos:
+\begin{itemize}
+    \item Velocidad antes de la patada: $v_{0} = 0$.
+    \item Velocidad después de la patada: $v_f = v_A = 11.64 \, \si{m/s}$.
+\end{itemize}
+
+$$ F_{media} = \frac{\Delta p}{\Delta t} = \frac{m(v_f - v_0)}{\Delta t} $$
+$$ F_{media} = \frac{0.5(11.64 - 0)}{0.1} $$
+$$ F_{media} = \frac{5.82}{0.1} $$
+$$ F_{media} = 58.2 \, \si{N} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $F = 58.2 \, \si{N}$
+\end{tcolorbox}
+
+\newpage
+
+% --- ENUNCIADO (USER) ---
+\subsection*{Enunciado}
+Una persona de $50 \, \si{kg}$ que se encuentra sobre una balsa de $10 \, \si{kg}$ hala mediante una cuerda un bote de $150 \, \si{kg}$ que se encuentra a $10 \, \si{m}$ de distancia. ¿Cuántos metros se han desplazado desde su posición inicial, con respecto a tierra, el hombre y el bote cuando el bote y la balsa se unen? Desprecie la resistencia del aire (y del agua).
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    % Superficie agua
+    \draw[cyan!50, thick] (-1, -0.5) -- (12, -0.5);
+    
+    % --- BALSA Y PERSONA (Izquierda) ---
+    % Balsa
+    \draw[thick, fill=brown!30] (0,0) rectangle (2.5, -0.5);
+    \node at (1.25, -0.25) {\tiny Balsa $10$kg};
+    
+    % Persona (Monigote)
+    \draw[thick] (1.25, 0.5) -- (1.25, 1.25); % Cuerpo
+    \draw[thick] (1.25, 1.5) circle (0.3);   % Cabeza
+    \draw[thick] (1.25, 1.2) -- (0.8, 1.0);  % Brazo Izq
+    \draw[thick] (1.25, 1.2) -- (2.0, 1.2);  % Brazo Der (Sosteniendo cuerda)
+    \draw[thick] (1.25, 0.5) -- (0.9, 0);    % Pierna Izq
+    \draw[thick] (1.25, 0.5) -- (1.6, 0);    % Pierna Der
+    \node at (1.25, 2) {\small Persona $50$kg};
+
+    % --- BOTE (Derecha) ---
+    % Coordenada x = 10 (aprox visual en escala 8cm)
+    \coordinate (BoteStart) at (8,0);
+    \draw[thick, fill=gray!20] (8, 0) -- (11, 0) -- (11.5, 1) -- (7.5, 1) -- cycle;
+    \node at (9.5, 0.5) {\small Bote $150$kg};
+
+    % --- CUERDA ---
+    \draw[thick, black] (2.0, 1.2) -- (7.5, 1.0);
+    
+    % --- COTAS DE DISTANCIA ---
+    % Línea de referencia abajo
+    \draw[thin, dashed] (1.25, -0.5) -- (1.25, -2); % Centro balsa
+    \draw[thin, dashed] (9.5, -0.5) -- (9.5, -2);   % Centro bote
+    
+    % Distancia total
+    \draw[<->] (1.25, -1.8) -- (9.5, -1.8) node[midway, below] {$d = 10 \, \si{m}$};
+    
+    % Vectores de desplazamiento x1 y x2
+    % Punto de encuentro estimado (mas cerca de la balsa porque pesa menos)
+    % Masa 1 = 60, Masa 2 = 150. Relacion 2.5. Encuentro en x1 = 7.14
+    \coordinate (Meet) at ({1.25 + (9.5-1.25)*0.71}, -1.2); 
+    
+    \draw[->, thick, red] (1.25, -1.2) -- (Meet) node[midway, below] {$x_1$};
+    \draw[->, thick, blue] (9.5, -1.2) -- (Meet) node[midway, below] {$x_2$};
+    \fill[black] (Meet) circle (0.1) node[above, yshift=2pt] {\tiny Encuentro};
+
+\end{tikzpicture}
+\end{center}
+
+% --- SOLUCIÓN (ASSISTANT) ---
+\subsection*{Solución}
+
+\subsubsection*{1. Definición del Sistema}
+Definimos las masas involucradas:
+\begin{itemize}
+    \item Masa 1 (Hombre + Balsa): $m_1 = 50 + 10 = 60 \, \si{kg}$.
+    \item Masa 2 (Bote): $m_2 = 150 \, \si{kg}$.
+\end{itemize}
+Inicialmente, el sistema está en reposo ($v_o = 0$), por lo tanto, el momento lineal inicial es cero ($p_o = 0$).
+
+\subsubsection*{2. Conservación del Momento Lineal}
+Al no existir fuerzas externas horizontales, la cantidad de movimiento se conserva ($p_o = p_f$).
+Si el hombre hala la cuerda, la balsa se mueve hacia la derecha (dirección $\hat{i}$) con velocidad $v_1$ y el bote hacia la izquierda (dirección $-\hat{i}$) con velocidad $v_2$.
+
+$$ \vec{p}_f = m_1 \vec{v}_1 + m_2 \vec{v}_2 = 0 $$
+$$ 60 v_1 \hat{i} - 150 v_2 \hat{i} = 0 $$
+$$ 60 v_1 = 150 v_2 $$
+
+Simplificando para encontrar la relación de velocidades:
+$$ v_1 = \frac{150}{60} v_2 $$
+$$ v_1 = 2.5 v_2 $$
+
+\subsubsection*{3. Análisis Cinemático y Gráfico (Python)}
+Dado que el movimiento ocurre simultáneamente para ambos cuerpos durante un tiempo $t$, la relación de velocidades implica directamente una relación de desplazamientos ($x = v \cdot t$).
+$$ x_1 = v_1 t \quad \text{y} \quad x_2 = v_2 t $$
+Sustituyendo $v_1$:
+$$ x_1 = (2.5 v_2) t = 2.5 (v_2 t) $$
+$$ x_1 = 2.5 x_2 $$
+
+\subsubsection*{4. Cálculo Final}
+Tenemos un sistema de dos ecuaciones con los desplazamientos:
+\begin{enumerate}
+    \item $x_1 = 2.5 x_2$ (Relación dinámica)
+    \item $x_1 + x_2 = 10$ (Restricción geométrica)
+\end{enumerate}
+
+Sustituimos (1) en (2):
+$$ 2.5 x_2 + x_2 = 10 $$
+$$ 3.5 x_2 = 10 $$
+$$ x_2 = \frac{10}{3.5} \approx 2.86 \, \si{m} $$
+
+Ahora calculamos $x_1$:
+$$ x_1 = 2.5 (2.86) \approx 7.14 \, \si{m} $$
+(O alternativamente $x_1 = 10 - 2.86 = 7.14 \, \si{m}$).
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\begin{itemize}
+    \item Desplazamiento del Hombre y Balsa ($x_1$): \textbf{7.14 m}
+    \item Desplazamiento del Bote ($x_2$): \textbf{2.86 m}
+\end{itemize}
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una partícula de $2 \, \si{kg}$ de masa se mueve a lo largo del eje $x$ bajo la acción de una fuerza neta $F_x$ cuyo comportamiento en el tiempo se muestra en la figura. A $t=0 \, \si{s}$ la partícula se movía con una velocidad de $-4 \hat{i} \, \si{m/s}$. 
+Determine: \textbf{a) ¿Qué representa el área bajo la curva $F_x$ contra $t$?}
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    % Ejes
+    \draw[->] (0,0) -- (7,0) node[right] {$t(s)$};
+    \draw[->] (0,0) -- (0,4) node[above] {$F_x(N)$};
+    
+    % Gráfica (Escalada para visualización: 10N -> 3 unidades)
+    \draw[thick] (0,0) -- (2,3) -- (6,3);
+    \draw[dashed] (6,0) -- (6,3);
+    \draw[dashed] (2,0) node[below] {$2$} -- (2,3);
+    \draw[dashed] (0,3) node[left] {$10$} -- (2,3);
+    \node at (6,0) [below] {$6$};
+    \node at (0,0) [below left] {$0$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Concepto Físico}
+En física mecánica, la integral de la fuerza con respecto al tiempo se define como \textbf{Impulso} ($\vec{J}$).
+$$ \vec{J} = \int_{t_1}^{t_2} \vec{F} \, dt $$
+
+Gráficamente, una integral definida corresponde al área delimitada por la curva de la función y el eje horizontal.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+El área bajo la curva en un gráfico de Fuerza ($F_x$) contra tiempo ($t$) representa el \textbf{Impulso} aplicado a la partícula.
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una partícula de $2 \, \si{kg}$ de masa se mueve a lo largo del eje $x$ bajo la acción de una fuerza neta $F_x$ cuyo comportamiento en el tiempo se muestra en la figura. A $t=0 \, \si{s}$ la partícula se movía con una velocidad de $-4 \hat{i} \, \si{m/s}$. 
+Determine: \textbf{b) La velocidad de la partícula a $t=5 \, \si{s}$.}
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[->] (0,0) -- (7,0) node[right] {$t(s)$};
+    \draw[->] (0,0) -- (0,4) node[above] {$F_x(N)$};
+    \draw[thick] (0,0) -- (2,3) -- (6,3);
+    \draw[dashed] (6,0) -- (6,3);
+    \draw[dashed] (2,0) node[below] {$2$} -- (2,3);
+    \draw[dashed] (0,3) node[left] {$10$} -- (2,3);
+    \node at (6,0) [below] {$6$};
+    \node at (0,0) [below left] {$0$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Cálculo del Área (Impulso)}
+Necesitamos el impulso desde $t=0$ hasta $t=5 \, \si{s}$.
+La forma geométrica bajo la curva hasta $t=5$ es un \textbf{trapecio}.
+\begin{itemize}
+    \item Base mayor ($B$): De 0 a 5 $\Rightarrow B = 5$.
+    \item Base menor ($b$): De 2 a 5 (intervalo donde la fuerza es constante) $\Rightarrow b = 5 - 2 = 3$.
+    \item Altura ($h$): Valor máximo de la fuerza $\Rightarrow h = 10$.
+\end{itemize}
+
+$$ \text{Área} = \frac{(B + b)h}{2} $$
+$$ \text{Área} = \frac{(5 + 3)10}{2} = \frac{80}{2} = 40 \, \si{N \cdot s} $$
+Por lo tanto, el impulso es $\vec{J} = 40 \hat{i} \, \si{N \cdot s}$.
+
+\subsubsection*{2. Teorema del Impulso y la Cantidad de Movimiento}
+$$ \vec{J} = \Delta \vec{p} = m(\vec{v}_f - \vec{v}_o) $$
+Sustituimos los valores ($m=2 \, \si{kg}$, $\vec{v}_o = -4 \hat{i}$, $\vec{J} = 40 \hat{i}$):
+$$ 40 = 2 (v_f - (-4)) $$
+$$ 40 = 2 (v_f + 4) $$
+$$ 20 = v_f + 4 $$
+$$ v_f = 16 \, \si{m/s} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{v} = 16 \hat{i} \, \si{m/s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una partícula de $2 \, \si{kg}$ de masa se mueve a lo largo del eje $x$ bajo la acción de una fuerza neta $F_x$ cuyo comportamiento en el tiempo se muestra en la figura. A $t=0 \, \si{s}$ la partícula se movía con una velocidad de $-4 \hat{i} \, \si{m/s}$. 
+Determine: \textbf{c) La fuerza media que actúa sobre la partícula de 0 a 5 s.}
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[->] (0,0) -- (7,0) node[right] {$t(s)$};
+    \draw[->] (0,0) -- (0,4) node[above] {$F_x(N)$};
+    \draw[thick] (0,0) -- (2,3) -- (6,3);
+    \draw[dashed] (6,0) -- (6,3);
+    \draw[dashed] (2,0) node[below] {$2$} -- (2,3);
+    \draw[dashed] (0,3) node[left] {$10$} -- (2,3);
+    \node at (6,0) [below] {$6$};
+    \node at (0,0) [below left] {$0$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Definición de Fuerza Media}
+La fuerza media ($\vec{F}_{med}$) es la fuerza constante que produciría el mismo impulso en el mismo intervalo de tiempo.
+$$ \vec{F}_{med} = \frac{\Delta \vec{p}}{\Delta t} = \frac{\vec{J}}{\Delta t} $$
+
+\subsubsection*{2. Cálculo Matemático}
+Del literal anterior, sabemos que el impulso total en el intervalo $\Delta t = 5 \, \si{s}$ es $J = 40 \hat{i} \, \si{N \cdot s}$.
+
+$$ \vec{F}_{med} = \frac{40 \hat{i}}{5} $$
+$$ \vec{F}_{med} = 8 \hat{i} \, \si{N} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{F}_{med} = 8 \hat{i} \, \si{N}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+El gráfico representa las condiciones inicial y final de la colisión entre un camión de 4 toneladas y un automóvil de 1 tonelada, que se desplazan entrelazados luego del choque. Determine la relación entre las magnitudes de sus velocidades iniciales ($\frac{v_{co}}{v_{ao}}$). Desprecie la fricción.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2, >=Latex]
+    % Ejes
+    \draw[<->] (-3,0) -- (3,0) node[right] {$x$};
+    \draw[<->] (0,-3) -- (0,3) node[above] {$y$};
+    
+    % Velocidad Camión (v_co) - Acercándose al origen desde la izquierda
+    \draw[->, thick, blue] (-2, 0.2) -- (-0.5, 0.2) node[midway, above] {$\vec{v}_{co}$};
+    \node at (-2, -0.3) {\small Camión (4 ton)};
+    
+    % Velocidad Auto (v_ao) - Acercándose al origen desde abajo
+    \draw[->, thick, red] (-0.2, -2) -- (-0.2, -0.5) node[midway, left] {$\vec{v}_{ao}$};
+    \node at (1.5, -2) {\small Auto (1 ton)};
+    
+    % Velocidad Final (v_f) - Saliendo del origen
+    \draw[->, thick, purple] (0, 0) -- (2, 1.15) node[right] {$\vec{v}_{f}$}; % 30 grados aprox
+    
+    % Ángulo
+    \draw (0.8, 0) arc (0:30:0.8);
+    \node at (1.1, 0.3) {$30^\circ$};
+
+\end{tikzpicture}
+\end{center}
+
+% --- SOLUCIÓN (ASSISTANT) ---
+\subsection*{Solución}
+
+\subsubsection*{1. Principio Físico}
+En una colisión donde se desprecian las fuerzas externas (como la fricción), se conserva la \textbf{Cantidad de Movimiento Lineal} ($\vec{p}$).
+$$ \vec{p}_{antes} = \vec{p}_{despues} $$
+$$ m_c \vec{v}_{co} + m_a \vec{v}_{ao} = (m_c + m_a) \vec{v}_f $$
+
+Donde:
+\begin{itemize}
+    \item Masa del camión $m_c = 4 \, \si{ton}$.
+    \item Masa del auto $m_a = 1 \, \si{ton}$.
+    \item Masa total $m_T = 5 \, \si{ton}$.
+\end{itemize}
+
+\subsubsection*{2. Desarrollo Matemático}
+
+Descomponemos la ecuación vectorial en sus componentes rectangulares:
+
+\textbf{Eje X (Horizontal):}
+Solo el camión tiene momento inicial en X.
+$$ m_c v_{co} = (m_c + m_a) v_f \cos(30^\circ) $$
+$$ 4 v_{co} = 5 v_f \cos(30^\circ) \quad \dots(1) $$
+
+\textbf{Eje Y (Vertical):}
+Solo el auto tiene momento inicial en Y.
+$$ m_a v_{ao} = (m_c + m_a) v_f \sin(30^\circ) $$
+$$ 1 v_{ao} = 5 v_f \sin(30^\circ) \quad \dots(2) $$
+
+\textbf{Relación de Velocidades:}
+Dividimos la ecuación (1) para la ecuación (2) para eliminar $v_f$ y encontrar la relación solicitada:
+
+$$ \frac{4 v_{co}}{1 v_{ao}} = \frac{5 v_f \cos(30^\circ)}{5 v_f \sin(30^\circ)} $$
+
+Simplificamos términos:
+$$ \frac{4 v_{co}}{v_{ao}} = \frac{\cos(30^\circ)}{\sin(30^\circ)} = \cot(30^\circ) $$
+
+Despejamos la relación $\frac{v_{co}}{v_{ao}}$:
+$$ \frac{v_{co}}{v_{ao}} = \frac{\cot(30^\circ)}{4} $$
+
+Sabemos que $\cot(30^\circ) = \sqrt{3} \approx 1.732$:
+$$ \frac{v_{co}}{v_{ao}} = \frac{1.732}{4} $$
+$$ \frac{v_{co}}{v_{ao}} = 0.433 $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+La relación entre las magnitudes de las velocidades es:
+\centering \Large $\frac{v_{co}}{v_{ao}} = 0.433$
+\end{tcolorbox}
+
+\end{document}

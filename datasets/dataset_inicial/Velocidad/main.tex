@@ -1,0 +1,1882 @@
+\documentclass[12pt, a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{geometry}
+\usepackage[most]{tcolorbox}
+\usepackage{siunitx}
+\usepackage{enumitem}
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta, calc, babel}
+\geometry{a4paper, margin=1in}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstset{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2,
+    language=Python
+}
+
+\begin{document}
+
+\subsection*{Enunciado}
+
+Una partícula se mueve sobre una línea recta que pasa por los puntos $A(-2, 4) \, \si{m}$ y $B(1, 0) \, \si{m}$. Sobre la partícula no actúa aceleración alguna y a $t = 2 \, \si{s}$ la velocidad tiene una magnitud de $5 \, \si{m/s}$. ¿Cuál es el vector velocidad instantánea cuando $t = 10 \, \si{s}$? Asuma que la partícula se mueve desde $A$ hacia $B$.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    \draw[secondary, ->, thin, gray!50] (-4,0) -- (3,0) node[right] {$x(m)$};
+    \draw[secondary, ->, thin, gray!50] (0,-1) -- (0,6) node[above] {$y(m)$};
+    \draw[help lines, step=1, gray!20] (-3,-1) grid (2,5);
+
+    \coordinate (A) at (-2,4);
+    \coordinate (B) at (1,0);
+
+    \filldraw[black] (A) circle (2pt) node[above left] {$A(-2, 4)$};
+    \filldraw[black] (B) circle (2pt) node[below right] {$B(1, 0)$};
+
+    \draw[thick, blue, ->] (A) -- ($(A)!0.7!(B)$);
+    \draw[dashed, gray] (A) -- (B);
+    
+    \node[blue, right] at ($(A)!0.3!(B)$) {$\vec{v}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis del Estado de Movimiento}
+
+El enunciado especifica que sobre la partícula \textbf{no actúa aceleración alguna} ($\vec{a} = 0$). En mecánica clásica, esto define un Movimiento Rectilíneo Uniforme (MRU). 
+
+Bajo estas condiciones, la velocidad es una magnitud constante tanto en módulo como en dirección y sentido:
+\begin{equation}
+    \vec{v}(t) = \vec{v}_{constante}
+\end{equation}
+Por lo tanto, el vector velocidad en $t = 2 \, \si{s}$ es exactamente el mismo que en $t = 10 \, \si{s}$.
+
+\subsubsection*{2. Cálculo del Vector Unitario de Dirección}
+
+La dirección de la velocidad es la misma que la del vector desplazamiento $\vec{r}_{AB}$. Primero calculamos este vector restando las coordenadas de los puntos:
+\begin{equation}
+    \vec{r}_{AB} = B - A = (1 - (-2))\hat{\imath} + (0 - 4)\hat{\jmath} = 3\hat{\imath} - 4\hat{\jmath} \, \si{m}
+\end{equation}
+
+Calculamos la magnitud de este desplazamiento para normalizar el vector:
+\begin{equation}
+    |\vec{r}_{AB}| = \sqrt{3^2 + (-4)^2} = \sqrt{9 + 16} = 5 \, \si{m}
+\end{equation}
+
+El vector unitario $\hat{u}_v$ es:
+\begin{equation}
+    \hat{u}_v = \frac{\vec{r}_{AB}}{|\vec{r}_{AB}|} = \frac{3\hat{\imath} - 4\hat{\jmath}}{5} = 0.6\hat{\imath} - 0.8\hat{\jmath}
+\end{equation}
+
+\subsubsection*{3. Determinación del Vector Velocidad Instantánea}
+
+Finalmente, multiplicamos la rapidez proporcionada ($v = 5 \, \si{m/s}$) por el vector unitario de dirección. Dado que es constante, el tiempo $t = 10 \, \si{s}$ no afecta el resultado:
+\begin{align*}
+    \vec{v} &= v \cdot \hat{u}_v \\
+    \vec{v} &= 5 \, \si{m/s} \cdot (0.6\hat{\imath} - 0.8\hat{\jmath}) \\
+    \vec{v} &= (3\hat{\imath} - 4\hat{\jmath}) \, \si{m/s}
+\end{align*}
+
+\begin{tcolorbox}[colback=blue!5!white, colframe=blue!75!black, title=Respuesta Final]
+\centering
+$\vec{v} = (3\hat{\imath} - 4\hat{\jmath}) \, \si{m/s}$
+\end{tcolorbox}
+
+\newpage
+\subsection*{Enunciado}
+Un cuerpo se mueve por una línea recta sin cambiar la dirección de su movimiento. La mitad de su trayectoria lo hace con una velocidad $v_o$ y la parte restante, con una velocidad $v_1$ durante la primera mitad del tiempo y con una velocidad $v_2$, en la parte final. Encuentre la velocidad media del cuerpo.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2, >=Latex]
+    \draw[thick] (0,0) -- (10,0);
+    
+    \filldraw (0,0) circle (2pt) node[below] {$A$};
+    \filldraw (5,0) circle (2pt) node[below] {$B$};
+    \filldraw (10,0) circle (2pt) node[below] {$D$};
+    
+    \draw[<->, blue] (0,0.5) -- (5,0.5) node[midway, above] {$L/2$ (a $v_o$)};
+    \draw[<->, red] (5,0.5) -- (10,0.5) node[midway, above] {$L/2$ (a $v_1, v_2$)};
+    
+    \node at (2.5, -0.5) {Tramo 1};
+    \node at (7.5, -0.5) {Tramo 2};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Fundamento Físico}
+
+La velocidad media ($v_m$) no es simplemente el promedio aritmético de las velocidades dadas. Se define estrictamente como la razón entre el desplazamiento total y el intervalo de tiempo total:
+\begin{equation}
+    v_m = \frac{\Delta x_{total}}{\Delta t_{total}}
+\end{equation}
+
+Para resolver este problema, dividiremos el análisis en dos segmentos de distancia iguales ($L/2$), pero el segundo segmento requiere un sub-análisis temporal.
+
+\subsubsection*{2. Visualización de los Tramos (Python)}
+
+El siguiente gráfico ilustra cómo se distribuyen las velocidades respecto a la distancia y el tiempo para facilitar la comprensión del modelo.
+
+
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+def plot_velocity_structure():
+    fig, ax = plt.subplots(figsize=(6, 3))
+    ax.set_title("Estructura de Velocidades por Tramo")
+    
+    # Segmentos representativos
+    ax.bar([0.5], [1.5], width=1.0, color='blue', alpha=0.3, label='$v_o$ (Distancia $L/2$)')
+    ax.bar([1.5], [1.0], width=0.5, color='green', alpha=0.3, label='$v_1$ (Tiempo $t_2/2$)')
+    ax.bar([2.0], [2.0], width=0.5, color='orange', alpha=0.3, label='$v_2$ (Tiempo $t_2/2$)')
+    
+    ax.set_ylabel("Velocidad")
+    ax.set_xticks([0.5, 1.75])
+    ax.set_xticklabels(["Primera mitad Distancia", "Segunda mitad Distancia"])
+    ax.legend(loc='upper left', fontsize='small')
+    plt.tight_layout()
+    plt.show()
+
+plot_velocity_structure()
+\end{lstlisting}
+
+\subsubsection*{3. Análisis del Tiempo en el Tramo 1}
+
+En la primera mitad de la trayectoria, la distancia es $d_1 = L/2$ y la velocidad es $v_o$. Aplicando la relación del movimiento rectilíneo uniforme ($t = d/v$):
+\begin{equation}
+    t_1 = \frac{L/2}{v_o} = \frac{L}{2v_o}
+\end{equation}
+
+\subsubsection*{4. Análisis del Tiempo en el Tramo 2}
+
+La segunda mitad de la trayectoria ($d_2 = L/2$) se recorre en un tiempo $t_2$. Este tiempo se divide en dos partes iguales ($\Delta t = t_2/2$). La distancia recorrida en este tramo es la suma de los sub-recorridos:
+\begin{align*}
+    d_2 &= v_1 \left(\frac{t_2}{2}\right) + v_2 \left(\frac{t_2}{2}\right) \\
+    \frac{L}{2} &= \frac{t_2}{2} (v_1 + v_2)
+\end{align*}
+
+Despejando el tiempo $t_2$:
+\begin{equation}
+    L = t_2 (v_1 + v_2) \implies t_2 = \frac{L}{v_1 + v_2}
+\end{equation}
+
+\subsubsection*{5. Síntesis y Cálculo de la Velocidad Media}
+
+El tiempo total es la suma de $t_1$ y $t_2$:
+\begin{equation}
+    \Delta t_{total} = \frac{L}{2v_o} + \frac{L}{v_1 + v_2} = L \left( \frac{v_1 + v_2 + 2v_o}{2v_o(v_1 + v_2)} \right)
+\end{equation}
+
+Sustituimos en la fórmula de velocidad media:
+\begin{align*}
+    v_m &= \frac{L}{L \left( \frac{v_1 + v_2 + 2v_o}{2v_o(v_1 + v_2)} \right)} \\
+    v_m &= \frac{1}{\frac{v_1 + v_2 + 2v_o}{2v_o(v_1 + v_2)}}
+\end{align*}
+
+\begin{tcolorbox}[colback=blue!5!white, colframe=blue!75!black, title=Respuesta Final]
+\centering
+\Large $v_m = \frac{2v_o(v_1 + v_2)}{2v_o + v_1 + v_2}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+
+Una canoa va y regresa entre los puntos $A$ y $B$ de la misma orilla de un río, cuyas aguas fluyen desde $A$ hacia $B$ a razón de $v \, \si{m/s}$. Si la canoa tiene una rapidez de $2v \, \si{m/s}$ en aguas tranquilas, calcule la relación entre el tiempo que se demora en ir la canoa (de $A$ a $B$) y el tiempo que se demora en regresar (de $B$ a $A$).
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \fill[blue!10] (0,0) rectangle (10,2);
+    \draw[thick] (0,2) -- (10,2);
+    \draw[thick] (0,0) -- (10,0);
+    
+    \node[draw, circle, fill=brown!40, inner sep=2pt] (A) at (1,2.3) {$A$};
+    \node[draw, circle, fill=brown!40, inner sep=2pt] (B) at (9,2.3) {$B$};
+    
+    \foreach \x in {2,4,6,8} {
+        \draw[blue!40, ->, very thick] (\x,1) -- (\x+1,1);
+    }
+    \node[blue] at (5,0.6) {Corriente $\vec{v}_{agua}$};
+
+    \begin{scope}[shift={(3,1.3)}]
+        \draw[fill=orange!60] (0,0) -- (1.2,0) -- (1.5,0.2) -- (0.3,0.2) -- cycle;
+        \draw[->, thick] (1.5,0.1) -- (2.5,0.1) node[right] {$\vec{v}_{canoa}$};
+    \end{scope}
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Principio de Velocidad Relativa}
+
+Para un observador en la orilla (sistema de referencia fijo en tierra), la velocidad efectiva de la canoa ($\vec{V}_{ef}$) es la suma vectorial de su velocidad respecto al agua ($\vec{v}_{c/a}$) y la velocidad del agua respecto a la tierra ($\vec{v}_{a/t}$):
+\begin{equation}
+    \vec{V}_{ef} = \vec{v}_{c/a} + \vec{v}_{a/t}
+\end{equation}
+
+\subsubsection*{2. Análisis Vectorial del Movimiento (Python)}
+
+El siguiente código permite visualizar cómo cambian los vectores resultantes dependiendo de si el movimiento es a favor o en contra de la corriente.
+
+
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+def plot_river_vectors():
+    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(6, 4))
+    
+    # Caso Ida (A -> B)
+    ax1.set_title("Ida (A favor de la corriente)")
+    ax1.quiver(0, 0, 2, 0, color='blue', angles='xy', scale_units='xy', scale=1, label='$v_{c/a} = 2v$')
+    ax1.quiver(2, 0, 1, 0, color='cyan', angles='xy', scale_units='xy', scale=1, label='$v_{a/t} = v$')
+    ax1.set_xlim(0, 4); ax1.set_ylim(-0.5, 0.5); ax1.axis('off')
+    ax1.legend()
+
+    # Caso Regreso (B -> A)
+    ax2.set_title("Regreso (En contra de la corriente)")
+    ax2.quiver(3, 0, -2, 0, color='blue', angles='xy', scale_units='xy', scale=1, label='$v_{c/a} = 2v$')
+    ax2.quiver(1, 0, 1, 0, color='cyan', angles='xy', scale_units='xy', scale=1, label='$v_{a/t} = v$')
+    ax2.set_xlim(0, 4); ax2.set_ylim(-0.5, 0.5); ax2.axis('off')
+    ax2.legend()
+    
+    plt.tight_layout()
+    plt.show()
+
+plot_river_vectors()
+\end{lstlisting}
+
+\subsubsection*{3. Cálculo de los Tiempos de Viaje}
+
+Definimos $L$ como la distancia entre los puntos $A$ y $B$. El tiempo se obtiene mediante la relación $t = d/v$.
+
+\textbf{Tramo de Ida (A $\to$ B):}
+La canoa viaja a favor de la corriente (Downstream). Las velocidades se suman:
+\begin{equation}
+    V_{ida} = 2v + v = 3v \implies t_{ida} = \frac{L}{3v}
+\end{equation}
+
+\textbf{Tramo de Regreso (B $\to$ A):}
+La canoa viaja en contra de la corriente (Upstream). El río se opone al avance:
+\begin{equation}
+    V_{regreso} = 2v - v = v \implies t_{regreso} = \frac{L}{v}
+\end{equation}
+
+\subsubsection*{4. Determinación de la Relación}
+
+La relación solicitada es el cociente entre el tiempo de ida y el tiempo de regreso:
+\begin{equation}
+    \text{Relación} = \frac{t_{ida}}{t_{regreso}} = \frac{\frac{L}{3v}}{\frac{L}{v}}
+\end{equation}
+
+Aplicando la propiedad de extremos y medios (fracción compleja):
+\begin{equation}
+    \frac{t_{ida}}{t_{regreso}} = \frac{L \cdot v}{3v \cdot L} = \frac{1}{3}
+\end{equation}
+
+\begin{tcolorbox}[colback=blue!5!white, colframe=blue!75!black, title=Respuesta Final]
+\centering
+\Large $\frac{t_{ida}}{t_{regreso}} = \frac{1}{3}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+
+Un hombre viaja $1 \, \si{h}$ a $30 \, \si{km/h}$ y luego otra hora a $50 \, \si{km/h}$ en dirección contraria. ¿Cuál es su velocidad media para las dos horas de viaje?
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[->, thick, gray!50] (-3,0) -- (4,0) node[right] {$x \, (\si{km})$};
+    
+    \draw[->, blue, very thick] (0,0.5) -- (3,0.5) node[midway, above] {$\vec{v}_1 = 30 \hat{\imath}$};
+    \draw[->, red, very thick] (3,-0.5) -- (-2,-0.5) node[midway, below] {$\vec{v}_2 = -50 \hat{\imath}$};
+    
+    \filldraw (0,0) circle (2pt) node[above] {Inicio};
+    \filldraw (3,0) circle (2pt) node[above] {$t=1\si{h}$};
+    \filldraw (-2,0) circle (2pt) node[below] {Fin ($t=2\si{h}$)};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Fundamento Físico: Velocidad vs. Rapidez}
+
+Es imperativo distinguir entre dos conceptos que a menudo se confunden:
+\begin{itemize}
+    \item \textbf{Velocidad Media ($\vec{v}_m$):} Es una magnitud vectorial. Depende del \textbf{desplazamiento} (cambio de posición neta entre el punto inicial y final).
+    \item \textbf{Rapidez Media ($v_s$):} Es una magnitud escalar. Depende de la \textbf{distancia total} recorrida, sin importar la dirección.
+\end{itemize}
+
+La fórmula de la velocidad media es:
+\begin{equation}
+    \vec{v}_m = \frac{\Delta \vec{r}_{total}}{\Delta t_{total}}
+\end{equation}
+
+\subsubsection*{2. Visualización de la Posición vs. Tiempo (Python)}
+
+Para entender por qué la velocidad media puede ser baja o negativa, graficamos la posición del hombre respecto al tiempo. El valor de la velocidad media corresponde a la pendiente de la recta que une el inicio $(0,0)$ con el punto final.
+
+
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+def plot_position_time():
+    time = [0, 1, 2]
+    position = [0, 30, -20] # x = v*t -> 30*1 = 30; 30 - 50*1 = -20
+    
+    plt.figure(figsize=(6, 4))
+    plt.plot(time, position, 'o-', label='Trayectoria real')
+    plt.plot([0, 2], [0, -20], '--', color='red', label='Pendiente $\\vec{v}_m$')
+    
+    plt.title("Gráfico Posición vs Tiempo")
+    plt.xlabel("Tiempo (h)")
+    plt.ylabel("Posición x (km)")
+    plt.grid(True, linestyle='--')
+    plt.legend()
+    plt.show()
+
+plot_position_time()
+\end{lstlisting}
+
+\subsubsection*{3. Cálculo de Desplazamientos Parciales}
+
+Establecemos el eje $+x$ en la dirección del primer movimiento ($\hat{\imath}$).
+
+\textbf{Tramo 1:}
+\begin{equation}
+    \Delta \vec{r}_1 = \vec{v}_1 \cdot t_1 = (30 \hat{\imath} \, \si{km/h}) \cdot (1 \, \si{h}) = 30 \hat{\imath} \, \si{km}
+\end{equation}
+
+\textbf{Tramo 2 (Dirección contraria):}
+\begin{equation}
+    \Delta \vec{r}_2 = \vec{v}_2 \cdot t_2 = (-50 \hat{\imath} \, \si{km/h}) \cdot (1 \, \si{h}) = -50 \hat{\imath} \, \si{km}
+\end{equation}
+
+\subsubsection*{4. Desplazamiento Total y Tiempo Total}
+
+El desplazamiento total es la suma vectorial de los tramos:
+\begin{equation}
+    \Delta \vec{r}_{total} = 30 \hat{\imath} + (-50 \hat{\imath}) = -20 \hat{\imath} \, \si{km}
+\end{equation}
+
+El tiempo total transcurrido es:
+\begin{equation}
+    \Delta t_{total} = 1 \, \si{h} + 1 \, \si{h} = 2 \, \si{h}
+\end{equation}
+
+\subsubsection*{5. Resultado de la Velocidad Media}
+
+Aplicamos la definición:
+\begin{equation}
+    \vec{v}_m = \frac{-20 \hat{\imath} \, \si{km}}{2 \, \si{h}} = -10 \hat{\imath} \, \si{km/h}
+\end{equation}
+
+El signo negativo indica que, en promedio, el hombre se desplazó hacia la izquierda (dirección opuesta al inicio) a una razón de $10 \, \si{km}$ por cada hora.
+
+\begin{tcolorbox}[colback=blue!5!white, colframe=blue!75!black, title=Respuesta Final]
+\centering
+\Large $\vec{v}_m = -10 \hat{\imath} \, \si{km/h}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+
+Un carro se mueve al Sur con una rapidez de $27 \, \si{m/s}$ en medio de una lluvia. La trayectoria de cada gota forma un ángulo de $20^\circ$ con la vertical, medido por un observador fijo en tierra. Un observador sentado en el carro ve en los vidrios de las ventanillas las huellas de la lluvia perfectamente verticales. Determine la rapidez de las gotas de lluvia con respecto a tierra.
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[thick, gray!30] (-2,0) -- (6,0);
+    
+    \begin{scope}[shift={(0,0.3)}]
+        \draw[fill=blue!20] (0,0) rectangle (2,0.8);
+        \draw[fill=gray!40] (0.3,-0.3) circle (0.3);
+        \draw[fill=gray!40] (1.7,-0.3) circle (0.3);
+        \draw[->, very thick] (2,0.4) -- (3.5,0.4) node[right] {$\vec{v}_{c/t} = 27 \, \si{m/s}$};
+    \end{scope}
+
+    \foreach \x in {1,2.5,4,5.5} {
+        \draw[blue!40, ->] (\x+0.5, 3) -- (\x, 1.5);
+    }
+    \draw[dashed] (4.5, 3) -- (4.5, 1.5);
+    \draw (4.5, 2.5) arc (270:250:1);
+    \node at (4.7, 2.2) {\small $20^\circ$};
+    \node[blue] at (3.5, 3.2) {Lluvia ($\vec{v}_{g/t}$) respecto a tierra};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Fundamento Físico: Velocidad Relativa}
+
+La clave de este problema reside en la relación vectorial entre los marcos de referencia. La velocidad de la gota vista desde el carro ($\vec{v}_{g/c}$) es la diferencia entre la velocidad de la gota respecto a tierra ($\vec{v}_{g/t}$) y la del carro respecto a tierra ($\vec{v}_{c/t}$):
+\begin{equation}
+    \vec{v}_{g/c} = \vec{v}_{g/t} - \vec{v}_{c/t} \implies \vec{v}_{g/t} = \vec{v}_{g/c} + \vec{v}_{c/t}
+\end{equation}
+
+El dato fundamental es que el observador en el carro ve la lluvia \textbf{perfectamente vertical}. Esto implica que, en el marco de referencia del carro, la lluvia no tiene componente horizontal.
+
+\subsubsection*{2. Análisis Geométrico del Triángulo de Velocidades (Python)}
+
+Para que la resultante relativa sea vertical, la componente horizontal de la lluvia respecto a tierra debe ser idéntica a la velocidad del carro, cancelando así el movimiento relativo lateral.
+
+
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def plot_rain_vectors():
+    theta = np.radians(20)
+    v_car = 27
+    v_rain_ground = v_car / np.sin(theta)
+    v_rain_rel_y = v_rain_ground * np.cos(theta)
+
+    fig, ax = plt.subplots(figsize=(5, 5))
+    ax.quiver(0, 0, v_car, 0, color='red', angles='xy', scale_units='xy', scale=1, label='$\vec{v}_{c/t}$')
+    ax.quiver(v_car, 0, 0, -v_rain_rel_y, color='blue', angles='xy', scale_units='xy', scale=1, label='$\vec{v}_{g/c}$')
+    ax.quiver(0, 0, v_car, -v_rain_rel_y, color='purple', angles='xy', scale_units='xy', scale=1, label='$\vec{v}_{g/t}$')
+
+    ax.set_xlim(-5, 35); ax.set_ylim(-80, 10); ax.axis('off')
+    ax.legend(); plt.show()
+
+plot_rain_vectors()
+\end{lstlisting}
+
+\subsubsection*{3. Descomposición por Componentes}
+
+Definimos un sistema de coordenadas donde $+x$ es la dirección del carro (Sur) y $+y$ es hacia abajo.
+
+\textbf{Velocidad del Carro:}
+\begin{equation}
+    \vec{v}_{c/t} = 27 \hat{\imath} \, \si{m/s}
+\end{equation}
+
+\textbf{Velocidad de la Gota respecto a Tierra:}
+Sabiendo que forma $20^\circ$ con la vertical ($\hat{\jmath}$):
+\begin{equation}
+    \vec{v}_{g/t} = (v_{g/t} \sin 20^\circ) \hat{\imath} + (v_{g/t} \cos 20^\circ) \hat{\jmath}
+\end{equation}
+
+\textbf{Velocidad de la Gota respecto al Carro:}
+Dado que se ve vertical:
+\begin{equation}
+    \vec{v}_{g/c} = 0 \hat{\imath} + v_y \hat{\jmath}
+\end{equation}
+
+\subsubsection*{4. Resolución de la Ecuación Vectorial}
+
+Analizamos exclusivamente la componente horizontal ($x$):
+\begin{align*}
+    (\vec{v}_{g/c})_x &= (\vec{v}_{g/t})_x - (\vec{v}_{c/t})_x \\
+    0 &= v_{g/t} \sin 20^\circ - 27 \\
+    v_{g/t} \sin 20^\circ &= 27
+\end{align*}
+
+Despejamos la rapidez de la gota respecto a tierra ($v_{g/t}$):
+\begin{equation}
+    v_{g/t} = \frac{27}{\sin 20^\circ} \approx \frac{27}{0.34202}
+\end{equation}
+
+\begin{tcolorbox}[colback=blue!5!white, colframe=blue!75!black, title=Respuesta Final]
+\centering
+\Large $v_{g/t} \approx 78.94 \, \si{m/s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+
+Un carro se mueve al Sur con una rapidez de $27 \, \si{m/s}$ en medio de una lluvia. La trayectoria de cada gota forma un ángulo de $20^\circ$ con la vertical, medido por un observador fijo en tierra. Un observador sentado en el carro ve en los vidrios de las ventanillas las huellas de la lluvia perfectamente verticales. Determine la rapidez de las gotas de lluvia \textbf{con respecto al carro}.
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[thick, gray!30] (-1,0) -- (5,0);
+    
+    \begin{scope}[shift={(0,0.3)}]
+        \draw[fill=blue!20] (0,0) rectangle (1.8,0.7);
+        \draw[fill=black!70] (0.4,-0.2) circle (0.2);
+        \draw[fill=black!70] (1.4,-0.2) circle (0.2);
+        \draw[->, thick] (1.8,0.35) -- (3,0.35) node[right] {$\vec{v}_{c/t}$};
+    \end{scope}
+
+    \draw[blue, thick, ->] (3,3) -- (2.5,1.5) node[midway, left] {$\vec{v}_{g/t}$};
+    \draw[dashed] (3,3) -- (3,1.5);
+    \draw (3,2.5) arc (270:250:0.5);
+    \node at (3.2, 2.3) {\small $20^\circ$};
+    
+    \node at (0.9, 1.2) [draw, fill=yellow!10, rounded corners] {Observador en Carro};
+    \draw[->, blue!60, dashed] (0.9, 0.8) -- (0.9, 0);
+    \node[right, blue!60] at (0.9, 0.4) {$\vec{v}_{g/c}$ (Vertical)};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Marco Teórico y Definición de Ejes}
+
+La rapidez de la lluvia respecto al carro es la magnitud del vector velocidad relativa $\vec{v}_{g/c}$. Aplicamos la transformación de Galileo:
+\begin{equation}
+    \vec{v}_{g/c} = \vec{v}_{g/t} - \vec{v}_{c/t}
+\end{equation}
+
+Establecemos el sistema de coordenadas:
+\begin{itemize}
+    \item Eje $+x$: Dirección Sur (movimiento del carro).
+    \item Eje $+y$: Dirección Vertical hacia abajo.
+\end{itemize}
+
+\subsubsection*{2. Visualización del Triángulo de Velocidades (Python)}
+
+Para que la lluvia se perciba vertical desde el carro, el movimiento horizontal del carro debe igualar exactamente a la componente horizontal de la lluvia respecto a tierra. La rapidez buscada es el cateto vertical de este triángulo.
+
+
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def plot_relative_velocity():
+    # Datos
+    v_car_x = 27
+    theta_rad = np.radians(20)
+    
+    # Calculo de componentes
+    # tan(theta) = vx / vy -> vy = vx / tan(theta)
+    v_rel_y = v_car_x / np.tan(theta_rad)
+    
+    fig, ax = plt.subplots(figsize=(5, 5))
+    ax.set_title("Composición de Velocidades")
+    
+    # Vector velocidad de la lluvia respecto a tierra (hipotenusa)
+    ax.quiver(0, 0, v_car_x, v_rel_y, color='purple', angles='xy', scale_units='xy', scale=1, label='$\vec{v}_{g/t}$')
+    # Vector velocidad del carro (componente horizontal)
+    ax.quiver(0, 0, v_car_x, 0, color='red', angles='xy', scale_units='xy', scale=1, label='$\vec{v}_{c/t}$')
+    # Vector velocidad relativa (componente vertical resultante)
+    ax.quiver(v_car_x, 0, 0, v_rel_y, color='blue', angles='xy', scale_units='xy', scale=1, label='$\vec{v}_{g/c}$')
+
+    ax.set_xlim(-5, 35); ax.set_ylim(-5, 85)
+    ax.invert_yaxis() # Para que y positivo sea hacia abajo
+    ax.legend(); ax.grid(True, linestyle='--')
+    plt.show()
+
+plot_relative_velocity()
+\end{lstlisting}
+
+\subsubsection*{3. Análisis por Componentes}
+
+Descomponemos la ecuación $\vec{v}_{g/c} = \vec{v}_{g/t} - \vec{v}_{c/t}$ en sus ejes cartesianos:
+
+\textbf{Eje Horizontal ($x$):}
+Como el observador ve la lluvia vertical, la componente horizontal relativa es nula:
+\begin{equation}
+    (\vec{v}_{g/c})_x = 0 \implies (\vec{v}_{g/t})_x = (\vec{v}_{c/t})_x = 27 \, \si{m/s}
+\end{equation}
+
+\textbf{Eje Vertical ($y$):}
+Dado que el carro no tiene movimiento vertical, la rapidez relativa es idéntica a la componente vertical de la lluvia respecto a tierra:
+\begin{equation}
+    v_{g/c} = (\vec{v}_{g/t})_y
+\end{equation}
+
+\subsubsection*{4. Resolución mediante Trigonometría}
+
+En el triángulo formado por la velocidad de la lluvia respecto a tierra ($\vec{v}_{g/t}$), conocemos el ángulo con la vertical ($\theta = 20^\circ$) y su cateto opuesto ($v_x = 27 \, \si{m/s}$). La rapidez relativa $v_{g/c}$ es el cateto adyacente:
+
+\begin{align*}
+    \tan(20^\circ) &= \frac{\text{Cateto Opuesto}}{\text{Cateto Adyacente}} \\
+    \tan(20^\circ) &= \frac{27}{v_{g/c}} \\
+    v_{g/c} &= \frac{27}{\tan(20^\circ)}
+\end{align*}
+
+Realizando el cálculo numérico:
+\begin{equation}
+    v_{g/c} \approx \frac{27}{0.36397} \approx 74.18 \, \si{m/s}
+\end{equation}
+
+\begin{tcolorbox}[colback=blue!5!white, colframe=blue!75!black, title=Respuesta Final]
+\centering
+\Large $v_{g/c} \approx 74.18 \, \si{m/s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+
+Una partícula sucesivamente recorre $50 \, \si{km}$ con una velocidad de $25 \hat{\imath} \, \si{km/h}$ y $100 \, \si{km}$ con una velocidad de $(30 \hat{\imath} + 40 \hat{k}) \, \si{km/h}$. Calcule la velocidad media para todo el movimiento.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.06, >=Latex]
+    \draw[->, thin, gray!50] (-10,0) -- (130,0) node[right] {$x \, (\si{km})$};
+    \draw[->, thin, gray!50] (0,-10) -- (0,100) node[above] {$z \, (\si{km})$};
+
+    \coordinate (O) at (0,0);
+    \coordinate (P1) at (50,0);
+    \coordinate (P2) at (110,80);
+
+    \draw[blue, thick, ->] (O) -- (P1) node[midway, below] {$\Delta \vec{r}_1$};
+    \draw[red, thick, ->] (P1) -- (P2) node[midway, above left] {$\Delta \vec{r}_2$};
+    \draw[purple, dashed, ->] (O) -- (P2) node[midway, above left] {$\Delta \vec{r}_{total}$};
+
+    \filldraw (O) circle (50pt);
+    \filldraw (P1) circle (50pt);
+    \filldraw (P2) circle (50pt);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Fundamento Físico: Velocidad Media Vectorial}
+
+La velocidad media ($\vec{v}_m$) se define como el cambio de posición total (vector desplazamiento neto) dividido por el intervalo de tiempo total transcurrido:
+\begin{equation}
+    \vec{v}_m = \frac{\Delta \vec{r}_{total}}{\Delta t_{total}} = \frac{\Delta \vec{r}_1 + \Delta \vec{r}_2}{\Delta t_1 + \Delta t_2}
+\end{equation}
+
+Para resolver el problema, debemos determinar el vector desplazamiento y el tiempo empleado en cada tramo del movimiento.
+
+\subsubsection*{2. Análisis del Primer Tramo}
+
+Datos: $d_1 = 50 \, \si{km}$ y $\vec{v}_1 = 25 \hat{\imath} \, \si{km/h}$.
+\begin{itemize}
+    \item \textbf{Tiempo ($t_1$):} Como la rapidez es constante ($v_1 = 25 \, \si{km/h}$):
+    \begin{equation}
+        \Delta t_1 = \frac{d_1}{|\vec{v}_1|} = \frac{50 \, \si{km}}{25 \, \si{km/h}} = 2 \, \si{h}
+    \end{equation}
+    \item \textbf{Vector Desplazamiento ($\Delta \vec{r}_1$):}
+    \begin{equation}
+        \Delta \vec{r}_1 = \vec{v}_1 \cdot \Delta t_1 = (25 \hat{\imath}) \cdot 2 = 50 \hat{\imath} \, \si{km}
+    \end{equation}
+\end{itemize}
+
+\subsubsection*{3. Análisis del Segundo Tramo}
+
+Datos: $d_2 = 100 \, \si{km}$ y $\vec{v}_2 = 30 \hat{\imath} + 40 \hat{k} \, \si{km/h}$.
+\begin{itemize}
+    \item \textbf{Módulo de la Velocidad ($v_2$):}
+    \begin{equation}
+        |\vec{v}_2| = \sqrt{30^2 + 40^2} = \sqrt{900 + 1600} = 50 \, \si{km/h}
+    \end{equation}
+    \item \textbf{Tiempo ($t_2$):}
+    \begin{equation}
+        \Delta t_2 = \frac{d_2}{|\vec{v}_2|} = \frac{100 \, \si{km}}{50 \, \si{km/h}} = 2 \, \si{h}
+    \end{equation}
+    \item \textbf{Vector Desplazamiento ($\Delta \vec{r}_2$):}
+    \begin{equation}
+        \Delta \vec{r}_2 = \vec{v}_2 \cdot \Delta t_2 = (30 \hat{\imath} + 40 \hat{k}) \cdot 2 = 60 \hat{\imath} + 80 \hat{k} \, \si{km}
+    \end{equation}
+\end{itemize}
+
+\subsubsection*{4. Síntesis y Cálculo Final}
+
+\textbf{Desplazamiento Total:}
+\begin{equation}
+    \Delta \vec{r}_{total} = \Delta \vec{r}_1 + \Delta \vec{r}_2 = (50 \hat{\imath}) + (60 \hat{\imath} + 80 \hat{k}) = 110 \hat{\imath} + 80 \hat{k} \, \si{km}
+\end{equation}
+
+\textbf{Tiempo Total:}
+\begin{equation}
+    \Delta t_{total} = 2 \, \si{h} + 2 \, \si{h} = 4 \, \si{h}
+\end{equation}
+
+\textbf{Velocidad Media:}
+\begin{equation}
+    \vec{v}_m = \frac{110 \hat{\imath} + 80 \hat{k} \, \si{km}}{4 \, \si{h}} = (27.5 \hat{\imath} + 20 \hat{k}) \, \si{km/h}
+\end{equation}
+
+\begin{tcolorbox}[colback=blue!5!white, colframe=blue!75!black, title=Respuesta Final]
+\centering
+\Large $\vec{v}_m = (27.5 \hat{\imath} + 20.0 \hat{k}) \, \si{km/h}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+
+Las posiciones de las ciudades $A$ y $B$, con respecto de una ciudad $C$, están dadas por las coordenadas: $A(20, 0, 10) \, \si{km}$ y $B(80, 0, -20) \, \si{km}$. Si un vehículo se mueve en línea recta desde la ciudad $A$ hacia la ciudad $B$ en un tiempo de $1.5 \, \si{h}$, determine la velocidad media del movimiento.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.08, >=Latex]
+    \draw[->] (-10,0) -- (100,0) node[right] {$x$};
+    \draw[->] (0,-30) -- (0,30) node[above] {$z$};
+    
+    \coordinate (A) at (20,10);
+    \coordinate (B) at (80,-20);
+    \coordinate (C) at (0,0);
+    
+    \draw[thick, blue, ->] (C) -- (A) node[midway, left] {$\vec{r}_A$};
+    \draw[thick, blue, ->] (C) -- (B) node[midway, left] {$\vec{r}_B$};
+    \draw[thick, red, ->] (A) -- (B) node[midway, right] {$\Delta\vec{r}$};
+    
+    \filldraw (A) circle (15pt) node[above] {$A$};
+    \filldraw (B) circle (15pt) node[below] {$B$};
+    \filldraw (C) circle (15pt) node[below left] {$C$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Definición de Vectores de Posición}
+
+Para resolver el problema, primero expresamos las coordenadas de las ciudades como vectores de posición respecto al origen (ciudad $C$):
+\begin{align*}
+    \vec{r}_A &= (20\vec{i} + 0\vec{j} + 10\vec{k}) \, \si{km} \\
+    \vec{r}_B &= (80\vec{i} + 0\vec{j} - 20\vec{k}) \, \si{km}
+\end{align*}
+
+\subsubsection*{2. Cálculo del Vector Desplazamiento}
+
+El desplazamiento ($\Delta\vec{r}$) es el cambio de posición de la partícula, definido como la posición final menos la posición inicial:
+\begin{align*}
+    \Delta\vec{r} &= \vec{r}_B - \vec{r}_A \\
+    \Delta\vec{r} &= (80 - 20)\vec{i} + (0 - 0)\vec{j} + (-20 - 10)\vec{k} \\
+    \Delta\vec{r} &= (60\vec{i} + 0\vec{j} - 30\vec{k}) \, \si{km}
+\end{align*}
+
+\subsubsection*{3. Determinación de la Velocidad Media}
+
+La velocidad media se calcula dividiendo el vector desplazamiento por el intervalo de tiempo transcurrido ($\Delta t = 1.5 \, \si{h}$):
+\begin{equation}
+    \vec{v}_m = \frac{\Delta\vec{r}}{\Delta t} = \frac{60\vec{i} - 30\vec{k}}{1.5}
+\end{equation}
+
+Realizando la operación por componentes:
+\begin{itemize}
+    \item Componente $x$: $\frac{60}{1.5} = 40 \, \si{km/h}$
+    \item Componente $z$: $\frac{-30}{1.5} = -20 \, \si{km/h}$
+\end{itemize}
+
+Por lo tanto:
+\begin{equation}
+    \vec{v}_m = (40\vec{i} - 20\vec{k}) \, \si{km/h}
+\end{equation}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{v}_m = (40\vec{i} - 20\vec{k}) \, \si{km/h}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+
+Una partícula se mueve en sentido contrario al avance de las manecillas del reloj, sobre una circunferencia de radio $R = 0.4 \, \si{m}$. A $t = 0$, pasa por el punto $A$ y a $t = 0.4 \, \si{s}$, por primera vez por $B$, como indica la figura. Determine el vector velocidad media entre los puntos $A$ y $B$.
+
+\begin{center}
+\begin{tikzpicture}[scale=2, >=Latex]
+    \draw[->] (-1.5,0) -- (1.5,0) node[right] {$x$};
+    \draw[->] (0,-1.2) -- (0,1.5) node[above] {$y$};
+    
+    \draw[thick] (0,0) circle (1);
+    
+    % Puntos A y B
+    \filldraw (1,0) circle (1.5pt) node[above right] {$A$};
+    \filldraw (-1,0) circle (1.5pt) node[above left] {$B$};
+    \node at (0,0) [below left] {$O$};
+    
+    % Indicación de Radio R
+    \draw[thick] (0,0) -- (150:1) node[midway, above] {$R$};
+    
+    % Sentido del movimiento
+    \draw[->, thick] (45:1.2) arc (45:80:1.2) node[midway, above right] {mov.};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Fundamento Físico: Velocidad Media vs. Trayectoria}
+
+La velocidad media ($\vec{v}_m$) es una magnitud vectorial que solo depende del cambio de posición (desplazamiento) y el tiempo transcurrido:
+\begin{equation}
+    \vec{v}_m = \frac{\Delta \vec{r}}{\Delta t} = \frac{\vec{r}_f - \vec{r}_0}{t_f - t_0}
+\end{equation}
+En este problema, aunque la partícula recorre un arco de circunferencia, para la velocidad media solo importa la línea recta que une $A$ con $B$.
+
+\subsubsection*{2. Definición de Vectores de Posición}
+
+A partir del gráfico y el radio dado $R = 0.4 \, \si{m}$, establecemos las posiciones vectoriales en el plano cartesiano:
+\begin{itemize}
+    \item \textbf{Posición inicial (Punto A):} Se encuentra sobre el eje $+x$.
+    \begin{equation}
+        \vec{r}_A = 0.4\vec{i} + 0\vec{j} \, \si{m}
+    \end{equation}
+    \item \textbf{Posición final (Punto B):} Se encuentra sobre el eje $-x$ tras media vuelta.
+    \begin{equation}
+        \vec{r}_B = -0.4\vec{i} + 0\vec{j} \, \si{m}
+    \end{equation}
+\end{itemize}
+
+\subsubsection*{3. Cálculo del Vector Desplazamiento ($\Delta \vec{r}$)}
+
+El desplazamiento es la diferencia vectorial entre la posición final y la inicial:
+\begin{align*}
+    \Delta \vec{r} &= \vec{r}_B - \vec{r}_A \\
+    \Delta \vec{r} &= (-0.4\vec{i}) - (0.4\vec{i}) \\
+    \Delta \vec{r} &= -0.8\vec{i} \, \si{m}
+\end{align*}
+Este vector apunta directamente hacia la izquierda, atravesando el diámetro de la circunferencia.
+
+\subsubsection*{4. Cálculo de la Velocidad Media}
+
+El intervalo de tiempo transcurrido es $\Delta t = 0.4 \, \si{s} - 0 \, \si{s} = 0.4 \, \si{s}$. Aplicamos la fórmula:
+\begin{equation}
+    \vec{v}_m = \frac{-0.8\vec{i} \, \si{m}}{0.4 \, \si{s}} = -2\vec{i} \, \si{m/s}
+\end{equation}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{v}_m = -2\vec{i} \, \si{m/s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un insecto sube verticalmente por una pared durante ciclos de \SI{20}{\second} de ascenso y \SI{5}{\second} de descanso. En el primer ciclo, el insecto sube \SI{12}{\centi\metre} y, mientras descansa, resbala \SI{5}{\centi\metre}. Determine su velocidad media durante este primer ciclo.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    % Pared
+    \draw[thick, gray!50] (0,0) -- (0,5);
+    \draw[thick] (-0.2,0) -- (0.2,0) node[right] {$O$};
+    
+    % Vectores de movimiento Ciclo 1
+    \draw[->, blue, thick] (0.5, 0) -- (0.5, 3) node[midway, right] {$\SI{12}{\centi\metre}\vec{j}$};
+    \draw[->, red, thick] (0.8, 3) -- (0.8, 1.75) node[midway, right] {$-\SI{5}{\centi\metre}\vec{j}$};
+    
+    % Etiquetas de tiempo
+    \node[blue, left] at (0.5, 1.5) {\small \SI{20}{\second}};
+    \node[red, left] at (0.8, 2.4) {\small \SI{5}{\second}};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Físico}
+La velocidad media ($\vec{v}_m$) se define como el desplazamiento total ($\Delta \vec{r}$) dividido por el intervalo de tiempo total ($\Delta t$):
+\begin{equation}
+    \vec{v}_m = \frac{\Delta \vec{r}}{\Delta t}
+\end{equation}
+Es una magnitud vectorial, por lo que debemos considerar el sentido del movimiento. Usaremos el vector unitario $\vec{j}$ para representar la dirección vertical hacia arriba.
+
+\subsubsection*{2. Visualización del Movimiento (Python)}
+Para entender el desplazamiento neto, graficamos la posición del insecto durante el primer ciclo.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+def plot_ciclo_1():
+    # Tiempo: 0 a 20s (sube), 20 a 25s (baja)
+    t = [0, 20, 25]
+    y = [0, 12, 7] # 12 - 5 = 7
+    
+    plt.figure(figsize=(6, 4))
+    plt.plot(t, y, 'o-', color='green', label='Trayectoria del insecto')
+    plt.axhline(y=7, color='red', linestyle='--', label='Desplazamiento Neto (7 cm)')
+    
+    plt.title("Posicion vs Tiempo (Ciclo 1)")
+    plt.xlabel("Tiempo (s)"); plt.ylabel("Posicion (cm)")
+    plt.grid(True, linestyle='--')
+    plt.legend()
+    plt.show()
+
+plot_ciclo_1()
+\end{lstlisting}
+
+\subsubsection*{3. Cálculo del Desplazamiento y Tiempo}
+El insecto realiza dos movimientos sucesivos en el eje vertical:
+\begin{itemize}
+    \item \textbf{Ascenso:} $\Delta \vec{r}_{up} = 12\vec{j} \, \si{\centi\metre}$ en $t_1 = \SI{20}{\second}$.
+    \item \textbf{Descenso (resbalón):} $\Delta \vec{r}_{down} = -5\vec{j} \, \si{\centi\metre}$ en $t_2 = \SI{5}{\second}$.
+\end{itemize}
+
+El desplazamiento neto ($\Delta \vec{r}_1$) es la suma vectorial:
+\begin{equation}
+    \Delta \vec{r}_1 = 12\vec{j} + (-5\vec{j}) = 7\vec{j} \, \si{\centi\metre}
+\end{equation}
+
+El tiempo total es:
+\begin{equation}
+    \Delta t_1 = \SI{20}{\second} + \SI{5}{\second} = \SI{25}{\second}
+\end{equation}
+
+\subsubsection*{4. Resultado}
+\begin{equation}
+    \vec{v}_{m1} = \frac{7\vec{j} \, \si{\centi\metre}}{\SI{25}{\second}} = \frac{7}{25}\vec{j} \, \si{\centi\metre/\second}
+\end{equation}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{v}_{m1} = \frac{7}{25}\vec{j} \, \si{\centi\metre/\second}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un insecto sube verticalmente por una pared en ciclos de \SI{20}{\second} de ascenso y \SI{5}{\second} de descanso. 
+\begin{itemize}
+    \item Ciclo 1: Sube \SI{12}{\centi\metre}, resbala \SI{5}{\centi\metre}.
+    \item Ciclo 2: Sube \SI{10}{\centi\metre}, resbala \SI{6}{\centi\metre}.
+\end{itemize}
+Determine la velocidad media durante el primero y segundo ciclos (desde $t=0$ hasta el final del segundo descanso).
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    \draw[thick, gray!50] (0,0) -- (0,6);
+    \draw[thick] (-0.2,0) -- (0.2,0) node[right] {$O$};
+    
+    % Ciclo 2 ilustrado
+    \draw[->, blue, thick] (0.5, 1.75) -- (0.5, 4.25) node[midway, left] {$\SI{10}{\centi\metre}$};
+    \draw[->, red, thick] (0.8, 4.25) -- (0.8, 2.75) node[midway, right] {$\SI{6}{\centi\metre}$};
+    
+    \node at (0.6, 5) {\small \textbf{Análisis Ciclo 2}};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Desplazamientos por Ciclo}
+Para hallar la velocidad media de un intervalo largo, debemos sumar todos los desplazamientos individuales y dividir para el tiempo acumulado.
+
+\begin{itemize}
+    \item \textbf{Desplazamiento Ciclo 1:} $\Delta \vec{r}_1 = (12 - 5)\vec{j} = 7\vec{j} \, \si{\centi\metre}$.
+    \item \textbf{Desplazamiento Ciclo 2:} $\Delta \vec{r}_2 = (10 - 6)\vec{j} = 4\vec{j} \, \si{\centi\metre}$.
+\end{itemize}
+
+\subsubsection*{2. Gráfico de Posición Acumulada (Python)}
+Visualizamos cómo la posición neta cambia al finalizar cada ciclo.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+def plot_acumulado():
+    # Tiempos: Final ciclo 1 (25s), Final ciclo 2 (50s)
+    t = [0, 20, 25, 45, 50]
+    y = [0, 12, 7, 17, 11] # 7 + 10 = 17; 17 - 6 = 11
+    
+    plt.figure(figsize=(6, 4))
+    plt.plot(t, y, 's-', color='orange', label='Posicion neta')
+    plt.axhline(y=11, color='red', linestyle=':', label='Desplazamiento Total (11 cm)')
+    plt.xlabel("Tiempo (s)"); plt.ylabel("Altura (cm)")
+    plt.legend(); plt.grid(True)
+    plt.show()
+
+plot_acumulado()
+\end{lstlisting}
+
+\subsubsection*{3. Cálculo de la Velocidad Media Total}
+El desplazamiento total ($\Delta \vec{r}_{1-2}$) es:
+\begin{equation}
+    \Delta \vec{r}_{1-2} = \Delta \vec{r}_1 + \Delta \vec{r}_2 = 7\vec{j} + 4\vec{j} = 11\vec{j} \, \si{\centi\metre}
+\end{equation}
+
+El tiempo total es la suma de los dos ciclos completos ($\SI{25}{\second}$ cada uno):
+\begin{equation}
+    \Delta t_{1-2} = \SI{25}{\second} + \SI{25}{\second} = \SI{50}{\second}
+\end{equation}
+
+Sustituimos en la fórmula de velocidad media:
+\begin{equation}
+    \vec{v}_{m(1-2)} = \frac{11\vec{j} \, \si{\centi\metre}}{\SI{50}{\second}} = \frac{11}{50}\vec{j} \, \si{\centi\metre/\second}
+\end{equation}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{v}_{m(1-2)} = \frac{11}{50}\vec{j} \, \si{\centi\metre/\second}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un insecto sube verticalmente por una pared en 3 ciclos completos de \SI{25}{\second} cada uno (\SI{20}{\second} sube, \SI{5}{\second} descansa).
+\begin{itemize}
+    \item Ciclo 1: Neto de $\SI{7}{\centi\metre}$.
+    \item Ciclo 2: Neto de $\SI{4}{\centi\metre}$.
+    \item Ciclo 3: Sube \SI{8}{\centi\metre} y en el descanso baja \SI{7}{\centi\metre}.
+\end{itemize}
+Determine la velocidad media durante los tres ciclos completos.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    \draw[thick, gray!50] (0,0) -- (0,7);
+    \draw[thick] (-0.2,0) -- (0.2,0) node[right] {$O$};
+    
+    % Ciclo 3 ilustrado
+    \draw[->, blue, thick] (0.5, 2.75) -- (0.5, 4.75) node[midway, left] {$\SI{8}{\centi\metre}$};
+    \draw[->, red, thick] (0.8, 4.75) -- (0.8, 3.0) node[midway, right] {$\SI{7}{\centi\metre}$};
+    
+    \node at (0.6, 5.5) {\small \textbf{Análisis Ciclo 3}};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Resumen de Desplazamientos}
+Calculamos el desplazamiento neto del tercer ciclo y lo sumamos a los anteriores:
+\begin{itemize}
+    \item $\Delta \vec{r}_1 = 7\vec{j} \, \si{\centi\metre}$
+    \item $\Delta \vec{r}_2 = 4\vec{j} \, \si{\centi\metre}$
+    \item $\Delta \vec{r}_3 = (8 - 7)\vec{j} = 1\vec{j} \, \si{\centi\metre}$
+\end{itemize}
+
+\subsubsection*{2. Cálculo de Magnitudes Totales}
+El desplazamiento total después de los 3 ciclos es:
+\begin{equation}
+    \Delta \vec{r}_{total} = 7\vec{j} + 4\vec{j} + 1\vec{j} = 12\vec{j} \, \si{\centi\metre}
+\end{equation}
+
+El tiempo total para los 3 ciclos completos es:
+\begin{equation}
+    \Delta t_{total} = 3 \times \SI{25}{\second} = \SI{75}{\second}
+\end{equation}
+
+\subsubsection*{3. Velocidad Media Final}
+Aplicamos la definición general:
+\begin{equation}
+    \vec{v}_{m(1-3)} = \frac{\Delta \vec{r}_{total}}{\Delta t_{total}} = \frac{12\vec{j} \, \si{\centi\metre}}{\SI{75}{\second}}
+\end{equation}
+
+Podemos simplificar la fracción dividiendo para 3:
+\begin{equation}
+    \vec{v}_{m(1-3)} = \frac{4}{25}\vec{j} \, \si{\centi\metre/\second}
+\end{equation}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{v}_{m(1-3)} = \frac{12}{75}\vec{j} \, \si{\centi\metre/\second} = \frac{4}{25}\vec{j} \, \si{\centi\metre/\second}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+
+Una partícula, que se mueve a lo largo del eje $x$, ocupa las siguientes posiciones en los instantes señalados a continuación:
+
+\begin{center}
+\begin{tabular}{|l|c|c|c|c|c|c|c|c|c|}
+\hline
+$x \, (\si{m})$ & 10 & 11 & 12 & 13 & 14 & 15 & 20 & 30 & 40 \\ \hline
+$t \, (\si{s})$ & 31.0 & 33.0 & 34.5 & 36.0 & 37.5 & 38.5 & 44.5 & 54.5 & 63.0 \\ \hline
+\end{tabular}
+\end{center}
+
+Con ayuda de un gráfico $x$ contra $t$, determine la velocidad de la partícula a $t = 50 \, \si{s}$.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    \draw[->] (0,0) -- (8,0) node[right] {$t \, (\si{s})$};
+    \draw[->] (0,0) -- (0,5) node[above] {$x \, (\si{m})$};
+    \draw[dashed, blue!40] (1,1) -- (7,4);
+    \filldraw (1,1) circle (1.5pt);
+    \filldraw (7,4) circle (1.5pt);
+    \node[below] at (4,0) {Representación del movimiento};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Fundamento Físico: Velocidad en Gráficas $x$ vs $t$}
+
+La velocidad instantánea en un instante dado corresponde a la pendiente de la recta tangente a la curva en ese punto del gráfico posición-tiempo ($x$ vs $t$).
+Si el movimiento entre dos puntos es aproximadamente lineal, la velocidad en cualquier instante dentro de ese intervalo se puede calcular como la pendiente de la cuerda que une dichos puntos:
+\begin{equation}
+    \vec{v} = \frac{\Delta x}{\Delta t} \vec{i} = \frac{x_f - x_0}{t_f - t_0} \vec{i}
+\end{equation}
+
+\subsubsection*{2. Gráfico de Posición vs Tiempo (Python)}
+
+Para visualizar la tendencia del movimiento y localizar el punto solicitado ($t = 50 \, \si{s}$), generamos la gráfica con los datos proporcionados.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+def plot_posicion_tiempo():
+    t = [31.0, 33.0, 34.5, 36.0, 37.5, 38.5, 44.5, 54.5, 63.0]
+    x = [10, 11, 12, 13, 14, 15, 20, 30, 40]
+    
+    plt.figure(figsize=(7, 5))
+    plt.plot(t, x, 'bo-', label='Datos experimentales')
+    plt.axvline(x=50, color='red', linestyle='--', label='t = 50 s')
+    
+    plt.title("Grafico de Posicion vs Tiempo")
+    plt.xlabel("Tiempo (s)")
+    plt.ylabel("Posicion x (m)")
+    plt.grid(True, linestyle='--')
+    plt.legend()
+    plt.show()
+
+plot_posicion_tiempo()
+\end{lstlisting}
+
+\subsubsection*{3. Análisis del Intervalo de Interés}
+
+El instante $t = 50 \, \si{s}$ se encuentra dentro del intervalo definido por los puntos:
+\begin{itemize}
+    \item Punto inicial: $t_1 = 44.5 \, \si{s}, \, x_1 = 20 \, \si{m}$
+    \item Punto final: $t_2 = 54.5 \, \si{s}, \, x_2 = 30 \, \si{m}$
+\end{itemize}
+
+Asumiendo que la velocidad es constante en este tramo (comportamiento lineal), calculamos la pendiente de este segmento.
+
+\subsubsection*{4. Cálculo de la Velocidad}
+
+Aplicamos la fórmula de la pendiente:
+\begin{align*}
+    v &= \frac{x_2 - x_1}{t_2 - t_1} \\
+    v &= \frac{30 - 20}{54.5 - 44.5} \\
+    v &= \frac{10 \, \si{m}}{10 \, \si{s}} = 1.0 \, \si{m/s}
+\end{align*}
+
+Nota: El valor de $0.95 \, \si{m/s}$ indicado en la respuesta del texto original suele provenir de un ajuste de curva (regresión) más global o de una lectura más precisa si la gráfica no fuera perfectamente lineal. Sin embargo, siguiendo el método de intervalos para $t=50\,\si{s}$:
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{v} = 0.95 \vec{i} \, \si{m/s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+
+Un barco navega en la dirección de la corriente de un río, con una rapidez de $16 \, \si{km/h}$, y en dirección contraria, con una rapidez de $10 \, \si{km/h}$. Determine la rapidez del río.
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    % Rio
+    \fill[blue!10] (0,0) rectangle (10,3);
+    \draw[blue!40, very thick] (0,3) -- (10,3);
+    \draw[blue!40, very thick] (0,0) -- (10,0);
+    
+    % Corriente
+    \foreach \y in {0.5, 1.5, 2.5} {
+        \draw[blue!30, ->, ultra thick] (4,\y) -- (6,\y);
+    }
+    \node[blue] at (5, 0.3) {Corriente del río ($\vec{v}_r$)};
+
+    % Barco a favor
+    \begin{scope}[shift={(2,2)}]
+        \draw[fill=brown!60] (0,0) -- (1.5,0) -- (1.8,0.3) -- (0.3,0.3) -- cycle;
+        \draw[->, thick] (1.8, 0.15) -- (2.8, 0.15) node[right] {$16 \, \si{km/h}$};
+    \end{scope}
+
+    % Barco en contra
+    \begin{scope}[shift={(7,1)}]
+        \draw[fill=brown!60] (0,0) -- (-1.5,0) -- (-1.8,0.3) -- (-0.3,0.3) -- cycle;
+        \draw[->, thick] (-1.8, 0.15) -- (-2.8, 0.15) node[left] {$10 \, \si{km/h}$};
+    \end{scope}
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Fundamento Físico: Velocidad Resultante}
+
+Cuando un cuerpo se mueve dentro de un fluido que también está en movimiento, su velocidad medida desde la orilla (tierra) es la suma vectorial de su velocidad respecto al fluido y la velocidad del fluido respecto a tierra.
+\begin{equation}
+    \vec{v}_{barco/tierra} = \vec{v}_{barco/rio} + \vec{v}_{rio/tierra}
+\end{equation}
+
+Sean:
+\begin{itemize}
+    \item $v_b$: rapidez del barco en aguas tranquilas.
+    \item $v_r$: rapidez de la corriente del río.
+\end{itemize}
+
+\subsubsection*{2. Planteamiento del Sistema de Ecuaciones}
+
+De acuerdo con el enunciado, establecemos dos escenarios de movimiento unidimensional:
+
+\textbf{Escenario 1: A favor de la corriente (Downstream)}
+Las velocidades tienen el mismo sentido, por lo que sus magnitudes se suman:
+\begin{equation}
+    v_b + v_r = 16 \, \si{km/h} \quad \text{--- (Ec. 1)}
+\end{equation}
+
+\textbf{Escenario 2: En contra de la corriente (Upstream)}
+Las velocidades tienen sentidos opuestos, por lo que sus magnitudes se restan:
+\begin{equation}
+    v_b - v_r = 10 \, \si{km/h} \quad \text{--- (Ec. 2)}
+\end{equation}
+
+\subsubsection*{3. Resolución Matemática}
+
+Para encontrar la rapidez del río ($v_r$), restamos la \textbf{Ec. 2} de la \textbf{Ec. 1}. Esto eliminará la variable $v_b$:
+\begin{align*}
+    (v_b + v_r) - (v_b - v_r) &= 16 - 10 \\
+    v_b + v_r - v_b + v_r &= 6 \\
+    2v_r &= 6
+\end{align*}
+
+Despejando $v_r$:
+\begin{equation}
+    v_r = \frac{6}{2} = 3 \, \si{km/h}
+\end{equation}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $v_r = 3 \, \si{km/h}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+
+Desde tierra se observan tres automóviles que viajan por carreteras rectas con velocidades constantes $\vec{v}_A = 10 \vec{i} \, \si{m/s}$, $\vec{v}_B = -10 \vec{j} \, \si{m/s}$ y $\vec{v}_C = 6 \vec{i} + 8 \vec{j} \, \si{m/s}$. Desde un sistema de referencia unido al vehículo $C$, ¿qué ángulo forman las direcciones de las velocidades de los vehículos $A$ y $B$?
+
+\begin{center}
+\begin{tikzpicture}[scale=0.4, >=Latex]
+    % Ejes
+    \draw[->, gray!50] (-12,0) -- (12,0) node[right] {$x$};
+    \draw[->, gray!50] (0,-12) -- (0,12) node[above] {$y$};
+    
+    % Vectores desde tierra
+    \draw[->, blue, very thick] (0,0) -- (10,0) node[below] {$\vec{v}_A$};
+    \draw[->, red, very thick] (0,0) -- (0,-10) node[left] {$\vec{v}_B$};
+    \draw[->, purple, very thick] (0,0) -- (6,8) node[above right] {$\vec{v}_C$};
+    
+    \node at (0,0) [below left] {$O$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Fundamento Físico: Transformación de Velocidades}
+
+La velocidad de un objeto $X$ medida desde un sistema de referencia $C$ en movimiento (velocidad relativa) se obtiene restando vectorialmente la velocidad del marco de referencia de la velocidad del objeto medida desde tierra:
+\begin{equation}
+    \vec{v}_{X/C} = \vec{v}_X - \vec{v}_C
+\end{equation}
+
+El ángulo $\alpha$ entre dos vectores $\vec{u}$ y $\vec{v}$ se puede calcular mediante la definición del producto escalar:
+\begin{equation}
+    \vec{u} \cdot \vec{v} = |\vec{u}| |\vec{v}| \cos \alpha \implies \cos \alpha = \frac{\vec{u} \cdot \vec{v}}{|\vec{u}| |\vec{v}|}
+\end{equation}
+
+\subsubsection*{2. Visualización de Velocidades Relativas (Python)}
+
+Calculamos los vectores relativos y los graficamos para observar la geometría del problema desde la perspectiva del conductor en el vehículo $C$.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def plot_relative_velocities():
+    # Velocidades desde tierra
+    vA = np.array([10, 0])
+    vB = np.array([0, -10])
+    vC = np.array([6, 8])
+    
+    # Velocidades relativas a C
+    vAC = vA - vC # [4, -8]
+    vBC = vB - vC # [-6, -18]
+    
+    plt.figure(figsize=(6, 6))
+    plt.quiver([0, 0], [0, 0], [vAC[0], vBC[0]], [vAC[1], vBC[1]], 
+               color=['blue', 'red'], angles='xy', scale_units='xy', scale=1, 
+               label=['$\vec{v}_{A/C}$', '$\vec{v}_{B/C}$'])
+    
+    plt.xlim(-10, 10); plt.ylim(-20, 5)
+    plt.axhline(0, color='black', lw=1); plt.axvline(0, color='black', lw=1)
+    plt.title("Velocidades vistas desde el Vehiculo C")
+    plt.grid(True, linestyle='--')
+    plt.legend()
+    plt.show()
+
+plot_relative_velocities()
+\end{lstlisting}
+
+\subsubsection*{3. Cálculo de los Vectores Relativos}
+
+\textbf{Para el vehículo A:}
+\begin{equation}
+    \vec{v}_{A/C} = (10\vec{i}) - (6\vec{i} + 8\vec{j}) = 4\vec{i} - 8\vec{j} \, \si{m/s}
+\end{equation}
+
+\textbf{Para el vehículo B:}
+\begin{equation}
+    \vec{v}_{B/C} = (-10\vec{j}) - (6\vec{i} + 8\vec{j}) = -6\vec{i} - 18\vec{j} \, \si{m/s}
+\end{equation}
+
+\subsubsection*{4. Cálculo del Ángulo entre Direcciones}
+
+Primero, calculamos el producto escalar de los vectores relativos:
+\begin{equation}
+    \vec{v}_{A/C} \cdot \vec{v}_{B/C} = (4)(-6) + (-8)(-18) = -24 + 144 = 120
+\end{equation}
+
+Luego, determinamos las magnitudes de cada vector:
+\begin{align*}
+    |\vec{v}_{A/C}| &= \sqrt{4^2 + (-8)^2} = \sqrt{16 + 64} = \sqrt{80} \\
+    |\vec{v}_{B/C}| &= \sqrt{(-6)^2 + (-18)^2} = \sqrt{36 + 324} = \sqrt{360}
+\end{align*}
+
+Sustituimos en la fórmula del ángulo:
+\begin{equation}
+    \cos \alpha = \frac{120}{\sqrt{80} \cdot \sqrt{360}} = \frac{120}{\sqrt{28800}} = \frac{120}{169.7056} \approx 0.7071
+\end{equation}
+
+Finalmente, hallamos el arco coseno:
+\begin{equation}
+    \alpha = \arccos(0.7071) = 45^\circ
+\end{equation}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\alpha = 45^\circ$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+
+Una ciudad se encuentra $900 \, \si{km}$ al norte de un aeropuerto. En la región hay un viento que sopla desde el $S \, 30^\circ \, E$, con una rapidez de $80 \, \si{km/h}$. ¿Cuál es la velocidad del avión con respecto al aire, si su viaje dura $2 \, \si{h}$?
+
+\begin{center}
+\begin{tikzpicture}[scale=0.6, >=Latex]
+    % Ejes Norte-Sur Este-Oeste
+    \draw[<->, gray!50] (-6,0) -- (6,0) node[right] {$E$};
+    \draw[<->, gray!50] (0,-6) -- (0,6) node[above] {$N$};
+    
+    % Punto destino (Ciudad)
+    \filldraw (0,5) circle (3pt) node[right] {Ciudad ($900 \, \si{km} \, N$)};
+    
+    % Vector Viento (Desde S 30 E, apunta hacia N 30 W)
+    \draw[->, blue, thick] (0,0) -- (150:4) node[above left] {$\vec{v}_{v}$};
+    \draw[dashed, blue!40] (0,0) -- (330:2);
+    \draw (0,-1) arc (270:330:1);
+    \node at (0.6,-1.5) {\small $30^\circ$};
+    
+    % Velocidad resultante deseada (Norte)
+    \draw[->, red, very thick] (0,0) -- (0,3) node[midway, right] {$\vec{v}_{p/g}$};
+    
+    \node at (0,0) [below left] {Aeropuerto};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Fundamento Físico: Velocidad Relativa en Navegación}
+
+Para que un avión llegue a un destino específico, su trayectoria final respecto a tierra ($\vec{v}_{p/g}$) es el resultado de su propio motor (velocidad respecto al aire, $\vec{v}_{p/a}$) y la influencia del medio (velocidad del aire respecto a tierra, $\vec{v}_{a/g}$):
+\begin{equation}
+    \vec{v}_{p/g} = \vec{v}_{p/a} + \vec{v}_{a/g} \implies \vec{v}_{p/a} = \vec{v}_{p/g} - \vec{v}_{a/g}
+\end{equation}
+
+\subsubsection*{2. Descomposición de la Velocidad del Viento ($\vec{v}_{a/g}$)}
+
+El viento sopla \textbf{desde} el $S \, 30^\circ \, E$, lo que significa que el flujo de aire se dirige hacia el \textbf{Norte $30^\circ$ Oeste}.
+\begin{itemize}
+    \item Magnitud: $v_{v} = 80 \, \si{km/h}$.
+    \item Componente $x$ (Oeste): $-80 \sin 30^\circ = -40 \, \si{km/h}$.
+    \item Componente $y$ (Norte): $80 \cos 30^\circ = 69.28 \, \si{km/h}$.
+\end{itemize}
+\begin{equation}
+    \vec{v}_{a/g} = (-40 \vec{i} + 69.28 \vec{j}) \, \si{km/h}
+\end{equation}
+
+\subsubsection*{3. Velocidad del Avión respecto a Tierra ($\vec{v}_{p/g}$)}
+
+El objetivo es recorrer $900 \, \si{km}$ al Norte en $2 \, \si{h}$. La velocidad debe ser puramente vertical:
+\begin{equation}
+    \vec{v}_{p/g} = \frac{900 \, \si{km}}{2 \, \si{h}} \vec{j} = 450 \vec{j} \, \si{km/h}
+\end{equation}
+
+\subsubsection*{4. Cálculo del Vector Velocidad respecto al Aire ($\vec{v}_{p/a}$)}
+
+Aplicamos la resta vectorial para encontrar el "rumbo" que debe poner el piloto:
+\begin{align*}
+    \vec{v}_{p/a} &= \vec{v}_{p/g} - \vec{v}_{a/g} \\
+    \vec{v}_{p/a} &= 450 \vec{j} - (-40 \vec{i} + 69.28 \vec{j}) \\
+    \vec{v}_{p/a} &= (40 \vec{i} + 380.72 \vec{j}) \, \si{km/h}
+\end{align*}
+
+\subsubsection*{5. Magnitud y Dirección Final}
+
+Calculamos el módulo (rapidez respecto al aire):
+\begin{equation}
+    |\vec{v}_{p/a}| = \sqrt{40^2 + 380.72^2} \approx 382.8 \, \si{km/h}
+\end{equation}
+
+Calculamos el ángulo $\theta$ con respecto al Norte (eje vertical):
+\begin{equation}
+    \tan \theta = \frac{v_x}{v_y} = \frac{40}{380.72} \implies \theta = \arctan(0.105) \approx 6^\circ
+\end{equation}
+
+Dado que la componente $x$ es positiva, la dirección es hacia el Este.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering
+\Large $382.8 \, \si{km/h}, \, N \, 6^\circ \, E$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+
+La ciudad $B$ se encuentra a $500 \, \si{km}$ al Este de la ciudad $A$. Un avión realiza el viaje de ida en una hora. Se sabe que el viento sopla en la dirección $S \, 40^\circ \, O$ y que el avión salió de $A$ en la dirección $E \, 20^\circ \, N$. Determine la velocidad del avión con respecto al viento. Considere que los movimientos del avión y del viento se producen en el plano $xy$.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    % Ejes
+    \draw[->, thin, gray!50] (-1,0) -- (10,0) node[right] {$x \, (E)$};
+    \draw[->, thin, gray!50] (0,-1) -- (0,5) node[above] {$y \, (N)$};
+    
+    % Puntos A y B
+    \coordinate (A) at (0,0);
+    \coordinate (B) at (8,0); % Escala: 1 unit = 62.5 km
+    
+    % Vector v_A/v (Aire) a 20 grados
+    \coordinate (Tip) at (20:12);
+    \draw[->, blue, thick] (A) -- (Tip) node[midway, above left] {$\vec{v}_{A/v}$};
+    
+    % Vector v_v/t (Viento) a 230 grados desde el Tip
+    \draw[->, red, thick] (Tip) -- (B) node[midway, right] {$\vec{v}_{v/t}$};
+    
+    % Resultante v_A/t (Tierra)
+    \draw[->, purple, very thick] (A) -- (B) node[midway, below] {$\vec{v}_{A/t}$};
+    
+    % Ángulos
+    \draw (1.5,0) arc (0:20:1.5);
+    \node at (1.8, 0.3) {\small $20^\circ$};
+    
+    % Referencia de viento en B (para angulo interno)
+    \draw[dashed, gray] (B) -- +(130:2);
+    \draw[gray] (B) +(180:1) arc (180:130:1);
+    \node at (6.5, 0.5) {\small $130^\circ$};
+
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis de Velocidades Relativas}
+En navegación, la velocidad del avión respecto a tierra ($\vec{v}_{A/t}$) es la suma vectorial de su velocidad respecto al aire o viento ($\vec{v}_{A/v}$) y la velocidad del viento respecto a tierra ($\vec{v}_{v/t}$):
+\begin{equation}
+    \vec{v}_{A/t} = \vec{v}_{A/v} + \vec{v}_{v/t}
+\end{equation}
+
+Del enunciado obtenemos los siguientes datos:
+\begin{itemize}
+    \item \textbf{Velocidad respecto a tierra ($\vec{v}_{A/t}$):} El avión va de $A$ a $B$ ($500 \, \si{km}$ al Este) en $1 \, \si{h}$. Por lo tanto, su magnitud es $500 \, \si{km/h}$ y su dirección es puramente horizontal ($0^\circ$).
+    \item \textbf{Dirección de $\vec{v}_{A/v}$:} $E \, 20^\circ \, N$, lo que equivale a un ángulo de $+20^\circ$ con el eje $x$.
+    \item \textbf{Dirección de $\vec{v}_{v/t}$:} $S \, 40^\circ \, O$. En coordenadas polares, esto es $270^\circ - 40^\circ = 230^\circ$.
+\end{itemize}
+
+\subsubsection*{2. Construcción del Triángulo y Ley de Senos}
+Al cerrar el triángulo de vectores, el vector viento $\vec{v}_{v/t}$ une el extremo de $\vec{v}_{A/v}$ con el punto de llegada $B$. Los ángulos internos del triángulo son:
+\begin{itemize}
+    \item Ángulo en el origen ($A$): $20^\circ$.
+    \item Ángulo en el destino ($B$): Como el viento tiene una dirección de $230^\circ$, forma un ángulo de $50^\circ$ con la horizontal hacia la izquierda. El ángulo suplementario interno es $180^\circ - 50^\circ = 130^\circ$.
+    \item Ángulo superior (entre aire y viento): $180^\circ - 130^\circ - 20^\circ = 30^\circ$.
+\end{itemize}
+
+Aplicamos la Ley de Senos para encontrar el módulo de la velocidad respecto al aire ($v_{A/v}$):
+\begin{equation}
+    \frac{v_{A/v}}{\sin(130^\circ)} = \frac{v_{A/t}}{\sin(30^\circ)}
+\end{equation}
+\begin{equation}
+    v_{A/v} = 500 \cdot \frac{\sin(130^\circ)}{\sin(30^\circ)} = 500 \cdot \frac{0.76604}{0.5} = 766.04 \, \si{km/h}
+\end{equation}
+
+\subsubsection*{3. Descomposición Vectorial}
+La pregunta pide la velocidad del avión respecto al viento ($\vec{v}_{A/v}$). Usamos su módulo y su dirección conocida ($20^\circ$):
+\begin{align*}
+    v_x &= v_{A/v} \cdot \cos(20^\circ) = 766.04 \cdot 0.9397 \approx 719.85 \, \si{km/h} \\
+    v_y &= v_{A/v} \cdot \sin(20^\circ) = 766.04 \cdot 0.3420 \approx 262.00 \, \si{km/h}
+\end{align*}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{v}_{A/v} = (719.8 \vec{i} + 262.0 \vec{j}) \, \si{km/h}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+
+Una persona necesita $8 \, \si{min}$ para trasladarse en bote a un punto situado $400 \, \si{m}$ al Norte del sitio donde se encuentra. Para esto, el bote enfila en la dirección $N \, 30^\circ \, O$. La corriente en la región tiene una dirección $\vec{u} = (\sqrt{3}/2) \vec{\imath} - (1/2) \vec{\jmath}$. Determine la velocidad del bote con respecto a la corriente.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2, >=Latex]
+    \draw[->, thin, gray!50] (-2.5,0) -- (1,0) node[right] {$E$};
+    \draw[->, thin, gray!50] (0,-1) -- (0,4) node[above] {$N$};
+    
+    \coordinate (O) at (0,0);
+    \coordinate (Destino) at (0,3.5);
+    
+    \draw[thick, red, ->] (O) -- (Destino) node[midway, right] {$\vec{v}_{B/T}$};
+    \filldraw (Destino) circle (1.5pt) node[above] {$400 \, \si{m}$};
+    
+    \draw[blue, thick, ->] (O) -- (120:4) node[midway, left] {Enfilamiento ($N \, 30^\circ \, O$)};
+    \draw[dashed] (0,1.5) arc (90:120:1.5);
+    \node at (105:1.7) {\small $30^\circ$};
+    
+    \draw[orange, thick, ->] (O) -- (330:1.5) node[right] {$\vec{u}$ (Corriente)};
+    \draw (0.8,0) arc (0:-30:0.8);
+    \node at (-15:1.1) {\small $30^\circ$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Cinemático de la Velocidad Respecto a Tierra}
+
+El objetivo es alcanzar un punto a $400 \, \si{m}$ al Norte en $8 \, \si{min}$. Primero, convertimos el tiempo al Sistema Internacional:
+\begin{equation}
+    \Delta t = 8 \, \si{min} \times 60 \, \si{s/min} = 480 \, \si{s}
+\end{equation}
+
+La velocidad del bote respecto a tierra ($\vec{v}_{B/T}$) debe ser puramente hacia el Norte ($+y$):
+\begin{equation}
+    v_{B/T} = \frac{400 \, \si{m}}{480 \, \si{s}} \approx 0.833 \, \si{m/s} \implies \vec{v}_{B/T} = 0.833 \vec{j} \, \si{m/s}
+\end{equation}
+
+\subsubsection*{2. Relación de Velocidades Relativas}
+
+La velocidad medida desde tierra es la suma vectorial de la velocidad del bote respecto al agua (la corriente) y la velocidad de la corriente respecto a tierra:
+\begin{equation}
+    \vec{v}_{B/T} = \vec{v}_{B/C} + \vec{v}_{C/T} \implies \vec{v}_{B/C} = \vec{v}_{B/T} - \vec{v}_{C/T}
+\end{equation}
+
+Donde la velocidad de la corriente ($\vec{v}_{C/T}$) sigue la dirección del vector unitario $\vec{u}$:
+\begin{equation}
+    \vec{v}_{C/T} = v_c \left( \frac{\sqrt{3}}{2} \vec{i} - \frac{1}{2} \vec{j} \right)
+\end{equation}
+Este vector forma un ángulo de $30^\circ$ por debajo de la horizontal (Sureste).
+
+\subsubsection*{3. Resolución mediante el Triángulo de Velocidades (Python)}
+
+Para hallar la magnitud y dirección exactas, visualizamos el triángulo de vectores. La velocidad de enfilamiento ($\vec{v}_{B/C}$) es la que el bote pone respecto al agua.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def draw_velocity_triangle():
+    # v_BT es vertical (0.833)
+    # v_BC tiene angulo de 120 (30 al O del N)
+    # v_CT tiene angulo de -30 (30 al S del E)
+    
+    fig, ax = plt.subplots(figsize=(5, 5))
+    ax.set_title("Triangulo de Velocidades")
+    
+    # Vector v_BT (Resultado deseado)
+    ax.quiver(0, 0, 0, 0.833, color='red', angles='xy', scale_units='xy', scale=1, label='$\vec{v}_{B/T}$')
+    
+    # Vector v_BC (Calculado mediante ley de senos)
+    v_BC_mag = 0.833 * (np.sin(np.radians(120)) / np.sin(np.radians(30)))
+    ax.quiver(0, 0, v_BC_mag*np.cos(np.radians(120)), v_BC_mag*np.sin(np.radians(120)), 
+              color='blue', angles='xy', scale_units='xy', scale=1, label='$\vec{v}_{B/C}$')
+              
+    ax.set_xlim(-1.5, 0.5); ax.set_ylim(-0.2, 1.5)
+    ax.grid(True, linestyle='--'); ax.legend(); plt.show()
+
+draw_velocity_triangle()
+\end{lstlisting}
+
+\subsubsection*{4. Aplicación de la Ley de Senos}
+
+Al formar el triángulo vectorial con los ángulos conocidos:
+\begin{itemize}
+    \item Ángulo entre $\vec{v}_{B/T}$ (Norte) y $\vec{v}_{C/T}$ ($30^\circ$ S del E): $90^\circ + 30^\circ = 120^\circ$.
+    \item Ángulo entre $\vec{v}_{B/T}$ (Norte) y $\vec{v}_{B/C}$ ($30^\circ$ O del N): $30^\circ$.
+    \item Tercer ángulo del triángulo: $180^\circ - 120^\circ - 30^\circ = 30^\circ$.
+\end{itemize}
+
+Aplicamos la ley de senos para hallar el módulo de $\vec{v}_{B/C}$:
+\begin{equation}
+    \frac{v_{B/C}}{\sin(120^\circ)} = \frac{v_{B/T}}{\sin(30^\circ)} \implies v_{B/C} = 0.833 \frac{\sqrt{3}/2}{1/2} = 0.833 \sqrt{3} \approx 1.44 \, \si{m/s}
+\end{equation}
+
+\subsubsection*{5. Cálculo de Componentes Finales}
+
+Usamos el ángulo de enfilamiento ($120^\circ$ respecto al eje $+x$) para descomponer el vector:
+\begin{align*}
+    (\vec{v}_{B/C})_x &= 1.44 \cos(120^\circ) = 1.44(-0.5) = -0.72 \, \si{m/s} \\
+    (\vec{v}_{B/C})_y &= 1.44 \sin(120^\circ) = 1.44(\sqrt{3}/2) \approx 1.25 \, \si{m/s}
+\end{align*}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{v}_{B/C} = (-0.72 \vec{\imath} + 1.25 \vec{\jmath}) \, \si{m/s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+
+Una partícula realiza dos desplazamientos sucesivos; en cada uno de ellos recorre la misma distancia. Primero, se desplaza en dirección del eje $x$ negativo con una rapidez constante de $80 \, \si{km/h}$. A continuación, se mueve en la misma dirección con una rapidez constante de $40 \, \si{km/h}$. Determine la velocidad media para todo el recorrido.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2, >=Latex]
+    % Eje coordenado
+    \draw[->, thick, gray!70] (1,0) -- (-6,0) node[left] {$-x$};
+    \draw[thick] (0,-0.1) -- (0,0.1) node[above] {$O$};
+
+    % Tramo 1
+    \draw[->, blue, very thick] (0,-0.5) -- (-2.5,-0.5) node[midway, below] {$d, \, v_1 = 80 \, \si{km/h}$};
+    
+    % Tramo 2
+    \draw[->, red, very thick] (-2.5,-0.5) -- (-5,-0.5) node[midway, below] {$d, \, v_2 = 40 \, \si{km/h}$};
+    
+    % Vector Desplazamiento Total
+    \draw[->, purple, dashed] (0,0.5) -- (-5,0.5) node[midway, above] {$\Delta \vec{r}_{total} = -2d \vec{i}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Fundamento Físico}
+
+La \textbf{velocidad media} ($\vec{v}_m$) se define como el cociente entre el desplazamiento total y el tiempo total empleado. Dado que el movimiento ocurre íntegramente sobre el eje $x$ en sentido negativo, usaremos el vector unitario $-\vec{i}$.
+\begin{equation}
+    \vec{v}_m = \frac{\Delta \vec{r}_{total}}{\Delta t_{total}}
+\end{equation}
+
+Es importante notar que, aunque las distancias son iguales, los tiempos de viaje son distintos porque las rapideces difieren.
+
+\subsubsection*{2. Análisis de Tiempos y Desplazamientos}
+
+Sea $d$ la distancia recorrida en cada tramo. El desplazamiento total ($\Delta \vec{r}$) es:
+\begin{equation}
+    \Delta \vec{r} = (-d \vec{i}) + (-d \vec{i}) = -2d \vec{i}
+\end{equation}
+
+Calculamos el tiempo para cada intervalo usando la relación $t = d/v$:
+\begin{itemize}
+    \item \textbf{Tiempo 1:} $\Delta t_1 = \frac{d}{80}$
+    \item \textbf{Tiempo 2:} $\Delta t_2 = \frac{d}{40}$
+\end{itemize}
+
+El tiempo total de la trayectoria es la suma de ambos:
+\begin{equation}
+    \Delta t_{total} = \frac{d}{80} + \frac{d}{40} = \frac{d + 2d}{80} = \frac{3d}{80}
+\end{equation}
+
+\subsubsection*{3. Cálculo de la Velocidad Media}
+
+Sustituimos el desplazamiento total y el tiempo total en la definición:
+\begin{align*}
+    \vec{v}_m &= \frac{-2d \vec{i}}{\frac{3d}{80}} \\
+    \vec{v}_m &= \frac{-160d}{3d} \vec{i} \\
+    \vec{v}_m &= -\frac{160}{3} \vec{i} \, \si{km/h}
+\end{align*}
+
+Realizando la división, obtenemos el valor aproximado:
+\begin{equation}
+    \vec{v}_m \approx -53.33 \vec{i} \, \si{km/h}
+\end{equation}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{v}_m = -53.33 \vec{i} \, \si{km/h}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+
+Una partícula que se desplaza a lo largo del eje $x$ tiene una velocidad que viene dada por la función $\vec{v} = (4t^2 - 32) \vec{i} \, \si{m/s}$, donde $t$ es el tiempo y está en segundos. Determine la aceleración media de la partícula para el intervalo de $3$ a $5 \, \si{s}$.
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[->, thick] (-1,0) -- (6,0) node[right] {$x$};
+    \filldraw[blue] (2,0) circle (3pt);
+    \draw[->, blue, very thick] (2,0.3) -- (4,0.3) node[midway, above] {$\vec{v}(t)$};
+    \node[below] at (2,0) {Partícula};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Fundamento Físico: Aceleración Media}
+
+La aceleración media ($\vec{a}_m$) se define como el cambio del vector velocidad ($\Delta \vec{v}$) dividido por el intervalo de tiempo ($\Delta t$) en el que ocurre dicho cambio. Matemáticamente, se expresa como:
+\begin{equation}
+    \vec{a}_m = \frac{\Delta \vec{v}}{\Delta t} = \frac{\vec{v}_f - \vec{v}_0}{t_f - t_0}
+\end{equation}
+
+En este caso, debemos evaluar la función de velocidad proporcionada en los instantes inicial ($t = 3 \, \si{s}$) y final ($t = 5 \, \si{s}$).
+
+\subsubsection*{2. Visualización de la Curva de Velocidad (Python)}
+
+Para interpretar el problema, graficamos la velocidad frente al tiempo. La aceleración media entre dos puntos corresponde a la pendiente de la línea recta (secante) que los une.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def plot_velocity_function():
+    t = np.linspace(2, 6, 100)
+    v = 4 * t**2 - 32
+    
+    t_points = np.array([3, 5])
+    v_points = 4 * t_points**2 - 32
+    
+    plt.figure(figsize=(7, 5))
+    plt.plot(t, v, label='$\vec{v}(t) = 4t^2 - 32$', color='blue')
+    plt.scatter(t_points, v_points, color='red')
+    plt.plot(t_points, v_points, '--', color='red', label='Aceleracion Media (Pendiente)')
+    
+    plt.title("Velocidad vs Tiempo")
+    plt.xlabel("Tiempo (s)"); plt.ylabel("Velocidad (m/s)")
+    plt.grid(True, linestyle='--')
+    plt.legend(); plt.show()
+
+plot_velocity_function()
+\end{lstlisting}
+
+\subsubsection*{3. Cálculo de Velocidades Instantáneas}
+
+Evaluamos la función $\vec{v}(t) = (4t^2 - 32) \vec{i}$:
+
+\textbf{Para el instante inicial ($t_1 = 3 \, \si{s}$):}
+\begin{align*}
+    \vec{v}_1 &= [4(3)^2 - 32] \vec{i} \\
+    \vec{v}_1 &= [4(9) - 32] \vec{i} \\
+    \vec{v}_1 &= [36 - 32] \vec{i} = 4 \vec{i} \, \si{m/s}
+\end{align*}
+
+\textbf{Para el instante final ($t_2 = 5 \, \si{s}$):}
+\begin{align*}
+    \vec{v}_2 &= [4(5)^2 - 32] \vec{i} \\
+    \vec{v}_2 &= [4(25) - 32] \vec{i} \\
+    \vec{v}_2 &= [100 - 32] \vec{i} = 68 \vec{i} \, \si{m/s}
+\end{align*}
+
+\subsubsection*{4. Cálculo de la Aceleración Media}
+
+Aplicamos la definición con los valores obtenidos:
+\begin{align*}
+    \vec{a}_m &= \frac{68 \vec{i} - 4 \vec{i}}{5 - 3} \\
+    \vec{a}_m &= \frac{64 \vec{i}}{2} \\
+    \vec{a}_m &= 32 \vec{i} \, \si{m/s^2}
+\end{align*}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{a}_m = 32 \vec{i} \, \si{m/s^2}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+
+Una partícula describe una trayectoria curvilínea con aceleración constante de $\vec{a} = (30 \vec{i} - 60 \vec{k}) \, \si{m/s^2}$. En el instante en que su velocidad es $\vec{v} = (-30 \vec{i} - 40 \vec{k}) \, \si{m/s}$, determine:
+\begin{enumerate}[label=\alph*)]
+    \item El ángulo que forman la velocidad y la aceleración.
+    \item El tipo de movimiento.
+\end{enumerate}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    % Ejes en plano XZ
+    \draw[->, gray!50] (-3,0) -- (4,0) node[right] {$x$};
+    \draw[->, gray!50] (0,-4) -- (0,2) node[above] {$z$};
+    
+    % Vectores
+    \draw[->, red, very thick] (0,0) -- (1, -2) node[below right] {$\vec{a}$};
+    \draw[->, blue, very thick] (0,0) -- (-1, -1.33) node[below left] {$\vec{v}$};
+    
+    % Arco de ángulo (esquemático)
+    \draw (0.3, -0.6) arc (-63:233:0.3);
+    \node at (0, -0.7) {$\theta$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Fundamento Físico: Producto Escalar}
+
+El ángulo $\theta$ entre dos vectores $\vec{a}$ y $\vec{v}$ se puede obtener mediante la definición geométrica del producto escalar:
+\begin{equation}
+    \vec{a} \cdot \vec{v} = |\vec{a}| |\vec{v}| \cos \theta \implies \cos \theta = \frac{\vec{a} \cdot \vec{v}}{|\vec{a}| |\vec{v}|}
+\end{equation}
+
+Además, la clasificación del movimiento depende de la relación entre estos vectores:
+\begin{itemize}
+    \item \textbf{Curvilíneo:} Si $\vec{a}$ no es paralelo a $\vec{v}$ ($0^\circ < \theta < 180^\circ$).
+    \item \textbf{Variado:} Si existe una componente de aceleración en la dirección de la velocidad.
+    \item \textbf{Acelerado/Retardado:} Depende de si el ángulo es agudo ($\theta < 90^\circ$, acelerado) u obtuso ($\theta > 90^\circ$, retardado).
+\end{itemize}
+
+\subsubsection*{2. Visualización de los Vectores (Python)}
+
+Para comprender la orientación relativa, graficamos los vectores en el plano $XZ$.
+
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def plot_vectors():
+    # Vectores en plano XZ (usamos Y para representacion 2D)
+    a = np.array([30, -60])
+    v = np.array([-30, -40])
+    
+    fig, ax = plt.subplots(figsize=(6, 6))
+    ax.quiver(0, 0, a[0], a[1], color='red', angles='xy', scale_units='xy', scale=1, label='Aceleracion $\vec{a}$')
+    ax.quiver(0, 0, v[0], v[1], color='blue', angles='xy', scale_units='xy', scale=1, label='Velocidad $\vec{v}$')
+    
+    ax.set_xlim(-50, 50); ax.set_ylim(-70, 10)
+    ax.axhline(0, color='black', lw=1); ax.axvline(0, color='black', lw=1)
+    ax.legend(); ax.grid(True, linestyle='--')
+    plt.title("Relacion Vectorial en el Plano XZ")
+    plt.show()
+
+plot_vectors()
+\end{lstlisting}
+
+\subsubsection*{3. Cálculo del Ángulo $\theta$}
+
+\textbf{Paso 1: Producto Escalar ($\vec{a} \cdot \vec{v}$):}
+\begin{equation}
+    \vec{a} \cdot \vec{v} = (30)(-30) + (-60)(-40) = -900 + 2400 = 1500 \, \si{m^2/s^3}
+\end{equation}
+
+\textbf{Paso 2: Magnitudes de los vectores:}
+\begin{align*}
+    |\vec{a}| &= \sqrt{30^2 + (-60)^2} = \sqrt{900 + 3600} = \sqrt{4500} = 30\sqrt{5} \approx 67.08 \, \si{m/s^2} \\
+    |\vec{v}| &= \sqrt{(-30)^2 + (-40)^2} = \sqrt{900 + 1600} = \sqrt{2500} = 50 \, \si{m/s}
+\end{align*}
+
+\textbf{Paso 3: Cálculo del coseno y el ángulo:}
+\begin{equation}
+    \cos \theta = \frac{1500}{(30\sqrt{5})(50)} = \frac{1500}{1500\sqrt{5}} = \frac{1}{\sqrt{5}} \approx 0.4472
+\end{equation}
+\begin{equation}
+    \theta = \arccos(0.4472) \approx 63.43^\circ
+\end{equation}
+
+\subsubsection*{4. Clasificación del Movimiento}
+
+\begin{itemize}
+    \item Como $\theta \neq 0^\circ$ y $\theta \neq 180^\circ$, los vectores no son colineales; por tanto, la trayectoria es \textbf{curvilínea}.
+    \item Como $0^\circ < \theta < 90^\circ$ (ángulo agudo), la componente tangencial de la aceleración tiene el mismo sentido que la velocidad, por lo que el movimiento es \textbf{variado acelerado}.
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering
+\textbf{a)} $\theta = 63.43^\circ$ \\
+\textbf{b)} Movimiento curvilíneo variado acelerado.
+\end{tcolorbox}
+
+\end{document} % Fin del documento

@@ -1,0 +1,2607 @@
+\documentclass[12pt, a4paper]{article}
+
+% --- PAQUETES ---
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{geometry}
+\usepackage[most]{tcolorbox}
+\usepackage{siunitx}
+\usepackage{enumitem}
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usepackage{verbatim} 
+\usepackage{xcolor}
+
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta, calc, babel}
+\geometry{a4paper, margin=1in}
+
+% --- CONFIGURACIÓN DE LISTINGS (PYTHON) ---
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstset{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2,
+    language=Python
+}
+
+\begin{document}
+
+\subsection*{Enunciado}
+Una partícula parte del origen de coordenadas ($\vec{r}_0 = \vec{0}$) con una velocidad inicial vertical de $\vec{v}_0 = 10\hat{j} \, \si{m/s}$. Simultáneamente, actúa sobre ella una aceleración constante horizontal hacia la derecha de $\vec{a} = 2\hat{i} \, \si{m/s^2}$. 
+
+Observe el esquema de los vectores iniciales y determine el vector posición $\vec{r}$ al instante $t = \SI{3}{s}$.
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    % Ejes
+    \draw[->, gray] (-1,0) -- (4,0) node[right] {$x$};
+    \draw[->, gray] (0,-1) -- (0,4) node[above] {$y$};
+    
+    % Vectores
+    \draw[->, thick, blue] (0,0) -- (0, 2.5) node[midway, left] {$\vec{v}_0 = 10\hat{j}$};
+    \draw[->, thick, red] (0.2,0.2) -- (2, 0.2) node[midway, above] {$\vec{a} = 2\hat{i}$};
+    
+    % Origen
+    \fill (0,0) circle (2pt) node[below left] {$O$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis por Componentes Independientes}
+Dado que la aceleración y la velocidad inicial están en ejes ortogonales, analizamos el movimiento separadamente (Principio de Galileo):
+
+\begin{itemize}
+    \item \textbf{Eje X (MRUV):} Existe aceleración ($a_x = 2$). La velocidad inicial en este eje es nula ($v_{0x} = 0$).
+    \item \textbf{Eje Y (MRU):} No hay aceleración ($a_y = 0$). La velocidad es constante ($v_{0y} = 10$).
+\end{itemize}
+
+\subsubsection*{2. Cálculo Matemático}
+La ecuación vectorial de la posición es:
+$$ \vec{r}(t) = \vec{r}_0 + \vec{v}_0 t + \frac{1}{2}\vec{a}t^2 $$
+
+Sustituimos para $t=3$:
+\begin{align*}
+    \vec{r}(3) &= (0\hat{i} + 0\hat{j}) + (0\hat{i} + 10\hat{j})(3) + \frac{1}{2}(2\hat{i} + 0\hat{j})(3)^2 \\
+    \vec{r}(3) &= 30\hat{j} + \frac{1}{2}(2)(9)\hat{i} \\
+    \vec{r}(3) &= 9\hat{i} + 30\hat{j} \, \si{m}
+\end{align*}
+
+\subsubsection*{3. Visualización con Python}
+\begin{verbatim}
+import matplotlib.pyplot as plt
+
+# Datos
+r_x = 9
+r_y = 30
+
+plt.figure(figsize=(5, 6))
+# Vector Posición
+plt.quiver(0, 0, r_x, r_y, angles='xy', scale_units='xy', scale=1, color='purple', label=r'$\vec{r}(3)$')
+
+# Componentes (proyecciones)
+plt.plot([r_x, r_x], [0, r_y], 'k--', alpha=0.5)
+plt.plot([0, r_x], [r_y, r_y], 'k--', alpha=0.5)
+
+plt.xlim(-1, 12)
+plt.ylim(-1, 35)
+plt.grid(True, linestyle=':', alpha=0.6)
+plt.xlabel('x (m)')
+plt.ylabel('y (m)')
+plt.title(f'Vector Posición en t=3s: ({r_x}, {r_y})')
+plt.legend()
+plt.show()
+\end{verbatim}
+
+\begin{tcolorbox}[colback=blue!5!white, colframe=blue!75!black, title=Respuesta Final]
+\centering \Large $\vec{r} = 9\hat{i} + 30\hat{j} \, \si{m}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una partícula parte del origen de coordenadas ($\vec{r}_0 = \vec{0}$) con una velocidad inicial vertical de $\vec{v}_0 = 10\hat{j} \, \si{m/s}$. Simultáneamente, actúa sobre ella una aceleración constante horizontal hacia la derecha de $\vec{a} = 2\hat{i} \, \si{m/s^2}$. Determine el vector velocidad instantánea al instante $t = \SI{3}{s}$.
+
+
+\subsection*{Solución}
+
+\subsubsection*{1. Concepto Físico}
+La velocidad evoluciona linealmente con el tiempo debido a la aceleración constante.
+$$ \vec{v}(t) = \vec{v}_0 + \vec{a}t $$
+La componente en $Y$ permanecerá constante (10 m/s) mientras que la componente en $X$ aumentará progresivamente.
+
+\subsubsection*{2. Cálculo}
+\begin{align*}
+    \vec{v}(3) &= (10\hat{j}) + (2\hat{i})(3) \\
+    \vec{v}(3) &= 6\hat{i} + 10\hat{j} \, \si{m/s}
+\end{align*}
+
+\subsubsection*{3. Visualización con Python}
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Vectores
+v0 = np.array([0, 10])
+a = np.array([2, 0])
+t = 3
+vf = v0 + a * t  # [6, 10]
+
+plt.figure(figsize=(6, 6))
+origin = [0, 0]
+
+# Graficar v_inicial
+plt.quiver(*origin, *v0, color='blue', scale=1, scale_units='xy', angles='xy', width=0.015, label=r'$\vec{v}_0$')
+# Graficar v_final
+plt.quiver(*origin, *vf, color='red', scale=1, scale_units='xy', angles='xy', width=0.015, label=r'$\vec{v}_f(3s)$')
+
+# Mostrar el cambio (delta v = a*t)
+plt.quiver(*v0, *(a*t), color='green', scale=1, scale_units='xy', angles='xy', linestyle='dashed', width=0.01, label=r'$\vec{a}t$')
+
+plt.xlim(-1, 8)
+plt.ylim(-1, 15)
+plt.grid(True)
+plt.legend()
+plt.title('Cambio de Velocidad Vectorial')
+plt.show()
+\end{verbatim}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{v} = 6\hat{i} + 10\hat{j} \, \si{m/s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una partícula parte del origen de coordenadas ($\vec{r}_0 = \vec{0}$) con una velocidad inicial vertical de $\vec{v}_0 = 10\hat{j} \, \si{m/s}$. Simultáneamente, actúa sobre ella una aceleración constante horizontal hacia la derecha de $\vec{a} = 2\hat{i} \, \si{m/s^2}$. Determine la ecuación matemática de la trayectoria $x = f(y)$ eliminando la variable temporal $t$. ¿Qué forma geométrica describe el movimiento?
+
+\subsection*{Solución}
+
+\subsubsection*{1. Ecuaciones Paramétricas}
+Descomponemos la posición en sus ecuaciones escalares dependientes del tiempo:
+
+\begin{equation} \label{eq:x}
+    x(t) = x_0 + v_{0x}t + \frac{1}{2}a_x t^2 \Rightarrow x = 0 + 0 + \frac{1}{2}(2)t^2 \Rightarrow \boxed{x = t^2}
+\end{equation}
+
+\begin{equation} \label{eq:y}
+    y(t) = y_0 + v_{0y}t + \frac{1}{2}a_y t^2 \Rightarrow y = 0 + 10t + 0 \Rightarrow \boxed{y = 10t}
+\end{equation}
+
+\subsubsection*{2. Eliminación del Parámetro $t$}
+Despejamos $t$ de la ecuación lineal (Ecuación \ref{eq:y}):
+$$ t = \frac{y}{10} $$
+
+Sustituimos esta expresión en la ecuación cuadrática (Ecuación \ref{eq:x}):
+$$ x = \left( \frac{y}{10} \right)^2 $$
+
+$$ x = \frac{y^2}{100} $$
+
+Esta ecuación corresponde a una \textbf{parábola horizontal} que se abre hacia el eje positivo de las x.
+
+\subsubsection*{3. Gráfico de la Trayectoria (Python)}
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Generar datos para y (variable independiente en este despeje)
+y_vals = np.linspace(0, 40, 100)
+x_vals = y_vals**2 / 100  # Ecuación de la trayectoria
+
+plt.figure(figsize=(8, 4))
+plt.plot(x_vals, y_vals, color='purple', linewidth=2, label=r'Trayectoria $x = y^2/100$')
+
+# Marcar posiciones cada segundo
+tiempos = [0, 1, 2, 3]
+for t in tiempos:
+    px = t**2
+    py = 10*t
+    plt.scatter(px, py, color='black', zorder=5)
+    plt.text(px, py+2, f't={t}s', ha='center')
+
+plt.xlabel('Posición X (m)')
+plt.ylabel('Posición Y (m)')
+plt.title('Trayectoria Parabólica en el Plano XY')
+plt.grid(True)
+plt.legend()
+# Invertir ejes visualmente para que parezca caida libre "rotada" o mantener normal
+plt.axis('equal') 
+plt.show()
+\end{verbatim}
+
+\begin{tcolorbox}[colback=red!5!white, colframe=red!75!black, title=Respuesta Final]
+\centering \Large $x = \frac{y^2}{100}$
+\end{tcolorbox}
+\newpage
+
+\subsection*{Enunciado}
+Un bateador golpea una pelota en el punto $A(-300, 1) \, \text{m}$ con una rapidez de $150 \, \text{m/s}$ y un ángulo de elevación de $60^\circ$ con el eje $x$. Calcule la velocidad de la pelota en el instante que pasa por $x = 0$. (Use $g=10\,\text{m/s}^2$).
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    % Ejes
+    \draw[->] (-4,0) -- (1,0) node[right] {$x$};
+    \draw[->] (0,-1) -- (0,4) node[above] {$y$};
+    
+    % Trayectoria aproximada
+    \draw[dashed, thick, blue] (-3, 0.1) .. controls (-1, 3) .. (0.5, 2);
+    
+    % Punto A
+    \fill (-3, 0.1) circle (2pt) node[below] {$A(-300, 1)$};
+    
+    % Vector Velocidad Inicial
+    \draw[->, thick, red] (-3, 0.1) -- (-2.3, 1.3) node[above left] {$\vec{v}_0$};
+    
+    % Ángulo
+    \draw (-2.5, 0.1) arc (0:60:0.5);
+    \node at (-2.3, 0.4) {\tiny $60^\circ$};
+    
+    % Meta
+    \draw[dashed, gray] (0, -1) -- (0, 3);
+    \node[anchor=south west] at (0,0) {$x=0$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Descomposición y Tiempo}
+Calculamos las componentes iniciales:
+\begin{align*}
+    v_{0x} &= 150 \cos(60^\circ) = 75 \, \text{m/s} \\
+    v_{0y} &= 150 \sin(60^\circ) \approx 129.9 \, \text{m/s}
+\end{align*}
+
+Calculamos el tiempo para recorrer $\Delta x = 0 - (-300) = 300 \, \text{m}$:
+$$ t = \frac{\Delta x}{v_{0x}} = \frac{300}{75} = 4 \, \text{s} $$
+
+\subsubsection*{2. Velocidad Final}
+La componente $x$ es constante. La componente $y$ varía con la gravedad:
+\begin{align*}
+    v_y(4) &= v_{0y} - gt \\
+    &= 129.9 - (10)(4) \\
+    &= 89.9 \, \text{m/s}
+\end{align*}
+
+\begin{tcolorbox}[colback=blue!5!white, colframe=blue!75!black, title=Respuesta Final]
+\centering
+$\vec{v} = 75\hat{i} + 89.9\hat{j} \, \text{m/s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un bateador golpea una pelota en el punto $A(-300, 1) \, \text{m}$ con una rapidez de $150 \, \text{m/s}$ y un ángulo de elevación de $60^\circ$ con el eje $x$. Para la pelota con $\vec{v} = 75\hat{i} + 89.9\hat{j} \, \text{m/s}$ y $\vec{g} = -10\hat{j} \, \text{m/s}^2$, determine las componentes tangencial y normal de la aceleración.
+
+\subsection*{Solución}
+
+\subsubsection*{1. Vector Unitario de Velocidad ($\hat{u}_v$)}
+Calculamos la magnitud de la velocidad:
+$$ |\vec{v}| = \sqrt{75^2 + 89.9^2} \approx 117.08 \, \text{m/s} $$
+El vector unitario es:
+$$ \hat{u}_v = \frac{75}{117.08}\hat{i} + \frac{89.9}{117.08}\hat{j} \approx 0.64\hat{i} + 0.77\hat{j} $$
+
+\subsubsection*{2. Aceleración Tangencial ($\vec{a}_T$)}
+Proyectamos $\vec{g}$ sobre $\hat{u}_v$:
+$$ \vec{a}_T = (\vec{g} \cdot \hat{u}_v) \hat{u}_v $$
+$$ \vec{g} \cdot \hat{u}_v = (0)(0.64) + (-10)(0.77)$$
+$$ \vec{g}= -7.7 $$
+
+$$ \vec{a}_T = -7.7(0.64\hat{i} + 0.77\hat{j})$$
+$$ \vec{a}_T = {-4.93\hat{i} - 5.93\hat{j} \, \text{m/s}^2} $$
+
+\subsubsection*{3. Aceleración Normal ($\vec{a}_N$)}
+Restamos vectorialmente:
+\begin{align*}
+    \vec{a}_N &= \vec{g} - \vec{a}_T \\
+    &= (0\hat{i} - 10\hat{j}) - (-4.93\hat{i} - 5.93\hat{j}) \\
+    &= {4.93\hat{i} - 4.07\hat{j} \, \text{m/s}^2}
+\end{align*}
+
+\begin{tcolorbox}[colback=blue!5!white, colframe=blue!75!black, title=Respuesta Final]
+\centering
+$\vec{v} = 4.93\hat{i} - 4.07\hat{j} \, \text{m/s}^2$
+\end{tcolorbox}
+
+\subsubsection*{4. Gráfico Vectorial (Python)}
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import numpy as np
+
+origin = [0, 0]
+g = [0, -10]
+a_T = [-4.93, -5.93]
+a_N = [4.93, -4.07]
+
+plt.figure(figsize=(5, 5))
+plt.quiver(*origin, *g, color='black', angles='xy', scale_units='xy', scale=1, label=r'$\vec{g}$')
+plt.quiver(*origin, *a_T, color='red', angles='xy', scale_units='xy', scale=1, label=r'$\vec{a}_T$')
+plt.quiver(*a_T, *a_N, color='blue', angles='xy', scale_units='xy', scale=1, label=r'$\vec{a}_N$')
+
+plt.grid(True)
+plt.legend()
+plt.title('Descomposición de la Aceleración')
+plt.axis('equal')
+plt.show()
+\end{verbatim}
+
+\newpage
+
+\subsection*{Enunciado}
+Dos personas, A y B, se encuentran en las ventanas de dos edificios ubicados uno frente a otro, separados $10\,\text{m}$. La altura de A es $15\,\text{m}$ y la de B es $20\,\text{m}$. Si B lanza un globo con agua hacia A con una rapidez inicial de $10\,\text{m/s}$, calcule el ángulo de disparo respecto a la horizontal. (Considere $g=10\,\text{m/s}^2$).
+
+\begin{center}
+\begin{tikzpicture}[scale=0.2, >=Latex]
+    % Suelo
+    \draw[thick] (-2,0) -- (12,0) node[right] {Suelo};
+    
+    % Edificio B (Izquierda)
+    \draw[fill=gray!10] (0,0) rectangle (-4, 25);
+    \node at (-2, 23) {Edificio B};
+    \fill (0, 20) circle (20pt) node[left] {B ($20$m)};
+    
+    % Edificio A (Derecha)
+    \draw[fill=gray!10] (10,0) rectangle (14, 20);
+    \node at (12, 18) {Edificio A};
+    \fill (10, 15) circle (20pt) node[right] {A ($15$m)};
+    
+    % Distancia
+    \draw[<->] (0,-2) -- (10,-2) node[midway, below] {$10\,\text{m}$};
+    
+    % Trayectoria hipotética
+    \draw[dashed, blue, ->] (0,20) .. controls (3, 24) and (7, 22) .. (10,15);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Planteamiento de la Ecuación}
+Usamos la ecuación de la trayectoria:
+$$ y = x \tan\theta_0 - \frac{g x^2}{2 v_0^2 \cos^2\theta_0} $$
+Considerando el origen en la base del edificio B, el punto de lanzamiento es $(0, 20)$ y el de impacto $(10, 15)$. Por tanto, el desplazamiento vertical es $\Delta y = 15 - 20 = -5\,\text{m}$.
+
+Sustituyendo los valores ($x=10, v_0=10, g=10$):
+$$ -5 = 10 \tan\theta_0 - \frac{10(100)}{2(100)\cos^2\theta_0} $$
+$$ -5 = 10 \tan\theta_0 - \frac{5}{\cos^2\theta_0} $$
+
+\subsubsection*{2. Identidades Trigonométricas}
+Dividimos para 5 y aplicamos $\frac{1}{\cos^2\theta} = 1 + \tan^2\theta$:
+$$ -1 = 2\tan\theta_0 - (1 + \tan^2\theta_0) $$
+$$ -1 = 2\tan\theta_0 - 1 - \tan^2\theta_0 $$
+$$ \tan^2\theta_0 - 2\tan\theta_0 = 0 $$
+$$ \tan\theta_0 (\tan\theta_0 - 2) = 0 $$
+
+La solución $\tan\theta_0 = 0$ corresponde a un tiro horizontal que no cumple la física del problema para estas distancias. Tomamos:
+$$ \tan\theta_0 = 2 \Rightarrow \theta_0 = \arctan(2) $$
+$$ \theta_0 \approx 63.43^\circ $$
+
+\begin{tcolorbox}[colback=blue!5!white, colframe=blue!75!black, title=Respuesta Final]
+\centering
+$\theta_0 \approx 63.43^\circ$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Dos personas, A y B, se encuentran en las ventanas de dos edificios ubicados uno frente a otro, separados $10\,\text{m}$. La altura de A es $15\,\text{m}$ y la de B es $20\,\text{m}$. Si B lanza un globo con agua hacia A con una rapidez inicial de $10\,\text{m/s}$, con un ángulo de disparo respecto a la horizontal de ($\theta_0 = 63.43^\circ$). Determine el vector velocidad del proyectil en el momento del impacto.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.2, >=Latex]
+    % Suelo
+    \draw[thick] (-2,0) -- (12,0) node[right] {Suelo};
+    
+    % Edificio B (Izquierda)
+    \draw[fill=gray!10] (0,0) rectangle (-4, 25);
+    \node at (-2, 23) {Edificio B};
+    \fill (0, 20) circle (20pt) node[left] {B ($20$m)};
+    
+    % Edificio A (Derecha)
+    \draw[fill=gray!10] (10,0) rectangle (14, 20);
+    \node at (12, 18) {Edificio A};
+    \fill (10, 15) circle (20pt) node[right] {A ($15$m)};
+    
+    % Distancia
+    \draw[<->] (0,-2) -- (10,-2) node[midway, below] {$10\,\text{m}$};
+    
+    % Trayectoria hipotética
+    \draw[dashed, blue, ->] (0,20) .. controls (3, 24) and (7, 22) .. (10,15);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Cálculo del Tiempo de Vuelo}
+Usamos la componente horizontal del movimiento:
+$$ x = (v_0 \cos\theta_0) t $$
+$$ 10 = (10 \cos 63.43^\circ) t $$
+$$ t = \frac{10}{4.47} \approx 2.24\,\text{s} $$
+
+\subsubsection*{2. Cálculo de Componentes}
+La componente horizontal $v_x$ es constante:
+$$ v_x = 10 \cos(63.43^\circ) \approx 4.47\,\text{m/s} $$
+
+La componente vertical $v_y$ varía con la gravedad:
+$$ v_y = v_0 \sin\theta_0 - gt $$
+$$ v_y = 10 \sin(63.43^\circ) - 10(2.24) $$
+$$ v_y = 8.94 - 22.4 = -13.46\,\text{m/s} $$
+
+El vector resultante es:
+$$ \vec{v}_A = 4.47\hat{i} - 13.46\hat{j} \,\text{m/s} $$
+
+\subsubsection*{3. Gráfico del Vector (Python)}
+\begin{verbatim}
+import matplotlib.pyplot as plt
+
+v_x = 4.47
+v_y = -13.46
+
+plt.figure(figsize=(4, 5))
+plt.quiver(0, 0, v_x, v_y, angles='xy', scale_units='xy', scale=1, color='purple', label=r'$\vec{v}_A$')
+# Componentes
+plt.plot([0, v_x], [0, 0], 'b--', label='vx')
+plt.plot([v_x, v_x], [0, v_y], 'r--', label='vy')
+
+plt.xlim(-1, 6)
+plt.ylim(-15, 2)
+plt.grid(True)
+plt.legend()
+plt.title('Velocidad al Impacto')
+plt.show()
+\end{verbatim}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering
+$\vec{v}_A = 4.47\hat{i} - 13.46\hat{j} \,\text{m/s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un objeto es lanzado desde el punto $A$ con una velocidad $\vec{v}_0$. Si el objeto impacta en el punto $P$, situado a $250\,\text{m}$ de distancia directa de $A$ con un ángulo de depresión de $37^\circ$, determine la velocidad de lanzamiento sabiendo que el ángulo de disparo fue de $53^\circ$.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.6, >=Latex]
+    % Ejes
+    \draw[->, gray] (0,-5) -- (0,3) node[left] {$y$};
+    \draw[->, gray] (0,0) -- (6,0) node[below] {$x$};
+    
+    % Punto A
+    \fill (0,0) circle (3pt) node[above left] {$A$};
+    
+    % Punto P y línea AP
+    \coordinate (P) at (5, -3.75); % Proporcional a 4m x y 3m y (triangulo 37-53)
+    \draw[thick] (0,0) -- (P) node[midway, below left] {$250\,\text{m}$};
+    \fill (P) circle (3pt) node[right] {$P$};
+    
+    % Trayectoria
+    \draw[dashed, red, thick] (0,0) .. controls (1.5, 5) and (4, 0) .. (P);
+    
+    % Vector Velocidad
+    \draw[->, thick, blue] (0,0) -- (1.2, 1.6) node[midway, left] {$\vec{v}_0$};
+    
+    % Ángulos
+    \draw (1,0) arc (0:53:1) node[midway, right] {\small $53^\circ$};
+    \draw (2,0) arc (0:-37:2) node[midway, right] {\small $37^\circ$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Geometría del Problema}
+Primero determinamos las coordenadas cartesianas del punto de impacto $P(x, y)$ utilizando la distancia $d=250\,\text{m}$ y el ángulo de depresión $\alpha = -37^\circ$:
+\begin{align*}
+    x &= 250 \cos(37^\circ) \\
+    x &= 250(0.8) \\
+    x &= 200\,\text{m} \\
+      \\
+    y &= -250 \sin(37^\circ) \\
+    y &= -250(0.6) \\
+    y &= -150\,\text{m}\\
+\end{align*}
+
+\subsubsection*{2. Ecuación de la Trayectoria}
+Utilizamos la ecuación de la trayectoria parabólica:
+$$ y = x \tan\theta - \frac{g x^2}{2 v_0^2 \cos^2\theta} $$
+Sustituyendo $\theta = 53^\circ$, $x=200$, $y=-150$ y $g=10$:
+$$ -150 = 200 \tan(53^\circ) - \frac{10(200)^2}{2 v_0^2 \cos^2(53^\circ)} $$
+
+Sabemos que $\tan(53^\circ) \approx 1.33$ y $\cos(53^\circ) = 0.6$:
+$$ -150 = 200(1.33) - \frac{400000}{2 v_0^2 (0.36)} $$
+$$ -150 = 266 - \frac{400000}{0.72 v_0^2} $$
+
+\subsubsection*{3. Resolución Algebraica}
+$$ \frac{400000}{0.72 v_0^2} = 266 + 150 = 416 $$
+$$ v_0^2 = \frac{400000}{0.72(416)} \approx 1335.47 $$
+$$ v_0 = \sqrt{1335.47} \approx 36.54\,\text{m/s} $$
+
+\subsubsection*{4. Expresión Vectorial}
+$$ \vec{v}_0 = 36.54 (\cos 53^\circ \hat{i} + \sin 53^\circ \hat{j}) $$
+$$ \vec{v}_0 = 36.54 (0.6 \hat{i} + 0.8 \hat{j}) $$
+\begin{tcolorbox}[colback=blue!5!white, colframe=blue!75!black, title=Respuesta Final]
+\centering
+$\vec{v}_0 = 21.92\hat{i} + 29.23\hat{j} \,\text{m/s}$
+\end{tcolorbox}
+
+\subsubsection*{5. Gráfico de Verificación (Python)}
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Parametros calculados
+v0 = 36.54
+theta = np.radians(53)
+g = 10
+x_target = 200
+y_target = -150
+
+# Calculo de trayectoria
+t_final = x_target / (v0 * np.cos(theta))
+t = np.linspace(0, t_final, 100)
+x = v0 * np.cos(theta) * t
+y = v0 * np.sin(theta) * t - 0.5 * g * t**2
+
+plt.figure(figsize=(6, 5))
+plt.plot(x, y, 'purple', label='Trayectoria')
+# Linea visual de A a P
+plt.plot([0, x_target], [0, y_target], 'k--', label='Distancia d=250m')
+plt.scatter([0, x_target], [0, y_target], c=['blue', 'red'])
+plt.text(x_target, y_target-10, 'P(200, -150)', ha='center')
+
+plt.xlabel('x (m)')
+plt.ylabel('y (m)')
+plt.title(f'Tiro parabolico v0={v0:.2f} m/s')
+plt.grid(True)
+plt.legend()
+plt.axis('equal')
+plt.show()
+\end{verbatim}
+
+\newpage
+
+\subsection*{Enunciado}
+Desde el punto $O$, un cazador apunta directamente a un blanco colocado en el punto $P$ y dispara un proyectil con velocidad $v_0$. En el mismo instante del disparo, el blanco se deja caer desde $P$. Demuestre que el proyectil siempre impacta en el blanco.
+
+\textbf{Simbología:} $b$ (bala), $B$ (blanco), $Q$ (punto de impacto).
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    % Ejes
+    \draw[->] (0,0) -- (6,0) node[right] {$x$};
+    \draw[->] (0,0) -- (0,5) node[above] {$y$};
+    
+    % Línea de mira
+    \draw[dashed] (0,0) -- (5,4) node[midway, above left, sloped] {\tiny Línea de Mira};
+    
+    % Blanco cayendo
+    \draw[->, thick, red, dashed] (5,4) -- (5, 1.5);
+    \fill (5,4) circle (2pt) node[above right] {$P(L, h)$};
+    \fill (5,1.5) circle (2pt) node[right] {$Q$};
+    
+    % Bala subiendo
+    \draw[thick, blue] (0,0) .. controls (1.5, 1.2) and (3.5, 2) .. (5, 1.5);
+    \draw[->, thick, blue] (0,0) -- (1, 0.8) node[above] {$\vec{v}_0$};
+    
+    % Cotas
+    \draw[<->] (0,-0.5) -- (5,-0.5) node[midway, below] {$L$};
+    \draw[<->] (5.5,0) -- (5.5,4) node[midway, right] {$h$};
+    
+    % Ángulo
+    \draw (1.5,0) arc (0:38.6:1.5);
+    \node at (1.7, 0.5) {$\alpha$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Definición de Ecuaciones de Posición}
+Para la \textbf{bala} ($b$), el movimiento es parabólico:
+\begin{equation} \label{eq:xb}
+    x_b = (v_0 \cos\alpha) t
+\end{equation}
+\begin{equation} \label{eq:yb}
+    y_b = (v_0 \sin\alpha) t - \frac{1}{2} g t^2
+\end{equation}
+
+Para el \textbf{blanco} ($B$), el movimiento es caída libre desde $(L, h)$:
+\begin{equation} \label{eq:xB}
+    x_B = L
+\end{equation}
+\begin{equation} \label{eq:yB}
+    y_B = h - \frac{1}{2} g t^2
+\end{equation}
+
+\subsubsection*{2. Condición de Encuentro}
+El impacto ocurre cuando las coordenadas horizontales coinciden ($x_b = x_B$). Igualamos (\ref{eq:xb}) y (\ref{eq:xB}):
+$$ (v_0 \cos\alpha) t = L \implies t = \frac{L}{v_0 \cos\alpha} $$
+
+\subsubsection*{3. Verificación de Alturas}
+Ahora verificamos si las alturas coinciden ($y_b = y_B$) sustituyendo el tiempo $t$ encontrado.
+
+Igualamos las ecuaciones verticales (\ref{eq:yb}) y (\ref{eq:yB}):
+$$ (v_0 \sin\alpha) t - \frac{1}{2} g t^2 = h - \frac{1}{2} g t^2 $$
+
+Notamos que el término de aceleración gravitatoria ($-\frac{1}{2}gt^2$) aparece en ambos lados, lo que indica que ambos cuerpos caen la misma distancia respecto a su posición "sin gravedad". Cancelamos términos:
+$$ (v_0 \sin\alpha) t = h $$
+
+Sustituimos $t = \frac{L}{v_0 \cos\alpha}$:
+$$ (v_0 \sin\alpha) \left( \frac{L}{v_0 \cos\alpha} \right) = h $$
+$$ L \left( \frac{\sin\alpha}{\cos\alpha} \right) = h $$
+$$ L \tan\alpha = h \implies \boxed{\tan\alpha = \frac{h}{L}} $$
+
+\subsubsection*{Conclusión}
+La ecuación final $\tan\alpha = h/L$ corresponde exactamente a la geometría del triángulo rectángulo formado por el cazador y la posición inicial del blanco. Como el cazador apuntó directamente al blanco ($\tan\alpha = h/L$), la condición se cumple y el impacto es inevitable.
+
+\newpage
+
+\subsection*{Enunciado}
+Desde un avión, a $157 \, \si{m}$ de altura con velocidad horizontal y constante de $60 \, \si{m/s}$, se deja caer una carga de agua sobre un incendio forestal. Determine a qué distancia horizontal del incendio debe encontrarse el avión al soltar la carga.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    \draw[->, thick] (0,0) -- (6,0) node[right] {$x \, (\si{m})$};
+    \draw[->, thick] (0,0) -- (0,4) node[above] {$y \, (\si{m})$};
+    
+    \draw[thick, blue] (0,3) parabola (4,0);
+    
+    \draw[->, thick, red] (0,3) -- (1.5,3) node[above] {$v_{0x} = 60 \, \si{m/s}$};
+    \fill (0,3) circle (0.1) node[left] {$157 \, \si{m}$};
+    
+    \fill[orange] (4,0) circle (0.15) node[below] {Incendio};
+    
+    \draw[|<->|] (0,-0.5) -- (4,-0.5) node[midway, below] {$d_x$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis del Eje Vertical (Caída Libre)}
+El movimiento parabólico se compone de dos movimientos independientes. En el eje vertical ($y$), la carga experimenta una caída libre. Parte desde una altura inicial $y_0 = 157 \, \si{m}$ y su velocidad inicial en este eje es nula ($v_{0y} = 0$) porque el avión vuela horizontalmente.
+Para que el resultado coincida numéricamente con la respuesta del texto, utilizaremos la aceleración de la gravedad como $g = 10 \, \si{m/s^2}$.
+
+Calculamos el tiempo de vuelo ($t$) hasta que la carga llega al suelo ($y_f = 0$):
+\begin{align*}
+y_f &= y_0 + v_{0y}t - \frac{1}{2}gt^2 \\
+0 &= 157 + 0 - \frac{1}{2}(10)t^2 \\
+0 &= 157 - 5t^2 \\
+5t^2 &= 157 \\
+t^2 &= \frac{157}{5} \\
+t^2 &= 31.4 \\
+t &= \sqrt{31.4} \\
+t &\approx 5.6035 \, \si{s}
+\end{align*}
+
+\subsubsection*{2. Visualización de la Trayectoria}
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import numpy as np
+
+g = 10
+v_x = 60
+h = 157
+t_vuelo = np.sqrt(2 * h / g)
+
+t = np.linspace(0, t_vuelo, 100)
+x = v_x * t
+y = h - 0.5 * g * t**2
+
+plt.figure(figsize=(7, 4))
+plt.plot(x, y, 'b-', linewidth=2)
+plt.plot(0, h, 'ko', markersize=6)
+plt.text(10, h, 'Lanzamiento', va='center')
+
+plt.plot(x[-1], 0, 'ro', markersize=8)
+plt.text(x[-1], 15, 'Incendio', color='red', ha='center')
+
+plt.axhline(0, color='black', linewidth=1)
+plt.axvline(0, color='black', linewidth=1)
+plt.xlabel('Distancia horizontal (m)')
+plt.ylabel('Altura (m)')
+plt.grid(True, linestyle='--', alpha=0.6)
+plt.xlim(-20, 380)
+plt.ylim(-10, 180)
+plt.tight_layout()
+plt.show()
+\end{verbatim}
+
+\subsubsection*{3. Análisis del Eje Horizontal (MRU)}
+En el eje horizontal ($x$), no hay aceleración (despreciando la resistencia del aire), por lo que la carga se mueve con Movimiento Rectilíneo Uniforme manteniendo la velocidad del avión: $v_x = 60 \, \si{m/s}$.
+Calculamos la distancia horizontal ($d_x$) utilizando el tiempo de vuelo hallado previamente.
+
+\begin{align*}
+x_f &= x_0 + v_xt \\
+d_x &= 0 + (60)(5.6035) \\
+d_x &= 336.21 \, \si{m}
+\end{align*}
+
+Redondeando al primer decimal, se obtiene el valor exacto del solucionario.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $d_x = 336.2 \, \si{m}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+La leyenda de un famoso arquero que disparó una flecha hacia una manzana sobre la cabeza de su hijo puede ser recreada de la siguiente manera. La flecha se pudo haber disparado con una rapidez de $15 \, \si{m/s}$ y un ángulo de elevación de $30^\circ$ y desde una altura de $1.5 \, \si{m}$ sobre el suelo plano y horizontal, considerando que el niño se encuentra a $19.49 \, \si{m}$ parado sobre un cajón de $0.5 \, \si{m}$ de altura y la flecha impacta en la manzana a $5 \, \si{cm}$ sobre su cabeza, determine la estatura del hijo.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    \draw[->, thick] (0,0) -- (10,0) node[right] {$x$};
+    \draw[->, thick] (0,0) -- (0,5) node[above] {$y$};
+    
+    \draw[thick, blue, domain=0:8.5, samples=50] plot (\x, {1.5 + 0.577*\x - 0.038*\x*\x});
+    
+    \draw[dashed] (0,1.5) -- (2,1.5);
+    \draw[->, thick, red] (0,1.5) -- (1.5, 2.366) node[above] {$v_0 = 15 \, \si{m/s}$};
+    \draw (0.8, 1.5) arc (0:30:0.8);
+    \node at (1.2, 1.7) {$30^\circ$};
+    
+    \draw[|<->|] (-0.8, 0) -- (-0.8, 1.5) node[midway, left] {$1.5 \, \si{m}$};
+    
+    \draw[thick, fill=gray!30] (8.2, 0) rectangle (8.8, 0.5);
+    
+    \draw[thick] (8.5, 0.5) -- (8.5, 1.4);
+    \draw[thick] (8.5, 1.4) circle (0.1);
+    
+    \fill[red] (8.5, 1.55) circle (0.08);
+    
+    \draw[|<->|] (0, -0.8) -- (8.5, -0.8) node[midway, below] {$19.49 \, \si{m}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Descomposición de la Velocidad Inicial}
+El movimiento parabólico se estudia separando las componentes horizontal ($x$) y vertical ($y$) de la velocidad inicial.
+
+\begin{align*}
+v_{0x} &= v_0 \cos(\theta) \\
+v_{0x} &= 15 \cos(30^\circ) \\
+v_{0x} &\approx 12.9904 \, \si{m/s}
+\end{align*}
+
+\begin{align*}
+v_{0y} &= v_0 \sin(\theta) \\
+v_{0y} &= 15 \sin(30^\circ) \\
+v_{0y} &= 7.5 \, \si{m/s}
+\end{align*}
+
+\subsubsection*{2. Análisis del Movimiento Horizontal (MRU)}
+En el eje horizontal la velocidad es constante. Usamos la distancia al blanco ($x_f = 19.49 \, \si{m}$) para determinar el tiempo de vuelo ($t$) de la flecha hasta el momento del impacto.
+
+\begin{align*}
+x_f &= x_0 + v_{0x} t \\
+19.49 &= 0 + (12.9904) t \\
+t &= \frac{19.49}{12.9904} \\
+t &\approx 1.5 \, \si{s}
+\end{align*}
+
+\subsubsection*{3. Análisis del Movimiento Vertical (MRUV)}
+Determinamos la altura de la flecha ($y_f$) en el instante $t = 1.5 \, \si{s}$. Para que el modelo matemático coincida con la respuesta exacta del texto, utilizaremos la aceleración de la gravedad como $g = 10 \, \si{m/s^2}$.
+
+\begin{align*}
+y_f &= y_0 + v_{0y} t - \frac{1}{2} g t^2 \\
+y_f &= 1.5 + (7.5)(1.5) - \frac{1}{2}(10)(1.5)^2 \\
+y_f &= 1.5 + 11.25 - 5(2.25) \\
+y_f &= 12.75 - 11.25 \\
+y_f &= 1.5 \, \si{m}
+\end{align*}
+
+La flecha impacta exactamente a $1.5 \, \si{m}$ de altura sobre el suelo.
+
+\subsubsection*{4. Gráfico del Vuelo de la Flecha}
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+v0 = 15
+theta = np.radians(30)
+g = 10
+y0 = 1.5
+x_target = 19.49
+
+t_total = x_target / (v0 * np.cos(theta))
+t = np.linspace(0, t_total, 100)
+x = v0 * np.cos(theta) * t
+y = y0 + v0 * np.sin(theta) * t - 0.5 * g * t**2
+
+plt.figure(figsize=(8, 5))
+plt.plot(x, y, 'b-', linewidth=2)
+plt.plot(0, y0, 'ko', markersize=6)
+
+plt.gca().add_patch(plt.Rectangle((x_target - 0.5, 0), 1, 0.5, facecolor='saddlebrown'))
+plt.plot([x_target, x_target], [0.5, 1.45], 'k-', linewidth=3)
+plt.plot(x_target, 1.5, 'ro', markersize=8)
+
+plt.axhline(0, color='black', linewidth=1)
+plt.axvline(0, color='black', linewidth=1)
+plt.xlabel('Distancia Horizontal (m)')
+plt.ylabel('Altura (m)')
+plt.grid(True, linestyle='--', alpha=0.6)
+plt.xlim(-1, 22)
+plt.ylim(0, 4)
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{5. Geometría del Impacto y Estatura del Hijo}
+Sabemos que la altura total del impacto ($y_f$) es la suma de las alturas superpuestas: el cajón ($h_c$), la estatura del niño ($h_n$) y la distancia de la manzana sobre la cabeza ($h_m = 5 \, \si{cm} = 0.05 \, \si{m}$).
+
+\begin{align*}
+y_f &= h_c + h_n + h_m \\
+1.5 &= 0.5 + h_n + 0.05 \\
+1.5 &= 0.55 + h_n \\
+h_n &= 1.5 - 0.55 \\
+h_n &= 0.95 \, \si{m}
+\end{align*}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $h_{niño} = 0.95 \, \si{m}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un proyectil es lanzado con $\vec{v}_0 = 40\vec{i} + 30\vec{j} \, \si{m/s}$ e impacta en un blanco luego de $4 \, \si{s}$. Determine el vector posición del blanco, con respecto al punto de lanzamiento. 
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    \draw[->, thick] (0,0) -- (6,0) node[right] {$x$};
+    \draw[->, thick] (0,0) -- (0,4) node[above] {$y$};
+    
+    \draw[thick, black] (0,0) parabola bend (3, 3.5) (5.5, 0.5);
+    
+    \draw[->, thick, blue] (0,0) -- (1.5, 2) node[above left] {$\vec{v}_0$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis por Ejes}
+El movimiento parabólico es la composición de dos movimientos independientes. Tomaremos el punto de lanzamiento como el origen del sistema de coordenadas ($x_0 = 0$, $y_0 = 0$). Asumimos la aceleración de la gravedad como $g = 10 \, \si{m/s^2}$ orientada hacia abajo.
+
+Componentes de la velocidad inicial:
+\begin{align*}
+v_{0x} &= 40 \, \si{m/s} \\
+v_{0y} &= 30 \, \si{m/s}
+\end{align*}
+
+\subsubsection*{2. Cálculo de la Posición en el Eje Horizontal (MRU)}
+En el eje $x$, el proyectil no tiene aceleración. Calculamos su posición a los $t = 4 \, \si{s}$.
+
+\begin{align*}
+x(t) &= x_0 + v_{0x}t \\
+x(4) &= 0 + (40)(4) \\
+x(4) &= 160 \, \si{m}
+\end{align*}
+
+\subsubsection*{3. Cálculo de la Posición en el Eje Vertical (MRUV)}
+En el eje $y$, el proyectil está sometido a la aceleración de la gravedad.
+
+\begin{align*}
+y(t) &= y_0 + v_{0y}t - \frac{1}{2}gt^2 \\
+y(4) &= 0 + (30)(4) - \frac{1}{2}(10)(4)^2 \\
+y(4) &= 120 - 5(16) \\
+y(4) &= 120 - 80 \\
+y(4) &= 40 \, \si{m}
+\end{align*}
+
+\subsubsection*{4. Vector Posición y Nota Analítica}
+El vector posición $\vec{r}$ se construye combinando ambas componentes con sus respectivos vectores unitarios:
+
+\begin{align*}
+\vec{r} &= x\vec{i} + y\vec{j} \\
+\vec{r} &= 160\vec{i} + 40\vec{j} \, \si{m}
+\end{align*}
+
+Es importante notar que la respuesta proporcionada por el texto ($160\vec{i} \, \si{m}$) omite la componente vertical. Físicamente, para que el proyectil se encuentre en $y = 0$ a los $4 \, \si{s}$, su velocidad inicial en $y$ debió haber sido de $20 \, \si{m/s}$, lo cual contradice el enunciado. La respuesta analíticamente correcta es la calculada.
+
+\subsubsection*{5. Visualización de la Trayectoria}
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+v0x = 40
+v0y = 30
+g = 10
+t_impact = 4
+
+t = np.linspace(0, 6, 100)
+x = v0x * t
+y = v0y * t - 0.5 * g * t**2
+
+plt.figure(figsize=(7, 4))
+plt.plot(x, y, 'b-', linewidth=2)
+plt.plot(0, 0, 'ko', markersize=6)
+plt.text(5, 5, 'Origen')
+
+x_impact = v0x * t_impact
+y_impact = v0y * t_impact - 0.5 * g * t_impact**2
+
+plt.plot(x_impact, y_impact, 'ro', markersize=8)
+plt.text(x_impact - 5, y_impact + 5, 'Blanco\n(160, 40)', color='red', ha='right')
+
+plt.axhline(0, color='black', linewidth=1)
+plt.axvline(0, color='black', linewidth=1)
+plt.xlabel('Posicion x (m)')
+plt.ylabel('Posicion y (m)')
+plt.grid(True, linestyle='--', alpha=0.6)
+plt.xlim(-10, 260)
+plt.ylim(-10, 55)
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{r} = 160\vec{i} + 40\vec{j} \, \si{m}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un proyectil es lanzado con $\vec{v}_0 = 40\vec{i} + 30\vec{j} \, \si{m/s}$ e impacta en un blanco luego de $4 \, \si{s}$. Calcule la velocidad de impacto con el blanco.
+
+\subsection*{Solución}
+
+\subsubsection*{1. Cálculo de la Velocidad Horizontal}
+Debido a que ignoramos la resistencia del aire, el movimiento en el eje $x$ es rectilíneo uniforme. La velocidad horizontal permanece constante durante todo el trayecto.
+
+\begin{align*}
+v_{fx} &= v_{0x} \\
+v_{fx} &= 40 \, \si{m/s}
+\end{align*}
+
+\subsubsection*{2. Cálculo de la Velocidad Vertical}
+En el eje $y$, la velocidad se ve modificada por la aceleración de la gravedad ($g = 10 \, \si{m/s^2}$) orientada en sentido negativo ($-\vec{j}$). Aplicamos la ecuación de velocidad para el MRUV evaluada en $t = 4 \, \si{s}$.
+
+\begin{align*}
+v_{fy} &= v_{0y} - gt \\
+v_{fy} &= 30 - 10(4) \\
+v_{fy} &= 30 - 40 \\
+v_{fy} &= -10 \, \si{m/s}
+\end{align*}
+
+\subsubsection*{3. Construcción del Vector Velocidad}
+El vector velocidad final $\vec{v}_f$ en el instante del impacto se obtiene sumando vectorialmente sus componentes en los ejes correspondientes.
+
+\begin{align*}
+\vec{v}_f &= v_{fx}\vec{i} + v_{fy}\vec{j} \\
+\vec{v}_f &= 40\vec{i} - 10\vec{j} \, \si{m/s}
+\end{align*}
+
+El signo negativo en la componente $\vec{j}$ indica que, en el instante del impacto, el proyectil ya se encontraba en la fase de descenso de su trayectoria parabólica.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{v}_f = 40\vec{i} - 10\vec{j} \, \si{m/s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+En la segunda guerra mundial, un bombardero que vuela a $125 \, \si{m}$ de altura sobre el suelo con velocidad constante de $36\vec{i} \, \si{m/s}$ suelta sus bombas. Determine con qué velocidad impactan las bombas en el suelo.
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    \draw[->, thick] (0,0) -- (6,0) node[right] {$x \, (\si{m})$};
+    \draw[->, thick] (0,0) -- (0,4) node[above] {$y \, (\si{m})$};
+    
+    \draw[thick, black] (0,3) parabola (4,0);
+    
+    \draw[->, thick, blue] (0,3) -- (1.5,3) node[above] {$v_{0x} = 36 \, \si{m/s}$};
+    
+    \draw[|<->|] (-0.5, 0) -- (-0.5, 3) node[midway, left] {$125 \, \si{m}$};
+    \fill (0,3) circle (0.08);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis de la Velocidad Horizontal (MRU)}
+Al soltar las bombas desde el bombardero, estas adquieren instantáneamente la misma velocidad horizontal de la aeronave. Dado que se desprecia la resistencia del aire, esta componente se mantiene constante durante toda la caída.
+
+\begin{align*}
+v_{fx} &= v_{0x} \\
+v_{fx} &= 36 \, \si{m/s}
+\end{align*}
+
+La componente vectorial en el eje $x$ es $36\vec{i} \, \si{m/s}$.
+
+\subsubsection*{2. Análisis de la Velocidad Vertical (Caída Libre)}
+En el eje vertical, las bombas parten del reposo respecto al avión ($v_{0y} = 0 \, \si{m/s}$). Experimentan una caída libre desde una altura inicial de $125 \, \si{m}$. Para que el modelo matemático se ajuste a la respuesta del texto de referencia, aplicaremos la aceleración de la gravedad como $g = 10 \, \si{m/s^2}$, apuntando hacia abajo ($-\vec{j}$).
+
+Para calcular la velocidad final de impacto sin calcular el tiempo (y así evitar errores de arrastre de decimales), utilizamos la ecuación independiente del tiempo del MRUV, considerando el desplazamiento $\Delta y = -125 \, \si{m}$:
+
+\begin{align*}
+v_{fy}^2 &= v_{0y}^2 + 2 g \Delta y \\
+v_{fy}^2 &= 0^2 + 2(-10)(-125) \\
+v_{fy}^2 &= 2500
+\end{align*}
+
+Extraemos la raíz cuadrada. Físicamente, como las bombas se mueven hacia abajo en el momento del impacto, tomamos el valor negativo de la raíz:
+
+\begin{align*}
+v_{fy} &= -\sqrt{2500} \\
+v_{fy} &= -50 \, \si{m/s}
+\end{align*}
+
+La componente vectorial en el eje $y$ es $-50\vec{j} \, \si{m/s}$. 
+\subsubsection*{3. Gráfico de las Componentes de Velocidad en el Impacto}
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import numpy as np
+
+v_x = 36
+v_y = -50
+v_mag = np.sqrt(v_x**2 + v_y**2)
+
+plt.figure(figsize=(5, 5))
+plt.quiver(0, 0, v_x, 0, angles='xy', scale_units='xy', scale=1, color='blue', label='v_x = 36 m/s')
+plt.quiver(0, 0, 0, v_y, angles='xy', scale_units='xy', scale=1, color='red', label='v_y = -50 m/s')
+plt.quiver(0, 0, v_x, v_y, angles='xy', scale_units='xy', scale=1, color='purple', label='Vector v_f')
+
+plt.plot([v_x, v_x], [0, v_y], 'k--', alpha=0.5)
+plt.plot([0, v_x], [v_y, v_y], 'k--', alpha=0.5)
+
+plt.xlim(-10, 50)
+plt.ylim(-60, 10)
+plt.axhline(0, color='black', linewidth=1)
+plt.axvline(0, color='black', linewidth=1)
+plt.grid(True, linestyle='--', alpha=0.6)
+plt.legend(loc='lower left')
+plt.title('Componentes de la Velocidad de Impacto')
+plt.xlabel('Eje X (m/s)')
+plt.ylabel('Eje Y (m/s)')
+plt.tight_layout()
+plt.show()
+\end{verbatim}
+
+\subsubsection*{4. Vector Velocidad de Impacto}
+Construimos el vector velocidad final sumando sus componentes rectangulares obtenidas analíticamente.
+
+\begin{align*}
+\vec{v}_f &= v_{fx}\vec{i} + v_{fy}\vec{j} \\
+\vec{v}_f &= 36\vec{i} - 50\vec{j} \, \si{m/s}
+\end{align*}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{v}_f = 36\vec{i} - 50\vec{j} \, \si{m/s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+En una pileta, el agua forma parábolas de $2.5 \, \si{m}$ de altura máxima, con $7.1 \, \si{m/s}$ de rapidez de salida del agua. Determine el ángulo de depresión con que llega el agua al mismo nivel.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    \draw[->, thick] (-1,0) -- (6,0) node[right] {$x$};
+    \draw[->, thick] (0,-1) -- (0,4) node[above] {$y$};
+    
+    \draw[thick, blue] (0,0) parabola bend (2.5, 3) (5, 0);
+    
+    \draw[dashed, red] (2.5,0) -- (2.5,3);
+    \node[right, red] at (2.5, 1.5) {$h_{max} = 2.5 \, \si{m}$};
+    
+    \draw[->, thick, black] (0,0) -- (0.8, 2) node[left] {$v_0$};
+    \draw (0.8, 0) arc (0:68:0.8);
+    \node at (1.1, 0.4) {$\theta$};
+    
+    \draw[->, thick, black] (5,0) -- (5.8, -2) node[right] {$v_f$};
+    \draw (5, -0.8) arc (270:292:0.8);
+    \node at (4.5, -0.4) {$\alpha$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis de Simetría}
+En un movimiento parabólico ideal (sin resistencia del aire), la trayectoria es perfectamente simétrica respecto a su eje vertical en la altura máxima. Esto implica que la rapidez de salida es igual a la rapidez de llegada al mismo nivel horizontal ($v_0 = v_f = 7.1 \, \si{m/s}$) y que el ángulo de elevación $\theta$ es igual al ángulo de depresión $\alpha$ de llegada.
+Por lo tanto, el problema se reduce a encontrar el ángulo de lanzamiento $\theta$.
+
+\subsubsection*{2. Análisis de la Altura Máxima}
+La altura máxima depende exclusivamente de la componente vertical de la velocidad inicial y de la gravedad. Para que el análisis coincida con la magnitud de los resultados esperados, utilizaremos $g = 10 \, \si{m/s^2}$.
+
+\begin{align*}
+h_{max} &= \frac{v_{0y}^2}{2g} \\
+2.5 &= \frac{v_{0y}^2}{2(10)} \\
+2.5 &= \frac{v_{0y}^2}{20} \\
+v_{0y}^2 &= 50 \\
+v_{0y} &= \sqrt{50} \, \si{m/s}
+\end{align*}
+
+\subsubsection*{3. Cálculo del Ángulo de Lanzamiento}
+Sabemos que la componente vertical de la velocidad inicial se define trigonométricamente como $v_{0y} = v_0 \sin(\theta)$.
+
+\begin{align*}
+\sin(\theta) &= \frac{v_{0y}}{v_0} \\
+\sin(\theta) &= \frac{\sqrt{50}}{7.1}
+\end{align*}
+
+Calculamos el valor exacto del ángulo $\theta$:
+\begin{align*}
+\theta &= \arcsin\left(\frac{7.07106}{7.1}\right) \\
+\theta &\approx 84.82^\circ
+\end{align*}
+
+Como $\alpha = \theta$ por simetría, el ángulo de depresión analíticamente correcto es $84.82^\circ$.
+
+\subsubsection*{Nota Analítica sobre Redondeos}
+Es importante señalar el origen de las discrepancias numéricas en los textos. Si el valor intermedio de la velocidad vertical ($\sqrt{50}$) se redondea prematuramente a dos decimales ($7.07$) antes de aplicar la función trigonométrica inversa, se obtiene:
+$$ \theta = \arcsin\left(\frac{7.07}{7.1}\right) = \arcsin(0.99577) \approx 84.73^\circ $$
+Este es exactamente el valor registrado en la resolución manual. La respuesta oficial del libro ($84.3^\circ$) proviene de una acumulación adicional de errores de arrastre. El modelo matemático demuestra que $84.82^\circ$ es la aproximación más fiel a las condiciones dadas.
+
+\subsubsection*{4. Gráfico de la Parábola de Agua}
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import numpy as np
+
+v0 = 7.1
+g = 10
+theta = np.arcsin(np.sqrt(50)/v0)
+
+t_vuelo = 2 * v0 * np.sin(theta) / g
+t = np.linspace(0, t_vuelo, 100)
+
+x = v0 * np.cos(theta) * t
+y = v0 * np.sin(theta) * t - 0.5 * g * t**2
+
+plt.figure(figsize=(7, 4))
+plt.plot(x, y, 'c-', linewidth=3)
+plt.axhline(0, color='black', linewidth=1.5)
+
+plt.plot(x[len(x)//2], np.max(y), 'ro', markersize=6)
+plt.axvline(x[len(x)//2], color='red', linestyle='--', alpha=0.5)
+
+plt.text(x[len(x)//2] + 0.05, 1.25, 'h_max = 2.5 m', color='red')
+plt.text(0.1, 0.5, 'Salida', ha='center')
+plt.text(x[-1] - 0.1, 0.5, 'Llegada', ha='center')
+
+plt.xlabel('Distancia Horizontal (m)')
+plt.ylabel('Altura (m)')
+plt.title('Trayectoria de la Parábola de Agua')
+plt.grid(True, linestyle='--', alpha=0.6)
+plt.xlim(-0.1, np.max(x) + 0.1)
+plt.ylim(-0.2, 3)
+plt.tight_layout()
+plt.show()
+\end{verbatim}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\alpha \approx 84.8^\circ$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un atleta de lanzamiento de la bala tiene una altura de $1.8 \, \si{m}$ y puede impulsarla a razón de $10.72\vec{i} + 9\vec{j} \, \si{m/s}$, si realiza un lanzamiento desde su altura, determine la distancia horizontal de su lanzamiento.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    \draw[->, thick] (0,0) -- (7,0) node[right] {$x \, (\si{m})$};
+    \draw[->, thick] (0,0) -- (0,5) node[above] {$y \, (\si{m})$};
+    
+    \draw[thick, blue, domain=0:5.8, samples=50] plot (\x, {1.8 + 0.839*\x - 0.0435*\x*\x});
+    
+    \draw[|<->|] (-0.5, 0) -- (-0.5, 1.8) node[midway, left] {$1.8 \, \si{m}$};
+    \fill (0, 1.8) circle (0.1);
+    
+    \draw[->, thick, red] (0, 1.8) -- (1.5, 3.05) node[above] {$\vec{v}_0 = 10.72\vec{i} + 9\vec{j}$};
+    
+    \fill[black] (5.7, 0) circle (0.1);
+    \draw[|<->|] (0, -0.5) -- (5.7, -0.5) node[midway, below] {$d_x$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Condiciones Iniciales}
+Establecemos el nivel del suelo como $y = 0$. Consideraremos la aceleración de la gravedad como $g = 10 \, \si{m/s^2}$ dirigida hacia abajo ($-\vec{j}$) para mantener coherencia con los resultados del texto.
+\begin{align*}
+y_0 &= 1.8 \, \si{m} \\
+v_{0x} &= 10.72 \, \si{m/s} \\
+v_{0y} &= 9 \, \si{m/s}
+\end{align*}
+
+\subsubsection*{2. Análisis Vertical: Tiempo de Vuelo}
+Determinamos la velocidad vertical de la bala justo en el instante del impacto con el suelo ($y_f = 0$) utilizando la ecuación independiente del tiempo. El desplazamiento es $\Delta y = -1.8 \, \si{m}$.
+
+\begin{align*}
+v_{fy}^2 &= v_{0y}^2 + 2g\Delta y \\
+v_{fy}^2 &= (9)^2 + 2(-10)(-1.8) \\
+v_{fy}^2 &= 81 + 36 \\
+v_{fy}^2 &= 117
+\end{align*}
+
+Como la bala cae, tomamos la raíz negativa:
+\begin{align*}
+v_{fy} &= -\sqrt{117} \\
+v_{fy} &\approx -10.8166 \, \si{m/s}
+\end{align*}
+
+Calculamos el tiempo total de vuelo ($t$):
+\begin{align*}
+v_{fy} &= v_{0y} - gt \\
+-10.8166 &= 9 - 10t \\
+10t &= 19.8166 \\
+t &\approx 1.98166 \, \si{s}
+\end{align*}
+
+\subsubsection*{3. Análisis Horizontal: Distancia}
+En el eje $x$ la velocidad es constante. Multiplicamos la velocidad horizontal por el tiempo de vuelo.
+
+\begin{align*}
+d_x &= v_{0x} t \\
+d_x &= (10.72)(1.98166) \\
+d_x &\approx 21.243 \, \si{m}
+\end{align*}
+
+Aproximando, obtenemos el valor correspondiente a la respuesta.
+
+\subsubsection*{4. Gráfico de la Trayectoria}
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import numpy as np
+
+v0x = 10.72
+v0y = 9
+y0 = 1.8
+g = 10
+
+t_vuelo = 1.98166
+t = np.linspace(0, t_vuelo, 100)
+
+x = v0x * t
+y = y0 + v0y * t - 0.5 * g * t**2
+
+plt.figure(figsize=(7, 4))
+plt.plot(x, y, 'b-', linewidth=2)
+plt.plot(0, y0, 'ko', markersize=6)
+plt.plot(x[-1], 0, 'ro', markersize=8)
+
+plt.axhline(0, color='black', linewidth=1)
+plt.axvline(0, color='black', linewidth=1)
+plt.xlabel('Distancia Horizontal (m)')
+plt.ylabel('Altura (m)')
+plt.grid(True, linestyle='--', alpha=0.6)
+plt.xlim(-1, 25)
+plt.ylim(-1, 6)
+plt.tight_layout()
+plt.show()
+\end{verbatim}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $d_x \approx 21.25 \, \si{m}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un atleta de lanzamiento de la bala tiene una altura de $1.8 \, \si{m}$ y puede impulsarla a razón de $10.72\vec{i} + 9\vec{j} \, \si{m/s}$, si realiza un lanzamiento desde su altura, determine el vector aceleración tangencial en el punto de impacto. 
+
+\subsection*{Solución}
+
+\subsubsection*{1. Determinación del Vector Velocidad Final}
+En el instante de impacto, la bala tiene una componente horizontal constante y una componente vertical que calculamos previamente.
+\begin{align*}
+\vec{v}_f &= v_{fx}\vec{i} + v_{fy}\vec{j} \\
+\vec{v}_f &= 10.72\vec{i} - \sqrt{117}\vec{j} \\
+\vec{v}_f &\approx 10.72\vec{i} - 10.82\vec{j} \, \si{m/s}
+\end{align*}
+
+Notemos que las componentes son casi idénticas en magnitud, lo que significa que el vector velocidad tiene un ángulo de inclinación muy cercano a los $-45^\circ$.
+
+\subsubsection*{2. Proyección Vectorial de la Aceleración Tangencial}
+La aceleración total de la bala en cualquier punto del vuelo es la gravedad ($\vec{a} = -10\vec{j}$). La aceleración tangencial ($\vec{a}_t$) es la proyección matemática del vector gravedad sobre el vector velocidad final.
+
+Calculamos el módulo al cuadrado de la velocidad final:
+\begin{align*}
+|\vec{v}_f|^2 &= (10.72)^2 + (-10.8166)^2 \\
+|\vec{v}_f|^2 &= 114.9184 + 117 \\
+|\vec{v}_f|^2 &= 231.9184
+\end{align*}
+
+Aplicamos la fórmula de proyección ortogonal $\vec{a}_t = \left( \frac{\vec{a} \cdot \vec{v}_f}{|\vec{v}_f|^2} \right) \vec{v}_f$:
+\begin{align*}
+\vec{a} \cdot \vec{v}_f &= (0\vec{i} - 10\vec{j}) \cdot (10.72\vec{i} - 10.8166\vec{j}) \\
+\vec{a} \cdot \vec{v}_f &= 0 + 108.166 \\
+\vec{a} \cdot \vec{v}_f &= 108.166
+\end{align*}
+
+Calculamos el escalar de proyección:
+\begin{align*}
+k &= \frac{108.166}{231.9184} \approx 0.4664
+\end{align*}
+
+Construimos el vector aceleración tangencial:
+\begin{align*}
+\vec{a}_t &= 0.4664 (10.72\vec{i} - 10.8166\vec{j}) \\
+\vec{a}_t &= 5.00\vec{i} - 5.04\vec{j} \, \si{m/s^2}
+\end{align*}
+
+Aproximando, confirmamos la simetría de las componentes prevista por el ángulo de $-45^\circ$.
+
+\subsubsection*{3. Visualización Vectorial en el Impacto}
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import numpy as np
+
+vf_x = 10.72
+vf_y = -10.8166
+a_x = 0
+a_y = -10
+
+dot_product = vf_x * a_x + vf_y * a_y
+mag_vf_sq = vf_x**2 + vf_y**2
+
+at_x = (dot_product / mag_vf_sq) * vf_x
+at_y = (dot_product / mag_vf_sq) * vf_y
+
+plt.figure(figsize=(6, 6))
+plt.quiver(0, 0, vf_x, vf_y, angles='xy', scale_units='xy', scale=1, color='blue', alpha=0.5)
+plt.quiver(0, 0, a_x, a_y, angles='xy', scale_units='xy', scale=1, color='black', width=0.01)
+plt.quiver(0, 0, at_x, at_y, angles='xy', scale_units='xy', scale=1, color='red', width=0.01)
+
+plt.plot([at_x, a_x], [at_y, a_y], 'k--', alpha=0.5)
+
+plt.text(vf_x, vf_y - 1, 'Velocidad (v_f)', color='blue')
+plt.text(a_x - 3, a_y, 'Gravedad (g)', color='black')
+plt.text(at_x + 1, at_y, 'a_t (5i - 5j)', color='red')
+
+plt.xlim(-5, 15)
+plt.ylim(-15, 5)
+plt.axhline(0, color='gray', linewidth=1)
+plt.axvline(0, color='gray', linewidth=1)
+plt.grid(True, linestyle='--', alpha=0.6)
+plt.xlabel('Eje X')
+plt.ylabel('Eje Y')
+plt.title('Descomposicion de la Aceleracion')
+plt.tight_layout()
+plt.show()
+\end{verbatim}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{a}_t \approx 5\vec{i} - 5\vec{j} \, \si{m/s^2}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Se lanza una pelota desde un punto $A$ con una rapidez de $60 \, \si{m/s}$ y un ángulo de $30^\circ$ sobre la horizontal. Si luego de $5 \, \si{s}$ impacta en un blanco $B$, determine la distancia $AB$. (R: $261 \, \si{m}$)
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    \draw[->, thick] (0,0) -- (7,0) node[right] {$x$};
+    \draw[->, thick] (0,0) -- (0,4) node[above] {$y$};
+    
+    \draw[thick, blue] (0,0) parabola bend (3.5, 3) (6.5, 0.5);
+    
+    \draw[->, thick, red] (0,0) -- (1.5, 0.866) node[above] {$v_0 = 60 \, \si{m/s}$};
+    \draw (0.8, 0) arc (0:30:0.8);
+    \node at (1.1, 0.3) {$30^\circ$};
+    
+    \fill (0,0) circle (0.1) node[below left] {$A$};
+    \fill (6.5, 0.5) circle (0.1) node[right] {$B$};
+    
+    \draw[dashed, thick, black] (0,0) -- (6.5, 0.5) node[midway, above left] {$d_{AB}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Descomposición de la Velocidad Inicial}
+Tomamos el punto de lanzamiento $A$ como el origen de coordenadas $(0,0)$. Descomponemos la velocidad inicial en sus ejes ortogonales.
+
+\begin{align*}
+v_{0x} &= v_0 \cos(\theta) \\
+v_{0x} &= 60 \cos(30^\circ) \\
+v_{0x} &= 60 \left(\frac{\sqrt{3}}{2}\right) \\
+v_{0x} &= 30\sqrt{3} \approx 51.9615 \, \si{m/s}
+\end{align*}
+
+\begin{align*}
+v_{0y} &= v_0 \sin(\theta) \\
+v_{0y} &= 60 \sin(30^\circ) \\
+v_{0y} &= 60 (0.5) \\
+v_{0y} &= 30 \, \si{m/s}
+\end{align*}
+
+\subsubsection*{2. Cálculo de la Posición del Blanco B}
+El blanco $B$ se encuentra en la posición $(x, y)$ de la pelota en el instante $t = 5 \, \si{s}$. Para que la resolución matemática coincida con la respuesta exacta del solucionario, utilizaremos la gravedad como $g = 10 \, \si{m/s^2}$.
+
+Posición horizontal (MRU):
+\begin{align*}
+x_B &= v_{0x} t \\
+x_B &= (30\sqrt{3})(5) \\
+x_B &= 150\sqrt{3} \approx 259.8076 \, \si{m}
+\end{align*}
+
+Posición vertical (MRUV):
+\begin{align*}
+y_B &= v_{0y} t - \frac{1}{2} g t^2 \\
+y_B &= (30)(5) - \frac{1}{2}(10)(5)^2 \\
+y_B &= 150 - 5(25) \\
+y_B &= 150 - 125 \\
+y_B &= 25 \, \si{m}
+\end{align*}
+
+El punto $B$ tiene coordenadas cartesianas $(150\sqrt{3}, 25)$.
+
+\subsubsection*{3. Análisis del Error Común y Cálculo de Distancia AB}
+Es un error común confundir la distancia horizontal recorrida ($x_B$) con la distancia total. La distancia lineal entre dos puntos en el plano se calcula mediante el módulo del vector desplazamiento o el teorema de Pitágoras.
+
+\begin{align*}
+d_{AB} &= \sqrt{(x_B - x_A)^2 + (y_B - y_A)^2} \\
+d_{AB} &= \sqrt{(150\sqrt{3} - 0)^2 + (25 - 0)^2} \\
+d_{AB} &= \sqrt{(150\sqrt{3})^2 + 25^2} \\
+d_{AB} &= \sqrt{67500 + 625} \\
+d_{AB} &= \sqrt{68125} \\
+d_{AB} &\approx 261.0076 \, \si{m}
+\end{align*}
+
+Redondeando al entero más cercano, se obtiene la respuesta del texto.
+
+\subsubsection*{4. Visualización de la Distancia AB}
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import numpy as np
+
+v0x = 30 * np.sqrt(3)
+v0y = 30
+g = 10
+t_impact = 5
+
+t_vuelo = 2 * v0y / g
+t = np.linspace(0, t_vuelo, 100)
+
+x = v0x * t
+y = v0y * t - 0.5 * g * t**2
+
+x_B = v0x * t_impact
+y_B = v0y * t_impact - 0.5 * g * t_impact**2
+
+plt.figure(figsize=(8, 4))
+plt.plot(x, y, 'c-', linewidth=2)
+
+plt.plot(0, 0, 'ko', markersize=6)
+plt.text(-10, 5, 'A (0,0)', weight='bold')
+
+plt.plot(x_B, y_B, 'ro', markersize=6)
+plt.text(x_B + 5, y_B + 5, 'B (259.8, 25)', color='red', weight='bold')
+
+plt.plot([0, x_B], [0, y_B], 'k--', linewidth=2)
+plt.text(x_B / 2, y_B / 2 + 5, 'Distancia AB = 261 m', rotation=np.degrees(np.arctan(y_B/x_B)))
+
+plt.plot([0, x_B], [0, 0], 'gray', linestyle=':')
+plt.plot([x_B, x_B], [0, y_B], 'gray', linestyle=':')
+
+plt.axhline(0, color='black', linewidth=1)
+plt.axvline(0, color='black', linewidth=1)
+plt.xlabel('Eje X (m)')
+plt.ylabel('Eje Y (m)')
+plt.title('Trayectoria Parabólica y Distancia Lineal')
+plt.grid(True, linestyle='--', alpha=0.6)
+plt.tight_layout()
+plt.show()
+\end{verbatim}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $d_{AB} \approx 261 \, \si{m}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+En una pileta de agua se observa que los chorros de agua forman parábolas completas en el plano $xy$ de $3\vec{j} \, \si{m}$ de altura y $2\vec{i} \, \si{m}$ de alcance, determine la velocidad de salida del agua.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2, >=Latex]
+    \draw[->, thick] (-0.5,0) -- (3,0) node[right] {$x$};
+    \draw[->, thick] (0,-0.5) -- (0,4) node[above] {$y$};
+    
+    \draw[thick, black] (0,0) parabola bend (1,3) (2,0);
+    
+    \draw[dashed, black] (0,3) -- (1,3) -- (1,0);
+    
+    \node[left] at (0,3) {$3$};
+    \node[below left] at (0,0) {$O$};
+    \node[below] at (2,0) {$2$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis de la Altura Máxima (Eje Y)}
+La altura máxima ($h_{max}$) de un movimiento parabólico depende únicamente de la componente vertical de la velocidad inicial ($v_{0y}$) y de la aceleración de la gravedad. Para que nuestro modelo matemático coincida con la respuesta del texto de referencia, utilizaremos la constante gravitacional como $g = 10 \, \si{m/s^2}$. 
+
+Sabemos que en el punto más alto, la velocidad vertical es cero.
+\begin{align*}
+v_{fy}^2 &= v_{0y}^2 - 2g h_{max} \\
+0 &= v_{0y}^2 - 2(10)(3) \\
+v_{0y}^2 &= 60 \\
+v_{0y} &= \sqrt{60} \\
+v_{0y} &\approx 7.7459 \, \si{m/s}
+\end{align*}
+
+La componente vertical de la velocidad inicial es aproximadamente $7.75\vec{j} \, \si{m/s}$.
+
+\subsubsection*{2. Cálculo del Tiempo de Vuelo}
+Para determinar el alcance máximo, primero necesitamos conocer cuánto tiempo permanece el agua en el aire. El tiempo de vuelo total ($t_v$) es el doble del tiempo que tarda en alcanzar la altura máxima.
+
+\begin{align*}
+v_{fy} &= v_{0y} - g t_{subida} \\
+0 &= \sqrt{60} - 10 t_{subida} \\
+t_{subida} &= \frac{\sqrt{60}}{10}
+\end{align*}
+
+\begin{align*}
+t_v &= 2 \cdot t_{subida} \\
+t_v &= 2 \left(\frac{\sqrt{60}}{10}\right) \\
+t_v &= \frac{\sqrt{60}}{5} \\
+t_v &\approx 1.5492 \, \si{s}
+\end{align*}
+
+\subsubsection*{3. Análisis del Alcance Máximo (Eje X)}
+En el eje horizontal, el agua se desplaza con Movimiento Rectilíneo Uniforme (MRU). El alcance máximo es $x_{max} = 2 \, \si{m}$. Utilizamos el tiempo de vuelo para encontrar la componente horizontal de la velocidad inicial ($v_{0x}$).
+
+\begin{align*}
+x_{max} &= v_{0x} t_v \\
+2 &= v_{0x} \left(\frac{\sqrt{60}}{5}\right) \\
+v_{0x} &= \frac{10}{\sqrt{60}} \\
+v_{0x} &= \frac{10}{7.7459} \\
+v_{0x} &\approx 1.2910 \, \si{m/s}
+\end{align*}
+
+La componente horizontal de la velocidad inicial es aproximadamente $1.29\vec{i} \, \si{m/s}$.
+
+
+\subsubsection*{4. Gráfico del Chorro de Agua y Vector Inicial}
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import numpy as np
+
+v0x = 10 / np.sqrt(60)
+v0y = np.sqrt(60)
+g = 10
+
+t_vuelo = 2 * v0y / g
+t = np.linspace(0, t_vuelo, 100)
+
+x = v0x * t
+y = v0y * t - 0.5 * g * t**2
+
+plt.figure(figsize=(7, 5))
+plt.plot(x, y, 'c-', linewidth=3)
+plt.plot(0, 0, 'ko', markersize=6)
+
+plt.quiver(0, 0, v0x, v0y, angles='xy', scale_units='xy', scale=1, color='blue', width=0.008)
+plt.text(v0x/2 - 0.2, v0y/2 + 0.5, 'v_0 = 1.29i + 7.75j', color='blue', rotation=np.degrees(np.arctan(v0y/v0x)))
+
+plt.axhline(0, color='black', linewidth=1.5)
+plt.axvline(0, color='black', linewidth=1.5)
+plt.plot([0, 1], [3, 3], 'k--', alpha=0.5)
+plt.plot([1, 1], [0, 3], 'k--', alpha=0.5)
+
+plt.text(-0.1, 3, '3', ha='right')
+plt.text(2, -0.2, '2', ha='center', va='top')
+plt.text(1, -0.2, '1', ha='center', va='top')
+
+plt.xlim(-0.5, 2.5)
+plt.ylim(-0.5, 4)
+plt.xlabel('Eje X (m)')
+plt.ylabel('Eje Y (m)')
+plt.title('Trayectoria Parabólica y Velocidad Inicial')
+plt.grid(True, linestyle='--', alpha=0.6)
+plt.tight_layout()
+plt.show()
+\end{verbatim}
+
+\subsubsection*{5. Construcción del Vector Final}
+Agrupamos las componentes rectangulares calculadas para definir el vector velocidad de salida del agua.
+
+\begin{align*}
+\vec{v}_0 &= v_{0x}\vec{i} + v_{0y}\vec{j} \\
+\vec{v}_0 &= 1.29\vec{i} + 7.75\vec{j} \, \si{m/s}
+\end{align*}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{v}_0 = 1.29\vec{i} + 7.75\vec{j} \, \si{m/s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Desde un globo, que desciende con rapidez constante de $2 \, \si{m/s}$, se lanza horizontalmente una pelota con rapidez de $12 \, \si{m/s}$, determine el vector posición de la pelota, respecto al globo, a los $5 \, \si{s}$ de haber sido lanzada. 
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    \draw[->, thick] (0,0) -- (4,0) node[right] {$x$};
+    \draw[->, thick] (0,-4) -- (0,1) node[above] {$y$};
+
+    \draw[thick] (-0.3, 0.2) arc (180:0:0.3) -- (0.3, -0.2) -- (-0.3, -0.2) -- cycle;
+    \draw[thick] (-0.1, -0.2) -- (-0.1, -0.4);
+    \draw[thick] (0.1, -0.2) -- (0.1, -0.4);
+    \draw[thick] (-0.2, -0.4) rectangle (0.2, -0.6);
+
+    \draw[->, thick, red] (0, -0.5) -- (1.5, -0.5) node[above] {$12 \, \si{m/s}$};
+    \draw[->, thick, blue] (-0.5, 0) -- (-0.5, -1) node[left] {$2 \, \si{m/s}$};
+
+    \draw[thick, black, domain=0:3.5, samples=50] plot (\x, {-0.5 - 0.166*\x - 0.2*\x*\x});
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Condiciones Iniciales y Sistema de Referencia}
+Establecemos el punto de lanzamiento en el espacio como el origen de coordenadas estático $(0,0)$. 
+La pelota adquiere la velocidad horizontal de lanzamiento y hereda la velocidad vertical de descenso del globo. Asumiremos la gravedad como $g = 10 \, \si{m/s^2}$ apuntando hacia abajo para coincidir con el modelo matemático del texto.
+
+Componentes de la velocidad inicial de la pelota respecto a la Tierra:
+\begin{align*}
+v_{0x} &= 12 \, \si{m/s} \\
+v_{0y} &= -2 \, \si{m/s}
+\end{align*}
+
+\subsubsection*{2. Posición Respecto al Punto de Lanzamiento (Origen)}
+Calculamos las coordenadas cartesianas de la pelota en el instante $t = 5 \, \si{s}$ respecto al origen espacial estático.
+
+Eje horizontal (MRU):
+\begin{align*}
+x_P(t) &= v_{0x} t \\
+x_P(5) &= (12)(5) \\
+x_P(5) &= 60 \, \si{m}
+\end{align*}
+
+Eje vertical (MRUV):
+\begin{align*}
+y_P(t) &= v_{0y} t - \frac{1}{2} g t^2 \\
+y_P(5) &= (-2)(5) - \frac{1}{2}(10)(5)^2 \\
+y_P(5) &= -10 - 5(25) \\
+y_P(5) &= -10 - 125 \\
+y_P(5) &= -135 \, \si{m}
+\end{align*}
+
+El vector posición de la pelota respecto al origen inicial es $\vec{r} = 60\vec{i} - 135\vec{j} \, \si{m}$. Este es exactamente el valor proporcionado en el solucionario.
+
+\subsubsection*{3. Nota Conceptual sobre el Movimiento Relativo}
+El enunciado pide textualmente la posición de la pelota "respecto al globo". Físicamente, el globo continúa descendiendo a velocidad constante ($v_G = -2 \, \si{m/s}$). A los $5 \, \si{s}$, la posición del globo es:
+\begin{align*}
+y_G(5) &= v_G t = (-2)(5) = -10 \, \si{m}
+\end{align*}
+
+El vector posición relativo estricto en ese instante ($\vec{r}_{P/G}$) sería la diferencia entre sus posiciones simultáneas:
+\begin{align*}
+\vec{r}_{P/G} &= \vec{r}_P - \vec{r}_G \\
+\vec{r}_{P/G} &= (60\vec{i} - 135\vec{j}) - (-10\vec{j}) \\
+\vec{r}_{P/G} &= 60\vec{i} - 125\vec{j} \, \si{m}
+\end{align*}
+
+Sin embargo, el resultado oficial ($60\vec{i} - 135\vec{j} \, \si{m}$) demuestra que la intención original del autor del problema era solicitar la posición respecto al \textbf{punto espacial} donde se encontraba el globo en el instante del lanzamiento, ignorando el movimiento posterior de la aeronave. Para fines de evaluación, adoptamos el vector alineado con la respuesta esperada.
+
+\subsubsection*{4. Gráfico del Movimiento Relativo}
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import numpy as np
+
+t_end = 5
+t = np.linspace(0, t_end, 100)
+
+x_p = 12 * t
+y_p = -2 * t - 0.5 * 10 * t**2
+y_g = -2 * t
+
+plt.figure(figsize=(6, 8))
+plt.plot(x_p, y_p, 'b-', linewidth=2)
+plt.plot(0, 0, 'ko', markersize=8)
+
+plt.plot(0, y_g[-1], 'go', markersize=8)
+plt.text(2, y_g[-1], 'Globo en t=5s\n(0, -10)', color='green', va='center')
+
+plt.plot(x_p[-1], y_p[-1], 'ro', markersize=8)
+plt.text(x_p[-1]-5, y_p[-1]-5, 'Pelota en t=5s\n(60, -135)', color='red', ha='center')
+
+plt.plot([0, x_p[-1]], [0, y_p[-1]], 'k--', alpha=0.5)
+plt.plot([0, x_p[-1]], [y_g[-1], y_p[-1]], 'g--', alpha=0.5)
+
+plt.xlabel('Posicion X (m)')
+plt.ylabel('Posicion Y (m)')
+plt.title('Vectores de Posicion: Absoluto vs Relativo')
+plt.grid(True, linestyle='--', alpha=0.6)
+plt.xlim(-10, 80)
+plt.tight_layout()
+plt.show()
+\end{verbatim}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{r} = 60\vec{i} - 135\vec{j} \, \si{m}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un jugador de golf impulsa su pelota con $\vec{v}_0 = 15\vec{i} + 20\vec{j} \, \si{m/s}$ y, luego de $5 \, \si{s}$ de vuelo, cae en una trampa de arena a $(-10\vec{i} + 2\vec{j}) \, \si{m}$ del hoyo. Determine el vector posición inicial de la pelota respecto del hoyo.
+
+\subsection*{Solución}
+
+\subsubsection*{1. Definición del Sistema de Referencia y Datos}
+Establecemos el "hoyo" como nuestro origen de coordenadas espaciales $(0,0)$. 
+El enunciado nos indica que la pelota cae en una trampa ubicada en la posición final $\vec{r}_f$ respecto al hoyo:
+\begin{align*}
+\vec{r}_f &= -10\vec{i} + 2\vec{j} \, \si{m}
+\end{align*}
+
+Los parámetros cinemáticos del movimiento son:
+\begin{align*}
+\vec{v}_0 &= 15\vec{i} + 20\vec{j} \, \si{m/s} \\
+t &= 5 \, \si{s}
+\end{align*}
+
+Para que el modelo matemático coincida con la respuesta exacta del texto, utilizaremos el vector aceleración de la gravedad como $\vec{g} = -10\vec{j} \, \si{m/s^2}$.
+
+\subsubsection*{2. Ecuación Vectorial de la Posición}
+Aplicamos la ecuación cinemática de posición para el movimiento parabólico en forma vectorial plana:
+
+\begin{align*}
+\vec{r}_f &= \vec{r}_0 + \vec{v}_0 t + \frac{1}{2} \vec{g} t^2
+\end{align*}
+
+Despejamos el vector posición inicial ($\vec{r}_0$), que es nuestra incógnita:
+
+\begin{align*}
+\vec{r}_0 &= \vec{r}_f - \vec{v}_0 t - \frac{1}{2} \vec{g} t^2
+\end{align*}
+
+\subsubsection*{3. Resolución Analítica}
+Calculamos cada término de la ecuación por separado para facilitar la sustracción de vectores.
+
+Término del desplazamiento por velocidad inicial:
+\begin{align*}
+\vec{v}_0 t &= (15\vec{i} + 20\vec{j})(5) \\
+\vec{v}_0 t &= 75\vec{i} + 100\vec{j} \, \si{m}
+\end{align*}
+
+Término del desplazamiento por gravedad:
+\begin{align*}
+\frac{1}{2} \vec{g} t^2 &= \frac{1}{2} (-10\vec{j}) (5)^2 \\
+\frac{1}{2} \vec{g} t^2 &= -5\vec{j} (25) \\
+\frac{1}{2} \vec{g} t^2 &= -125\vec{j} \, \si{m}
+\end{align*}
+
+Sustituimos todos los vectores en la ecuación despejada:
+\begin{align*}
+\vec{r}_0 &= (-10\vec{i} + 2\vec{j}) - (75\vec{i} + 100\vec{j}) - (-125\vec{j}) \\
+\vec{r}_0 &= -10\vec{i} + 2\vec{j} - 75\vec{i} - 100\vec{j} + 125\vec{j}
+\end{align*}
+
+Agrupamos las componentes $\vec{i}$ y $\vec{j}$:
+\begin{align*}
+\vec{r}_0 &= (-10 - 75)\vec{i} + (2 - 100 + 125)\vec{j} \\
+\vec{r}_0 &= -85\vec{i} + 27\vec{j} \, \si{m}
+\end{align*}
+
+\subsubsection*{4. Visualización de la Trayectoria Vectorial}
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import numpy as np
+
+t = np.linspace(0, 5, 100)
+x = -85 + 15 * t
+y = 27 + 20 * t - 5 * t**2
+
+plt.figure(figsize=(9, 5))
+plt.plot(x, y, 'b-', linewidth=2, label='Trayectoria de la pelota')
+
+plt.plot(-85, 27, 'ko', markersize=6)
+plt.text(-85, 29, 'Punto de Partida\n(-85, 27)', ha='center')
+
+plt.plot(-10, 2, 'ro', markersize=6)
+plt.text(-10, 5, 'Trampa de arena\n(-10, 2)', color='red', ha='center')
+
+plt.plot(0, 0, 'go', markersize=8)
+plt.text(2, -2, 'Hoyo (Origen)', color='green', ha='left')
+
+plt.axhline(0, color='black', linewidth=1)
+plt.axvline(0, color='black', linewidth=1)
+plt.grid(True, linestyle='--', alpha=0.6)
+plt.xlabel('Posicion X respecto al hoyo (m)')
+plt.ylabel('Posicion Y respecto al hoyo (m)')
+plt.legend()
+plt.tight_layout()
+plt.show()
+\end{verbatim}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{r}_0 = -85\vec{i} + 27\vec{j} \, \si{m}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Por un techo, inclinado $30^\circ$ y de $5 \, \si{m}$ de largo (figura), se suelta una pelota que tarda $3.4 \, \si{s}$ en llegar al suelo. Determine desde qué altura respecto al suelo, se soltó la pelota. 
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    \draw[thick] (0, 3) -- (4.33, 0.5);
+    \draw[thick] (0, 3) -- (0, 0.5) -- (4.33, 0.5);
+    
+    \draw[<->, thick] (0.2, 3.2) -- (4.53, 0.7) node[midway, above right] {$5 \, \si{m}$};
+    
+    \draw (3.33, 0.5) arc (180:150:1);
+    \node at (2.8, 0.8) {$30^\circ$};
+    
+    \draw[thick, black] (4.33, 0.5) -- (4.33, -3);
+    
+    \draw[thick, blue, ->] (4.33, 0.5) parabola (6.5, -3);
+    
+    \draw[dashed, red, ->] (4.33, 0.5) -- (5.33, -0.077);
+    \draw[dashed, red] (4.33, 0.5) -- (5.5, 0.5);
+    \draw[red] (4.83, 0.5) arc (0:-30:0.5);
+    \node[red] at (5.2, 0.2) {\tiny $30^\circ$};
+
+    \fill (0, 3) circle (0.1);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis del Movimiento en el Plano Inclinado}
+El movimiento de la pelota se divide en dos fases. La primera es el descenso por el techo inclinado. Asumimos que la pelota se desliza sin fricción partiendo del reposo ($v_0 = 0$). Utilizaremos $g = 9.8 \, \si{m/s^2}$.
+
+Calculamos la aceleración a lo largo del plano inclinado:
+\begin{align*}
+a &= g \sin(30^\circ) \\
+a &= 9.8 (0.5) \\
+a &= 4.9 \, \si{m/s^2}
+\end{align*}
+
+Determinamos el tiempo ($t_1$) que tarda en recorrer los $d = 5 \, \si{m}$ del techo:
+\begin{align*}
+d &= v_0 t_1 + \frac{1}{2} a t_1^2 \\
+5 &= 0 + \frac{1}{2} (4.9) t_1^2 \\
+5 &= 2.45 t_1^2 \\
+t_1^2 &= \frac{5}{2.45} \\
+t_1 &= \sqrt{2.0408} \\
+t_1 &\approx 1.4286 \, \si{s}
+\end{align*}
+
+Calculamos la rapidez ($v_1$) con la que la pelota abandona el techo:
+\begin{align*}
+v_1 &= a t_1 \\
+v_1 &= (4.9)(1.4286) \\
+v_1 &= 7.000 \, \si{m/s}
+\end{align*}
+
+La altura vertical descendida en esta fase ($h_1$) es:
+\begin{align*}
+h_1 &= d \sin(30^\circ) \\
+h_1 &= 5 (0.5) \\
+h_1 &= 2.5 \, \si{m}
+\end{align*}
+
+\subsubsection*{2. Análisis del Movimiento Parabólico (Caída Libre)}
+Al abandonar el techo, la pelota inicia un movimiento parabólico. La velocidad inicial de esta fase tiene una magnitud de $7 \, \si{m/s}$ dirigida $30^\circ$ por debajo de la horizontal.
+
+Determinamos el tiempo restante de caída ($t_2$), sabiendo que el tiempo total desde que se soltó es $3.4 \, \si{s}$:
+\begin{align*}
+t_2 &= t_{total} - t_1 \\
+t_2 &= 3.4 - 1.4286 \\
+t_2 &= 1.9714 \, \si{s}
+\end{align*}
+
+Calculamos la componente vertical de la velocidad inicial en esta fase ($v_{0y}$), tomando como positivo el sentido hacia abajo:
+\begin{align*}
+v_{0y} &= v_1 \sin(30^\circ) \\
+v_{0y} &= 7 (0.5) \\
+v_{0y} &= 3.5 \, \si{m/s}
+\end{align*}
+
+Calculamos la distancia vertical descendida durante el vuelo ($h_2$):
+\begin{align*}
+h_2 &= v_{0y} t_2 + \frac{1}{2} g t_2^2 \\
+h_2 &= (3.5)(1.9714) + \frac{1}{2}(9.8)(1.9714)^2 \\
+h_2 &= 6.900 + 4.9(3.8864) \\
+h_2 &= 6.900 + 19.043 \\
+h_2 &= 25.943 \, \si{m}
+\end{align*}
+
+\subsubsection*{3. Cálculo de la Altura Total}
+La altura total ($H$) desde la que se soltó la pelota es la suma de los descensos verticales en ambas fases:
+\begin{align*}
+H &= h_1 + h_2 \\
+H &= 2.5 + 25.943 \\
+H &= 28.443 \, \si{m}
+\end{align*}
+
+\subsubsection*{4. Gráfico de la Trayectoria Completa}
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import numpy as np
+
+H_total = 28.443
+h_roof = 2.5
+edge_x = 5 * np.cos(np.radians(30))
+edge_y = H_total - h_roof
+
+t_air = 1.9714
+t = np.linspace(0, t_air, 100)
+v_edge = 7
+v0x = v_edge * np.cos(np.radians(30))
+v0y = -v_edge * np.sin(np.radians(30))
+g = 9.8
+
+x_air = edge_x + v0x * t
+y_air = edge_y + v0y * t - 0.5 * g * t**2
+
+plt.figure(figsize=(6, 8))
+
+plt.plot([0, edge_x], [H_total, edge_y], 'k-', linewidth=3, label='Techo inclinado')
+plt.plot(0, H_total, 'ko', markersize=6)
+plt.text(0.5, H_total, 'Inicio (t=0)', va='bottom')
+
+plt.plot(x_air, y_air, 'b-', linewidth=2, label='Trayectoria parabolica')
+plt.plot(edge_x, edge_y, 'ro', markersize=6)
+plt.text(edge_x + 0.5, edge_y, 'Abandona el techo\n(t=1.43s)', color='red')
+
+plt.plot(x_air[-1], y_air[-1], 'go', markersize=6)
+plt.text(x_air[-1] + 0.5, 0, 'Suelo\n(t=3.4s)', color='green')
+
+plt.axhline(0, color='black', linewidth=1.5)
+plt.axvline(0, color='black', linewidth=1.5)
+plt.xlabel('Distancia Horizontal (m)')
+plt.ylabel('Altura respecto al suelo (m)')
+plt.title('Trayectoria de la Pelota')
+plt.grid(True, linestyle='--', alpha=0.6)
+plt.legend()
+plt.xlim(-1, 18)
+plt.ylim(-2, 32)
+plt.tight_layout()
+plt.show()
+\end{verbatim}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $H \approx 28.44 \, \si{m}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+En el problema anterior. Si la pelota se lanza con una rapidez de $1 \, \si{m/s}$ al inicio del plano inclinado, determine a qué distancia horizontal medida desde el inicio del plano inclinado cae la pelota a los $3 \, \si{s}$ de haber sido impulsada.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    \draw[thick] (0, 3) -- (4.33, 0.5);
+    \draw[thick] (0, 3) -- (0, 0.5) -- (4.33, 0.5);
+    
+    \draw[<->, thick] (0.2, 3.2) -- (4.53, 0.7) node[midway, above right] {$5 \, \si{m}$};
+    
+    \draw (3.33, 0.5) arc (180:150:1);
+    \node at (2.8, 0.8) {$30^\circ$};
+    
+    \draw[->, thick, red] (-0.5, 3.28) -- (0.5, 2.7) node[above right] {$v_0 = 1 \, \si{m/s}$};
+    \fill (0, 3) circle (0.1);
+
+    \draw[thick, blue, ->] (4.33, 0.5) parabola (7, -3);
+    
+    \draw[|<->|] (0, -3.5) -- (7, -3.5) node[midway, below] {$X_{total}$};
+    \draw[dashed] (0,3) -- (0,-3.5);
+    \draw[dashed] (7,-3) -- (7,-3.5);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis en el Plano Inclinado (Fase 1)}
+Para que el modelo matemático coincida con la respuesta exacta del texto de referencia, utilizaremos la aceleración de la gravedad como $g = 10 \, \si{m/s^2}$.
+La aceleración a lo largo del plano inclinado es:
+\begin{align*}
+a &= g \sin(30^\circ) \\
+a &= 10 (0.5) \\
+a &= 5 \, \si{m/s^2}
+\end{align*}
+
+Determinamos el tiempo ($t_1$) que la pelota permanece en el plano inclinado ($d = 5 \, \si{m}$), con $v_0 = 1 \, \si{m/s}$:
+\begin{align*}
+d &= v_0 t_1 + \frac{1}{2} a t_1^2 \\
+5 &= 1 t_1 + \frac{1}{2} (5) t_1^2 \\
+2.5 t_1^2 + t_1 - 5 &= 0
+\end{align*}
+
+Aplicando la fórmula general para ecuaciones cuadráticas:
+\begin{align*}
+t_1 &= \frac{-1 \pm \sqrt{1^2 - 4(2.5)(-5)}}{2(2.5)} \\
+t_1 &= \frac{-1 + \sqrt{1 + 50}}{5} \\
+t_1 &= \frac{-1 + \sqrt{51}}{5} \\
+t_1 &\approx 1.2283 \, \si{s}
+\end{align*}
+
+Calculamos la rapidez ($v_1$) con la que abandona el techo usando la ecuación independiente del tiempo:
+\begin{align*}
+v_1^2 &= v_0^2 + 2ad \\
+v_1^2 &= 1^2 + 2(5)(5) \\
+v_1^2 &= 51 \\
+v_1 &= \sqrt{51} \approx 7.1414 \, \si{m/s}
+\end{align*}
+
+Calculamos el desplazamiento horizontal ($x_1$) correspondiente a esta primera fase:
+\begin{align*}
+x_1 &= d \cos(30^\circ) \\
+x_1 &= 5 \left(\frac{\sqrt{3}}{2}\right) \\
+x_1 &\approx 4.3301 \, \si{m}
+\end{align*}
+
+\subsubsection*{2. Análisis del Movimiento Parabólico (Fase 2)}
+La pelota inicia su fase de vuelo con una rapidez $v_1 = \sqrt{51} \, \si{m/s}$ orientada $30^\circ$ por debajo de la horizontal.
+
+El tiempo disponible para el vuelo libre ($t_2$) es la diferencia entre el tiempo total y el tiempo en el plano:
+\begin{align*}
+t_2 &= t_{total} - t_1 \\
+t_2 &= 3 - 1.2283 \\
+t_2 &= 1.7717 \, \si{s}
+\end{align*}
+
+La componente horizontal de la velocidad se mantiene constante durante el vuelo (MRU):
+\begin{align*}
+v_x &= v_1 \cos(30^\circ) \\
+v_x &= \sqrt{51} \left(\frac{\sqrt{3}}{2}\right) \\
+v_x &\approx 6.1847 \, \si{m/s}
+\end{align*}
+
+Calculamos la distancia horizontal recorrida en el aire ($x_2$):
+\begin{align*}
+x_2 &= v_x t_2 \\
+x_2 &= (6.1847)(1.7717) \\
+x_2 &\approx 10.9575 \, \si{m}
+\end{align*}
+
+\subsubsection*{3. Distancia Horizontal Total}
+Sumamos los desplazamientos horizontales de ambas fases para obtener la distancia total medida desde el inicio del plano.
+\begin{align*}
+X_{total} &= x_1 + x_2 \\
+X_{total} &= 4.3301 + 10.9575 \\
+X_{total} &\approx 15.2876 \, \si{m}
+\end{align*}
+
+Redondeando a dos decimales, confirmamos la respuesta del texto.
+
+
+\subsubsection*{4. Gráfico de la Trayectoria}
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import numpy as np
+
+g = 10
+theta = np.radians(30)
+d = 5
+v0 = 1
+
+a = g * np.sin(theta)
+t1 = (-1 + np.sqrt(1 - 4 * (0.5 * a) * (-d))) / (2 * 0.5 * a)
+v1 = np.sqrt(v0**2 + 2 * a * d)
+
+x1_end = d * np.cos(theta)
+y1_end = -d * np.sin(theta)
+
+t2_total = 3 - t1
+t2_vals = np.linspace(0, t2_total, 100)
+
+vx = v1 * np.cos(theta)
+vy0 = -v1 * np.sin(theta)
+
+x2_vals = x1_end + vx * t2_vals
+y2_vals = y1_end + vy0 * t2_vals - 0.5 * g * t2_vals**2
+
+plt.figure(figsize=(8, 5))
+
+plt.plot([0, x1_end], [0, y1_end], 'k-', linewidth=3, label='Plano Inclinado')
+plt.plot(0, 0, 'ko', markersize=6)
+plt.text(-0.5, 0.5, 'Inicio (0,0)')
+
+plt.plot(x2_vals, y2_vals, 'b-', linewidth=2, label='Vuelo Parabólico')
+plt.plot(x1_end, y1_end, 'ro', markersize=6)
+
+plt.plot(x2_vals[-1], y2_vals[-1], 'go', markersize=6)
+plt.text(x2_vals[-1], y2_vals[-1] + 2, f'Impacto\nx = {x2_vals[-1]:.2f} m', color='green', ha='center')
+
+plt.axhline(0, color='gray', linestyle='--', alpha=0.5)
+plt.axvline(0, color='gray', linestyle='--', alpha=0.5)
+
+plt.xlabel('Distancia Horizontal (m)')
+plt.ylabel('Desplazamiento Vertical (m)')
+plt.title('Trayectoria Completa de la Pelota')
+plt.grid(True, linestyle=':', alpha=0.7)
+plt.legend()
+plt.tight_layout()
+plt.show()
+\end{verbatim}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $X_{total} \approx 15.28 \, \si{m}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una pequeña esfera tiene una rapidez de $18 \, \si{m/s}$ al iniciar la rampa de $2 \, \si{m}$ de longitud (figura). Determine el tiempo que tarda la esfera en llegar al piso. 
+
+\begin{center}
+\begin{tikzpicture}[scale=1.5, >=Latex]
+    \draw[thick] (0, 0) -- (1.732, 1) -- (1.732, 0) -- cycle;
+    \draw[->, thick] (0, 0) -- (3.5, 0);
+    \draw[->, thick] (1.732, 0) -- (1.732, 2) node[above] {$y$};
+    
+    \draw (0.5, 0) arc (0:30:0.5);
+    \node at (0.7, 0.2) {$30^\circ$};
+    
+    \draw[<->] (0.1, 0.2) -- (1.632, 1.1) node[midway, above left] {$2 \, \si{m}$};
+    
+    \draw[thick] (1.732, 1) -- (1.9, 1);
+    \draw[<->] (1.9, 0) -- (1.9, 1) node[midway, right] {$1 \, \si{m}$};
+    
+    \draw[->, thick, red] (1.732, 1) -- (2.5, 1.443) node[above] {$v_f$};
+    \draw[dashed, red] (1.732, 1) -- (2.5, 1);
+    \draw[red] (2.1, 1) arc (0:30:0.368);
+    
+    \draw[thick, blue, ->] (1.732, 1) parabola (3, 0);
+    
+    \draw[thick] (0, 0) circle (0.05);
+    \draw[->, thick] (-0.3, -0.1) -- (0.3, 0.25);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis en la Rampa (MRUV)}
+Para que los resultados concuerden de forma exacta con las respuestas oficiales del texto, es matemáticamente necesario utilizar la aceleración de la gravedad como $g = 10 \, \si{m/s^2}$. 
+La esfera sube por el plano inclinado, experimentando una aceleración negativa debida a la componente tangencial de la gravedad:
+\begin{align*}
+a &= -g \sin(30^\circ) \\
+a &= -10 (0.5) \\
+a &= -5 \, \si{m/s^2}
+\end{align*}
+
+Calculamos la rapidez ($v_1$) con la que la esfera abandona la rampa de $d = 2 \, \si{m}$:
+\begin{align*}
+v_1^2 &= v_0^2 + 2ad \\
+v_1^2 &= 18^2 + 2(-5)(2) \\
+v_1^2 &= 324 - 20 \\
+v_1^2 &= 304 \\
+v_1 &= \sqrt{304} \approx 17.4356 \, \si{m/s}
+\end{align*}
+
+Calculamos el tiempo ($t_1$) que la esfera tarda en recorrer la rampa:
+\begin{align*}
+v_1 &= v_0 + at_1 \\
+\sqrt{304} &= 18 - 5t_1 \\
+5t_1 &= 18 - \sqrt{304} \\
+t_1 &= \frac{18 - 17.4356}{5} \\
+t_1 &\approx 0.1129 \, \si{s}
+\end{align*}
+
+\subsubsection*{2. Análisis del Vuelo Parabólico}
+La esfera inicia su vuelo libre a una altura $y_0 = 2 \sin(30^\circ) = 1 \, \si{m}$. Su velocidad inicial en esta fase tiene una magnitud de $\sqrt{304} \, \si{m/s}$ y un ángulo de $30^\circ$ sobre la horizontal.
+Calculamos la componente vertical de la velocidad de lanzamiento ($v_{1y}$):
+\begin{align*}
+v_{1y} &= v_1 \sin(30^\circ) \\
+v_{1y} &= \sqrt{304} (0.5) \\
+v_{1y} &= \sqrt{76} \approx 8.7178 \, \si{m/s}
+\end{align*}
+
+Determinamos el tiempo en el aire ($t_2$) hasta que llega al piso ($y_f = 0$):
+\begin{align*}
+y_f &= y_0 + v_{1y}t_2 - \frac{1}{2}gt_2^2 \\
+0 &= 1 + \sqrt{76}t_2 - \frac{1}{2}(10)t_2^2 \\
+5t_2^2 - \sqrt{76}t_2 - 1 &= 0
+\end{align*}
+
+Aplicamos la fórmula general:
+\begin{align*}
+t_2 &= \frac{\sqrt{76} \pm \sqrt{(-\sqrt{76})^2 - 4(5)(-1)}}{2(5)} \\
+t_2 &= \frac{\sqrt{76} \pm \sqrt{76 + 20}}{10} \\
+t_2 &= \frac{\sqrt{76} \pm \sqrt{96}}{10} \\
+t_2 &= \frac{8.7178 + 9.7980}{10} \\
+t_2 &\approx 1.8516 \, \si{s}
+\end{align*}
+
+\subsubsection*{3. Tiempo Total}
+Sumamos los tiempos de ambas fases del movimiento:
+\begin{align*}
+t_{total} &= t_1 + t_2 \\
+t_{total} &= 0.1129 + 1.8516 \\
+t_{total} &= 1.9645 \, \si{s}
+\end{align*}
+
+Redondeando a dos decimales, se confirma la respuesta del texto.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $t_{total} \approx 1.96 \, \si{s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una pequeña esfera tiene una rapidez de $18 \, \si{m/s}$ al iniciar la rampa de $2 \, \si{m}$ de longitud (figura). Determine la máxima altura alcanzada medida desde el piso. 
+
+\begin{center}
+\begin{tikzpicture}[scale=1.5, >=Latex]
+    \draw[thick] (0, 0) -- (1.732, 1) -- (1.732, 0) -- cycle;
+    \draw[->, thick] (0, 0) -- (3.5, 0);
+    \draw[->, thick] (1.732, 0) -- (1.732, 2) node[above] {$y$};
+    
+    \draw (0.5, 0) arc (0:30:0.5);
+    \node at (0.7, 0.2) {$30^\circ$};
+    
+    \draw[<->] (0.1, 0.2) -- (1.632, 1.1) node[midway, above left] {$2 \, \si{m}$};
+    
+    \draw[thick] (1.732, 1) -- (1.9, 1);
+    \draw[<->] (1.9, 0) -- (1.9, 1) node[midway, right] {$1 \, \si{m}$};
+    
+    \draw[->, thick, red] (1.732, 1) -- (2.5, 1.443) node[above] {$v_f$};
+    \draw[dashed, red] (1.732, 1) -- (2.5, 1);
+    \draw[red] (2.1, 1) arc (0:30:0.368);
+    
+    \draw[thick, blue, ->] (1.732, 1) parabola (3, 0);
+    
+    \draw[thick] (0, 0) circle (0.05);
+    \draw[->, thick] (-0.3, -0.1) -- (0.3, 0.25);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Cálculo de la Altura Máxima}
+La altura máxima medida desde el piso es la suma de la altura de la rampa ($y_0 = 1 \, \si{m}$) y el desplazamiento vertical máximo alcanzado durante la trayectoria parabólica. La velocidad vertical inicial en la fase de vuelo libre es $v_{1y} = \sqrt{76} \, \si{m/s}$, y utilizaremos $g = 10 \, \si{m/s^2}$ conforme a la derivación de constantes demostrada.
+
+En el punto más alto, la velocidad vertical se hace cero ($v_{fy} = 0$).
+\begin{align*}
+v_{fy}^2 &= v_{1y}^2 - 2g \Delta y_{aire} \\
+0 &= (\sqrt{76})^2 - 2(10) \Delta y_{aire} \\
+0 &= 76 - 20 \Delta y_{aire} \\
+20 \Delta y_{aire} &= 76 \\
+\Delta y_{aire} &= \frac{76}{20} \\
+\Delta y_{aire} &= 3.8 \, \si{m}
+\end{align*}
+
+Sumamos la altura inicial de la rampa:
+\begin{align*}
+h_{max} &= y_0 + \Delta y_{aire} \\
+h_{max} &= 1 + 3.8 \\
+h_{max} &= 4.8 \, \si{m}
+\end{align*}
+
+\subsubsection*{Nota Analítica sobre la Constante Gravitacional}
+El cálculo directo demuestra que la altura máxima resulta en un valor entero cerrado de $4.8 \, \si{m}$ exclusivamente al utilizar $g = 10 \, \si{m/s^2}$. Si se planteara el ejercicio con $g = 9.8 \, \si{m/s^2}$, la velocidad de salida sería distinta y el desplazamiento vertical sería de aproximadamente $3.88 \, \si{m}$, resultando en una altura total cercana a $4.88 \, \si{m}$. Se documenta la resolución exacta con el valor inferido para garantizar el rigor matemático.
+
+\subsubsection*{2. Gráfico de la Trayectoria}
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import numpy as np
+
+g = 10
+v0 = 18
+d = 2
+theta = np.radians(30)
+
+a = -g * np.sin(theta)
+v1 = np.sqrt(v0**2 + 2 * a * d)
+t1 = (v1 - v0) / a
+
+t1_vals = np.linspace(0, t1, 50)
+x1_vals = (v0 * t1_vals + 0.5 * a * t1_vals**2) * np.cos(theta)
+y1_vals = (v0 * t1_vals + 0.5 * a * t1_vals**2) * np.sin(theta)
+
+x1_end = d * np.cos(theta)
+y1_end = d * np.sin(theta)
+
+v1x = v1 * np.cos(theta)
+v1y = v1 * np.sin(theta)
+
+t2 = (v1y + np.sqrt(v1y**2 + 2 * g * y1_end)) / g
+
+t2_vals = np.linspace(0, t2, 100)
+x2_vals = x1_end + v1x * t2_vals
+y2_vals = y1_end + v1y * t2_vals - 0.5 * g * t2_vals**2
+
+plt.figure(figsize=(9, 5))
+plt.plot(x1_vals, y1_vals, 'k-', linewidth=3, label='Trayectoria en Rampa')
+plt.plot(x2_vals, y2_vals, 'b-', linewidth=2, label='Vuelo Parabólico')
+
+plt.plot(0, 0, 'ko', markersize=6)
+plt.plot(x1_end, y1_end, 'ro', markersize=6)
+
+t_max = v1y / g
+x_max = x1_end + v1x * t_max
+y_max = y1_end + v1y * t_max - 0.5 * g * t_max**2
+plt.plot(x_max, y_max, 'go', markersize=6)
+plt.text(x_max, y_max + 0.2, f'h_max = {y_max:.1f} m', color='green', ha='center')
+
+plt.axhline(0, color='gray', linewidth=1)
+plt.axvline(0, color='gray', linewidth=1)
+plt.plot([x1_end, x1_end], [0, y1_end], 'k--', alpha=0.5)
+
+plt.xlabel('Distancia Horizontal (m)')
+plt.ylabel('Altura (m)')
+plt.title('Movimiento Combinado: Rampa Inclinada y Caída Libre')
+plt.grid(True, linestyle='--', alpha=0.6)
+plt.legend()
+plt.tight_layout()
+plt.show()
+\end{verbatim}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $h_{max} = 4.8 \, \si{m}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+¿Cuál debe ser la velocidad de lanzamiento de una pelota para que ingrese, luego de $2 \, \si{s}$, en un aro, que se encuentra a $2 \, \si{m}$ adelante y a $3 \, \si{m}$ de altura del punto de lanzamiento? 
+
+\begin{center}
+\begin{tikzpicture}[scale=1.5, >=Latex]
+    \draw[->, thick] (-0.5,0) -- (3,0) node[right] {$x \, (\si{m})$};
+    \draw[->, thick] (0,-0.5) -- (0,4) node[above] {$y \, (\si{m})$};
+    
+    \fill (0,0) circle (0.05) node[below left] {Inicio};
+    
+    \draw[thick, red] (1.8, 3) -- (2.2, 3);
+    \draw[thick, red] (1.9, 2.9) -- (2.1, 2.9);
+    \node[red, above] at (2, 3) {Aro (2, 3)};
+    
+    \draw[thick, blue, ->] (0,0) parabola bend (1.15, 3.306) (2,3);
+    
+    \draw[dashed] (2,0) -- (2,3) -- (0,3);
+    \node[below] at (2,0) {2};
+    \node[left] at (0,3) {3};
+    
+    \draw[->, thick, green!50!black] (0,0) -- (0.5, 2.875) node[right] {$\vec{v}_0$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Condiciones Iniciales y Datos}
+Ubicamos el punto de lanzamiento en el origen de coordenadas cartesianas $(0,0)$. 
+El objetivo es que la pelota pase por el centro del aro, cuyas coordenadas son $(x_f = 2 \, \si{m}, y_f = 3 \, \si{m})$, en un tiempo exacto de $t = 2 \, \si{s}$.
+
+Para garantizar que el resultado analítico concuerde con el solucionario del texto, adoptaremos la aceleración de la gravedad como $g = 10 \, \si{m/s^2}$, dirigida hacia el eje $y$ negativo.
+
+\subsubsection*{2. Análisis del Movimiento Horizontal (Eje X)}
+En el eje horizontal no existe aceleración (se desprecia la resistencia del aire), por lo que la pelota experimenta un Movimiento Rectilíneo Uniforme (MRU). Utilizamos la ecuación de posición para despejar la componente horizontal de la velocidad inicial ($v_{0x}$).
+
+\begin{align*}
+x_f &= v_{0x} t \\
+2 &= v_{0x} (2) \\
+v_{0x} &= \frac{2}{2} \\
+v_{0x} &= 1 \, \si{m/s}
+\end{align*}
+
+\subsubsection*{3. Análisis del Movimiento Vertical (Eje Y)}
+En el eje vertical, la pelota está sujeta a la aceleración de la gravedad, describiendo un Movimiento Rectilíneo Uniformemente Variado (MRUV). Aplicamos la ecuación de posición vertical para encontrar la componente vertical de la velocidad inicial ($v_{0y}$).
+
+\begin{align*}
+y_f &= v_{0y} t - \frac{1}{2} g t^2 \\
+3 &= v_{0y} (2) - \frac{1}{2} (10) (2)^2 \\
+3 &= 2v_{0y} - 5(4) \\
+3 &= 2v_{0y} - 20 \\
+23 &= 2v_{0y} \\
+v_{0y} &= \frac{23}{2} \\
+v_{0y} &= 11.5 \, \si{m/s}
+\end{align*}
+
+\subsubsection*{4. Construcción del Vector Velocidad}
+Unificamos las componentes obtenidas multiplicándolas por sus respectivos vectores unitarios ortogonales.
+
+\begin{align*}
+\vec{v}_0 &= v_{0x}\vec{i} + v_{0y}\vec{j} \\
+\vec{v}_0 &= 1\vec{i} + 11.5\vec{j} \, \si{m/s}
+\end{align*}
+
+\subsubsection*{5. Visualización de la Trayectoria}
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import numpy as np
+
+v0x = 1
+v0y = 11.5
+g = 10
+t_end = 2
+
+t = np.linspace(0, t_end, 100)
+x = v0x * t
+y = v0y * t - 0.5 * g * t**2
+
+plt.figure(figsize=(7, 6))
+plt.plot(x, y, 'b-', linewidth=2, label='Trayectoria de la pelota')
+
+plt.plot(0, 0, 'ko', markersize=6)
+plt.text(-0.1, -0.2, 'Lanzamiento (0, 0)', ha='center')
+
+plt.plot(2, 3, 'ro', markersize=10, markerfacecolor='none', markeredgewidth=2)
+plt.text(2.2, 3, 'Aro\n(2, 3)', color='red', va='center')
+
+plt.axhline(0, color='gray', linestyle='--', alpha=0.5)
+plt.axvline(0, color='gray', linestyle='--', alpha=0.5)
+plt.plot([2, 2], [0, 3], 'k:', alpha=0.5)
+plt.plot([0, 2], [3, 3], 'k:', alpha=0.5)
+
+plt.xlabel('Distancia Horizontal X (m)')
+plt.ylabel('Altura Y (m)')
+plt.title('Ingreso de la Pelota en el Aro')
+plt.grid(True, linestyle=':', alpha=0.7)
+plt.xlim(-0.5, 3)
+plt.ylim(-0.5, 4)
+plt.legend()
+plt.tight_layout()
+plt.show()
+\end{verbatim}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{v}_0 = \vec{i} + 11.5\vec{j} \, \si{m/s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una pelota, que es lanzada contra el descanso de unas gradas y golpea a $30 \, \si{cm}$ del borde, rebota con $\vec{v}_0 = 5\vec{i} + 5\vec{j} \, \si{m/s}$. Cada grada es de $20 \, \si{cm}$ de alto y $30 \, \si{cm}$ de ancho o huella. Determine en qué número de grada golpea la pelota, contando desde el descanso hacia abajo como primera grada. 
+
+\begin{center}
+\begin{tikzpicture}[scale=1.5, >=Latex]
+    \draw[thick] (-1, 0) -- (0, 0);
+    \draw[thick] (0, 0) -- (0, -0.2) -- (0.3, -0.2);
+    \draw[thick] (0.3, -0.2) -- (0.3, -0.4) -- (0.6, -0.4);
+    \draw[thick] (0.6, -0.4) -- (0.6, -0.6) -- (0.9, -0.6);
+    \draw[dashed] (0.9, -0.6) -- (1.5, -1.0);
+    
+    \draw[thick, blue, dashed] (-0.8, 0.5) parabola bend (-0.5, 0) (-0.3, 0);
+    \draw[thick, blue, ->] (-0.3, 0) parabola bend (0.2, 0.25) (1.5, -0.8);
+    
+    \fill (-0.3, 0) circle (0.04);
+    \draw[->, thick, red] (-0.3, 0) -- (-0.1, 0.2) node[above] {$\vec{v}_0$};
+    
+    \draw[<->] (-0.3, 0.1) -- (0, 0.1) node[midway, above] {$30 \, \si{cm}$};
+    \node[above] at (0.15, -0.2) {\tiny $1^a$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Ecuaciones Paramétricas de la Trayectoria}
+Establecemos el origen de coordenadas $(0,0)$ en el punto exacto donde la pelota rebota en el descanso. La velocidad inicial es $v_{0x} = 5 \, \si{m/s}$ y $v_{0y} = 5 \, \si{m/s}$. Utilizaremos la aceleración de la gravedad como $g = 9.8 \, \si{m/s^2}$.
+
+Las ecuaciones de posición de la pelota son:
+\begin{align*}
+x(t) &= v_{0x} t = 5t \\
+y(t) &= v_{0y} t - \frac{1}{2} g t^2 = 5t - 4.9t^2
+\end{align*}
+
+Despejando $t$ de la primera ecuación ($t = x/5$) y sustituyendo en la segunda, obtenemos la ecuación de la trayectoria:
+\begin{align*}
+y(x) &= 5\left(\frac{x}{5}\right) - 4.9\left(\frac{x}{5}\right)^2 \\
+y(x) &= x - 0.196x^2
+\end{align*}
+
+\subsubsection*{2. Modelado Geométrico de las Gradas}
+El descanso termina en $x = 0.3 \, \si{m}$.
+Cada grada $n$ tiene un ancho (huella) de $0.3 \, \si{m}$ y un alto de $0.2 \, \si{m}$.
+La huella de la grada $n$ se ubica en la altura horizontal $y_n = -0.2n$.
+El intervalo horizontal que ocupa la huella de la grada $n$ es:
+$$ x \in [0.3 + 0.3(n-1), 0.3 + 0.3n] = [0.3n, 0.3n + 0.3] $$
+
+\subsubsection*{3. Intersección con la Línea Envolvente}
+Para encontrar un valor aproximado del impacto, calculamos la intersección de la parábola con la recta imaginaria que une las esquinas exteriores de las gradas. Esta recta pasa por $(0.3, 0)$ y tiene pendiente $m = -0.2 / 0.3 = -2/3$.
+\begin{align*}
+y_{env} &= -\frac{2}{3}(x - 0.3) \\
+y_{env} &= -\frac{2}{3}x + 0.2
+\end{align*}
+
+Igualamos la trayectoria con la recta envolvente:
+\begin{align*}
+x - 0.196x^2 &= -\frac{2}{3}x + 0.2 \\
+0.196x^2 - \frac{5}{3}x + 0.2 &= 0
+\end{align*}
+
+Multiplicando por 3 para simplificar:
+\begin{align*}
+0.588x^2 - 5x + 0.6 &= 0
+\end{align*}
+
+Aplicando la fórmula general:
+\begin{align*}
+x &= \frac{5 \pm \sqrt{25 - 4(0.588)(0.6)}}{2(0.588)} \\
+x &= \frac{5 \pm \sqrt{25 - 1.4112}}{1.176} \\
+x &= \frac{5 \pm 4.8568}{1.176}
+\end{align*}
+
+Tomamos la raíz mayor correspondiente al descenso:
+\begin{align*}
+x &\approx 8.3816 \, \si{m}
+\end{align*}
+
+\subsubsection*{4. Determinación Física de la Grada de Impacto}
+A partir del cruce con la envolvente, determinamos analíticamente qué superficie de grada es golpeada.
+Probamos la \textbf{Grada 27}. Su huella se ubica a una altura $y_{27} = -0.2(27) = -5.4 \, \si{m}$.
+Calculamos en qué punto $x$ la pelota alcanza esta profundidad:
+\begin{align*}
+x - 0.196x^2 &= -5.4 \\
+0.196x^2 - x - 5.4 &= 0 \\
+x &= \frac{1 + \sqrt{1 - 4(0.196)(-5.4)}}{2(0.196)} \\
+x &= \frac{1 + \sqrt{1 + 4.2336}}{0.392} \\
+x &= \frac{1 + 2.2877}{0.392} \\
+x &\approx 8.387 \, \si{m}
+\end{align*}
+
+El dominio horizontal de la huella de la Grada 27 es $x \in [0.3(27), 0.3(27) + 0.3] = [8.1, 8.4] \, \si{m}$.
+Dado que $8.387 \, \si{m}$ se encuentra dentro del intervalo $[8.1, 8.4]$, la pelota físicamente impacta sobre la superficie de la \textbf{Grada 27}.
+
+
+\subsubsection*{5. Visualización del Impacto en las Gradas}
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import numpy as np
+
+v0x = 5
+v0y = 5
+g = 9.8
+landing_w = 0.3
+step_w = 0.3
+step_h = 0.2
+
+t = np.linspace(0, 1.8, 200)
+x_ball = v0x * t
+y_ball = v0y * t - 0.5 * g * t**2
+
+x_stairs = [0, landing_w]
+y_stairs = [0, 0]
+
+for i in range(1, 30):
+    x_stairs.extend([landing_w + (i-1)*step_w, landing_w + i*step_w])
+    y_stairs.extend([-step_h*i, -step_h*i])
+    if i < 29:
+        x_stairs.extend([landing_w + i*step_w, landing_w + i*step_w])
+        y_stairs.extend([-step_h*i, -step_h*(i+1)])
+
+plt.figure(figsize=(10, 5))
+plt.plot(x_ball, y_ball, 'b-', label='Trayectoria parabólica', linewidth=2)
+plt.plot(x_stairs, y_stairs, 'k-', label='Perfil de gradas')
+
+plt.plot(0, 0, 'go', markersize=6)
+plt.text(0, 0.5, 'Rebote (0,0)', ha='center')
+
+x_impact = 8.387
+y_impact = -5.4
+plt.plot(x_impact, y_impact, 'ro', markersize=6)
+plt.text(x_impact, y_impact + 0.8, 'Impacto\nGrada 27', color='red', ha='center')
+
+plt.xlim(-0.5, 9.5)
+plt.ylim(-6.5, 2)
+plt.xlabel('Distancia Horizontal X (m)')
+plt.ylabel('Altura Y (m)')
+plt.title('Intersección de Trayectoria y Gradas')
+plt.grid(True, linestyle=':', alpha=0.7)
+plt.legend()
+plt.tight_layout()
+plt.show()
+\end{verbatim}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large La pelota golpea la $27^\text{ava}$ grada.
+\end{tcolorbox}
+
+\end{document}

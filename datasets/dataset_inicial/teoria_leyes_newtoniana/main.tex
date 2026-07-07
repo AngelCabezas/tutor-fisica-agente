@@ -1,0 +1,1463 @@
+\documentclass[12pt, a4paper]{article}
+
+% --- PAQUETES ---
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{geometry}
+\usepackage[most]{tcolorbox}
+\usepackage{siunitx}
+\usepackage{enumitem}
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usepackage{verbatim} 
+\usepackage{xcolor}
+
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta, calc, babel}
+\geometry{a4paper, margin=1in}
+
+\title{Ejercicios Teóricos: Dinámica (Leyes de Newton)}
+\author{Dataset Entrenamiento LLM}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\subsection*{Enunciado}
+De acuerdo con las Leyes de Newton:
+\begin{enumerate}[label=\alph*)]
+    \item siempre que existan fuerzas externas debe haber aceleración
+    \item para que una partícula esté en equilibrio, basta con que se mueva con rapidez constante
+    \item es posible que una partícula esté en movimiento sin que exista una fuerza neta
+    \item es posible que una partícula empiece a moverse sin que exista una fuerza neta
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Conceptual de la Primera y Segunda Ley}
+Evaluamos rigurosamente cada postulado:
+\begin{itemize}
+    \item \textbf{Opción a:} Falsa. Pueden existir múltiples fuerzas externas aplicadas sobre un cuerpo (ej. empujar una pared), pero si la suma vectorial de todas ellas se anula ($\sum \vec{F} = 0$), no habrá aceleración.
+    \item \textbf{Opción b:} Falsa. En cinemática rotacional vimos que un cuerpo puede moverse con rapidez constante en un redondel (MCU) y aún así estar acelerando hacia el centro. El equilibrio exige que la velocidad (vector) sea constante, no solo la rapidez.
+    \item \textbf{Opción d:} Falsa. Según la Primera Ley (Inercia), un objeto en reposo permanecerá en reposo a menos que una fuerza neta no equilibrada actúe sobre él. Es imposible iniciar el movimiento de la nada.
+    \item \textbf{Opción c (Correcta):} Este es el corazón del Principio de Inercia de Galileo asimilado por Newton. Si un cuerpo ya se estaba moviendo y de repente la fuerza neta sobre él se vuelve cero ($\sum \vec{F} = 0$), la aceleración se vuelve cero, lo que significa que mantendrá su velocidad actual indefinidamente (Movimiento Rectilíneo Uniforme). No se requiere fuerza neta para sostener el movimiento, solo para cambiarlo.
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) es posible que una partícula esté en movimiento sin que exista una fuerza neta
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un cuerpo de $1\,\si{kg}$ se encuentra en reposo sobre una superficie horizontal rugosa con $\mu_e = 0.5$ y $\mu_c = 0.4$. Se aplica una fuerza horizontal $F$ sobre el cuerpo, cuyo módulo varía como se muestra en la figura. El cuerpo permanece en reposo, de:
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    \draw[->] (-0.5,0) -- (6,0) node[right] {$t(s)$};
+    \draw[->] (0,-0.5) -- (0,3) node[above] {$F(N)$};
+    
+    \draw[thick] (0,0) -- (2,2) -- (5,2);
+    
+    \draw[dashed] (0,2) node[left] {10} -- (2,2);
+    \draw[dashed] (2,0) node[below] {20} -- (2,2);
+    \draw[dashed] (3,0) node[below] {30} -- (3,2);
+    
+    \node[below left] at (0,0) {0};
+    \node[below] at (1,0) {10};
+\end{tikzpicture}
+\end{center}
+
+\begin{enumerate}[label=\alph*)]
+    \item $0$ a $10\,\si{s}$
+    \item $0$ a $20\,\si{s}$
+    \item $0$ a $30\,\si{s}$
+    \item $0$ a $40\,\si{s}$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Umbral de Fricción Estática Máxima}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig, ax = plt.subplots(figsize=(6, 4))
+ax.spines['left'].set_position('zero')
+ax.spines['bottom'].set_position('zero')
+ax.spines['right'].set_color('none')
+ax.spines['top'].set_color('none')
+
+t = np.linspace(0, 35, 100)
+F = np.piecewise(t, [t < 20, t >= 20], [lambda t: 0.5*t, 10])
+
+ax.plot(t, F, 'b-', lw=2, label='Fuerza Aplicada F(t)')
+
+ax.axhline(5, color='red', linestyle='--', lw=2, label='Friccion Estatica Max (5 N)')
+
+ax.plot(10, 5, 'ko')
+ax.plot([10, 10], [0, 5], 'k:')
+
+ax.fill_between(t, 0, 5, where=(t<=10), color='gray', alpha=0.3)
+ax.text(5, 2, 'Reposo\n(F < fe_max)', ha='center', va='center')
+
+ax.set_xlabel('t (s)', loc='right')
+ax.set_ylabel('F (N)', loc='top')
+ax.set_xticks([10, 20, 30])
+ax.set_yticks([5, 10])
+ax.legend(loc='upper left')
+plt.show()
+\end{verbatim}
+
+\textit{Nota del Tutor: El estudiante hizo un análisis impecable en la hoja anotando la pendiente de la recta. Formalicemos ese cálculo.}
+
+Para que el bloque logre empezar a moverse, la fuerza aplicada exterior $F(t)$ debe vencer primero a la fuerza de fricción estática máxima del sistema.
+Calculamos la fuerza normal asumiendo una superficie horizontal ($N = mg$). Para que los cálculos coincidan con las opciones cerradas típicas de examen, usamos $g = 10\,\si{m/s^2}$:
+$$ N = (1\,\si{kg})(10\,\si{m/s^2}) = 10\,\si{N} $$
+La fricción estática máxima (usando $\mu_e$) es:
+$$ f_{e,max} = \mu_e \cdot N = (0.5)(10) = 5\,\si{N} $$
+El bloque se quedará en reposo absoluto mientras la fuerza aplicada sea menor a $5\,\si{N}$.
+
+Buscamos en la gráfica en qué instante $t$ la fuerza alcanza esos $5\,\si{N}$. 
+El tramo inclinado de la gráfica es una recta que pasa por $(0,0)$ y $(20,10)$. Su pendiente es $m = \frac{10}{20} = 0.5$. La ecuación de la fuerza es $F(t) = 0.5t$.
+Igualamos nuestra fuerza aplicada a nuestro umbral de rotura estática:
+$$ 0.5t = 5 $$
+$$ t = \frac{5}{0.5} = 10\,\si{s} $$
+Por lo tanto, el bloque logra resistir en reposo exactamente hasta el segundo 10, tras lo cual comenzará a deslizarse acelerando.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large a) $0$ a $10\,\si{s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Se lanza un bloque hacia arriba de un plano inclinado rugoso, con cierta rapidez inicial, la fuerza de rozamiento que actúa sobre el bloque mientras sube:
+\begin{enumerate}[label=\alph*)]
+    \item es igual a la fuerza de rozamiento que actúa sobre el bloque mientras baja
+    \item es igual en magnitud a la fuerza de rozamiento que actúa sobre el bloque mientras baja
+    \item es mayor que la fuerza de rozamiento que actúa sobre el bloque mientras baja
+    \item es menor que la fuerza de rozamiento que actúa sobre el bloque mientras baja
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Magnitud vs. Dirección en Fuerzas Resistivas}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8, 3))
+
+def draw_incline(ax, title, v_dir, f_dir):
+    x = np.linspace(0, 4, 10)
+    y = 0.5 * x
+    ax.plot(x, y, 'k-', lw=3)
+    
+    from matplotlib.patches import Rectangle
+    angle = np.degrees(np.arctan(0.5))
+    rect = Rectangle((2, 1), 0.8, 0.5, angle=angle, edgecolor='black', facecolor='orange')
+    ax.add_patch(rect)
+    
+    if v_dir == 'up':
+        ax.arrow(2.2, 1.6, 0.89, 0.44, head_width=0.1, color='blue')
+        ax.text(2.6, 2.1, r'$\vec{v}$', color='blue')
+        ax.arrow(2.4, 1.2, -0.89, -0.44, head_width=0.1, color='red')
+        ax.text(1.2, 1.0, r'$\vec{f}_k$', color='red')
+    else:
+        ax.arrow(2.4, 1.2, -0.89, -0.44, head_width=0.1, color='blue')
+        ax.text(1.2, 1.0, r'$\vec{v}$', color='blue')
+        ax.arrow(2.2, 1.6, 0.89, 0.44, head_width=0.1, color='red')
+        ax.text(2.6, 2.1, r'$\vec{f}_k$', color='red')
+
+    ax.set_xlim(0, 4)
+    ax.set_ylim(0, 3)
+    ax.axis('off')
+    ax.set_title(title)
+
+draw_incline(ax1, "Fase de Subida", 'up', 'down')
+draw_incline(ax2, "Fase de Bajada", 'down', 'up')
+
+plt.tight_layout()
+plt.show()
+\end{verbatim}
+
+La fuerza de fricción cinética (dinámica) obedece a la fórmula $f_k = \mu_c \cdot N$.
+Al realizar la sumatoria de fuerzas perpendiculares al plano inclinado (eje Y girado), obtenemos que la normal es invariablemente $N = mg \cos\theta$.
+Por lo tanto, la magnitud del rozamiento es:
+$$ f_k = \mu_c \cdot mg \cos\theta $$
+
+Evaluemos el viaje del bloque:
+\begin{itemize}
+    \item \textbf{La Magnitud (Tamaño del vector):} Al subir y al bajar, el bloque tiene la misma masa ($m$), está sujeto a la misma gravedad ($g$), desliza sobre la misma superficie ($\mu_c$) y el plano mantiene el mismo ángulo de inclinación ($\theta$). Ninguno de los factores de la fórmula altera su valor absoluto. La magnitud escalar es estrictamente idéntica.
+    \item \textbf{El Vector (Dirección):} La fricción cinética es una fuerza reactiva que se opone diametralmente al vector velocidad instantánea de la superficie de contacto. Cuando el bloque sube, la fricción apunta hacia abajo del plano. Cuando el bloque baja, la fricción apunta hacia arriba del plano.
+\end{itemize}
+Al cambiar de dirección, los \textbf{vectores} no son iguales (Opción 'a' es falsa). Sin embargo, su tamaño matemático es idéntico, validando la opción 'b'.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) es igual en magnitud a la fuerza de rozamiento que actúa sobre el bloque mientras baja
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Dos cuerpos $A$ y $B$ del mismo material ($m_A > m_B$), se sueltan simultáneamente desde la parte superior de un plano inclinado rugoso que forma un ángulo $\theta$ sobre la horizontal y se deslizan hacia abajo del plano:
+\begin{enumerate}[label=\alph*)]
+    \item $A$ llega primero a la base del plano
+    \item $B$ llega primero a la base del plano
+    \item $A$ y $B$ llegan simultáneamente
+    \item no se puede determinar qué cuerpo llega primero
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Refutación Analítica: La Independencia de la Masa}
+\textit{Nota de Tutor: El estudiante marcó la opción 'a', asumiendo instintivamente que el bloque más masivo se desliza más rápido. Vamos a plantear las Leyes de Newton para demostrar que la masa inercial se cancela matemáticamente, por lo que ambos empatarán.}
+
+Trazamos un sistema de coordenadas alineado con el plano inclinado (Eje X positivo hacia abajo del plano). Para un bloque de masa $m$, las fuerzas son:
+\begin{itemize}
+    \item Eje Y: La Normal ($N$ hacia arriba) y la componente del peso perpendicular ($mg \cos\theta$ hacia abajo).
+    \item Eje X: La componente del peso motriz ($mg \sin\theta$ hacia abajo del plano) y la fricción cinética ($f_k$ hacia arriba del plano).
+\end{itemize}
+
+Aplicamos la Segunda Ley de Newton ($\sum \vec{F} = m\vec{a}$):
+En el eje Y (no hay aceleración transversal):
+$$ N - mg \cos\theta = 0 \implies N = mg \cos\theta $$
+En el eje X (aceleración de descenso):
+$$ mg \sin\theta - f_k = m a_x $$
+Reemplazamos la fricción por su definición ($f_k = \mu_c \cdot N$):
+$$ mg \sin\theta - \mu_c (mg \cos\theta) = m a_x $$
+Observamos que la masa $m$ aparece como factor en todos los términos de la ecuación. Procedemos a dividir toda la ecuación para $m$:
+$$ a_x = g \sin\theta - \mu_c g \cos\theta $$
+$$ a_x = g (\sin\theta - \mu_c \cos\theta) $$
+
+La ecuación final de la aceleración para cualquier cuerpo en un plano inclinado rugoso depende \textbf{exclusivamente} de la gravedad ($g$), el ángulo ($\theta$) y la rugosidad del material ($\mu_c$). La masa del objeto no figura en la ecuación final.
+Dado que ambos bloques parten del reposo, recorren la misma distancia y tienen exactamente la misma aceleración teórica, llegarán a la base al mismo milisegundo.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) $A$ y $B$ llegan simultáneamente
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Considere que el cuerpo $A$ desliza hacia arriba sobre $B$ y que existe rozamiento entre todas las superficies:
+
+\begin{center}
+\begin{tikzpicture}[scale=1]
+    % Plano inclinado
+    \draw[thick] (0,0) -- (4,0) -- (4,2) -- cycle;
+    \draw (0.5,0) arc (0:26.56:0.5);
+    \node at (0.8, 0.2) {$\theta$};
+    
+    % Bloque B
+    \begin{scope}[rotate around={26.56:(0,0)}]
+        \draw[thick, fill=white] (1.5,0) rectangle (3, 0.6);
+        \node at (2.25, 0.3) {$B$};
+    \end{scope}
+    
+    % Bloque A
+    \begin{scope}[rotate around={26.56:(0,0)}]
+        \draw[thick, fill=white] (1.5, 0.6) rectangle (2.3, 1.2);
+        \node at (1.9, 0.9) {$A$};
+    \end{scope}
+    
+    % Polea y cuerda
+    \draw[thick] (4,2.5) circle (0.3cm);
+    \draw[thick] (4.25, 2.5) -- (4.8, 2.6); % Soporte polea
+    \draw[thick] (4.8, 2.1) -- (4.8, 3.1); % Pared
+    
+    % Cuerda a B
+    \draw[thick] (2.6, 1.6) -- (3.95, 2.18);
+    % Cuerda a A
+    \draw[thick] (1.6, 1.9) -- (3.8, 2.75);
+\end{tikzpicture}
+\end{center}
+
+\begin{enumerate}[label=\alph*)]
+    \item en el diagrama de cuerpo libre de $B$ se dibuja el peso de $A$
+    \item la tensión sobre $B$ se dirige hacia arriba del plano inclinado
+    \item la fuerza de rozamiento que ejerce $A$ sobre $B$ se dirige hacia abajo
+    \item la fuerza de rozamiento que ejerce $B$ sobre $A$ se dirige hacia arriba
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis de Sistemas Vinculados y Tercera Ley de Newton}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import numpy as np
+from matplotlib.patches import Rectangle
+
+fig, ax = plt.subplots(figsize=(6, 4))
+ax.axis('off')
+
+x_plane = np.linspace(0, 5, 10)
+y_plane = 0.5 * x_plane
+ax.plot(x_plane, y_plane, 'k-', lw=2)
+
+angle = np.degrees(np.arctan(0.5))
+
+rect_B = Rectangle((1.5, 0.75), 1.5, 0.8, angle=angle, edgecolor='black', facecolor='lightblue')
+ax.add_patch(rect_B)
+ax.text(1.8, 1.2, 'B', fontsize=12)
+
+rect_A = Rectangle((1.2, 1.3), 1.0, 0.6, angle=angle, edgecolor='black', facecolor='lightgreen')
+ax.add_patch(rect_A)
+ax.text(1.4, 1.7, 'A', fontsize=12)
+
+ax.plot(4.5, 2.5, 'ko', markersize=20, markerfacecolor='white')
+ax.plot([2.0, 4.4], [1.8, 2.6], 'k-', lw=1.5)
+ax.plot([2.8, 4.6], [1.5, 2.4], 'k-', lw=1.5)
+
+ax.arrow(2.8, 1.4, 0.8, 0.4, head_width=0.1, color='blue', lw=2)
+ax.text(3.2, 1.3, 'T', color='blue', fontsize=12, fontweight='bold')
+
+ax.arrow(1.0, 1.8, 0.5, 0.25, head_width=0.1, color='green')
+ax.text(0.7, 2.0, 'v_A', color='green')
+
+ax.arrow(1.8, 0.5, -0.5, -0.25, head_width=0.1, color='blue')
+ax.text(1.5, 0.2, 'v_B', color='blue')
+
+ax.set_xlim(0, 5)
+ax.set_ylim(0, 3)
+plt.show()
+\end{verbatim}
+
+Desglosamos físicamente el comportamiento del sistema para evaluar las opciones:
+\begin{itemize}
+    \item \textbf{Opción a (Falsa):} Un error clásico de DCL. Sobre el cuerpo $B$ jamás se dibuja el "peso de A" ($W_A$). El peso de A actúa sobre el centro de masa de A. Lo que el bloque B "siente" es la \textbf{Fuerza Normal} de contacto que $A$ ejerce sobre él ($N_{A/B}$). Aunque numéricamente esté relacionada con el peso de A, conceptualmente son fuerzas distintas.
+    
+    \item \textbf{Opción c y d (Falsas):} El enunciado indica que \textbf{A desliza hacia arriba}. La fuerza de fricción siempre se opone al movimiento relativo. 
+    Por lo tanto, la fricción que $B$ ejerce sobre $A$ ($f_{B \to A}$) debe apuntar hacia \textbf{abajo} para intentar frenar su subida (descartando la opción d). 
+    Por la Tercera Ley de Newton (Acción y Reacción), la fuerza de rozamiento que $A$ ejerce sobre $B$ ($f_{A \to B}$) debe ser igual y de sentido contrario, es decir, debe apuntar hacia \textbf{arriba} del plano (descartando la opción c).
+    
+    \item \textbf{Opción b (Correcta):} Las cuerdas ideales solo pueden tirar (jalar), jamás empujar. Observando el esquema, la cuerda está atada a la parte superior del bloque $B$ y sube paralela al plano inclinado hasta la polea. Por lo tanto, la tensión de la cuerda está halando al bloque $B$ \textbf{hacia arriba del plano inclinado}. 
+    *(Nota extra: Al estar conectados por la misma cuerda, si A sube jalando la cuerda, B obligatoriamente es arrastrado hacia abajo por la gravedad, manteniendo el cable tenso)*.
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) la tensión sobre $B$ se dirige hacia arriba del plano inclinado
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+La inercia de un cuerpo:
+\begin{enumerate}[label=\alph*)]
+    \item se manifiesta solamente cuando se trata de ponerlo en movimiento a partir del reposo
+    \item se manifiesta cuando se trata de cambiarle su velocidad
+    \item no se puede cuantificar
+    \item no se relaciona con su masa
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Refutación Conceptual: La Medida de la Inercia}
+\textit{Nota de Tutor: El estudiante marcó la opción 'c' (no se puede cuantificar). Esto es un error fundamental en la física clásica.}
+
+Analizamos el concepto de Inercia propuesto por Galileo y formalizado en la Primera Ley de Newton:
+\begin{itemize}
+    \item \textbf{Opciones c y d (Falsas):} La inercia es la resistencia intrínseca de cualquier objeto físico a cambiar su estado de movimiento. Esta propiedad fundamental de la materia \textbf{sí se puede cuantificar}, y de hecho, la magnitud escalar que cuantifica la inercia de un cuerpo es exactamente su \textbf{masa} ($m$). A mayor masa, mayor inercia (más difícil es moverlo o frenarlo).
+    \item \textbf{Opción a (Falsa):} La inercia no se limita a sacar objetos del reposo. Un tren a $100\,\si{km/h}$ tiene una inercia colosal que se manifiesta violentamente cuando intenta frenar o tomar una curva.
+    \item \textbf{Opción b (Correcta):} La velocidad es un vector (posee magnitud y dirección). La inercia es la resistencia a cualquier tipo de alteración de este vector. Por lo tanto, la inercia de un cuerpo se manifiesta cada vez que una fuerza intenta acelerarlo, frenarlo o cambiar su dirección de viaje (es decir, cada vez que se intenta "cambiarle su velocidad").
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) se manifiesta cuando se trata de cambiarle su velocidad
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+En el sistema de la figura, los cuerpos $A$ y $B$ se mueven hacia la derecha con aceleración constante ($\vec{v}_{A/B} = \vec{0}$), si todas las superficies en contacto son rugosas, entonces la fuerza de rozamiento que actúa sobre $A$:
+
+\begin{center}
+\begin{tikzpicture}[scale=1]
+    \draw[thick] (0,0) -- (4,0);
+    \draw[thick] (1.5,0) rectangle (2.5, 0.6);
+    \node at (2, 0.3) {$B$};
+    \draw[thick] (1.6,0.6) rectangle (2.4, 1.2);
+    \node at (2, 0.9) {$A$};
+    
+    \draw[->, thick] (2.5, 0.3) -- (3.5, 0.3);
+    \node[above] at (3.5, 0.3) {$\vec{F}$};
+\end{tikzpicture}
+\end{center}
+
+\begin{enumerate}[label=\alph*)]
+    \item es cero
+    \item está dirigida hacia la izquierda
+    \item está dirigida hacia la derecha
+    \item puede estar en cualquier dirección
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Dinámica de Sistemas Acoplados y Fricción Estática}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(5, 4))
+ax.spines['left'].set_color('none')
+ax.spines['bottom'].set_color('none')
+ax.spines['right'].set_color('none')
+ax.spines['top'].set_color('none')
+ax.axis('off')
+
+ax.plot([0, 3], [0.5, 0.5], 'k-', lw=1)
+ax.plot([0, 3], [1.5, 1.5], 'k-', lw=1)
+ax.plot([0, 0], [0.5, 1.5], 'k-', lw=1)
+ax.plot([3, 3], [0.5, 1.5], 'k-', lw=1)
+ax.text(1.5, 1, 'Bloque A', fontsize=12, ha='center', va='center')
+
+ax.arrow(1.5, 1, 0, -1.2, head_width=0.2, color='blue')
+ax.text(1.7, -0.3, r'$W_A$', color='blue', fontsize=12)
+
+ax.arrow(1.5, 0.5, 0, 1.2, head_width=0.2, color='blue')
+ax.text(1.7, 1.8, r'$N_A$', color='blue', fontsize=12)
+
+ax.arrow(1.5, 0.5, 1.5, 0, head_width=0.2, color='red', lw=2)
+ax.text(3.1, 0.4, r'$f_{s (B \to A)}$', color='red', fontsize=12, fontweight='bold')
+
+ax.arrow(0, 2.5, 2, 0, head_width=0.2, color='green')
+ax.text(2.2, 2.4, r'$a > 0$', color='green', fontsize=12)
+
+ax.set_xlim(-1, 5)
+ax.set_ylim(-1, 3)
+plt.show()
+\end{verbatim}
+
+\textit{Nota del Tutor: El estudiante respondió correctamente la opción 'c'. Validemos su razonamiento con un Diagrama de Cuerpo Libre (DCL) del bloque superior A.}
+
+El problema indica que todo el sistema acelera hacia la derecha ($\vec{a} > 0$ en el eje $+X$). La condición $\vec{v}_{A/B} = \vec{0}$ significa que la velocidad relativa entre ellos es cero; es decir, no resbalan entre sí, se mueven como un solo bloque sólido.
+
+Aplicamos la Segunda Ley de Newton aisladamente sobre el bloque A en el eje horizontal:
+$$ \sum F_x = m_A \cdot a_x $$
+¿Qué fuerzas horizontales tocan físicamente al bloque A? La fuerza exterior $\vec{F}$ solo tira de B. La única interacción horizontal que siente el bloque A proviene de la superficie de contacto con B. Esta fuerza de agarre es la \textbf{fricción estática} ($f_s$).
+$$ f_s = m_A \cdot a_x $$
+Como la masa $m_A$ es positiva y la aceleración $a_x$ apunta hacia la derecha (positiva), el resultado de la fuerza $f_s$ es matemáticamente \textbf{positivo}. Esto demuestra vectorialmente que la fricción que ejerce la superficie de B sobre la base de A tira de él hacia la \textbf{derecha} para obligarlo a acelerar junto con el sistema.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) está dirigida hacia la derecha
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+En el sistema de la figura, los cuerpos $A$ y $B$ se mueven hacia la derecha con velocidad constante ($\vec{v}_{A/B} = \vec{0}$), si todas las superficies en contacto son rugosas, entonces la fuerza de rozamiento que actúa sobre $A$:
+
+\begin{center}
+\begin{tikzpicture}[scale=1]
+    \draw[thick] (0,0) -- (4,0);
+    \draw[thick] (1.5,0) rectangle (2.5, 0.6);
+    \node at (2, 0.3) {$B$};
+    \draw[thick] (1.6,0.6) rectangle (2.4, 1.2);
+    \node at (2, 0.9) {$A$};
+    
+    \draw[->, thick] (2.5, 0.3) -- (3.5, 0.3);
+    \node[above] at (3.5, 0.3) {$\vec{F}$};
+\end{tikzpicture}
+\end{center}
+
+\begin{enumerate}[label=\alph*)]
+    \item es cero
+    \item está dirigida hacia la izquierda
+    \item está dirigida hacia la derecha
+    \item puede estar en cualquier dirección
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Condiciones de Equilibrio Dinámico Traslacional}
+A diferencia del problema anterior, aquí la frase clave cambia radicalmente el estado del sistema: \textbf{"se mueven hacia la derecha con velocidad constante"}.
+Si la velocidad es constante, su derivada en el tiempo es nula. El sistema no acelera ($a_x = 0$).
+
+Volvemos a aplicar la Segunda Ley de Newton exclusivamente sobre el bloque superior A:
+$$ \sum F_x = m_A \cdot a_x $$
+Sustituyendo la aceleración nula:
+$$ \sum F_x = m_A \cdot 0 $$
+$$ \sum F_x = 0 $$
+
+Nuevamente, la única fuerza horizontal capaz de actuar sobre el bloque A es la fuerza de fricción estática de la superficie de contacto con B. Como la sumatoria de fuerzas debe dar cero para mantener el equilibrio dinámico dictado por la inercia, deducimos que:
+$$ f_s = 0 $$
+No se requiere ninguna fuerza horizontal para que el bloque A continúe moviéndose a la misma velocidad que llevaba. 
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large a) es cero
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un pequeño bloque, de masa $m$, se mueve sobre una superficie horizontal rugosa, con velocidad constante, la fuerza que hace la superficie sobre el bloque es:
+\begin{enumerate}[label=\alph*)]
+    \item vertical
+    \item horizontal
+    \item inclinada
+    \item cero
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Reacción Total de una Superficie}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(5, 5))
+ax.axis('off')
+
+ax.plot([0, 5], [1, 1], 'k-', lw=3)
+ax.plot([2, 3], [1, 1], 'k-', lw=5) 
+ax.plot([2, 3], [2, 2], 'k-', lw=1)
+ax.plot([2, 2], [1, 2], 'k-', lw=1)
+ax.plot([3, 3], [1, 2], 'k-', lw=1)
+ax.text(2.5, 1.5, 'm', fontsize=14, ha='center', va='center')
+
+ax.arrow(2.5, 1, 0, 1.5, head_width=0.15, color='blue', lw=2)
+ax.text(2.6, 2.6, r'$\vec{N}$', color='blue', fontsize=12)
+
+ax.arrow(2.5, 1, -1.2, 0, head_width=0.15, color='red', lw=2)
+ax.text(1.0, 1.1, r'$\vec{f}_k$', color='red', fontsize=12)
+
+ax.arrow(2.5, 1, -1.2, 1.5, head_width=0.15, color='purple', lw=2)
+ax.text(1.1, 2.6, r'$\vec{R}_{sup}$', color='purple', fontsize=14, fontweight='bold')
+
+ax.plot([1.3, 1.3], [1, 2.5], 'k--', alpha=0.5)
+ax.plot([1.3, 2.5], [2.5, 2.5], 'k--', alpha=0.5)
+
+ax.arrow(3, 1.5, 1.5, 0, head_width=0.15, color='gray')
+ax.text(4.6, 1.4, r'$\vec{v}$ (cte)', color='gray', fontsize=12)
+
+ax.set_xlim(0, 5)
+ax.set_ylim(0, 3)
+plt.show()
+\end{verbatim}
+
+\textit{Nota de Tutor: El estudiante marcó la opción 'a', que es un error de lectura habitual. Consideró únicamente el soporte del peso, ignorando las demás interacciones superficiales.}
+
+Cuando un bloque interactúa con una superficie sólida, dicha superficie puede ejercer fuerzas en dos dimensiones diferentes:
+\begin{enumerate}
+    \item \textbf{Fuerza Perpendicular (Normal, $\vec{N}$):} Es la fuerza de contacto que evita que el bloque atraviese el piso debido a su peso. Apunta de manera estrictamente vertical hacia arriba.
+    \item \textbf{Fuerza Paralela (Fricción, $\vec{f}_k$):} El enunciado indica explícitamente que la superficie es \textbf{rugosa} y el bloque se mueve. Por tanto, existe una fricción cinética que se opone al deslizamiento, apuntando horizontalmente hacia atrás.
+\end{enumerate}
+
+La pregunta no pide la componente normal ni la componente de fricción de manera aislada, pide \textbf{"la fuerza que hace la superficie sobre el bloque"}, lo que significa la resultante o suma vectorial total de ambas interacciones simultáneas:
+$$ \vec{R}_{sup} = \vec{N} + \vec{f}_k $$
+Al sumar un vector netamente vertical con uno netamente horizontal, la geometría analítica nos entrega un vector resultante diagonal. Por lo tanto, la fuerza total aplicada por el piso es \textbf{inclinada} hacia atrás respecto a la vertical.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) inclinada
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una partícula, de masa $m$, se mueve sobre el plano $xy$ de acuerdo con los gráficos que se indican. La fuerza neta que actúa sobre la partícula es:
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    % Gráfica x-t
+    \draw[->] (-0.5,0) -- (3,0) node[right] {$t(s)$};
+    \draw[->] (0,-1) -- (0,2.5) node[above] {$x(m)$};
+    \draw[thick] (0,-0.5) -- (2.5,2);
+    
+    % Gráfica y-t
+    \begin{scope}[shift={(6,0)}]
+        \draw[->] (-0.5,0) -- (4,0) node[right] {$t(s)$};
+        \draw[->] (0,-1) -- (0,2.5) node[above] {$y(m)$};
+        \draw[thick] (0,-0.5) parabola bend (2,2) (3.5,-0.5);
+        \node[right] at (3.2, 1.5) {\footnotesize parábola};
+    \end{scope}
+\end{tikzpicture}
+\end{center}
+
+\begin{enumerate}[label=\alph*)]
+    \item cero
+    \item constante diferente de cero
+    \item variable en magnitud
+    \item variable en dirección
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Deducción de la Aceleración desde Posición}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8, 3))
+
+t = np.linspace(0, 4, 100)
+x = 1.5 * t - 1
+
+ax1.plot(t, x, 'b-', lw=2)
+ax1.spines['left'].set_position('zero')
+ax1.spines['bottom'].set_position('zero')
+ax1.spines['right'].set_color('none')
+ax1.spines['top'].set_color('none')
+ax1.set_title('Eje X: $a_x = 0$', color='blue')
+ax1.set_xlim(-0.5, 4.5)
+ax1.set_ylim(-1.5, 5)
+
+y = -0.5 * (t - 2)**2 + 2
+
+ax2.plot(t, y, 'r-', lw=2)
+ax2.spines['left'].set_position('zero')
+ax2.spines['bottom'].set_position('zero')
+ax2.spines['right'].set_color('none')
+ax2.spines['top'].set_color('none')
+ax2.set_title('Eje Y: $a_y = cte < 0$', color='red')
+ax2.set_xlim(-0.5, 4.5)
+ax2.set_ylim(-1.5, 3)
+
+plt.tight_layout()
+plt.show()
+\end{verbatim}
+
+Para determinar la fuerza neta, aplicamos la Segunda Ley de Newton vectorial: $\vec{F}_{neta} = m\vec{a}$. Esto nos obliga a descubrir el vector aceleración $\vec{a}$ a partir de las gráficas de posición.
+Analizamos cada eje de forma independiente:
+\begin{itemize}
+    \item \textbf{Eje X:} La gráfica $x(t)$ es una línea recta inclinada. Esto indica que la velocidad en X es constante. Si la velocidad no cambia, la aceleración horizontal es nula ($a_x = 0$).
+    \item \textbf{Eje Y:} La gráfica $y(t)$ es una parábola, lo que corresponde a una ecuación polinómica de segundo grado ($y(t) = At^2 + Bt + C$). La segunda derivada de una posición cuadrática resulta en un valor constante. Por lo tanto, existe una aceleración vertical inalterable ($a_y = \text{cte}$).
+\end{itemize}
+
+Construimos el vector aceleración total:
+$$ \vec{a} = 0\hat{i} + a_y\hat{j} $$
+Dado que $a_y$ es un número constante distinto de cero, el vector aceleración total es constante. 
+Al multiplicar la masa $m$ (un escalar invariante) por un vector constante $\vec{a}$, la \textbf{Fuerza Neta resultante será obligatoriamente un vector constante diferente de cero}.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) constante diferente de cero
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una persona, cuyo peso tiene una magnitud de 600 N, se sube sobre una balanza que se encuentra en el interior de un ascensor, si la balanza marca 720 N entonces es correcto afirmar que la aceleración del ascensor:
+\begin{enumerate}[label=\alph*)]
+    \item es cero
+    \item está dirigida hacia abajo
+    \item está dirigida hacia arriba
+    \item puede estar dirigida hacia arriba o hacia abajo
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Peso Aparente y Marcos de Referencia Acelerados}
+El error conceptual más común en este tipo de ejercicios es creer que las balanzas miden el "peso". En realidad, una balanza común mide la \textbf{Fuerza Normal} ($N$), es decir, la fuerza de compresión o soporte que la superficie ejerce sobre la persona para sostenerla. A esta medición de la normal se le suele llamar "peso aparente".
+
+Definimos un sistema de referencia estándar donde hacia arriba es positivo. 
+Aplicamos un Diagrama de Cuerpo Libre (DCL) sobre la persona en el eje vertical y usamos la Segunda Ley de Newton:
+$$ \sum F_y = m \cdot a_y $$
+Las fuerzas que actúan sobre la persona son la Normal ($N$, hacia arriba) y su Peso real ($W$, hacia abajo):
+$$ N - W = m \cdot a_y $$
+
+Sustituimos los datos proporcionados por el enunciado ($N = 720\text{ N}$ y $W = 600\text{ N}$):
+$$ 720 - 600 = m \cdot a_y $$
+$$ +120 = m \cdot a_y $$
+Despejando la aceleración obtenemos:
+$$ a_y = \frac{+120}{m} $$
+
+Dado que la masa ($m$) de la persona es un valor estrictamente positivo, dividir $+120$ entre la masa arrojará irremediablemente un resultado \textbf{positivo}. 
+En nuestro sistema de referencia, una aceleración positiva significa que el vector $\vec{a}$ está **dirigido hacia arriba**. 
+*(Físicamente: el piso del ascensor está empujando a la persona con más fuerza de la que la gravedad la atrae, lo que provoca que sea acelerada en contra de la gravedad).*
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) está dirigida hacia arriba
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un cuerpo, cuya masa es de $70\,\si{kg}$, se coloca sobre la balanza que está en el interior de un ascensor, si la balanza marca $800\,\si{N}$, el ascensor:
+\begin{enumerate}[label=\alph*)]
+    \item no se mueve
+    \item necesariamente está bajando
+    \item necesariamente está subiendo
+    \item puede estar subiendo o bajando
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Corrección Conceptual: Aceleración vs. Velocidad}
+\textit{Nota del Tutor: El estudiante marcó la opción 'c' (necesariamente está subiendo). Este es uno de los errores más comunes en física: confundir la dirección de la \textbf{aceleración} con la dirección del \textbf{movimiento} (velocidad).}
+
+Planteamos el Diagrama de Cuerpo Libre para la persona sobre la balanza. Establecemos un sistema de coordenadas donde hacia arriba es positivo. 
+La balanza mide la Fuerza Normal ($N = 800\,\si{N}$). El peso real del cuerpo es $W = mg = 70(9.8) = 686\,\si{N}$ (o $700\,\si{N}$ si aproximamos $g=10$).
+Aplicando la Segunda Ley de Newton en el eje vertical:
+$$ \sum F_y = m \cdot a_y $$
+$$ N - W = m \cdot a_y $$
+$$ 800 - 686 = 70 \cdot a_y $$
+$$ +114 = 70 \cdot a_y $$
+$$ a_y = \frac{+114}{70} \approx +1.6\,\si{m/s^2} $$
+
+El resultado algebraico demuestra irrefutablemente que el ascensor tiene una \textbf{aceleración dirigida hacia arriba} (signo positivo). 
+Sin embargo, un cuerpo puede acelerar hacia arriba en dos escenarios cinemáticos distintos:
+\begin{enumerate}
+    \item \textbf{Moviéndose hacia arriba y ganando rapidez} (el motor tira con fuerza para iniciar la subida).
+    \item \textbf{Moviéndose hacia abajo y frenando} (el motor tira con fuerza hacia arriba para detener la caída antes de llegar al piso bajo).
+\end{enumerate}
+Como la lectura de la balanza solo nos revela la aceleración, nos es imposible conocer el sentido actual de la velocidad. Por tanto, el ascensor puede estar subiendo o bajando.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large d) puede estar subiendo o bajando
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una caja, de masa $m$, se encuentra en reposo sobre la plataforma de un camión. El camión está en reposo en una carretera recta con una pendiente de $15^\circ$, si el camión acelera hacia abajo de la pendiente y la caja no se mueve respecto de la plataforma, la fuerza de rozamiento sobre la caja:
+\begin{enumerate}[label=\alph*)]
+    \item es cero
+    \item está dirigida hacia arriba de la pendiente
+    \item está dirigida hacia abajo de la pendiente
+    \item puede estar dirigida hacia arriba o hacia abajo de la pendiente
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Dirección Bifurcada de la Fricción Estática}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import numpy as np
+from matplotlib.patches import Rectangle
+
+fig, ax = plt.subplots(figsize=(6, 4))
+ax.axis('off')
+
+x = np.linspace(0, 6, 10)
+y = 0.5 * x
+ax.plot(x, y, 'k-', lw=2)
+
+angle = np.degrees(np.arctan(0.5))
+truck = Rectangle((1.5, 0.75), 3, 0.5, angle=angle, facecolor='gray', edgecolor='black')
+ax.add_patch(truck)
+
+box = Rectangle((2.5, 1.45), 0.8, 0.8, angle=angle, facecolor='lightblue', edgecolor='black')
+ax.add_patch(box)
+
+ax.arrow(2.9, 1.8, 0, -1, head_width=0.1, color='blue')
+ax.text(3.1, 0.8, 'mg', color='blue', fontsize=12)
+
+ax.arrow(2.9, 1.8, -0.6, -0.3, head_width=0.1, color='red', lw=1.5)
+ax.text(1.2, 1.3, 'f_s (si a > g*sen)', color='red', fontsize=10)
+
+ax.arrow(2.9, 1.8, 0.6, 0.3, head_width=0.1, color='green', lw=1.5)
+ax.text(3.6, 2.3, 'f_s (si a < g*sen)', color='green', fontsize=10)
+
+ax.arrow(4.5, 2.8, -1.8, -0.9, head_width=0.2, color='purple', lw=2)
+ax.text(3.6, 3.2, 'a (camion)', color='purple', fontsize=12, fontweight='bold')
+
+ax.set_xlim(0, 6)
+ax.set_ylim(0, 4)
+plt.show()
+\end{verbatim}
+
+\textit{Nota de Tutor: El estudiante marcó la opción 'b'. Esta opción asume tácitamente un caso particular, pero no cubre toda la física del problema. Lo demostraremos.}
+
+Definimos el eje X positivo paralelo al plano y apuntando cuesta abajo. El camión tiene una aceleración $a$ cuesta abajo. Como la caja no resbala, la caja también tiene la misma aceleración $a$ cuesta abajo.
+Aplicamos la Segunda Ley de Newton sobre la caja en el eje X, asumiendo inicialmente que la fricción estática ($f_s$) apunta cuesta arriba (negativa):
+$$ \sum F_x = m \cdot a $$
+$$ mg \sin(15^\circ) - f_s = m \cdot a $$
+Despejamos la fuerza de fricción:
+$$ f_s = m(g \sin(15^\circ) - a) $$
+
+La dirección real del vector $f_s$ dependerá del signo que arroje este paréntesis:
+\begin{itemize}
+    \item \textbf{Si el camión acelera lentamente ($a < g \sin 15^\circ$):} El paréntesis es positivo. La fricción $f_s$ resulta positiva en nuestra ecuación, confirmando que debe apuntar \textbf{hacia arriba} de la pendiente para "sostener" la caja y evitar que la gravedad la haga resbalar cuesta abajo más rápido que el camión.
+    \item \textbf{Si el camión acelera violentamente ($a > g \sin 15^\circ$):} El paréntesis resulta negativo. Esto invierte la dirección física del vector. La caja por inercia tendería a quedarse rezagada (resbalando hacia la parte trasera del camión, es decir, cuesta arriba). Para evitarlo, la fricción debe actuar jalando la caja \textbf{hacia abajo} de la pendiente para obligarla a igualar la alta aceleración del camión.
+\end{itemize}
+Como el problema no especifica el valor numérico de la aceleración del camión, la fuerza de rozamiento puede apuntar en cualquiera de las dos direcciones.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large d) puede estar dirigida hacia arriba o hacia abajo de la pendiente
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+De acuerdo con la tercera ley de Newton se puede concluir que:
+\begin{enumerate}[label=\alph*)]
+    \item en un D.C.L. debe representarse una reacción opuesta a cada acción
+    \item la acción y la reacción se anulan siempre en un cuerpo
+    \item el peso y la normal son siempre un par de acción y reacción
+    \item el peso y la normal nunca son un par de acción y reacción
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Definición Estricta de los Pares de Acción-Reacción}
+Evaluamos las características inquebrantables de la Tercera Ley de Newton (Acción y Reacción):
+\begin{enumerate}
+    \item Las fuerzas surgen de la interacción entre \textbf{dos cuerpos distintos}.
+    \item Tienen la misma magnitud y direcciones diametralmente opuestas.
+    \item Son fuerzas de la \textbf{misma naturaleza} (ambas gravitacionales, ambas de contacto, etc.).
+\end{enumerate}
+
+Aplicando estos axiomas a las opciones:
+\begin{itemize}
+    \item \textbf{Opciones a y b (Falsas):} El Diagrama de Cuerpo Libre aísla a un \textit{solo} cuerpo. Como la acción y la reacción actúan sobre cuerpos diferentes (ej. yo empujo la pared, la pared me empuja a mí), \textbf{nunca} se dibujan juntas en el mismo DCL, y por lo tanto, \textbf{jamás se anulan matemáticamente entre sí}.
+    \item \textbf{Opción c (Falsa):} El Peso es ejercido por la Tierra sobre el bloque (origen gravitacional). Su par de reacción es la fuerza con la que el bloque atrae a la Tierra. La Normal es ejercida por la superficie sobre el bloque (origen electromagnético por contacto). Su par de reacción es la fuerza con la que el bloque aplasta la superficie. Actúan sobre el mismo cuerpo y tienen naturalezas distintas. 
+    \item \textbf{Opción d (Correcta):} Como se demostró arriba, incumplen todas las reglas para ser consideradas un par de acción-reacción de la Tercera Ley, a pesar de que en superficies planas en reposo tengan el mismo módulo matemático.
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large d) el peso y la normal nunca son un par de acción y reacción
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un bloque de masa $m$ desliza, con aceleración constante $a$, hacia abajo de un plano inclinado que forma un ángulo $\theta$ con la horizontal. La magnitud de la fuerza de rozamiento es igual a:
+\begin{enumerate}[label=\alph*)]
+    \item $mg (\cos \theta) - ma$
+    \item $mg (\text{sen } \theta) - ma$
+    \item $(mg/\cos \theta) - ma$
+    \item $(mg/\text{sen } \theta) - ma$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Ecuaciones Dinámicas en Plano Inclinado}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import numpy as np
+from matplotlib.patches import Rectangle
+
+fig, ax = plt.subplots(figsize=(5, 3))
+ax.axis('off')
+
+x = np.linspace(0, 4, 10)
+y = 0.5 * x
+ax.plot(x, y, 'k-', lw=2)
+
+angle = np.degrees(np.arctan(0.5))
+box = Rectangle((2, 1), 0.8, 0.8, angle=angle, facecolor='white', edgecolor='black', lw=1.5)
+ax.add_patch(box)
+
+ax.arrow(2.4, 1.4, 0.89, 0.44, head_width=0.1, color='blue', lw=2)
+ax.text(3.4, 1.8, 'a', color='blue', fontsize=12, fontweight='bold')
+
+ax.arrow(2.4, 1.4, -0.89, -0.44, head_width=0.1, color='red', lw=1.5)
+ax.text(1.3, 1.0, r'$f_r$', color='red', fontsize=12)
+
+ax.set_xlim(0, 5)
+ax.set_ylim(0, 3)
+plt.show()
+\end{verbatim}
+
+\textit{Nota del Tutor: El estudiante planteó el desarrollo algebraico perfecto a un costado de su hoja. Lo transcribimos formalmente para certificar su respuesta.}
+
+Establecemos el Eje X paralelo a la superficie del plano inclinado, con su parte positiva apuntando cuesta abajo (en la misma dirección que la aceleración $a$).
+Las fuerzas que actúan en este eje son la componente motriz del peso (a favor del movimiento) y la fuerza de rozamiento cinético (en contra del deslizamiento).
+Aplicamos la Segunda Ley de Newton ($\sum F_x = m \cdot a_x$):
+$$ W_x - f_r = m \cdot a $$
+La componente del peso paralela al plano es $W_x = mg \sin\theta$. Sustituimos en la ecuación:
+$$ mg \sin\theta - f_r = m \cdot a $$
+Para encontrar la magnitud de la fuerza de rozamiento ($f_r$), la despejamos pasando algebraicamente el término $ma$ a restar al lado izquierdo:
+$$ mg \sin\theta - ma = f_r $$
+Ordenando la igualdad obtenemos la expresión final:
+$$ f_r = mg (\sin\theta) - ma $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) $mg (\text{sen } \theta) - ma$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un bloque, de masa $m$, se impulsa hacia arriba de un plano rugoso inclinado con una rapidez inicial $v_0$. El tiempo que tarda el bloque en subir por el plano, comparado con el tiempo que tarda en bajar por el mismo plano hasta regresar al punto inicial:
+\begin{enumerate}[label=\alph*)]
+    \item es igual
+    \item es menor
+    \item es mayor
+    \item puede ser menor o mayor
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Asimetría de la Aceleración por Fricción}
+\textit{Nota del Tutor: El estudiante respondió correctamente. Demostraremos algebraicamente por qué el tiempo de vuelo no es simétrico en presencia de fricción.}
+
+Analizamos la aceleración neta en las dos fases del movimiento. Definimos el eje X paralelo al plano.
+\begin{itemize}
+    \item \textbf{Fase de Subida:} El bloque se mueve cuesta arriba. Tanto la componente del peso ($mg \sin\theta$) como la fricción cinética ($f_k = \mu_k mg \cos\theta$) apuntan cuesta abajo, oponiéndose al avance.
+    $$ a_{subida} = g(\sin\theta + \mu_k \cos\theta) $$
+    \item \textbf{Fase de Bajada:} El bloque se mueve cuesta abajo. El peso ($mg \sin\theta$) lo empuja a favor del movimiento, pero ahora la fricción ($f_k$) cambia de sentido y apunta cuesta arriba, restando fuerza neta.
+    $$ a_{bajada} = g(\sin\theta - \mu_k \cos\theta) $$
+\end{itemize}
+
+Es matemáticamente evidente que la magnitud de la aceleración de frenado al subir es mayor que la aceleración de impulso al bajar ($a_{subida} > a_{bajada}$).
+
+La distancia $d$ recorrida sobre el plano es la misma al subir que al bajar.
+Utilizando la ecuación cinemática para un movimiento que parte o termina en reposo ($d = \frac{1}{2} a t^2$), despejamos el tiempo:
+$$ t = \sqrt{\frac{2d}{a}} $$
+Dado que el tiempo es inversamente proporcional a la raíz de la aceleración, una aceleración \textbf{mayor} (como la de subida) requiere un tiempo \textbf{menor} para recorrer la misma distancia. El bloque frena abruptamente al subir, pero resbala perezosamente al bajar.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) es menor
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Para que el bloque de la figura, permanezca en reposo, el ángulo $ABD$, debe ser:
+
+\begin{center}
+\begin{tikzpicture}[scale=1]
+    \draw[thick] (0,0) -- (0,1) node[midway, left] {$A$};
+    \draw[thick] (6,0) -- (6,1) node[midway, right] {$C$};
+    
+    \draw[thick] (0,0.5) -- (6,0.5);
+    \filldraw (3,0.5) circle (2pt) node[above] {$B$};
+    
+    \draw[thick] (3,0.5) -- (3,-0.5) node[midway, right] {$D$};
+    \draw[thick] (2.2,-0.5) rectangle (3.8, -1);
+    
+    \draw[->, thick] (1, 0.2) to[bend right] (1.5, 0.4);
+    \node[below] at (1.25, 0.2) {Cuerda};
+    
+    \draw[->, thick] (5, 0.2) to[bend right] (4.5, 0.4);
+    \node[below] at (4.75, 0.2) {Cuerda};
+\end{tikzpicture}
+\end{center}
+
+\begin{enumerate}[label=\alph*)]
+    \item igual a $90^\circ$
+    \item mayor que $90^\circ$
+    \item menor que $90^\circ$
+    \item igual o mayor que $90^\circ$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Refutación Visual: La Imposibilidad de la Cuerda Horizontal}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+fig, ax = plt.subplots(figsize=(6, 3))
+ax.axis('off')
+
+ax.plot([0, 6], [2, 2], 'k--', alpha=0.3)
+ax.plot([0, 0], [1.5, 2.5], 'k-', lw=2)
+ax.plot([6, 6], [1.5, 2.5], 'k-', lw=2)
+ax.text(-0.3, 2, 'A', fontsize=12)
+ax.text(6.2, 2, 'C', fontsize=12)
+
+bx, by = 3, 1.2
+ax.plot([0, bx], [2, by], 'b-', lw=2)
+ax.plot([6, bx], [2, by], 'b-', lw=2)
+
+ax.plot([bx, bx], [by, 0.4], 'r-', lw=2)
+rect = patches.Rectangle((bx-0.4, 0), 0.8, 0.4, facecolor='white', edgecolor='black')
+ax.add_patch(rect)
+
+ax.plot(bx, by, 'ko')
+ax.text(bx+0.2, by+0.1, 'B', fontsize=12)
+ax.text(bx+0.1, 0.6, 'D', fontsize=12)
+
+arc = patches.Arc((bx, by), 1, 1, angle=0, theta1=165, theta2=270, color='green', lw=2)
+ax.add_patch(arc)
+ax.text(bx-1.5, by-0.2, r'$\theta > 90^\circ$', color='green', fontsize=12, fontweight='bold')
+
+ax.set_xlim(-1, 7)
+ax.set_ylim(-0.5, 3)
+plt.show()
+\end{verbatim}
+
+\textit{Nota de Tutor: El estudiante marcó la opción 'a' guiándose ciegamente por el diagrama idealizado del examen. Demostraremos por qué una cuerda perfectamente horizontal violaría las Leyes de Newton.}
+
+El nodo $B$ soporta el peso del bloque mediante la cuerda vertical $BD$, lo que ejerce una fuerza neta hacia abajo ($W = mg$). 
+Para que el nodo $B$ permanezca en reposo (equilibrio mecánico), la suma de todas las fuerzas en el eje Y debe ser cero ($\sum F_y = 0$).
+
+Esto significa que las tensiones de las cuerdas laterales ($T_{AB}$ y $T_{BC}$) \textbf{deben proveer una componente vertical hacia arriba} para anular el peso. 
+$$ T_{AB} \sin\theta + T_{BC} \sin\theta = mg $$
+
+Si la cuerda fuera perfectamente horizontal como en el dibujo original, el ángulo de elevación sería $0^\circ$. Puesto que $\sin(0^\circ) = 0$, la componente vertical de soporte sería matemáticamente cero. Es imposible sostener un peso sin hundirse.
+Para obtener ese soporte, el nodo $B$ obligatoriamente debe "pandearse" (hundirse) hacia abajo.
+Al hacerlo, la cuerda $AB$ ya no es horizontal; se dirige desde $B$ hacia arriba y a la izquierda para conectar con la pared $A$.
+El ángulo $\angle ABD$ se mide entre la cuerda $AB$ (que ahora apunta hacia arriba y a la izquierda) y la cuerda $BD$ (que apunta verticalmente hacia abajo). Este ángulo es la suma de los $90^\circ$ de un cuadrante más el ángulo de deflexión de la cuerda. Por lo tanto, \textbf{debe ser estrictamente mayor que $90^\circ$}.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) mayor que $90^\circ$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un bloque, de masa $m$, se encuentra sobre una superficie horizontal rugosa. Si se aplica una fuerza horizontal de igual magnitud que el peso y el bloque está a punto de moverse, entonces el coeficiente de rozamiento estático entre el bloque y la superficie es:
+\begin{enumerate}[label=\alph*)]
+    \item $0.0$
+    \item $0.5$
+    \item $1.0$
+    \item $1.5$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis del Umbral Estático}
+\textit{Nota del Tutor: El estudiante planteó excelentemente el sistema de ecuaciones a un lado de la hoja. Vamos a formalizarlo.}
+
+El bloque se encuentra en una superficie horizontal, por lo que la sumatoria de fuerzas en el eje Y nos da el valor de la Normal ($N$):
+$$ \sum F_y = 0 \implies N - mg = 0 \implies N = mg $$
+
+En el eje horizontal, la frase clave es \textbf{"está a punto de moverse"}. Esto nos indica que el bloque sigue en reposo ($a = 0$), pero la fuerza de fricción estática ha alcanzado su límite máximo permisible ($f_{s,max} = \mu_s N$).
+Aplicamos la Primera Ley de Newton en el eje X:
+$$ \sum F_x = 0 \implies F - f_{s,max} = 0 \implies F = f_{s,max} $$
+El enunciado nos da un dato vital: la fuerza horizontal aplicada tiene \textbf{"igual magnitud que el peso"} ($F = mg$).
+Sustituimos $F$ y $f_{s,max}$ en nuestra ecuación:
+$$ mg = \mu_s \cdot N $$
+Como calculamos anteriormente que $N = mg$, sustituimos la normal:
+$$ mg = \mu_s (mg) $$
+Dividimos ambos lados de la ecuación para $mg$:
+$$ 1 = \mu_s $$
+El coeficiente de rozamiento estático para este escenario particular es exactamente uno.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) $1.0$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Los bloques idénticos, de masa $M$, se mueven verticalmente hacia arriba con velocidad constante debido a la acción de la fuerza $\vec{F}$ indicada en la figura, la magnitud de $\vec{T}$ es:
+
+\begin{center}
+\begin{tikzpicture}[scale=1]
+    \draw[thick] (0,2) rectangle (1,3);
+    \node at (0.5, 2.5) {$M$};
+    
+    \draw[thick] (0,0) rectangle (1,1);
+    \node at (0.5, 0.5) {$M$};
+    
+    \draw[thick] (0.5,1) -- (0.5,2);
+    \node[left] at (0.5, 1.5) {$T$};
+    
+    \draw[->, thick] (0.5,3) -- (0.5,4);
+    \node[right] at (0.5, 3.5) {$\vec{F}$};
+\end{tikzpicture}
+\end{center}
+
+\begin{enumerate}[label=\alph*)]
+    \item cero
+    \item $Mg$
+    \item $2Mg$
+    \item igual a la magnitud de $\vec{F}$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Aislamiento Estratégico de Cuerpos en Equilibrio}
+El sistema se mueve con \textbf{velocidad constante}. De acuerdo a la Primera Ley de Newton, la aceleración es nula y la sumatoria de fuerzas sobre \textit{cualquier} parte del sistema debe ser exactamente cero.
+
+Para encontrar la tensión $T$, lo más eficiente es aislar y analizar únicamente el \textbf{bloque inferior}.
+Realizamos el Diagrama de Cuerpo Libre (DCL) solo para este bloque de masa $M$:
+\begin{itemize}
+    \item Fuerzas hacia arriba: Solo la Tensión de la cuerda ($T$).
+    \item Fuerzas hacia abajo: Solo su propio peso ($Mg$).
+\end{itemize}
+Aplicamos la sumatoria de fuerzas:
+$$ \sum F_y = 0 \implies T - Mg = 0 \implies T = Mg $$
+
+*(Nota: Si analizáramos el sistema completo, $\sum F_y = 0 \implies F - 2Mg = 0 \implies F = 2Mg$. La fuerza total que jala arriba debe sostener ambas masas. La cuerda de en medio, sin embargo, solo tiene la responsabilidad de sostener la masa inferior).*
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) $Mg$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Del techo del cajón de un camión, completamente cerrado, que se mueve por una carretera recta horizontal, cuelga un péndulo. El péndulo:
+\begin{enumerate}[label=\alph*)]
+    \item se inclina hacia atrás cuando el camión disminuye su rapidez
+    \item se inclina hacia adelante cuando el camión disminuye su rapidez
+    \item se inclina hacia adelante cuando el camión aumenta su rapidez
+    \item permanece vertical cuando el camión cambia su rapidez
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Manifestación de la Inercia en Sistemas No Inerciales}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+fig, ax = plt.subplots(figsize=(6, 4))
+ax.axis('off')
+
+truck = patches.Rectangle((1, 1), 4, 2, fill=False, lw=2)
+ax.add_patch(truck)
+ax.plot([1.5, 3.5], [1, 1], 'ko', markersize=15)
+
+ax.plot([3, 2.3], [3, 1.5], 'k-', lw=2)
+ax.plot(2.3, 1.5, 'ro', markersize=10)
+
+ax.plot([3, 3], [3, 1.5], 'k--', alpha=0.5)
+
+ax.arrow(5, 2.5, 1, 0, head_width=0.2, color='blue', lw=2)
+ax.text(5.2, 2.8, r'$\vec{v}$', color='blue', fontsize=12)
+
+ax.arrow(5, 1.5, -1, 0, head_width=0.2, color='red', lw=2)
+ax.text(3.5, 1.2, r'$\vec{a}$ (frenado)', color='red', fontsize=12)
+
+ax.set_xlim(0, 7)
+ax.set_ylim(0, 4)
+plt.show()
+\end{verbatim}
+
+Analizamos la física del péndulo bajo el Principio de Inercia (Primera Ley de Newton). La inercia es la tendencia de los cuerpos a mantener su estado de movimiento actual.
+
+El camión y el péndulo viajan juntos a una cierta velocidad hacia adelante. 
+Cuando el camión \textbf{disminuye su rapidez} (pisa los frenos), la estructura del camión pierde velocidad abruptamente. Sin embargo, la masa del péndulo "quiere" seguir avanzando hacia adelante con la velocidad alta que traía originalmente. 
+Dado que el techo del camión (donde está atado) se queda rezagado, la masa del péndulo avanza respecto al interior del cajón, provocando que se \textbf{incline hacia adelante}. 
+
+*(El caso inverso ocurre al acelerar: el camión avanza rápido y el péndulo se queda atrás por inercia, inclinándose hacia atrás. Por lo tanto, las opciones 'a' y 'c' tienen la física invertida).*
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) se inclina hacia adelante cuando el camión disminuye su rapidez
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Si se considera el movimiento de la tierra alrededor del sol, como un movimiento circular debido a la interacción gravitacional; la fuerza neta que actúa sobre la tierra es:
+\begin{enumerate}[label=\alph*)]
+    \item cero
+    \item es la fuerza centrípeta, que es la fuerza gravitacional
+    \item es la fuerza centrípeta más la fuerza gravitacional
+    \item es la fuerza centrípeta menos la fuerza gravitacional
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Identidad de Fuerzas en Cinemática Circular}
+Este ejercicio aborda uno de los malentendidos más profundos de los estudiantes de física básica: tratar a la "fuerza centrípeta" como una fuerza misteriosa o adicional.
+
+En la dinámica del movimiento circular, la Fuerza Centrípeta ($F_c = mv^2/r$) \textbf{no es una nueva fuerza fundamental} de la naturaleza. Es simplemente un "título" o un "rol" geométrico que se le asigna a cualquier fuerza neta que esté apuntando hacia el centro de una trayectoria curva, obligando al objeto a girar.
+
+En el caso del sistema Tierra-Sol, la única interacción física real que tira de la Tierra hacia el Sol es la \textbf{Fuerza Gravitacional Universal}. Como esta es la única fuerza actuando en el sistema, ella constituye la \textbf{Fuerza Neta}. Y como su dirección es hacia el centro de la órbita (el Sol), asume el rol geométrico de \textbf{Fuerza Centrípeta}.
+Por lo tanto, no se pueden sumar ni restar (opciones c y d), porque no son dos cosas distintas; son exactamente lo mismo. La fuerza gravitacional \textit{hace de} fuerza centrípeta.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) es la fuerza centrípeta, que es la fuerza gravitacional
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+El peso de una persona tiene una magnitud $P$. Si la persona se sube en una balanza en la ciudad de Quito y si se considera la rotación de la tierra alrededor de su eje, la balanza marcará un valor:
+\begin{enumerate}[label=\alph*)]
+    \item igual a $P$
+    \item mayor que $P$
+    \item menor que $P$
+    \item que puede ser mayor o menor que $P$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Dinámica de Rotación Terrestre (Gravedad Efectiva)}
+\textit{Nota del Tutor: El estudiante marcó la opción 'a'. Este es un error al no considerar las implicaciones dinámicas del movimiento circular. Vamos a demostrar por qué la rotación terrestre "aligera" nuestro peso aparente.}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig, ax = plt.subplots(figsize=(5, 5))
+ax.axis('off')
+
+earth = plt.Circle((0, 0), 3, color='lightblue', ec='black', lw=2)
+ax.add_patch(earth)
+
+ax.plot([0, 4], [0, 0], 'k--', alpha=0.3)
+ax.plot(3, 0, 'ko')
+ax.text(3.2, 0.2, 'Quito (Ecuador)', fontsize=12)
+
+ax.arrow(3.5, 0, -1.5, 0, head_width=0.2, color='blue', lw=2)
+ax.text(1.5, -0.4, r'$\vec{P} = mg$', color='blue', fontsize=12)
+
+ax.arrow(3.1, 0, 1.2, 0, head_width=0.2, color='red', lw=2)
+ax.text(4.4, 0.2, r'$\vec{N}$ (Balanza)', color='red', fontsize=12)
+
+ax.arrow(2.8, 0.5, -0.8, 0, head_width=0.15, color='green', lw=2)
+ax.text(1.5, 0.7, r'$\vec{a}_c$', color='green', fontsize=12)
+
+ax.set_xlim(-4, 6)
+ax.set_ylim(-4, 4)
+plt.show()
+\end{verbatim}
+
+Quito se encuentra prácticamente sobre la línea ecuatorial. Al estar en la superficie de la Tierra mientras esta rota sobre su propio eje, una persona describe un Movimiento Circular Uniforme gigante. 
+Para que cualquier cuerpo se mantenga en una trayectoria circular, debe existir una fuerza neta dirigida hacia el centro de rotación que funcione como \textbf{Fuerza Centrípeta} ($F_c = m a_c$).
+
+Hagamos el Diagrama de Cuerpo Libre de la persona en el eje radial (positivo hacia el centro de la Tierra):
+\begin{itemize}
+    \item El peso real gravitacional ($\vec{P} = mg$) tira hacia el centro (positivo).
+    \item La Fuerza Normal de la balanza ($\vec{N}$) empuja hacia afuera (negativo).
+\end{itemize}
+
+Aplicamos la Segunda Ley de Newton:
+$$ \sum F_r = m a_c $$
+$$ P - N = m a_c $$
+Recuerda que una balanza no mide la masa ni el peso gravitacional, \textbf{la balanza mide la Fuerza Normal ($N$)} que debe ejercer para sostenerte. Despejamos $N$:
+$$ N = P - m a_c $$
+
+Como la masa ($m$) y la aceleración centrípeta terrestre ($a_c$) son números estrictamente positivos, al peso real $P$ se le está \textbf{restando} una cantidad matemática. Por lo tanto, el valor de $N$ será ineludiblemente \textbf{menor que $P$}.
+*(Nota: Si la Tierra no rotara, $a_c = 0$, y entonces sí, la balanza marcaría $N = P$. La rotación "roba" un poco del peso para usarlo en mantenerte girando).*
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) menor que $P$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Sobre un disco horizontal que gira con velocidad angular constante, alrededor de un eje vertical que pasa por su centro, se colocan dos cuerpos del mismo material, de masas $m_1 = m$ y $m_2 = 4m$, a distancias $d_1$ y $d_2$, respectivamente, del centro del disco. Si en estas posiciones los dos cuerpos están a punto de deslizar, entonces:
+\begin{enumerate}[label=\alph*)]
+    \item $d_1 > d_2$
+    \item $d_1 < d_2$
+    \item $d_1 = d_2$
+    \item no existe relación entre $d_1$ y $d_2$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Refutación Analítica: Independencia de la Masa en Fricción Rotacional}
+\textit{Nota de Tutor: El estudiante eligió la opción 'a', asumiendo que el cuerpo más pesado ($4m$) debía estar más cerca del centro para no resbalar. Demostraremos que la masa se cancela en la dinámica del deslizamiento centrípeto.}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(5, 5))
+ax.axis('off')
+
+disk = plt.Circle((0, 0), 4, fill=False, color='black', lw=2)
+ax.add_patch(disk)
+
+ax.plot(0, 0, 'ko')
+ax.text(-0.2, -0.4, 'Eje', fontsize=12)
+
+ax.plot([0, 2.5], [0, 0], 'k--', lw=1.5)
+ax.plot(2.5, 0, 'gs', markersize=15)
+ax.text(2.4, 0.4, 'm', fontsize=12)
+
+ax.arrow(2.1, 0, -1.2, 0, head_width=0.2, color='red', lw=2)
+ax.text(0.5, 0.2, r'$f_{s,max}$', color='red', fontsize=12)
+
+ax.arrow(-1, 3, 0.5, 0.5, head_width=0.2, color='blue', lw=2)
+ax.text(-0.5, 3.5, r'$\omega$', color='blue', fontsize=12)
+
+ax.set_xlim(-4.5, 4.5)
+ax.set_ylim(-4.5, 4.5)
+plt.show()
+\end{verbatim}
+
+Para un cuerpo que gira sobre un disco horizontal sin paredes, la \textbf{única fuerza} que apunta hacia el centro del disco y que lo obliga a describir la curva es la fuerza de fricción estática ($f_s$).
+Cuando el problema indica que están \textbf{"a punto de deslizar"}, significa que la fricción ha llegado a su límite máximo absoluto: 
+$$ f_{s,max} = \mu_s N = \mu_s mg $$
+
+Aplicamos la Segunda Ley de Newton en el eje radial. Esta fricción máxima debe ser capaz de proveer la fuerza centrípeta requerida ($F_c = m \omega^2 d$):
+$$ \sum F_r = m a_c $$
+$$ f_{s,max} = m \omega^2 d $$
+Sustituimos la definición de la fricción máxima:
+$$ \mu_s mg = m \omega^2 d $$
+
+Notamos que la masa del cuerpo ($m$) aparece multiplicando en ambos lados de la igualdad. Al dividir toda la ecuación para $m$, esta \textbf{se cancela algebraicamente}:
+$$ \mu_s g = \omega^2 d $$
+Despejamos la distancia $d$:
+$$ d = \frac{\mu_s g}{\omega^2} $$
+
+Analicemos esta ecuación final. La distancia crítica de deslizamiento ($d$) depende únicamente del coeficiente de fricción ($\mu_s$), de la gravedad ($g$) y de la velocidad angular del disco ($\omega$).
+Como los cuerpos $1$ y $2$ son "del mismo material" (tienen la misma $\mu_s$) y están en el mismo disco (tienen la misma $\omega$), la ecuación exige que la distancia máxima a la que pueden estar sin resbalar sea exactamente la misma para ambos. La diferencia de masas ($m$ vs $4m$) es completamente irrelevante para este fenómeno físico.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) $d_1 = d_2$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Se suelta un cuerpo, de masa $m$, desde el punto $A$ del rizo vertical liso de la figura. Las magnitudes de la fuerza normal $N$, que ejerce el rizo sobre el cuerpo, al pasar por los puntos $B$, $C$ y $D$, cumplen la siguiente relación:
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    \draw[thick] (0,0) -- (8,0);
+    
+    % Rizo
+    \draw[thick] (6,1.5) circle (1.5cm);
+    \draw[dashed] (4.5,1.5) -- (7.5,1.5);
+    \draw[dashed] (6,0) -- (6,3);
+    \node[right] at (6.75, 1.8) {$R$};
+    
+    % Pista de bajada
+    \draw[thick] (2,4.5) to[out=-90, in=180] (6,0);
+    
+    % Puntos
+    \filldraw (2,4.5) circle (2pt) node[left] {$A$};
+    \filldraw (6,0) circle (2pt) node[below] {$B$};
+    \filldraw (7.5,1.5) circle (2pt) node[right] {$C$};
+    \filldraw (6,3) circle (2pt) node[above] {$D$};
+    
+    % Altura 3R
+    \draw[<->, thick] (1.5, 0) -- (1.5, 4.5) node[midway, left] {$3R$};
+\end{tikzpicture}
+\end{center}
+
+\begin{enumerate}[label=\alph*)]
+    \item $N_B = N_C = N_D$
+    \item $N_B > N_C > N_D$
+    \item $N_B < N_C < N_D$
+    \item $N_C > N_B > N_D$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Conservación de la Energía y Dinámica Circular}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig, ax = plt.subplots(figsize=(6, 5))
+ax.axis('off')
+
+ax.plot([0, 7], [0, 0], 'k-', lw=2)
+
+theta = np.linspace(0, 2*np.pi, 100)
+x_c, y_c, R = 5, 1.5, 1.5
+ax.plot(x_c + R*np.cos(theta), y_c + R*np.sin(theta), 'k-', lw=2)
+
+x_ramp = np.linspace(1, 5, 50)
+y_ramp = 0.281 * (x_ramp - 5)**2
+ax.plot(x_ramp, y_ramp, 'k-', lw=2)
+
+ax.plot(1, 4.5, 'ko')
+ax.plot(5, 0, 'ro')
+ax.plot(6.5, 1.5, 'bo')
+ax.plot(5, 3, 'go')
+
+ax.arrow(5, 0, 0, 1, head_width=0.15, color='red', lw=2)
+ax.text(5.2, 0.5, r'$N_B$', color='red', fontsize=12)
+
+ax.arrow(6.5, 1.5, -1, 0, head_width=0.15, color='blue', lw=2)
+ax.text(5.6, 1.7, r'$N_C$', color='blue', fontsize=12)
+
+ax.arrow(5, 3, 0, -1, head_width=0.15, color='green', lw=2)
+ax.text(5.2, 2.2, r'$N_D$', color='green', fontsize=12)
+
+ax.set_xlim(0, 8)
+ax.set_ylim(-0.5, 5)
+plt.show()
+\end{verbatim}
+
+\textbf{Paso 1: Velocidades mediante Conservación de Energía}
+Como el rizo es liso (sin fricción), la Energía Mecánica se conserva ($E_A = E_B = E_C = E_D$).
+La energía inicial en $A$ (partiendo del reposo a altura $3R$) es puramente potencial: $E_A = mg(3R)$.
+Calculamos el cuadrado de la velocidad ($v^2$) en cada punto igualando las energías:
+\begin{itemize}
+    \item \textbf{En B (altura 0):} $mg(3R) = \frac{1}{2}mv_B^2 \implies v_B^2 = 6gR$
+    \item \textbf{En C (altura R):} $mg(3R) = mgR + \frac{1}{2}mv_C^2 \implies v_C^2 = 4gR$
+    \item \textbf{En D (altura 2R):} $mg(3R) = mg(2R) + \frac{1}{2}mv_D^2 \implies v_D^2 = 2gR$
+\end{itemize}
+
+\textbf{Paso 2: Fuerzas Normales mediante Segunda Ley de Newton}
+Aplicamos $\sum F_r = m \frac{v^2}{R}$ apuntando hacia el centro del rizo:
+\begin{itemize}
+    \item \textbf{En B:} La Normal empuja hacia el centro, el peso hacia afuera.
+    $$ N_B - mg = m\left(\frac{6gR}{R}\right) \implies N_B = 6mg + mg = 7mg $$
+    \item \textbf{En C:} La Normal empuja hacia el centro, el peso es tangencial (no afecta el eje radial).
+    $$ N_C = m\left(\frac{4gR}{R}\right) \implies N_C = 4mg $$
+    \item \textbf{En D:} La Normal y el Peso empujan hacia el centro.
+    $$ N_D + mg = m\left(\frac{2gR}{R}\right) \implies N_D = 2mg - mg = 1mg $$
+\end{itemize}
+
+Comparando algebraicamente: $7mg > 4mg > 1mg$. Por lo tanto, $N_B > N_C > N_D$.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) $N_B > N_C > N_D$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una moneda, de masa $m$, se encuentra sobre un disco horizontal rugoso, que gira con aceleración angular constante, si la moneda se encuentra en reposo respecto al disco durante $10\,\si{s}$, entonces la fuerza de rozamiento $\vec{f}_{re}$, que actúa sobre la moneda, tiene las siguientes componentes sobre los ejes tangencial ($T$) y normal ($N$):
+
+*(Ver opciones en la imagen provista: cuatro diagramas de vectores indicando el sentido del movimiento "mov" y los ejes T y N).*
+
+\begin{enumerate}[label=\alph*)]
+    \item (Diagrama donde $\vec{f}_{re}$ apunta entre $+T$ y $+N$)
+    \item (Diagrama donde $\vec{f}_{re}$ apunta entre $+T$ y $-N$)
+    \item (Diagrama donde $\vec{f}_{re}$ apunta entre $-T$ y $+N$)
+    \item (Diagrama donde $\vec{f}_{re}$ apunta entre $-T$ y $-N$)
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Descomposición de la Fricción en MCUV}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig, ax = plt.subplots(figsize=(4, 4))
+ax.axis('off')
+
+circle = plt.Circle((0, 0), 2, fill=False, color='black', lw=2)
+ax.add_patch(circle)
+
+ax.plot([0, 2.5], [0, 0], 'k--', alpha=0.3)
+ax.plot([0, 0], [0, 2.5], 'k--', alpha=0.3)
+
+x_coin, y_coin = 1.414, 1.414
+ax.plot(x_coin, y_coin, 'ko', markersize=8)
+
+ax.arrow(x_coin, y_coin, -1, -1, head_width=0.15, color='blue', lw=2)
+ax.text(x_coin - 0.5, y_coin - 1.3, 'N (Centripeta)', color='blue', fontsize=10)
+
+ax.arrow(x_coin, y_coin, -1, 1, head_width=0.15, color='green', lw=2)
+ax.text(x_coin - 1.2, y_coin + 0.6, 'T (Tangencial)', color='green', fontsize=10)
+
+ax.arrow(x_coin, y_coin, -1.5, 0, head_width=0.15, color='red', lw=2)
+ax.text(x_coin - 1.8, y_coin - 0.3, r'$\vec{f}_{re}$', color='red', fontsize=12, fontweight='bold')
+
+import matplotlib.patches as patches
+arc = patches.Arc((0, 0), 2.5, 2.5, angle=0, theta1=30, theta2=60, color='gray', lw=2)
+ax.add_patch(arc)
+ax.arrow(1.25, 2.16, -0.2, 0.1, head_width=0.1, color='gray', lw=2)
+ax.text(1.5, 2.3, 'mov', color='gray')
+
+ax.set_xlim(-2.5, 2.5)
+ax.set_ylim(-2.5, 2.5)
+plt.show()
+\end{verbatim}
+
+Para que la moneda no resbale mientras el disco acelera su rotación, la fuerza de rozamiento estático ($\vec{f}_{re}$) es la única fuerza disponible en el plano horizontal para cumplir con dos requerimientos mecánicos simultáneos:
+\begin{enumerate}
+    \item \textbf{Requerimiento Normal (Centrípeto):} Debe obligar a la moneda a trazar el círculo en lugar de seguir de largo. Por ende, debe ejercer una tracción hacia el centro del disco. En los diagramas, el centro está en el origen $O$. El eje normal ($N$) apunta de la moneda hacia el centro. Entonces, la componente de rozamiento debe ser positiva en $N$ ($+N$).
+    \item \textbf{Requerimiento Tangencial:} El enunciado dice que el disco gira con \textbf{aceleración angular constante}. El disco está rotando cada vez más rápido. Para que la moneda acelere linealmente al mismo ritmo que el disco, la fricción debe empujarla \textbf{hacia adelante}, en la misma dirección del movimiento ("mov"). El eje tangencial ($T$) apunta en la dirección del movimiento. Entonces, la componente debe ser positiva en $T$ ($+T$).
+\end{enumerate}
+
+Al requerir una componente hacia el centro ($+N$) y una componente hacia adelante ($+T$), el vector resultante $\vec{f}_{re}$ debe ubicarse geométricamente en el cuadrante formado entre los vectores $+T$ y $+N$.
+El único diagrama que grafica la fuerza $\vec{f}_{re}$ apuntando "hacia adelante y hacia adentro" es el de la opción 'a'.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large a) (Diagrama con $\vec{f}_{re}$ en el cuadrante $+T, +N$)
+\end{tcolorbox}
+
+\end{document}

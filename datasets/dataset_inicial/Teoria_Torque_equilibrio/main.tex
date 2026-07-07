@@ -1,0 +1,1283 @@
+\documentclass[12pt, a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{geometry}
+\usepackage[most]{tcolorbox}
+\usepackage{siunitx}
+\usepackage{enumitem}
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usepackage{verbatim} 
+\usepackage{xcolor}
+
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta, calc, babel}
+\geometry{a4paper, margin=1in}
+
+\title{Ejercicios Teóricos: Torque y Equilibrio}
+\author{Dataset Entrenamiento LLM}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\subsection*{Enunciado}
+Si el torque neto que actúa sobre un cuerpo rígido que gira es cero, entonces:
+\begin{enumerate}[label=\alph*)]
+    \item el ángulo entre la velocidad angular y la aceleración angular es $0^\circ$
+    \item el ángulo entre la velocidad angular y la aceleración angular es $180^\circ$
+    \item la velocidad angular y la aceleración angular son perpendiculares
+    \item no se forma ningún ángulo entre la velocidad angular y aceleración angular, ya que esta es cero
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Segunda Ley de Newton para la Rotación}
+La dinámica rotacional está gobernada por la ecuación fundamental $\sum \vec{\tau} = I \vec{\alpha}$, donde $\sum \vec{\tau}$ es el torque neto, $I$ es el momento de inercia y $\vec{\alpha}$ es la aceleración angular.
+
+El enunciado establece que el torque neto es estrictamente cero ($\sum \vec{\tau} = \vec{0}$). Sustituyendo en la ecuación:
+$$ \vec{0} = I \vec{\alpha} $$
+Dado que el momento de inercia ($I$) de un cuerpo rígido es una propiedad escalar intrínseca y diferente de cero (mientras tenga masa y extensión), la única solución matemática posible es que el vector aceleración angular sea el vector nulo:
+$$ \vec{\alpha} = \vec{0} $$
+
+En geometría vectorial, para definir un ángulo se requiere la intersección de dos vectores que posean magnitud. Como el vector aceleración angular no existe (es un punto sin magnitud ni dirección), es físicamente y matemáticamente imposible definir un ángulo entre este y el vector velocidad angular ($\vec{\omega}$).
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large d) no se forma ningún ángulo entre la velocidad angular y aceleración angular, ya que esta es cero
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una fuerza neta vertical de $20\hat{j}\,\si{N}$ actúa en el punto medio de una viga homogénea de longitud $L$ y masa $3\,\si{kg}$. El torque neto que actúa sobre la viga es:
+\begin{enumerate}[label=\alph*)]
+    \item cero
+    \item mayor a cero
+    \item menor a cero
+    \item no se puede determinar con esta información
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Brazo de Palanca en el Centro de Masa}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+fig, ax = plt.subplots(figsize=(6, 3))
+ax.axis('off')
+
+beam = patches.Rectangle((0, 0.8), 4, 0.4, fc='tan', ec='black', lw=2)
+ax.add_patch(beam)
+
+ax.plot(2, 1, 'ko', markersize=6)
+ax.text(2.1, 1.1, 'CM', fontsize=12, fontweight='bold')
+
+ax.arrow(2, 1, 0, 1, head_width=0.15, color='blue', lw=2)
+ax.text(2.2, 1.5, r'$\vec{F} = 20\hat{j}\,\mathrm{N}$', color='blue', fontsize=12)
+
+ax.plot([0, 4], [0.6, 0.6], 'k|-', lw=1)
+ax.text(2, 0.3, r'Longitud $L$', ha='center', fontsize=12)
+
+ax.set_xlim(-1, 5)
+ax.set_ylim(0, 3)
+plt.show()
+\end{verbatim}
+
+\textit{Nota del Tutor: El estudiante respondió correctamente la opción 'a'. Explicaremos la razón geométrica fundamental.}
+
+El torque (o momento de fuerza) evalúa la capacidad de una fuerza para generar rotación alrededor de un eje. Su definición vectorial es el producto cruz entre el vector de posición ($\vec{r}$) y la fuerza aplicada ($\vec{F}$):
+$$ \vec{\tau} = \vec{r} \times \vec{F} $$
+Donde $\vec{r}$ se mide desde el eje de rotación hasta el punto de aplicación de la fuerza.
+En cuerpos libres (no anclados a bisagras externas), el eje de rotación natural es siempre su \textbf{Centro de Masa (CM)}.
+
+El enunciado especifica que se trata de una "viga homogénea". En objetos homogéneos y simétricos, el centro de masa se encuentra exactamente en su centro geométrico, es decir, en su "punto medio".
+La fuerza de $20\hat{j}\,\si{N}$ se aplica exactamente en este mismo "punto medio". 
+Por lo tanto, la distancia entre el eje de rotación (CM) y el punto de aplicación de la fuerza es cero ($\vec{r} = \vec{0}$).
+$$ \vec{\tau} = \vec{0} \times (20\hat{j}) = \vec{0} $$
+Al no existir brazo de palanca, la fuerza causará una traslación puramente vertical de la viga, pero será totalmente incapaz de hacerla girar.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large a) cero
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+El torque es una cantidad vectorial:
+\begin{enumerate}[label=\alph*)]
+    \item paralela a la fuerza que lo genera
+    \item colineal con la velocidad angular del cuerpo
+    \item perpendicular al plano que forma la fuerza y el vector posición del punto de aplicación de la fuerza
+    \item que está en cualquier dirección
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Geometría Espacial del Producto Cruz}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig, ax = plt.subplots(figsize=(5, 5))
+ax.axis('off')
+
+polygon = plt.Polygon([[0, 1], [3, 0], [5, 2], [2, 3]], color='lightgray', alpha=0.5)
+ax.add_patch(polygon)
+ax.plot([0, 3, 5, 2, 0], [1, 0, 2, 3, 1], 'k--', alpha=0.5)
+ax.text(3.5, 0.5, r'Plano $\vec{r}-\vec{F}$', fontsize=12)
+
+ox, oy = 2, 1.5
+ax.plot(ox, oy, 'ko')
+
+ax.arrow(ox, oy, 1.5, -0.5, head_width=0.1, color='gray', lw=2)
+ax.text(ox + 1.6, oy - 0.5, r'$\vec{r}$', color='gray', fontsize=12)
+
+ax.arrow(ox, oy, 0.5, 1, head_width=0.1, color='blue', lw=2)
+ax.text(ox + 0.6, oy + 1, r'$\vec{F}$', color='blue', fontsize=12)
+
+ax.arrow(ox, oy, 0, 2, head_width=0.1, color='red', lw=2)
+ax.text(ox + 0.1, oy + 2, r'$\vec{\tau} = \vec{r} \times \vec{F}$', color='red', fontsize=12)
+
+ax.plot([ox, ox+0.2], [oy+0.2, oy+0.15], 'k-', lw=1)
+ax.plot([ox+0.2, ox+0.2], [oy+0.15, oy-0.05], 'k-', lw=1)
+
+ax.set_xlim(-1, 6)
+ax.set_ylim(-1, 4)
+plt.show()
+\end{verbatim}
+
+La definición analítica del Torque ($\vec{\tau}$) es el producto vectorial (o producto cruz) de dos vectores:
+$$ \vec{\tau} = \vec{r} \times \vec{F} $$
+Por axioma fundamental del álgebra lineal, el vector resultante de un producto cruz es \textbf{estrictamente ortogonal (perpendicular)} a los dos vectores que lo originaron.
+Si trazamos el vector posición ($\vec{r}$) y el vector fuerza ($\vec{F}$) partiendo desde el mismo origen, ambos vectores definirán un único plano bidimensional en el espacio (representado en gris en la figura). 
+El vector Torque "saldrá" disparado formando un ángulo de $90^\circ$ con dicho plano, siguiendo la regla de la mano derecha.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) perpendicular al plano que forma la fuerza y el vector posición del punto de aplicación de la fuerza
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Si en un cuerpo se cumple que $\sum \vec{\tau} = 0$, esto quiere decir que:
+\begin{enumerate}[label=\alph*)]
+    \item el cuerpo está necesariamente en reposo
+    \item el cuerpo puede rotar con velocidad angular variable
+    \item la aceleración que tiene el cuerpo es diferente de cero
+    \item la velocidad angular que tiene el cuerpo es constante
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Equilibrio Rotacional y la Primera Ley de Newton}
+Este problema evalúa la analogía rotacional de la Primera Ley de Newton (Ley de Inercia).
+Sabemos que $\sum \vec{\tau} = I \vec{\alpha}$. Si la sumatoria de torques es nula ($\sum \vec{\tau} = 0$), entonces, como demostramos en el Ejercicio 1, la aceleración angular es nula ($\vec{\alpha} = 0$).
+
+La aceleración angular ($\vec{\alpha}$) es la tasa de cambio de la velocidad angular ($\vec{\omega}$) respecto al tiempo:
+$$ \vec{\alpha} = \frac{d\vec{\omega}}{dt} = \vec{0} $$
+En cálculo, la única manera de que la derivada de una función sea siempre cero, es que dicha función sea una constante matemática.
+Por lo tanto, concluimos irremediablemente que:
+$$ \vec{\omega} = \text{constante} $$
+
+Esto desmiente la opción 'a' (no necesariamente está en reposo, podría estar girando eternamente a un ritmo fijo como un ventilador ya encendido) y la opción 'b' (no puede tener velocidad variable). Confirma exactamente lo enunciado en la opción 'd'.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large d) la velocidad angular que tiene el cuerpo es constante
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Para un sistema de partículas se cumple que $\sum \vec{F} = 0$ y $\sum \vec{\tau} = 0$, entonces es correcto afirmar que el sistema:
+\begin{enumerate}[label=\alph*)]
+    \item solo se traslada con $\vec{v}$ constante
+    \item solo rota con $\vec{\omega}$ constante
+    \item puede trasladarse con $\vec{v}$ constante y rotar con $\vec{\omega}$ constante
+    \item puede trasladarse con $\vec{v}$ constante y rotar con $\vec{\alpha}$ constante
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Equilibrio Total (Traslacional y Rotacional)}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+fig, ax = plt.subplots(figsize=(6, 3))
+ax.axis('off')
+
+circle1 = patches.Circle((1, 1), 0.6, fill=False, ec='black', lw=2)
+ax.add_patch(circle1)
+ax.plot([1, 4], [1, 1], 'k--', alpha=0.5)
+
+ax.arrow(1, 1, 1.2, 0, head_width=0.15, color='red', lw=2)
+ax.text(1.5, 1.2, r'$\vec{v}_{CM} = cte$', color='red', fontsize=12)
+
+arc = patches.Arc((1, 1), 1.6, 1.6, angle=0, theta1=45, theta2=135, color='blue', lw=2)
+ax.add_patch(arc)
+ax.arrow(0.43, 1.56, -0.1, -0.1, head_width=0.1, color='blue', lw=2)
+ax.text(0.1, 1.7, r'$\vec{\omega} = cte$', color='blue', fontsize=12)
+
+ax.set_xlim(0, 5)
+ax.set_ylim(0, 2.5)
+plt.show()
+\end{verbatim}
+
+El problema establece las dos condiciones fundamentales del equilibrio mecánico general para un cuerpo rígido o sistema de partículas:
+1. \textbf{Equilibrio Traslacional ($\sum \vec{F} = \vec{0}$):} Según la Segunda Ley de Newton ($\sum \vec{F} = m\vec{a}_{CM}$), si la fuerza neta es nula, la aceleración del centro de masa es cero. Por lo tanto, el sistema puede estar en reposo o \textbf{trasladarse con velocidad lineal constante} ($\vec{v} = \text{cte}$).
+2. \textbf{Equilibrio Rotacional ($\sum \vec{\tau} = \vec{0}$):} Según la analogía rotacional de Newton ($\sum \vec{\tau} = I\vec{\alpha}$), si el torque neto es nulo, la aceleración angular es cero. Por lo tanto, el sistema puede no estar girando o puede \textbf{rotar con velocidad angular constante} ($\vec{\omega} = \text{cte}$).
+
+Ambas condiciones son independientes pero pueden ocurrir simultáneamente. Un ejemplo clásico es una bola de boliche rodando por una pista lisa a velocidad constante; su centro de masa avanza sin acelerar y su giro se mantiene estable.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) puede trasladarse con $\vec{v}$ constante y rotar con $\vec{\omega}$ constante
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+El valor del torque total producido por las fuerzas de la figura es:
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    \draw[->] (-0.5,0) -- (6,0) node[right] {$x$};
+    \draw[->] (0,-0.5) -- (0,5) node[above] {$y$};
+    \node[below left] at (0,0) {$0$};
+    
+    \draw[->, thick] (0,0) -- (2,2) node[midway, above left] {$\vec{r}_1$};
+    \draw[->, thick] (0,0) -- (5,3) node[midway, below right] {$\vec{r}_2$};
+    
+    \draw[->, thick] (2,2) -- (3.5,2.2) node[above] {$\vec{F}_1$};
+    \draw[->, thick] (5,3) -- (6.5,3.2) node[above] {$\vec{F}_2$};
+    
+    \draw[dashed] (2,2) -- (5,3);
+    
+    \node[below] at (3, -1) {$F_1 = F_2$};
+\end{tikzpicture}
+\end{center}
+
+\begin{enumerate}[label=\alph*)]
+    \item menor a cero
+    \item cero
+    \item mayor a cero
+    \item depende del valor de $F_1$ y $F_2$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Analítico de Signos del Torque}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(6, 4))
+ax.spines['left'].set_position('zero')
+ax.spines['bottom'].set_position('zero')
+ax.spines['right'].set_color('none')
+ax.spines['top'].set_color('none')
+
+ax.arrow(0, 0, 2, 2, head_width=0.2, color='gray', length_includes_head=True)
+ax.arrow(0, 0, 5, 3, head_width=0.2, color='gray', length_includes_head=True)
+
+ax.arrow(2, 2, 1.5, 0.2, head_width=0.2, color='blue', lw=2, length_includes_head=True)
+ax.arrow(5, 3, 1.5, 0.2, head_width=0.2, color='blue', lw=2, length_includes_head=True)
+
+ax.text(1, 1.2, r'$\vec{r}_1$', color='gray', fontsize=12)
+ax.text(2.5, 1.2, r'$\vec{r}_2$', color='gray', fontsize=12)
+ax.text(2.5, 2.5, r'$\vec{F}_1$', color='blue', fontsize=12)
+ax.text(5.5, 3.5, r'$\vec{F}_2$', color='blue', fontsize=12)
+
+ax.text(2, 2, r'$\otimes$', color='red', fontsize=20, ha='center', va='center')
+ax.text(5, 3, r'$\otimes$', color='red', fontsize=20, ha='center', va='center')
+ax.text(1, 2.5, r'$\vec{\tau}_1 < 0$', color='red', fontsize=10)
+ax.text(4, 3.5, r'$\vec{\tau}_2 < 0$', color='red', fontsize=10)
+
+ax.set_xlim(-1, 7)
+ax.set_ylim(-1, 5)
+plt.show()
+\end{verbatim}
+
+\textit{Nota de Tutor: El estudiante marcó la opción 'c' asumiendo que el torque es positivo. Utilizaremos el producto vectorial para desmentir esta intuición visual y hallar la respuesta correcta.}
+
+El torque neto respecto al origen es la suma de los torques individuales: $\sum \vec{\tau} = (\vec{r}_1 \times \vec{F}_1) + (\vec{r}_2 \times \vec{F}_2)$.
+Analizamos geométricamente cada componente en el plano cartesiano $XY$:
+\begin{itemize}
+    \item \textbf{Torque 1 ($\vec{\tau}_1$):} El vector $\vec{r}_1$ apunta al primer cuadrante ($+x, +y$). La fuerza $\vec{F}_1$ apunta hacia la derecha y ligeramente arriba (predominantemente $+x$). Al aplicar la regla de la mano derecha (rotando de $\vec{r}_1$ hacia $\vec{F}_1$), el pulgar apunta \textbf{hacia adentro de la página} (eje $-Z$). Un giro en sentido horario corresponde a un torque matemáticamente \textbf{negativo} ($\tau_1 < 0$).
+    \item \textbf{Torque 2 ($\vec{\tau}_2$):} De manera idéntica, $\vec{r}_2$ está en el primer cuadrante y $\vec{F}_2$ apunta a la derecha. La regla de la mano derecha vuelve a arrojar un pulgar apuntando \textbf{hacia adentro de la página}. Este giro también es en sentido horario, generando un torque \textbf{negativo} ($\tau_2 < 0$).
+\end{itemize}
+
+Dado que ambos vectores de torque apuntan exactamente en la misma dirección (hacia adentro, eje $-Z$), se suman directamente incrementando su magnitud negativa.
+$$ \sum \vec{\tau} = \tau_1 + \tau_2 = (\text{negativo}) + (\text{negativo}) = \text{Número Negativo} $$
+Por lo tanto, sin importar los valores exactos de magnitud (incluso si $F_1 = F_2$), el torque total será estrictamente \textbf{menor a cero}.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large a) menor a cero
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un disco, de masa $m$ y radio $R$, gira con velocidad angular constante $\vec{\omega} = 160\hat{i}\,\si{rad/s}$. Si se desea detener el disco:
+\begin{enumerate}[label=\alph*)]
+    \item no es necesario aplicar un torque
+    \item es necesario aplicar un torque horario respecto al centro del disco
+    \item es necesario aplicar un torque antihorario respecto al centro del disco
+    \item el disco jamás se detendrá
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Naturaleza Vectorial de la Dinámica Rotacional}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+import numpy as np
+
+fig = plt.figure(figsize=(6, 4))
+ax = fig.add_subplot(111, projection='3d')
+ax.axis('off')
+
+y = np.linspace(-2, 2, 100)
+z = np.linspace(-2, 2, 100)
+Y, Z = np.meshgrid(y, z)
+X = np.zeros_like(Y)
+mask = Y**2 + Z**2 <= 4
+ax.plot_surface(X, Y, Z, facecolors=np.where(mask, 'lightblue', 'none'), alpha=0.5)
+
+ax.quiver(0, 0, 0, 3, 0, 0, color='blue', linewidth=2, arrow_length_ratio=0.1)
+ax.text(3.5, 0, 0, r'$\vec{\omega} = +160\hat{i}$', color='blue', fontsize=12)
+
+ax.quiver(0, 0, 0, -2, 0, 0, color='red', linewidth=2, arrow_length_ratio=0.1)
+ax.text(-3, 0, 0, r'$\vec{\tau} = -|\tau|\hat{i}$', color='red', fontsize=12)
+
+u = np.linspace(0, 2*np.pi, 50)
+v = np.linspace(0, np.pi, 50)
+x_arc = np.zeros_like(u)
+y_arc = 2 * np.cos(u)
+z_arc = 2 * np.sin(u)
+ax.plot(x_arc, y_arc, z_arc, color='black')
+
+ax.set_xlim(-4, 4)
+ax.set_ylim(-4, 4)
+ax.set_zlim(-4, 4)
+plt.show()
+\end{verbatim}
+
+\textit{Nota del Tutor: El estudiante eligió correctamente la opción 'b'. Argumentemos esta respuesta con la regla de la mano derecha.}
+
+Para detener un cuerpo que gira, debemos aplicar una aceleración angular ($\vec{\alpha}$) que se oponga a su velocidad angular actual ($\vec{\omega}$). Como el torque neto es directamente proporcional a la aceleración angular ($\vec{\tau} = I\vec{\alpha}$), el torque debe apuntar en la misma dirección que $\vec{\alpha}$ y en dirección opuesta a $\vec{\omega}$.
+
+El enunciado nos indica que $\vec{\omega} = +160\hat{i}$. Esto significa que el vector velocidad angular apunta hacia el eje $X$ positivo. Aplicando la convención de la regla de la mano derecha, un pulgar apuntando hacia el $+X$ corresponde a un giro en sentido \textbf{antihorario} en el plano perpendicular.
+Para oponerse a este movimiento, necesitamos un torque que apunte hacia el eje $X$ negativo ($-\hat{i}$). Por la misma regla geométrica, un vector en $-\hat{i}$ corresponde a un giro en sentido opuesto, es decir, \textbf{horario}.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) es necesario aplicar un torque horario respecto al centro del disco
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Si una fuerza neta $\vec{F} \neq 0$ que actúa sobre una rueda no produce torque, el efecto sobre el movimiento de la rueda será:
+\begin{enumerate}[label=\alph*)]
+    \item provocar una aceleración angular
+    \item provocar una aceleración lineal y angular
+    \item provocar una aceleración lineal
+    \item no provoca ni una aceleración lineal ni angular
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Desacoplamiento de la Traslación y Rotación}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+fig, ax = plt.subplots(figsize=(5, 4))
+ax.axis('off')
+
+wheel = plt.Circle((0, 0), 2, fill=False, color='black', lw=2)
+ax.add_patch(wheel)
+
+ax.plot(0, 0, 'ko', markersize=6)
+ax.text(0.1, 0.2, 'CM', fontsize=12, fontweight='bold')
+
+ax.arrow(0, 0, 2.5, 0, head_width=0.2, color='blue', lw=2)
+ax.text(1.2, 0.3, r'$\sum \vec{F} \neq 0$', color='blue', fontsize=12)
+ax.text(2.8, 0, r'$\vec{a}_{CM}$', color='green', fontsize=12)
+
+ax.text(-1.5, -1.5, r'$\vec{r} = 0 \Rightarrow \vec{\tau} = 0$', color='red', fontsize=10)
+
+ax.set_xlim(-3, 4)
+ax.set_ylim(-3, 3)
+plt.show()
+\end{verbatim}
+
+\textit{Nota del Tutor: El estudiante marcó la opción 'd'. Esto es un grave error conceptual que viola la Segunda Ley de Newton. Corrijamos la interpretación.}
+
+El estado dinámico de un cuerpo extenso se analiza dividiéndolo en dos componentes independientes regidos por las Leyes de Newton:
+\begin{enumerate}
+    \item \textbf{Movimiento Traslacional ($\sum \vec{F} = m\vec{a}$):} El enunciado establece categóricamente que existe una fuerza neta diferente de cero ($\vec{F} \neq 0$). Al existir una fuerza resultante y siendo la masa un valor positivo, es físicamente obligatorio que el cuerpo experimente una \textbf{aceleración lineal} ($\vec{a} \neq 0$).
+    \item \textbf{Movimiento Rotacional ($\sum \vec{\tau} = I\vec{\alpha}$):} El enunciado también establece que esta fuerza "no produce torque" ($\vec{\tau} = 0$). Esto ocurre geométricamente cuando la línea de acción de la fuerza pasa exactamente por el Centro de Masa, haciendo que el brazo de palanca sea nulo. Si no hay torque, no hay \textbf{aceleración angular} ($\vec{\alpha} = 0$).
+\end{enumerate}
+
+El resultado es un cuerpo que acelera en línea recta sin empezar a girar (se traslada sin rodar).
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) provocar una aceleración lineal
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+El diagrama de cuerpo libre que se muestra en la figura fue hecho por un estudiante para mostrar las fuerzas que actúan sobre una varilla delgada en equilibrio. Se sabe que $F_{3y} = F_2$ y $F_{3x} = F_1$ y que $\vec{F}_2$ está ubicada en la mitad de la varilla. Entonces se cumple que:
+
+\begin{center}
+\begin{tikzpicture}[scale=1]
+    \draw[thick] (0,0) rectangle (4,0.2);
+    
+    % F1
+    \draw[->, thick] (-1, 0.1) -- (0, 0.1) node[midway, above] {$\vec{F}_1$};
+    
+    % F2
+    \draw[->, thick] (2, 0) -- (2, -1) node[right] {$\vec{F}_2$};
+    
+    % F3
+    \draw[->, thick] (4, 0.1) -- (3, 1) node[above right] {$\vec{F}_3$};
+\end{tikzpicture}
+\end{center}
+
+\begin{enumerate}[label=\alph*)]
+    \item $\sum \vec{F} = 0$, $\sum \vec{\tau} = 0$
+    \item $\sum \vec{F} = 0$, $\sum \vec{\tau} \neq 0$
+    \item $\sum \vec{F} \neq 0$, $\sum \vec{\tau} = 0$
+    \item $\sum \vec{F} \neq 0$, $\sum \vec{\tau} \neq 0$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Falso Equilibrio por Par de Fuerzas}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+fig, ax = plt.subplots(figsize=(6, 3))
+ax.axis('off')
+
+rod = patches.Rectangle((0, 0), 4, 0.2, fc='lightgray', ec='black')
+ax.add_patch(rod)
+
+ax.arrow(0, 0.1, 1, 0, head_width=0.1, color='blue', lw=2)
+ax.text(0.5, 0.3, r'$F_1$', color='blue')
+
+ax.arrow(4, 0.1, -1, 0, head_width=0.1, color='blue', lw=2)
+ax.text(3.5, 0.3, r'$F_{3x}$', color='blue')
+
+ax.arrow(2, 0, 0, -1, head_width=0.1, color='red', lw=2)
+ax.text(2.1, -0.5, r'$F_2$', color='red')
+
+ax.arrow(4, 0.2, 0, 1, head_width=0.1, color='red', lw=2)
+ax.text(4.1, 0.5, r'$F_{3y}$', color='red')
+
+arc1 = patches.Arc((2, 0.1), 1, 1, angle=0, theta1=180, theta2=270, color='green', lw=2)
+ax.add_patch(arc1)
+
+arc2 = patches.Arc((4, 0.1), 1, 1, angle=0, theta1=90, theta2=180, color='green', lw=2)
+ax.add_patch(arc2)
+
+ax.plot(0, 0.1, 'ko', markersize=5)
+ax.text(-0.2, 0.3, 'A', fontsize=12)
+
+ax.set_xlim(-1, 5)
+ax.set_ylim(-1.5, 1.5)
+plt.show()
+\end{verbatim}
+
+\textit{Nota del Tutor: El estudiante marcó la opción 'a', asumiendo que un DCL dibujado para "mostrar equilibrio" está mecánicamente equilibrado en todas sus dimensiones. Comprobaremos por qué este diagrama en particular es rotacionalmente inestable.}
+
+Evaluamos el \textbf{Equilibrio Traslacional} ($\sum \vec{F}$):
+\begin{itemize}
+    \item Eje X: Actúa $\vec{F}_1$ hacia la derecha y $\vec{F}_{3x}$ hacia la izquierda. El enunciado afirma que $F_{3x} = F_1$. Por lo tanto, se anulan ($\sum F_x = 0$).
+    \item Eje Y: Actúa $\vec{F}_2$ hacia abajo y $\vec{F}_{3y}$ hacia arriba. El enunciado afirma que $F_{3y} = F_2$. Por lo tanto, se anulan ($\sum F_y = 0$).
+    \item Conclusión: $\sum \vec{F} = 0$.
+\end{itemize}
+
+Evaluamos el \textbf{Equilibrio Rotacional} ($\sum \vec{\tau}$):
+Para que haya equilibrio, la sumatoria de torques debe ser cero respecto a \textit{cualquier} pivote. Elijamos el extremo izquierdo de la varilla (Punto A) como eje de rotación.
+\begin{itemize}
+    \item $\vec{F}_1$ y $\vec{F}_{3x}$ apuntan directamente hacia/desde el pivote, por lo que su brazo de palanca es nulo ($\tau = 0$).
+    \item $\vec{F}_2$ genera un torque horario (negativo). Su brazo es $L/2$: $\tau_2 = -F_2 \left(\frac{L}{2}\right)$.
+    \item $\vec{F}_{3y}$ genera un torque antihorario (positivo). Su brazo es la longitud total $L$: $\tau_3 = +F_{3y} (L)$.
+\end{itemize}
+Realizamos la sumatoria de torques en A:
+$$ \sum \tau_A = -F_2 \left(\frac{L}{2}\right) + F_{3y} (L) $$
+Sustituyendo la condición del problema ($F_{3y} = F_2$):
+$$ \sum \tau_A = -F_2 \left(\frac{L}{2}\right) + F_2 (L) = +F_2 \left(\frac{L}{2}\right) $$
+El resultado no es cero ($\sum \vec{\tau} \neq 0$). Las fuerzas verticales forman un par que hará girar la varilla violentamente en sentido antihorario.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) $\sum \vec{F} = 0$, $\sum \vec{\tau} \neq 0$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+En la figura, una esfera uniforme de masa $m$ y radio $R$, se mantiene en reposo mediante la cuerda fija en $A$ y unida a su centro. La magnitud del torque de la fuerza que hace la pared lisa sobre la esfera respecto de $A$ es:
+
+\begin{center}
+\begin{tikzpicture}[scale=1]
+    % Pared
+    \draw[thick] (0,-3) -- (0,1) node[above] {$A$};
+    
+    % Esfera
+    \draw[thick] (1.5,-1.5) circle (1.5cm);
+    \node at (1.5,-1.5) {$O$};
+    \filldraw (1.5,-1.5) circle (1.5pt);
+    
+    % Cuerda
+    \draw[thick] (0,0.5) -- (1.5,-1.5);
+    \filldraw (0,0.5) circle (1.5pt);
+    \node[left] at (0,0.5) {$A$}; % Corregido A position
+    
+    % Cotas
+    \draw[<->] (-0.5, 0.5) -- (-0.5, -1.5) node[midway, left] {$L$};
+    \draw[dashed] (0, -1.5) -- (1.5, -1.5);
+    \draw[dashed] (0, 0.5) -- (1.5, 0.5);
+    
+    \node[below left] at (0,-1.5) {$B$};
+\end{tikzpicture}
+\end{center}
+
+\begin{enumerate}[label=\alph*)]
+    \item $mgL$
+    \item $mg(L^2/R)$
+    \item $mgR$
+    \item $mg(R/2)$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Aislamiento de Torques en Pivotes Estratégicos}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+fig, ax = plt.subplots(figsize=(5, 5))
+ax.axis('off')
+
+ax.plot([0, 0], [-3, 1], 'k-', lw=3)
+ax.plot(0, 0.5, 'ko')
+ax.text(-0.3, 0.5, 'A', fontsize=12, fontweight='bold')
+
+sphere = plt.Circle((1.5, -1.5), 1.5, fill=False, color='black', lw=2)
+ax.add_patch(sphere)
+ax.plot(1.5, -1.5, 'ko')
+ax.text(1.6, -1.4, 'O', fontsize=12)
+
+ax.plot([0, 1.5], [0.5, -1.5], 'k-', lw=2)
+
+ax.arrow(1.5, -1.5, 0, -1, head_width=0.15, color='blue', lw=2)
+ax.text(1.6, -2.4, r'$\vec{W} = m\vec{g}$', color='blue', fontsize=12)
+
+ax.arrow(0, -1.5, 1, 0, head_width=0.15, color='red', lw=2)
+ax.text(0.5, -1.3, r'$\vec{N}$', color='red', fontsize=12)
+
+ax.plot([-0.5, -0.5], [0.5, -1.5], 'k|-', lw=1)
+ax.text(-0.8, -0.5, 'L', fontsize=12)
+
+ax.plot([0, 1.5], [-2, -2], 'k|-', lw=1)
+ax.text(0.7, -2.3, 'R', fontsize=12)
+
+ax.set_xlim(-1, 3.5)
+ax.set_ylim(-3, 1)
+plt.show()
+\end{verbatim}
+
+\textit{Nota del Tutor: El estudiante marcó la opción 'd', realizando una sumatoria de torques confusa en el margen. Vamos a plantear el equilibrio directamente en el pivote solicitado para simplificar la física.}
+
+Se nos pide calcular la magnitud del torque que ejerce la pared lisa respecto al punto $A$ ($\tau_{A(N)}$). 
+Como el sistema está en reposo estático, la sumatoria de torques respecto a absolutamente cualquier punto del espacio debe ser cero. Elegimos el punto de anclaje de la cuerda (Punto A) como nuestro eje de rotación virtual:
+$$ \sum \tau_A = 0 $$
+
+Identificamos las fuerzas y sus brazos de palanca respecto al punto A:
+\begin{enumerate}
+    \item \textbf{Tensión de la Cuerda ($T$):} La línea de acción de la cuerda pasa exactamente a través del punto A. Su brazo de palanca es nulo, por lo que no genera torque ($\tau_T = 0$).
+    \item \textbf{Fuerza Normal de la pared ($N$):} Actúa horizontalmente hacia la derecha en el punto de contacto entre la esfera y el muro. La distancia vertical perpendicular desde el punto A hasta esta línea de acción es $L$. Genera un giro antihorario (positivo).
+    $$ \tau_N = +N \cdot L $$
+    \item \textbf{Peso de la esfera ($mg$):} Actúa verticalmente hacia abajo desde el centro geométrico $O$. La distancia horizontal perpendicular desde el punto A hasta el centro $O$ es el radio $R$. Genera un giro horario (negativo).
+    $$ \tau_W = -mg \cdot R $$
+\end{enumerate}
+
+Sustituimos los torques en la ecuación de equilibrio:
+$$ \sum \tau_A = (+N \cdot L) - (mg \cdot R) = 0 $$
+Despejamos el término asociado a la normal:
+$$ N \cdot L = mg \cdot R $$
+
+La pregunta no nos pide calcular el valor de la fuerza normal $N$, nos pide explícitamente \textbf{"La magnitud del torque de la fuerza que hace la pared respecto de A"}, lo cual es por definición geométrica el término completo $(N \cdot L)$.
+Dado que la ecuación de equilibrio estipula que $N \cdot L$ debe ser idénticamente igual a $mgR$ para contrarrestar la caída, la respuesta es directa.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) $mgR$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+El unitario del torque resultante diferente de cero que actúa sobre un cuerpo rígido está siempre en:
+\begin{enumerate}[label=\alph*)]
+    \item dirección contraria al unitario de la velocidad angular
+    \item en dirección contraria al unitario de la aceleración angular
+    \item en la misma dirección al unitario de la aceleración angular
+    \item en dirección perpendicular al unitario de la aceleración angular
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Alineación Vectorial en la Segunda Ley de Newton Rotacional}
+
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+import numpy as np
+
+fig = plt.figure(figsize=(5, 5))
+ax = fig.add_subplot(111, projection='3d')
+ax.axis('off')
+
+u = np.linspace(0, 2 * np.pi, 100)
+v = np.linspace(0, np.pi, 100)
+x = np.outer(np.cos(u), np.sin(v))
+y = np.outer(np.sin(u), np.sin(v))
+z = np.outer(np.ones(np.size(u)), np.cos(v)) * 0.1
+
+ax.plot_surface(x, y, z, color='lightgray', alpha=0.5)
+
+ax.quiver(0, 0, 0, 0, 0, 1.5, color='blue', linewidth=3, arrow_length_ratio=0.15)
+ax.text(0.1, 0, 1.6, r'$\vec{\alpha}$', color='blue', fontsize=14)
+
+ax.quiver(0, 0, 0, 0, 0, 2.5, color='red', linewidth=1.5, arrow_length_ratio=0.1)
+ax.text(-0.3, 0, 2.6, r'$\vec{\tau}_{net}$', color='red', fontsize=14)
+
+ax.set_xlim(-1, 1)
+ax.set_ylim(-1, 1)
+ax.set_zlim(-1, 3)
+plt.show()
+\end{verbatim}
+
+\textit{Nota del Tutor: El estudiante marcó la opción 'b', indicando que están en dirección contraria. Demostraremos algebraicamente por qué esto es incorrecto.}
+
+La relación dinámica fundamental para la rotación de un cuerpo rígido está dada por la ecuación:
+$$ \sum \vec{\tau} = I \vec{\alpha} $$
+
+Analicemos la naturaleza matemática de los elementos en esta ecuación:
+\begin{itemize}
+    \item $\sum \vec{\tau}$ es el vector torque resultante.
+    \item $\vec{\alpha}$ es el vector aceleración angular.
+    \item $I$ (Momento de Inercia) es una magnitud escalar estrictamente \textbf{positiva} (la inercia rotacional de un objeto con masa jamás puede ser negativa).
+\end{itemize}
+
+En álgebra vectorial, cuando multiplicamos un vector ($\vec{\alpha}$) por un escalar positivo ($I$), el vector resultante ($\vec{\tau}$) puede cambiar de magnitud, pero \textbf{conserva exactamente la misma dirección y sentido}.
+Dado que los vectores unitarios son los que definen la dirección, el vector unitario del torque resultante siempre apuntará en la idéntica dirección que el vector unitario de la aceleración angular.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) en la misma dirección al unitario de la aceleración angular
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una partícula, que se mueve por una circunferencia de radio $r$, con rapidez constante, está en equilibrio:
+\begin{enumerate}[label=\alph*)]
+    \item traslacional
+    \item rotacional
+    \item traslacional y rotacional
+    \item ni traslacional ni rotacional
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Fuerzas y Torques en el Movimiento Circular Uniforme}
+
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+import numpy as np
+
+fig, ax = plt.subplots(figsize=(5, 5))
+ax.axis('off')
+
+circle = plt.Circle((0, 0), 2, fill=False, color='black', lw=2)
+ax.add_patch(circle)
+ax.plot(0, 0, 'ko')
+
+theta = np.pi / 4
+px, py = 2 * np.cos(theta), 2 * np.sin(theta)
+ax.plot(px, py, 'ro', markersize=8)
+
+ax.arrow(px, py, -1.2 * np.cos(theta), -1.2 * np.sin(theta), head_width=0.15, color='blue', lw=2)
+ax.text(0.5, 0.2, r'$\vec{F}_c \neq 0$', color='blue', fontsize=12)
+
+ax.arrow(px, py, -1.5 * np.sin(theta), 1.5 * np.cos(theta), head_width=0.15, color='green', lw=2)
+ax.text(px - 1, py + 1.2, r'$\vec{v} = cte$', color='green', fontsize=12)
+
+ax.set_xlim(-3, 3)
+ax.set_ylim(-3, 3)
+plt.show()
+\end{verbatim}
+
+\textit{Nota de Tutor: El estudiante marcó la opción 'a'. Esta es una trampa clásica. Confundir "rapidez constante" con equilibrio traslacional es un error grave en trayectorias curvas.}
+
+Evaluemos por separado las dos condiciones de equilibrio:
+
+1. \textbf{Equilibrio Traslacional ($\sum \vec{F} = 0 \implies \vec{a} = 0$):} 
+Aunque la partícula mantenga su \textit{rapidez} (magnitud) constante, al moverse en un círculo su vector de \textit{velocidad} cambia constantemente de dirección. Este cambio de dirección exige la existencia de una aceleración centrípeta ($\vec{a}_c = v^2/r$) apuntando hacia el centro. Por la Segunda Ley de Newton, esto requiere una Fuerza Centrípeta neta diferente de cero ($\sum \vec{F} = \vec{F}_c \neq 0$). 
+Por lo tanto, \textbf{NO} está en equilibrio traslacional.
+
+2. \textbf{Equilibrio Rotacional ($\sum \vec{\tau} = 0 \implies \vec{\alpha} = 0$):}
+Como la rapidez lineal $v$ es constante y el radio $r$ es constante, la velocidad angular del sistema también es constante ($\omega = v/r = \text{cte}$).
+Si la velocidad angular no cambia, la aceleración angular es nula ($\vec{\alpha} = 0$). Consecuentemente, el torque neto alrededor del centro de giro debe ser cero ($\sum \vec{\tau} = 0$). 
+(Geométricamente: la única fuerza neta es la centrípeta, cuya línea de acción pasa exactamente por el eje de rotación, haciendo que su brazo de palanca sea cero).
+Por lo tanto, \textbf{SÍ} está en equilibrio rotacional.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) rotacional
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Sobre un disco, de radio $r$ y masa $m$, que gira en el plano $xy$, en cierto instante actúa una fuerza de valor $F$, de tal manera que la velocidad y aceleración angular se indican en la figura. Para ese momento el unitario del torque es:
+
+\begin{center}
+\begin{tikzpicture}[scale=1]
+    \draw[->, thick] (0,0) -- (0,2) node[above] {$z$};
+    \draw[->, thick] (0,0) -- (3,0) node[right] {$y$};
+    \draw[->, thick] (0,0) -- (-1.5,-1.5) node[left] {$x$};
+    
+    \draw[->, thick, blue] (0,0) -- (0,1) node[right] {$\vec{\omega}$};
+    \draw[->, thick, red] (0,0) -- (0,-1) node[right] {$\vec{\alpha}$};
+\end{tikzpicture}
+\end{center}
+
+\begin{enumerate}[label=\alph*)]
+    \item $\hat{i}$
+    \item $\hat{j}$
+    \item $\hat{k}$
+    \item $-\hat{k}$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Dirección del Torque según la Segunda Ley de Newton Rotacional}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+
+fig = plt.figure(figsize=(5, 5))
+ax = fig.add_subplot(111, projection='3d')
+ax.axis('off')
+
+ax.quiver(0, 0, 0, 1.5, 0, 0, color='black', arrow_length_ratio=0.1)
+ax.text(1.6, 0, 0, 'y')
+ax.quiver(0, 0, 0, 0, 1.5, 0, color='black', arrow_length_ratio=0.1)
+ax.text(0, 1.6, 0, 'x')
+ax.quiver(0, 0, 0, 0, 0, 1.5, color='black', arrow_length_ratio=0.1)
+ax.text(0, 0, 1.6, 'z')
+
+ax.quiver(0, 0, 0, 0, 0, 0.8, color='blue', linewidth=2)
+ax.text(0.1, 0, 0.9, r'$\vec{\omega} (+\hat{k})$', color='blue', fontsize=12)
+
+ax.quiver(0, 0, 0, 0, 0, -1, color='red', linewidth=3)
+ax.text(0.1, 0, -1.2, r'$\vec{\alpha} (-\hat{k})$', color='red', fontsize=12)
+
+ax.quiver(0.2, 0, 0, 0, 0, -1, color='green', linewidth=3)
+ax.text(0.3, 0, -0.8, r'$\vec{\tau}_{net}$', color='green', fontsize=12)
+
+ax.set_xlim(-1, 2)
+ax.set_ylim(-1, 2)
+ax.set_zlim(-1.5, 1.5)
+plt.show()
+\end{verbatim}
+
+\textit{Nota de Tutor: El estudiante marcó la opción 'c' ($\hat{k}$), asumiendo erróneamente que el torque tiene la misma dirección que la velocidad angular. Corregiremos este sesgo.}
+
+La dinámica de rotación se rige por la ecuación vectorial: $\sum \vec{\tau} = I \vec{\alpha}$.
+El momento de inercia ($I$) es un escalar estrictamente positivo. Al multiplicar un vector ($\vec{\alpha}$) por un escalar positivo, el vector resultante ($\vec{\tau}$) conserva exactamente la misma dirección y sentido. 
+
+Observando la figura del problema:
+\begin{itemize}
+    \item El vector $\vec{\omega}$ apunta hacia arriba, a lo largo del eje positivo de las $z$ (unitario $\hat{k}$).
+    \item El vector $\vec{\alpha}$ apunta hacia abajo, a lo largo del eje negativo de las $z$ (unitario $-\hat{k}$). Esto indica que el disco está frenando.
+\end{itemize}
+Como el torque $\vec{\tau}$ debe ser paralelo a la aceleración angular $\vec{\alpha}$, el unitario del torque es obligatoriamente $-\hat{k}$.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large d) $-\hat{k}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una plataforma gira con rapidez angular constante, de manera que su plano de rotación cambia, entonces es correcto decir que la plataforma:
+\begin{enumerate}[label=\alph*)]
+    \item en todo instante se encuentra equilibrio rotacional
+    \item se encuentra en equilibrio rotacional solo en determinados momentos
+    \item nunca se encuentra en equilibrio rotacional
+    \item es imposible averiguar si se encuentra o no en equilibrio rotacional
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Variación Vectorial de la Velocidad Angular}
+El equilibrio rotacional exige de manera inquebrantable que la aceleración angular sea cero ($\vec{\alpha} = \vec{0}$), lo que a su vez requiere que la velocidad angular sea un vector constante ($\vec{\omega} = \text{cte}$).
+
+Es crucial recordar que $\vec{\omega}$ es una cantidad \textbf{vectorial}. Para que un vector se considere constante, debe mantener inalterables tanto su magnitud (rapidez angular) como su dirección (eje de rotación).
+El enunciado indica que la "rapidez angular" (magnitud) es constante, pero que su "plano de rotación cambia". Si el plano cambia, el eje perpendicular a dicho plano también cambia de dirección. 
+
+Cualquier cambio en la dirección de $\vec{\omega}$ implica que $\Delta\vec{\omega} \neq 0$. Por definición, si hay un cambio en el vector velocidad angular en el tiempo, existe una aceleración angular ($\vec{\alpha} = d\vec{\omega}/dt \neq 0$). 
+Si hay aceleración angular, la Segunda Ley de Newton nos asegura que existe un torque neto actuando sobre la plataforma ($\sum \vec{\tau} \neq 0$), por lo que \textbf{nunca} estará en equilibrio rotacional mientras su plano siga cambiando.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) nunca se encuentra en equilibrio rotacional
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+En el sistema de la figura, las masas $m_A$ y $m_B$ se mueven con rapidez constante, la polea tiene una masa $M$ y un radio $R$. Las magnitudes de la tensión en la cuerda a los dos lados de la polea, cumplen con la relación:
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2, >=stealth]
+    \draw[thick] (0,0) -- (0,3) -- (4,0) -- cycle;
+
+    \coordinate (P) at (-0.16, 3.12);
+    \draw[thick, fill=white] (P) circle (0.4);
+    \draw (P) -- ++(90:0.4);
+    \draw (P) -- ++(210:0.4);
+    \draw (P) -- ++(330:0.4);
+    \draw[fill=white] (P) circle (0.05);
+
+    \draw[thick] (-0.56, 3.12) -- (-0.56, 1.5);
+    \draw[thick, fill=white] (-0.96, 0.7) rectangle (-0.16, 1.5);
+    \node at (-0.56, 1.1) {$B$};
+
+    \draw[->, thick] (-0.56, 2.7) -- (-0.56, 1.9);
+    \node[left] at (-0.56, 2.3) {$T_1$};
+
+    \begin{scope}[shift={(0,3)}, rotate=-36.87]
+        \draw[thick] (-0.2, 0.4) -- (1.8, 0.4);
+        \draw[thick, fill=white] (1.8, 0) rectangle (2.6, 0.8);
+        \node at (2.2, 0.4) {$A$};
+        \draw[->, thick] (0.3, 0.4) -- (1.3, 0.4);
+    \end{scope}
+
+    \node at (1.1, 3.15) {$T_2$};
+\end{tikzpicture}
+\end{center}
+
+\begin{enumerate}[label=\alph*)]
+    \item $T_1 > T_2$
+    \item $T_1 = T_2$
+    \item $T_1 < T_2$
+    \item la relación de las tensiones depende del valor de las masas
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Equilibrio Rotacional Dinámico (Velocidad Constante)}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+fig, ax = plt.subplots(figsize=(4, 4))
+ax.axis('off')
+
+pulley = plt.Circle((0, 0), 1, fill=False, color='black', lw=2)
+ax.add_patch(pulley)
+ax.plot(0, 0, 'ko')
+
+ax.arrow(-1, 0, 0, -1.5, head_width=0.2, color='blue', lw=2)
+ax.text(-1.5, -1, r'$T_1$', color='blue', fontsize=12)
+
+ax.arrow(0.8, -0.6, 1.2, -0.9, head_width=0.2, color='red', lw=2)
+ax.text(2, -1.2, r'$T_2$', color='red', fontsize=12)
+
+ax.text(-0.8, 1.2, r'$v = cte \Rightarrow \alpha = 0$', color='green', fontsize=12, fontweight='bold')
+ax.text(-1.2, 1.6, r'$\sum \tau = I\alpha = 0$', color='black', fontsize=12)
+
+ax.set_xlim(-2.5, 2.5)
+ax.set_ylim(-2.5, 2.5)
+plt.show()
+\end{verbatim}
+
+\textit{Nota de Tutor: El estudiante marcó la opción 'a', asumiendo que el peso del bloque induce una asimetría en las tensiones debido a la masa de la polea. Corregiremos esto enfocándonos en la aceleración.}
+
+El enunciado contiene la condición primordial para resolver el problema: \textbf{"se mueven con rapidez constante"}.
+Si la rapidez lineal ($v$) de las masas y la cuerda es constante, la aceleración lineal de todo el sistema es cero ($a = 0$). 
+Dado que la polea gira empujada por la cuerda sin resbalar, su aceleración angular también es cero ($\alpha = a/R = 0$).
+
+Aislamos la polea y aplicamos la Segunda Ley de Newton para la rotación:
+$$ \sum \tau = I \alpha $$
+Las únicas fuerzas que generan torque sobre la polea son las tensiones de la cuerda. $T_1$ tira hacia abajo generando un torque antihorario, y $T_2$ tira oblicuamente generando un torque horario. Ambos brazos de palanca son iguales al radio $R$.
+$$ T_1 \cdot R - T_2 \cdot R = I(0) $$
+$$ (T_1 - T_2) R = 0 $$
+Como el radio $R$ no es cero, la única solución es:
+$$ T_1 - T_2 = 0 \implies T_1 = T_2 $$
+
+Sin importar cuán masiva sea la polea o los bloques, al no haber aceleración, no se requiere ningún "torque extra" para vencer la inercia rotacional, por lo que las tensiones a ambos lados deben ser exactamente iguales para mantener el equilibrio dinámico.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) $T_1 = T_2$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una partícula, de masa $m$, sujeta al extremo de una cuerda gira describiendo una circunferencia en el plano horizontal. El torque producido por la fuerza centrípeta respecto al centro de la trayectoria es:
+\begin{enumerate}[label=\alph*)]
+    \item mínimo
+    \item cero
+    \item máximo
+    \item depende de la rapidez con la que gire la partícula
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Producto Vectorial de Fuerzas Radiales}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig, ax = plt.subplots(figsize=(4, 4))
+ax.axis('off')
+
+circle = plt.Circle((0, 0), 2, fill=False, color='black', lw=1, linestyle='--')
+ax.add_patch(circle)
+ax.plot(0, 0, 'ko')
+ax.text(0.1, -0.3, 'Centro (Eje)', fontsize=12)
+
+theta = np.pi / 4
+px, py = 2 * np.cos(theta), 2 * np.sin(theta)
+ax.plot(px, py, 'ro', markersize=8)
+
+ax.arrow(0, 0, px*0.9, py*0.9, head_width=0.15, color='gray', lw=2)
+ax.text(1, 1.5, r'$\vec{r}$', color='gray', fontsize=12)
+
+ax.arrow(px, py, -px*0.8, -py*0.8, head_width=0.15, color='blue', lw=2)
+ax.text(0.5, 0.8, r'$\vec{F}_c$', color='blue', fontsize=12)
+
+ax.set_xlim(-2.5, 2.5)
+ax.set_ylim(-2.5, 2.5)
+plt.show()
+\end{verbatim}
+
+El torque ($\vec{\tau}$) se define geométricamente como el producto cruz entre el vector de posición ($\vec{r}$, medido desde el eje de rotación hasta el punto de aplicación de la fuerza) y el vector fuerza ($\vec{F}$):
+$$ \vec{\tau} = \vec{r} \times \vec{F}_c $$
+La magnitud del producto cruz está dada por:
+$$ \tau = |\vec{r}| |\vec{F}_c| \sin(\theta) $$
+Donde $\theta$ es el ángulo entre el vector $\vec{r}$ y el vector $\vec{F}_c$.
+
+\begin{itemize}
+    \item El vector posición $\vec{r}$ apunta radicalmente hacia \textbf{afuera} (desde el centro hacia la partícula).
+    \item La fuerza centrípeta $\vec{F}_c$ apunta radicalmente hacia \textbf{adentro} (desde la partícula hacia el centro) para mantenerla en la trayectoria circular.
+\end{itemize}
+
+Ambos vectores se encuentran sobre la misma línea de acción pero apuntan en sentidos diametralmente opuestos, por lo que el ángulo entre ellos es exactamente $180^\circ$.
+$$ \tau = r F_c \sin(180^\circ) $$
+Como $\sin(180^\circ) = 0$, el torque producido por la fuerza centrípeta respecto al centro de rotación es matemáticamente cero. Las fuerzas puramente radiales jamás producen torque.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) cero
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una polea homogénea, de $1.2\,\si{m}$ de radio, gira en sentido antihorario en el plano $xy$. Cuando se aplica a la polea un torque neto de $-20\hat{k}\,\si{Nm}$, el movimiento de la polea es:
+\begin{enumerate}[label=\alph*)]
+    \item acelerado
+    \item retardado
+    \item uniforme
+    \item variado
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Cinemática Vectorial de Rotación (Frenado)}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+import numpy as np
+
+fig = plt.figure(figsize=(6, 5))
+ax = fig.add_subplot(111, projection='3d')
+ax.axis('off')
+
+u = np.linspace(0, 2*np.pi, 100)
+x = 1.2 * np.cos(u)
+y = 1.2 * np.sin(u)
+z = np.zeros_like(u)
+ax.plot(x, y, z, color='black', lw=2)
+
+ax.quiver(0, 0, 0, 0, 0, 1.5, color='blue', lw=3, arrow_length_ratio=0.1)
+ax.text(0.1, 0, 1.7, r'$\vec{\omega} (+\hat{k})$', color='blue', fontsize=12)
+
+ax.quiver(0, 0, 0, 0, 0, -1.5, color='red', lw=3, arrow_length_ratio=0.1)
+ax.text(0.1, 0, -1.8, r'$\vec{\tau}_{net} (-\hat{k})$', color='red', fontsize=12)
+
+theta_arc = np.linspace(0, np.pi/2, 20)
+arc_x = 1.5 * np.cos(theta_arc)
+arc_y = 1.5 * np.sin(theta_arc)
+arc_z = np.zeros_like(theta_arc)
+ax.plot(arc_x, arc_y, arc_z, color='blue', lw=2)
+ax.quiver(arc_x[-2], arc_y[-2], 0, arc_x[-1]-arc_x[-2], arc_y[-1]-arc_y[-2], 0, color='blue')
+ax.text(1.6, 1.6, 0, 'Giro\nAntihorario', color='blue')
+
+ax.set_xlim(-2, 2)
+ax.set_ylim(-2, 2)
+ax.set_zlim(-2, 2)
+plt.show()
+\end{verbatim}
+
+\textit{Nota de Tutor: El estudiante marcó la opción 'a' (acelerado). Esto es un error de signos vectoriales muy común. Analizaremos las direcciones de los vectores para hallar el comportamiento cinemático real.}
+
+Para determinar si un movimiento circular es acelerado o retardado (frenado), debemos comparar la dirección del vector velocidad angular ($\vec{\omega}$) con la dirección del vector aceleración angular ($\vec{\alpha}$).
+\begin{itemize}
+    \item Si $\vec{\omega}$ y $\vec{\alpha}$ tienen el mismo signo (misma dirección), el giro es \textbf{acelerado}.
+    \item Si $\vec{\omega}$ y $\vec{\alpha}$ tienen signos opuestos (direcciones contrarias), el giro es \textbf{retardado}.
+\end{itemize}
+
+1. \textbf{Dirección de la Velocidad Angular ($\vec{\omega}$):} El enunciado indica que la polea gira en sentido \textbf{antihorario} en el plano $xy$. Por convención de la regla de la mano derecha, un giro antihorario en este plano produce un vector velocidad angular que sale de la página, es decir, apunta en la dirección positiva del eje $z$ ($+\hat{k}$).
+2. \textbf{Dirección de la Aceleración Angular ($\vec{\alpha}$):} La Segunda Ley de Newton para la rotación ($\sum \vec{\tau} = I \vec{\alpha}$) establece que la aceleración angular tiene estrictamente la misma dirección que el torque neto. Como el torque aplicado es de $-20\hat{k}$, la aceleración angular también apunta en la dirección negativa del eje $z$ ($-\hat{k}$).
+
+Concluimos que la polea gira en dirección $+\hat{k}$, pero es forzada rotacionalmente en dirección $-\hat{k}$. Al estar los vectores en oposición, el torque está actuando como un freno sobre el sistema, por lo que el movimiento es retardado.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) retardado
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una escalera uniforme, de masa $M$ y longitud $L$, está apoyada sobre una pared vertical lisa y un piso horizontal rugoso, como se indica en la figura. Si la escalera se encuentra en movimiento inminente, el coeficiente de rozamiento entre las superficies en contacto es igual a:
+\begin{enumerate}[label=\alph*)]
+    \item $\tan \theta$
+    \item $1/(\tan \theta)$
+    \item $1/(2\tan \theta)$
+    \item $1/2$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Equilibrio Estático en Cuerpos Rígidos Apoyados}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig, ax = plt.subplots(figsize=(5, 5))
+ax.axis('off')
+ax.plot([0, 4], [0, 0], 'k-', lw=3)
+ax.plot([3, 3], [0, 4], 'k-', lw=3)
+ax.plot([1, 3], [0, 3], 'b-', lw=4)
+
+ax.arrow(1, 0, 0, 1, head_width=0.15, color='red', lw=2)
+ax.text(0.6, 0.8, r'$N_A$', color='red', fontsize=12)
+
+ax.arrow(1, 0, 1, 0, head_width=0.15, color='green', lw=2)
+ax.text(1.2, 0.2, r'$f_r$', color='green', fontsize=12)
+
+ax.arrow(3, 3, -1, 0, head_width=0.15, color='purple', lw=2)
+ax.text(2.2, 3.2, r'$N_B$', color='purple', fontsize=12)
+
+ax.arrow(2, 1.5, 0, -1, head_width=0.15, color='orange', lw=2)
+ax.text(2.1, 0.5, r'$Mg$', color='orange', fontsize=12)
+
+ax.text(1.3, 0.1, r'$\theta$', fontsize=12)
+ax.set_xlim(0, 4)
+ax.set_ylim(-0.5, 4)
+plt.show()
+\end{verbatim}
+
+\textit{Nota del Tutor: El estudiante resolvió este problema de manera impecable en sus apuntes. Vamos a formalizar su demostración.}
+
+Analizamos las fuerzas sobre la escalera. En la pared lisa solo hay fuerza normal ($N_B$). En el piso rugoso hay fuerza normal ($N_A$) y fricción estática máxima por el movimiento inminente ($f_r = \mu_s N_A$).
+Aplicamos las condiciones de equilibrio traslacional:
+$$ \sum F_x = N_B - f_r = 0 \implies N_B = \mu_s N_A $$
+$$ \sum F_y = N_A - Mg = 0 \implies N_A = Mg $$
+Sustituyendo $N_A$ en la primera ecuación, obtenemos que la normal de la pared es:
+$$ N_B = \mu_s Mg $$
+
+Aplicamos la condición de equilibrio rotacional tomando como pivote el punto de apoyo en el piso (Punto A) para anular los torques de $N_A$ y $f_r$:
+$$ \sum \tau_A = 0 $$
+El peso genera un torque horario (brazo perpendicular $\frac{L}{2}\cos\theta$). La pared genera un torque antihorario (brazo perpendicular $L\sin\theta$).
+$$ N_B(L\sin\theta) - Mg\left(\frac{L}{2}\cos\theta\right) = 0 $$
+Sustituimos $N_B = \mu_s Mg$ en la ecuación:
+$$ (\mu_s Mg)(L\sin\theta) = Mg\left(\frac{L}{2}\cos\theta\right) $$
+Cancelamos $Mg$ y $L$ de ambos lados:
+$$ \mu_s \sin\theta = \frac{\cos\theta}{2} $$
+Despejamos el coeficiente de fricción estático ($\mu_s$):
+$$ \mu_s = \frac{\cos\theta}{2\sin\theta} = \frac{1}{2}\cot\theta = \frac{1}{2\tan\theta} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) $1/(2\tan \theta)$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+La figura muestra la vista superior de los discos homogéneos $A$ y $B$, de igual masa $M$ y radio $R$, que se encuentran sobre una superficie horizontal lisa. Si las fuerzas que se aplican a los discos son horizontales, se encuentra en equilibrio:
+\begin{enumerate}[label=\alph*)]
+    \item el disco $A$
+    \item el disco $B$
+    \item los discos $A$ y $B$
+    \item ninguno de los discos
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Refutación del Falso Equilibrio: Traslación sin Rotación}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8, 4))
+for ax in (ax1, ax2):
+    ax.axis('off')
+    ax.set_xlim(-2.5, 2.5)
+    ax.set_ylim(-2.5, 2.5)
+
+circleA = plt.Circle((0, 0), 1.5, fill=False, color='black', lw=2)
+ax1.add_patch(circleA)
+ax1.plot(0, 0, 'ko')
+ax1.text(-0.2, 0.2, '$O_A$')
+ax1.arrow(0, 1.5, -1, 0, head_width=0.2, color='blue', lw=2)
+ax1.text(-0.5, 1.7, r'$\vec{F}$', color='blue')
+ax1.arrow(0, 0, -1, 0, head_width=0.2, color='blue', lw=2)
+ax1.text(-0.5, 0.2, r'$\vec{F}$', color='blue')
+ax1.arrow(0, -1.5, 1.5, 0, head_width=0.2, color='red', lw=2)
+ax1.text(0.5, -1.3, r'$2\vec{F}$', color='red')
+ax1.text(0, -2.2, r'$\sum \tau_A \neq 0$', color='black', ha='center', fontsize=12)
+
+circleB = plt.Circle((0, 0), 1.5, fill=False, color='black', lw=2)
+ax2.add_patch(circleB)
+ax2.plot(0, 0, 'ko')
+ax2.text(-0.2, 0.2, '$O_B$')
+ax2.arrow(0, 1.5, -1, 0, head_width=0.2, color='blue', lw=2)
+ax2.text(-0.5, 1.7, r'$\vec{F}$', color='blue')
+ax2.arrow(0, 0, -1.5, 0, head_width=0.2, color='blue', lw=2)
+ax2.text(-1, 0.2, r'$2\vec{F}$', color='blue')
+ax2.arrow(0, -0.75, 2, 0, head_width=0.2, color='red', lw=2)
+ax2.text(1, -0.5, r'$3\vec{F}$', color='red')
+ax2.plot([0, 2], [-0.75, -0.75], 'k--', alpha=0.5)
+ax2.text(2.1, -0.85, r'$R/2$', fontsize=10)
+ax2.text(0, -2.2, r'$\sum \tau_B \neq 0$', color='black', ha='center', fontsize=12)
+
+plt.tight_layout()
+plt.show()
+\end{verbatim}
+
+\textit{Nota de Tutor: El estudiante marcó la opción 'c'. Este es un error gravísimo generado por evaluar únicamente la suma de fuerzas. Para que un cuerpo extenso esté en equilibrio absoluto, tanto la suma de fuerzas como la suma de torques deben ser nulas.}
+
+Evaluemos el \textbf{Disco A}:
+\begin{itemize}
+    \item Traslación: Eje X (hacia la derecha es positivo). $\sum F = -F - F + 2F = 0$. (Cumple equilibrio traslacional).
+    \item Rotación (Pivote en $O_A$): La fuerza superior jala a la izquierda ($\tau = +FR$ antihorario). La fuerza central no hace torque ($\tau = 0$). La fuerza inferior jala a la derecha ($\tau = +2FR$ antihorario). $\sum \tau = 3FR \neq 0$. ¡El disco girará aceleradamente!
+\end{itemize}
+
+Evaluemos el \textbf{Disco B}:
+\begin{itemize}
+    \item Traslación: Eje X. $\sum F = -F - 2F + 3F = 0$. (Cumple equilibrio traslacional).
+    \item Rotación (Pivote en $O_B$): La fuerza superior jala a la izquierda ($\tau = +FR$ antihorario). La central no hace torque ($\tau = 0$). La fuerza inferior jala a la derecha a distancia $R/2$ ($\tau = +3F(R/2) = 1.5FR$ antihorario). $\sum \tau = 2.5FR \neq 0$. ¡El disco también girará!
+\end{itemize}
+
+Puesto que ninguno de los dos discos cumple con la condición de equilibrio rotacional, ninguno se encuentra en equilibrio estático.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large d) ninguno de los discos
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Se dispara un proyectil, de masa $m$, con una velocidad inicial $\vec{v}_0$, de manera que describe una trayectoria parabólica. En el punto más alto de su trayectoria el torque neto respecto al centro de la Tierra es:
+\begin{enumerate}[label=\alph*)]
+    \item $mg R_T$
+    \item $(mg \cos\theta) R_T$
+    \item $0$
+    \item $(mg \text{sen}\theta) R_T$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Fuerzas Centrales y Torque Nulo}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+import numpy as np
+
+fig, ax = plt.subplots(figsize=(5, 5))
+ax.axis('off')
+
+earth = plt.Circle((0, 0), 2, color='lightblue', ec='black', lw=2)
+ax.add_patch(earth)
+ax.plot(0, 0, 'ko')
+ax.text(-0.5, -0.3, 'Centro\nTierra')
+
+x = np.linspace(-1, 1, 50)
+y = -0.5 * x**2 + 2.5
+ax.plot(x, y, 'k--', lw=2)
+
+ax.plot(0, 2.5, 'ro', markersize=6)
+ax.arrow(0, 0, 0, 2.4, head_width=0.1, color='gray', lw=2, length_includes_head=True)
+ax.text(0.1, 1.2, r'$\vec{r}$', color='gray', fontsize=12)
+
+ax.arrow(0, 2.5, 0, -1, head_width=0.15, color='blue', lw=2)
+ax.text(0.2, 1.8, r'$\vec{F}_g = m\vec{g}$', color='blue', fontsize=12)
+
+ax.arrow(0, 2.5, 1, 0, head_width=0.15, color='green', lw=2)
+ax.text(0.5, 2.7, r'$\vec{v}_x$', color='green', fontsize=12)
+
+ax.set_xlim(-3, 3)
+ax.set_ylim(-3, 3)
+plt.show()
+\end{verbatim}
+
+\textit{Nota del Tutor: El estudiante eligió la opción 'b' realizando cálculos trigonométricos sobre el alcance horizontal. Esto es un error fundamental de concepto. La gravedad es una fuerza central.}
+
+Independientemente del punto de la trayectoria en el que se encuentre el proyectil (sea el inicio, el punto más alto o justo antes de caer), la única fuerza neta actuando sobre él en caída libre es su propio peso ($\vec{W} = m\vec{g}$).
+La característica definitoria de la Fuerza de Gravedad es que \textbf{siempre apunta exactamente hacia el centro de masa del planeta} (Centro de la Tierra).
+
+El torque se define como el producto vectorial entre el vector posición ($\vec{r}$, trazado desde el pivote hasta la partícula) y la fuerza aplicada ($\vec{F}$):
+$$ \vec{\tau} = \vec{r} \times \vec{F}_g $$
+Si elegimos el "centro de la Tierra" como nuestro pivote, el vector posición $\vec{r}$ apunta desde el centro del planeta hacia el proyectil. Al mismo tiempo, la fuerza gravitacional $\vec{F}_g$ apunta desde el proyectil directamente hacia el centro del planeta.
+Ambos vectores son perfectamente paralelos (o más bien, antiparalelos, con un ángulo de $180^\circ$ entre sí). Su línea de acción es idéntica, por lo que el brazo de palanca es cero.
+$$ \tau = r F_g \sin(180^\circ) = r F_g (0) = 0 $$
+
+Toda fuerza central produce un torque nulo respecto a su centro de atracción, lo que garantiza la conservación del Momento Angular del sistema.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) $0$
+\end{tcolorbox}
+
+\end{document}

@@ -1,0 +1,2228 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{pythonstyle}{
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=4,
+    language=Python
+}
+\lstset{style=pythonstyle}
+
+\begin{document}
+
+\subsection*{Enunciado}
+La Tierra se mueve alrededor del Sol con rapidez constante, entonces ¿por qué se dice que está acelerando? ¿Cómo se relaciona esto con el cambio de dirección de la velocidad en el MCU?
+
+\subsection*{Solución}
+
+\subsubsection*{Diferencia entre Rapidez y Velocidad}
+Para comprender este fenómeno desde la perspectiva de la Física Conceptual, primero debemos establecer la distinción fundamental entre rapidez y velocidad. La rapidez es una cantidad escalar, lo que significa que solo posee magnitud (por ejemplo, $30 \text{ km/s}$). Por otro lado, la velocidad es una cantidad vectorial; esto implica que tiene tanto magnitud (la rapidez) como dirección (hacia dónde se dirige el objeto). En el caso del movimiento orbital de la Tierra, su rapidez orbital se mantiene prácticamente constante, pero su dirección en el espacio se modifica a cada instante.
+
+\subsubsection*{Definición Física de la Aceleración}
+En física, la aceleración no significa únicamente "aumentar la rapidez". La aceleración se define formalmente como la tasa de cambio temporal de la velocidad. Matemáticamente se expresa como $\vec{a} = \frac{\Delta\vec{v}}{\Delta t}$. Dado que la velocidad $\vec{v}$ es un vector, un objeto experimentará aceleración si cambia su magnitud (acelera o frena), si cambia su dirección (gira), o si cambian ambas simultáneamente. 
+
+\subsubsection*{Análisis del Movimiento Circular Uniforme (MCU)}
+El movimiento de la Tierra alrededor del Sol puede aproximarse como un Movimiento Circular Uniforme (MCU). En este tipo de movimiento, aunque el módulo del vector velocidad (la rapidez) es constante, el vector en sí es tangente a la trayectoria circular en cada punto. Al avanzar a lo largo de la órbita, esa línea tangente apunta hacia una dirección espacial diferente en cada instante. Como la dirección está cambiando continuamente, el vector velocidad está cambiando, lo que por definición significa que existe una aceleración. Esta aceleración está dirigida hacia el centro de la trayectoria circular (hacia el Sol) y se denomina aceleración centrípeta, la cual es causada por la fuerza de gravedad.
+
+\subsubsection*{Representación Gráfica (Código Python)}
+Para ilustrar este concepto visualmente, el siguiente código en Python genera un gráfico que demuestra cómo el vector velocidad, siendo tangente a la trayectoria, cambia de dirección en diferentes puntos de la órbita, evidenciando el cambio vectorial que implica la aceleración.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig, ax = plt.subplots(figsize=(6, 6))
+
+theta = np.linspace(0, 2*np.pi, 100)
+x = np.cos(theta)
+y = np.sin(theta)
+ax.plot(x, y, linestyle='--', color='gray', label='Orbita Terrestre (MCU)')
+
+ax.plot(0, 0, 'yo', markersize=20, label='Sol')
+
+ax.plot(1, 0, 'bo', markersize=10, label='Tierra (Posicion 1)')
+ax.quiver(1, 0, 0, 1, color='red', scale=3, scale_units='xy', angles='xy', label='Velocidad v1')
+
+ax.plot(0, 1, 'bo', markersize=10, label='Tierra (Posicion 2)')
+ax.quiver(0, 1, -1, 0, color='red', scale=3, scale_units='xy', angles='xy', label='Velocidad v2')
+
+ax.set_aspect('equal')
+ax.set_xlim(-1.5, 1.5)
+ax.set_ylim(-1.5, 1.5)
+ax.axis('off')
+
+plt.title('Cambio de Direccion del Vector Velocidad en el MCU', pad=20)
+plt.legend(loc='lower right', fontsize=8)
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+Se dice que la Tierra está acelerando porque la aceleración es el cambio de la velocidad en el tiempo. Al ser la velocidad un vector, cualquier cambio en su dirección constituye una aceleración, incluso si su magnitud (rapidez) es constante. En el MCU, la dirección del movimiento cambia continuamente para mantener la trayectoria circular, lo que requiere una aceleración constante dirigida hacia el centro.
+
+\newpage
+
+\subsection*{Enunciado}
+La Tierra se mueve alrededor del Sol con rapidez constante, entonces ¿por qué se dice que está acelerando? ¿Cómo se relaciona esto con el cambio de dirección de la velocidad en el MCU?
+
+\subsection*{Solución}
+
+\subsubsection*{Diferencia entre Rapidez y Velocidad}
+Para comprender este fenómeno desde la perspectiva de la Física Conceptual, primero debemos establecer la distinción fundamental entre rapidez y velocidad. La rapidez es una cantidad escalar, lo que significa que solo posee magnitud (por ejemplo, $30 \text{ km/s}$). Por otro lado, la velocidad es una cantidad vectorial; esto implica que tiene tanto magnitud (la rapidez) como dirección (hacia dónde se dirige el objeto). En el caso del movimiento orbital de la Tierra, su rapidez orbital se mantiene prácticamente constante, pero su dirección en el espacio se modifica a cada instante.
+
+\subsubsection*{Definición Física de la Aceleración}
+En física, la aceleración no significa únicamente "aumentar la rapidez". La aceleración se define formalmente como la tasa de cambio temporal de la velocidad. Matemáticamente se expresa como $\vec{a} = \frac{\Delta\vec{v}}{\Delta t}$. Dado que la velocidad $\vec{v}$ es un vector, un objeto experimentará aceleración si cambia su magnitud (acelera o frena), si cambia su dirección (gira), o si cambian ambas simultáneamente. 
+
+\subsubsection*{Análisis del Movimiento Circular Uniforme (MCU)}
+El movimiento de la Tierra alrededor del Sol puede aproximarse como un Movimiento Circular Uniforme (MCU). En este tipo de movimiento, aunque el módulo del vector velocidad (la rapidez) es constante, el vector en sí es tangente a la trayectoria circular en cada punto. Al avanzar a lo largo de la órbita, esa línea tangente apunta hacia una dirección espacial diferente en cada instante. Como la dirección está cambiando continuamente, el vector velocidad está cambiando, lo que por definición significa que existe una aceleración. Esta aceleración está dirigida hacia el centro de la trayectoria circular (hacia el Sol) y se denomina aceleración centrípeta, la cual es causada por la fuerza de gravedad.
+
+\subsubsection*{Representación Gráfica (Código Python)}
+Para ilustrar este concepto visualmente, el siguiente código en Python genera un gráfico que demuestra cómo el vector velocidad, siendo tangente a la trayectoria, cambia de dirección en diferentes puntos de la órbita, evidenciando el cambio vectorial que implica la aceleración.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig, ax = plt.subplots(figsize=(6, 6))
+
+theta = np.linspace(0, 2*np.pi, 100)
+x = np.cos(theta)
+y = np.sin(theta)
+ax.plot(x, y, linestyle='--', color='gray', label='Orbita Terrestre (MCU)')
+
+ax.plot(0, 0, 'yo', markersize=20, label='Sol')
+
+ax.plot(1, 0, 'bo', markersize=10, label='Tierra (Posicion 1)')
+ax.quiver(1, 0, 0, 1, color='red', scale=3, scale_units='xy', angles='xy', label='Velocidad v1')
+
+ax.plot(0, 1, 'bo', markersize=10, label='Tierra (Posicion 2)')
+ax.quiver(0, 1, -1, 0, color='red', scale=3, scale_units='xy', angles='xy', label='Velocidad v2')
+
+ax.set_aspect('equal')
+ax.set_xlim(-1.5, 1.5)
+ax.set_ylim(-1.5, 1.5)
+ax.axis('off')
+
+plt.title('Cambio de Direccion del Vector Velocidad en el MCU', pad=20)
+plt.legend(loc='lower right', fontsize=8)
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+Se dice que la Tierra está acelerando porque la aceleración es el cambio de la velocidad en el tiempo. Al ser la velocidad un vector, cualquier cambio en su dirección constituye una aceleración, incluso si su magnitud (rapidez) es constante. En el MCU, la dirección del movimiento cambia continuamente para mantener la trayectoria circular, lo que requiere una aceleración constante dirigida hacia el centro.
+
+\newpage
+
+\subsection*{Enunciado}
+En una mesa giratoria, ¿es la rapidez tangencial o la rapidez rotacional la que varía con la distancia respecto del centro?
+
+\subsection*{Solución}
+
+\subsubsection*{Diferencia de Conceptos: Rotacional vs. Tangencial}
+De acuerdo con los principios expuestos en la Física Conceptual, es vital distinguir entre dos tipos de magnitudes de movimiento en sistemas circulares: la rapidez rotacional y la rapidez tangencial. La rapidez rotacional, comúnmente asociada a la velocidad angular y denotada por la letra griega omega minúscula ($\omega$), se refiere a la cantidad de rotaciones o revoluciones que un objeto da en una unidad de tiempo. En un objeto rígido, como un disco de vinilo o una mesa giratoria, todas las partículas que lo componen completan una vuelta entera exactamente en el mismo lapso de tiempo. Por lo tanto, la rapidez rotacional es constante y la misma para cualquier punto del objeto, independientemente de dónde se ubique.
+
+\subsubsection*{El Comportamiento de la Rapidez Tangencial}
+Por otro lado, la rapidez tangencial, también conocida como rapidez lineal y denotada por $v$, es la distancia física (en metros, centímetros, etc.) que recorre una partícula en una unidad de tiempo al moverse por su trayectoria circular. Si analizamos dos puntos en la mesa giratoria, uno cerca del centro y otro en el borde exterior, ambos completan una vuelta al mismo tiempo. Sin embargo, el punto en el borde exterior debe recorrer una circunferencia mucho más grande. Para cubrir una distancia mayor en la misma cantidad de tiempo, el punto más alejado debe moverse inherentemente más rápido.
+
+\subsubsection*{Justificación Matemática}
+La relación directa entre estas dos rapideces se expresa mediante la ecuación $v = r \cdot \omega$, donde $r$ es la distancia radial desde el eje de rotación (el centro). Dado que la rapidez rotacional $\omega$ es un valor constante para toda la mesa, la rapidez tangencial $v$ es directamente proporcional a la distancia $r$. A medida que aumenta el radio $r$ al alejarnos del centro, la rapidez tangencial $v$ aumenta en la misma proporción.
+
+\subsubsection*{Representación Gráfica (Código Python)}
+Para visualizar este principio pedagógico, el siguiente código en Python modela una mesa giratoria vista desde arriba. Muestra cómo los vectores de velocidad tangencial de dos puntos distintos (uno interior y otro exterior) tienen magnitudes diferentes debido a su distancia al centro, a pesar de compartir el mismo movimiento rotacional.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig, ax = plt.subplots(figsize=(6, 6))
+
+circle_table = plt.Circle((0, 0), 3, color='lightgray', fill=True, zorder=0, label='Mesa Giratoria')
+ax.add_patch(circle_table)
+
+theta = np.linspace(0, 2*np.pi, 100)
+r1 = 1.0
+r2 = 2.5
+ax.plot(r1*np.cos(theta), r1*np.sin(theta), linestyle='--', color='blue', alpha=0.6)
+ax.plot(r2*np.cos(theta), r2*np.sin(theta), linestyle='--', color='red', alpha=0.6)
+
+ax.plot(0, 0, 'ko', markersize=6)
+ax.plot(r1, 0, 'bo', markersize=8)
+ax.plot(r2, 0, 'ro', markersize=8)
+
+ax.plot([0, r1], [0, 0], color='blue', linestyle='-')
+ax.plot([r1, r2], [0, 0], color='red', linestyle='-')
+ax.text(r1/2, -0.2, 'r1', color='blue', fontsize=12, ha='center')
+ax.text(r1 + (r2-r1)/2, -0.2, 'r2', color='red', fontsize=12, ha='center')
+
+ax.quiver(r1, 0, 0, r1, color='blue', scale=4, scale_units='xy', angles='xy')
+ax.quiver(r2, 0, 0, r2, color='red', scale=4, scale_units='xy', angles='xy')
+ax.text(r1+0.2, r1/2, 'v1 (Menor)', color='blue', fontsize=11)
+ax.text(r2+0.2, r2/2, 'v2 (Mayor)', color='red', fontsize=11)
+
+ax.set_aspect('equal')
+ax.set_xlim(-3.5, 3.5)
+ax.set_ylim(-3.5, 3.5)
+ax.axis('off')
+
+plt.title('Variacion de la Rapidez Tangencial con la Distancia', pad=20)
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+Es la rapidez tangencial (o lineal) la que varía con la distancia respecto del centro de la mesa giratoria, siendo mayor cuanto más lejos esté el punto del eje de rotación.
+
+\newpage
+
+\subsection*{Enunciado}
+Un vaso inclinado que rueda sobre una superficie plana forma una trayectoria circular. ¿Qué te dice esto acerca de la rapidez tangencial del borde del extremo ancho del vaso en comparación con la del borde del extremo angosto?
+
+\subsection*{Solución}
+
+\subsubsection*{Resolución Directa}
+La rapidez tangencial del borde del extremo ancho es inherentemente mayor que la del borde del extremo angosto.
+
+\subsubsection*{Consolidación del Sistema Cinemático}
+Los parámetros iniciales de rotación para este cuerpo rígido se validan como constantes. Todo el volumen del vaso, independientemente del punto evaluado, comparte un valor estático de rapidez rotacional debido a su integridad estructural. 
+
+\subsubsection*{Transformación Vectorial}
+Aplicando el salto directo hacia la magnitud tangencial mediante la relación $v = \omega r$, y omitiendo las derivadas geométricas puente, se establece que el radio de giro es el único factor de escalado. Dado que el extremo ancho exige un radio mayor hacia el eje de curvatura, la transformación produce directamente una rapidez lineal de mayor magnitud en ese extremo.
+
+\subsubsection*{Representación Gráfica (Código Python)}
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig, ax = plt.subplots(figsize=(7, 7))
+
+theta = np.linspace(0, 2*np.pi, 100)
+r_menor = 2.0
+r_mayor = 4.0
+
+ax.plot(r_menor*np.cos(theta), r_menor*np.sin(theta), linestyle='--', color='blue', label='Trayectoria Borde Angosto')
+ax.plot(r_mayor*np.cos(theta), r_mayor*np.sin(theta), linestyle='--', color='red', label='Trayectoria Borde Ancho')
+
+ax.plot(0, 0, 'ko', markersize=6, label='Centro de Rotacion')
+
+ax.plot([0, r_menor], [0, 0], color='blue', linestyle='-')
+ax.plot([r_menor, r_mayor], [0, 0], color='red', linestyle='-')
+
+ax.quiver(r_menor, 0, 0, r_menor*0.8, color='blue', scale=5, scale_units='xy', angles='xy')
+ax.quiver(r_mayor, 0, 0, r_mayor*0.8, color='red', scale=5, scale_units='xy', angles='xy')
+
+ax.text(r_menor-0.8, r_menor*0.5, 'v_menor', color='blue', fontsize=12)
+ax.text(r_mayor+0.3, r_mayor*0.5, 'v_mayor', color='red', fontsize=12)
+
+ax.set_aspect('equal')
+ax.axis('off')
+plt.legend(loc='upper right')
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+El borde del extremo ancho posee una rapidez tangencial mayor.
+
+\newpage
+
+\subsection*{Enunciado}
+¿Cuándo haces girar una lata sujeta en el extremo de una cuerda en una trayectoria circular, ¿cuál es la dirección de la fuerza que ejerces sobre la lata?
+
+\subsection*{Solución}
+
+\subsubsection*{El Principio de Inercia de Galileo y Newton}
+Para comprender la dinámica de este sistema basándonos en la Física Conceptual de Hewitt, primero debemos recordar la Primera Ley de Newton. Todo objeto con masa posee inercia, que es la tendencia a mantener su estado de movimiento. Si la lata estuviera libre de fuerzas externas, su inercia haría que se moviera en una línea recta a una velocidad constante. El hecho de que la lata describa una trayectoria curva (circular) indica inequívocamente que existe una fuerza neta actuando sobre ella, desviándola continuamente de su camino rectilíneo natural.
+
+\subsubsection*{La Naturaleza de la Fuerza Centrípeta}
+Cualquier fuerza que obliga a un objeto a seguir una trayectoria circular se denomina fuerza centrípeta, que literalmente significa "que busca el centro" o "hacia el centro". En el caso de la lata atada a una cuerda, la cuerda transmite mecánicamente la fuerza desde tu mano hasta la lata. La tensión de la cuerda tira continuamente de la lata hacia adentro, impidiendo que salga disparada en línea recta. Por lo tanto, la fuerza que ejerces sobre la lata, a través de la tensión de la cuerda, está dirigida a lo largo de la cuerda hacia el eje de rotación.
+
+\subsubsection*{Representación Gráfica (Código Python)}
+Para visualizar este concepto, el siguiente código en Python genera un diagrama superior del sistema. Ilustra cómo el vector de la fuerza centrípeta (tensión) siempre apunta hacia el centro del círculo, perpendicular a la trayectoria tangencial que la inercia del objeto intentaría seguir.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig, ax = plt.subplots(figsize=(6, 6))
+
+theta = np.linspace(0, 2*np.pi, 100)
+radio = 2.0
+ax.plot(radio*np.cos(theta), radio*np.sin(theta), linestyle='--', color='gray')
+
+ax.plot(0, 0, 'ko', markersize=8)
+ax.text(0, -0.3, 'Centro (Mano)', ha='center')
+
+ax.plot([0, radio], [0, 0], color='black', linewidth=1.5)
+ax.plot(radio, 0, 'bo', markersize=12)
+ax.text(radio + 0.3, 0, 'Lata', va='center')
+
+ax.quiver(radio, 0, -radio*0.6, 0, color='red', scale=3, scale_units='xy', angles='xy')
+ax.text(radio*0.5, 0.2, 'Fuerza Centripeta', color='red', ha='center')
+
+ax.set_aspect('equal')
+ax.set_xlim(-2.5, 3.5)
+ax.set_ylim(-2.5, 2.5)
+ax.axis('off')
+plt.title('Direccion de la Fuerza en el Movimiento Circular', pad=20)
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+La dirección de la fuerza que ejerces sobre la lata es hacia adentro, apuntando siempre hacia el centro de la trayectoria circular.
+
+\newpage
+
+\subsection*{Enunciado}
+Durante el ciclo de giro de una lavadora automática, la fuerza que se ejerce sobre la ropa, ¿es una fuerza hacia adentro o una fuerza hacia afuera?
+
+\subsection*{Solución}
+
+\subsubsection*{El Mito de la Fuerza Centrífuga}
+Este escenario es un ejemplo clásico en la Física Conceptual para desmentir un malentendido común. Frecuentemente se asume que existe una fuerza invisible que "empuja" la ropa contra las paredes del tambor de la lavadora; a esta fuerza ilusoria se le suele llamar fuerza centrífuga. Sin embargo, desde un marco de referencia inercial (observando desde fuera de la lavadora), tal fuerza que empuja hacia afuera simplemente no existe. Lo que realmente empuja a la ropa hacia las paredes es su propia inercia, es decir, su tendencia natural a continuar moviéndose en línea recta tangente a la trayectoria circular.
+
+\subsubsection*{La Pared del Tambor y la Fuerza Normal}
+A medida que la ropa intenta moverse en línea recta debido a la inercia, se topa con las paredes cilíndricas del tambor metálico de la lavadora. Es el tambor el que se interpone en el camino rectilíneo de la ropa. De acuerdo con la Tercera Ley de Newton, la pared interior del tambor ejerce una fuerza de contacto (fuerza normal) sobre la ropa. Esta fuerza normal empuja la ropa perpendicularmente a la superficie del tambor, lo que se traduce en una dirección radial hacia el centro geométrico de rotación. Esta es la verdadera fuerza centrípeta que obliga a la ropa a girar en círculos en lugar de salir volando en línea recta.
+
+\subsubsection*{Representación Gráfica (Código Python)}
+El siguiente diagrama en Python muestra un corte transversal del tambor de la lavadora. En él se puede apreciar cómo la fuerza real que actúa sobre la prenda proviene de la pared del tambor y se dirige hacia el eje central, venciendo la inercia de la ropa.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig, ax = plt.subplots(figsize=(6, 6))
+
+theta = np.linspace(0, 2*np.pi, 100)
+radio_tambor = 3.0
+ax.plot(radio_tambor*np.cos(theta), radio_tambor*np.sin(theta), color='black', linewidth=4)
+
+ax.plot(0, 0, 'k+', markersize=15)
+ax.text(0, -0.4, 'Eje de Rotacion', ha='center')
+
+angulo_ropa = np.pi / 4
+x_ropa = (radio_tambor - 0.2) * np.cos(angulo_ropa)
+y_ropa = (radio_tambor - 0.2) * np.sin(angulo_ropa)
+
+ropa = plt.Circle((x_ropa, y_ropa), 0.4, color='blue', alpha=0.7)
+ax.add_patch(ropa)
+ax.text(x_ropa + 0.5, y_ropa + 0.5, 'Ropa', color='blue')
+
+dir_x = -np.cos(angulo_ropa)
+dir_y = -np.sin(angulo_ropa)
+ax.quiver(x_ropa, y_ropa, dir_x*1.5, dir_y*1.5, color='red', scale=3, scale_units='xy', angles='xy')
+ax.text(x_ropa - 1.2, y_ropa - 0.5, 'Fuerza Normal\n(Hacia adentro)', color='red', ha='center')
+
+ax.set_aspect('equal')
+ax.set_xlim(-4, 4)
+ax.set_ylim(-4, 4)
+ax.axis('off')
+plt.title('Fuerza Ejercida por el Tambor de una Lavadora', pad=20)
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+Es una fuerza hacia adentro. La pared del tambor de la lavadora ejerce una fuerza centrípeta sobre la ropa para mantenerla en su trayectoria circular.
+
+\newpage
+
+\subsection*{Enunciado}
+Si haces girar un balde con agua en un círculo vertical y el agua no se cae, ¿por qué sucede esto? ¿Qué condición debe cumplirse para que el agua permanezca dentro del balde?
+
+\subsection*{Solución}
+
+\subsubsection*{Resolución Directa}
+El agua no se cae debido a que su inercia tangencial domina sobre la tracción gravitacional descendente. La condición estricta es que la velocidad en la cúspide de la trayectoria sea $v \geq \sqrt{rg}$.
+
+\subsubsection*{Consolidación del Sistema Dinámico}
+Los principios de sistemas rotacionales verticales establecen que las masas no restringidas sometidas a un eje central mantienen su volumen contenido en la base de su contenedor siempre que la aceleración radial total iguale o supere la aceleración local de gravedad. La configuración asume un radio constante y desprecia la resistencia aerodinámica.
+
+\subsubsection*{Determinación del Umbral Crítico}
+Evaluando el límite de soporte nulo en el punto más alto, donde la fuerza normal ejercida por el fondo del balde se desvanece, la ecuación de estado colapsa directamente en la igualdad entre el vector peso y la fuerza centrípeta requerida, produciendo el escalar crítico de velocidad perimetral mínima.
+
+\subsubsection*{Conclusión}
+El agua sigue su tendencia inercial; la condición necesaria es alcanzar una rapidez mínima de $v = \sqrt{rg}$ en el punto más alto.
+
+\newpage
+
+\subsection*{Enunciado}
+Cuando un automóvil toma una curva horizontal y perfectamente plana con rapidez constante ¿qué interacción proporciona la fuerza centrípeta necesaria para que no derrape hacia afuera?
+
+\subsection*{Solución}
+
+\subsubsection*{Resolución Directa}
+La fuerza centrípeta es provista íntegramente por la fuerza de fricción estática transversal que surge de la interacción entre los neumáticos del automóvil y la superficie del pavimento.
+
+\subsubsection*{Descarte de Fuerzas Ortogonales}
+En un plano horizontal estandarizado, los vectores de fuerza normal y peso operan unívocamente en el eje vertical, anulándose mutuamente en el equilibrio de traslación vertical establecido de antemano. El sistema de la vía carece de peralte, descartando componentes normales inclinadas.
+
+\subsubsection*{Asignación del Vector Radial}
+Dado que la única interacción de contacto remanente en el plano bidimensional de movimiento es el agarre mecánico del caucho sobre el asfalto, esta variable asume de forma exclusiva el requerimiento centrípeto dirigido hacia el centro de curvatura.
+
+\subsubsection*{Conclusión}
+La fuerza de fricción estática entre los neumáticos y la carretera.
+
+\newpage
+
+\subsection*{Enunciado}
+Un cuerpo atado a un hilo describe un MCU en un plano horizontal sin fricción. Si el hilo se rompe súbitamente en un instante determinado, ¿qué describe la Primera Ley de Newton acerca de la trayectoria inmediatamente posterior del cuerpo?
+
+\subsection*{Solución}
+
+\subsubsection*{Resolución Directa}
+El cuerpo adoptará instantáneamente una trayectoria rectilínea uniforme que es perfectamente tangente a la curva circular geométrica en el punto exacto donde ocurre la ruptura de la tensión.
+
+\subsubsection*{Anulación del Tensor Central}
+Las condiciones de frontera del sistema demuestran que el estado de MCU es puramente dependiente de la integridad estructural del hilo transmisor. El evento de ruptura material colapsa el valor de la fuerza neta radial, fijándola en un cero absoluto de forma instantánea.
+
+\subsubsection*{Proyección Inercial Inmediata}
+Aplicando el axioma fundamental de inercia ante un entorno de fuerzas nulas, el vector de velocidad tangencial queda fijado en su orientación espacial, proyectando el centro de masa en un recorrido lineal de rapidez inalterada.
+
+\subsubsection*{Conclusión}
+El cuerpo se moverá en línea recta con velocidad constante, siguiendo una trayectoria tangente a la trayectoria circular original.
+
+\newpage
+
+\subsection*{Enunciado}
+Una rueda de radio $0.5 \text{ m}$ gira con velocidad angular de $10 \text{ rad/s}$. ¿Cuál es la rapidez lineal de un punto en el borde?
+
+\subsection*{Solución}
+
+\subsubsection*{Relación entre Rapidez Rotacional y Tangencial}
+De acuerdo con la Física Conceptual, todos los puntos de un cuerpo rígido en rotación comparten la misma rapidez rotacional (velocidad angular, $\omega$), pero su rapidez tangencial (velocidad lineal, $v$) depende de su distancia radial ($r$) al eje de rotación. La rapidez tangencial es directamente proporcional a esta distancia, lo que se expresa matemáticamente con la ecuación de enlace cinemático $v = \omega r$.
+
+\subsubsection*{Desarrollo Matemático}
+Para encontrar la rapidez lineal del punto en el borde, utilizamos los datos proporcionados por el problema y los sustituimos en la fórmula fundamental:
+\begin{itemize}
+    \item Radio ($r$): $0.5 \text{ m}$
+    \item Velocidad angular ($\omega$): $10 \text{ rad/s}$
+\end{itemize}
+
+Aplicamos la ecuación sustituyendo los valores:
+$$v = \omega \cdot r$$
+$$v = \left(10 \frac{\text{rad}}{\text{s}}\right) \cdot (0.5 \text{ m})$$
+
+Es importante recordar que el radián ($\text{rad}$) es una unidad adimensional que sirve como relación geométrica. Por lo tanto, al multiplicar radianes por segundo por metros, el radián se omite en el análisis dimensional final, resultando en unidades de metros por segundo ($\text{m/s}$):
+$$v = 5 \text{ m/s}$$
+
+\subsubsection*{Representación Gráfica (Código Python)}
+Para ilustrar este principio geométrico y cinemático, el siguiente código genera un esquema de la rueda, mostrando el vector de velocidad tangencial resultante en el borde a partir de la velocidad angular central.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig, ax = plt.subplots(figsize=(6, 6))
+
+rueda = plt.Circle((0, 0), 0.5, color='lightgray', fill=True, ec='black')
+ax.add_patch(rueda)
+
+ax.plot(0, 0, 'ko', markersize=5)
+ax.plot([0, 0.5], [0, 0], color='black', linestyle='--')
+ax.text(0.25, -0.05, 'r = 0.5 m', ha='center', fontsize=10)
+
+ax.plot(0.5, 0, 'bo', markersize=8)
+ax.quiver(0.5, 0, 0, 0.5, color='red', scale=2.5, scale_units='xy', angles='xy')
+ax.text(0.55, 0.25, 'v = 5 m/s', color='red', fontsize=12, fontweight='bold')
+
+arco_w = np.linspace(0, np.pi/3, 30)
+ax.plot(0.15*np.cos(arco_w), 0.15*np.sin(arco_w), color='blue', linewidth=1.5)
+ax.annotate('', xy=(0.15*np.cos(np.pi/3), 0.15*np.sin(np.pi/3)), xytext=(0.14*np.cos(np.pi/4), 0.14*np.sin(np.pi/4)), arrowprops=dict(arrowstyle='->', color='blue', lw=1.5))
+ax.text(0.18, 0.18, 'w = 10 rad/s', color='blue', fontsize=10)
+
+ax.set_aspect('equal')
+ax.set_xlim(-0.7, 0.7)
+ax.set_ylim(-0.7, 0.7)
+ax.axis('off')
+
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+La rapidez lineal de un punto en el borde es de $5 \text{ m/s}$.
+
+\newpage
+
+\subsection*{Enunciado}
+Un auto se mueve en una curva de radio $20 \text{ m}$ con rapidez $10 \text{ m/s}$. ¿Cuál es la magnitud de su aceleración centrípeta?
+
+\subsection*{Solución}
+
+\subsubsection*{Concepto Físico de la Aceleración en Curvas}
+De acuerdo con la Física Conceptual, la aceleración no solo implica un cambio en la rapidez (acelerar o frenar), sino también cualquier cambio en la dirección del movimiento. Cuando un auto toma una curva, incluso si el velocímetro marca unos constantes $10 \text{ m/s}$, su dirección en el espacio está cambiando a cada instante. Este cambio de dirección vectorial requiere una aceleración. Como esta aceleración está siempre dirigida hacia el centro de la trayectoria circular que forma la curva, se le denomina aceleración centrípeta.
+
+\subsubsection*{Justificación de la Fórmula Matemática}
+La magnitud de esta aceleración centrípeta ($a_c$) depende de dos factores: la rapidez tangencial ($v$) y el radio de curvatura ($R$). La relación matemática es $a_c = \frac{v^2}{R}$. 
+La rapidez está elevada al cuadrado porque tiene un efecto doble: moverse más rápido significa que se recorre más distancia en la curva por segundo (requiriendo más fuerza para desviar la masa), y al mismo tiempo, se tiene menos tiempo para lograr ese cambio de dirección. Por otro lado, un radio mayor ($R$ en el denominador) hace que la curva sea más suave, requiriendo menos aceleración para completarla.
+
+\subsubsection*{Desarrollo Matemático}
+Para encontrar la aceleración centrípeta del auto, utilizamos los datos proporcionados por el problema y los sustituimos en la fórmula fundamental:
+\begin{itemize}
+    \item Radio de la curva ($R$): $20 \text{ m}$
+    \item Rapidez del auto ($v$): $10 \text{ m/s}$
+\end{itemize}
+
+Aplicamos la ecuación sustituyendo los valores numéricos:
+$$a_c = \frac{v^2}{R}$$
+$$a_c = \frac{(10 \text{ m/s})^2}{20 \text{ m}}$$
+
+Elevamos la rapidez al cuadrado, prestando atención a que las unidades también se elevan al cuadrado ($\text{m}^2/\text{s}^2$):
+$$a_c = \frac{100 \text{ m}^2/\text{s}^2}{20 \text{ m}}$$
+
+Finalmente, realizamos la división. Un metro del numerador se simplifica con el metro del denominador, dejándonos con las unidades correctas de aceleración ($\text{m/s}^2$):
+$$a_c = 5 \text{ m/s}^2$$
+
+\subsubsection*{Representación Gráfica (Código Python)}
+Para visualizar mejor la perpendicularidad entre el movimiento y la aceleración, el siguiente código en Python genera un diagrama superior del auto en la curva, destacando cómo el vector velocidad es tangente a la trayectoria y el vector aceleración apunta hacia el centro del radio.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig, ax = plt.subplots(figsize=(6, 6))
+
+ax.plot(0, 0, 'ko', markersize=6)
+ax.text(0, -2, 'Centro', ha='center')
+
+theta = np.linspace(0, np.pi/2, 50)
+R = 20
+ax.plot(R*np.cos(theta), R*np.sin(theta), color='gray', linestyle='--', linewidth=2)
+
+ang = np.pi/4
+x = R * np.cos(ang)
+y = R * np.sin(ang)
+ax.plot(x, y, 'bs', markersize=12)
+
+ax.plot([0, x], [0, y], color='black', linestyle=':')
+ax.text(x/2 - 2, y/2 + 1, 'R = 20 m', rotation=45, fontsize=10)
+
+v_len = 8
+ax.quiver(x, y, -v_len*np.sin(ang), v_len*np.cos(ang), color='blue', scale=1, scale_units='xy', angles='xy')
+ax.text(x - v_len*np.sin(ang) - 3, y + v_len*np.cos(ang) + 1, 'v = 10 m/s', color='blue', fontweight='bold')
+
+a_len = 6
+ax.quiver(x, y, -a_len*np.cos(ang), -a_len*np.sin(ang), color='red', scale=1, scale_units='xy', angles='xy')
+ax.text(x - a_len*np.cos(ang) + 1, y - a_len*np.sin(ang) - 2, 'a_c = 5 m/s^2', color='red', fontweight='bold')
+
+ax.set_aspect('equal')
+ax.set_xlim(-5, 25)
+ax.set_ylim(-5, 25)
+ax.axis('off')
+plt.title('Vectores en el Movimiento Curvo', pad=15)
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+$a_c = 5 \text{ m/s}^2$
+
+\newpage
+
+\subsection*{Enunciado}
+Una masa de $2 \text{ kg}$ gira alrededor de una trayectoria circular de radio $1 \text{ m}$ con rapidez constante de $4 \text{ m/s}$. ¿Cuál es la magnitud de la fuerza centrípeta?
+
+\subsection*{Solución}
+
+\subsubsection*{La Segunda Ley de Newton y el Movimiento Circular}
+De acuerdo con los principios expuestos en la Física Conceptual, para que un objeto masivo cambie la dirección de su movimiento y describa una trayectoria curva, es indispensable que exista una fuerza neta externa actuando sobre él. En el movimiento circular, esta fuerza se dirige perpendicularmente a la trayectoria, apuntando siempre hacia el centro de curvatura, por lo que recibe el nombre de fuerza centrípeta ($F_c$). Si recordamos la Segunda Ley del movimiento de Newton, $\Sigma F = m \cdot a$, sabemos que toda fuerza neta equivale al producto de la masa del cuerpo por la aceleración que experimenta. En este escenario, la aceleración involucrada es la aceleración centrípeta ($a_c$).
+
+\subsubsection*{Justificación de la Fórmula Matemática}
+Previamente establecimos que la aceleración centrípeta se define matemáticamente como el cuadrado de la rapidez dividido por el radio ($a_c = \frac{v^2}{R}$). Al sustituir esta definición cinemática dentro de la ecuación dinámica de la Segunda Ley de Newton, obtenemos la fórmula directa para la fuerza centrípeta:
+$$F_c = m \cdot \frac{v^2}{R}$$
+Esta ecuación nos indica que la fuerza necesaria para mantener al objeto "atrapado" en su círculo es directamente proporcional a su inercia (masa) y al cuadrado de su rapidez tangencial, pero es inversamente proporcional a la amplitud de la curva (radio).
+
+\subsubsection*{Desarrollo Matemático}
+Para calcular la magnitud exacta de la fuerza centrípeta, extraemos los parámetros iniciales proporcionados por el problema:
+\begin{itemize}
+    \item Masa del objeto ($m$): $2 \text{ kg}$
+    \item Radio de la trayectoria ($R$): $1 \text{ m}$
+    \item Rapidez tangencial ($v$): $4 \text{ m/s}$
+\end{itemize}
+
+Sustituimos estos valores escalares en nuestra ecuación fundamental:
+$$F_c = (2 \text{ kg}) \cdot \frac{(4 \text{ m/s})^2}{1 \text{ m}}$$
+
+Por jerarquía de operaciones, resolvemos primero la potencia en el numerador. Es fundamental elevar al cuadrado tanto el valor numérico como sus respectivas unidades físicas:
+$$F_c = (2 \text{ kg}) \cdot \frac{16 \text{ m}^2/\text{s}^2}{1 \text{ m}}$$
+
+A continuación, ejecutamos la división. Dimensionalmente, un metro del numerador ($\text{m}^2$) se cancela con el metro del denominador ($\text{m}$), resultando en las unidades correctas de aceleración ($\text{m/s}^2$):
+$$F_c = (2 \text{ kg}) \cdot (16 \text{ m/s}^2)$$
+
+Finalmente, multiplicamos los factores restantes. En el Sistema Internacional (SI), el producto de un kilogramo por un metro sobre segundo al cuadrado ($\text{kg} \cdot \text{m/s}^2$) es la definición exacta de un Newton ($\text{N}$):
+$$F_c = 32 \text{ N}$$
+
+\subsubsection*{Representación Gráfica (Código Python)}
+Para consolidar este análisis de las magnitudes dinámicas y cinemáticas, el siguiente código en Python genera un esquema del sistema en el plano. Permite visualizar la masa orbitando, el vector de la rapidez intentando escapar por la tangente, y la fuerza centrípeta reorientando la masa hacia el origen.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig, ax = plt.subplots(figsize=(7, 7))
+
+theta = np.linspace(0, 2*np.pi, 100)
+radio = 1.0
+ax.plot(radio*np.cos(theta), radio*np.sin(theta), color='gray', linestyle='--')
+
+ax.plot(0, 0, 'ko', markersize=6)
+ax.text(0, -0.15, 'Centro', ha='center', fontsize=11)
+
+ax.plot([0, radio], [0, 0], color='black', linestyle=':')
+ax.text(radio/2, -0.08, 'R = 1 m', ha='center', fontsize=11)
+
+ax.plot(radio, 0, 'bo', markersize=18, alpha=0.6)
+ax.text(radio + 0.15, 0.08, 'm = 2 kg', color='blue', fontweight='bold', fontsize=11)
+
+ax.quiver(radio, 0, 0, 1.2, color='green', scale=3, scale_units='xy', angles='xy')
+ax.text(radio + 0.1, 0.6, 'v = 4 m/s', color='green', fontweight='bold', fontsize=11)
+
+ax.quiver(radio, 0, -radio, 0, color='red', scale=1.1, scale_units='xy', angles='xy')
+ax.text(radio/2, 0.08, 'F_c = 32 N', color='red', fontweight='bold', fontsize=11)
+
+ax.set_aspect('equal')
+ax.set_xlim(-1.5, 2.0)
+ax.set_ylim(-1.5, 2.0)
+ax.axis('off')
+
+plt.title('Diagrama Dinamico de Fuerza Centripeta', pad=20, fontsize=14)
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+$F_c = 32 \text{ N}$
+
+\newpage
+
+\subsection*{Enunciado}
+Una pequeña masa de $0.5 \text{ kg}$ está atada a una cuerda y gira sobre un disco horizontal sin fricción, a un radio de $0.4 \text{ m}$. La tensión máxima que soporta la cuerda es de $20 \text{ N}$. Determine la rapidez lineal máxima antes de que la cuerda se rompa.
+
+\subsection*{Solución}
+
+\subsubsection*{El Rol de la Tensión como Fuerza Centrípeta}
+En concordancia con los principios de la Física Conceptual, cuando un objeto se mueve en una trayectoria circular sobre una superficie horizontal sin fricción, las fuerzas verticales (el peso gravitacional hacia abajo y la fuerza normal hacia arriba) se anulan perfectamente entre sí. Esto significa que la única fuerza neta que actúa sobre la masa proviene del contacto con la cuerda. Esta fuerza de tensión siempre apunta hacia el eje de rotación y es la responsable de modificar continuamente la dirección del vector velocidad de la masa. Por lo tanto, la tensión de la cuerda actúa como la fuerza centrípeta del sistema.
+
+Si la rapidez de la masa aumenta, su tendencia inercial a seguir en línea recta también aumenta, lo que exige una fuerza centrípeta mayor para obligarla a curvarse. Sin embargo, la estructura material de la cuerda tiene un límite físico de resistencia (en este caso, $20 \text{ N}$). Si la dinámica del movimiento requiere una fuerza centrípeta que supere este límite, el material cederá, la cuerda se romperá y, obedeciendo a la Primera Ley de Newton, la masa saldrá disparada en una trayectoria rectilínea tangente al círculo. Nuestro objetivo es calcular la rapidez exacta que corresponde a ese umbral de ruptura.
+
+\subsubsection*{Desarrollo Matemático}
+Partimos de la Segunda Ley de Newton adaptada para la dinámica circular, donde la suma de fuerzas radiales es igual al producto de la masa por la aceleración centrípeta:
+$$\Sigma F = m \cdot a_c$$
+
+Dado que la única fuerza radial es la tensión ($T$) y sabemos que la aceleración centrípeta se define cinemáticamente como $a_c = \frac{v^2}{R}$, reescribimos la ecuación:
+$$T = m \cdot \frac{v^2}{R}$$
+
+A continuación, extraemos los datos estipulados por el problema:
+\begin{itemize}
+    \item Masa del cuerpo ($m$): $0.5 \text{ kg}$
+    \item Radio de giro ($R$): $0.4 \text{ m}$
+    \item Tensión máxima soportada ($T$): $20 \text{ N}$
+\end{itemize}
+
+Sustituimos estos valores escalares en la ecuación de equilibrio dinámico:
+$$20 \text{ N} = (0.5 \text{ kg}) \cdot \frac{v^2}{0.4 \text{ m}}$$
+
+Para aislar la incógnita (la rapidez $v$), primero transponemos el valor del radio al lado izquierdo de la ecuación multiplicando:
+$$(20 \text{ N}) \cdot (0.4 \text{ m}) = (0.5 \text{ kg}) \cdot v^2$$
+$$8 \text{ N}\cdot\text{m} = (0.5 \text{ kg}) \cdot v^2$$
+
+Luego, transponemos el valor de la masa dividiendo el resultado anterior:
+$$v^2 = \frac{8 \text{ N}\cdot\text{m}}{0.5 \text{ kg}}$$
+
+Recordando que un Newton equivale a $\text{kg}\cdot\text{m/s}^2$, las unidades de kilogramo se cancelan, resultando en:
+$$v^2 = 16 \text{ m}^2/\text{s}^2$$
+
+Finalmente, aplicamos la raíz cuadrada a ambos lados de la ecuación para obtener la magnitud lineal de la rapidez:
+$$v = \sqrt{16 \text{ m}^2/\text{s}^2}$$
+$$v = 4 \text{ m/s}$$
+
+\subsubsection*{Representación Gráfica (Código Python)}
+El siguiente diagrama modela el sistema desde una perspectiva superior. Destaca la relación límite entre el vector de tensión máxima (dirigido hacia el centro) y el vector de rapidez tangencial máxima, ilustrando el punto crítico antes del colapso estructural de la cuerda.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig, ax = plt.subplots(figsize=(7, 7))
+
+theta = np.linspace(0, 2*np.pi, 100)
+R = 0.4
+ax.plot(R*np.cos(theta), R*np.sin(theta), color='gray', linestyle='--', label='Trayectoria Circular')
+
+disco = plt.Circle((0, 0), R*1.2, color='lightblue', alpha=0.3, zorder=0)
+ax.add_patch(disco)
+
+ax.plot(0, 0, 'kP', markersize=10, label='Eje Central')
+
+ax.plot([0, 0], [0, R], color='black', linewidth=2, linestyle='solid')
+ax.text(0.02, R/2, 'Cuerda', rotation=90, va='center', fontsize=10)
+
+masa_x = 0
+masa_y = R
+ax.plot(masa_x, masa_y, 'ro', markersize=12, label='Masa (0.5 kg)')
+
+ax.quiver(masa_x, masa_y, 0, -R*0.6, color='red', scale=1, scale_units='xy', angles='xy', width=0.01)
+ax.text(masa_x - 0.15, masa_y - 0.15, 'T_max = 20 N\n(Fuerza Centripeta)', color='red', ha='center', fontsize=10, fontweight='bold')
+
+v_escala = 0.2
+ax.quiver(masa_x, masa_y, -v_escala, 0, color='blue', scale=1, scale_units='xy', angles='xy', width=0.01)
+ax.text(masa_x - 0.2, masa_y + 0.05, 'v_max = 4 m/s', color='blue', ha='center', fontsize=11, fontweight='bold')
+
+ax.set_aspect('equal')
+ax.set_xlim(-0.6, 0.6)
+ax.set_ylim(-0.2, 0.6)
+ax.axis('off')
+plt.title('Condicion Limite de Ruptura (Vista Superior)', pad=15)
+plt.legend(loc='lower right')
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+$v = 4 \text{ m/s}$
+
+\newpage
+
+\subsection*{Enunciado}
+Una moneda de masa $m = 25 \text{ g}$ se coloca sobre un disco horizontal plano a una distancia de $15 \text{ cm}$ del eje de rotación. El coeficiente de rozamiento estático entre la moneda y la superficie del disco es $\mu_e = 0.60$. Si el disco comienza a girar, incrementando lentamente su velocidad angular, determine la rapidez angular máxima que puede alcanzar el sistema antes de que la moneda comience a deslizar hacia el exterior. Considere la magnitud de la aceleración de la gravedad $g = 10 \text{ m/s}^2$.
+
+\subsection*{Solución}
+
+\subsubsection*{La Fricción Estática como Fuerza Centrípeta}
+De acuerdo con los principios de la Física Conceptual, para que la moneda se mantenga en una trayectoria circular y no salga disparada en línea recta (por su inercia), debe existir una fuerza neta apuntando hacia el centro del disco. En este sistema horizontal, la única interacción capaz de proporcionar esta fuerza centrípeta es el rozamiento estático entre la moneda y la superficie del disco. 
+
+A medida que el disco gira más rápido (mayor rapidez angular $\omega$), la inercia tangencial de la moneda exige una fuerza centrípeta cada vez mayor. El límite del sistema se alcanza cuando la fuerza centrípeta requerida iguala a la fuerza de fricción estática máxima disponible. Si la rotación aumenta un poco más, la fricción será insuficiente, la fuerza neta radial se romperá y la moneda deslizará.
+
+\subsubsection*{Desarrollo Matemático}
+Aplicamos la Segunda Ley de Newton en el eje radial, donde la sumatoria de fuerzas es igual a la masa por la aceleración centrípeta:
+$$\Sigma \vec{F} = m \cdot \vec{a}_c$$
+
+La única fuerza centrípeta es la fricción estática máxima ($f_{r_e \text{max}}$). Además, sabemos que la aceleración centrípeta en función de la rapidez angular es $a_c = \omega^2 R$:
+$$f_{r_e \text{max}} = m \cdot \omega^2 R$$
+
+La fuerza de fricción estática máxima se define como el producto del coeficiente estático ($\mu_e$) por la fuerza Normal ($N$). En un plano completamente horizontal, la Normal equilibra exactamente al peso ($mg$):
+$$\mu_e \cdot N = m \cdot \omega^2 R$$
+$$\mu_e \cdot mg = m \cdot \omega^2 R$$
+
+Antes de reemplazar, extraemos y convertimos los datos al Sistema Internacional:
+\begin{itemize}
+    \item Masa ($m$): $25 \text{ g} = 0.025 \text{ kg}$
+    \item Radio ($R$): $15 \text{ cm} = 0.15 \text{ m}$
+    \item Coeficiente de rozamiento ($\mu_e$): $0.60$
+    \item Gravedad ($g$): $10 \text{ m/s}^2$
+\end{itemize}
+
+Reemplazamos estos valores en nuestra ecuación dinámica:
+$$(0.60)(0.025 \text{ kg})(10 \text{ m/s}^2) = (0.025 \text{ kg}) \cdot \omega^2 \cdot (0.15 \text{ m})$$
+
+Notemos un detalle pedagógico clave: la masa de $0.025 \text{ kg}$ está presente en ambos lados de la igualdad como factor, por lo que se anula algebraicamente. Esto demuestra que la velocidad de deslizamiento no depende de la masa de la moneda. Resolviendo los productos restantes:
+$$0.15 = 0.00375 \cdot \omega^2$$
+
+Despejamos la rapidez angular al cuadrado:
+$$\omega^2 = \frac{0.15}{0.00375}$$
+$$\omega^2 = 40$$
+
+Finalmente, aplicamos la raíz cuadrada, recordando que la unidad resultante para la rapidez angular es radianes por segundo:
+$$\omega = \sqrt{40} \text{ rad/s}$$
+$$\omega \approx 6.32 \text{ rad/s}$$
+
+\subsubsection*{Representación Gráfica (Código Python)}
+Para ilustrar este límite dinámico, el siguiente código en Python genera un diagrama superior. Muestra los vectores involucrados en el punto crítico justo antes de que el rozamiento estático sea vencido por la inercia rotacional.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig, ax = plt.subplots(figsize=(7, 7))
+
+theta = np.linspace(0, 2*np.pi, 100)
+R = 0.15
+ax.plot(R*np.cos(theta), R*np.sin(theta), color='gray', linestyle='--', label='Trayectoria Limite')
+
+disco = plt.Circle((0, 0), R*1.4, color='lightgray', alpha=0.4, zorder=0)
+ax.add_patch(disco)
+
+ax.plot(0, 0, 'kP', markersize=8)
+ax.text(0, -0.015, 'Eje de Rotacion', ha='center', fontsize=9)
+
+moneda_x = R * np.cos(np.pi/4)
+moneda_y = R * np.sin(np.pi/4)
+ax.plot(moneda_x, moneda_y, 'o', color='gold', markersize=15, markeredgecolor='black', label='Moneda')
+
+ax.plot([0, moneda_x], [0, moneda_y], color='black', linestyle=':', linewidth=1.5)
+ax.text(moneda_x/2 - 0.01, moneda_y/2 + 0.01, 'R = 15 cm', rotation=45, fontsize=10)
+
+friccion_x = -np.cos(np.pi/4)
+friccion_y = -np.sin(np.pi/4)
+ax.quiver(moneda_x, moneda_y, friccion_x, friccion_y, color='red', scale=8, scale_units='xy', angles='xy')
+ax.text(moneda_x - 0.04, moneda_y - 0.01, 'Friccion Max\n(Centripeta)', color='red', ha='center', fontsize=9, fontweight='bold')
+
+vel_x = -np.sin(np.pi/4)
+vel_y = np.cos(np.pi/4)
+ax.quiver(moneda_x, moneda_y, vel_x, vel_y, color='blue', scale=8, scale_units='xy', angles='xy')
+ax.text(moneda_x - 0.03, moneda_y + 0.04, 'v (tangencial)', color='blue', ha='center', fontsize=9)
+
+ax.set_aspect('equal')
+ax.set_xlim(-0.25, 0.25)
+ax.set_ylim(-0.15, 0.25)
+ax.axis('off')
+plt.title('Diagrama Dinamico: Moneda sobre Disco Giratorio', pad=15)
+plt.legend(loc='lower left', fontsize=9)
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+$\omega = 6.32 \text{ rad/s}$
+
+\newpage
+
+\subsection*{Enunciado}
+¿Cuál tiene mayor cantidad de movimiento: un camión de 2000 kg en reposo, o una pelota de tenis de 0.06 kg que viaja a 30 m/s? Justifique su respuesta y calcule la CML de cada objeto.
+
+\subsection*{Solución}
+
+\subsubsection*{El Concepto de Ímpetu o Inercia en Movimiento}
+De acuerdo con la Física Conceptual de Paul Hewitt, la cantidad de movimiento (también conocida como ímpetu lineal o momento lineal) se define como la "inercia en movimiento". Esta magnitud física vectorial nos indica la dificultad que representa detener o modificar el estado de movimiento de un objeto. No depende únicamente de cuánta materia tiene el objeto (su masa), sino también de qué tan rápido se está desplazando en el espacio (su velocidad). Si un objeto inmensamente masivo no se mueve, no tiene inercia en movimiento; por lo tanto, su cantidad de movimiento es estrictamente nula. Por otro lado, un objeto muy ligero puede tener una cantidad de movimiento significativa si viaja a una gran velocidad.
+
+\subsubsection*{Desarrollo Matemático}
+La cantidad de movimiento lineal, representada por la variable $p$, se calcula matemáticamente como el producto directo de la masa ($m$) por la velocidad ($v$), según la fórmula fundamental:
+$$p = m \cdot v$$
+
+Evaluamos primero el caso del camión:
+\begin{itemize}
+    \item Masa del camión ($m_c$): $2000 \text{ kg}$
+    \item Velocidad del camión ($v_c$): $0 \text{ m/s}$ (el reposo absoluto indica ausencia de velocidad)
+\end{itemize}
+
+Sustituyendo estos valores en la ecuación:
+$$p_c = (2000 \text{ kg}) \cdot (0 \text{ m/s})$$
+$$p_c = 0 \text{ kg}\cdot\text{m/s}$$
+
+Evaluamos ahora el caso de la pelota de tenis:
+\begin{itemize}
+    \item Masa de la pelota ($m_p$): $0.06 \text{ kg}$
+    \item Velocidad de la pelota ($v_p$): $30 \text{ m/s}$
+\end{itemize}
+
+Sustituyendo estos valores en la ecuación:
+$$p_p = (0.06 \text{ kg}) \cdot (30 \text{ m/s})$$
+$$p_p = 1.8 \text{ kg}\cdot\text{m/s}$$
+
+Al comparar ambas magnitudes, es evidente matemáticamente que la pelota de tenis posee una cantidad de movimiento superior a la del camión. El camión, al carecer de velocidad, anula por completo el producto matemático sin importar el tamaño de su masa.
+
+\subsubsection*{Representación Gráfica (Código Python)}
+El siguiente código genera un diagrama que contrasta visualmente ambas situaciones. Demuestra pedagógicamente cómo un objeto de gran volumen carece de vector de movimiento por estar estático, mientras que un proyectil diminuto sí proyecta un vector de cantidad de movimiento gracias a su componente de velocidad.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.subplots as plt
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(8, 4))
+
+ax.add_patch(plt.Rectangle((1, 0.5), 3, 1.5, color='gray'))
+ax.add_patch(plt.Circle((1.5, 0.5), 0.3, color='black'))
+ax.add_patch(plt.Circle((3.5, 0.5), 0.3, color='black'))
+ax.text(2.5, 1.25, 'Camion\nm = 2000 kg\nv = 0 m/s\np = 0', ha='center', color='white', fontweight='bold', fontsize=9)
+
+ax.add_patch(plt.Circle((1, 3.5), 0.15, color='green'))
+ax.text(1, 3.9, 'Pelota (m = 0.06 kg)', ha='center', fontsize=9)
+
+ax.quiver(1.3, 3.5, 2.5, 0, color='blue', scale=1, scale_units='xy', angles='xy', width=0.01)
+ax.text(2.5, 3.7, 'v = 30 m/s -> p = 1.8 kg m/s', color='blue', fontweight='bold', fontsize=9)
+
+ax.set_xlim(0, 7)
+ax.set_ylim(0, 4.5)
+ax.axis('off')
+plt.title('Comparacion Vectorial de Cantidad de Movimiento', pad=15)
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+La pelota de tenis tiene mayor cantidad de movimiento ($1.8 \text{ kg}\cdot\text{m/s}$), mientras que la cantidad de movimiento del camión es $0 \text{ kg}\cdot\text{m/s}$.
+
+\newpage
+
+\subsection*{Enunciado}
+Un muñeco de prueba de $75 \text{ kg}$ viaja en un automóvil que choca con una pared a $25 \text{ m/s}$ y se detiene gracias a una bolsa de aire. 
+a) Calcule el impulso que recibe el muñeco.
+
+\subsection*{Solución}
+
+\subsubsection*{El Teorema del Impulso y la Cantidad de Movimiento}
+De acuerdo con la Física Conceptual, cuando un objeto en movimiento se detiene, experimenta un cambio en su cantidad de movimiento (o ímpetu). Para lograr este cambio, es necesario aplicar una fuerza durante un intervalo de tiempo. A esta combinación de fuerza y tiempo se le llama impulso. El Teorema del Impulso y la Cantidad de Movimiento establece que el impulso aplicado a un objeto es exactamente igual al cambio en su cantidad de movimiento. Matemáticamente, esto se expresa como $I = \Delta p$, donde $\Delta p$ es la cantidad de movimiento final menos la cantidad de movimiento inicial.
+
+\subsubsection*{Desarrollo Matemático}
+Para encontrar el impulso, calcularemos el cambio en la cantidad de movimiento del muñeco. Extraemos los datos del sistema:
+\begin{itemize}
+    \item Masa del muñeco ($m$): $75 \text{ kg}$
+    \item Velocidad inicial ($v_i$): $25 \text{ m/s}$
+    \item Velocidad final ($v_f$): $0 \text{ m/s}$ (el muñeco se detiene por completo)
+\end{itemize}
+
+Aplicamos la fórmula del cambio de cantidad de movimiento:
+$$I = m \cdot v_f - m \cdot v_i$$
+$$I = (75 \text{ kg})(0 \text{ m/s}) - (75 \text{ kg})(25 \text{ m/s})$$
+
+El primer término se anula, dejándonos únicamente con la cantidad de movimiento inicial que debe ser contrarrestada:
+$$I = 0 - 1875 \text{ kg}\cdot\text{m/s}$$
+$$I = -1875 \text{ kg}\cdot\text{m/s}$$
+
+Dimensionalmente, un $\text{kg}\cdot\text{m/s}$ es equivalente a un Newton-segundo ($\text{N}\cdot\text{s}$), que es la unidad estándar para el impulso. El signo negativo indica que la dirección del impulso (la fuerza de detención) es opuesta a la dirección original del movimiento.
+
+\subsubsection*{Conclusión}
+El impulso que recibe el muñeco es de $-1875 \text{ N}\cdot\text{s}$ (su magnitud es $1875 \text{ N}\cdot\text{s}$).
+
+\newpage
+
+\subsection*{Enunciado}
+Un muñeco de prueba de $75 \text{ kg}$ viaja en un automóvil que choca con una pared a $25 \text{ m/s}$ y se detiene en $0.1 \text{ s}$ gracias a una bolsa de aire y al cinturón. 
+b) Calcule la fuerza media ejercida sobre el muñeco.
+
+\subsection*{Solución}
+
+\subsubsection*{La Relación entre Fuerza, Tiempo e Impulso}
+Habiendo establecido en el inciso anterior que el impulso requerido para detener al muñeco es fijo (basado en su masa y velocidad de impacto), ahora analizamos cómo se aplica ese impulso. El impulso se define como el producto de la fuerza media por el tiempo de contacto ($I = F \cdot \Delta t$). Esto significa que la fuerza y el tiempo son inversamente proporcionales para un mismo cambio de cantidad de movimiento. Si el tiempo de impacto se prolonga, la fuerza requerida disminuye drásticamente. Esta es precisamente la función física de la bolsa de aire: incrementar el tiempo que le toma al pasajero llegar al reposo, reduciendo así la fuerza letal del impacto.
+
+\subsubsection*{Desarrollo Matemático}
+Conocemos el impulso necesario y el tiempo de detención gracias a los sistemas de seguridad:
+\begin{itemize}
+    \item Impulso ($I$): $-1875 \text{ N}\cdot\text{s}$
+    \item Tiempo de detención ($\Delta t$): $0.1 \text{ s}$
+\end{itemize}
+
+Utilizamos la ecuación del impulso y despejamos la fuerza media ($F$):
+$$I = F \cdot \Delta t$$
+$$F = \frac{I}{\Delta t}$$
+
+Sustituimos los valores numéricos:
+$$F = \frac{-1875 \text{ N}\cdot\text{s}}{0.1 \text{ s}}$$
+
+Al dividir entre $0.1$, el valor numérico se multiplica por $10$. Las unidades de segundos se cancelan, dejando la fuerza en Newtons:
+$$F = -18750 \text{ N}$$
+
+El signo negativo reafirma que es una fuerza de desaceleración (opuesta al movimiento).
+
+\subsubsection*{Conclusión}
+La fuerza media ejercida sobre el muñeco es de $-18750 \text{ N}$.
+
+\newpage
+
+\subsection*{Enunciado}
+Un muñeco de prueba de $75 \text{ kg}$ viaja en un automóvil que choca con una pared a $25 \text{ m/s}$ y se detiene. 
+c) ¿Qué pasaría con la fuerza media si el tiempo de detención fuera de $0.01 \text{ s}$ (sin bolsa de aire)?
+
+\subsection*{Solución}
+
+\subsubsection*{El Peligro de los Tiempos de Impacto Reducidos}
+Este escenario ilustra el concepto central de la Física Conceptual respecto a los choques. Si el automóvil no cuenta con bolsas de aire, el muñeco choca directamente contra superficies rígidas como el tablero o el volante. Estas superficies no ceden, lo que provoca que el muñeco pase de $25 \text{ m/s}$ a $0 \text{ m/s}$ en una fracción de tiempo extremadamente pequeña. Dado que el cambio en la cantidad de movimiento (el impulso total) sigue siendo exactamente el mismo que antes, un tiempo de impacto muy pequeño exigirá, como compensación matemática y física, una fuerza destructivamente grande.
+
+\subsubsection*{Desarrollo Matemático}
+Reevaluamos la fuerza media con el nuevo tiempo de contacto, manteniendo el mismo impulso:
+\begin{itemize}
+    \item Impulso ($I$): $-1875 \text{ N}\cdot\text{s}$
+    \item Nuevo tiempo de detención ($\Delta t$): $0.01 \text{ s}$
+\end{itemize}
+
+Aplicamos nuevamente el despeje de la fuerza:
+$$F = \frac{I}{\Delta t}$$
+$$F = \frac{-1875 \text{ N}\cdot\text{s}}{0.01 \text{ s}}$$
+
+Dividir por $0.01$ equivale a multiplicar la magnitud original por $100$:
+$$F = -187500 \text{ N}$$
+
+Esta fuerza es diez veces mayor que la experimentada con la bolsa de aire, lo que en una situación real causaría daños estructurales severos o la destrucción del cuerpo, demostrando la eficacia de prolongar el tiempo de impacto.
+
+\subsubsection*{Representación Gráfica (Código Python)}
+Para visualizar este principio físico, el siguiente código en Python genera un gráfico que compara ambas situaciones. Muestra cómo el área bajo la curva (el impulso total, que es constante) puede lograrse mediante una fuerza pequeña durante mucho tiempo (con bolsa) o una fuerza inmensa en poco tiempo (sin bolsa).
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig, ax = plt.subplots(figsize=(8, 5))
+
+t_con_bolsa = [0, 0, 0.1, 0.1]
+f_con_bolsa = [0, 18750, 18750, 0]
+
+t_sin_bolsa = [0, 0, 0.01, 0.01]
+f_sin_bolsa = [0, 187500, 187500, 0]
+
+ax.fill_between(t_con_bolsa, f_con_bolsa, color='blue', alpha=0.3, label='Con Bolsa de Aire (Area = Impulso)')
+ax.plot(t_con_bolsa, f_con_bolsa, color='blue', linewidth=2)
+
+ax.fill_between(t_sin_bolsa, f_sin_bolsa, color='red', alpha=0.5, label='Sin Bolsa de Aire (Misma Area)')
+ax.plot(t_sin_bolsa, f_sin_bolsa, color='red', linewidth=2)
+
+ax.set_xlabel('Tiempo de Impacto (s)', fontsize=12)
+ax.set_ylabel('Fuerza Media Aplicada (N)', fontsize=12)
+ax.set_title('Comparacion de Fuerza vs Tiempo (Impulso Constante)', pad=15, fontsize=14)
+
+ax.set_xlim(-0.01, 0.12)
+ax.set_ylim(0, 200000)
+
+ax.axhline(0, color='black', linewidth=1)
+ax.axvline(0, color='black', linewidth=1)
+
+ax.annotate('Fuerza Letal: 187,500 N', xy=(0.01, 187500), xytext=(0.03, 160000),
+            arrowprops=dict(facecolor='red', shrink=0.05), color='red', fontweight='bold')
+ax.annotate('Fuerza Segura: 18,750 N', xy=(0.05, 18750), xytext=(0.05, 50000),
+            arrowprops=dict(facecolor='blue', shrink=0.05), color='blue', fontweight='bold')
+
+plt.legend()
+plt.grid(True, linestyle='--', alpha=0.6)
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+Si el tiempo fuera de $0.01 \text{ s}$, la fuerza media aumentaría drásticamente a $-187500 \text{ N}$, siendo 10 veces mayor y potencialmente letal.
+
+\newpage
+
+\subsection*{Enunciado}
+Un vagón de ferrocarril de masa $m$, que se mueve a $10 \text{ m/s}$, colisiona con otro vagón idéntico en reposo y quedan acoplados. 
+a) Determine la velocidad final del sistema.
+
+\subsection*{Solución}
+
+\subsubsection*{Principio de Conservación de la Cantidad de Movimiento}
+La Física Conceptual nos enseña que la cantidad de movimiento de un sistema se conserva si no existen fuerzas externas netas actuando sobre él. En un choque horizontal entre dos vagones de tren, las fuerzas de fricción suelen ser despreciables en el instante crítico del impacto, por lo que podemos considerar al sistema como aislado. Durante la colisión, los vagones ejercen fuerzas internas enormes el uno sobre el otro (fuerzas de acción y reacción), pero al sumar los efectos en todo el sistema, estas fuerzas internas se anulan. En consecuencia, la cantidad de movimiento total antes del choque debe ser exactamente igual a la cantidad de movimiento total después del choque.
+
+\subsubsection*{Análisis de Choque Inelástico}
+Cuando dos objetos colisionan y quedan unidos o acoplados, se denomina choque perfectamente inelástico. En este escenario, después de la colisión, ambos cuerpos comparten una misma velocidad final común y se comportan dinámicamente como un solo objeto cuya masa es la suma de las masas individuales.
+
+\subsubsection*{Desarrollo Matemático}
+Planteamos la ecuación de conservación de la cantidad de movimiento:
+$$p_{\text{inicial total}} = p_{\text{final total}}$$
+
+La cantidad de movimiento inicial es la suma de los ímpetus de cada vagón por separado:
+$$m_1 \cdot v_1 + m_2 \cdot v_2 = (m_1 + m_2) \cdot v_f$$
+
+Extraemos los datos del problema, sabiendo que los vagones son idénticos, por lo que $m_1 = m_2 = m$:
+\begin{itemize}
+    \item Masa del vagón 1 ($m_1$): $m$
+    \item Velocidad inicial vagón 1 ($v_1$): $10 \text{ m/s}$
+    \item Masa del vagón 2 ($m_2$): $m$
+    \item Velocidad inicial vagón 2 ($v_2$): $0 \text{ m/s}$ (en reposo)
+\end{itemize}
+
+Sustituimos estos valores en nuestra ecuación general:
+$$m(10 \text{ m/s}) + m(0 \text{ m/s}) = (m + m) \cdot v_f$$
+$$10m \text{ m/s} + 0 = 2m \cdot v_f$$
+$$10m \text{ m/s} = 2m \cdot v_f$$
+
+Para despejar la velocidad final ($v_f$), pasamos el término $2m$ a dividir:
+$$v_f = \frac{10m \text{ m/s}}{2m}$$
+
+Como la masa $m$ aparece tanto en el numerador como en el denominador, se simplifica algebraicamente, lo cual demuestra que el resultado es independiente de la masa específica del vagón siempre y cuando sean idénticas:
+$$v_f = 5 \text{ m/s}$$
+
+\subsubsection*{Representación Gráfica (Código Python)}
+El siguiente código modela el escenario de la colisión, mostrando los vectores de velocidad antes y después del impacto inelástico, ilustrando cómo el aumento de la masa total disminuye la velocidad resultante a la mitad para conservar el ímpetu.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(2, 1, figsize=(8, 6))
+
+ax[0].add_patch(plt.Rectangle((1, 0), 2, 1, color='blue', alpha=0.7))
+ax[0].add_patch(plt.Rectangle((5, 0), 2, 1, color='gray', alpha=0.7))
+ax[0].text(2, 0.5, 'm', ha='center', color='white', fontweight='bold')
+ax[0].text(6, 0.5, 'm', ha='center', color='white', fontweight='bold')
+ax[0].quiver(3, 0.5, 1.5, 0, color='blue', scale=5, scale_units='xy', angles='xy')
+ax[0].text(3.75, 0.7, 'v1 = 10 m/s', color='blue', ha='center')
+ax[0].text(6, 1.2, 'v2 = 0 m/s', color='gray', ha='center')
+ax[0].set_xlim(0, 9)
+ax[0].set_ylim(-0.5, 2)
+ax[0].axis('off')
+ax[0].set_title('Antes del Choque')
+
+ax[1].add_patch(plt.Rectangle((3, 0), 4, 1, color='purple', alpha=0.7))
+ax[1].text(5, 0.5, '2m (Acoplados)', ha='center', color='white', fontweight='bold')
+ax[1].quiver(7, 0.5, 1, 0, color='purple', scale=5, scale_units='xy', angles='xy')
+ax[1].text(7.5, 0.7, 'vf = 5 m/s', color='purple', ha='center')
+ax[1].set_xlim(0, 9)
+ax[1].set_ylim(-0.5, 2)
+ax[1].axis('off')
+ax[1].set_title('Despues del Choque (Inelastico)')
+
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+La velocidad final del sistema acoplado es de $5 \text{ m/s}$.
+
+\newpage
+
+\subsection*{Enunciado}
+Un vagón de ferrocarril de masa $m$, que se mueve a $10 \text{ m/s}$, colisiona con otro vagón idéntico. Quedan acoplados después del impacto.
+b) Determine la velocidad del segundo vagón antes del choque para que después del choque los dos queden quietos.
+
+\subsection*{Solución}
+
+\subsubsection*{Nulidad de la Cantidad de Movimiento Final}
+Retomando la Ley de Conservación de la Cantidad de Movimiento, sabemos que $p_{\text{inicial}} = p_{\text{final}}$. En este escenario hipotético, la condición final es que el sistema quede "quieto" tras el acoplamiento. Un sistema en reposo carece de inercia en movimiento, lo que se traduce matemáticamente en un ímpetu final igual a cero ($p_{\text{final}} = 0$). 
+
+Para que esta conservación sea posible, el sistema debe haber tenido una cantidad de movimiento total igual a cero *antes* de chocar. Dado que el primer vagón aporta una cantidad de movimiento positiva (moviéndose hacia adelante), el segundo vagón debe aportar una cantidad de movimiento idéntica en magnitud pero estrictamente opuesta en dirección para que ambas se anulen.
+
+\subsubsection*{Desarrollo Matemático}
+Establecemos la ecuación de conservación donde la cantidad final es nula:
+$$m_1 \cdot v_1 + m_2 \cdot v_2 = 0$$
+
+Al ser vagones idénticos ($m_1 = m_2 = m$) y conociendo la velocidad del primero ($v_1 = 10 \text{ m/s}$), sustituimos los términos:
+$$m(10 \text{ m/s}) + m(v_2) = 0$$
+$$10m \text{ m/s} = -m(v_2)$$
+
+Para encontrar $v_2$, dividimos ambos lados entre $-m$:
+$$v_2 = \frac{10m \text{ m/s}}{-m}$$
+
+La variable de masa $m$ se simplifica, obteniendo el escalar de velocidad con su respectivo signo direccional:
+$$v_2 = -10 \text{ m/s}$$
+
+El signo negativo es fundamental; indica que la velocidad es un vector que apunta en la dirección contraria al vagón 1.
+
+\subsubsection*{Representación Gráfica (Código Python)}
+Para visualizar este fenómeno de anulación vectorial, el diagrama ilustra cómo dos objetos de igual masa deben colisionar frontalmente con la misma rapidez para que sus vectores de cantidad de movimiento sumen exactamente cero.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(2, 1, figsize=(8, 6))
+
+ax[0].add_patch(plt.Rectangle((1, 0), 2, 1, color='blue', alpha=0.7))
+ax[0].add_patch(plt.Rectangle((6, 0), 2, 1, color='red', alpha=0.7))
+ax[0].text(2, 0.5, 'm', ha='center', color='white', fontweight='bold')
+ax[0].text(7, 0.5, 'm', ha='center', color='white', fontweight='bold')
+
+ax[0].quiver(3, 0.5, 1.5, 0, color='blue', scale=5, scale_units='xy', angles='xy')
+ax[0].text(3.75, 0.7, 'v1 = 10 m/s', color='blue', ha='center')
+
+ax[0].quiver(6, 0.5, -1.5, 0, color='red', scale=5, scale_units='xy', angles='xy')
+ax[0].text(5.25, 0.7, 'v2 = -10 m/s', color='red', ha='center')
+
+ax[0].set_xlim(0, 9)
+ax[0].set_ylim(-0.5, 2)
+ax[0].axis('off')
+ax[0].set_title('Antes del Choque (Vectores Opuestos)')
+
+ax[1].add_patch(plt.Rectangle((3.5, 0), 4, 1, color='gray', alpha=0.7))
+ax[1].text(5.5, 0.5, '2m (Reposo)', ha='center', color='white', fontweight='bold')
+ax[1].text(5.5, 1.2, 'vf = 0 m/s', color='black', ha='center')
+
+ax[1].set_xlim(0, 9)
+ax[1].set_ylim(-0.5, 2)
+ax[1].axis('off')
+ax[1].set_title('Despues del Choque (Anulacion de Impetu)')
+
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+El segundo vagón debe moverse a $-10 \text{ m/s}$ (o $10 \text{ m/s}$ en dirección opuesta al primero).
+
+\newpage
+
+\subsection*{Enunciado}
+Si en lugar de quedar acoplados el primer vagón rebota con una velocidad en dirección contraria ¿la rapidez del otro vagón sería mayor o menor a la del literal a?
+
+\subsection*{Solución}
+
+\subsubsection*{El Concepto del Rebote y el Impulso}
+Para responder esta pregunta, nos apoyaremos en un principio fundamental destacado en la Física Conceptual: los rebotes exigen un mayor impulso. Cuando un objeto choca y se detiene (o se acopla, perdiendo parte de su velocidad hacia adelante), experimenta un cierto cambio en su cantidad de movimiento. Sin embargo, si ese mismo objeto choca y rebota, su cambio en la cantidad de movimiento es mucho mayor, ya que no solo debe detenerse, sino que también debe adquirir velocidad en la dirección opuesta.
+
+Por la Tercera Ley de Newton, el impulso que el vagón 2 ejerce sobre el vagón 1 para hacerlo rebotar es idéntico en magnitud al impulso que el vagón 1 ejerce sobre el vagón 2 para empujarlo hacia adelante. Dado que un rebote requiere un impulso mayor que un simple acoplamiento, el vagón 2 recibirá un impulso hacia adelante mucho más fuerte en este escenario.
+
+\subsubsection*{Análisis desde la Conservación de la Cantidad de Movimiento}
+Podemos llegar a la misma conclusión utilizando la Ley de Conservación de la Cantidad de Movimiento. El sistema debe mantener su ímpetu total constante e igual a la cantidad inicial. Si el primer vagón rebota, significa que su cantidad de movimiento final es negativa (apunta en dirección contraria al movimiento inicial). Para que la suma matemática del sistema siga siendo igual al valor positivo inicial, el segundo vagón debe compensar este déficit adquiriendo una cantidad de movimiento positiva mucho más grande que si simplemente se hubieran acoplado.
+
+\subsubsection*{Desarrollo Matemático}
+Retomemos la ecuación de conservación, sabiendo que la masa de ambos vagones es $m$ y la velocidad inicial del vagón 1 era $10 \text{ m/s}$:
+$$p_{\text{inicial}} = p_{\text{final}}$$
+$$m(10 \text{ m/s}) = m \cdot v_{1f} + m \cdot v_{2f}$$
+
+Dividimos toda la ecuación entre la masa $m$ para simplificar:
+$$10 \text{ m/s} = v_{1f} + v_{2f}$$
+
+En el literal "a", los vagones se acoplaron ($v_{1f} = v_{2f}$), resultando en una velocidad de $5 \text{ m/s}$.
+Ahora, la condición es que el primer vagón rebota. Esto significa que su velocidad final será un valor negativo, por ejemplo, $-v_r$ (donde $v_r$ es la rapidez de rebote). Sustituimos esto en la ecuación:
+$$10 \text{ m/s} = -v_r + v_{2f}$$
+
+Despejamos la velocidad del segundo vagón ($v_{2f}$):
+$$v_{2f} = 10 \text{ m/s} + v_r$$
+
+Dado que $v_r$ es un valor positivo (la magnitud del rebote), $v_{2f}$ será obligatoriamente mayor que $10 \text{ m/s}$. Al comparar esto con el resultado del literal "a" ($5 \text{ m/s}$), es matemáticamente evidente que la rapidez será considerablemente mayor.
+
+\subsubsection*{Representación Gráfica (Código Python)}
+El siguiente diagrama vectorial contrasta los dos escenarios (acoplamiento frente a rebote). Visualiza cómo, para mantener la suma vectorial total igual al ímpetu inicial, el vector del segundo vagón debe ser mucho más largo cuando el primer vagón posee un vector negativo (rebote).
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(2, 1, figsize=(8, 6))
+
+ax[0].add_patch(plt.Rectangle((3.5, 0), 4, 1, color='purple', alpha=0.5))
+ax[0].text(5.5, 0.5, 'Vagones Acoplados', ha='center', color='black', fontweight='bold')
+ax[0].quiver(5.5, 1, 2.5, 0, color='purple', scale=5, scale_units='xy', angles='xy')
+ax[0].text(6.75, 1.4, 'v = 5 m/s (Literal a)', color='purple', ha='center', fontweight='bold')
+ax[0].set_xlim(0, 15)
+ax[0].set_ylim(-0.5, 2)
+ax[0].axis('off')
+ax[0].set_title('Escenario 1: Acoplamiento (Impulso Compartido)')
+
+ax[1].add_patch(plt.Rectangle((1, 0), 2, 1, color='blue', alpha=0.5))
+ax[1].add_patch(plt.Rectangle((8, 0), 2, 1, color='red', alpha=0.5))
+ax[1].text(2, 0.5, 'Vagon 1\n(Rebote)', ha='center', color='black', fontweight='bold')
+ax[1].text(9, 0.5, 'Vagon 2\n(Lanzado)', ha='center', color='black', fontweight='bold')
+
+ax[1].quiver(1.5, 1, -1.5, 0, color='blue', scale=5, scale_units='xy', angles='xy')
+ax[1].text(0.75, 1.4, 'v < 0', color='blue', ha='center', fontweight='bold')
+
+ax[1].quiver(9, 1, 6, 0, color='red', scale=5, scale_units='xy', angles='xy')
+ax[1].text(12, 1.4, 'v > 10 m/s (Mayor que 5 m/s)', color='red', ha='center', fontweight='bold')
+
+ax[1].set_xlim(-1, 15)
+ax[1].set_ylim(-0.5, 2)
+ax[1].axis('off')
+ax[1].set_title('Escenario 2: Rebote (Mayor Transferencia de Impetu)')
+
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+La rapidez del otro vagón sería mucho mayor a la del literal a.
+
+\newpage
+
+\subsection*{Enunciado}
+Dos estudiantes observan un accidente en una intersección: un auto de $1200 \text{ kg}$ choca con una camioneta de $2500 \text{ kg}$. El automóvil compacto se desplazaba hacia el este con $15 \text{ m/s}$. La camioneta se desplazaba hacia el norte con $10 \text{ m/s}$. En la intersección, los dos vehículos chocan y quedan enganchados.
+a) ¿Cuál tiene mayor CML antes del choque?
+
+\subsection*{Solución}
+
+\subsubsection*{Definición de la Cantidad de Movimiento Lineal}
+En la Física Conceptual, la Cantidad de Movimiento Lineal (CML), también conocida como ímpetu, es la medida de la inercia en movimiento de un objeto. Depende de dos factores fundamentales: cuánta masa tiene el objeto y qué tan rápido se está moviendo. Se expresa matemáticamente como el producto directo de la masa por la velocidad de la partícula. Al ser la velocidad un vector, la cantidad de movimiento también es una magnitud vectorial, compartiendo la misma dirección y sentido que el movimiento.
+
+Para determinar qué vehículo posee mayor cantidad de movimiento antes de la colisión, es necesario calcular la magnitud escalar de esta propiedad para cada uno de forma independiente, utilizando sus masas y rapideces respectivas.
+
+\subsubsection*{Desarrollo Matemático}
+La fórmula fundamental de la magnitud de la cantidad de movimiento es:
+$$p = m \cdot v$$
+
+Evaluamos primero el automóvil compacto que viaja hacia el este:
+\begin{itemize}
+    \item Masa del automóvil ($m_A$): $1200 \text{ kg}$
+    \item Rapidez del automóvil ($v_A$): $15 \text{ m/s}$
+\end{itemize}
+
+Sustituimos en la ecuación:
+$$p_A = (1200 \text{ kg}) \cdot (15 \text{ m/s})$$
+$$p_A = 18000 \text{ kg}\cdot\text{m/s}$$
+
+A continuación, evaluamos la camioneta que viaja hacia el norte:
+\begin{itemize}
+    \item Masa de la camioneta ($m_C$): $2500 \text{ kg}$
+    \item Rapidez de la camioneta ($v_C$): $10 \text{ m/s}$
+\end{itemize}
+
+Sustituimos en la ecuación:
+$$p_C = (2500 \text{ kg}) \cdot (10 \text{ m/s})$$
+$$p_C = 25000 \text{ kg}\cdot\text{m/s}$$
+
+Al comparar ambas magnitudes, el valor numérico de la camioneta ($25000$) es superior al del automóvil compacto ($18000$). Aunque el automóvil tiene mayor rapidez, la inmensa masa de la camioneta domina el producto matemático, otorgándole una mayor inercia en movimiento general.
+
+\subsubsection*{Representación Gráfica (Código Python)}
+El siguiente diagrama de barras contrasta visualmente las magnitudes de la Cantidad de Movimiento Lineal de ambos vehículos, demostrando el efecto del peso de la camioneta sobre el ímpetu total, a pesar de su menor velocidad.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(8, 3))
+
+vehiculos = ['Automovil', 'Camioneta']
+cantidades = [18000, 25000]
+colores = ['blue', 'red']
+
+ax.barh(vehiculos, cantidades, color=colores, height=0.5)
+
+ax.text(18000 - 1000, 0, '18,000 kg m/s', va='center', ha='right', color='white', fontweight='bold')
+ax.text(25000 - 1000, 1, '25,000 kg m/s', va='center', ha='right', color='white', fontweight='bold')
+
+ax.set_xlim(0, 30000)
+ax.set_xlabel('Cantidad de Movimiento (kg m/s)')
+ax.set_title('Comparacion de CML antes del choque')
+ax.spines['top'].set_visible(False)
+ax.spines['right'].set_visible(False)
+
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+La camioneta tiene mayor CML antes del choque ($25000 \text{ kg}\cdot\text{m/s}$ frente a $18000 \text{ kg}\cdot\text{m/s}$).
+
+\newpage
+
+\subsection*{Enunciado}
+Dos estudiantes observan un accidente en una intersección: un auto de $1200 \text{ kg}$ choca con una camioneta de $2500 \text{ kg}$. El automóvil compacto se desplazaba hacia el este con $15 \text{ m/s}$. La camioneta se desplazaba hacia el norte con $10 \text{ m/s}$. En la intersección, los dos vehículos chocan y quedan enganchados.
+b) Determine la velocidad después del choque.
+
+\subsection*{Solución}
+
+\subsubsection*{Conservación del Ímpetu en Dos Dimensiones}
+Cuando dos objetos chocan de manera inelástica (quedando acoplados), la energía cinética no se conserva debido a la deformación de los materiales, pero la Cantidad de Movimiento del sistema sí se conserva estrictamente. Dado que este problema ocurre en un plano bidimensional, debemos aplicar la conservación del ímpetu como una suma vectorial, no escalar.
+
+El ímpetu total del sistema antes del choque se obtiene sumando el vector del automóvil (dirigido al este) y el vector de la camioneta (dirigido al norte). Como son perpendiculares, forman los catetos de un triángulo rectángulo. El ímpetu resultante después del choque será la hipotenusa de este triángulo. Una vez obtenido este ímpetu final en forma de vector, podremos dividirlo entre la masa total del sistema combinado para encontrar su velocidad final.
+
+\subsubsection*{Desarrollo Matemático}
+Establecemos el sistema de coordenadas. El este será el eje X positivo ($\hat{i}$) y el norte será el eje Y positivo ($\hat{j}$).
+La masa total del sistema después de quedar enganchados es la suma de las masas:
+$$m_f = 1200 \text{ kg} + 2500 \text{ kg} = 3700 \text{ kg}$$
+
+Planteamos la conservación vectorial de la cantidad de movimiento:
+$$\vec{p}_{\text{final}} = \vec{p}_{\text{auto}} + \vec{p}_{\text{camioneta}}$$
+
+Recuperando los valores del literal anterior, asignamos su carácter vectorial:
+$$\vec{p}_{\text{final}} = (18000\hat{i} + 25000\hat{j}) \text{ kg}\cdot\text{m/s}$$
+
+Para hallar la velocidad final vectorial ($\vec{v}_f$), dividimos el ímpetu total entre la masa total:
+$$\vec{v}_f = \frac{\vec{p}_{\text{final}}}{m_f}$$
+$$\vec{v}_f = \frac{18000\hat{i} + 25000\hat{j}}{3700}$$
+
+Dividimos cada componente de manera independiente:
+$$v_{fx} = \frac{18000}{3700} \approx 4.86 \text{ m/s}$$
+$$v_{fy} = \frac{25000}{3700} \approx 6.76 \text{ m/s}$$
+
+Para encontrar la rapidez (módulo de la velocidad), aplicamos el Teorema de Pitágoras con las componentes:
+$$v_f = \sqrt{(v_{fx})^2 + (v_{fy})^2}$$
+$$v_f = \sqrt{(4.86)^2 + (6.76)^2}$$
+$$v_f = \sqrt{23.6196 + 45.6976}$$
+$$v_f = \sqrt{69.3172}$$
+$$v_f \approx 8.33 \text{ m/s}$$
+
+Para determinar la dirección (ángulo respecto al este o eje X), utilizamos la función trigonométrica tangente inversa:
+$$\theta = \arctan\left(\frac{v_{fy}}{v_{fx}}\right)$$
+$$\theta = \arctan\left(\frac{6.76}{4.86}\right)$$
+$$\theta \approx 54.25^\circ$$
+
+\subsubsection*{Representación Gráfica (Código Python)}
+Para visualizar la naturaleza vectorial de esta colisión bidimensional, el siguiente código en Python modela los vectores de ímpetu iniciales como catetos y el ímpetu final como el vector resultante de su suma geométrica (regla del paralelogramo).
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(6, 6))
+
+px_auto = 18000
+py_camioneta = 25000
+
+ax.quiver(0, 0, px_auto, 0, color='blue', scale=1, scale_units='xy', angles='xy')
+ax.text(px_auto/2, -1500, 'p_auto (Este)', color='blue', ha='center')
+
+ax.quiver(0, 0, 0, py_camioneta, color='red', scale=1, scale_units='xy', angles='xy')
+ax.text(-2500, py_camioneta/2, 'p_camioneta (Norte)', color='red', rotation=90, va='center')
+
+ax.quiver(0, 0, px_auto, py_camioneta, color='purple', scale=1, scale_units='xy', angles='xy')
+ax.text(px_auto/2 - 1000, py_camioneta/2 + 2000, 'p_final (Sistema Resultante)', color='purple', rotation=54.25)
+
+ax.plot([px_auto, px_auto], [0, py_camioneta], color='gray', linestyle='--')
+ax.plot([0, px_auto], [py_camioneta, py_camioneta], color='gray', linestyle='--')
+
+ax.set_aspect('equal')
+ax.set_xlim(-5000, 25000)
+ax.set_ylim(-5000, 30000)
+ax.set_xlabel('Momento en X (kg m/s)')
+ax.set_ylabel('Momento en Y (kg m/s)')
+ax.set_title('Conservacion Vectorial del Impetu (2D)')
+ax.grid(True, linestyle=':', alpha=0.6)
+
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+La velocidad después del choque es de $8.33 \text{ m/s}$ con una dirección de $54.25^\circ$ al norte del este.
+
+\newpage
+
+\subsection*{Enunciado}
+Dos estudiantes observan un accidente en una intersección: un auto de $1200 \text{ kg}$ choca con una camioneta de $2500 \text{ kg}$. El automóvil compacto se desplazaba hacia el este con $15 \text{ m/s}$. La camioneta se desplazaba hacia el norte con $10 \text{ m/s}$. En la intersección, los dos vehículos chocan y quedan enganchados.
+c) Calcular el ángulo entre la velocidad después y las velocidades antes del choque de ambos involucrados.
+
+\subsection*{Solución}
+
+\subsubsection*{Geometría Relativa de las Trayectorias}
+En el análisis cinemático de colisiones en dos dimensiones, establecer la trayectoria resultante implica referenciar el ángulo de movimiento respecto a los ejes de impacto originales. La dirección de la velocidad después del choque depende proporcionalmente del ímpetu que aportó cada vehículo. 
+
+Como el automóvil original se desplazaba puramente sobre el eje X (este) y la camioneta puramente sobre el eje Y (norte), las direcciones originales de ambos forman un ángulo de $90^\circ$ entre sí. El ángulo de la trayectoria resultante se calcula midiendo la desviación desde el eje del automóvil, y por simple complemento geométrico, se obtiene la desviación respecto al eje de la camioneta.
+
+\subsubsection*{Desarrollo Matemático}
+Del cálculo del literal anterior, sabemos que el vector de velocidad resultante se encuentra en el primer cuadrante. El ángulo estándar $\theta$ se midió utilizando el eje X positivo como referencia cero.
+El eje X positivo corresponde exactamente a la dirección original del automóvil compacto (este).
+$$\theta_{\text{auto}} = \arctan\left(\frac{v_{fy}}{v_{fx}}\right)$$
+$$\theta_{\text{auto}} = 54.25^\circ$$
+
+Por lo tanto, el ángulo entre la velocidad de la masa acoplada y la velocidad original del automóvil es directamente $54.25^\circ$.
+
+Para encontrar el ángulo respecto a la camioneta, reconocemos que su velocidad original era puramente hacia el norte, lo que corresponde a un ángulo de $90^\circ$ en el plano cartesiano. La diferencia angular entre el eje norte y la trayectoria resultante es simplemente el ángulo complementario:
+$$\theta_{\text{camioneta}} = 90^\circ - \theta_{\text{auto}}$$
+$$\theta_{\text{camioneta}} = 90^\circ - 54.25^\circ$$
+$$\theta_{\text{camioneta}} = 35.75^\circ$$
+
+Esto indica que, al tener la camioneta una mayor cantidad de movimiento lineal inicial, el ángulo de la trayectoria resultante se desvía más hacia el norte original de la camioneta (está a solo $35.75^\circ$ del norte) que hacia el este original del auto.
+
+\subsubsection*{Conclusión}
+El ángulo entre la velocidad final y la del automóvil es de $54.25^\circ$. El ángulo entre la velocidad final y la de la camioneta es de $35.75^\circ$.
+
+\newpage
+
+\subsection*{Enunciado}
+Un automóvil moderno está diseñado para que su carrocería se deforme en un choque, mientras que los vehículos antiguos eran lo más rígidos posible. Con base en los conceptos de impulso y variación de CML, explique por qué el diseño moderno es más seguro para los ocupantes.
+
+\subsection*{Solución}
+
+\subsubsection*{El Teorema del Impulso y la Cantidad de Movimiento Lineal}
+Para entender esta diferencia de diseño desde la Física Conceptual, primero debemos establecer que, en un accidente automovilístico determinado, el cambio en la cantidad de movimiento lineal (CML) de un pasajero está predeterminado. El ocupante tiene una masa específica y viaja a una velocidad inicial fija antes del choque, y su velocidad final será cero al detenerse. Este cambio de cantidad de movimiento ($\Delta p$) requiere un impulso ($I$) matemáticamente exacto para lograrse, fundamentado en la relación $I = \Delta p$. El impulso total necesario para detener al pasajero es exactamente el mismo sin importar el tipo de automóvil en el que viaje.
+
+\subsubsection*{La Relación Inversamente Proporcional entre Fuerza y Tiempo}
+El impulso se define mecánicamente como el producto de la fuerza media de impacto por el intervalo de tiempo durante el cual actúa dicha fuerza ($I = F \cdot \Delta t$). Dado que el impulso ($I$) es un valor constante para un choque específico, la fuerza ($F$) y el tiempo ($\Delta t$) son inversamente proporcionales. 
+
+En los vehículos antiguos, extremadamente rígidos, la carrocería no cedía al chocar. Esto provocaba que el vehículo y sus ocupantes pasaran de su velocidad inicial al reposo absoluto en una fracción de segundo casi nula. Al ser $\Delta t$ extremadamente pequeño, la ecuación exige que la fuerza $F$ sea destructivamente grande, causando lesiones graves o letales.
+
+\subsubsection*{La Función de las Zonas de Deformación Programada}
+Los automóviles modernos incorporan zonas de deformación programada. Al chocar, la parte frontal del vehículo se aplasta gradualmente de forma deliberada. Este aplastamiento estructural tiene un único propósito físico: prolongar el tiempo de impacto ($\Delta t$). Al aumentar significativamente el tiempo que le toma al vehículo (y por transmisión, al ocupante) llegar al reposo completo, la fuerza media de impacto ($F$) disminuye de manera drástica. Al reducir la fuerza máxima ejercida sobre el cuerpo humano, el diseño moderno garantiza una mayor tasa de supervivencia y menores traumas físicos.
+
+\subsubsection*{Representación Gráfica (Código Python)}
+Para ilustrar este principio de seguridad, el siguiente código en Python genera un gráfico que compara la fuerza experimentada a lo largo del tiempo en ambos diseños. En ambos casos, el área bajo la curva (el impulso total o cambio en la CML) es matemáticamente idéntica, pero la distribución de la fuerza varía radicalmente.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(8, 5))
+
+t_rigido = [0, 0.01, 0.02, 0.02]
+f_rigido = [0, 100000, 0, 0]
+ax.plot(t_rigido, f_rigido, color='red', linewidth=2)
+ax.fill_between(t_rigido, f_rigido, color='red', alpha=0.4, label='Vehiculo Antiguo Rigido')
+
+t_moderno = [0, 0.05, 0.1, 0.1]
+f_moderno = [0, 20000, 0, 0]
+ax.plot(t_moderno, f_moderno, color='blue', linewidth=2)
+ax.fill_between(t_moderno, f_moderno, color='blue', alpha=0.4, label='Vehiculo Moderno Deformable')
+
+ax.annotate('Fuerza Maxima Letal', xy=(0.01, 100000), xytext=(0.03, 90000),
+            arrowprops=dict(facecolor='red', shrink=0.05), color='red', fontweight='bold')
+
+ax.annotate('Fuerza Tolerable', xy=(0.05, 20000), xytext=(0.07, 30000),
+            arrowprops=dict(facecolor='blue', shrink=0.05), color='blue', fontweight='bold')
+
+ax.set_xlabel('Tiempo de Contacto (s)', fontsize=12)
+ax.set_ylabel('Fuerza Ejercida (N)', fontsize=12)
+ax.set_title('Mismo Impulso (Area), Diferente Fuerza Maxima', pad=15)
+ax.set_xlim(-0.005, 0.12)
+ax.set_ylim(0, 110000)
+ax.legend(loc='upper right')
+ax.grid(True, linestyle='--', alpha=0.5)
+
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+El diseño moderno es más seguro porque la deformación prolonga el tiempo del impacto. Al aumentar el tiempo para un mismo cambio de cantidad de movimiento, la fuerza media que recibe el ocupante disminuye drásticamente, previniendo lesiones letales.
+
+\newpage
+
+\subsection*{Enunciado}
+Un pez de $5 \text{ kg}$ nada a $1 \text{ m/s}$ y se traga a un pez pequeño de $1 \text{ kg}$ que nada hacia él con una velocidad de $6 \text{ m/s}$ en dirección opuesta. 
+a) Calcule la rapidez final del sistema.
+
+\subsection*{Solución}
+
+\subsubsection*{La Naturaleza Vectorial de la Cantidad de Movimiento}
+De acuerdo con los principios expuestos en la Física Conceptual, la cantidad de movimiento (o ímpetu) es fundamentalmente una magnitud vectorial. Esto significa que la dirección del movimiento es tan crítica como la masa o la rapidez del objeto. Cuando dos cuerpos se mueven en direcciones opuestas sobre un mismo eje, sus cantidades de movimiento deben tener signos algebraicos opuestos para representar correctamente esta realidad geométrica.
+
+En este evento biológico, el pez grande se traga al pequeño, lo que físicamente constituye un choque perfectamente inelástico. Ambos objetos terminan unidos y comparten una única velocidad final. Dado que asumimos un sistema aislado sin fuerzas externas horizontales (ignorando la resistencia del agua durante ese instante), el principio de conservación de la cantidad de movimiento dictamina que el ímpetu neto antes de la colisión debe ser exactamente igual al ímpetu neto después de la colisión.
+
+\subsubsection*{Desarrollo Matemático}
+Para resolver el sistema, primero estableceremos un marco de referencia. Definiremos la dirección original del pez grande como positiva y la dirección original del pez pequeño (opuesta) como negativa. Extraemos los parámetros:
+\begin{itemize}
+    \item Masa del pez grande ($m_1$): $5 \text{ kg}$
+    \item Velocidad del pez grande ($v_1$): $1 \text{ m/s}$
+    \item Masa del pez pequeño ($m_2$): $1 \text{ kg}$
+    \item Velocidad del pez pequeño ($v_2$): $-6 \text{ m/s}$
+\end{itemize}
+
+Planteamos la ecuación de conservación de la cantidad de movimiento:
+$$p_{\text{inicial}} = p_{\text{final}}$$
+$$m_1 \cdot v_1 + m_2 \cdot v_2 = (m_1 + m_2) \cdot v_f$$
+
+Sustituimos los valores numéricos prestando especial atención a los signos direccionales:
+$$(5 \text{ kg})(1 \text{ m/s}) + (1 \text{ kg})(-6 \text{ m/s}) = (5 \text{ kg} + 1 \text{ kg}) \cdot v_f$$
+$$5 \text{ kg}\cdot\text{m/s} - 6 \text{ kg}\cdot\text{m/s} = (6 \text{ kg}) \cdot v_f$$
+$$-1 \text{ kg}\cdot\text{m/s} = (6 \text{ kg}) \cdot v_f$$
+
+Despejamos la velocidad final ($v_f$) dividiendo entre la masa total:
+$$v_f = \frac{-1 \text{ kg}\cdot\text{m/s}}{6 \text{ kg}}$$
+$$v_f \approx -0.167 \text{ m/s}$$
+
+El signo negativo en el resultado final indica que la cantidad de movimiento del pez pequeño superaba a la del pez grande, obligando al sistema combinado a retroceder en la dirección que originalmente llevaba el pez pequeño. Como se nos solicita la "rapidez" (una magnitud escalar sin dirección), tomamos el valor absoluto.
+
+\subsubsection*{Conclusión}
+La rapidez final del sistema es $1/6 \text{ m/s}$ (aproximadamente $0.167 \text{ m/s}$).
+
+\newpage
+
+\subsection*{Enunciado}
+Un pez de $5 \text{ kg}$ nada a $1 \text{ m/s}$ y se traga a un pez pequeño de $1 \text{ kg}$ que nada hacia él con una velocidad de $6 \text{ m/s}$ en dirección opuesta. 
+b) Elabore un diagrama en el que se indique el sistema antes y después del choque, colocando las velocidades de cada uno.
+
+\subsection*{Solución}
+
+\subsubsection*{Análisis Visual de la Conservación del Ímpetu}
+Para solidificar el aprendizaje de este concepto físico, es pedagógicamente indispensable visualizar los vectores involucrados. Un error intuitivo común es asumir que el objeto más masivo (el pez de $5 \text{ kg}$) siempre dictará la dirección del movimiento final. Sin embargo, la cantidad de movimiento es el producto de la masa por la velocidad. 
+
+En este caso, aunque el pez pequeño tiene solo la quinta parte de la masa del pez grande, su rapidez es seis veces mayor. Esto resulta en un vector de ímpetu negativo cuya magnitud supera al vector positivo del pez grande. El diagrama demostrará cómo, a pesar de su tamaño, la inercia en movimiento del pez pequeño arrastra al sistema acoplado en su dirección original.
+
+\subsubsection*{Representación Gráfica (Código Python)}
+El siguiente código genera el diagrama cinemático requerido para ambos estados del sistema, omitiendo por completo los comentarios internos para cumplir estrictamente con los lineamientos del parseo. Modela los cuerpos, sus masas y proyecta los vectores de velocidad (magnitud y sentido) demostrando el retroceso final.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+fig, ax = plt.subplots(2, 1, figsize=(8, 6))
+
+pez_grande_antes = patches.Ellipse((3, 0), 3, 1.5, color='blue', alpha=0.6)
+ax[0].add_patch(pez_grande_antes)
+ax[0].text(3, 0, '5 kg', ha='center', va='center', color='white', fontweight='bold')
+ax[0].quiver(4.5, 0, 1.5, 0, color='blue', scale=5, scale_units='xy', angles='xy')
+ax[0].text(5.25, 0.4, 'v_1 = 1 m/s', color='blue', ha='center', fontweight='bold')
+
+pez_pequeno_antes = patches.Ellipse((8, 0), 1, 0.5, color='red', alpha=0.8)
+ax[0].add_patch(pez_pequeno_antes)
+ax[0].text(8, 0, '1 kg', ha='center', va='center', color='white', fontsize=8, fontweight='bold')
+ax[0].quiver(7.5, 0, -1.5, 0, color='red', scale=5, scale_units='xy', angles='xy')
+ax[0].text(6.75, 0.4, 'v_2 = 6 m/s', color='red', ha='center', fontweight='bold')
+
+ax[0].set_xlim(0, 10)
+ax[0].set_ylim(-1.5, 1.5)
+ax[0].axis('off')
+ax[0].set_title('Antes de la Interaccion')
+
+pez_grande_despues = patches.Ellipse((5, 0), 3, 1.5, color='purple', alpha=0.6)
+ax[1].add_patch(pez_grande_despues)
+pez_pequeno_dentro = patches.Ellipse((4.5, 0), 1, 0.5, color='red', alpha=0.8)
+ax[1].add_patch(pez_pequeno_dentro)
+
+ax[1].text(5, 1, 'Masa Total: 6 kg', ha='center', va='center', color='black', fontweight='bold')
+ax[1].quiver(3.5, 0, -1.5, 0, color='purple', scale=5, scale_units='xy', angles='xy')
+ax[1].text(2.5, 0.4, 'v_f = 0.167 m/s', color='purple', ha='center', fontweight='bold')
+
+ax[1].set_xlim(0, 10)
+ax[1].set_ylim(-1.5, 1.5)
+ax[1].axis('off')
+ax[1].set_title('Despues de la Interaccion (Sistema Acoplado)')
+
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+El diagrama ha sido generado en el código adjunto, mostrando la orientación, magnitudes de masa y vectores de velocidad requeridos antes y después del impacto inelástico.
+
+\newpage
+
+\subsection*{Enunciado}
+Un cañón de masa $500 \text{ kg}$ dispara una bala de masa $5 \text{ kg}$ que sale a $300 \text{ m/s}$. El sistema estaba inicialmente en reposo.
+a) Determine la velocidad de retroceso del cañón justo después del disparo.
+
+\subsection*{Solución}
+
+\subsubsection*{Conservación de la Cantidad de Movimiento}
+Según la Física Conceptual, si no actúan fuerzas externas netas sobre un sistema, su cantidad de movimiento lineal total se conserva. En el caso de un cañón que dispara una bala, la fuerza de la explosión es una fuerza interna que empuja a la bala hacia adelante y al cañón hacia atrás con la misma intensidad. Como el sistema estaba en reposo antes del disparo, su cantidad de movimiento inicial era cero. Por lo tanto, la cantidad de movimiento final total (la suma vectorial del ímpetu de la bala y del cañón) también debe ser obligatoriamente cero.
+
+\subsubsection*{Desarrollo Matemático}
+Establecemos la ecuación de conservación donde el estado inicial es nulo:
+$$p_{\text{inicial}} = p_{\text{final}}$$
+$$0 = m_c \cdot v_c + m_b \cdot v_b$$
+
+Extraemos los datos del problema:
+\begin{itemize}
+    \item Masa del cañón ($m_c$): $500 \text{ kg}$
+    \item Masa de la bala ($m_b$): $5 \text{ kg}$
+    \item Velocidad de la bala ($v_b$): $300 \text{ m/s}$
+\end{itemize}
+
+Sustituimos estos valores en nuestra ecuación:
+$$0 = (500 \text{ kg}) \cdot v_c + (5 \text{ kg})(300 \text{ m/s})$$
+$$0 = (500 \text{ kg}) \cdot v_c + 1500 \text{ kg}\cdot\text{m/s}$$
+
+Despejamos el término del cañón pasándolo al lado izquierdo de la igualdad (lo que invierte su signo) o pasando el ímpetu de la bala restando:
+$$-1500 \text{ kg}\cdot\text{m/s} = (500 \text{ kg}) \cdot v_c$$
+
+Finalmente, dividimos entre la masa del cañón para encontrar su velocidad de retroceso ($v_c$):
+$$v_c = \frac{-1500 \text{ kg}\cdot\text{m/s}}{500 \text{ kg}}$$
+$$v_c = -3 \text{ m/s}$$
+
+El signo negativo indica físicamente que el cañón se mueve en la dirección opuesta a la de la bala, lo que en mecánica se conoce como la velocidad de retroceso.
+
+\subsubsection*{Representación Gráfica (Código Python)}
+El siguiente diagrama muestra los dos objetos separándose en el instante posterior al disparo. Demuestra cómo el vector de velocidad del cañón apunta hacia la izquierda (negativo), compensando el disparo de la bala.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(8, 4))
+
+ax.add_patch(plt.Rectangle((4, 1), 2, 1, color='gray'))
+ax.plot(4.5, 1, 'ko', markersize=10)
+ax.plot(5.5, 1, 'ko', markersize=10)
+ax.text(5, 1.5, 'Ca\u00f1on (500 kg)', ha='center', color='white', fontweight='bold')
+
+ax.add_patch(plt.Circle((7.5, 1.5), 0.2, color='black'))
+ax.text(7.5, 1.8, 'Bala (5 kg)', ha='center', fontweight='bold')
+
+ax.quiver(4, 1.5, -1.5, 0, color='red', scale=5, scale_units='xy', angles='xy')
+ax.text(2.5, 1.7, 'v_c = -3 m/s', color='red', ha='center', fontweight='bold')
+
+ax.quiver(7.8, 1.5, 3, 0, color='blue', scale=5, scale_units='xy', angles='xy')
+ax.text(9.3, 1.7, 'v_b = 300 m/s', color='blue', ha='center', fontweight='bold')
+
+ax.set_xlim(0, 12)
+ax.set_ylim(0, 3)
+ax.axis('off')
+ax.set_title('Sistema Ca\u00f1on-Bala (Retroceso)', pad=15)
+
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+La velocidad de retroceso del cañón justo después del disparo es de $-3 \text{ m/s}$.
+
+\newpage
+
+\subsection*{Enunciado}
+Un cañón de masa $500 \text{ kg}$ dispara una bala de masa $5 \text{ kg}$ que sale a $300 \text{ m/s}$. El sistema estaba inicialmente en reposo.
+b) Explique cómo es que la CML neta del sistema sigue siendo cero después del disparo, aunque ambos objetos están en movimiento.
+
+\subsection*{Solución}
+
+\subsubsection*{La Naturaleza Vectorial del Ímpetu}
+La respuesta a esta aparente paradoja radica en que la Cantidad de Movimiento Lineal (CML) es un vector, no un simple número escalar. Un vector posee tanto magnitud (tamaño) como dirección en el espacio. Cuando sumamos la cantidad de movimiento de las diferentes partes que componen un sistema, debemos respetar obligatoriamente sus direcciones mediante el uso de signos algebraicos (positivo para un sentido, negativo para el sentido opuesto). 
+
+Aunque tanto el cañón como la bala tienen movimiento y, por ende, energía cinética individual mayor a cero, sus vectores de cantidad de movimiento apuntan en direcciones diametralmente opuestas. Al sumar matemáticamente un vector positivo con un vector negativo de exactamente la misma magnitud, el resultado neto es una anulación total, manteniendo el cero inicial del sistema general.
+
+\subsubsection*{Comprobación Matemática}
+Para demostrar esto, calculamos el ímpetu individual de cada componente del sistema justo después del disparo, utilizando los resultados obtenidos en el literal anterior.
+
+Ímpetu de la bala ($p_b$):
+$$p_b = m_b \cdot v_b$$
+$$p_b = (5 \text{ kg})(300 \text{ m/s})$$
+$$p_b = +1500 \text{ kg}\cdot\text{m/s}$$
+
+Ímpetu del cañón ($p_c$):
+$$p_c = m_c \cdot v_c$$
+$$p_c = (500 \text{ kg})(-3 \text{ m/s})$$
+$$p_c = -1500 \text{ kg}\cdot\text{m/s}$$
+
+Calculamos la CML neta del sistema ($\Sigma p$) sumando algebraicamente ambas magnitudes:
+$$\Sigma p = p_b + p_c$$
+$$\Sigma p = (+1500 \text{ kg}\cdot\text{m/s}) + (-1500 \text{ kg}\cdot\text{m/s})$$
+$$\Sigma p = 0$$
+
+Esta suma demuestra por qué el movimiento simultáneo de las piezas no viola el estado de reposo del centro de masa del sistema.
+
+\subsubsection*{Representación Gráfica (Código Python)}
+Para que el modelo visualice bien esta anulación, el siguiente gráfico de barras divergentes opone la CML de ambos objetos sobre el eje horizontal. Evidencia cómo el área roja (negativa) cancela simétricamente el área azul (positiva).
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(8, 3))
+
+objetos = ['Ca\u00f1on (Retroceso)', 'Bala (Disparo)']
+momentos = [-1500, 1500]
+colores = ['red', 'blue']
+
+ax.barh(objetos, momentos, color=colores, height=0.4)
+
+ax.axvline(0, color='black', linewidth=2)
+
+ax.text(-1500, 0, '-1500 kg m/s  ', va='center', ha='right', color='red', fontweight='bold')
+ax.text(1500, 1, '  +1500 kg m/s', va='center', ha='left', color='blue', fontweight='bold')
+
+ax.set_xlim(-2500, 2500)
+ax.set_xlabel('Cantidad de Movimiento (kg m/s)')
+ax.set_title('Anulacion Vectorial de la CML')
+ax.spines['top'].set_visible(False)
+ax.spines['right'].set_visible(False)
+ax.spines['left'].set_visible(False)
+ax.get_yaxis().set_ticks([])
+
+for i, v in enumerate(objetos):
+    ax.text(0, i + 0.3, v, ha='center', fontweight='bold')
+
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+La CML neta es cero porque el ímpetu positivo de la bala ($+1500 \text{ kg}\cdot\text{m/s}$) se cancela exactamente con el ímpetu negativo del cañón ($-1500 \text{ kg}\cdot\text{m/s}$) al moverse en dirección contraria.
+
+\newpage
+
+\subsection*{Enunciado}
+En boxeo, un boxeador intenta moverse en el mismo sentido del golpe. En cambio, un experto en karate intenta golpear en el menor tiempo posible. Analice cada caso usando la relación impulso y CML y lo que está logrando cada uno.
+
+\subsection*{Solución}
+
+\subsubsection*{El Teorema del Impulso y la Cantidad de Movimiento Lineal}
+Para analizar ambos escenarios desde la Física Conceptual, utilizamos la relación matemática entre el impulso y el cambio en la cantidad de movimiento lineal (CML), expresada como $F \cdot \Delta t = \Delta p$. El impulso es el producto de la fuerza media de impacto ($F$) y el tiempo de contacto ($\Delta t$). Para un cambio de cantidad de movimiento ($\Delta p$) determinado, la fuerza y el tiempo son inversamente proporcionales. Esta relación es la clave para entender las tácticas aparentemente opuestas del boxeador y el karateca.
+
+\subsubsection*{Análisis del Boxeador (Maximizando el Tiempo)}
+Cuando un boxeador ve venir un golpe hacia su rostro, el puño del oponente trae una cantidad de movimiento definida. Para detener ese puño (cambiar su cantidad de movimiento a cero en relación con su cara), se debe aplicar un impulso específico. Al moverse hacia atrás, en la misma dirección del golpe, el boxeador "cede" ante el impacto. Físicamente, lo que logra es prolongar el tiempo de contacto ($\Delta t$) durante el cual el puño transfiere su inercia. Como el impulso total requerido no cambia, aumentar drásticamente el tiempo de contacto ($\Delta t$) obliga a que la fuerza media del impacto ($F$) disminuya en la misma proporción, reduciendo así el daño recibido.
+
+\subsubsection*{Análisis del Karateca (Minimizando el Tiempo)}
+El objetivo del experto en karate es diametralmente opuesto: busca destruir un objetivo (como una tabla o un bloque) aplicando la mayor fuerza posible. Para lograrlo, el karateca lanza un golpe con gran cantidad de movimiento, pero al momento del impacto, su técnica asegura que el contacto sea sumamente breve, retrayendo o deteniendo la mano bruscamente tras el choque. Al hacer que el tiempo de contacto ($\Delta t$) sea minúsculo, la ecuación compensa este valor obligando a que la fuerza transferida ($F$) al objetivo sea masiva. El mismo cambio de inercia, comprimido en una fracción de segundo, resulta en una fuerza devastadora.
+
+\subsubsection*{Representación Gráfica (Código Python)}
+Para visualizar esta dualidad física, el siguiente código en Python genera dos curvas de Fuerza vs. Tiempo. Ambas curvas poseen la misma área bajo la curva (mismo impulso y misma variación de CML), pero la distribución del impacto ilustra las tácticas de maximizar el tiempo frente a maximizar la fuerza.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig, ax = plt.subplots(2, 1, figsize=(8, 6))
+
+t_box = np.linspace(0, 0.6, 200)
+f_box = 200 * np.exp(-((t_box - 0.3)/0.15)**2)
+ax[0].plot(t_box, f_box, color='blue', linewidth=2)
+ax[0].fill_between(t_box, f_box, color='blue', alpha=0.3)
+ax[0].set_title('Boxeador: Mayor tiempo de contacto, Menor Fuerza', fontweight='bold')
+ax[0].set_ylim(0, 1100)
+ax[0].set_xlim(0, 0.6)
+ax[0].set_ylabel('Fuerza (N)')
+ax[0].annotate('Impulso Constante (Area)', xy=(0.3, 100), ha='center', color='black')
+
+t_kar = np.linspace(0, 0.6, 200)
+f_kar = 1000 * np.exp(-((t_kar - 0.3)/0.03)**2)
+ax[1].plot(t_kar, f_kar, color='red', linewidth=2)
+ax[1].fill_between(t_kar, f_kar, color='red', alpha=0.3)
+ax[1].set_title('Karateca: Menor tiempo de contacto, Mayor Fuerza', fontweight='bold')
+ax[1].set_ylim(0, 1100)
+ax[1].set_xlim(0, 0.6)
+ax[1].set_ylabel('Fuerza (N)')
+ax[1].set_xlabel('Tiempo de Impacto (s)')
+ax[1].annotate('Mismo Impulso (Area)', xy=(0.3, 200), ha='center', color='black')
+
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+El boxeador aumenta el tiempo de impacto para minimizar la fuerza recibida y protegerse. El karateca disminuye el tiempo de impacto al mínimo posible para maximizar la fuerza entregada y destruir el objetivo. Ambos manipulan la relación inversamente proporcional entre fuerza y tiempo para un impulso constante.
+
+\newpage
+
+\subsection*{Enunciado}
+Una bola de boliche de $8 \text{ kg}$ rueda a $2 \text{ m/s}$. Calcule su CML.
+
+\subsection*{Solución}
+
+\subsubsection*{La Inercia en Movimiento}
+Según la Física Conceptual, la Cantidad de Movimiento Lineal (CML) o ímpetu es una medida de la inercia en movimiento que posee un cuerpo. Se define como el producto de la masa del objeto por su velocidad. Como la velocidad es un vector, la cantidad de movimiento también lo es, compartiendo la misma dirección y sentido. En este caso, asumimos que la bola rueda en línea recta sobre un eje horizontal positivo.
+
+\subsubsection*{Desarrollo Matemático}
+La ecuación fundamental para la magnitud de la cantidad de movimiento es:
+$$p = m \cdot v$$
+
+Extraemos los datos proporcionados por el sistema:
+\begin{itemize}
+    \item Masa de la bola ($m$): $8 \text{ kg}$
+    \item Velocidad inicial ($v_{x0}$): $2 \text{ m/s}$
+\end{itemize}
+
+Sustituimos estos valores escalares en la fórmula:
+$$p_{x0} = (8 \text{ kg}) \cdot (2 \text{ m/s})$$
+$$p_{x0} = 16 \text{ kg}\cdot\text{m/s}$$
+
+\subsubsection*{Representación Gráfica (Código Python)}
+El siguiente código genera un diagrama cinemático del estado inicial de la bola, mostrando su masa y su vector de velocidad sobre el eje de movimiento.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+fig, ax = plt.subplots(figsize=(8, 3))
+
+ax.plot([-1, 6], [0, 0], color='black', linewidth=2)
+for i in range(-1, 7):
+    ax.plot([i, i], [-0.1, 0], color='black')
+ax.text(2.5, -0.4, 'Eje X', ha='center', fontsize=10)
+
+bola = patches.Circle((0, 0.6), 0.6, color='indigo', ec='black', zorder=3)
+ax.add_patch(bola)
+ax.text(0, 0.6, '8 kg', ha='center', va='center', color='white', fontweight='bold', zorder=4)
+
+ax.quiver(0.8, 0.6, 3, 0, color='blue', scale=1, scale_units='xy', angles='xy', width=0.01)
+ax.text(2.5, 0.9, 'v_0 = 2 m/s', color='blue', ha='center', fontweight='bold')
+
+ax.set_xlim(-1.5, 6.5)
+ax.set_ylim(-1, 2)
+ax.axis('off')
+ax.set_title('Estado Inicial de la Bola de Boliche', pad=15)
+
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+La CML de la bola es $16 \text{ kg}\cdot\text{m/s}$.
+
+\newpage
+
+\subsection*{Enunciado}
+Una bola de boliche de $8 \text{ kg}$ rueda a $2 \text{ m/s}$. Calcule el impulso necesario para detenerla.
+
+\subsection*{Solución}
+
+\subsubsection*{El Teorema del Impulso y la Cantidad de Movimiento}
+Para que un objeto en movimiento se detenga, debe perder toda su cantidad de movimiento. De acuerdo con la Física Conceptual, el único mecanismo para alterar el ímpetu de un sistema es aplicando un impulso externo. El Teorema del Impulso y la Cantidad de Movimiento establece que el impulso aplicado ($I$) es exactamente igual a la variación de la cantidad de movimiento ($\Delta p$). Matemáticamente, el impulso es igual a la cantidad de movimiento final menos la inicial.
+
+\subsubsection*{Desarrollo Matemático}
+Planteamos la ecuación del teorema:
+$$I_x = \Delta p_x$$
+$$I_x = p_{xf} - p_{x0}$$
+
+Identificamos los estados del sistema:
+\begin{itemize}
+    \item Cantidad de movimiento inicial ($p_{x0}$): $16 \text{ kg}\cdot\text{m/s}$ (calculado previamente).
+    \item Velocidad final ($v_f$): $0 \text{ m/s}$ (la bola se detiene por completo).
+    \item Cantidad de movimiento final ($p_{xf}$): $m \cdot v_f = (8 \text{ kg})(0 \text{ m/s}) = 0 \text{ kg}\cdot\text{m/s}$.
+\end{itemize}
+
+Sustituimos estos valores en la ecuación de variación:
+$$I_x = 0 \text{ kg}\cdot\text{m/s} - 16 \text{ kg}\cdot\text{m/s}$$
+$$I_x = -16 \text{ N}\cdot\text{s}$$
+
+Dimensionalmente, las unidades $\text{kg}\cdot\text{m/s}$ son completamente equivalentes a los Newton-segundo ($\text{N}\cdot\text{s}$), que es la unidad estándar para medir el impulso. El signo negativo es de suma importancia, ya que indica que la fuerza impulsiva debió aplicarse en dirección estrictamente opuesta al movimiento original para lograr detener la masa.
+
+\subsubsection*{Representación Gráfica (Código Python)}
+El siguiente código modela el estado final del sistema. Visualiza la bola detenida y el vector del impulso externo aplicado en dirección negativa que fue necesario para contrarrestar su inercia.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+fig, ax = plt.subplots(figsize=(8, 3))
+
+ax.plot([-1, 6], [0, 0], color='black', linewidth=2)
+for i in range(-1, 7):
+    ax.plot([i, i], [-0.1, 0], color='black')
+ax.text(2.5, -0.4, 'Eje X', ha='center', fontsize=10)
+
+bola = patches.Circle((4, 0.6), 0.6, color='indigo', ec='black', zorder=3)
+ax.add_patch(bola)
+
+ax.text(4, 1.5, 'v_f = 0 m/s', ha='center', color='black', fontweight='bold', bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.3'))
+
+ax.quiver(3.2, 0.6, -3, 0, color='red', scale=1, scale_units='xy', angles='xy', width=0.01)
+ax.text(1.7, 0.9, 'Impulso = -16 N s', color='red', ha='center', fontweight='bold')
+
+ax.set_xlim(-1.5, 6.5)
+ax.set_ylim(-1, 2.5)
+ax.axis('off')
+ax.set_title('Estado Final: Bola Detenida por Impulso', pad=15)
+
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+El impulso necesario para detenerla es de $-16 \text{ N}\cdot\text{s}$.
+
+\newpage
+
+\subsection*{Enunciado}
+Un contenedor de $1000 \text{ kg}$ se cae de un camión que viaja a $20 \text{ m/s}$. El contenedor se detiene en $4 \text{ s}$ por el rozamiento con la carretera. Determine la fuerza media requerida para detenerlo.
+
+\subsection*{Solución}
+
+\subsubsection*{Relación entre Impulso y Cantidad de Movimiento}
+De acuerdo con la Física Conceptual, cuando un objeto masivo en movimiento se detiene, experimenta una variación total en su cantidad de movimiento lineal (ímpetu). Para que esta variación ocurra, el entorno debe ejercer un impulso sobre el objeto. El impulso mecánico se define como el producto de la fuerza media aplicada y el intervalo de tiempo durante el cual actúa. Al igualar el impulso con el cambio de la cantidad de movimiento, podemos determinar la magnitud de la fuerza de frenado.
+
+\subsubsection*{Desarrollo Matemático}
+El Teorema del Impulso y la Cantidad de Movimiento establece la siguiente igualdad unidimensional:
+$$I_x = \Delta p_x$$
+$$F \cdot \Delta t = p_{xf} - p_{x0}$$
+
+Extraemos los parámetros cinemáticos y de masa del problema:
+\begin{itemize}
+    \item Masa del contenedor ($m$): $1000 \text{ kg}$
+    \item Velocidad inicial ($v_0$): $20 \text{ m/s}$
+    \item Velocidad final ($v_f$): $0 \text{ m/s}$ (el contenedor se detiene)
+    \item Tiempo de frenado ($\Delta t$): $4 \text{ s}$
+\end{itemize}
+
+Sustituimos estos valores para encontrar las cantidades de movimiento:
+$$F \cdot (4 \text{ s}) = (1000 \text{ kg})(0 \text{ m/s}) - (1000 \text{ kg})(20 \text{ m/s})$$
+$$F \cdot (4 \text{ s}) = 0 - 20000 \text{ kg}\cdot\text{m/s}$$
+$$F \cdot (4 \text{ s}) = -20000 \text{ N}\cdot\text{s}$$
+
+Despejamos la fuerza media ($F$) dividiendo entre el tiempo:
+$$F = \frac{-20000 \text{ N}\cdot\text{s}}{4 \text{ s}}$$
+$$F = -5000 \text{ N}$$
+
+El signo negativo indica que la fuerza de rozamiento actúa en dirección opuesta al vector de velocidad inicial del contenedor, contrarrestando su inercia.
+
+\subsubsection*{Representación Gráfica (Código Python)}
+El siguiente diagrama en Python modela el proceso de frenado sobre el eje X, mostrando el vector de velocidad inicial y la fuerza opuesta generada por la fricción.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+fig, ax = plt.subplots(figsize=(8, 4))
+
+ax.plot([-1, 10], [0, 0], color='black', linewidth=2)
+for i in range(-1, 11):
+    ax.plot([i, i], [-0.1, 0], color='black')
+ax.text(4.5, -0.4, 'Eje X (Carretera)', ha='center', fontsize=10)
+
+contenedor = patches.Rectangle((0, 0), 3, 1.5, color='steelblue', ec='black')
+ax.add_patch(contenedor)
+ax.text(1.5, 0.75, '1000 kg\nt = 0 s', ha='center', va='center', color='white', fontweight='bold')
+
+ax.quiver(3.2, 0.75, 2, 0, color='blue', scale=1, scale_units='xy', angles='xy')
+ax.text(4.2, 1, 'v_0 = 20 m/s', color='blue', ha='center', fontweight='bold')
+
+ax.quiver(0, 0.75, -1.5, 0, color='red', scale=1, scale_units='xy', angles='xy')
+ax.text(-0.75, 1, 'F = -5000 N', color='red', ha='center', fontweight='bold')
+
+ax.set_xlim(-2, 8)
+ax.set_ylim(-1, 2)
+ax.axis('off')
+ax.set_title('Frenado del Contenedor (Impulso y CML)', pad=15)
+
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+La fuerza media requerida para detener el contenedor es de $-5000 \text{ N}$.
+
+\newpage
+
+\subsection*{Enunciado}
+Un contenedor de $1000 \text{ kg}$ se cae de un camión que viaja a $20 \text{ m/s}$. El contenedor se detiene en $4 \text{ s}$ por el rozamiento con la carretera. Determine la constante de rozamiento cinético entre el contenedor y la carretera.
+
+\subsection*{Solución}
+
+\subsubsection*{Dinámica del Rozamiento Cinético}
+La fuerza que detuvo al contenedor, calculada a partir del impulso, es el rozamiento cinético ($f_{r_c}$) provocado por el deslizamiento de las superficies en contacto. En la Física Conceptual, la magnitud de la fuerza de fricción sólida depende exclusivamente de dos factores: la naturaleza de los materiales (representada por el coeficiente de rozamiento, $\mu_c$) y la fuerza con la que estas superficies se presionan entre sí (la fuerza Normal, $N$). La relación matemática es directamente proporcional: $|f_{r_c}| = \mu_c \cdot |N|$.
+
+\subsubsection*{Desarrollo Matemático}
+Para encontrar el coeficiente $\mu_c$, primero debemos analizar las fuerzas en el eje vertical (eje Y) para determinar la fuerza Normal. Dado que el contenedor no acelera verticalmente, el sistema se encuentra en equilibrio traslacional en el eje Y.
+$$\Sigma F_y = 0$$
+$$N - P = 0$$
+$$N = P$$
+
+El peso ($P$) se calcula como el producto de la masa por la aceleración de la gravedad ($g = 10 \text{ m/s}^2$ para estandarización de cálculos de aceleración constante gravitatoria):
+$$N = m \cdot g$$
+$$N = (1000 \text{ kg}) \cdot (10 \text{ m/s}^2)$$
+$$N = 10000 \text{ N}$$
+
+Conociendo la fuerza Normal y la magnitud de la fuerza de rozamiento calculada por el teorema del impulso ($|f_{r_c}| = 5000 \text{ N}$), aplicamos la ley de la fricción cinética:
+$$|f_{r_c}| = \mu_c \cdot N$$
+$$5000 \text{ N} = \mu_c \cdot (10000 \text{ N})$$
+
+Despejamos el coeficiente de rozamiento cinético aislando la incógnita:
+$$\mu_c = \frac{5000 \text{ N}}{10000 \text{ N}}$$
+$$\mu_c = 0.5$$
+
+\subsubsection*{Representación Gráfica (Código Python)}
+Para comprender el balance dinámico del sistema, el siguiente código en Python genera el Diagrama de Cuerpo Libre (DCL) del contenedor. Ilustra la anulación vectorial en el eje vertical y la presencia exclusiva de la fricción en el eje horizontal.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(6, 6))
+
+ax.plot(0, 0, 'bs', markersize=15)
+
+ax.quiver(0, 0.2, 0, 1.5, color='black', scale=1, scale_units='xy', angles='xy', width=0.01)
+ax.text(0.1, 1.7, 'N = 10000 N', ha='left', fontweight='bold')
+
+ax.quiver(0, -0.2, 0, -1.5, color='black', scale=1, scale_units='xy', angles='xy', width=0.01)
+ax.text(0.1, -1.7, 'P = 10000 N', ha='left', fontweight='bold')
+
+ax.quiver(-0.2, 0, -1.5, 0, color='red', scale=1, scale_units='xy', angles='xy', width=0.01)
+ax.text(-1.7, 0.2, 'f_{rc} = 5000 N', color='red', ha='center', fontweight='bold')
+
+ax.set_xlim(-2.5, 2.5)
+ax.set_ylim(-2.5, 2.5)
+ax.set_aspect('equal')
+ax.axis('off')
+ax.set_title('Diagrama de Cuerpo Libre (DCL)', pad=15)
+
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+La constante de rozamiento cinético entre el contenedor y la carretera es $0.5$.
+
+\newpage
+
+\subsection*{Enunciado}
+Una pelota de $0.5 \text{ kg}$ choca con el suelo a $10 \text{ m/s}$ y rebota en sentido contrario con $8 \text{ m/s}$. Calcule el impulso total que se ejerce sobre la pelota.
+
+\subsection*{Solución}
+
+\subsubsection*{El Impulso y el Fenómeno del Rebote}
+Para comprender este fenómeno desde la perspectiva de la Física Conceptual, es fundamental reconocer que la cantidad de movimiento lineal (CML) es un vector. Cuando un objeto rebota, el impulso proporcionado por la superficie no solo debe ser suficiente para detener el objeto (llevar su velocidad a cero), sino que debe proporcionar un impulso adicional para "lanzarlo" de vuelta en la dirección opuesta. Por lo tanto, los rebotes siempre exigen un impulso mayor que simplemente detener el objeto.
+
+\subsubsection*{Desarrollo Matemático}
+Para aplicar el Teorema del Impulso y la Cantidad de Movimiento ($I = \Delta p$), primero debemos definir nuestro sistema de referencia. Estableceremos el eje vertical (Y) positivo hacia arriba. Esto hace que la velocidad de caída sea negativa y la de rebote sea positiva.
+
+Extraemos y asignamos signos a los datos:
+\begin{itemize}
+    \item Masa de la pelota ($m$): $0.5 \text{ kg}$
+    \item Velocidad inicial ($v_{yA}$): $-10 \text{ m/s}$ (hacia abajo)
+    \item Velocidad final ($v_{yB}$): $+8 \text{ m/s}$ (hacia arriba)
+\end{itemize}
+
+Planteamos la ecuación del impulso en el eje Y:
+$$I_y = \Delta p_y$$
+$$I_y = p_{yB} - p_{yA}$$
+$$I_y = m \cdot v_{yB} - m \cdot v_{yA}$$
+
+Sustituimos los valores respetando estrictamente los signos algebraicos:
+$$I_y = (0.5 \text{ kg})(+8 \text{ m/s}) - (0.5 \text{ kg})(-10 \text{ m/s})$$
+
+Realizamos las multiplicaciones:
+$$I_y = (+4 \text{ kg}\cdot\text{m/s}) - (-5 \text{ kg}\cdot\text{m/s})$$
+
+Al restar un número negativo, la operación se convierte en una suma:
+$$I_y = +4 \text{ kg}\cdot\text{m/s} + 5 \text{ kg}\cdot\text{m/s}$$
+$$I_y = +9 \text{ N}\cdot\text{s}$$
+
+El signo positivo indica que el suelo ejerció la fuerza impulsiva hacia arriba.
+
+\subsubsection*{Representación Gráfica (Código Python)}
+El siguiente diagrama cinemático muestra el estado de la pelota justo antes de tocar el suelo y justo después de rebotar. Se ilustra la inversión del vector velocidad sobre el eje Y.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+fig, ax = plt.subplots(1, 2, figsize=(10, 4))
+
+ax[0].plot([-2, 2], [0, 0], color='saddlebrown', linewidth=6)
+ax[0].plot([-2, 2], [0, 0], color='olivedrab', linewidth=2)
+pelota_A = patches.Circle((0, 1.5), 0.5, color='tomato', ec='maroon', zorder=3)
+ax[0].add_patch(pelota_A)
+ax[0].quiver(0, 1, 0, -1, color='blue', scale=1, scale_units='xy', angles='xy', width=0.02)
+ax[0].text(0.5, 0.5, 'v_A = -10 m/s', color='blue', fontweight='bold')
+ax[0].set_xlim(-2, 2)
+ax[0].set_ylim(-0.5, 3)
+ax[0].axis('off')
+ax[0].set_title('Estado A: Caida')
+ax[0].text(-1.8, 2.5, 'Y (+)', fontweight='bold')
+ax[0].annotate('', xy=(-1.8, 2.8), xytext=(-1.8, 2.1), arrowprops=dict(arrowstyle='->'))
+
+ax[1].plot([-2, 2], [0, 0], color='saddlebrown', linewidth=6)
+ax[1].plot([-2, 2], [0, 0], color='olivedrab', linewidth=2)
+pelota_B = patches.Circle((0, 1.5), 0.5, color='tomato', ec='maroon', zorder=3)
+ax[1].add_patch(pelota_B)
+ax[1].quiver(0, 2, 0, 0.8, color='red', scale=1, scale_units='xy', angles='xy', width=0.02)
+ax[1].text(0.5, 2.4, 'v_B = +8 m/s', color='red', fontweight='bold')
+ax[1].set_xlim(-2, 2)
+ax[1].set_ylim(-0.5, 3)
+ax[1].axis('off')
+ax[1].set_title('Estado B: Rebote')
+
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+El impulso total que se ejerce sobre la pelota es de $+9 \text{ N}\cdot\text{s}$.
+
+\newpage
+
+\subsection*{Enunciado}
+Una pelota de $0.5 \text{ kg}$ choca con el suelo a $10 \text{ m/s}$ y se queda pegada al suelo. Compárelo con el impulso si la pelota hubiera rebotado.
+
+\subsection*{Solución}
+
+\subsubsection*{La Diferencia de Impulso en Colisiones Inelásticas}
+Cuando un objeto choca contra una superficie y no rebota (quedando pegado o en reposo total), estamos ante un choque perfectamente inelástico respecto a la superficie. En términos de la Física Conceptual, el suelo solo necesita aplicar la fuerza suficiente para anular la inercia de caída del objeto, sin tener que gastar esfuerzo adicional en invertir su dirección. Por lo tanto, el cambio en la cantidad de movimiento (y el impulso asociado) será estrictamente menor que en un escenario de rebote.
+
+\subsubsection*{Desarrollo Matemático}
+Mantenemos el mismo sistema de referencia con el eje Y positivo apuntando hacia arriba.
+Identificamos los datos para este nuevo escenario:
+\begin{itemize}
+    \item Masa de la pelota ($m$): $0.5 \text{ kg}$
+    \item Velocidad inicial ($v_{yC}$): $-10 \text{ m/s}$ (caída hacia abajo)
+    \item Velocidad final ($v_{yD}$): $0 \text{ m/s}$ (reposo absoluto al quedar pegada)
+\end{itemize}
+
+Planteamos nuevamente la ecuación de variación del ímpetu:
+$$I_y = \Delta p_y$$
+$$I_y = p_{yD} - p_{yC}$$
+$$I_y = m \cdot v_{yD} - m \cdot v_{yC}$$
+
+Sustituimos los valores numéricos con sus signos:
+$$I_y = (0.5 \text{ kg})(0 \text{ m/s}) - (0.5 \text{ kg})(-10 \text{ m/s})$$
+
+El primer término se anula:
+$$I_y = 0 - (-5 \text{ kg}\cdot\text{m/s})$$
+
+La resta del número negativo resulta en un impulso positivo:
+$$I_y = +5 \text{ N}\cdot\text{s}$$
+
+Al comparar este resultado ($+5 \text{ N}\cdot\text{s}$) con el impulso calculado para el rebote ($+9 \text{ N}\cdot\text{s}$), se comprueba matemáticamente que el rebote requiere casi el doble de impulso que simplemente detener la pelota.
+
+\subsubsection*{Representación Gráfica (Código Python)}
+Este script modela el escenario inelástico. Muestra la fase de caída idéntica a la anterior, seguida de un estado final donde la pelota yace en el suelo con velocidad nula, sin vector de escape.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+fig, ax = plt.subplots(1, 2, figsize=(10, 4))
+
+ax[0].plot([-2, 2], [0, 0], color='saddlebrown', linewidth=6)
+ax[0].plot([-2, 2], [0, 0], color='olivedrab', linewidth=2)
+pelota_C = patches.Circle((0, 1.5), 0.5, color='tomato', ec='maroon', zorder=3)
+ax[0].add_patch(pelota_C)
+ax[0].quiver(0, 1, 0, -1, color='blue', scale=1, scale_units='xy', angles='xy', width=0.02)
+ax[0].text(0.5, 0.5, 'v_C = -10 m/s', color='blue', fontweight='bold')
+ax[0].set_xlim(-2, 2)
+ax[0].set_ylim(-0.5, 3)
+ax[0].axis('off')
+ax[0].set_title('Estado C: Caida')
+
+ax[1].plot([-2, 2], [0, 0], color='saddlebrown', linewidth=6)
+ax[1].plot([-2, 2], [0, 0], color='olivedrab', linewidth=2)
+pelota_D = patches.Circle((0, 0.5), 0.5, color='tomato', ec='maroon', zorder=3)
+ax[1].add_patch(pelota_D)
+ax[1].text(0, 1.5, 'v_D = 0 m/s\n(Pegada al suelo)', color='black', ha='center', fontweight='bold')
+ax[1].set_xlim(-2, 2)
+ax[1].set_ylim(-0.5, 3)
+ax[1].axis('off')
+ax[1].set_title('Estado D: Reposo (Sin Rebote)')
+
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+El impulso es de $+5 \text{ N}\cdot\text{s}$, el cual es significativamente menor que los $+9 \text{ N}\cdot\text{s}$ requeridos para el rebote.
+
+\newpage
+
+\subsection*{Enunciado}
+Betty tiene una masa de $40 \text{ kg}$, y se encuentra parada sobre hielo sin fricción, y atrapa a su perro de $15 \text{ kg}$ que salta horizontalmente hacia ella a $3 \text{ m/s}$. Determine la rapidez de Betty y su perro después de haberlo atrapado.
+
+\subsection*{Solución}
+
+\subsubsection*{Conservación de la Cantidad de Movimiento en Sistemas Aislados}
+Para abordar este problema desde la Física Conceptual, primero debemos definir nuestro sistema físico, el cual está compuesto por Betty y su perro. El enunciado especifica que se encuentran sobre hielo "sin fricción". Esta condición es clave porque significa que no existen fuerzas horizontales externas actuando sobre el sistema (como el rozamiento). Al no haber fuerzas externas netas, la cantidad de movimiento lineal total (ímpetu) del sistema debe conservarse intacta de principio a fin.
+
+Cuando el perro salta hacia Betty y ella lo atrapa, interactúan mediante fuerzas internas (la fuerza de los brazos de Betty deteniendo al perro y la fuerza del perro empujando a Betty). Estas fuerzas internas se anulan entre sí y no modifican el ímpetu total. Además, como después del impacto ambos se mueven juntos a la misma velocidad, estamos ante un choque perfectamente inelástico.
+
+\subsubsection*{Desarrollo Matemático}
+Establecemos un marco de referencia donde la dirección en la que salta el perro es negativa (moviéndose hacia la izquierda en un plano cartesiano, hacia Betty). 
+Extraemos los datos iniciales:
+\begin{itemize}
+    \item Masa de Betty ($m_B$): $40 \text{ kg}$
+    \item Velocidad inicial de Betty ($v_{x0B}$): $0 \text{ m/s}$ (está parada)
+    \item Masa del perro ($m_P$): $15 \text{ kg}$
+    \item Velocidad inicial del perro ($v_{x0P}$): $-3 \text{ m/s}$
+\end{itemize}
+
+Planteamos la ecuación de conservación del ímpetu:
+$$p_{\text{inicial}} = p_{\text{final}}$$
+$$m_B \cdot v_{x0B} + m_P \cdot v_{x0P} = (m_B + m_P) \cdot v_{xf}$$
+
+Sustituimos los valores respetando el signo de la velocidad del perro:
+$$(40 \text{ kg})(0 \text{ m/s}) + (15 \text{ kg})(-3 \text{ m/s}) = (40 \text{ kg} + 15 \text{ kg}) \cdot v_{xf}$$
+
+Resolvemos las operaciones algebraicas:
+$$0 - 45 \text{ kg}\cdot\text{m/s} = (55 \text{ kg}) \cdot v_{xf}$$
+$$-45 \text{ kg}\cdot\text{m/s} = (55 \text{ kg}) \cdot v_{xf}$$
+
+Despejamos la velocidad final común ($v_{xf}$) dividiendo entre la masa total del sistema:
+$$v_{xf} = \frac{-45}{55} \text{ m/s}$$
+$$v_{xf} \approx -0.818 \text{ m/s}$$
+
+El signo negativo indica que la dirección del movimiento resultante es la misma que traía el perro inicialmente. Dado que el problema pide la "rapidez" (la magnitud escalar de la velocidad), tomamos el valor absoluto del resultado.
+
+\subsubsection*{Representación Gráfica (Código Python)}
+Para visualizar este choque inelástico, el siguiente script de Python dibuja los dos estados cinemáticos. Muestra cómo el ímpetu inicial del perro se transfiere a todo el sistema, pero al distribuirse en una masa mucho mayor (Betty + Perro), la velocidad resultante disminuye significativamente.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+fig, ax = plt.subplots(1, 2, figsize=(10, 4))
+
+ax[0].plot([0, 10], [0, 0], color='lightblue', linewidth=4)
+betty_A = patches.Rectangle((2, 0), 1.5, 3.5, color='purple', zorder=3)
+ax[0].add_patch(betty_A)
+ax[0].text(2.75, 4, 'Betty\n(40 kg, v=0)', ha='center', fontweight='bold')
+
+perro_A = patches.Rectangle((7, 0), 1.5, 1, color='saddlebrown', zorder=3)
+ax[0].add_patch(perro_A)
+ax[0].text(7.75, 1.5, 'Perro\n(15 kg)', ha='center', fontweight='bold')
+
+ax[0].quiver(6.8, 0.5, -2.5, 0, color='red', scale=1, scale_units='xy', angles='xy', width=0.015)
+ax[0].text(5.5, 1, 'v_0 = -3 m/s', color='red', ha='center', fontweight='bold')
+
+ax[0].set_xlim(0, 10)
+ax[0].set_ylim(-0.5, 5)
+ax[0].axis('off')
+ax[0].set_title('Estado Inicial (Antes de Atraparlo)', pad=10)
+
+ax[1].plot([0, 10], [0, 0], color='lightblue', linewidth=4)
+betty_B = patches.Rectangle((3.5, 0), 1.5, 3.5, color='purple', zorder=3)
+perro_B = patches.Rectangle((3.6, 1.5), 1.3, 1, color='saddlebrown', zorder=4)
+ax[1].add_patch(betty_B)
+ax[1].add_patch(perro_B)
+
+ax[1].text(4.25, 4, 'Sistema Acoplado\n(55 kg)', ha='center', fontweight='bold')
+
+ax[1].quiver(3.3, 1.7, -1.5, 0, color='blue', scale=1, scale_units='xy', angles='xy', width=0.015)
+ax[1].text(1.8, 2.2, 'v_f = -0.818 m/s', color='blue', ha='center', fontweight='bold')
+
+ax[1].set_xlim(0, 10)
+ax[1].set_ylim(-0.5, 5)
+ax[1].axis('off')
+ax[1].set_title('Estado Final (Deslizamiento Conjunto)', pad=10)
+
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+La rapidez de Betty y su perro es de $0.818 \text{ m/s}$.
+
+\end{document}

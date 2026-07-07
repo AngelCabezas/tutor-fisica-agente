@@ -1,0 +1,435 @@
+\documentclass[12pt, a4paper]{article}
+
+% --- PAQUETES ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish, es-tabla]{babel} % Configuración español
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{geometry}
+\usepackage[most]{tcolorbox}
+\usepackage{siunitx}
+\usepackage{enumitem}
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{graphicx}
+
+% --- CONFIGURACIÓN TIKZ ---
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta, calc, decorations.pathmorphing, patterns, babel} 
+
+\geometry{a4paper, margin=1in}
+
+% --- CONFIGURACIÓN DE LISTINGS (PYTHON) ---
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.96,0.96,0.96}
+
+\lstset{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2,
+    language=Python,
+    frame=single,
+    title=\textbf{Script de Visualización (Python)}
+}
+
+\title{Resolución Detallada de Ejercicios: Gravitación y Electrostática}
+\author{Entrenamiento LLM - Física}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+\subsection*{Enunciado}
+Si se considera que la Tierra tiene forma esférica con un radio aproximado de $R_T = 6400 \, \si{km}$. Determine la relación existente entre las fuerzas gravitatorias sobre la superficie terrestre ($F_T$) y a una altura de $h = 144 \, \si{km}$ por encima de la misma ($F_h$).
+\\
+\textbf{Datos:} $G=6.67\times10^{-11} \, \si{N.m^2/kg^2}$, $M_T=5.98 \times 10^{24} \, \si{kg}$.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8]
+    % Tierra
+    \draw[thick, fill=blue!10] (0,0) circle (2);
+    \node at (0,0) {Tierra};
+    % Radio Tierra
+    \draw[->] (0,0) -- (2,0) node[midway, below] {$R_T$};
+    % Superficie
+    \fill (2,0) circle (0.1) node[right] {Sup.};
+    % Altura h
+    \draw[dashed] (0,0) -- (3,1);
+    \fill (3,1) circle (0.1) node[right] {$h$};
+    \draw[<->] (2.1, 0.7) -- (3,1) node[midway, above left] {144 km};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\textbf{1. Concepto Físico:}
+La fuerza gravitacional que ejerce la Tierra sobre un objeto de masa $m$ está dada por la Ley de Gravitación Universal:
+$$ F = G \frac{M_T m}{r^2} $$
+Donde $r$ es la distancia desde el \textbf{centro} de la Tierra hasta el objeto.
+
+\textbf{2. Definición de distancias:}
+\begin{itemize}
+    \item En la superficie ($F_T$): La distancia es el radio terrestre, $r_1 = R_T$.
+    \item A una altura $h$ ($F_h$): La distancia es el radio más la altura, $r_2 = R_T + h$.
+\end{itemize}
+
+\textbf{3. Relación (Cociente):}
+Queremos comparar $F_T$ con $F_h$. Dividimos ambas ecuaciones. Note que $G$, $M_T$ y $m$ son constantes y se cancelarán:
+
+$$ \frac{F_T}{F_h} = \frac{ G \frac{M_T m}{R_T^2} }{ G \frac{M_T m}{(R_T + h)^2} } $$
+
+Aplicando la "ley de la oreja" (extremos con extremos, medios con medios):
+$$ \frac{F_T}{F_h} = \frac{(R_T + h)^2}{R_T^2} = \left( \frac{R_T + h}{R_T} \right)^2 $$
+
+\textbf{4. Cálculo Numérico:}
+Sustituimos los valores ($R_T = 6400$, $h = 144$):
+$$ \frac{F_T}{F_h} = \left( \frac{6400 + 144}{6400} \right)^2 = \left( \frac{6544}{6400} \right)^2 $$
+$$ \frac{F_T}{F_h} \approx (1.0225)^2 \approx 1.045 $$
+
+\begin{tcolorbox}[colback=green!5!white,title=Conclusión]
+La fuerza en la superficie es \textbf{1.045 veces mayor} que la fuerza a 144 km de altura.
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+La nave Discovery describe una órbita circular con velocidad $v = 7.62 \, \si{km/s}$. Calcule su altitud $h$.
+\\
+Datos: $R_T = 6370 \, \si{km}$, $M_T = 5.98 \times 10^{24} \, \si{kg}$.
+
+\subsection*{Solución}
+
+\textbf{1. Equilibrio Dinámico:}
+Para que la nave se mantenga en órbita circular, la fuerza de atracción gravitacional debe actuar exactamente como la fuerza centrípeta necesaria para curvar su trayectoria.
+$$ F_{gravitacional} = F_{centrípeta} $$
+$$ G \frac{M_T m}{r^2} = m \frac{v^2}{r} $$
+
+\textbf{2. Despeje del Radio Orbital ($r$):}
+Podemos cancelar la masa de la nave ($m$) y un radio ($r$) del denominador:
+$$ G \frac{M_T}{r} = v^2 \quad \Rightarrow \quad r = \frac{G M_T}{v^2} $$
+
+\textbf{3. Sustitución (Cuidado con las unidades):}
+La velocidad debe estar en $\si{m/s}$:
+$$ v = 7.62 \, \si{km/s} = 7620 \, \si{m/s} $$
+
+Calculamos $r$:
+$$ r = \frac{(6.67 \times 10^{-11})(5.98 \times 10^{24})}{(7620)^2} $$
+$$ r = \frac{3.98866 \times 10^{14}}{5.80644 \times 10^7} \approx 6,869,373 \, \si{m} \approx 6869.37 \, \si{km} $$
+
+\textbf{4. Cálculo de la Altura:}
+El radio orbital incluye el radio de la Tierra más la altura ($r = R_T + h$).
+$$ h = r - R_T $$
+$$ h = 6869.37 - 6370 = 499.37 \, \si{km} $$
+
+\begin{tcolorbox}[colback=green!5!white,title=Respuesta]
+La altitud es $h \approx 499.37 \, \si{km}$.
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+La nave Discovery describe una órbita circular con velocidad $v = 7.62 \, \si{km/s}$. Calcule su periodo y amaneceres $h$.
+\\
+Datos: $R_T = 6370 \, \si{km}$, $M_T = 5.98 \times 10^{24} \, \si{kg}$.
+
+\subsection*{Solución}
+
+\textbf{1. Cálculo del Período ($T$):}
+En un movimiento circular uniforme, la velocidad es la distancia (circunferencia) dividida por el tiempo (período).
+$$ v = \frac{2\pi r}{T} \quad \Rightarrow \quad T = \frac{2\pi r}{v} $$
+
+Sustituimos ($r$ en metros, $v$ en m/s):
+$$ T = \frac{2\pi (6,869,373)}{7620} \approx 5664.2 \, \si{s} $$
+
+Convertimos a horas:
+$$ T_{horas} = \frac{5664.2}{3600} \approx 1.57 \, \si{h} $$
+
+\textbf{2. Cálculo de Amaneceres:}
+Si la nave da una vuelta cada 1.57 horas, en un día (24 horas) dará:
+$$ N = \frac{24 \text{ h}}{1.57 \text{ h/vuelta}} \approx 15.28 $$
+Los astronautas ven un amanecer por cada órbita completa.
+
+\begin{tcolorbox}[colback=green!5!white,title=Respuesta]
+Período $T \approx 1.57 \, \si{h}$. Contemplan \textbf{15 amaneceres} al día.
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un satélite gira a una altura $h$ donde la aceleración de la gravedad es la mitad que en la superficie ($g_h = g_0 / 2$). Averigüe la velocidad del satélite.
+
+\subsection*{Solución}
+
+\textbf{1. Relación de Gravedades:}
+La gravedad en la superficie es $g_0 = \frac{GM}{R_T^2}$.
+La gravedad a altura $h$ es $g_h = \frac{GM}{(R_T+h)^2}$.
+
+El problema nos dice que $g_h = \frac{1}{2} g_0$:
+$$ \frac{GM}{(R_T+h)^2} = \frac{1}{2} \left( \frac{GM}{R_T^2} \right) $$
+
+\textbf{2. Relación Geométrica:}
+Cancelamos $GM$ de ambos lados:
+$$ \frac{1}{(R_T+h)^2} = \frac{1}{2 R_T^2} $$
+Invertimos las fracciones y sacamos raíz cuadrada:
+$$ (R_T+h)^2 = 2 R_T^2 \quad \Rightarrow \quad R_T + h = \sqrt{2} R_T $$
+Esto nos dice que el radio orbital ($r$) es $\sqrt{2}$ veces el radio terrestre.
+
+\textbf{3. Velocidad Orbital:}
+La velocidad orbital es $v = \sqrt{\frac{GM}{r}}$.
+Sustituimos $r = \sqrt{2} R_T$:
+$$ v = \sqrt{\frac{GM}{\sqrt{2} R_T}} $$
+
+\textbf{Truco Algebraico:} Sabemos que $g_0 = GM/R_T^2$, por lo que $GM = g_0 R_T^2$. Sustituimos esto en la ecuación de velocidad:
+$$ v = \sqrt{\frac{g_0 R_T^2}{\sqrt{2} R_T}} = \sqrt{\frac{g_0 R_T}{\sqrt{2}}} $$
+
+\textbf{4. Cálculo:}
+$$ v = \sqrt{\frac{9.8 \times (6.37 \times 10^6)}{1.4142}} \approx 6643.9 \, \si{m/s} $$
+
+\begin{tcolorbox}[colback=green!5!white,title=Respuesta]
+$v \approx 6644 \, \si{m/s}$.
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un satélite orbita a una altitud igual al radio de la Tierra ($h = R_E$). Determine: a) Rapidez, b) Período, c) Fuerza gravitacional. Masa satélite = 300 kg.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.6]
+    \draw (0,0) circle (1.5) node {$R_E$};
+    \draw[dashed] (0,0) circle (3);
+    \fill (3,0) circle (0.15) node[right] {Satélite};
+    \draw[<->] (0,0) -- (1.5,0);
+    \draw[<->] (1.5,0) -- (3,0) node[midway, below] {$h=R_E$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\textbf{Paso Previo:}
+El radio de la órbita es la distancia al centro. Si $h = R_E$, entonces:
+$$ r = R_E + h = R_E + R_E = 2R_E $$
+
+\textbf{a) Rapidez Orbital:}
+Usamos la fórmula derivada anteriormente $v = \sqrt{\frac{GM}{r}}$.
+Sustituyendo $GM = g_0 R_E^2$ y $r = 2R_E$:
+$$ v = \sqrt{\frac{g_0 R_E^2}{2R_E}} = \sqrt{\frac{g_0 R_E}{2}} $$
+$$ v = \sqrt{\frac{9.8 \times 6.37 \times 10^6}{2}} \approx 5586.8 \, \si{m/s} $$
+
+\textbf{b) Período:}
+$$ T = \frac{2\pi r}{v} = \frac{2\pi (2R_E)}{v} $$
+$$ T = \frac{4\pi (6.37 \times 10^6)}{5586.8} \approx 14327 \, \si{s} \approx 238.8 \, \si{min} $$
+
+\textbf{c) Fuerza Gravitacional (Método de Proporción):}
+Sabemos que la fuerza es inversamente proporcional al cuadrado de la distancia ($F \propto 1/r^2$).
+Si la distancia se duplica ($R_E \to 2R_E$), la fuerza se reduce en un factor de $2^2 = 4$.
+$$ F_{orbita} = \frac{F_{superficie}}{4} = \frac{m g_0}{4} $$
+$$ F = \frac{300 \times 9.8}{4} = \frac{2940}{4} = 735 \, \si{N} $$
+
+\begin{tcolorbox}[colback=green!5!white,title=Respuesta]
+a) $5587 \, \si{m/s}$, b) $238.8 \, \si{min}$, c) $735 \, \si{N}$.
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Dos partículas de 45 g y carga $Q$ cada una, están suspendidas del mismo punto por cuerdas de $L=40$ cm. En equilibrio, están separadas $r=2$ cm. Determine $Q$.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8]
+    % Techo
+    \draw[thick] (-2,0) -- (2,0);
+    % Cuerdas
+    \draw (0,0) -- (-1, -3) node[midway, left] {$L$};
+    \draw (0,0) -- (1, -3);
+    % Esferas
+    \shade[ball color=red] (-1,-3) circle (0.2);
+    \shade[ball color=red] (1,-3) circle (0.2);
+    % Separacion
+    \draw[<->] (-1,-3.5) -- (1,-3.5) node[midway, below] {$r$};
+    % Angulo
+    \draw[dashed] (0,0) -- (0,-3.5);
+    \node at (0.2,-0.5) {$\theta$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\textbf{1. Diagrama de Cuerpo Libre (DCL):}
+Analizamos una de las esferas (la derecha). Actúan 3 fuerzas:
+\begin{enumerate}
+    \item \textbf{Tensión ($T$):} En dirección de la cuerda.
+    \item \textbf{Peso ($mg$):} Vertical hacia abajo.
+    \item \textbf{Fuerza Eléctrica ($F_e$):} Horizontal hacia la derecha (repulsión).
+\end{enumerate}
+
+\textbf{2. Ecuaciones de Equilibrio:}
+Descomponemos la tensión en componentes y sumamos fuerzas:
+\begin{itemize}
+    \item Eje X: $F_e - T \sin\theta = 0 \quad \Rightarrow \quad F_e = T \sin\theta$
+    \item Eje Y: $T \cos\theta - mg = 0 \quad \Rightarrow \quad mg = T \cos\theta$
+\end{itemize}
+
+\textbf{3. Relación Trigonométrica:}
+Dividimos la ecuación de X por la de Y para eliminar la Tensión $T$:
+$$ \frac{F_e}{mg} = \frac{T \sin\theta}{T \cos\theta} = \tan\theta $$
+$$ F_e = mg \tan\theta $$
+
+\textbf{4. Aproximación de Ángulo Pequeño:}
+Como la separación ($r=2$ cm) es muy pequeña comparada con la longitud ($L=40$ cm), el ángulo es pequeño.
+Del gráfico, $\sin\theta = \frac{\text{cateto opuesto}}{\text{hipotenusa}} = \frac{r/2}{L}$.
+Para ángulos pequeños: $\tan\theta \approx \sin\theta = \frac{1}{40} = 0.025$.
+
+\textbf{5. Ley de Coulomb:}
+Sustituimos $F_e = \frac{k Q^2}{r^2}$ en la ecuación de equilibrio:
+$$ \frac{k Q^2}{r^2} = mg \tan\theta $$
+$$ Q = \sqrt{\frac{r^2 m g \tan\theta}{k}} $$
+
+\textbf{6. Cálculo Final:}
+Datos: $r=0.02$ m, $m=0.045$ kg, $g=10$ m/s$^2$, $\tan\theta=0.025$, $k=9\times 10^9$.
+$$ Q = \sqrt{\frac{(0.02)^2 (0.045)(10)(0.025)}{9 \times 10^9}} $$
+$$ Q = \sqrt{\frac{4.5 \times 10^{-6}}{9 \times 10^9}} = \sqrt{0.5 \times 10^{-15}} \approx 2.24 \times 10^{-8} \, \si{C} $$
+
+\begin{tcolorbox}[colback=green!5!white,title=Respuesta]
+$Q \approx 2.24 \times 10^{-8} \, \si{C}$.
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+$Q_1 = 4 \times 10^{-9}$ C en (0,0) y $Q_2 = 20 \times 10^{-9}$ C en (0.15, 0) m. Determine dónde colocar $Q_3$ para que esté en equilibrio.
+
+\subsection*{Solución}
+
+\textbf{1. Razonamiento Físico:}
+Como $Q_1$ y $Q_2$ son positivas, se repelen. Para que una tercera carga $Q_3$ esté en equilibrio, debe colocarse en la línea que las une, \textbf{entre} ellas.
+\begin{itemize}
+    \item Si $Q_3$ está entre ellas, $Q_1$ la empujará a la derecha y $Q_2$ la empujará a la izquierda (o atraerán, si $Q_3$ es negativa). Las fuerzas se oponen y pueden anularse.
+\end{itemize}
+
+\textbf{2. Igualdad de Fuerzas:}
+Sea $x$ la distancia desde $Q_1$. La distancia desde $Q_2$ será $(0.15 - x)$.
+$$ |F_{31}| = |F_{32}| $$
+$$ \frac{k Q_1 Q_3}{x^2} = \frac{k Q_2 Q_3}{(0.15 - x)^2} $$
+
+\textbf{3. Simplificación Matemática:}
+Cancelamos las constantes $k$ y la carga de prueba $Q_3$:
+$$ \frac{Q_1}{x^2} = \frac{Q_2}{(0.15 - x)^2} $$
+
+Sustituimos valores ($Q_1=4, Q_2=20$, omitimos el $10^{-9}$ pues se cancela):
+$$ \frac{4}{x^2} = \frac{20}{(0.15 - x)^2} $$
+
+\textbf{4. Truco Algebraico (Raíz Cuadrada):}
+En lugar de expandir el binomio al cuadrado, sacamos raíz cuadrada a ambos lados:
+$$ \sqrt{\frac{4}{x^2}} = \sqrt{\frac{20}{(0.15 - x)^2}} $$
+$$ \frac{2}{x} = \frac{\sqrt{20}}{0.15 - x} $$
+$$ \frac{2}{x} = \frac{4.472}{0.15 - x} $$
+
+Despejamos $x$:
+$$ 2(0.15 - x) = 4.472 x $$
+$$ 0.30 - 2x = 4.472 x $$
+$$ 0.30 = 6.472 x $$
+$$ x = \frac{0.30}{6.472} \approx 0.046 \, \si{m} $$
+
+\begin{tcolorbox}[colback=green!5!white,title=Respuesta]
+Se debe colocar a $4.6 \, \si{cm}$ de la carga $Q_1$.
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Cargas de $2 \times 10^{-7}$ C y $-2 \times 10^{-7}$ C separadas 6 m. Punto P a 5 m de cada carga. Hallar el campo $E$ en P.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.5]
+    \draw (-3,0) node[below]{$q_1(+)$} -- (3,0) node[below]{$q_2(-)$};
+    \coordinate (P) at (0,4); % Triangulo 3-4-5
+    \draw[dashed] (-3,0) -- (P) node[above]{P} -- (3,0);
+    \draw[->, thick, blue] (P) -- ++(1.5, 1) node[right]{$E_1$};
+    \draw[->, thick, blue] (P) -- ++(1.5, -1) node[right]{$E_2$};
+    \draw[->, thick, red] (P) -- ++(3, 0) node[right]{$E_{Total}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\textbf{1. Geometría del Problema:}
+Se forma un triángulo isósceles. La base es 6m, por lo que la mitad es 3m. La hipotenusa es 5m.
+Esto forma dos triángulos rectángulos de lados 3-4-5.
+\begin{itemize}
+    \item $\cos\theta = \frac{\text{adyacente}}{\text{hipotenusa}} = \frac{3}{5} = 0.6$
+    \item $\sin\theta = \frac{\text{opuesto}}{\text{hipotenusa}} = \frac{4}{5} = 0.8$
+\end{itemize}
+
+\textbf{2. Magnitud de los Campos Individuales:}
+Como las cargas son iguales en magnitud y las distancias son iguales, los campos $E_1$ y $E_2$ valen lo mismo:
+$$ E = \frac{k q}{r^2} = \frac{9 \times 10^9 \times 2 \times 10^{-7}}{5^2} = \frac{1800}{25} = 72 \, \si{N/C} $$
+
+\textbf{3. Suma Vectorial (Simetría):}
+\begin{itemize}
+    \item $E_1$ (producido por carga +) se aleja de la carga (apunta arriba-derecha).
+    \item $E_2$ (producido por carga -) se acerca a la carga (apunta abajo-derecha).
+\end{itemize}
+Las componentes verticales ($E \sin\theta$) son iguales y opuestas, por lo que \textbf{se cancelan}.
+Las componentes horizontales ($E \cos\theta$) apuntan ambas a la derecha y se \textbf{suman}.
+
+$$ E_{total} = E_1 \cos\theta + E_2 \cos\theta = 2 E \cos\theta $$
+$$ E_{total} = 2 (72) (0.6) = 144 (0.6) = 86.4 \, \si{N/C} $$
+
+\begin{tcolorbox}[colback=green!5!white,title=Respuesta]
+El campo resultante es horizontal: $\vec{E} = 86.4 \, \hat{i} \, \si{N/C}$.
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un electrón se suelta en un campo uniforme y recorre $d=2$ cm en $t=1.5 \times 10^{-8}$ s. Hallar la intensidad del campo $E$.
+
+\subsection*{Solución}
+
+Este problema conecta Cinemática con Dinámica y Electrostática.
+
+\textbf{1. Cinemática (Hallar la aceleración):}
+Partiendo del reposo ($v_0 = 0$), la distancia recorrida es:
+$$ d = \frac{1}{2} a t^2 \quad \Rightarrow \quad a = \frac{2d}{t^2} $$
+Sustituimos ($d=0.02$ m):
+$$ a = \frac{2(0.02)}{(1.5 \times 10^{-8})^2} = \frac{0.04}{2.25 \times 10^{-16}} = 1.778 \times 10^{14} \, \si{m/s^2} $$
+
+\textbf{2. Dinámica (Segunda Ley de Newton):}
+La fuerza neta sobre el electrón es:
+$$ F = m a $$
+Masa del electrón $m_e = 9.11 \times 10^{-31}$ kg.
+$$ F = (9.11 \times 10^{-31}) (1.778 \times 10^{14}) \approx 1.62 \times 10^{-16} \, \si{N} $$
+
+\textbf{3. Electrostática (Campo Eléctrico):}
+La fuerza eléctrica se define como $F = qE$, donde $q$ es la carga ($1.6 \times 10^{-19}$ C).
+$$ E = \frac{F}{q} $$
+$$ E = \frac{1.62 \times 10^{-16}}{1.6 \times 10^{-19}} \approx 1012 \, \si{N/C} $$
+
+\begin{tcolorbox}[colback=green!5!white,title=Respuesta]
+La intensidad del campo es $E \approx 1012 \, \si{N/C}$.
+\end{tcolorbox}
+
+\end{document}

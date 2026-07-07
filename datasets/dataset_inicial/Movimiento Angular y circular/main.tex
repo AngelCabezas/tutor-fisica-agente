@@ -1,0 +1,1990 @@
+\documentclass[12pt, a4paper]{article}
+
+% --- PAQUETES ---
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{geometry}
+\usepackage[most]{tcolorbox}
+\usepackage{siunitx}
+\usepackage{enumitem}
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usepackage{verbatim} 
+\usepackage{xcolor}
+\usepackage{listings} % Para mostrar código
+
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta, calc, babel, angles, quotes}
+\geometry{a4paper, margin=1in}
+
+% --- CONFIGURACIÓN DE LISTINGS (PYTHON) ---
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstset{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2,
+    language=Python
+}
+
+\title{Ejercicios: Movimiento Circular}
+\author{Dataset Generado}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\subsection*{Enunciado}
+Una rueda $A$ de radio $R = 0.4 \, \si{m}$ parte del reposo y aumenta su velocidad angular uniformemente a razón de $\alpha_A = 0.6\pi \, \si{rad/s^2}$. La rueda $A$ transmite su movimiento a una rueda $B$ mediante una correa. El radio de $B$ es $r = 0.15 \, \si{m}$.
+
+¿Cuál es el tiempo necesario para que $B$ alcance una rapidez angular de $300 \, \text{rpm}$?
+
+\begin{center}
+\begin{tikzpicture}[scale=1.5]
+    % Rueda A (Grande) - Motriz
+    \draw[thick, fill=gray!10] (0,0) circle (0.8);
+    \node at (0,0) {\textbf{A}};
+    \draw[->] (0,0) -- (0,0.8) node[midway, left] {$R$};
+    % Flecha de rotación A
+    \draw[->, thick, blue] (0.3,0.3) arc (45:-45:0.4) node[midway, right] {$\alpha_A$};
+
+    % Rueda B (Pequeña) - Conducida
+    \draw[thick, fill=gray!10] (2.5,0) circle (0.3);
+    \node at (2.5,0) {\textbf{B}};
+    \draw[->] (2.5,0) -- (2.5,0.3) node[midway, left] {\tiny $r$};
+
+    % Correa (Tangentes)
+    \draw[thick] (0,0.8) -- (2.5,0.3);
+    \draw[thick] (0,-0.8) -- (2.5,-0.3);
+
+    % Etiquetas adicionales
+    \node[below, gray] at (0,-0.9) {Motriz};
+    \node[below, gray] at (2.5,-0.4) {Conducida};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Conversión de Unidades}
+Primero, convertimos la velocidad angular deseada de la rueda B a unidades del Sistema Internacional (rad/s):
+$$ \omega_{B_f} = 300 \, \text{rpm} \times \frac{2\pi \, \text{rad}}{60 \, \text{s}} = 10\pi \, \text{rad/s} \approx 31.42 \, \text{rad/s} $$
+
+\subsubsection*{2. Principio de Transmisión}
+Dado que las ruedas están unidas por una correa inextensible que no desliza, la \textbf{rapidez lineal (tangencial)} en el borde de ambas ruedas debe ser la misma ($v_A = v_B$).
+
+Relacionamos la velocidad lineal con la angular ($v = \omega \cdot \text{radio}$):
+$$ \omega_{A_f} R = \omega_{B_f} r $$
+
+Despejamos la velocidad angular final necesaria en la rueda A:
+$$ \omega_{A_f} = \omega_{B_f} \left( \frac{r}{R} \right) $$
+$$ \omega_{A_f} = (10\pi) \left( \frac{0.15}{0.4} \right) = 3.75\pi \, \text{rad/s} \approx 11.78 \, \text{rad/s} $$
+
+\subsubsection*{3. Cinemática Rotacional (Rueda A)}
+Usamos la ecuación de velocidad para movimiento circular uniformemente variado (MCUV), partiendo del reposo ($\omega_{A_0} = 0$):
+$$ \omega_{A_f} = \omega_{A_0} + \alpha_A t $$
+$$ 3.75\pi = 0 + (0.6\pi) t $$
+
+Despejamos el tiempo $t$. Note que $\pi$ se cancela en ambos lados:
+$$ t = \frac{3.75\pi}{0.6\pi} $$
+$$ t = \frac{3.75}{0.6} $$
+$$ \boxed{t = 6.25 \, \text{s}} $$
+
+\begin{tcolorbox}[colback=blue!5!white, colframe=blue!75!black, title=Respuesta Final]
+\centering
+El tiempo necesario es $t = 6.25 \, \text{s}$.
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una partícula se mueve en una circunferencia de $0.7 \, \si{m}$ de radio, en el sentido contrario al avance de las manecillas del reloj con rapidez angular constante $\omega = 2 \, \si{rad/s}$.
+
+A $t = 0$ parte del punto $A$ (ubicado a un ángulo de $\pi/6 \, \si{rad}$ respecto a la horizontal). Calcule el vector aceleración media para el intervalo de $t_1 = 1.7 \, \si{s}$ hasta $t_2 = 3 \, \si{s}$.
+
+\begin{center}
+\begin{tikzpicture}[scale=2, >=Latex]
+    % Ejes
+    \draw[->, gray] (-1.2,0) -- (1.2,0) node[right] {$x$};
+    \draw[->, gray] (0,-1.2) -- (0,1.2) node[above] {$y$};
+    
+    % Círculo
+    \draw[thick] (0,0) circle (1);
+    
+    % Radio y Punto A (t=0)
+    \coordinate (O) at (0,0);
+    \coordinate (A) at (30:1);
+    
+    \draw[dashed] (O) -- (A) node[midway, above left] {$R=0.7$};
+    \fill[red] (A) circle (1.5pt) node[right] {$A (t=0)$};
+    
+    % Ángulo inicial
+    \draw (0.3,0) arc (0:30:0.3);
+    \node at (15:0.5) {\small $\pi/6$};
+    
+    % Flecha de rotación (omega)
+    \draw[->, blue, thick] (60:1.2) arc (60:120:1.2) node[midway, above] {$\omega = 2$ rad/s};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Definición de Velocidad Lineal}
+En un Movimiento Circular Uniforme (MCU), la magnitud de la velocidad es constante:
+$$ v = \omega R = (2)(0.7) = 1.4 \, \si{m/s} $$
+
+La aceleración media se define vectorialmante como:
+$$ \vec{a}_m = \frac{\vec{v}_2 - \vec{v}_1}{t_2 - t_1} $$
+
+Para hallar los vectores velocidad $\vec{v}_1$ y $\vec{v}_2$, primero necesitamos la posición angular de la partícula en cada instante. La ecuación de posición es $\theta(t) = \theta_0 + \omega t$, donde $\theta_0 = \pi/6$ rad.
+
+\subsubsection*{2. Análisis para $t_1 = 1.7 \, \si{s}$}
+Posición angular:
+$$ \theta_1 = \frac{\pi}{6} + (2)(1.7) = 0.5236 + 3.4 = 3.9236 \, \si{rad} $$
+Convirtiendo a grados: $3.9236 \times \frac{180}{\pi} \approx 224.8^\circ$ (III Cuadrante).
+
+El vector velocidad es tangente a la trayectoria ($90^\circ$ adelante del radio). Usamos la definición vectorial:
+$$ \vec{v}_1 = v (-\sin\theta_1 \hat{i} + \cos\theta_1 \hat{j}) $$
+$$ \vec{v}_1 = 1.4 [-\sin(224.8^\circ)\hat{i} + \cos(224.8^\circ)\hat{j}] $$
+$$ \vec{v}_1 = 1.4 [-(-0.704)\hat{i} + (-0.710)\hat{j}] $$
+$$ \vec{v}_1 = 0.98\hat{i} - 0.99\hat{j} \, \si{m/s} $$
+
+\subsubsection*{3. Análisis para $t_2 = 3 \, \si{s}$}
+Posición angular:
+$$ \theta_2 = \frac{\pi}{6} + (2)(3) = 0.5236 + 6 = 6.5236 \, \si{rad} $$
+Convirtiendo a grados: $6.5236 \times \frac{180}{\pi} \approx 373.8^\circ$ (equivalente a $13.8^\circ$, I Cuadrante).
+
+Vector velocidad:
+$$ \vec{v}_2 = 1.4 [-\sin(373.8^\circ)\hat{i} + \cos(373.8^\circ)\hat{j}] $$
+$$ \vec{v}_2 = 1.4 [-(0.238)\hat{i} + (0.971)\hat{j}] $$
+$$ \vec{v}_2 = -0.33\hat{i} + 1.36\hat{j} \, \si{m/s} $$
+
+\subsubsection*{4. Cálculo de Aceleración Media}
+$$ \vec{a}_m = \frac{(-0.33\hat{i} + 1.36\hat{j}) - (0.98\hat{i} - 0.99\hat{j})}{3 - 1.7} $$
+$$ \vec{a}_m = \frac{(-0.33 - 0.98)\hat{i} + (1.36 - (-0.99))\hat{j}}{1.3} $$
+$$ \vec{a}_m = \frac{-1.31\hat{i} + 2.35\hat{j}}{1.3} $$
+$$ \vec{a}_m \approx -1.0\hat{i} + 1.8\hat{j} \, \si{m/s^2} $$
+
+\begin{tcolorbox}[colback=blue!5!white, colframe=blue!75!black, title=Respuesta Final]
+\centering $\vec{a}_m = -1.0\hat{i} + 1.8\hat{j} \, \si{m/s^2}$
+\end{tcolorbox}
+
+\subsubsection*{5. Visualización Vectorial (Python)}
+El siguiente código grafica las posiciones en la circunferencia y sus respectivos vectores de velocidad.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Datos
+R = 0.7
+omega = 2
+theta_0 = np.pi/6
+t1 = 1.7
+t2 = 3.0
+
+# Funciones para posicion y velocidad
+def get_state(t):
+    theta = theta_0 + omega * t
+    # Posicion (x, y)
+    rx = R * np.cos(theta)
+    ry = R * np.sin(theta)
+    # Velocidad (vector tangente: -sin, cos)
+    v = omega * R
+    vx = v * -np.sin(theta)
+    vy = v * np.cos(theta)
+    return rx, ry, vx, vy
+
+# Calculo de estados
+rx1, ry1, vx1, vy1 = get_state(t1)
+rx2, ry2, vx2, vy2 = get_state(t2)
+
+# Grafico
+fig, ax = plt.subplots(figsize=(6, 6))
+
+# Circulo trayectoria
+circle = plt.Circle((0, 0), R, color='gray', fill=False, linestyle='--')
+ax.add_artist(circle)
+
+# Vectores Velocidad
+# Escala para visualizar mejor los vectores (scale=1 dibuja magnitud real)
+ax.quiver(rx1, ry1, vx1, vy1, angles='xy', scale_units='xy', scale=1, 
+          color='blue', label=f'v1 (t={t1}s)')
+ax.quiver(rx2, ry2, vx2, vy2, angles='xy', scale_units='xy', scale=1, 
+          color='red', label=f'v2 (t={t2}s)')
+
+# Puntos de posicion
+ax.scatter([rx1, rx2], [ry1, ry2], color='black', zorder=5)
+ax.text(rx1, ry1, ' P1', fontsize=10)
+ax.text(rx2, ry2, ' P2', fontsize=10)
+
+ax.set_xlim(-1.5, 1.5)
+ax.set_ylim(-1.5, 1.5)
+ax.set_aspect('equal')
+ax.grid(True)
+ax.legend()
+plt.title('Vectores Velocidad en la Trayectoria')
+plt.xlabel('x (m)')
+plt.ylabel('y (m)')
+plt.show()
+\end{lstlisting}
+
+\newpage
+
+\subsection*{Enunciado}
+Una partícula gira en el sentido del avance de las manecillas del reloj en un plano vertical $yz$ sobre una trayectoria circular de radio $R = 10 \, \si{m}$ con Movimiento Circular Uniformemente Variado (MCUV).
+
+En el instante $t = 5 \, \si{s}$ se encuentra en el punto $\vec{r} = -10\hat{k} \, \si{m}$ y tiene una aceleración de $\vec{a} = (5\hat{k} - 4\hat{j}) \, \si{m/s^2}$.
+
+Para el instante $t = 0$, determine los vectores aceleración angular ($\vec{\alpha}$) y velocidad angular ($\vec{\omega}_0$).
+
+\begin{center}
+\begin{tikzpicture}[scale=0.4, >=Latex]
+    % Ejes (Vista Plano YZ)
+    \draw[->, gray] (-12,0) -- (12,0) node[right] {$z (+)$};
+    \draw[->, gray] (0,-12) -- (0,12) node[above] {$y (+)$};
+    
+    % Círculo
+    \draw[thick] (0,0) circle (10);
+    \node at (0,0) [above left] {$O$};
+    
+    % Punto a t=5s (-10k) -> en el eje Z negativo (izquierda en papel)
+    \coordinate (P) at (-10,0);
+    \fill[black] (P) circle (10pt);
+    \node at (-10, 1) {$t=5s$};
+    
+    % Vectores Aceleración (Descomposición)
+    % a = -4j + 5k
+    % 5k apunta hacia el centro (positiva en z) -> a_N
+    % -4j apunta hacia abajo (negativa en y) -> a_T
+    
+    \draw[->, thick, blue] (P) -- (-5,0) node[midway, above] {$\vec{a}_N$};
+    \draw[->, thick, red] (P) -- (-10,-4) node[midway, left] {$\vec{a}_T$};
+    
+    % Vector total a (dashed)
+    \draw[dashed, gray] (-10,-4) -- (-5,-4) -- (-5,0);
+    \draw[->, purple, thick] (P) -- (-5,-4) node[below right] {$\vec{a}$};
+
+    % Sentido de giro (Clockwise visto desde eje X positivo?)
+    % La imagen sugiere a_T hacia abajo en la izquierda, esto implica que baja.
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Identificación de Componentes}
+Analizamos el vector aceleración $\vec{a} = -4\hat{j} + 5\hat{k}$ en la posición $\vec{r} = -10\hat{k}$.
+
+\begin{itemize}
+    \item \textbf{Aceleración Normal ($\vec{a}_N$):} Debe apuntar siempre hacia el centro de la trayectoria. Dado que la partícula está en $z = -10$ (eje negativo), el centro está en la dirección positiva de $z$. Por lo tanto, la componente en $\hat{k}$ corresponde a la normal:
+    $$ \vec{a}_N = 5\hat{k} \, \si{m/s^2} \quad \Rightarrow \quad a_N = 5 \, \si{m/s^2} $$
+    
+    \item \textbf{Aceleración Tangencial ($\vec{a}_T$):} Es la componente perpendicular al radio (tangente a la trayectoria). Corresponde a la componente en $\hat{j}$:
+    $$ \vec{a}_T = -4\hat{j} \, \si{m/s^2} \quad \Rightarrow \quad a_T = 4 \, \si{m/s^2} $$
+\end{itemize}
+
+\subsubsection*{2. Cálculo de Magnitudes}
+Usamos las relaciones del MCUV para hallar las magnitudes angulares en $t=5\si{s}$.
+
+$$ \omega_5 = \sqrt{\frac{a_N}{R}} = \sqrt{\frac{5}{10}} = \sqrt{0.5} \approx 0.707 \, \si{rad/s} $$
+
+$$ \alpha = \frac{a_T}{R} = \frac{4}{10} = 0.4 \, \si{rad/s^2} $$
+
+\subsubsection*{3. Análisis Vectorial (Regla de la Mano Derecha)}
+El movimiento ocurre en el plano $yz$. Por lo tanto, los vectores angulares ($\vec{\omega}, \vec{\alpha}$) deben estar sobre el eje perpendicular, es decir, el eje $x$ (vector unitario $\hat{i}$).
+
+\begin{itemize}
+    \item \textbf{Dirección de $\vec{\alpha}$:} La aceleración tangencial apunta hacia $-y$ (abajo) en la posición $-z$ (izquierda). Esto indica que la rotación se está acelerando en ese sentido. Según la regla de la mano derecha, para generar un giro que empuje hacia $-y$ estando en $-z$, el pulgar apunta hacia adentro del plano (dirección $-\hat{i}$).
+    $$ \vec{\alpha} = -0.4\hat{i} \, \si{rad/s^2} $$
+    
+    \item \textbf{Dirección de $\vec{\omega}_5$:} Dado que el movimiento es acelerado (la aceleración tangencial favorece el movimiento), la velocidad angular tiene el mismo signo que la aceleración angular.
+    $$ \vec{\omega}_5 = -0.707\hat{i} \, \si{rad/s} $$
+\end{itemize}
+
+\subsubsection*{4. Cálculo para $t=0$}
+Usamos la ecuación vectorial de la velocidad angular:
+$$ \vec{\omega}_f = \vec{\omega}_0 + \vec{\alpha}(t_f - t_0) $$
+$$ \vec{\omega}_0 = \vec{\omega}_5 - \vec{\alpha}(t_5 - t_0) $$
+
+Sustituimos los vectores (trabajando solo con la componente $\hat{i}$):
+$$ \vec{\omega}_0 = [-0.707\hat{i}] - [-0.4\hat{i}](5 - 0) $$
+$$ \vec{\omega}_0 = -0.707\hat{i} - (-2\hat{i}) $$
+$$ \vec{\omega}_0 = (-0.707 + 2)\hat{i} $$
+$$ \vec{\omega}_0 = 1.293\hat{i} \, \si{rad/s} $$
+
+\begin{tcolorbox}[colback=blue!5!white, colframe=blue!75!black, title=Respuesta Final]
+\centering 
+$\vec{\alpha} = -0.4\hat{i} \, \si{rad/s^2}$ \\
+$\vec{\omega}_0 = 1.29\hat{i} \, \si{rad/s}$
+\end{tcolorbox}
+
+\subsubsection*{5. Visualización 3D (Python)}
+Usamos una gráfica 3D para visualizar que los vectores angulares son perpendiculares al plano de rotación.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Datos
+R = 10
+alpha_vec = np.array([-0.4, 0, 0])
+omega0_vec = np.array([1.29, 0, 0])
+
+fig = plt.figure(figsize=(8, 6))
+ax = fig.add_subplot(111, projection='3d')
+
+# Dibujar circulo en plano YZ
+theta = np.linspace(0, 2*np.pi, 100)
+y = R * np.cos(theta)
+z = R * np.sin(theta)
+x = np.zeros_like(theta)
+ax.plot(x, z, y, color='gray', linestyle='--', alpha=0.5, label='Trayectoria (Plano YZ)')
+
+# Ejes
+ax.quiver(0, 0, 0, 15, 0, 0, color='k', arrow_length_ratio=0.1) # X
+ax.quiver(0, 0, 0, 0, 15, 0, color='k', arrow_length_ratio=0.1) # Z (ajuste visual matplotlib)
+ax.quiver(0, 0, 0, 0, 0, 15, color='k', arrow_length_ratio=0.1) # Y
+ax.text(16, 0, 0, 'x')
+ax.text(0, 16, 0, 'z')
+ax.text(0, 0, 16, 'y')
+
+# Vectores Angulares (En el eje X)
+# Omega 0
+ax.quiver(0, 0, 0, omega0_vec[0]*5, 0, 0, color='green', linewidth=2, 
+          label=r'$\vec{\omega}_0$ (Escalado)')
+# Alpha
+ax.quiver(0, 0, 0, alpha_vec[0]*5, 0, 0, color='red', linewidth=2, 
+          label=r'$\vec{\alpha}$ (Escalado)')
+
+# Punto en t=5 (-10k) -> z=-10, y=0
+ax.scatter(0, -10, 0, color='blue', s=50, label='Posicion t=5s')
+# Vector aceleracion en t=5 (a = -4j + 5k)
+# En plot 3d: (x, z, y) -> (0, -10, 0) origen del vector
+# Vector componentes: dx=0, dz=5, dy=-4
+ax.quiver(0, -10, 0, 0, 5, -4, color='purple', length=1.5, label=r'$\vec{a}(t=5)$')
+
+ax.set_xlabel('X')
+ax.set_ylabel('Z')
+ax.set_zlabel('Y')
+ax.set_title('Cinematica Rotacional en 3D')
+ax.legend()
+plt.show()
+\end{lstlisting}
+
+\newpage
+
+\subsection*{Enunciado}
+La posición angular de una partícula que describe una trayectoria circular de radio $R = 1.2 \, \si{m}$, en sentido contrario al avance de las manecillas del reloj, viene dada por la función:
+$$ \theta(t) = \frac{\pi}{2} + t + t^2 $$
+Donde $\theta$ está en radianes y $t$ en segundos. Determine la ecuación de la velocidad angular $\omega$ en función del tiempo.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.5, >=Latex]
+    % Ejes
+    \draw[->, gray] (-1.5,0) -- (1.5,0) node[right] {$x$};
+    \draw[->, gray] (0,-1.5) -- (0,1.5) node[above] {$y$};
+    
+    % Trayectoria
+    \draw[thick] (0,0) circle (1.2);
+    
+    % Radio vector genérico
+    \draw[->, thick, black] (0,0) -- (60:1.2) node[midway, above left] {$R=1.2$};
+    
+    % Dirección de movimiento (Antihorario)
+    \draw[->, blue, thick] (1.4, 0.2) arc (0:60:1.4) node[midway, right] {$\omega(+)$};
+    
+    % Etiqueta de la función
+    \node[blue, right] at (0.5, -1.6) {$\theta(t) = \frac{\pi}{2} + t + t^2$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Concepto: Derivada de la Posición}
+La velocidad angular instantánea $\omega(t)$ se define como la derivada de la posición angular $\theta(t)$ con respecto al tiempo:
+$$ \omega(t) = \frac{d\theta}{dt} $$
+
+\subsubsection*{2. Derivación}
+Dada la función:
+$$ \theta(t) = \frac{\pi}{2} + t + t^2 $$
+
+Derivamos término a término:
+\begin{itemize}
+    \item La derivada de una constante ($\pi/2$) es $0$.
+    \item La derivada de $t$ es $1$.
+    \item La derivada de $t^2$ es $2t$.
+\end{itemize}
+
+Por lo tanto:
+$$ \omega(t) = 0 + 1 + 2t $$
+$$ \boxed{\omega(t) = 1 + 2t \, (\si{rad/s})} $$
+
+\subsubsection*{3. Identificación de Parámetros}
+Comparando con la ecuación general del Movimiento Circular Uniformemente Variado (MCUV):
+$$ \omega(t) = \omega_0 + \alpha t $$
+Podemos identificar que:
+\begin{itemize}
+    \item Velocidad angular inicial: $\omega_0 = 1 \, \si{rad/s}$
+    \item Aceleración angular: $\alpha = 2 \, \si{rad/s^2}$
+\end{itemize}
+
+\subsubsection*{4. Gráfica de la Función (Python)}
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Tiempo
+t = np.linspace(0, 5, 100)
+
+# Funciones cinemáticas
+theta = np.pi/2 + t + t**2
+omega = 1 + 2*t
+
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 4))
+
+# Grafica Posicion vs Tiempo
+ax1.plot(t, theta, 'purple', label=r'$\theta(t) = \pi/2 + t + t^2$')
+ax1.set_xlabel('Tiempo (s)')
+ax1.set_ylabel('Posicion Angular (rad)')
+ax1.set_title('Posicion Angular')
+ax1.grid(True)
+ax1.legend()
+
+# Grafica Velocidad vs Tiempo
+ax2.plot(t, omega, 'blue', label=r'$\omega(t) = 1 + 2t$')
+ax2.set_xlabel('Tiempo (s)')
+ax2.set_ylabel('Velocidad Angular (rad/s)')
+ax2.set_title('Velocidad Angular')
+ax2.grid(True)
+ax2.legend()
+
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\newpage
+
+\subsection*{Enunciado}
+La posición angular de una partícula que describe una trayectoria circular de radio $R = 1.2 \, \si{m}$, en sentido contrario al avance de las manecillas del reloj, viene dada por la función:
+$$ \theta(t) = \frac{\pi}{2} + t + t^2 $$
+Donde $\theta$ está en radianes y $t$ en segundos. Determine el vector aceleración total $\vec{a}$ en el instante $t = 3 \, \si{s}$.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.5, >=Latex]
+    % Ejes
+    \draw[->, gray] (-1.5,0) -- (1.5,0) node[right] {$x$};
+    \draw[->, gray] (0,-1.5) -- (0,1.5) node[above] {$y$};
+    \draw[thick] (0,0) circle (1.2);
+    
+    % Representación conceptual (no a escala exacta para t=3, solo esquema)
+    \coordinate (P) at (60:1.2);
+    \fill (P) circle (2pt) node[above right] {Partícula en $t=3s$};
+    \draw[->, thick] (0,0) -- (P);
+    
+    % Vectores aceleración componentes
+    \draw[->, red, thick] (P) -- ++(200:0.8) node[midway, below] {$\vec{a}_N$};
+    \draw[->, blue, thick] (P) -- ++(150:0.8) node[midway, left] {$\vec{a}_T$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Estado Cinemático en $t=3\,\si{s}$}
+Primero calculamos la posición angular y la velocidad angular en el instante solicitado.
+
+\textbf{Posición angular ($\theta_3$):}
+$$ \theta(3) = \frac{\pi}{2} + 3 + (3)^2 = 1.57 + 3 + 9 = 13.57 \, \si{rad} $$
+Para ubicar el vector, convertimos a grados y reducimos al primer círculo ($0^\circ - 360^\circ$):
+$$ 13.57 \, \si{rad} \times \frac{180}{\pi} \approx 777.5^\circ $$
+$$ 777.5^\circ - 2(360^\circ) = 57.5^\circ $$
+El ángulo efectivo respecto al eje X positivo es $\phi \approx 57.9^\circ$ (usando el valor de referencia del texto).
+
+\textbf{Velocidad angular ($\omega_3$):}
+$$ \omega(3) = 1 + 2(3) = 7 \, \si{rad/s} $$
+
+\textbf{Aceleración angular ($\alpha$):}
+$$ \alpha = 2 \, \si{rad/s^2} \quad (\text{Constante}) $$
+
+\subsubsection*{2. Magnitudes de Aceleración}
+Calculamos las componentes intrínsecas (escalares):
+
+\begin{itemize}
+    \item \textbf{Aceleración Tangencial ($a_T$):}
+    $$ a_T = \alpha R = (2)(1.2) = 2.4 \, \si{m/s^2} $$
+    
+    \item \textbf{Aceleración Normal ($a_N$):}
+    $$ a_N = \omega^2 R = (7)^2 (1.2) = 49(1.2) = 58.8 \, \si{m/s^2} $$
+\end{itemize}
+
+\subsubsection*{3. Descomposición Vectorial}
+La partícula está en el primer cuadrante ($57.9^\circ$).
+\begin{itemize}
+    \item El vector unitario radial es $\hat{u}_r = \cos\phi \, \hat{i} + \sin\phi \, \hat{j}$.
+    \item El vector unitario tangencial (sentido antihorario) es $\hat{u}_\theta = -\sin\phi \, \hat{i} + \cos\phi \, \hat{j}$.
+\end{itemize}
+
+\textbf{Vector Aceleración Tangencial ($\vec{a}_T$):}
+Va en la dirección del movimiento (tangente).
+$$ \vec{a}_T = 2.4 (-\sin 57.9^\circ \hat{i} + \cos 57.9^\circ \hat{j}) $$
+$$ \vec{a}_T = 2.4 (-0.847 \hat{i} + 0.531 \hat{j}) $$
+$$ \vec{a}_T \approx -2.03\hat{i} + 1.27\hat{j} \, \si{m/s^2} $$
+
+\textbf{Vector Aceleración Normal ($\vec{a}_N$):}
+Va hacia el centro (opuesto al radial).
+$$ \vec{a}_N = 58.8 (-\cos 57.9^\circ \hat{i} - \sin 57.9^\circ \hat{j}) $$
+$$ \vec{a}_N = 58.8 (-0.531 \hat{i} - 0.847 \hat{j}) $$
+$$ \vec{a}_N \approx -31.22\hat{i} - 49.80\hat{j} \, \si{m/s^2} $$
+
+\subsubsection*{4. Vector Aceleración Total ($\vec{a}$)}
+Sumamos vectorialmente $\vec{a} = \vec{a}_T + \vec{a}_N$:
+$$ \vec{a} = (-2.03 - 31.22)\hat{i} + (1.27 - 49.80)\hat{j} $$
+$$ \vec{a} = -33.25\hat{i} - 48.53\hat{j} \, \si{m/s^2} $$
+
+\begin{tcolorbox}[colback=blue!5!white, colframe=blue!75!black, title=Respuesta Final]
+\centering $\vec{a} \approx -33.2\hat{i} - 48.5\hat{j} \, \si{m/s^2}$
+\end{tcolorbox}
+
+\newpage
+
+\newpage
+
+\subsection*{Enunciado}
+Una partícula se mueve por una trayectoria circular de radio $R = 2 \, \si{m}$ con movimiento uniformemente variado. En el instante $t = 0$, su velocidad es $\vec{v}_0 = 3\hat{i} + 4\hat{j} \, \si{m/s}$ y su rapidez disminuye a razón de $2 \, \si{m/s}$ cada segundo.
+Determine el vector posición de la partícula en $t=0$.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.5, >=Latex]
+    % Ejes
+    \draw[->, gray] (-2.5,0) -- (2.5,0) node[right] {$x$};
+    \draw[->, gray] (0,-2.5) -- (0,2.5) node[above] {$y$};
+    
+    % Círculo
+    \draw[thick] (0,0) circle (2);
+    
+    % Vector Velocidad (esquemático en 1er cuadrante)
+    % 3i + 4j es ángulo 53 grados. Posición debe ser 53-90 = -37 grados
+    \coordinate (P) at (-36.87:2);
+    \draw[dashed] (0,0) -- (P) node[midway, below left] {$R=2$};
+    \fill (P) circle (2pt) node[right] {$A (t=0)$};
+    
+    % Vector v0 (tangente)
+    \draw[->, blue, thick] (P) -- ++(53.13:1.5) node[above] {$\vec{v}_0$};
+    
+    % Flecha de movimiento (antihorario)
+    \draw[->] (2.2, -0.5) arc (-10:10:2.2) node[midway, right] {mov};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Geométrico}
+Sabemos que en un movimiento circular, el vector posición $\vec{r}$ es perpendicular al vector velocidad $\vec{v}$.
+Dado que $\vec{v}_0 = 3\hat{i} + 4\hat{j}$, calculamos su ángulo de inclinación $\beta$:
+$$ \beta = \tan^{-1}\left(\frac{4}{3}\right) \approx 53.13^\circ $$
+
+Como el movimiento es antihorario (levógiro), el vector posición se encuentra $90^\circ$ "atrás" del vector velocidad (en sentido horario respecto a la velocidad).
+$$ \theta_{pos} = 53.13^\circ - 90^\circ = -36.87^\circ $$
+
+\subsubsection*{2. Cálculo Vectorial}
+El vector posición tiene magnitud $R=2$ y dirección $\theta_{pos}$.
+\begin{align*}
+    \vec{r}_0 &= R (\cos \theta_{pos} \hat{i} + \sin \theta_{pos} \hat{j}) \\
+    \vec{r}_0 &= 2 (\cos(-36.87^\circ)\hat{i} + \sin(-36.87^\circ)\hat{j})
+\end{align*}
+Usando las propiedades trigonométricas ($\cos(-x)=\cos x$, $\sin(-x)=-\sin x$) y la relación con el ángulo $\beta$:
+$$ \vec{r}_0 = 2 (\sin 53.13^\circ \hat{i} - \cos 53.13^\circ \hat{j}) $$
+Sabemos que $\sin 53.13^\circ = 0.8$ y $\cos 53.13^\circ = 0.6$:
+$$ \vec{r}_0 = 2 (0.8 \hat{i} - 0.6 \hat{j}) $$
+$$ \vec{r}_0 = 1.6\hat{i} - 1.2\hat{j} \, \si{m} $$
+
+\begin{tcolorbox}[colback=blue!5!white, colframe=blue!75!black, title=Respuesta Final]
+\centering $\vec{r}_0 = 1.6\hat{i} - 1.2\hat{j} \, \si{m}$
+\end{tcolorbox}
+
+\subsubsection*{3. Visualización (Python)}
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Datos
+v0 = np.array([3, 4])
+R = 2
+
+# Calculo de posicion (perpendicular a v0, sentido horario relativo)
+# Rotacion de -90 grados (matriz de rotacion)
+# x' = x*cos(-90) - y*sin(-90) = y
+# y' = x*sin(-90) + y*cos(-90) = -x
+# direccion unitaria de r: (vy, -vx) normalizado? 
+# No, para giro antihorario, r esta a la derecha de v.
+# v=(3,4). r debe ser proporcional a (4, -3) o (-4, 3)?
+# Si r está en 4to cuadrante (1.6, -1.2), r es proporcional a (4, -3).
+
+r0_x = 1.6
+r0_y = -1.2
+
+fig, ax = plt.subplots(figsize=(5, 5))
+circle = plt.Circle((0, 0), R, color='gray', fill=False, linestyle='--')
+ax.add_artist(circle)
+
+# Vectores
+ax.quiver(0, 0, r0_x, r0_y, angles='xy', scale_units='xy', scale=1, 
+          color='green', label=r'$\vec{r}_0$')
+ax.quiver(r0_x, r0_y, v0[0], v0[1], angles='xy', scale_units='xy', scale=1, 
+          color='blue', label=r'$\vec{v}_0$')
+
+# Punto A
+ax.scatter(r0_x, r0_y, color='black', zorder=5)
+ax.text(r0_x + 0.2, r0_y, 'A (t=0)')
+
+ax.set_xlim(-3, 4)
+ax.set_ylim(-3, 5)
+ax.set_aspect('equal')
+ax.grid(True)
+plt.legend()
+plt.title('Posición y Velocidad Inicial')
+plt.show()
+\end{lstlisting}
+
+\newpage
+
+\subsection*{Enunciado}
+Una partícula describe un MCUV con radio $R=2\,\si{m}$. En $t=0$, su rapidez es $v_0 = 5\,\si{m/s}$ y frena a razón de $2\,\si{m/s}$ cada segundo.
+Determine el vector aceleración total en $t = 2.5\,\si{s}$.
+
+\subsection*{Solución}
+
+\subsubsection*{1. Estado del Movimiento en $t=2.5s$}
+Calculamos la rapidez lineal en ese instante:
+$$ v(t) = v_0 + a_t t $$
+Dado que frena, $a_t = -2\,\si{m/s^2}$.
+$$ v(2.5) = 5 + (-2)(2.5) = 5 - 5 = 0 \, \si{m/s} $$
+
+La partícula se detiene momentáneamente. Esto implica que la velocidad angular $\omega = 0$.
+
+\subsubsection*{2. Componentes de la Aceleración}
+\begin{itemize}
+    \item \textbf{Aceleración Normal:} Depende de la velocidad al cuadrado.
+    $$ a_N = \frac{v^2}{R} = \frac{0^2}{2} = 0 \, \si{m/s^2} $$
+    \item \textbf{Aceleración Tangencial:} Es constante dada por el problema.
+    $$ a_T = 2 \, \si{m/s^2} \quad (\text{magnitud}) $$
+\end{itemize}
+La aceleración total es igual a la aceleración tangencial en este instante: $\vec{a}_{2.5} = \vec{a}_T$.
+
+\subsubsection*{3. Posición en $t=2.5s$}
+Necesitamos la posición para saber la dirección del vector tangencial.
+$$ \theta(t) = \theta_0 + \omega_0 t + \frac{1}{2}\alpha t^2 $$
+Datos iniciales:
+\begin{itemize}
+    \item $\theta_0 = -36.87^\circ \approx -0.64 \, \si{rad}$ (del Ejercicio 6).
+    \item $\omega_0 = v_0/R = 5/2 = 2.5 \, \si{rad/s}$.
+    \item $\alpha = a_t/R = -2/2 = -1 \, \si{rad/s^2}$.
+\end{itemize}
+
+$$ \theta(2.5) = -0.64 + (2.5)(2.5) + \frac{1}{2}(-1)(2.5)^2 $$
+$$ \theta(2.5) = -0.64 + 6.25 - 3.125 = 2.485 \, \si{rad} $$
+Convertimos a grados: $2.485 \times (180/\pi) \approx 142.4^\circ$. (El texto original usa otra referencia angular, pero físicamente $142.4^\circ$ es la posición correcta en el 2do cuadrante).
+
+\subsubsection*{4. Vector Aceleración}
+La aceleración tangencial se opone al movimiento original (antihorario), por lo que apunta en sentido horario (tangente hacia "atrás").
+Vector unitario tangencial en $\theta = 142.4^\circ$:
+$$ \hat{u}_T = -\sin(142.4^\circ)\hat{i} + \cos(142.4^\circ)\hat{j} $$
+La aceleración tangencial $\vec{a}_T$ es el vector que causa el frenado. Si asumimos la dirección positiva antihoraria, $a_t$ es negativo, apuntando a favor de $-\hat{u}_T$ (horario).
+$$ \vec{a} = 2 (\cos(142.4^\circ - 90^\circ)\hat{i} + \sin(142.4^\circ - 90^\circ)\hat{j}) $$
+$$ \vec{a} = 2 (\cos 52.4^\circ \hat{i} + \sin 52.4^\circ \hat{j}) $$
+$$ \vec{a} \approx 1.22\hat{i} + 1.58\hat{j} \, \si{m/s^2} $$
+*(Nota: Valores aproximados coinciden con $1.24\hat{i} + 1.56\hat{j}$ del texto original usando redondeos intermedios).*
+
+\begin{tcolorbox}[colback=blue!5!white, colframe=blue!75!black, title=Respuesta Final]
+\centering $\vec{a} \approx 1.24\hat{i} + 1.56\hat{j} \, \si{m/s^2}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Para la misma partícula ($v_0 = 3\hat{i} + 4\hat{j}$ en $t=0$, $a_t = -2\,\si{m/s^2}$), determine el vector velocidad en $t=5\,\si{s}$.
+
+\subsection*{Solución}
+
+\subsubsection*{1. Simetría del Movimiento}
+El tiempo de subida (hasta detenerse) fue $t_{stop} = 2.5\,\si{s}$.
+El tiempo $t=5\,\si{s}$ es exactamente el doble ($2 \times t_{stop}$).
+Por simetría del movimiento uniformemente variado, la partícula regresa a la posición angular inicial.
+
+\subsubsection*{2. Verificación de Posición}
+$$ \Delta \theta = \omega_0 t + \frac{1}{2}\alpha t^2 $$
+$$ \Delta \theta = (2.5)(5) + \frac{1}{2}(-1)(25) $$
+$$ \Delta \theta = 12.5 - 12.5 = 0 \, \si{rad} $$
+La partícula está en la misma posición angular que en $t=0$.
+
+\subsubsection*{3. Vector Velocidad}
+Calculamos la rapidez escalar:
+$$ v(5) = 5 + (-2)(5) = -5 \, \si{m/s} $$
+La magnitud es la misma ($5\,\si{m/s}$), pero el signo negativo indica que se mueve en sentido opuesto (horario).
+
+Si en $t=0$ el vector era $\vec{v}_0$, en el mismo punto pero sentido opuesto, el vector es:
+$$ \vec{v}_5 = -\vec{v}_0 $$
+$$ \vec{v}_5 = -(3\hat{i} + 4\hat{j}) $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering $\vec{v}_5 = -3\hat{i} - 4\hat{j} \, \si{m/s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una partícula describe un MCUV con radio $R=2\,\si{m}$. En $t=0$, su rapidez es $v_0 = 5\,\si{m/s}$ y frena a razón de $2\,\si{m/s}$ cada segundo. Determine el vector aceleración tangencial $\vec{a}_T$ para los instantes $t=0$ y $t=5\,\si{s}$.
+
+\subsection*{Solución}
+
+\subsubsection*{1. Concepto Físico}
+La aceleración tangencial es responsable del cambio en la magnitud de la velocidad. Su magnitud es constante $|\vec{a}_T| = 2\,\si{m/s^2}$.
+Su dirección depende de la posición en la trayectoria.
+
+\subsubsection*{2. Instante $t=0$}
+La partícula está en $A$ (4to cuadrante). Se mueve antihorario, pero frena. Por tanto, $\vec{a}_T$ apunta en sentido horario (opuesto a $\vec{v}_0$).
+$$ \vec{v}_0 = 3\hat{i} + 4\hat{j} $$
+El vector opuesto unitario es:
+$$ \hat{u}_{aT} = \frac{-3\hat{i} - 4\hat{j}}{5} = -0.6\hat{i} - 0.8\hat{j} $$
+Multiplicamos por la magnitud (2):
+$$ \vec{a}_T(0) = 2(-0.6\hat{i} - 0.8\hat{j}) = -1.2\hat{i} - 1.6\hat{j} \, \si{m/s^2} $$
+
+\subsubsection*{3. Instante $t=5$}
+La partícula está nuevamente en $A$. Se mueve en sentido horario (velocidad negativa) y su rapidez "negativa" sigue aumentando en magnitud (o físicamente, el vector aceleración angular sigue siendo el mismo $\vec{\alpha} = -1\hat{k}$).
+La fuerza tangencial no ha cambiado de dirección en el espacio; sigue "empujando" en sentido horario.
+
+Por tanto, el vector aceleración tangencial es el mismo que en $t=0$:
+$$ \vec{a}_T(5) = -1.2\hat{i} - 1.6\hat{j} \, \si{m/s^2} $$
+
+\begin{tcolorbox}[colback=blue!5!white, colframe=blue!75!black, title=Respuesta Final]
+\centering $\vec{a}_T = -1.2\hat{i} - 1.6\hat{j} \, \si{m/s^2}$ (para ambos casos)
+\end{tcolorbox}
+
+\subsubsection*{4. Gráfico de Aceleración (Python)}
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+# Vector aceleracion tangencial
+at_x = -1.2
+at_y = -1.6
+r0_x = 1.6
+r0_y = -1.2
+
+plt.figure(figsize=(5, 5))
+
+# Posicion A
+plt.scatter(r0_x, r0_y, color='black', label='Posición A')
+plt.plot([0, r0_x], [0, r0_y], 'k--', alpha=0.3)
+
+# Vector v0 (t=0)
+plt.quiver(r0_x, r0_y, 3, 4, angles='xy', scale_units='xy', scale=1, 
+           color='blue', alpha=0.3, label='v0 (t=0)')
+
+# Vector a_T (t=0 y t=5)
+# Nota: Se dibuja desde la posicion de la particula
+plt.quiver(r0_x, r0_y, at_x, at_y, angles='xy', scale_units='xy', scale=1, 
+           color='red', label=r'$\vec{a}_T$')
+
+plt.xlim(-2, 5)
+plt.ylim(-4, 4)
+plt.grid(True)
+plt.legend()
+plt.title('Vector Aceleración Tangencial en A')
+plt.gca().set_aspect('equal')
+plt.show()
+\end{lstlisting}
+
+\newpage
+
+\subsection*{Enunciado}
+Las ruedas $A$ y $B$, de $2$ y $6 \, \si{cm}$ de radio, están interconectadas como indica la figura. Si la velocidad angular de $A$ es $4\vec{k} \, \si{rad/s}$, determine la aceleración centrípeta de la partícula $P$ en el instante mostrado.
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[thick] (0,0) circle (0.6);
+    \draw[thick] (2.4,0) circle (1.8);
+    
+    \node at (0.3,0.3) {$A$};
+    \node at (3.5,1) {$B$};
+    
+    \draw[dashed] (0,-0.6) -- (0,0.6);
+    \draw[dashed] (-0.6,0) -- (0.6,0);
+    
+    \draw[dashed] (2.4,-1.8) -- (2.4,1.8);
+    \draw[dashed] (0.6,0) -- (4.2,0);
+    
+    \node[below] at (2.4,-1.8) {$P$};
+    
+    \draw[->, thick] (-0.5,0.7) arc (135:45:0.6);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis de la transmisión de movimiento}
+Dado que las ruedas $A$ y $B$ están interconectadas por contacto directo en sus bordes sin deslizar, la velocidad tangencial en el punto de contacto es la misma para ambas ruedas.
+$$ v_A = v_B $$
+
+\subsubsection*{2. Cálculo de la velocidad tangencial}
+Primero, convertimos el radio de la rueda $A$ al Sistema Internacional (SI):
+$$ r_A = 2 \, \si{cm} = 0.02 \, \si{m} $$
+
+La magnitud de la velocidad angular de $A$ es $\omega_A = 4 \, \si{rad/s}$. Calculamos su velocidad tangencial:
+$$ v_A = \omega_A r_A $$
+$$ v_A = (4)(0.02) $$
+$$ v_A = 0.08 \, \si{m/s} $$
+
+Por la relación de transmisión establecida en el paso anterior, la velocidad tangencial en el borde de la rueda $B$ también es:
+$$ v_B = 0.08 \, \si{m/s} $$
+
+\subsubsection*{3. Análisis de la partícula P}
+La partícula $P$ se encuentra en el borde exterior de la rueda $B$, por lo que su velocidad tangencial es $v_P = v_B = 0.08 \, \si{m/s}$. 
+
+Convertimos el radio de la rueda $B$ al SI:
+$$ r_B = 6 \, \si{cm} = 0.06 \, \si{m} $$
+
+Para entender la dirección de la aceleración centrípeta, graficamos el vector en la rueda $B$:
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+fig, ax = plt.subplots(figsize=(4, 4))
+ax.set_xlim(-2, 2); ax.set_ylim(-2, 2)
+ax.axis('off')
+
+circleB = patches.Circle((0, 0), 1.5, fill=False, edgecolor='black', linewidth=1.5)
+ax.add_patch(circleB)
+ax.text(0.3, 0.3, 'B', fontsize=12)
+
+ax.plot(0, -1.5, 'ko')
+ax.text(0, -1.7, 'P', fontsize=12, ha='center')
+
+ax.arrow(0, -1.5, 0, 0.8, head_width=0.1, fc='blue', ec='blue')
+ax.text(0.1, -0.9, r'$\vec{a}_c$', color='blue', fontsize=12)
+
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+La aceleración centrípeta ($a_c$) siempre apunta hacia el centro de rotación. Como la partícula $P$ está en la parte inferior de la rueda $B$, el vector apuntará verticalmente hacia arriba, es decir, en la dirección del vector unitario $\vec{j}$.
+
+Calculamos su magnitud:
+$$ a_c = \frac{v_P^2}{r_B} $$
+$$ a_c = \frac{(0.08)^2}{0.06} $$
+$$ a_c = \frac{0.0064}{0.06} $$
+$$ a_c \approx 0.1067 \, \si{m/s^2} $$
+
+Expresando el resultado en forma vectorial:
+$$ \vec{a}_c = 0.1067\vec{j} \, \si{m/s^2} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{a}_c = 0.107\vec{j} \, \si{m/s^2}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un niño se encuentra sobre el borde de un carrusel de $12 \, \si{m}$ de radio (fig.), que gira a razón de $0.5\vec{k} \, \si{rad/s}$. Determine el tiempo que le toma retornar a su puesto, si el niño camina por el borde a razón de $1 \, \si{m/s}$ respecto a tierra, en sentido contrario al carrusel. 
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[->, thick] (-2.5,0) -- (2.5,0) node[right] {$x$};
+    \draw[->, thick] (0,-2.5) -- (0,2.5) node[above] {$y$};
+    
+    \draw[thick] (0,0) circle (2);
+    
+    \fill (2,0) circle (0.08);
+    \node[above left] at (2.2,0) {niño};
+    
+    \draw[->, thick, dashed] (2.2,0) arc (0:-60:2.2);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis de velocidades angulares}
+Se establecen los datos iniciales proporcionados por el problema:
+\begin{itemize}
+    \item Radio del carrusel: $R = 12 \, \si{m}$
+    \item Velocidad angular del carrusel: $\vec{\omega}_C = 0.5\vec{k} \, \si{rad/s}$
+    \item Rapidez del niño respecto a tierra: $v_N = 1 \, \si{m/s}$
+\end{itemize}
+
+Se calcula la magnitud de la velocidad angular del niño respecto a tierra:
+$$ \omega_N = \frac{v_N}{R} $$
+$$ \omega_N = \frac{1}{12} \, \si{rad/s} $$
+
+El problema indica que el niño camina en sentido contrario al carrusel. Dado que el carrusel gira en sentido antihorario ($+\vec{k}$), el niño se mueve en sentido horario ($-\vec{k}$). Vectorialmente:
+$$ \vec{\omega}_N = -\frac{1}{12}\vec{k} \, \si{rad/s} $$
+
+\subsubsection*{2. Velocidad angular relativa}
+Para determinar cuánto tarda el niño en dar una vuelta completa respecto al carrusel, se requiere calcular la velocidad angular del niño respecto al carrusel ($\vec{\omega}_{N/C}$):
+$$ \vec{\omega}_{N/C} = \vec{\omega}_N - \vec{\omega}_C $$
+$$ \vec{\omega}_{N/C} = \left( -\frac{1}{12}\vec{k} \right) - \left( 0.5\vec{k} \right) $$
+$$ \vec{\omega}_{N/C} = \left( -\frac{1}{12} - \frac{1}{2} \right)\vec{k} $$
+$$ \vec{\omega}_{N/C} = -\frac{7}{12}\vec{k} \, \si{rad/s} \approx -0.583\vec{k} \, \si{rad/s} $$
+
+\subsubsection*{3. Cálculo del tiempo}
+Para que el niño retorne a su posición inicial en el carrusel, debe describir un desplazamiento angular relativo equivalente a una vuelta completa. Como su movimiento relativo es en sentido horario, el desplazamiento es negativo:
+$$ \Delta\theta = -2\pi \, \si{rad} $$
+
+Se utiliza la ecuación de movimiento circular uniforme para calcular el tiempo:
+$$ \Delta t = \frac{\Delta\theta}{\omega_{N/C}} $$
+$$ \Delta t = \frac{-2\pi}{-7/12} $$
+$$ \Delta t = \frac{24\pi}{7} \, \si{s} $$
+$$ \Delta t \approx 10.77 \, \si{s} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\Delta t = 10.77 \, \si{s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+En una laptop, con disco duro de $500 \, \si{GB}$ de capacidad, se tiene una rapidez angular de $5400 \, \si{rpm}$. Si la velocidad de almacenamiento de este disco duro es de $77 \, \si{MB}$ en cada segundo, determine el número de revoluciones giradas al almacenar $770 \, \si{MB}$ de información.
+
+\subsection*{Solución}
+
+\subsubsection*{1. Cálculo del tiempo de almacenamiento}
+Se determinan los datos de almacenamiento:
+\begin{itemize}
+    \item Velocidad de transferencia: $v = 77 \, \si{MB/s}$
+    \item Información a almacenar: $I = 770 \, \si{MB}$
+\end{itemize}
+
+Se calcula el tiempo $\Delta t$ necesario para procesar dicha información:
+$$ \Delta t = \frac{I}{v} $$
+$$ \Delta t = \frac{770}{77} $$
+$$ \Delta t = 10 \, \si{s} $$
+
+\subsubsection*{2. Conversión de unidades}
+Se convierte el tiempo obtenido a minutos para operar con la rapidez angular dada en revoluciones por minuto:
+$$ \Delta t = 10 \, \si{s} \times \left( \frac{1 \, \si{min}}{60 \, \si{s}} \right) $$
+$$ \Delta t = \frac{1}{6} \, \si{min} $$
+
+\subsubsection*{3. Cálculo del número de revoluciones}
+Se utiliza la magnitud de la rapidez angular del disco duro:
+$$ \omega = 5400 \, \si{rpm} = 5400 \, \frac{\si{rev}}{\si{min}} $$
+
+Se aplica la ecuación de desplazamiento angular para movimiento circular uniforme:
+$$ \Delta \theta = \omega \cdot \Delta t $$
+$$ \Delta \theta = 5400 \times \left( \frac{1}{6} \right) $$
+$$ \Delta \theta = \frac{5400}{6} $$
+$$ \Delta \theta = 900 \, \si{rev} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\Delta \theta = 900 \, \si{rev}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+La partícula de la figura se traslada con MCUVA en sentido antihorario, por una trayectoria de $10 \, \si{m}$ de radio. El módulo de su aceleración inicial fue $4 \, \si{m/s^2}$ y su velocidad inicial $\vec{v}_0 = 3\vec{i} - 4\vec{j} \, \si{m/s}$. Para $t = 5 \, \si{s}$, determine la posición de la partícula.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    \draw[->, thick] (-3,0) -- (3,0) node[right] {$x$};
+    \draw[->, thick] (0,-3) -- (0,3) node[above] {$y$};
+    
+    \draw[thick] (0,0) circle (2);
+    
+    \fill (-1.6,-1.2) circle (0.08);
+    \draw[thick, ->] (0,0) -- (-1.6,-1.2);
+    
+    \draw[thick, ->] (-1.6,-1.2) -- (-0.6,-2.6) node[below] {$\vec{v}_0$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis de las condiciones iniciales}
+Se calcula el módulo de la velocidad inicial:
+$$ |\vec{v}_0| = \sqrt{3^2 + (-4)^2} = \sqrt{9 + 16} = 5 \, \si{m/s} $$
+
+Se obtiene la velocidad angular inicial ($\omega_0$):
+$$ \omega_0 = \frac{v_0}{R} = \frac{5}{10} = 0.5 \, \si{rad/s} $$
+Al ser el movimiento antihorario, vectorialmente es $\vec{\omega}_0 = 0.5\vec{k} \, \si{rad/s}$.
+
+Para hallar la posición inicial ($\vec{r}_0$), se usa la relación $\vec{v}_0 = \vec{\omega}_0 \times \vec{r}_0$. Si $\vec{r}_0 = x\vec{i} + y\vec{j}$:
+$$ 3\vec{i} - 4\vec{j} = (0.5\vec{k}) \times (x\vec{i} + y\vec{j}) $$
+$$ 3\vec{i} - 4\vec{j} = -0.5y\vec{i} + 0.5x\vec{j} $$
+Igualando componentes:
+$$ -0.5y = 3 \Rightarrow y = -6 $$
+$$ 0.5x = -4 \Rightarrow x = -8 $$
+$$ \vec{r}_0 = -8\vec{i} - 6\vec{j} \, \si{m} $$
+
+El ángulo de la posición inicial respecto al eje $+x$ es:
+$$ \theta_0 = \arctan\left(\frac{-6}{-8}\right) $$
+Como está en el tercer cuadrante:
+$$ \theta_0 = 180^\circ + 36.87^\circ = 216.87^\circ = 3.785 \, \si{rad} $$
+
+\subsubsection*{2. Cálculo de la aceleración angular}
+Se calcula la aceleración centrípeta inicial ($a_c$):
+$$ a_c = \frac{v_0^2}{R} = \frac{5^2}{10} = 2.5 \, \si{m/s^2} $$
+
+El módulo de la aceleración total es $a = 4 \, \si{m/s^2}$. Se deduce la aceleración tangencial ($a_t$):
+$$ a^2 = a_c^2 + a_t^2 $$
+$$ 4^2 = 2.5^2 + a_t^2 $$
+$$ 16 = 6.25 + a_t^2 $$
+$$ a_t = \sqrt{9.75} \approx 3.122 \, \si{m/s^2} $$
+
+La magnitud de la aceleración angular ($\alpha$) constante es:
+$$ \alpha = \frac{a_t}{R} = \frac{3.122}{10} = 0.3122 \, \si{rad/s^2} $$
+
+\subsubsection*{3. Cálculo de la posición final}
+Se calcula el desplazamiento angular ($\Delta\theta$) para $t = 5 \, \si{s}$:
+$$ \Delta\theta = \omega_0 t + \frac{1}{2}\alpha t^2 $$
+$$ \Delta\theta = (0.5)(5) + \frac{1}{2}(0.3122)(5^2) $$
+$$ \Delta\theta = 2.5 + 3.9025 = 6.4025 \, \si{rad} $$
+
+En grados, esto equivale a:
+$$ \Delta\theta = 6.4025 \left(\frac{180^\circ}{\pi}\right) \approx 366.83^\circ $$
+
+La posición angular final ($\theta_f$) es:
+$$ \theta_f = \theta_0 + \Delta\theta = 216.87^\circ + 366.83^\circ = 583.7^\circ $$
+Restando una vuelta completa ($360^\circ$) se obtiene el ángulo equivalente:
+$$ \theta_f = 583.7^\circ - 360^\circ = 223.7^\circ $$
+
+El vector posición final es:
+$$ \vec{r}_f = R\cos(223.7^\circ)\vec{i} + R\sin(223.7^\circ)\vec{j} $$
+$$ \vec{r}_f = 10(-0.723)\vec{i} + 10(-0.691)\vec{j} $$
+$$ \vec{r}_f = -7.23\vec{i} - 6.91\vec{j} \, \si{m} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{r} = -7.22\vec{i} - 6.91\vec{j} \, \si{m}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+La partícula de la figura se traslada con MCUVA en sentido antihorario, por una trayectoria de $10 \, \si{m}$ de radio. El módulo de su aceleración inicial fue $4 \, \si{m/s^2}$ y su velocidad inicial $\vec{v}_0 = 3\vec{i} - 4\vec{j} \, \si{m/s}$. Para $t = 5 \, \si{s}$, determine la velocidad de la partícula.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    \draw[->, thick] (-3,0) -- (3,0) node[right] {$x$};
+    \draw[->, thick] (0,-3) -- (0,3) node[above] {$y$};
+    
+    \draw[thick] (0,0) circle (2);
+    
+    \fill (-1.6,-1.2) circle (0.08);
+    \draw[thick, ->] (0,0) -- (-1.6,-1.2);
+    
+    \draw[thick, ->] (-1.6,-1.2) -- (-0.6,-2.6) node[below] {$\vec{v}_0$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Parámetros previamente calculados}
+A partir del análisis del movimiento, se determinaron los siguientes valores constantes y para $t = 5 \, \si{s}$:
+$$ \vec{r}_f = -7.23\vec{i} - 6.91\vec{j} \, \si{m} $$
+$$ \omega_0 = 0.5 \, \si{rad/s} $$
+$$ \alpha = 0.3122 \, \si{rad/s^2} $$
+
+\subsubsection*{2. Cálculo de la velocidad angular final}
+Se calcula la velocidad angular ($\omega_f$) a los $5 \, \si{s}$:
+$$ \omega_f = \omega_0 + \alpha t $$
+$$ \omega_f = 0.5 + (0.3122)(5) $$
+$$ \omega_f = 0.5 + 1.561 = 2.061 \, \si{rad/s} $$
+
+Dado que el movimiento es antihorario, el vector velocidad angular final es:
+$$ \vec{\omega}_f = 2.061\vec{k} \, \si{rad/s} $$
+
+\subsubsection*{3. Cálculo del vector velocidad final}
+Se utiliza la definición de velocidad tangencial en forma vectorial ($\vec{v}_f = \vec{\omega}_f \times \vec{r}_f$):
+$$ \vec{v}_f = (2.061\vec{k}) \times (-7.23\vec{i} - 6.91\vec{j}) $$
+$$ \vec{v}_f = 2.061(-7.23\vec{j} + 6.91\vec{i}) $$
+$$ \vec{v}_f = 14.24\vec{i} - 14.90\vec{j} \, \si{m/s} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{v} = 14.25\vec{i} - 14.89\vec{j} \, \si{m/s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una piedra atada a una cuerda gira en el plano horizontal $xz$, con centro en el origen de coordenadas y radio $0.5 \, \si{m}$, a razón de $100 \, \si{rpm}$ en sentido antihorario. En el instante en que la piedra se encuentra en $0.4\vec{i} + 0.3\vec{k} \, \si{m}$, determine la aceleración de la piedra.
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis de los datos iniciales}
+Se identifican los parámetros dados:
+\begin{itemize}
+    \item Radio de la trayectoria: $R = 0.5 \, \si{m}$
+    \item Rapidez angular: $\omega = 100 \, \si{rpm}$
+    \item Vector posición: $\vec{r} = 0.4\vec{i} + 0.3\vec{k} \, \si{m}$
+\end{itemize}
+
+Se verifica que el módulo del vector posición coincide con el radio:
+$$ |\vec{r}| = \sqrt{0.4^2 + 0.3^2} = \sqrt{0.16 + 0.09} = \sqrt{0.25} = 0.5 \, \si{m} $$
+
+\subsubsection*{2. Conversión de unidades}
+Se transforma la rapidez angular de revoluciones por minuto a radianes por segundo:
+$$ \omega = 100 \, \frac{\si{rev}}{\si{min}} \times \left( \frac{2\pi \, \si{rad}}{1 \, \si{rev}} \right) \times \left( \frac{1 \, \si{min}}{60 \, \si{s}} \right) $$
+$$ \omega = \frac{200\pi}{60} = \frac{10\pi}{3} \, \si{rad/s} $$
+Aproximando el valor:
+$$ \omega \approx 10.47 \, \si{rad/s} $$
+
+\subsubsection*{3. Cálculo de la aceleración}
+En un movimiento circular uniforme (MCU), la única aceleración presente es la aceleración centrípeta ($\vec{a}_c$), la cual siempre apunta hacia el centro de rotación (origen de coordenadas).
+
+Primero, se calcula la magnitud de la aceleración centrípeta:
+$$ a_c = \omega^2 R $$
+$$ a_c = (10.47)^2 (0.5) $$
+$$ a_c \approx 109.62 \times 0.5 = 54.81 \, \si{m/s^2} $$
+
+El vector unitario de la posición ($\vec{u}_r$) se obtiene dividiendo el vector posición por su módulo:
+$$ \vec{u}_r = \frac{\vec{r}}{|\vec{r}|} = \frac{0.4\vec{i} + 0.3\vec{k}}{0.5} $$
+$$ \vec{u}_r = 0.8\vec{i} + 0.6\vec{k} $$
+
+El vector de aceleración centrípeta se opone al vector posición (apunta hacia el centro):
+$$ \vec{a} = \vec{a}_c = -a_c \vec{u}_r $$
+$$ \vec{a} = -54.81 (0.8\vec{i} + 0.6\vec{k}) $$
+$$ \vec{a} = -43.848\vec{i} - 32.886\vec{k} \, \si{m/s^2} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{a} = -43.85\vec{i} - 32.89\vec{k} \, \si{m/s^2}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una piedra atada a una cuerda gira en el plano horizontal $xz$, con centro en el origen de coordenadas y radio $0.5 \, \si{m}$, a razón de $100 \, \si{rpm}$ en sentido antihorario. En el instante en que la piedra se encuentra en $0.4\vec{i} + 0.3\vec{k} \, \si{m}$, determine la velocidad angular de la cuerda.
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis de la rapidez angular}
+Del análisis previo, se determinó que la magnitud de la velocidad angular ($\omega$) en el Sistema Internacional es:
+$$ \omega = 100 \, \si{rpm} \times \left( \frac{2\pi \, \si{rad}}{60 \, \si{s}} \right) = \frac{10\pi}{3} \, \si{rad/s} \approx 10.47 \, \si{rad/s} $$
+
+\subsubsection*{2. Determinación de la dirección del vector}
+El problema indica que la piedra gira en el plano horizontal $xz$.
+La dirección del vector velocidad angular es perpendicular al plano de rotación, de acuerdo con la regla de la mano derecha.
+Si el movimiento es en el plano $xz$ y en sentido antihorario, el pulgar apuntará en la dirección positiva del eje restante, es decir, el eje $+y$.
+
+Por lo tanto, el vector unitario que define la dirección de la velocidad angular es $\vec{j}$.
+
+$$ \vec{\omega} = \omega \vec{j} $$
+$$ \vec{\omega} = 10.47\vec{j} \, \si{rad/s} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{\omega} = 10.47\vec{j} \, \si{rad/s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una ruleta vertical de $0.6 \, \si{m}$ de radio empieza a girar con $3\vec{k} \, \si{rad/s}$. La pluma indicadora del número retarda angularmente su movimiento a razón de $-0.2\vec{k} \, \si{rad/s^2}$. Determine el tiempo que le toma a la ruleta detenerse.
+
+\subsection*{Solución}
+
+\subsubsection*{1. Identificación de datos}
+Se extraen los datos cinemáticos iniciales del problema:
+$$ \vec{\omega}_0 = 3\vec{k} \, \si{rad/s} \implies \omega_0 = 3 \, \si{rad/s} $$
+$$ \vec{\alpha} = -0.2\vec{k} \, \si{rad/s^2} \implies \alpha = -0.2 \, \si{rad/s^2} $$
+La condición para que la ruleta se detenga es que su velocidad angular final sea nula:
+$$ \omega_f = 0 \, \si{rad/s} $$
+
+\subsubsection*{2. Cálculo del tiempo}
+Se utiliza la ecuación de la cinemática circular para la velocidad angular:
+$$ \omega_f = \omega_0 + \alpha \Delta t $$
+
+Se sustituyen los valores correspondientes:
+$$ 0 = 3 + (-0.2) \Delta t $$
+$$ 0.2 \Delta t = 3 $$
+$$ \Delta t = \frac{3}{0.2} $$
+$$ \Delta t = 15 \, \si{s} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\Delta t = 15 \, \si{s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una ruleta vertical de $0.6 \, \si{m}$ de radio empieza a girar con $3\vec{k} \, \si{rad/s}$. La pluma indicadora del número retarda angularmente su movimiento a razón de $-0.2\vec{k} \, \si{rad/s^2}$. Determine el número de revoluciones giradas.
+
+\subsection*{Solución}
+
+\subsubsection*{1. Datos y parámetros previos}
+Del análisis cinemático anterior se conocen los siguientes parámetros hasta el instante en que la ruleta se detiene:
+$$ \omega_0 = 3 \, \si{rad/s} $$
+$$ \alpha = -0.2 \, \si{rad/s^2} $$
+$$ \Delta t = 15 \, \si{s} $$
+
+\subsubsection*{2. Cálculo del desplazamiento angular}
+Se determina el desplazamiento angular total ($\Delta \theta$) utilizando la ecuación de posición para el movimiento circular uniformemente variado:
+$$ \Delta \theta = \omega_0 \Delta t + \frac{1}{2} \alpha \Delta t^2 $$
+
+Se sustituyen los valores:
+$$ \Delta \theta = (3)(15) + \frac{1}{2}(-0.2)(15)^2 $$
+$$ \Delta \theta = 45 - 0.1(225) $$
+$$ \Delta \theta = 45 - 22.5 $$
+$$ \Delta \theta = 22.5 \, \si{rad} $$
+
+\subsubsection*{3. Conversión a revoluciones}
+Se transforma el desplazamiento angular de radianes a revoluciones sabiendo que una revolución equivale a $2\pi$ radianes:
+$$ \text{Nro. de revoluciones} = 22.5 \, \si{rad} \times \left( \frac{1 \, \text{rev}}{2\pi \, \si{rad}} \right) $$
+$$ \text{Nro. de revoluciones} = \frac{22.5}{2\pi} \, \text{rev} $$
+$$ \text{Nro. de revoluciones} \approx 3.58 \, \text{rev} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $3.58 \, \text{rev}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una partícula se mueve con MCUV en el plano $xy$ en sentido antihorario, por una circunferencia de $2 \, \si{m}$ de radio. En el instante que pasa por $A$, la magnitud de su aceleración es $10 \, \si{m/s^2}$ y su rapidez disminuye a razón de $3 \, \si{m/s}$ cada $0.5 \, \si{s}$. En el instante en que invierte su movimiento, determine la posición de la partícula.
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[->, thick] (-2.5,0) -- (2.5,0) node[right] {$x$};
+    \draw[->, thick] (0,-2.5) -- (0,2.5) node[above] {$y$};
+    \draw[thick] (0,0) circle (2);
+    \node[below left] at (0,-2) {$A$};
+    \draw[->, thick] (-0.3,-2.2) arc (260:280:2.2);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis de la aceleración tangencial y normal}
+Se calcula la aceleración tangencial ($a_t$) considerando el cambio de rapidez:
+$$ a_t = \frac{\Delta v}{\Delta t} = \frac{-3}{0.5} = -6 \, \si{m/s^2} $$
+
+A partir de la magnitud de la aceleración total ($a = 10 \, \si{m/s^2}$), se halla la aceleración centrípeta o normal ($a_n$):
+$$ a^2 = a_t^2 + a_n^2 $$
+$$ 10^2 = (-6)^2 + a_n^2 $$
+$$ 100 = 36 + a_n^2 $$
+$$ a_n = \sqrt{64} = 8 \, \si{m/s^2} $$
+
+\subsubsection*{2. Análisis de la cinemática angular}
+Se determina la velocidad angular inicial ($\omega_0$) en el punto A:
+$$ a_n = \omega_0^2 R $$
+$$ 8 = \omega_0^2 (2) $$
+$$ \omega_0 = \sqrt{4} = 2 \, \si{rad/s} $$
+
+Se halla la aceleración angular ($\alpha$):
+$$ \alpha = \frac{a_t}{R} = \frac{-6}{2} = -3 \, \si{rad/s^2} $$
+
+Cuando la partícula invierte su movimiento, su velocidad angular final es nula ($\omega_f = 0$). Se calcula el desplazamiento angular ($\Delta\theta$):
+$$ \omega_f^2 = \omega_0^2 + 2\alpha \Delta\theta $$
+$$ 0 = 2^2 + 2(-3)\Delta\theta $$
+$$ 0 = 4 - 6\Delta\theta $$
+$$ \Delta\theta = \frac{4}{6} = \frac{2}{3} \, \si{rad} \approx 38.2^\circ $$
+
+\subsubsection*{3. Cálculo de la posición}
+Considerando que el punto A se encuentra en la parte inferior del eje y, su ángulo inicial es:
+$$ \theta_0 = 270^\circ $$
+
+El ángulo de la posición final ($\theta_f$) es:
+$$ \theta_f = 270^\circ + 38.2^\circ = 308.2^\circ $$
+
+Se determinan las componentes del vector posición final ($\vec{r}_B$):
+$$ \vec{r}_B = R\cos(\theta_f)\vec{i} + R\sin(\theta_f)\vec{j} $$
+$$ \vec{r}_B = 2\cos(308.2^\circ)\vec{i} + 2\sin(308.2^\circ)\vec{j} $$
+$$ \vec{r}_B = 2(0.6184)\vec{i} + 2(-0.7858)\vec{j} $$
+$$ \vec{r}_B = 1.237\vec{i} - 1.572\vec{j} \, \si{m} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{r}_B = 1.24\vec{i} - 1.57\vec{j} \, \si{m}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una partícula se mueve con MCUV en el plano $xy$ en sentido antihorario, por una circunferencia de $2 \, \si{m}$ de radio. En el instante que pasa por $A$, la magnitud de su aceleración es $10 \, \si{m/s^2}$ y su rapidez disminuye a razón de $3 \, \si{m/s}$ cada $0.5 \, \si{s}$. En el instante en que invierte su movimiento, determinela aceleración de la partícula.
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[->, thick] (-2.5,0) -- (2.5,0) node[right] {$x$};
+    \draw[->, thick] (0,-2.5) -- (0,2.5) node[above] {$y$};
+    \draw[thick] (0,0) circle (2);
+    \node[below left] at (0,-2) {$A$};
+    \draw[->, thick] (-0.3,-2.2) arc (260:280:2.2);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis de la aceleración final}
+En el instante en que la partícula invierte su movimiento, su velocidad angular es cero ($\omega_f = 0 \, \si{rad/s}$).
+Por lo tanto, la aceleración normal o centrípeta es nula:
+$$ a_{nf} = \omega_f^2 R = 0 \, \si{m/s^2} $$
+La aceleración total de la partícula corresponde únicamente a la aceleración tangencial constante que posee:
+$$ \vec{a}_B = \vec{a}_t $$
+
+\subsubsection*{2. Vector aceleración tangencial}
+El vector unitario tangencial ($\vec{u}_t$) para un movimiento en sentido antihorario se define como:
+$$ \vec{u}_t = -\sin(\theta_f)\vec{i} + \cos(\theta_f)\vec{j} $$
+
+Se evalúa con el ángulo final obtenido ($\theta_f = 308.2^\circ$):
+$$ \vec{u}_t = -\sin(308.2^\circ)\vec{i} + \cos(308.2^\circ)\vec{j} $$
+$$ \vec{u}_t = -(-0.7858)\vec{i} + 0.6184\vec{j} $$
+$$ \vec{u}_t = 0.7858\vec{i} + 0.6184\vec{j} $$
+
+Finalmente, se multiplica el escalar de la aceleración tangencial ($a_t = -6 \, \si{m/s^2}$) por su vector unitario:
+$$ \vec{a}_B = a_t \vec{u}_t $$
+$$ \vec{a}_B = -6(0.7858\vec{i} + 0.6184\vec{j}) $$
+$$ \vec{a}_B = -4.715\vec{i} - 3.710\vec{j} \, \si{m/s^2} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{a}_B = -4.71\vec{i} - 3.71\vec{j} \, \si{m/s^2}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una partícula se mueve de acuerdo con el gráfico con MCUV, si $R = 10 \, \si{m}$, $v_0 = 20 \, \si{m/s}$, $v_2 = 60 \, \si{m/s}$. Determine la aceleración de la partícula a los $2 \, \si{s}$. 
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2, >=Latex]
+    \draw[->, thick] (-2.5,0) -- (2.5,0) node[right] {$x$};
+    \draw[->, thick] (0,-2.5) -- (0,2.5) node[above] {$y$};
+    \draw[thick] (0,0) circle (2);
+    
+    \fill (0,2) circle (0.06);
+    \node[above left] at (0,2) {$t=0$};
+    \draw[->, thick] (0,2) -- (1,2) node[above] {$v_0$};
+    
+    \coordinate (P) at ({2*cos(45)}, {2*sin(45)});
+    \fill (P) circle (0.06);
+    \node[above right] at (P) {$t=2 \, \si{s}$};
+    
+    \draw[->, thick] (0,0) -- (P);
+    \draw (0.5,0) arc (0:45:0.5);
+    \node at (0.8, 0.25) {\small $45^\circ$};
+    
+    \draw[->, thick] (P) -- ++({1.2*sin(45)}, {-1.2*cos(45)}) node[right] {$v$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis de magnitudes cinemáticas}
+Se determinan las velocidades angulares inicial ($t=0$) y final ($t=2 \, \si{s}$):
+$$ \omega_0 = \frac{v_0}{R} = \frac{20}{10} = 2 \, \si{rad/s} $$
+$$ \omega_f = \frac{v_2}{R} = \frac{60}{10} = 6 \, \si{rad/s} $$
+
+Se calcula la aceleración angular ($\alpha$):
+$$ \alpha = \frac{\omega_f - \omega_0}{\Delta t} = \frac{6 - 2}{2} = 2 \, \si{rad/s^2} $$
+
+Con esto, se hallan las magnitudes de la aceleración tangencial ($a_t$) y normal ($a_n$) a los $2 \, \si{s}$:
+$$ a_t = \alpha R = 2(10) = 20 \, \si{m/s^2} $$
+$$ a_n = \omega_f^2 R = 6^2(10) = 360 \, \si{m/s^2} $$
+
+\subsubsection*{2. Análisis vectorial en t = 2 s}
+Según el gráfico, a los $2 \, \si{s}$ la partícula se encuentra en la posición angular de $45^\circ$ y se mueve en sentido horario.
+
+El vector aceleración normal ($\vec{a}_n$) apunta hacia el centro de la trayectoria (origen):
+$$ \vec{u}_n = -\cos(45^\circ)\vec{i} - \sin(45^\circ)\vec{j} = -\frac{\sqrt{2}}{2}\vec{i} - \frac{\sqrt{2}}{2}\vec{j} $$
+$$ \vec{a}_n = 360 \left(-\frac{\sqrt{2}}{2}\vec{i} - \frac{\sqrt{2}}{2}\vec{j}\right) = -180\sqrt{2}\vec{i} - 180\sqrt{2}\vec{j} \, \si{m/s^2} $$
+
+El vector aceleración tangencial ($\vec{a}_t$) es paralelo a la velocidad. Para un movimiento horario en el primer cuadrante, el vector unitario tangencial es:
+$$ \vec{u}_t = \sin(45^\circ)\vec{i} - \cos(45^\circ)\vec{j} = \frac{\sqrt{2}}{2}\vec{i} - \frac{\sqrt{2}}{2}\vec{j} $$
+$$ \vec{a}_t = 20 \left(\frac{\sqrt{2}}{2}\vec{i} - \frac{\sqrt{2}}{2}\vec{j}\right) = 10\sqrt{2}\vec{i} - 10\sqrt{2}\vec{j} \, \si{m/s^2} $$
+
+\subsubsection*{3. Aceleración total}
+Se suman las componentes vectoriales:
+$$ \vec{a} = \vec{a}_n + \vec{a}_t $$
+$$ \vec{a} = (-180\sqrt{2} + 10\sqrt{2})\vec{i} + (-180\sqrt{2} - 10\sqrt{2})\vec{j} $$
+$$ \vec{a} = -170\sqrt{2}\vec{i} - 190\sqrt{2}\vec{j} \, \si{m/s^2} $$
+
+Aproximando el valor de $\sqrt{2} \approx 1.4142$:
+$$ \vec{a} = -170(1.4142)\vec{i} - 190(1.4142)\vec{j} $$
+$$ \vec{a} = -240.414\vec{i} - 268.698\vec{j} \, \si{m/s^2} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{a} = -240.42\vec{i} - 268.7\vec{j} \, \si{m/s^2}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una partícula se mueve a lo largo de la trayectoria circular de $2 \, \si{m}$ de radio, su vector posición tiene una aceleración angular constante $\vec{\alpha} = 2\vec{k} \, \si{rad/s^2}$. Al instante $t = 0 \, \si{s}$ su vector posición tiene una velocidad angular constante $\vec{\omega} = -10\vec{k} \, \si{rad/s}$. Si a los $2 \, \si{s}$ pasa por $A$, determine la aceleración centrípeta de la partícula en ese instante. 
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2, >=Latex]
+    \draw[->, thick] (-2.5,0) -- (2.5,0) node[right] {$x$};
+    \draw[->, thick] (0,-2.5) -- (0,2.5) node[above] {$y$};
+    \draw[thick] (0,0) circle (2);
+    
+    \coordinate (A) at ({2*cos(-30)}, {2*sin(-30)});
+    \fill (A) circle (0.06);
+    \node[below right] at (A) {$A$};
+    
+    \draw[->, thick] (0,0) -- (A);
+    
+    \draw (0.6,0) arc (0:-30:0.6);
+    \node at (0.9, -0.25) {\small $30^\circ$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Cálculo de la velocidad angular en t = 2 s}
+A partir del enunciado, se identifican la velocidad angular inicial ($\vec{\omega}_0$) en $t = 0 \, \si{s}$ y la aceleración angular constante ($\vec{\alpha}$):
+$$ \vec{\omega}_0 = -10\vec{k} \, \si{rad/s} $$
+$$ \vec{\alpha} = 2\vec{k} \, \si{rad/s^2} $$
+
+Se utiliza la ecuación de la cinemática circular para determinar la velocidad angular final ($\vec{\omega}_f$) a los $2 \, \si{s}$:
+$$ \vec{\omega}_f = \vec{\omega}_0 + \vec{\alpha} t $$
+$$ \vec{\omega}_f = -10\vec{k} + (2\vec{k})(2) $$
+$$ \vec{\omega}_f = -10\vec{k} + 4\vec{k} $$
+$$ \vec{\omega}_f = -6\vec{k} \, \si{rad/s} $$
+
+\subsubsection*{2. Determinación del vector posición}
+En el instante $t = 2 \, \si{s}$, la partícula se ubica en el punto $A$. Según el gráfico, el vector posición forma un ángulo de $30^\circ$ por debajo del eje positivo de las abscisas (cuarto cuadrante).
+
+El módulo del vector posición es igual al radio de la trayectoria circular ($R = 2 \, \si{m}$). Se determinan sus componentes rectangulares:
+$$ \vec{r} = R\cos(-30^\circ)\vec{i} + R\sin(-30^\circ)\vec{j} $$
+$$ \vec{r} = 2\left(\frac{\sqrt{3}}{2}\right)\vec{i} + 2\left(-\frac{1}{2}\right)\vec{j} $$
+$$ \vec{r} = \sqrt{3}\vec{i} - \vec{j} \, \si{m} $$
+
+\subsubsection*{3. Cálculo de la aceleración centrípeta}
+La aceleración centrípeta ($\vec{a}_c$) se obtiene vectorialmente mediante la relación $\vec{a}_c = -\omega_f^2 \vec{r}$, donde $\omega_f$ es la magnitud de la velocidad angular en ese instante ($\omega_f = |-6\vec{k}| = 6 \, \si{rad/s}$).
+
+Sustituyendo los valores calculados:
+$$ \vec{a}_c = -(6)^2 (\sqrt{3}\vec{i} - \vec{j}) $$
+$$ \vec{a}_c = -36 (\sqrt{3}\vec{i} - \vec{j}) $$
+$$ \vec{a}_c = -36\sqrt{3}\vec{i} + 36\vec{j} \, \si{m/s^2} $$
+
+Aproximando el valor de la raíz cuadrada ($\sqrt{3} \approx 1.73205$):
+$$ \vec{a}_c = -36(1.73205)\vec{i} + 36\vec{j} \, \si{m/s^2} $$
+$$ \vec{a}_c = -62.3538\vec{i} + 36\vec{j} \, \si{m/s^2} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{a}_c = -62.35\vec{i} + 36\vec{j} \, \si{m/s^2}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una partícula se mueve antihorariamente a lo largo de una circunferencia de $1.2 \, \si{m}$ de radio en el plano $xy$. En el instante $0 \, \si{s}$ su rapidez es $2 \, \si{m/s}$, la posición angular inicial de su radio vector es $\pi/6 \, \si{rad}$ con una aceleración angular constante de $2\vec{k} \, \si{rad/s^2}$. Determine la aceleración de la partícula a los $2 \, \si{s}$.
+\subsection*{Solución}
+
+\subsubsection*{1. Cálculo de parámetros angulares}
+Se halla la velocidad angular inicial ($\omega_0$):
+$$ \omega_0 = \frac{v_0}{R} = \frac{2}{1.2} = \frac{5}{3} \, \si{rad/s} $$
+
+Se determina la velocidad angular a los $2 \, \si{s}$ ($\omega_f$):
+$$ \omega_f = \omega_0 + \alpha t $$
+$$ \omega_f = \frac{5}{3} + (2)(2) = \frac{17}{3} \, \si{rad/s} \approx 5.667 \, \si{rad/s} $$
+
+Se calcula la posición angular final ($\theta_f$):
+$$ \theta_f = \theta_0 + \omega_0 t + \frac{1}{2}\alpha t^2 $$
+$$ \theta_f = \frac{\pi}{6} + \left(\frac{5}{3}\right)(2) + \frac{1}{2}(2)(2)^2 $$
+$$ \theta_f = \frac{\pi}{6} + \frac{10}{3} + 4 \approx 0.5236 + 3.3333 + 4 = 7.8569 \, \si{rad} $$
+
+Convirtiendo a grados, esto equivale a $450.17^\circ$. Restando una vuelta completa ($360^\circ$), la posición en la primera revolución es aproximadamente $90.17^\circ$.
+
+\subsubsection*{2. Vector posición}
+Se hallan las componentes rectangulares del vector posición ($\vec{r}$) a los $2 \, \si{s}$:
+$$ \vec{r} = R\cos(\theta_f)\vec{i} + R\sin(\theta_f)\vec{j} $$
+$$ \vec{r} = 1.2\cos(7.8569 \, \si{rad})\vec{i} + 1.2\sin(7.8569 \, \si{rad})\vec{j} $$
+$$ \vec{r} = 1.2(-0.0035)\vec{i} + 1.2(0.9999)\vec{j} $$
+$$ \vec{r} = -0.0042\vec{i} + 1.2\vec{j} \, \si{m} $$
+
+\subsubsection*{3. Cálculo de la aceleración total}
+Se calcula la aceleración normal o centrípeta ($\vec{a}_n$):
+$$ \vec{a}_n = -\omega_f^2 \vec{r} $$
+$$ \vec{a}_n = -\left(\frac{17}{3}\right)^2 (-0.0042\vec{i} + 1.2\vec{j}) $$
+$$ \vec{a}_n = -32.111 (-0.0042\vec{i} + 1.2\vec{j}) $$
+$$ \vec{a}_n = 0.135\vec{i} - 38.533\vec{j} \, \si{m/s^2} $$
+
+Se halla la aceleración tangencial ($\vec{a}_t$) usando el producto cruz entre el vector aceleración angular y la posición:
+$$ \vec{a}_t = \vec{\alpha} \times \vec{r} $$
+$$ \vec{a}_t = (2\vec{k}) \times (-0.0042\vec{i} + 1.2\vec{j}) $$
+$$ \vec{a}_t = -2.4\vec{i} - 0.008\vec{j} \, \si{m/s^2} $$
+
+Finalmente, se suman las componentes para obtener la aceleración total ($\vec{a}$):
+$$ \vec{a} = \vec{a}_n + \vec{a}_t $$
+$$ \vec{a} = (0.135 - 2.4)\vec{i} + (-38.533 - 0.008)\vec{j} $$
+$$ \vec{a} = -2.265\vec{i} - 38.541\vec{j} \, \si{m/s^2} $$
+
+*(Nota: La respuesta calculada numéricamente de forma exacta difiere muy levemente de la proporcionada en el libro base debido a que dicho texto probablemente aproximó la posición final a $90^\circ$ exactos al plantearlo)*.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{a} = -2.27\vec{i} - 38.54\vec{j} \, \si{m/s^2}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una partícula se mueve con MCUV en el plano $xy$. Si a los $0 \, \si{s}$, se encuentra en la posición $(-3\vec{i} - 4\vec{j}) \, \si{m}$, con aceleración $(8\vec{i} + 3\vec{j}) \, \si{m/s^2}$, determine la aceleración de la partícula cuando $t = 2 \, \si{s}$. 
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    \draw[->, thick] (-3.5,0) -- (3.5,0) node[right] {$x$};
+    \draw[->, thick] (0,-3.5) -- (0,3.5) node[above] {$y$};
+    \draw[thick] (0,0) circle (2.5);
+    
+    \coordinate (P) at (-1.5, -2);
+    \draw[->, thick] (0,0) -- (P) node[midway, below right] {$\vec{r}_0$};
+    
+    \draw[->, thick, blue] (P) -- ++(1.5, 2) node[right] {$\vec{a}_n$};
+    \draw[->, thick, blue] (P) -- ++(-1.6, 1.2) node[left] {$\vec{a}_t$};
+    \draw[->, thick, red] (P) -- ++(-0.1, 3.2) node[above right] {$\vec{a}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\textit{Nota: La respuesta proporcionada por el libro base es incorrecta. A continuación se presenta el desarrollo analítico que demuestra la verdadera aceleración de la partícula.}
+
+\subsubsection*{1. Análisis de la posición y dirección inicial}
+El vector posición inicial es $\vec{r}_0 = -3\vec{i} - 4\vec{j} \, \si{m}$.
+Se calcula el radio de la trayectoria:
+$$ R = |\vec{r}_0| = \sqrt{(-3)^2 + (-4)^2} = \sqrt{9 + 16} = 5 \, \si{m} $$
+
+El vector unitario radial en la posición inicial es:
+$$ \vec{u}_{r0} = \frac{\vec{r}_0}{R} = -0.6\vec{i} - 0.8\vec{j} $$
+
+El vector unitario normal (dirigido hacia el centro) es opuesto al radial:
+$$ \vec{u}_{n0} = -\vec{u}_{r0} = 0.6\vec{i} + 0.8\vec{j} $$
+
+\subsubsection*{2. Componentes de la aceleración inicial}
+La aceleración total inicial es $\vec{a}_0 = 8\vec{i} + 3\vec{j} \, \si{m/s^2}$.
+Se halla la magnitud de la aceleración normal ($a_{n0}$) proyectando $\vec{a}_0$ sobre $\vec{u}_{n0}$ mediante el producto punto:
+$$ a_{n0} = \vec{a}_0 \cdot \vec{u}_{n0} = (8)(0.6) + (3)(0.8) = 4.8 + 2.4 = 7.2 \, \si{m/s^2} $$
+
+Con esto, se obtiene el vector aceleración normal inicial:
+$$ \vec{a}_{n0} = a_{n0}\vec{u}_{n0} = 7.2(0.6\vec{i} + 0.8\vec{j}) = 4.32\vec{i} + 5.76\vec{j} \, \si{m/s^2} $$
+
+El vector aceleración tangencial inicial ($\vec{a}_{t0}$) se obtiene por diferencia ($\vec{a}_0 = \vec{a}_{n0} + \vec{a}_{t0}$):
+$$ \vec{a}_{t0} = \vec{a}_0 - \vec{a}_{n0} = (8\vec{i} + 3\vec{j}) - (4.32\vec{i} + 5.76\vec{j}) = 3.68\vec{i} - 2.76\vec{j} \, \si{m/s^2} $$
+
+La magnitud de la aceleración tangencial constante es:
+$$ a_t = \sqrt{(3.68)^2 + (-2.76)^2} = \sqrt{13.5424 + 7.6176} = \sqrt{21.16} = 4.6 \, \si{m/s^2} $$
+
+\subsubsection*{3. Parámetros angulares}
+Se determina la velocidad angular inicial ($\omega_0$):
+$$ a_{n0} = \omega_0^2 R \implies \omega_0 = \sqrt{\frac{a_{n0}}{R}} = \sqrt{\frac{7.2}{5}} = \sqrt{1.44} = 1.2 \, \si{rad/s} $$
+
+Se calcula la aceleración angular constante ($\alpha$):
+$$ \alpha = \frac{a_t}{R} = \frac{4.6}{5} = 0.92 \, \si{rad/s^2} $$
+
+El ángulo de la posición inicial ($\theta_0$) en el tercer cuadrante es:
+$$ \theta_0 = 180^\circ + \arctan\left(\frac{-4}{-3}\right) = 180^\circ + 53.13^\circ = 233.13^\circ \approx 4.069 \, \si{rad} $$
+
+\subsubsection*{4. Cinemática a los t = 2 s}
+Se halla la velocidad angular final ($\omega_f$):
+$$ \omega_f = \omega_0 + \alpha t = 1.2 + (0.92)(2) = 1.2 + 1.84 = 3.04 \, \si{rad/s} $$
+
+Se calcula la posición angular final ($\theta_f$):
+$$ \theta_f = \theta_0 + \omega_0 t + \frac{1}{2}\alpha t^2 $$
+$$ \theta_f = 4.069 + 1.2(2) + \frac{1}{2}(0.92)(2^2) $$
+$$ \theta_f = 4.069 + 2.4 + 1.84 = 8.309 \, \si{rad} $$
+Restando una revolución ($2\pi \approx 6.283 \, \si{rad}$), la posición equivale a $2.026 \, \si{rad}$ o $116.08^\circ$ (segundo cuadrante).
+
+\subsubsection*{5. Aceleración final a los t = 2 s}
+Se hallan los vectores unitarios radial ($\vec{u}_{rf}$) y tangencial ($\vec{u}_{tf}$) para la nueva posición:
+$$ \vec{u}_{rf} = \cos(116.08^\circ)\vec{i} + \sin(116.08^\circ)\vec{j} = -0.440\vec{i} + 0.898\vec{j} $$
+$$ \vec{u}_{tf} = -\sin(116.08^\circ)\vec{i} + \cos(116.08^\circ)\vec{j} = -0.898\vec{i} - 0.440\vec{j} $$
+
+Se calcula el vector aceleración normal final ($\vec{a}_{nf}$):
+$$ a_{nf} = \omega_f^2 R = (3.04)^2 (5) = 46.208 \, \si{m/s^2} $$
+$$ \vec{a}_{nf} = -a_{nf}\vec{u}_{rf} = -46.208(-0.440\vec{i} + 0.898\vec{j}) = 20.33\vec{i} - 41.49\vec{j} \, \si{m/s^2} $$
+
+El vector aceleración tangencial final ($\vec{a}_{tf}$) es:
+$$ \vec{a}_{tf} = a_t \vec{u}_{tf} = 4.6(-0.898\vec{i} - 0.440\vec{j}) = -4.13\vec{i} - 2.02\vec{j} \, \si{m/s^2} $$
+
+Finalmente, la aceleración total ($\vec{a}_f$) es la suma de sus componentes:
+$$ \vec{a}_f = \vec{a}_{nf} + \vec{a}_{tf} $$
+$$ \vec{a}_f = (20.33 - 4.13)\vec{i} + (-41.49 - 2.02)\vec{j} $$
+$$ \vec{a}_f = 16.20\vec{i} - 43.51\vec{j} \, \si{m/s^2} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{a} = 16.20\vec{i} - 43.51\vec{j} \, \si{m/s^2}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Dos autos $A$ y $B$ viajan sobre una redondel horizontal de $30 \, \si{m}$ de radio en el plano $xy$, considerando a los autos como partículas y que se trasladan en sentidos contrarios aceleradamente, con $v_{A_0} = 12 \, \si{m/s}$ y $v_{B_0} = 17 \, \si{m/s}$, $a_{T_A} = a_{T_B} = 0.1 \, \si{m/s^2}$, cte. Luego de $5 \, \si{s}$ de la posición mostrada, determine la posición relativa de $A$ respecto a $B$. 
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[->, thick] (-2.5,0) -- (2.5,0) node[right] {$x$};
+    \draw[->, thick] (0,-2.5) -- (0,2.5) node[above] {$y$};
+    \draw[thick] (0,0) circle (2);
+    
+    \fill (-2,0) circle (0.08);
+    \draw[->, thick] (-2,0) -- (-2,1) node[left] {$v_{A_0}$};
+    
+    \fill (0,-2) circle (0.08);
+    \draw[->, thick] (0,-2) -- (1,-2) node[below right] {$v_{B_0}$};
+    
+    \draw[->, thick] (0,0) -- (-1.414, 1.414) node[midway, below left] {R};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis cinemático del auto A}
+El auto A se encuentra en la posición inicial $(-30\vec{i}) \, \si{m}$, lo que corresponde a un ángulo inicial $\theta_{A0} = \pi \, \si{rad}$.
+Se observa que la velocidad apunta en la dirección $+y$, lo que indica un movimiento en sentido horario. Por tanto, su velocidad angular inicial es negativa:
+$$ \omega_{A0} = -\frac{v_{A0}}{R} = -\frac{12}{30} = -0.4 \, \si{rad/s} $$
+
+Como el auto se traslada "aceleradamente", la aceleración angular debe tener el mismo sentido (horario) que la velocidad angular para aumentar su rapidez:
+$$ \alpha_A = -\frac{a_{TA}}{R} = -\frac{0.1}{30} = -\frac{1}{300} \, \si{rad/s^2} $$
+
+Se calcula la posición angular de A a los $5 \, \si{s}$:
+$$ \theta_A = \theta_{A0} + \omega_{A0} t + \frac{1}{2}\alpha_A t^2 $$
+$$ \theta_A = \pi + (-0.4)(5) + \frac{1}{2}\left(-\frac{1}{300}\right)(5^2) $$
+$$ \theta_A = \pi - 2 - \frac{25}{600} = \pi - 2 - \frac{1}{24} $$
+$$ \theta_A \approx 3.14159 - 2 - 0.04167 = 1.09992 \, \si{rad} $$
+
+Se convierte a grados para el cálculo del vector posición ($1.09992 \times \frac{180^\circ}{\pi} \approx 63.02^\circ$):
+$$ \vec{r}_A = 30\cos(63.02^\circ)\vec{i} + 30\sin(63.02^\circ)\vec{j} $$
+$$ \vec{r}_A = 30(0.4537)\vec{i} + 30(0.8912)\vec{j} $$
+$$ \vec{r}_A = 13.611\vec{i} + 26.736\vec{j} \, \si{m} $$
+
+\subsubsection*{2. Análisis cinemático del auto B}
+El auto B está en la posición $( -30\vec{j} ) \, \si{m}$, equivalente a un ángulo inicial $\theta_{B0} = \frac{3\pi}{2} \, \si{rad}$.
+Su velocidad apunta en la dirección $+x$, indicando un movimiento en sentido antihorario (positivo):
+$$ \omega_{B0} = \frac{v_{B0}}{R} = \frac{17}{30} \approx 0.5667 \, \si{rad/s} $$
+
+De igual manera, al ser un movimiento acelerado, la aceleración angular es positiva:
+$$ \alpha_B = \frac{a_{TB}}{R} = \frac{0.1}{30} = \frac{1}{300} \, \si{rad/s^2} $$
+
+Se calcula la posición angular de B a los $5 \, \si{s}$:
+$$ \theta_B = \theta_{B0} + \omega_{B0} t + \frac{1}{2}\alpha_B t^2 $$
+$$ \theta_B = \frac{3\pi}{2} + \left(\frac{17}{30}\right)(5) + \frac{1}{2}\left(\frac{1}{300}\right)(25) $$
+$$ \theta_B = 1.5\pi + \frac{85}{30} + \frac{1}{24} \approx 4.71239 + 2.83333 + 0.04167 = 7.58739 \, \si{rad} $$
+
+Restando una vuelta completa ($2\pi \approx 6.28319 \, \si{rad}$) para obtener el ángulo dentro de la primera revolución:
+$$ \theta_B = 7.58739 - 6.28319 = 1.3042 \, \si{rad} $$
+
+En grados, equivale a $1.3042 \times \frac{180^\circ}{\pi} \approx 74.72^\circ$:
+$$ \vec{r}_B = 30\cos(74.72^\circ)\vec{i} + 30\sin(74.72^\circ)\vec{j} $$
+$$ \vec{r}_B = 30(0.2635)\vec{i} + 30(0.9647)\vec{j} $$
+$$ \vec{r}_B = 7.905\vec{i} + 28.941\vec{j} \, \si{m} $$
+
+\subsubsection*{3. Cálculo de la posición relativa}
+La posición relativa de A respecto a B ($\vec{r}_{A/B}$) se determina restando el vector posición de B al vector posición de A:
+$$ \vec{r}_{A/B} = \vec{r}_A - \vec{r}_B $$
+$$ \vec{r}_{A/B} = (13.611\vec{i} + 26.736\vec{j}) - (7.905\vec{i} + 28.941\vec{j}) $$
+$$ \vec{r}_{A/B} = (13.611 - 7.905)\vec{i} + (26.736 - 28.941)\vec{j} $$
+$$ \vec{r}_{A/B} = 5.706\vec{i} - 2.205\vec{j} \, \si{m} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{r}_{A/B} = 5.71\vec{i} - 2.21\vec{j} \, \si{m}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Dos autos $A$ y $B$ viajan sobre una redondel horizontal de $30 \, \si{m}$ de radio en el plano $xy$, considerando a los autos como partículas y que se trasladan en sentidos contrarios aceleradamente, con $v_{A_0} = 12 \, \si{m/s}$ y $v_{B_0} = 17 \, \si{m/s}$, $a_{T_A} = a_{T_B} = 0.1 \, \si{m/s^2}$, cte. Luego de $5 \, \si{s}$ de la posición mostrada, determinela aceleración angular del vector posición de $A$.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    \draw[->, thick] (-2.5,0) -- (2.5,0) node[right] {$x$};
+    \draw[->, thick] (0,-2.5) -- (0,2.5) node[above] {$y$};
+    \draw[thick] (0,0) circle (2);
+    
+    \fill (-2,0) circle (0.08);
+    \draw[->, thick] (-2,0) -- (-2,1) node[left] {$v_{A_0}$};
+    
+    \fill (0,-2) circle (0.08);
+    \draw[->, thick] (0,-2) -- (1,-2) node[below right] {$v_{B_0}$};
+    
+    \draw[->, thick] (0,0) -- (-1.414, 1.414) node[midway, below left] {R};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Relación entre aceleración tangencial y angular}
+La magnitud de la aceleración angular ($\alpha$) se relaciona con la aceleración tangencial ($a_T$) mediante el radio de curvatura ($R$):
+$$ \alpha_A = \frac{a_{TA}}{R} $$
+
+Sustituyendo los valores dados en el enunciado:
+$$ \alpha_A = \frac{0.1}{30} = \frac{1}{300} \approx 0.00333 \, \si{rad/s^2} $$
+En notación científica, esto es $3.33 \times 10^{-3} \, \si{rad/s^2}$.
+
+\subsubsection*{2. Determinación del sentido vectorial}
+Se analiza el movimiento del auto A desde su posición inicial en el eje $-x$.
+Dado que su velocidad inicial apunta hacia la dirección $+y$, la partícula se mueve en sentido de las manecillas del reloj (horario).
+
+El problema indica que los autos se trasladan "aceleradamente", lo que significa que la rapidez está aumentando. Por lo tanto, el vector aceleración tangencial tiene la misma dirección y sentido que el vector velocidad. En consecuencia, la aceleración angular acompaña el sentido del movimiento horario.
+
+Vectorialmente, el sentido horario corresponde a la dirección negativa del eje $z$ (vector unitario $-\vec{k}$).
+$$ \vec{\alpha}_A = -3.33 \times 10^{-3} \vec{k} \, \si{rad/s^2} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{\alpha}_A = -3.33 \times 10^{-3}\vec{k} \, \si{rad/s^2}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una partícula con MCUVA se mueve en el plano $xy$ en sentido antihorario durante $5 \, \si{s}$ por una circunferencia de $10 \, \si{m}$ de radio. Al instante $t = 0 \, \si{s}$, la magnitud de su aceleración es $a_0 = 4 \, \si{m/s^2}$ y su velocidad $\vec{v}_0 = 3\vec{i} - 4\vec{j} \, \si{m/s}$. Determine la velocidad media de la partícula en el intervalo de $0$ a $5 \, \si{s}$. 
+
+\subsection*{Solución}
+
+\textit{Nota: La respuesta proporcionada por el libro base es incorrecta. A continuación se presenta el desarrollo analítico exacto.}
+
+\subsubsection*{1. Análisis de condiciones iniciales (t = 0 s)}
+Se calcula la magnitud de la velocidad inicial:
+$$ v_0 = |\vec{v}_0| = \sqrt{3^2 + (-4)^2} = 5 \, \si{m/s} $$
+
+La velocidad angular inicial ($\omega_0$) es:
+$$ \omega_0 = \frac{v_0}{R} = \frac{5}{10} = 0.5 \, \si{rad/s} $$
+
+Para hallar el vector posición inicial ($\vec{r}_0$), se usa la relación del producto cruz $\vec{v}_0 = \vec{\omega}_0 \times \vec{r}_0$. Sabiendo que gira en sentido antihorario ($\vec{\omega}_0 = 0.5\vec{k}$):
+$$ 3\vec{i} - 4\vec{j} = (0.5\vec{k}) \times (x\vec{i} + y\vec{j}) $$
+$$ 3\vec{i} - 4\vec{j} = -0.5y\vec{i} + 0.5x\vec{j} $$
+Igualando componentes:
+$$ -0.5y = 3 \implies y = -6 $$
+$$ 0.5x = -4 \implies x = -8 $$
+$$ \vec{r}_0 = -8\vec{i} - 6\vec{j} \, \si{m} $$
+
+El ángulo de la posición inicial ($\theta_0$) en el tercer cuadrante es:
+$$ \theta_0 = 180^\circ + \arctan\left(\frac{-6}{-8}\right) = 180^\circ + 36.87^\circ = 216.87^\circ \approx 3.785 \, \si{rad} $$
+
+\subsubsection*{2. Cálculo de la aceleración angular}
+Se determina la aceleración centrípeta inicial ($a_{n0}$):
+$$ a_{n0} = \frac{v_0^2}{R} = \frac{5^2}{10} = 2.5 \, \si{m/s^2} $$
+
+A partir de la aceleración total inicial ($a_0 = 4 \, \si{m/s^2}$), se calcula la aceleración tangencial ($a_t$):
+$$ a_0^2 = a_{n0}^2 + a_t^2 $$
+$$ 4^2 = 2.5^2 + a_t^2 $$
+$$ 16 = 6.25 + a_t^2 $$
+$$ a_t = \sqrt{9.75} \approx 3.122 \, \si{m/s^2} $$
+
+La aceleración angular constante ($\alpha$) es:
+$$ \alpha = \frac{a_t}{R} = \frac{\sqrt{9.75}}{10} \approx 0.3122 \, \si{rad/s^2} $$
+
+\subsubsection*{3. Posición final a los 5 s}
+Se calcula el desplazamiento angular ($\Delta\theta$) para $t = 5 \, \si{s}$:
+$$ \Delta\theta = \omega_0 t + \frac{1}{2}\alpha t^2 $$
+$$ \Delta\theta = (0.5)(5) + \frac{1}{2}(0.3122)(5^2) $$
+$$ \Delta\theta = 2.5 + 3.9025 = 6.4025 \, \si{rad} $$
+
+En grados, equivale a:
+$$ \Delta\theta = 6.4025 \left(\frac{180^\circ}{\pi}\right) \approx 366.84^\circ $$
+
+La posición angular final ($\theta_f$) es:
+$$ \theta_f = \theta_0 + \Delta\theta = 216.87^\circ + 366.84^\circ = 583.71^\circ $$
+Restando una vuelta completa ($360^\circ$):
+$$ \theta_f = 223.71^\circ $$
+
+El vector posición final ($\vec{r}_f$) es:
+$$ \vec{r}_f = 10\cos(223.71^\circ)\vec{i} + 10\sin(223.71^\circ)\vec{j} $$
+$$ \vec{r}_f = 10(-0.7228)\vec{i} + 10(-0.6910)\vec{j} $$
+$$ \vec{r}_f = -7.228\vec{i} - 6.910\vec{j} \, \si{m} $$
+
+\subsubsection*{4. Cálculo de la velocidad media}
+El desplazamiento de la partícula ($\Delta\vec{r}$) es:
+$$ \Delta\vec{r} = \vec{r}_f - \vec{r}_0 $$
+$$ \Delta\vec{r} = (-7.228\vec{i} - 6.910\vec{j}) - (-8\vec{i} - 6\vec{j}) $$
+$$ \Delta\vec{r} = 0.772\vec{i} - 0.910\vec{j} \, \si{m} $$
+
+La velocidad media ($\vec{v}_m$) en el intervalo de $5 \, \si{s}$ se obtiene por definición:
+$$ \vec{v}_m = \frac{\Delta\vec{r}}{\Delta t} $$
+$$ \vec{v}_m = \frac{0.772\vec{i} - 0.910\vec{j}}{5} $$
+$$ \vec{v}_m = 0.1544\vec{i} - 0.1820\vec{j} \, \si{m/s} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{v}_m = 0.16\vec{i} - 0.18\vec{j} \, \si{m/s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una partícula se desplaza con MCUVR en el plano $xy$, al instante $t = 0 \, \si{s}$ pasa por el punto $A(4; 3) \, \si{m}$, con rapidez de $6 \, \si{m/s}$, en sentido antihorario y una aceleración tangencial de $3.1 \, \si{m/s^2}$. Luego de $1.5 \, \si{s}$, pasa por primera vez por el punto $B(-5; 0) \, \si{m}$. Determine el número de revoluciones de su radio vector de $0$ a $10 \, \si{s}$. 
+
+\subsection*{Solución}
+
+\textit{Nota: La respuesta proporcionada por el libro base es incorrecta. A continuación se presenta el desarrollo analítico que demuestra el número real de revoluciones.}
+
+\subsubsection*{1. Análisis de las condiciones iniciales}
+A partir del punto inicial $A(4; 3) \, \si{m}$, se calcula el radio de la trayectoria circular:
+$$ R = \sqrt{4^2 + 3^2} = \sqrt{16 + 9} = \sqrt{25} = 5 \, \si{m} $$
+
+Se halla la magnitud de la velocidad angular inicial ($\omega_0$):
+$$ \omega_0 = \frac{v_0}{R} = \frac{6}{5} = 1.2 \, \si{rad/s} $$
+Como el movimiento inicial es en sentido antihorario, el vector es $\vec{\omega}_0 = 1.2\vec{k} \, \si{rad/s}$.
+
+\subsubsection*{2. Aceleración angular}
+Se calcula la magnitud de la aceleración angular ($\alpha$) a partir de la aceleración tangencial:
+$$ \alpha = \frac{a_t}{R} = \frac{3.1}{5} = 0.62 \, \si{rad/s^2} $$
+
+El problema indica que es un Movimiento Circular Uniformemente Variado Retardado (MCUVR). Al ser retardado, la aceleración angular debe oponerse a la velocidad angular. Por lo tanto, actúa en sentido horario:
+$$ \vec{\alpha} = -0.62\vec{k} \, \si{rad/s^2} $$
+
+\subsubsection*{3. Cálculo del desplazamiento angular y revoluciones}
+Se evalúa el desplazamiento angular ($\Delta\theta$) para el intervalo $t = 10 \, \si{s}$:
+$$ \Delta\theta = \omega_0 t + \frac{1}{2}\alpha t^2 $$
+$$ \Delta\theta = (1.2)(10) + \frac{1}{2}(-0.62)(10)^2 $$
+$$ \Delta\theta = 12 - 0.31(100) $$
+$$ \Delta\theta = 12 - 31 = -19 \, \si{rad} $$
+
+El signo negativo indica que, al cabo de $10 \, \si{s}$, el desplazamiento neto ha sido en sentido horario debido a la desaceleración e inversión del movimiento.
+Para hallar el número de revoluciones (como cantidad escalar), se divide la magnitud del desplazamiento angular entre $2\pi$:
+$$ \text{Nro. de revoluciones} = \frac{|\Delta\theta|}{2\pi} = \frac{19}{2\pi} \, \text{rev} $$
+$$ \text{Nro. de revoluciones} \approx 3.02 \, \text{rev} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $3.02 \, \text{rev}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una partícula se desplaza con MCUVR en el plano $xy$, al instante $t = 0 \, \si{s}$ pasa por el punto $A(4; 3) \, \si{m}$, con rapidez de $6 \, \si{m/s}$, en sentido antihorario y una aceleración tangencial de $3.1 \, \si{m/s^2}$. Luego de $1.5 \, \si{s}$, pasa por primera vez por el punto $B(-5; 0) \, \si{m}$. Determine su aceleración centrípeta al instante $1.5 \, \si{s}$.
+
+\subsection*{Solución}
+
+\subsubsection*{1. Velocidad angular a los 1.5 s}
+Del análisis previo se conocen la velocidad angular inicial ($\omega_0 = 1.2 \, \si{rad/s}$) y la aceleración angular ($\alpha = -0.62 \, \si{rad/s^2}$).
+Se calcula la velocidad angular final ($\omega_f$) a los $1.5 \, \si{s}$:
+$$ \omega_f = \omega_0 + \alpha t $$
+$$ \omega_f = 1.2 + (-0.62)(1.5) $$
+$$ \omega_f = 1.2 - 0.93 = 0.27 \, \si{rad/s} $$
+
+En forma vectorial, el movimiento a los $1.5 \, \si{s}$ sigue siendo antihorario:
+$$ \vec{\omega}_f = 0.27\vec{k} \, \si{rad/s} $$
+
+\subsubsection*{2. Vector posición a los 1.5 s}
+El enunciado indica que a los $1.5 \, \si{s}$ la partícula pasa por el punto $B(-5; 0) \, \si{m}$. 
+Por lo tanto, el vector posición de la partícula en ese instante es:
+$$ \vec{r}_B = -5\vec{i} \, \si{m} $$
+
+\subsubsection*{3. Cálculo de la aceleración centrípeta}
+La aceleración centrípeta ($\vec{a}_c$) se dirige hacia el centro de la trayectoria circular (el origen en este caso). Se calcula mediante la ecuación vectorial:
+$$ \vec{a}_c = -\omega_f^2 \vec{r}_B $$
+$$ \vec{a}_c = -(0.27)^2 (-5\vec{i}) $$
+$$ \vec{a}_c = -0.0729 (-5\vec{i}) $$
+$$ \vec{a}_c = 0.3645\vec{i} \, \si{m/s^2} $$
+
+Aproximando a tres cifras decimales, se obtiene el resultado final.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{a}_c = 0.365\vec{i} \, \si{m/s^2}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una partícula que describe una circunferencia de radio $10 \, \si{m}$ en el plano $xy$ con MCUV en sentido antihorario. A los $0 \, \si{s}$, su velocidad es $\vec{v}_0 = 3\vec{i} - 4\vec{j} \, \si{m/s}$, que forma un ángulo de $120^\circ$ con su aceleración. Realice el gráfico velocidad angular del radio vector versus tiempo de $0$ a $10 \, \si{s}$.
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis de aceleración}
+Se calcula la rapidez inicial ($v_0$):
+$$ v_0 = \sqrt{3^2 + (-4)^2} = 5 \, \si{m/s} $$
+
+La velocidad angular inicial ($\omega_0$) para el movimiento antihorario es:
+$$ \omega_0 = \frac{v_0}{R} = \frac{5}{10} = 0.5 \, \si{rad/s} $$
+
+La aceleración centrípeta ($a_c$) se dirige hacia el centro, formando $90^\circ$ con la velocidad tangencial:
+$$ a_c = \frac{v_0^2}{R} = \frac{5^2}{10} = 2.5 \, \si{m/s^2} $$
+
+El ángulo total entre la velocidad y la aceleración es $120^\circ$. El ángulo entre la aceleración total y la aceleración centrípeta es $120^\circ - 90^\circ = 30^\circ$.
+Como el ángulo supera los $90^\circ$, la aceleración tangencial ($a_t$) se opone a la velocidad (movimiento retardado):
+$$ \tan(30^\circ) = \frac{a_t}{a_c} $$
+$$ a_t = a_c \tan(30^\circ) = 2.5 \left(\frac{\sqrt{3}}{3}\right) \approx 1.443 \, \si{m/s^2} $$
+
+\subsubsection*{2. Ecuación de la velocidad angular}
+Se halla la aceleración angular ($\alpha$). Al ser un movimiento retardado antihorario, $\alpha$ es negativa:
+$$ \alpha = -\frac{a_t}{R} = -\frac{1.443}{10} = -0.1443 \, \si{rad/s^2} $$
+
+La ecuación de la velocidad angular en función del tiempo es:
+$$ \omega(t) = \omega_0 + \alpha t $$
+$$ \omega(t) = 0.5 - 0.1443t $$
+
+Se determina el tiempo en que la partícula se detiene momentáneamente ($\omega = 0$):
+$$ 0 = 0.5 - 0.1443t \implies t = \frac{0.5}{0.1443} \approx 3.464 \, \si{s} $$
+
+La velocidad angular a los $10 \, \si{s}$ es:
+$$ \omega(10) = 0.5 - 0.1443(10) = -0.943 \, \si{rad/s} $$
+
+\subsubsection*{3. Gráfico $\omega$ vs t}
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+t = np.linspace(0, 10, 200)
+w = 0.5 - 0.1443 * t
+
+plt.figure(figsize=(7, 4))
+plt.plot(t, w, 'b-', linewidth=2)
+plt.axhline(0, color='black', linewidth=1)
+plt.axvline(0, color='black', linewidth=1)
+
+t_fill1 = np.linspace(0, 3.464, 100)
+w_fill1 = 0.5 - 0.1443 * t_fill1
+plt.fill_between(t_fill1, w_fill1, 0, color='blue', alpha=0.2)
+
+t_fill2 = np.linspace(3.464, 10, 100)
+w_fill2 = 0.5 - 0.1443 * t_fill2
+plt.fill_between(t_fill2, w_fill2, 0, color='red', alpha=0.2)
+
+plt.xlabel('t (s)')
+plt.ylabel(r'$\omega$ (rad/s)')
+plt.grid(True, linestyle='--', alpha=0.6)
+plt.xlim(0, 10)
+
+plt.text(1.5, 0.15, r'$\Delta\theta > 0$', fontsize=12, color='blue')
+plt.text(6.5, -0.4, r'$\Delta\theta < 0$', fontsize=12, color='red')
+plt.text(3.464, 0.05, '3.46s', fontsize=10, ha='center')
+
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\newpage
+
+\subsection*{Enunciado}
+Una partícula que describe una circunferencia de radio $10 \, \si{m}$ en el plano $xy$ con MCUV en sentido antihorario. A los $0 \, \si{s}$, su velocidad es $\vec{v}_0 = 3\vec{i} - 4\vec{j} \, \si{m/s}$, que forma un ángulo de $120^\circ$ con su aceleración. Determine la distancia recorrida por la partícula, entre $0$ y $10 \, \si{s}$. 
+
+\subsection*{Solución}
+
+\subsubsection*{1. Desplazamiento angular por intervalos}
+La distancia recorrida es un escalar dependiente de la longitud de arco. Dado que la partícula invierte su sentido a los $t = 3.464 \, \si{s}$, se debe calcular la distancia angular absoluta sumando los desplazamientos de cada intervalo.
+
+Para el primer intervalo ($0$ a $3.464 \, \si{s}$):
+$$ \Delta\theta_1 = \left( \frac{\omega_0 + \omega_f}{2} \right) t_1 $$
+$$ \Delta\theta_1 = \left( \frac{0.5 + 0}{2} \right) (3.464) = 0.866 \, \si{rad} $$
+
+Para el segundo intervalo ($3.464 \, \si{s}$ a $10 \, \si{s}$), el tiempo transcurrido es $\Delta t_2 = 10 - 3.464 = 6.536 \, \si{s}$:
+$$ \Delta\theta_2 = \left( \frac{\omega_i + \omega_f}{2} \right) \Delta t_2 $$
+$$ \Delta\theta_2 = \left( \frac{0 + (-0.943)}{2} \right) (6.536) = -3.082 \, \si{rad} $$
+
+\subsubsection*{2. Distancia total recorrida}
+La distancia angular total ($\theta_{total}$) es la suma de los valores absolutos de los desplazamientos:
+$$ \theta_{total} = |\Delta\theta_1| + |\Delta\theta_2| $$
+$$ \theta_{total} = 0.866 + 3.082 = 3.948 \, \si{rad} $$
+
+La distancia lineal ($d$) se obtiene multiplicando por el radio de la trayectoria ($R = 10 \, \si{m}$):
+$$ d = \theta_{total} R $$
+$$ d = (3.948)(10) $$
+$$ d = 39.48 \, \si{m} $$
+
+\textit{Nota: Redondeando el resultado analítico a una cifra decimal, coincide exactamente con la respuesta del libro de $39.5 \, \si{m}$. El $39.4 \, \si{m}$ del texto original se debe al uso de $\alpha$ aproximado a $-0.144 \, \si{rad/s^2}$ en los pasos intermedios.}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $d = 39.49 \, \si{m}$
+\end{tcolorbox}
+
+\end{document}

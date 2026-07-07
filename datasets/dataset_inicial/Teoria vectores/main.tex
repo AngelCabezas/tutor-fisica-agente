@@ -1,0 +1,1478 @@
+\documentclass[12pt, a4paper]{article}
+
+% --- PAQUETES ---
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{geometry}
+\usepackage[most]{tcolorbox}
+\usepackage{siunitx}
+\usepackage{enumitem}
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usepackage{verbatim} 
+\usepackage{xcolor}
+
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta, calc, babel}
+\geometry{a4paper, margin=1in}
+
+% --- CONFIGURACIÓN DE LISTINGS (PYTHON) ---
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstset{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2,
+    language=Python
+}
+
+\title{Ejercicios Teóricos: Cinemática y Vectores}
+\author{Dataset Entrenamiento LLM}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+% ==========================================
+% EJERCICIO 1
+% ==========================================
+
+\subsection*{Enunciado}
+Seleccione el enunciado verdadero.
+\begin{enumerate}[label=\alph*)]
+    \item El desplazamiento de una partícula es un vector que inicia en un punto de la trayectoria y termina en otro punto de la misma en un determinado tiempo
+    \item La posición de una partícula es un escalar que representa su ubicación durante el movimiento
+    \item La trayectoria es un vector que define el desplazamiento de una partícula
+    \item La trayectoria es un escalar que define la distancia recorrida por una partícula
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Conceptos Fundamentales de Cinemática}
+Es vital distinguir entre variables escalares, vectoriales y geométricas:
+\begin{itemize}
+    \item \textbf{Opción b:} Falsa. La posición ($\vec{r}$) es un \textbf{vector} que va desde el origen de coordenadas hasta la ubicación de la partícula, no un escalar.
+    \item \textbf{Opción c:} Falsa. La trayectoria no es un vector. Es un conjunto continuo de puntos en el espacio (una curva geométrica) por donde pasó la partícula.
+    \item \textbf{Opción d:} Falsa. Aunque se suele confundir, la trayectoria es el \textit{lugar geométrico} (la forma del camino). El \textit{escalar} que mide la longitud total de ese camino se llama \textbf{distancia recorrida}, no "trayectoria".
+    \item \textbf{Opción a (Correcta):} El \textbf{desplazamiento} ($\Delta \vec{r}$) es estrictamente el vector que une la posición inicial ($\vec{r}_0$) con la posición final ($\vec{r}_f$). Es decir, inicia y termina en dos puntos específicos de la trayectoria, independientemente de la forma del camino recorrido en ese tiempo.
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large a) El desplazamiento de una partícula es un vector que inicia en un punto de la trayectoria y termina en otro...
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 2
+% ==========================================
+
+\subsection*{Enunciado}
+Durante el movimiento de una partícula, su desplazamiento es igual a su vector posición:
+\begin{enumerate}[label=\alph*)]
+    \item siempre
+    \item si partió del origen del sistema de coordenadas
+    \item si la trayectoria es rectilínea
+    \item si la trayectoria es curvilínea
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Relación Matemática entre Desplazamiento y Posición}
+Por definición, el vector desplazamiento ($\Delta \vec{r}$) es el cambio en el vector posición:
+$$ \Delta \vec{r} = \vec{r}_f - \vec{r}_0 $$
+Donde $\vec{r}_f$ es la posición actual (o final) y $\vec{r}_0$ es la posición inicial. 
+
+Para que el desplazamiento sea exactamente igual al vector posición actual ($\Delta \vec{r} = \vec{r}_f$), el término de la posición inicial debe ser nulo:
+$$ \vec{r}_0 = \vec{0} = 0\hat{i} + 0\hat{j} + 0\hat{k} $$
+Esto significa físicamente que la partícula debe haber comenzado su movimiento exactamente en el origen $(0,0,0)$ del sistema de referencia elegido. La forma de la trayectoria (recta o curva) es irrelevante para esta condición.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) si partió del origen del sistema de coordenadas
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 3
+% ==========================================
+
+\subsection*{Enunciado}
+La magnitud del desplazamiento es mayor a la distancia recorrida por una partícula, en un mismo intervalo de tiempo:
+\begin{enumerate}[label=\alph*)]
+    \item siempre
+    \item nunca
+    \item si la trayectoria es rectilínea
+    \item si la trayectoria es curvilínea
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Desplazamiento vs. Distancia}
+\begin{itemize}
+    \item La \textbf{magnitud del desplazamiento} ($|\Delta \vec{r}|$) es la longitud de la línea recta que une el punto inicial y el punto final. Geométricamente, la línea recta es la distancia más corta posible entre dos puntos.
+    \item La \textbf{distancia recorrida} ($d$) es un escalar que suma toda la longitud real del camino transitado.
+\end{itemize}
+
+Por lo tanto, la distancia real $d$ siempre será mayor o igual al desplazamiento en línea recta. Se cumple la desigualdad:
+$$ |\Delta \vec{r}| \le d $$
+Son iguales ($|\Delta \vec{r}| = d$) únicamente si la partícula se mueve en línea recta \textit{sin retroceder}. En cualquier otro caso (curvas o zigzags), el camino real es más largo que la línea recta. Por consiguiente, es \textbf{imposible} que la línea recta ($|\Delta \vec{r}|$) sea mayor que el camino total transitado.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) nunca
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 4
+% ==========================================
+
+\subsection*{Enunciado}
+Dos partículas se encuentran en algún instante de su movimiento, cuando:
+\begin{enumerate}[label=\alph*)]
+    \item en diferente instante se encuentran en la misma posición
+    \item en el mismo instante se encuentran en diferente posición
+    \item en el mismo instante se encuentran en la misma posición
+    \item en diferente instante se encuentran en diferente posición
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Condición Física de Encuentro (Intersección de Trayectorias)}
+En cinemática, la posición de una partícula se describe mediante una función vectorial dependiente del tiempo: $\vec{r}(t)$.
+Para que dos partículas ($1$ y $2$) se "encuentren" o "choquen", no basta con que pasen por el mismo lugar geométrico en el espacio (eso solo indica que sus trayectorias se cruzan). 
+
+La condición estricta es que ambas deben ocupar el mismo punto en el espacio de coordenadas \textbf{exactamente en el mismo momento temporal}. Matemáticamente, se igualan sus ecuaciones de movimiento para un tiempo común $t^*$:
+$$ \vec{r}_1(t^*) = \vec{r}_2(t^*) $$
+Por lo tanto, se encuentran cuando en el \textit{mismo instante} están en la \textit{misma posición}.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) en el mismo instante se encuentran en la misma posición
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 5
+% ==========================================
+
+\subsection*{Enunciado}
+Conociendo solo el desplazamiento de una partícula, se puede deducir la ecuación de la trayectoria de la misma:
+\begin{enumerate}[label=\alph*)]
+    \item siempre
+    \item nunca
+    \item solamente si la trayectoria es rectilínea
+    \item solamente si la trayectoria es curvilínea
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Limitaciones del Vector Desplazamiento}
+El vector desplazamiento $\Delta \vec{r}$ solo nos proporciona dos datos espaciales: dónde comenzó y dónde terminó el movimiento. 
+Si \textbf{solo} conocemos ese vector, podríamos trazar infinitas curvas diferentes que conecten esos dos puntos (parábolas, espirales, zigzags). Por lo tanto, en un caso general, no se puede deducir la trayectoria.
+
+Sin embargo, si se nos proporciona \textbf{la restricción adicional} de que el movimiento ocurrió exclusivamente en línea recta y sin retrocesos, entonces el vector desplazamiento actúa como el \textit{vector director} de esa recta. Con el punto inicial y el vector director, es posible estructurar la ecuación paramétrica de la trayectoria. 
+Debido a esta salvedad, la deducción solo es posible si se asume o se sabe de antemano que la trayectoria fue rectilínea.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) solamente si la trayectoria es rectilínea
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 6
+% ==========================================
+
+\subsection*{Enunciado}
+La posición relativa se define como la diferencia de los vectores posición de:
+\begin{enumerate}[label=\alph*)]
+    \item dos partículas definidos en instantes diferentes
+    \item dos partículas definidos en el mismo instante
+    \item una partícula, definidos en instantes distintos
+    \item una partícula en un mismo instante, medidos por dos observadores diferentes
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Definición de Posición Relativa}
+La posición relativa permite describir dónde se encuentra un objeto $A$ desde la perspectiva o marco de referencia de un objeto $B$.
+Matemáticamente, la posición relativa de la partícula $A$ con respecto a $B$ se define vectorial y simultáneamente como:
+$$ \vec{r}_{A/B}(t) = \vec{r}_A(t) - \vec{r}_B(t) $$
+
+\begin{itemize}
+    \item \textbf{Opción a:} Falsa. Restar vectores en instantes diferentes carece de significado físico útil para ubicar cosas relativas simultáneas.
+    \item \textbf{Opción c:} Falsa. La diferencia de la posición de \textit{una misma partícula} en dos instantes distintos se llama \textbf{Desplazamiento} ($\vec{r}(t_f) - \vec{r}(t_0)$).
+    \item \textbf{Opción b (Correcta):} Se restan los vectores posición de \textbf{dos partículas} diferentes, evaluadas exactamente en el \textbf{mismo instante} de tiempo $t$.
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) dos partículas definidos en el mismo instante
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 7
+% ==========================================
+
+\subsection*{Enunciado}
+Seleccione la expresión correcta.
+\begin{enumerate}[label=\alph*)]
+    \item $\vec{r}_f - \vec{r}_0 = \vec{r}_{A/B}$
+    \item $\vec{r}_B - \vec{r}_A \neq \vec{r}_{A/B}$
+    \item $\vec{r}_{A/B} + \vec{r}_{B/C} = \vec{r}_{A/C}$
+    \item $\vec{r}_A + \vec{r}_B = \vec{r}_{A/B}$
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Álgebra Vectorial Galileana}
+Analicemos cada ecuación con base en las definiciones de cinemática:
+\begin{itemize}
+    \item \textbf{Opción a:} $\vec{r}_f - \vec{r}_0$ es el desplazamiento $\Delta \vec{r}$, no la posición relativa entre dos cuerpos diferentes.
+    \item \textbf{Opción b:} Aunque $\vec{r}_B - \vec{r}_A = \vec{r}_{B/A}$ (y por ende es diferente a $\vec{r}_{A/B}$ que es el negativo), la opción c es una regla universal de adición mucho más fundamental y constructiva.
+    \item \textbf{Opción d:} Falsa. La posición relativa requiere una resta vectorial, no una suma.
+    \item \textbf{Opción c (Correcta):} Esta es la regla de adición de posiciones (o velocidades) relativas. Lo comprobamos matemáticamente expandiendo cada término con respecto a un origen común (Tierra):
+\end{itemize}
+Sustituyendo $\vec{r}_{A/B} = \vec{r}_A - \vec{r}_B$ y $\vec{r}_{B/C} = \vec{r}_B - \vec{r}_C$:
+$$ (\vec{r}_A - \vec{r}_B) + (\vec{r}_B - \vec{r}_C) $$
+Cancelamos $-\vec{r}_B$ con $+\vec{r}_B$:
+$$ \vec{r}_A - \vec{r}_C = \vec{r}_{A/C} $$
+La identidad se cumple a la perfección.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) $\vec{r}_{A/B} + \vec{r}_{B/C} = \vec{r}_{A/C}$
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 8
+% ==========================================
+
+\subsection*{Enunciado}
+Sea un vector $\vec{A} = a_1 \hat{i} + a_2 \hat{j} + a_3 \hat{k}$. El ángulo entre los vectores $\vec{A}_{xy}$ y $\vec{A}_x$ es:
+\begin{enumerate}[label=\alph*)]
+    \item $\sin^{-1}(a_1 / \sqrt{a_1 + a_2})$
+    \item $\cos^{-1}(a_1 / \sqrt{a_1 + a_2})$
+    \item $\sin^{-1}(a_1 / \sqrt{a_1^2 + a_2^2})$
+    \item $\cos^{-1}(a_1 / \sqrt{a_1^2 + a_2^2})$
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Producto Punto y Proyecciones}
+Identificamos los vectores componentes según la notación dada:
+\begin{itemize}
+    \item Proyección en el plano XY: $\vec{A}_{xy} = a_1 \hat{i} + a_2 \hat{j}$
+    \item Proyección en el eje X: $\vec{A}_x = a_1 \hat{i}$
+\end{itemize}
+
+El ángulo $\theta$ entre dos vectores se halla con la definición del producto escalar (producto punto):
+$$ \cos \theta = \frac{\vec{A}_{xy} \cdot \vec{A}_x}{|\vec{A}_{xy}| |\vec{A}_x|} $$
+
+Calculamos el producto punto:
+$$ \vec{A}_{xy} \cdot \vec{A}_x = (a_1)(a_1) + (a_2)(0) = a_1^2 $$
+
+Calculamos las magnitudes:
+$$ |\vec{A}_{xy}| = \sqrt{a_1^2 + a_2^2} $$
+$$ |\vec{A}_x| = \sqrt{a_1^2} = a_1 $$
+
+Sustituyendo en la fórmula del coseno:
+$$ \cos \theta = \frac{a_1^2}{(\sqrt{a_1^2 + a_2^2}) (a_1)} = \frac{a_1}{\sqrt{a_1^2 + a_2^2}} $$
+
+Despejando el ángulo:
+$$ \theta = \cos^{-1} \left( \frac{a_1}{\sqrt{a_1^2 + a_2^2}} \right) $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large d) $\cos^{-1}(a_1 / \sqrt{a_1^2 + a_2^2})$
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 9
+% ==========================================
+
+\subsection*{Enunciado}
+En una recta se toman sucesivamente tres puntos $M$, $N$ y $P$. El punto $A$ es el punto medio del segmento $MN$ y $B$ es el punto medio del segmento $NP$. La expresión del vector $\vec{AB}$ en función del vector $\vec{PM}$ es:
+\begin{enumerate}[label=\alph*)]
+    \item $1/2 \vec{PM}$
+    \item $-1/2 \vec{PM}$
+    \item $-\vec{PM}$
+    \item $-2 \vec{PM}$
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Geometría Vectorial en 1D}
+\textit{Nota de tutor: Es común equivocarse en los signos de los vectores al ignorar su dirección. Si bien la longitud escalar de AB es la mitad de MP, vectorialente debemos cuidar los sentidos.}
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+def draw_vector_line():
+    fig, ax = plt.subplots(figsize=(8, 2))
+    ax.set_xlim(-1, 9); ax.set_ylim(-1, 1); ax.axis('off')
+    
+    # Eje
+    ax.plot([0, 8], [0, 0], 'k-', lw=2)
+    
+    # Puntos M=0, N=4, P=8
+    pts = {'M': 0, 'A': 2, 'N': 4, 'B': 6, 'P': 8}
+    for label, x in pts.items():
+        ax.plot(x, 0, 'ko')
+        ax.text(x, -0.3, label, ha='center', fontsize=12)
+        
+    # Vector AB (Hacia la derecha)
+    ax.arrow(2, 0.3, 3.8, 0, head_width=0.1, color='blue', length_includes_head=True)
+    ax.text(4, 0.45, r'$\vec{AB}$', color='blue', ha='center')
+    
+    # Vector PM (Hacia la izquierda)
+    ax.arrow(8, 0.7, -7.8, 0, head_width=0.1, color='red', length_includes_head=True)
+    ax.text(4, 0.85, r'$\vec{PM}$', color='red', ha='center')
+    
+    plt.show()
+
+draw_vector_line()
+\end{lstlisting}
+
+Sea un eje de coordenadas donde los puntos sucesivos $M, N, P$ tienen posiciones $x_M < x_N < x_P$.
+Hallamos los puntos medios:
+$$ x_A = \frac{x_M + x_N}{2} $$
+$$ x_B = \frac{x_N + x_P}{2} $$
+
+El vector $\vec{AB}$ (que apunta de $A$ hacia $B$, de izquierda a derecha) es:
+$$ \vec{AB} = x_B - x_A = \left(\frac{x_N + x_P}{2}\right) - \left(\frac{x_M + x_N}{2}\right) $$
+$$ \vec{AB} = \frac{x_N + x_P - x_M - x_N}{2} = \frac{x_P - x_M}{2} $$
+Reconocemos que $(x_P - x_M)$ es el vector $\vec{MP}$. Por lo tanto:
+$$ \vec{AB} = \frac{1}{2} \vec{MP} $$
+Sin embargo, el ejercicio pide en función de $\vec{PM}$ (que apunta de $P$ hacia $M$, de derecha a izquierda). Como $\vec{MP} = -\vec{PM}$, sustituimos:
+$$ \vec{AB} = -\frac{1}{2} \vec{PM} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) $-1/2 \vec{PM}$
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 10
+% ==========================================
+
+\subsection*{Enunciado}
+Si se cumple la expresión $|\vec{M} + \vec{N}| = |\vec{M}| + |\vec{N}|$, necesariamente los vectores $\vec{M}$ y $\vec{N}$ son:
+\begin{enumerate}[label=\alph*)]
+    \item paralelos
+    \item coplanares
+    \item perpendiculares
+    \item iguales
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Desigualdad Triangular y Ángulos Vectoriales}
+\textit{Nota de tutor: Asumir que dos vectores deben ser idénticos ($\vec{M}=\vec{N}$) para que la suma de sus magnitudes coincida con la magnitud de su suma es un falso razonamiento muy común. Lo demostraremos a continuación.}
+
+Partimos de la definición de la magnitud del vector suma usando el Teorema del Coseno o producto punto:
+$$ |\vec{M} + \vec{N}|^2 = |\vec{M}|^2 + |\vec{N}|^2 + 2|\vec{M}||\vec{N}| \cos \theta $$
+Donde $\theta$ es el ángulo entre los vectores.
+
+El problema establece la condición $|\vec{M} + \vec{N}| = |\vec{M}| + |\vec{N}|$. 
+Elevamos esta condición impuesta al cuadrado en ambos lados:
+$$ (|\vec{M}| + |\vec{N}|)^2 = |\vec{M}|^2 + |\vec{N}|^2 + 2|\vec{M}||\vec{N}| $$
+
+Igualamos ambas ecuaciones matemáticas:
+$$ |\vec{M}|^2 + |\vec{N}|^2 + 2|\vec{M}||\vec{N}| \cos \theta = |\vec{M}|^2 + |\vec{N}|^2 + 2|\vec{M}||\vec{N}| $$
+Simplificando términos idénticos a ambos lados, nos queda:
+$$ 2|\vec{M}||\vec{N}| \cos \theta = 2|\vec{M}||\vec{N}| $$
+$$ \cos \theta = 1 $$
+$$ \theta = \arccos(1) = 0^\circ $$
+
+Si el ángulo entre dos vectores es $0^\circ$, significa que apuntan exactamente en la misma dirección; es decir, son \textbf{paralelos}. 
+Por ejemplo, si $\vec{M} = 2\hat{i}$ y $\vec{N} = 5\hat{i}$, ambos son paralelos pero no son iguales. Aún así, $|\vec{M}+\vec{N}| = |7\hat{i}| = 7$, lo cual es exactamente igual a $|\vec{M}| + |\vec{N}| = 2 + 5 = 7$. La única condición matemática \textit{necesaria} es el paralelismo.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large a) paralelos
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 11
+% ==========================================
+
+\subsection*{Enunciado}
+Un vector unitario debe:
+\begin{enumerate}[label=\alph*)]
+    \item ser paralelo a uno de los ejes del sistema $xyz$
+    \item ser paralelo a un vector dado
+    \item tener una magnitud o módulo igual a la unidad
+    \item estar expresado en términos de los unitarios $\hat{i}$, $\hat{j}$ y $\hat{k}$
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Definición de Vector Unitario}
+Un vector unitario (denotado comúnmente con un circunflejo, ej. $\hat{u}$) es una herramienta matemática que se utiliza exclusivamente para indicar una \textbf{dirección} en el espacio.
+\begin{itemize}
+    \item \textbf{Opciones a y d:} Falsas. Un vector unitario puede apuntar en cualquier dirección del espacio tridimensional, no solo a lo largo de los ejes cartesianos, y puede expresarse en otros sistemas de coordenadas (polares, cilíndricas).
+    \item \textbf{Opción b:} Falsa. Es el resultado de normalizar un vector dado, pero su definición intrínseca no depende de ser "paralelo" a otro.
+    \item \textbf{Opción c (Correcta):} La única condición matemática estricta y absoluta para que un vector sea "unitario" es que su módulo o longitud sea exactamente igual a $1$ (adimensional).
+    $$ |\hat{u}| = 1 $$
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) tener una magnitud o módulo igual a la unidad
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 12
+% ==========================================
+
+\subsection*{Enunciado}
+Para calcular el unitario de un vector tridimensional, es suficiente conocer:
+\begin{enumerate}[label=\alph*)]
+    \item la magnitud del vector
+    \item dos de los tres ángulos directores del vector
+    \item el ángulo de elevación o depresión del vector
+    \item los cosenos directores del vector
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Composición de un Vector Unitario 3D}
+Cualquier vector tridimensional $\vec{A}$ puede expresarse en función de sus ángulos directores ($\alpha, \beta, \gamma$), que son los ángulos que forma el vector con los ejes $x, y, z$ respectivamente.
+El vector unitario $\hat{u}_A$ se define geométricamente como:
+$$ \hat{u}_A = \cos\alpha \, \hat{i} + \cos\beta \, \hat{j} + \cos\gamma \, \hat{k} $$
+
+\begin{itemize}
+    \item Conocer "dos de los tres ángulos" (opción b) deja una ambigüedad matemática. Ya que $\cos^2\alpha + \cos^2\beta + \cos^2\gamma = 1$, despejar el tercer ángulo implica una raíz cuadrada que arroja dos posibles signos ($\pm$), es decir, dos posibles direcciones opuestas en ese eje.
+    \item \textbf{Opción d (Correcta):} Conocer los \textbf{cosenos directores} ($\cos\alpha, \cos\beta, \cos\gamma$) completos y con sus respectivos signos es equivalente a conocer exactamente las tres componentes del vector unitario.
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large d) los cosenos directores del vector
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 13
+% ==========================================
+
+\subsection*{Enunciado}
+Si la magnitud del vector diferencia entre dos vectores unitarios es $\sqrt{2}$, entonces dichos vectores unitarios deben:
+\begin{enumerate}[label=\alph*)]
+    \item tener la misma dirección
+    \item tener direcciones contrarias
+    \item ser perpendiculares
+    \item ser colineales
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Aplicación del Teorema del Coseno Vectorial}
+Sean $\hat{u}_1$ y $\hat{u}_2$ dos vectores unitarios, por definición $|\hat{u}_1| = 1$ y $|\hat{u}_2| = 1$.
+Se nos da la magnitud de su diferencia: $|\hat{u}_1 - \hat{u}_2| = \sqrt{2}$.
+
+Elevamos esta expresión al cuadrado y aplicamos el producto escalar:
+$$ |\hat{u}_1 - \hat{u}_2|^2 = |\hat{u}_1|^2 + |\hat{u}_2|^2 - 2|\hat{u}_1||\hat{u}_2| \cos\theta $$
+Sustituyendo los valores conocidos:
+$$ (\sqrt{2})^2 = (1)^2 + (1)^2 - 2(1)(1)\cos\theta $$
+$$ 2 = 1 + 1 - 2\cos\theta $$
+$$ 2 = 2 - 2\cos\theta $$
+Restamos 2 a ambos lados:
+$$ 0 = -2\cos\theta $$
+$$ \cos\theta = 0 $$
+El ángulo cuyo coseno es $0$ es $\theta = 90^\circ$. Por lo tanto, los vectores forman un ángulo recto.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) ser perpendiculares
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 14
+% ==========================================
+
+\subsection*{Enunciado}
+Para que la magnitud del vector diferencia entre dos vectores unitarios sea igual a 2, dichos vectores unitarios, deben formar un ángulo de:
+\begin{enumerate}[label=\alph*)]
+    \item $45^\circ$
+    \item $60^\circ$
+    \item $90^\circ$
+    \item $180^\circ$
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Corrección del Error Estudiantil}
+\textit{Nota de Tutor: La imagen resalta erróneamente la opción 'c' ($90^\circ$). Como demostramos en el ejercicio anterior, a $90^\circ$ la diferencia es $\sqrt{2} \approx 1.41$, no 2. A continuación, demostramos matemáticamente la respuesta correcta.}
+
+Utilizamos la misma fórmula para la magnitud de la diferencia:
+$$ |\hat{u}_1 - \hat{u}_2|^2 = |\hat{u}_1|^2 + |\hat{u}_2|^2 - 2|\hat{u}_1||\hat{u}_2| \cos\theta $$
+El problema nos indica que el resultado de la diferencia es $2$. Sustituimos:
+$$ (2)^2 = (1)^2 + (1)^2 - 2(1)(1)\cos\theta $$
+$$ 4 = 1 + 1 - 2\cos\theta $$
+$$ 4 = 2 - 2\cos\theta $$
+$$ 2 = -2\cos\theta $$
+$$ \cos\theta = -1 $$
+El único ángulo en el que el coseno vale $-1$ es \textbf{$\theta = 180^\circ$}. Físicamente, si dos vectores de magnitud 1 apuntan en direcciones opuestas ($\hat{i}$ y $-\hat{i}$), su diferencia es $\hat{i} - (-\hat{i}) = 2\hat{i}$, cuya magnitud es exactamente 2.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large d) $180^\circ$
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 15
+% ==========================================
+
+\subsection*{Enunciado}
+De las siguientes opciones, el vector unitario es:
+\begin{enumerate}[label=\alph*)]
+    \item $\hat{i} + \hat{j} - \hat{k}$
+    \item $0.5 \hat{i} + 0.5 \hat{k}$
+    \item $\frac{1}{2}\hat{i} + \frac{1}{2}\hat{j} - \frac{\sqrt{2}}{2}\hat{k}$
+    \item $\cos 30^\circ \hat{i} + \cos 50^\circ \hat{j} - \cos 120^\circ \hat{k}$
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Comprobación de Magnitudes (Corrección)}
+\textit{Nota de Tutor: La opción resaltada en la imagen ('d') es incorrecta. Demostraremos que su magnitud es mayor a 1, mientras que otra opción cumple con ser un vector unitario exacto.}
+
+Calculamos la magnitud (Módulo) de cada opción:
+\begin{itemize}
+    \item \textbf{Opción a:} $\sqrt{1^2 + 1^2 + (-1)^2} = \sqrt{3} \approx 1.73 \neq 1$
+    \item \textbf{Opción b:} $\sqrt{0.5^2 + 0.5^2} = \sqrt{0.25 + 0.25} = \sqrt{0.5} \approx 0.707 \neq 1$
+    \item \textbf{Opción d (Marcada erróneamente):} 
+    $$ \sqrt{(\cos 30^\circ)^2 + (\cos 50^\circ)^2 + (-\cos 120^\circ)^2} $$
+    $$ \sqrt{(0.866)^2 + (0.642)^2 + (0.5)^2} = \sqrt{0.75 + 0.412 + 0.25} = \sqrt{1.412} \approx 1.18 \neq 1 $$
+    \item \textbf{Opción c (Correcta):}
+    $$ \sqrt{\left(\frac{1}{2}\right)^2 + \left(\frac{1}{2}\right)^2 + \left(-\frac{\sqrt{2}}{2}\right)^2} $$
+    $$ \sqrt{\frac{1}{4} + \frac{1}{4} + \frac{2}{4}} = \sqrt{\frac{4}{4}} = \sqrt{1} = 1 $$
+\end{itemize}
+La única opción cuya magnitud es exactamente la unidad es la $c$.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) $\frac{1}{2}\hat{i} + \frac{1}{2}\hat{j} - \frac{\sqrt{2}}{2}\hat{k}$
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 16
+% ==========================================
+
+\subsection*{Enunciado}
+El producto vectorial de dos vectores unitarios:
+\begin{enumerate}[label=\alph*)]
+    \item siempre es otro vector unitario
+    \item da como resultado un vector unitario cuando son ortogonales
+    \item da como resultado un vector unitario cuando son colineales
+    \item nunca puede ser otro vector unitario
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Propiedades del Producto Cruz (Corrección)}
+\textit{Nota de Tutor: La opción 'a' resaltada en la imagen es falsa, ya que el producto vectorial depende crucialmente del ángulo entre ellos.}
+
+La magnitud del producto vectorial (cruz) entre dos vectores $\vec{A}$ y $\vec{B}$ está dada por:
+$$ |\vec{A} \times \vec{B}| = |\vec{A}| |\vec{B}| \sin\theta $$
+Si $\hat{u}_1$ y $\hat{u}_2$ son vectores unitarios, sus magnitudes son 1:
+$$ |\hat{u}_1 \times \hat{u}_2| = (1)(1)\sin\theta = \sin\theta $$
+Para que el vector resultante sea unitario, su magnitud debe ser exactamente 1. Esto significa que:
+$$ \sin\theta = 1 $$
+El único ángulo (entre $0^\circ$ y $180^\circ$) donde el seno es igual a 1 es **$\theta = 90^\circ$**. Por lo tanto, el producto vectorial de dos vectores unitarios arroja otro vector unitario **exclusivamente** si son perpendiculares (ortogonales) entre sí (ej. $\hat{i} \times \hat{j} = \hat{k}$).
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) da como resultado un vector unitario cuando son ortogonales
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 17
+% ==========================================
+
+\subsection*{Enunciado}
+El producto vectorial de dos vectores no unitarios:
+\begin{enumerate}[label=\alph*)]
+    \item da como resultado un vector unitario cuando son ortogonales
+    \item da como resultado un vector unitario cuando son colineales
+    \item puede dar como resultado un vector unitario
+    \item nunca es otro vector unitario
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Refutación por Contraejemplo (Corrección)}
+\textit{Nota de Tutor: La opción 'd' resaltada es falsa. Afirmar "nunca" en matemáticas exige que no exista ni un solo caso posible. Lo refutaremos construyendo un contraejemplo.}
+
+Sea el vector $\vec{A} = 2\hat{i}$ y el vector $\vec{B} = 0.5\hat{j}$.
+\begin{itemize}
+    \item $\vec{A}$ no es unitario ($|\vec{A}| = 2$).
+    \item $\vec{B}$ no es unitario ($|\vec{B}| = 0.5$).
+\end{itemize}
+Calculamos su producto vectorial:
+$$ \vec{A} \times \vec{B} = (2\hat{i}) \times (0.5\hat{j}) = (2)(0.5) (\hat{i} \times \hat{j}) = 1\hat{k} $$
+El vector resultante es $\hat{k}$, el cual \textbf{sí es un vector unitario} (módulo igual a 1). 
+Por lo tanto, bajo ciertas combinaciones de magnitudes y ángulos (ej. cuando $|\vec{A}||\vec{B}|\sin\theta = 1$), \textbf{sí puede dar como resultado} un vector unitario.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) puede dar como resultado un vector unitario
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 18
+% ==========================================
+
+\subsection*{Enunciado}
+Es posible dividir una cantidad vectorial por:
+\begin{enumerate}[label=\alph*)]
+    \item un vector unitario
+    \item una cantidad vectorial diferente de cero
+    \item una cantidad escalar diferente de cero
+    \item una cantidad escalar igual a cero
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Axiomas del Álgebra Vectorial}
+Revisemos las operaciones válidas en un Espacio Vectorial:
+\begin{itemize}
+    \item \textbf{Opciones a y b:} Falsas. En el álgebra vectorial estándar de $R^n$, \textbf{la división por un vector no está definida matemática ni físicamente}. No se puede dividir un vector para otro vector.
+    \item \textbf{Opción d:} Falsa. La división para cero (escalar o no) provoca una indeterminación matemática ($\infty$).
+    \item \textbf{Opción c (Correcta):} Un vector $\vec{V}$ puede multiplicarse por un escalar $k$. Si definimos $k = 1/c$, donde $c$ es un escalar no nulo ($c \neq 0$), entonces la operación $\frac{1}{c} \vec{V}$ es perfectamente válida y representa escalar (estirar o encoger) el vector.
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) una cantidad escalar diferente de cero
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 19
+% ==========================================
+
+\subsection*{Enunciado}
+Un punto $B$ está ubicado a $200 \, \text{m}$ de otro $A$, en la dirección $\vec{u} = 0.50 \hat{i} - a \hat{j} + 0.33 \hat{k}$ (ángulo $\beta > 90^\circ$). El vector $\vec{AB}$ es:
+\begin{enumerate}[label=\alph*)]
+    \item $100 \hat{i} + 160 \hat{j} + 66 \hat{k} \, \text{m}$
+    \item $100 \hat{i} - 160 \hat{j} + 66 \hat{k} \, \text{m}$
+    \item $0.50 \hat{i} - 0.80 \hat{j} + 0.33 \hat{k} \, \text{m}$
+    \item $0.50 \hat{i} + 0.80 \hat{j} + 0.33 \hat{k} \, \text{m}$
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Cálculo de Componentes a partir de la Magnitud y Dirección}
+Para que $\vec{u}$ defina puramente una dirección (como indican los ángulos directores), debe ser un \textbf{vector unitario} ($|\vec{u}| = 1$). 
+$$ |\vec{u}|^2 = u_x^2 + u_y^2 + u_z^2 = 1 $$
+$$ (0.50)^2 + (-a)^2 + (0.33)^2 = 1 $$
+$$ 0.25 + a^2 + 0.1089 = 1 $$
+$$ a^2 + 0.3589 = 1 $$
+$$ a^2 = 1 - 0.3589 = 0.6411 $$
+$$ a = \pm\sqrt{0.6411} \approx \pm 0.8 $$
+
+El problema nos indica que el ángulo $\beta$ (ángulo con el eje $Y$) es mayor a $90^\circ$. En el segundo cuadrante, el $\cos\beta$ es negativo. 
+Dado que $u_y = \cos\beta$, entonces $u_y$ debe ser negativo. 
+En el vector, tenemos $u_y = -a$, por lo que $a$ debe ser positivo ($+0.8$) para mantener el signo negativo del término.
+$$ \vec{u} \approx 0.50 \hat{i} - 0.80 \hat{j} + 0.33 \hat{k} $$
+
+El vector $\vec{AB}$ se define multiplicando su magnitud escalar por el vector dirección unitario:
+$$ \vec{AB} = |\vec{AB}| \cdot \vec{u} $$
+$$ \vec{AB} = 200 \, (0.50 \hat{i} - 0.80 \hat{j} + 0.33 \hat{k}) $$
+$$ \vec{AB} = 100 \hat{i} - 160 \hat{j} + 66 \hat{k} \, \text{m} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) $100 \hat{i} - 160 \hat{j} + 66 \hat{k} \, \text{m}$
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 20
+% ==========================================
+
+\subsection*{Enunciado}
+Si $\vec{A} = (m-1)\hat{i} + (2m+3)\hat{j}$ y $\vec{B} = (m-2)\hat{i} + (2m-19)\hat{j}$. Para que se cumpla que $3\vec{A} + \vec{B} = \vec{0}$, el valor del número real $m$ es:
+\begin{enumerate}[label=\alph*)]
+    \item $1/4$
+    \item $3/4$
+    \item $5/4$
+    \item $7/4$
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Igualdad Vectorial y Sistemas de Ecuaciones}
+Para que un vector resultante sea igual al vector nulo ($\vec{0} = 0\hat{i} + 0\hat{j}$), \textbf{todas} sus componentes ortogonales deben ser cero simultáneamente.
+Planteamos la ecuación vectorial:
+$$ 3 [ (m-1)\hat{i} + (2m+3)\hat{j} ] + [ (m-2)\hat{i} + (2m-19)\hat{j} ] = 0\hat{i} + 0\hat{j} $$
+$$ [3(m-1)\hat{i} + 3(2m+3)\hat{j}] + [(m-2)\hat{i} + (2m-19)\hat{j}] = 0\hat{i} + 0\hat{j} $$
+
+Agrupamos los términos de las componentes en $X$ (eje $\hat{i}$):
+$$ 3(m-1) + (m-2) = 0 $$
+$$ 3m - 3 + m - 2 = 0 $$
+$$ 4m - 5 = 0 $$
+$$ 4m = 5 \implies m = \frac{5}{4} $$
+
+Para estar matemáticamente seguros, verificamos en el eje $Y$ (eje $\hat{j}$):
+$$ 3(2m+3) + (2m-19) = 0 $$
+$$ 6m + 9 + 2m - 19 = 0 $$
+$$ 8m - 10 = 0 $$
+$$ 8m = 10 \implies m = \frac{10}{8} = \frac{5}{4} $$
+El sistema es consistente en ambos ejes.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) $5/4$
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 21
+% ==========================================
+
+\subsection*{Enunciado}
+Seleccione la operación expresada consistentemente.
+\begin{enumerate}[label=\alph*)]
+    \item $\vec{A} = \vec{B} \times \vec{C} + (\vec{D} \cdot \vec{E})\vec{F}$
+    \item $\vec{G} = \vec{H} \cdot \vec{I} / 3 + (5\hat{j}) \cdot (2\hat{k})$
+    \item $\vec{L} = 3\vec{M} / \vec{N} - 2\vec{P} \cdot \vec{Q}$
+    \item $\vec{R} = (\vec{S} \cdot \vec{T}) \times (\vec{U} \cdot \vec{V}) - (\vec{W} \times \vec{Y}) \cdot \vec{Z}$
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Consistencia en el Álgebra Vectorial}
+Para que una ecuación vectorial sea consistente, las operaciones deben respetar las reglas dimensionales de los escalares y vectores:
+\begin{itemize}
+    \item \textbf{Opción c:} Falsa. Como vimos antes, la división entre un vector ($\vec{N}$) no está definida en matemáticas.
+    \item \textbf{Opción b:} Falsa. El producto punto $\vec{H} \cdot \vec{I}$ da un escalar. El producto punto $(5\hat{j}) \cdot (2\hat{k})$ da otro escalar. La suma de dos escalares es un escalar, pero la ecuación está igualada a un vector $\vec{G}$. Es inconsistente.
+    \item \textbf{Opción d:} Falsa. El producto punto da escalares. No se puede realizar un producto cruz ($\times$) entre dos escalares como $(\vec{S} \cdot \vec{T})$ y $(\vec{U} \cdot \vec{V})$. 
+    \item \textbf{Opción a (Correcta):} Analicemos término a término:
+    \begin{itemize}
+        \item $\vec{B} \times \vec{C}$ resulta en un \textbf{Vector}.
+        \item $(\vec{D} \cdot \vec{E})$ resulta en un Escalar.
+        \item Un Escalar multiplicado por el vector $\vec{F}$ resulta en un \textbf{Vector}.
+        \item La suma de Vector + Vector da como resultado otro \textbf{Vector} ($\vec{A}$).
+    \end{itemize}
+    La operación es perfectamente consistente.
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large a) $\vec{A} = \vec{B} \times \vec{C} + (\vec{D} \cdot \vec{E})\vec{F}$
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 22
+% ==========================================
+
+\subsection*{Enunciado}
+Señale el enunciado verdadero.
+\begin{enumerate}[label=\alph*)]
+    \item $\vec{A} \cdot \vec{B} = 0$; si $|\vec{A}| = |\vec{B}| = 1$
+    \item $\hat{u} = \hat{i} + \hat{j} - \hat{k}$ es un vector unitario
+    \item $\vec{A} \cdot \vec{B}$ puede ser igual a $\frac{1}{2} A^2$
+    \item $\vec{A} \times (\vec{B} \times \vec{C}) = \vec{0}$; si $\vec{A} = \vec{B}$
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Corrección Analítica}
+\textit{Nota de Tutor: La opción 'b' que suele marcarse por error es falsa. Comprobémoslo calculando su magnitud:}
+$$ |\hat{i} + \hat{j} - \hat{k}| = \sqrt{1^2 + 1^2 + (-1)^2} = \sqrt{3} \approx 1.73 \neq 1 $$
+No es unitario. Evaluemos el resto:
+
+\begin{itemize}
+    \item \textbf{Opción a:} Falsa. $\vec{A} \cdot \vec{B} = |\vec{A}||\vec{B}|\cos\theta$. Si sus magnitudes son 1, el producto es $(1)(1)\cos\theta$. Solo será $0$ si $\theta = 90^\circ$.
+    \item \textbf{Opción d:} Falsa. Por la propiedad del triple producto vectorial (Regla BAC-CAB), no resulta en el vector nulo a menos que existan condiciones de paralelismo muy específicas.
+    \item \textbf{Opción c (Correcta):} Veamos si es posible matemáticamente. Supongamos que $\vec{B}$ es un vector paralelo a $\vec{A}$ ($\theta = 0^\circ$) y cuya magnitud es exactamente la mitad de $\vec{A}$, es decir, $\vec{B} = \frac{1}{2}\vec{A}$.
+    $$ \vec{A} \cdot \vec{B} = \vec{A} \cdot \left( \frac{1}{2} \vec{A} \right) = \frac{1}{2} (\vec{A} \cdot \vec{A}) $$
+    Sabemos que $\vec{A} \cdot \vec{A} = |\vec{A}|^2 = A^2$. Sustituyendo:
+    $$ \vec{A} \cdot \vec{B} = \frac{1}{2} A^2 $$
+    Queda demostrado que la igualdad es perfectamente posible bajo ciertas condiciones.
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) $\vec{A} \cdot \vec{B}$ puede ser igual a $\frac{1}{2} A^2$
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 23
+% ==========================================
+
+\subsection*{Enunciado}
+La magnitud de $\vec{A} \times \vec{B}$ siempre es numéricamente igual al:
+\begin{enumerate}[label=\alph*)]
+    \item área del paralelogramo que tiene por lados los vectores $\vec{A}$ y $\vec{B}$
+    \item área del triángulo que tiene por lados los vectores $\vec{A}$ y $\vec{B}$
+    \item valor de $AB\sin 90^\circ$
+    \item valor de $\vec{A} \cdot \vec{B}$
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Interpretación Geométrica del Producto Vectorial}
+La definición matemática de la magnitud del producto cruz es:
+$$ |\vec{A} \times \vec{B}| = |\vec{A}| |\vec{B}| \sin\theta $$
+Geométricamente, si dibujamos los vectores $\vec{A}$ y $\vec{B}$ originándose en un mismo punto, forman dos lados adyacentes de un paralelogramo. 
+La base de ese paralelogramo es la magnitud $|\vec{A}|$. 
+La altura perpendicular a esa base es la componente de $\vec{B}$ que forma $90^\circ$ con $\vec{A}$, la cual se calcula por trigonometría como $h = |\vec{B}|\sin\theta$.
+
+Por lo tanto, el área del paralelogramo es:
+$$ \text{Área} = \text{base} \times \text{altura} = |\vec{A}| (|\vec{B}|\sin\theta) = |\vec{A} \times \vec{B}| $$
+(El área del \textit{triángulo} sería la mitad de este valor).
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large a) área del paralelogramo que tiene por lados los vectores $\vec{A}$ y $\vec{B}$
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 24
+% ==========================================
+
+\subsection*{Enunciado}
+Si el producto escalar de los vectores $\vec{A}$ y $\vec{B}$, no nulos, es positivo los vectores $\vec{A}$ y $\vec{B}$:
+\begin{enumerate}[label=\alph*)]
+    \item necesariamente son paralelos
+    \item pueden ser paralelos
+    \item necesariamente son perpendiculares
+    \item pueden ser perpendiculares
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis de Signos en el Producto Escalar}
+Partimos de la ecuación del producto punto:
+$$ \vec{A} \cdot \vec{B} = |\vec{A}| |\vec{B}| \cos\theta $$
+El problema nos dice que el resultado es estrictamente positivo ($> 0$). Como las magnitudes de los vectores ($|\vec{A}|$ y $|\vec{B}|$) son siempre valores positivos, la única forma de que el resultado global sea positivo es que el término del coseno sea positivo:
+$$ \cos\theta > 0 $$
+
+En la circunferencia trigonométrica, el coseno es positivo si el ángulo está en el rango $[0^\circ, 90^\circ)$.
+\begin{itemize}
+    \item No pueden ser perpendiculares ($\theta = 90^\circ$) porque $\cos(90^\circ) = 0$.
+    \item No \textit{necesariamente} son paralelos, porque el ángulo podría ser $30^\circ$ o $45^\circ$ y el producto seguiría siendo positivo.
+    \item Sin embargo, si el ángulo es $\theta = 0^\circ$ ($\cos 0^\circ = 1$), el producto es positivo. Esto significa que \textbf{existe la posibilidad} de que sean paralelos.
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) pueden ser paralelos
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 25
+% ==========================================
+
+\subsection*{Enunciado}
+Si el producto escalar de los vectores $\vec{A}$ y $\vec{B}$, no nulos, es cero los vectores $\vec{A}$ y $\vec{B}$:
+\begin{enumerate}[label=\alph*)]
+    \item necesariamente son paralelos
+    \item pueden ser paralelos
+    \item necesariamente son perpendiculares
+    \item pueden ser perpendiculares
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Condición de Ortogonalidad}
+Aplicamos nuevamente la definición del producto escalar:
+$$ \vec{A} \cdot \vec{B} = |\vec{A}| |\vec{B}| \cos\theta $$
+El problema establece que el resultado es igual a cero:
+$$ |\vec{A}| |\vec{B}| \cos\theta = 0 $$
+Como el enunciado especifica explícitamente que los vectores son "no nulos" (es decir, $|\vec{A}| \neq 0$ y $|\vec{B}| \neq 0$), la única manera de que la multiplicación dé cero es que el coseno sea igual a cero:
+$$ \cos\theta = 0 $$
+El único ángulo entre dos vectores direccionales cuyo coseno es $0$ es $\theta = 90^\circ$. Esto constituye el \textbf{criterio universal de perpendicularidad u ortogonalidad} en el álgebra vectorial. No es una posibilidad, es una certeza matemática.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) necesariamente son perpendiculares
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 26
+% ==========================================
+
+\subsection*{Enunciado}
+El producto vectorial (o producto cruz) de dos vectores no cumple con la propiedad conmutativa. En su lugar, cumple con la propiedad:
+\begin{enumerate}[label=\alph*)]
+    \item Asociativa
+    \item Anticonmutativa
+    \item Distributiva
+    \item Neutra
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Propiedades del Álgebra Vectorial}
+A diferencia de la multiplicación escalar tradicional (donde $a \times b = b \times a$), el producto vectorial genera un nuevo vector perpendicular al plano formado por los dos originales. 
+Por la "Regla de la mano derecha", si invertimos el orden de los vectores, el vector resultante apunta en la dirección exactamente opuesta. Matemáticamente se expresa como:
+$$ \vec{A} \times \vec{B} = - (\vec{B} \times \vec{A}) $$
+Esta característica, donde invertir el orden cambia el signo del resultado, se conoce como propiedad \textbf{anticonmutativa}.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) Anticonmutativa
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 27
+% ==========================================
+
+\subsection*{Enunciado}
+Si la suma de dos vectores unitarios da como resultado otro vector unitario, entonces el ángulo que forman entre ellos es de:
+\begin{enumerate}[label=\alph*)]
+    \item $60^\circ$
+    \item $90^\circ$
+    \item $120^\circ$
+    \item $180^\circ$
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis con el Teorema del Coseno}
+Sean $\hat{u}_1$ y $\hat{u}_2$ los vectores unitarios ($|\hat{u}_1| = 1$ y $|\hat{u}_2| = 1$). El problema nos dice que la magnitud de su suma también es la unidad:
+$$ |\hat{u}_1 + \hat{u}_2| = 1 $$
+Aplicamos la fórmula de la magnitud de la suma vectorial:
+$$ |\hat{u}_1 + \hat{u}_2|^2 = |\hat{u}_1|^2 + |\hat{u}_2|^2 + 2|\hat{u}_1||\hat{u}_2| \cos\theta $$
+Sustituimos los valores conocidos:
+$$ 1^2 = 1^2 + 1^2 + 2(1)(1) \cos\theta $$
+$$ 1 = 1 + 1 + 2\cos\theta $$
+$$ 1 = 2 + 2\cos\theta $$
+$$ -1 = 2\cos\theta \implies \cos\theta = -\frac{1}{2} $$
+El ángulo cuyo coseno es $-0.5$ en el segundo cuadrante es $\theta = 120^\circ$. Geométricamente, los vectores forman un triángulo equilátero con el origen.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) $120^\circ$
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 28
+% ==========================================
+
+\subsection*{Enunciado}
+Dado un vector $\vec{V}$ cualquiera, la operación de producto escalar consigo mismo ($\vec{V} \cdot \vec{V}$) da como resultado:
+\begin{enumerate}[label=\alph*)]
+    \item El vector nulo
+    \item Un vector de magnitud doble
+    \item El cuadrado de la magnitud de $\vec{V}$
+    \item Cero
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Definición Analítica del Producto Escalar}
+El producto escalar (o producto punto) está definido por:
+$$ \vec{A} \cdot \vec{B} = |\vec{A}| |\vec{B}| \cos\theta $$
+Si hacemos el producto de un vector consigo mismo, $\vec{A} = \vec{V}$ y $\vec{B} = \vec{V}$. El ángulo que forma un vector consigo mismo es $\theta = 0^\circ$.
+$$ \vec{V} \cdot \vec{V} = |\vec{V}| |\vec{V}| \cos(0^\circ) $$
+Sabemos que $\cos(0^\circ) = 1$, por lo tanto:
+$$ \vec{V} \cdot \vec{V} = |\vec{V}|^2 = V^2 $$
+El resultado no es un vector (descartamos a y b), es un \textbf{escalar} que equivale estrictamente al cuadrado del módulo del vector original.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) El cuadrado de la magnitud de $\vec{V}$
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 29
+% ==========================================
+
+\subsection*{Enunciado}
+¿Cuál de las siguientes magnitudes físicas NO puede ser representada mediante un vector?
+\begin{enumerate}[label=\alph*)]
+    \item Aceleración
+    \item Fuerza
+    \item Desplazamiento
+    \item Energía Cinética
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Naturaleza Vectorial vs. Escalar en la Física}
+Para que una magnitud sea vectorial, debe requerir de una \textbf{magnitud, dirección y sentido} para estar completamente definida, y debe obedecer las leyes de la adición de vectores.
+\begin{itemize}
+    \item La aceleración, la fuerza y el desplazamiento requieren dirección (no es lo mismo empujar hacia arriba que hacia abajo). Son vectores.
+    \item \textbf{Opción d (Correcta):} La \textbf{Energía Cinética} se define como $K = \frac{1}{2} m v^2$. Aunque la velocidad ($\vec{v}$) es un vector, la energía es un escalar puro (su cálculo implica el producto punto de la velocidad consigo misma $v^2 = \vec{v} \cdot \vec{v}$). La energía de un sistema no apunta hacia ninguna dirección en el espacio.
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large d) Energía Cinética
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 30
+% ==========================================
+
+\subsection*{Enunciado}
+Si se multiplica un vector $\vec{A}$ por un escalar negativo $k$ (donde $k < 0$), el nuevo vector resultante:
+\begin{enumerate}[label=\alph*)]
+    \item Mantiene su dirección y sentido
+    \item Cambia su dirección pero mantiene su sentido
+    \item Mantiene su dirección pero invierte su sentido
+    \item Se vuelve ortogonal al vector original
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Multiplicación por un Escalar}
+Multiplicar un vector por un escalar (sea $k\vec{A}$) afecta a sus propiedades de la siguiente manera:
+\begin{itemize}
+    \item La magnitud se altera en un factor de $|k|$.
+    \item La \textbf{dirección} (la recta matemática infinita sobre la cual descansa el vector) \textbf{nunca cambia}. Los vectores $\vec{A}$ y $k\vec{A}$ siempre son paralelos.
+    \item El \textbf{sentido} (hacia dónde apunta la flecha sobre esa recta) depende del signo del escalar. Si $k > 0$, mantiene el sentido. Si $k < 0$, invierte su sentido $180^\circ$.
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) Mantiene su dirección pero invierte su sentido
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 31
+% ==========================================
+
+\subsection*{Enunciado}
+Dos vectores $\vec{A}$ y $\vec{B}$ tienen magnitudes de $5$ y $12$ unidades respectivamente. La magnitud del vector resultante de la suma vectorial ($\vec{A} + \vec{B}$) \textbf{solamente} puede tomar un valor comprendido en el intervalo:
+\begin{enumerate}[label=\alph*)]
+    \item $[0, 17]$
+    \item $[7, 17]$
+    \item $[5, 12]$
+    \item $[13, 17]$
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Desigualdad Triangular y Límites de Resultantes}
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+def draw_vector_bounds():
+    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(8, 4))
+    
+    # Maxima resultante (Paralelos, 0 grados)
+    ax1.set_title("Resultante Máxima: Ángulo = 0°", pad=10)
+    ax1.set_xlim(-1, 18); ax1.set_ylim(-1, 1); ax1.axis('off')
+    ax1.arrow(0, 0, 12, 0, head_width=0.2, color='blue', length_includes_head=True)
+    ax1.arrow(12, 0, 5, 0, head_width=0.2, color='red', length_includes_head=True)
+    ax1.text(6, 0.3, r'$|\vec{B}|=12$', color='blue', fontsize=12)
+    ax1.text(14.5, 0.3, r'$|\vec{A}|=5$', color='red', fontsize=12)
+    ax1.text(8.5, -0.6, r'$R_{max} = 12 + 5 = 17$', fontsize=12)
+
+    # Minima resultante (Antiparalelos, 180 grados)
+    ax2.set_title("Resultante Mínima: Ángulo = 180°", pad=10)
+    ax2.set_xlim(-1, 18); ax2.set_ylim(-1, 1); ax2.axis('off')
+    ax2.arrow(0, 0, 12, 0, head_width=0.2, color='blue', length_includes_head=True)
+    ax2.arrow(12, 0.3, -5, 0, head_width=0.2, color='red', length_includes_head=True)
+    ax2.text(6, -0.4, r'$|\vec{B}|=12$', color='blue', fontsize=12)
+    ax2.text(9.5, 0.6, r'$|\vec{A}|=5$', color='red', fontsize=12)
+    ax2.text(3.5, 0.5, r'$R_{min} = 12 - 5 = 7$', fontsize=12)
+
+    plt.tight_layout()
+    plt.show()
+
+draw_vector_bounds()
+\end{lstlisting}
+
+La magnitud de la resultante depende del ángulo $\theta$ entre los vectores. 
+El valor máximo posible se obtiene cuando los vectores son paralelos ($\theta = 0^\circ$):
+$$ R_{max} = |\vec{A}| + |\vec{B}| = 5 + 12 = 17 $$
+El valor mínimo posible se obtiene cuando son antiparalelos ($\theta = 180^\circ$):
+$$ R_{min} = | |\vec{B}| - |\vec{A}| | = |12 - 5| = 7 $$
+Cualquier otro ángulo producirá una resultante intermedia. Por tanto, el dominio matemático de posibles respuestas está estrictamente acotado en $[7, 17]$.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) $[7, 17]$
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 32
+% ==========================================
+
+\subsection*{Enunciado}
+La \textbf{proyección escalar} de un vector $\vec{A}$ a lo largo de la dirección definida por otro vector $\vec{B}$, se calcula matemáticamente mediante la expresión:
+\begin{enumerate}[label=\alph*)]
+    \item $\vec{A} \times \hat{u}_B$
+    \item $(\vec{A} \cdot \vec{B}) \hat{u}_B$
+    \item $\vec{A} \cdot \hat{u}_B$
+    \item $\frac{\vec{A}}{|\vec{B}|}$
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Proyecciones Ortogonales}
+La proyección escalar representa la "sombra" unidimensional de un vector proyectada perpendicularmente sobre la línea de acción de otro vector.
+Para encontrar esta sombra de $\vec{A}$ sobre $\vec{B}$, necesitamos extraer únicamente la componente de $\vec{A}$ que es paralela a $\vec{B}$.
+$$ \text{Proy}_{\vec{B}} \vec{A} = |\vec{A}| \cos\theta $$
+Sabiendo que el producto escalar es $\vec{A} \cdot \vec{B} = |\vec{A}||\vec{B}|\cos\theta$, podemos reescribir:
+$$ |\vec{A}|\cos\theta = \frac{\vec{A} \cdot \vec{B}}{|\vec{B}|} $$
+Como el vector $\vec{B}$ dividido para su magnitud ($|\vec{B}|$) equivale al vector unitario $\hat{u}_B$, la expresión se simplifica teórica y elegantemente a:
+$$ \text{Proy}_{\vec{B}} \vec{A} = \vec{A} \cdot \hat{u}_B $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) $\vec{A} \cdot \hat{u}_B$
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 33
+% ==========================================
+
+\subsection*{Enunciado}
+Si el valor del producto escalar de dos vectores no nulos es exactamente igual al módulo de su producto vectorial ($|\vec{A} \times \vec{B}| = \vec{A} \cdot \vec{B}$), entonces el ángulo que forman entre sí dichos vectores es:
+\begin{enumerate}[label=\alph*)]
+    \item $30^\circ$
+    \item $45^\circ$
+    \item $60^\circ$
+    \item $90^\circ$
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Igualación Trigonométrica}
+Partimos de la condición impuesta en el enunciado y aplicamos la definición analítica de ambas operaciones:
+$$ |\vec{A} \times \vec{B}| = \vec{A} \cdot \vec{B} $$
+$$ |\vec{A}||\vec{B}|\sin\theta = |\vec{A}||\vec{B}|\cos\theta $$
+
+Como sabemos que los vectores no son nulos, podemos dividir ambos lados de la ecuación entre la cantidad escalar $(|\vec{A}||\vec{B}|)$:
+$$ \sin\theta = \cos\theta $$
+
+Dividiendo entre $\cos\theta$ (asumiendo $\theta \neq 90^\circ$):
+$$ \frac{\sin\theta}{\cos\theta} = 1 $$
+$$ \tan\theta = 1 $$
+El único ángulo en el primer cuadrante cuya tangente vale 1 es $\theta = 45^\circ$. En este ángulo específico, las proyecciones paralela y perpendicular de un vector sobre otro tienen exactamente la misma longitud.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) $45^\circ$
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 34
+% ==========================================
+
+\subsection*{Enunciado}
+Si tres vectores coplanares distintos de cero cumplen estrictamente que $\vec{A} + \vec{B} + \vec{C} = \vec{0}$, al representarlos gráficamente uno a continuación del otro (método del polígono), estos vectores:
+\begin{enumerate}[label=\alph*)]
+    \item Forman una sola línea recta infinita
+    \item Son mutuamente perpendiculares entre sí
+    \item Forman un triángulo cerrado exacto
+    \item Deben tener obligatoriamente la misma magnitud
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Regla del Polígono y Equilibrio}
+Para sumar vectores gráficamente, colocamos la "cola" del siguiente vector en la "cabeza" del anterior. El vector resultante es aquel que va desde la cola del primer vector hasta la cabeza del último.
+
+Si la suma matemática da el \textbf{vector nulo} ($\vec{0}$), significa que el desplazamiento neto espacial es cero. Geométricamente, esto exige que la cabeza del último vector ($\vec{C}$) coincida de regreso exactamente con la cola del primer vector ($\vec{A}$). 
+Al unir tres segmentos rectos donde el punto de inicio y el punto de fin son el mismo, se forma indudablemente una figura geométrica bidimensional cerrada: un \textbf{triángulo}. 
+No es obligatorio que tengan la misma magnitud (podría ser un triángulo escaleno).
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) Forman un triángulo cerrado exacto
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 35
+% ==========================================
+
+\subsection*{Enunciado}
+El vector nulo (denotado matemáticamente como $\vec{0}$) tiene la siguiente característica formal en el álgebra vectorial:
+\begin{enumerate}[label=\alph*)]
+    \item Magnitud igual a 1 y dirección arbitraria
+    \item Magnitud cero y no tiene una dirección definida
+    \item Magnitud cero y dirección paralela al eje positivo de las x
+    \item No se considera matemáticamente un vector
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Definición Formal del Vector Nulo}
+El vector nulo es el elemento neutro de la suma vectorial ($\vec{V} + \vec{0} = \vec{V}$).
+\begin{itemize}
+    \item \textbf{Opción d:} Falsa. Es estrictamente un vector, originado de operaciones como $\vec{A} - \vec{A}$.
+    \item \textbf{Opciones a y c:} Falsas. Su magnitud es lógicamente cero ($|\vec{0}| = 0$). Un vector con magnitud cero se colapsa a un único punto geométrico en el origen. Como no tiene una extensión espacial para dibujar una "flecha", es matemáticamente \textbf{imposible asignarle un ángulo o dirección} específica. Se dice que su dirección es indefinida (o puede considerarse paralela a cualquier vector, por convención, para salvar identidades matemáticas).
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) Magnitud cero y no tiene una dirección definida
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 36
+% ==========================================
+
+\subsection*{Enunciado}
+Suponga que una partícula se mueve y su vector de posición $\vec{r}(t)$ cambia en el tiempo de manera que \textbf{su magnitud se mantiene constante} ($|\vec{r}| = \text{cte}$). Según las reglas del cálculo vectorial diferencial, su vector velocidad $\vec{v} = \frac{d\vec{r}}{dt}$:
+\begin{enumerate}[label=\alph*)]
+    \item Es siempre paralelo al vector $\vec{r}$
+    \item Es el vector nulo en todo momento
+    \item Es siempre perpendicular al vector $\vec{r}$
+    \item Mantiene una magnitud constante
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Derivada de un Vector de Magnitud Constante}
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def draw_circular_motion():
+    fig, ax = plt.subplots(figsize=(5, 5))
+    ax.set_title("Trayectoria de $|\vec{r}|$ constante")
+    ax.set_xlim(-1.5, 1.5); ax.set_ylim(-1.5, 1.5); ax.axis('off')
+    
+    # Circunferencia
+    circle = plt.Circle((0, 0), 1, fill=False, color='gray', linestyle='--')
+    ax.add_patch(circle)
+    ax.plot(0, 0, 'ko') # Origen
+    
+    # Vector Posicion (r) - Angulo 45 deg
+    r_x, r_y = np.cos(np.pi/4), np.sin(np.pi/4)
+    ax.arrow(0, 0, r_x*0.9, r_y*0.9, head_width=0.08, color='blue')
+    ax.text(r_x*0.5, r_y*0.6, r'$\vec{r}$', color='blue', fontsize=14)
+    
+    # Vector Velocidad (v) - Tangente, 135 deg
+    v_x, v_y = -np.sin(np.pi/4), np.cos(np.pi/4)
+    ax.arrow(r_x, r_y, v_x*0.7, v_y*0.7, head_width=0.08, color='red')
+    ax.text(r_x + v_x*0.8, r_y + v_y*0.8, r'$\vec{v} = d\vec{r}/dt$', color='red', fontsize=12)
+    
+    # Simbolo de ortogonalidad
+    ax.plot([r_x-0.1*r_x, r_x-0.1*r_x+0.1*v_x], [r_y-0.1*r_y, r_y-0.1*r_y+0.1*v_y], 'k-', lw=1)
+    ax.plot([r_x+0.1*v_x, r_x-0.1*r_x+0.1*v_x], [r_y+0.1*v_y, r_y-0.1*r_y+0.1*v_y], 'k-', lw=1)
+
+    plt.show()
+
+draw_circular_motion()
+\end{lstlisting}
+
+Si la magnitud de $\vec{r}$ es constante, entonces el producto escalar del vector consigo mismo también es una constante $C$:
+$$ \vec{r} \cdot \vec{r} = |\vec{r}|^2 = C $$
+Derivamos implícitamente ambos lados de la ecuación con respecto al tiempo $t$, usando la regla de la cadena para el producto punto:
+$$ \frac{d}{dt}(\vec{r} \cdot \vec{r}) = \frac{d}{dt}(C) $$
+$$ \vec{r} \cdot \frac{d\vec{r}}{dt} + \frac{d\vec{r}}{dt} \cdot \vec{r} = 0 $$
+$$ 2 \left( \vec{r} \cdot \frac{d\vec{r}}{dt} \right) = 0 $$
+$$ \vec{r} \cdot \vec{v} = 0 $$
+Dado que su producto escalar es cero de manera rigurosa, se concluye formalmente que el vector velocidad $\vec{v}$ (la derivada) es \textbf{perpendicular} (ortogonal) al vector posición $\vec{r}$ en todo instante. Este es el caso típico del Movimiento Circular Uniforme.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) Es siempre perpendicular al vector $\vec{r}$
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 37
+% ==========================================
+
+\subsection*{Enunciado}
+El triple producto escalar $(\vec{A} \times \vec{B}) \cdot \vec{C}$ representa geométricamente:
+\begin{enumerate}[label=\alph*)]
+    \item El área del triángulo formado por los tres vectores
+    \item El volumen del paralelepípedo formado por los tres vectores en el espacio
+    \item La longitud de la diagonal principal del sistema
+    \item El área superficial total del sólido
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Significado Geométrico del Producto Mixto}
+El triple producto escalar toma tres vectores en el espacio $R^3$ originados en un mismo vértice.
+\begin{itemize}
+    \item La operación $(\vec{A} \times \vec{B})$ produce un nuevo vector que es el área de la base del sólido formado por $\vec{A}$ y $\vec{B}$, y cuya dirección es perpendicular a esta base.
+    \item Al hacer el producto escalar de este vector perpendicular con $\vec{C}$, estamos matemáticamente multiplicando el "área de la base" por la componente de $\vec{C}$ proyectada sobre la altura ($h = |\vec{C}|\cos\phi$).
+    \item Área de la base $\times$ altura $= \textbf{Volumen}$.
+\end{itemize}
+Por tanto, el valor absoluto del triple producto escalar es exactamente el volumen del paralelepípedo delimitado por los tres vectores.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) El volumen del paralelepípedo formado por los tres vectores en el espacio
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 38
+% ==========================================
+
+\subsection*{Enunciado}
+Si se realiza el triple producto escalar de tres vectores distintos de cero ($(\vec{A} \times \vec{B}) \cdot \vec{C}$) y el resultado es estrictamente cero, esto significa invariablemente que:
+\begin{enumerate}[label=\alph*)]
+    \item Los tres vectores son paralelos entre sí
+    \item Los tres vectores son mutuamente perpendiculares
+    \item Los tres vectores son coplanares (residen en un mismo plano)
+    \item Al menos uno de ellos debe ser un escalar
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Condiciones de Coplanaeidad}
+Basándonos en el principio demostrado en el ejercicio 37:
+Si el volumen del paralelepípedo generado por tres vectores tridimensionales es igual a $0$, significa que la figura "colapsó" perdiendo por completo una de sus dimensiones (la altura). 
+Para que el volumen geométrico sea cero y ningún vector sea nulo, los tres vectores deben encontrarse "aplastados" y contenidos en un único plano bidimensional común. Por definición matemática, decimos que los tres vectores son \textbf{coplanares}.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) Los tres vectores son coplanares (residen en un mismo plano)
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 39
+% ==========================================
+
+\subsection*{Enunciado}
+Sean $\hat{i}$, $\hat{j}$, $\hat{k}$ los vectores unitarios base de un sistema cartesiano tridimensional derecho. El valor numérico de la operación mixta $\hat{i} \cdot (\hat{j} \times \hat{k})$ es:
+\begin{enumerate}[label=\alph*)]
+    \item $0$
+    \item $1$
+    \item $-1$
+    \item Es un vector, no un número
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Operaciones con Vectores Base}
+Para resolver el sistema, debemos respetar la jerarquía de operaciones, resolviendo primero el paréntesis.
+En un sistema de mano derecha, el producto vectorial de dos ejes da el tercer eje ortogonal en sentido positivo de la regla de la mano derecha:
+$$ \hat{j} \times \hat{k} = \hat{i} $$
+Sustituimos el resultado en la ecuación original, que ahora se convierte en un producto escalar de la base $\hat{i}$ consigo misma:
+$$ \hat{i} \cdot (\hat{i}) = |\hat{i}||\hat{i}|\cos(0^\circ) $$
+Como los vectores base son unitarios, sus magnitudes son $1$:
+$$ (1)(1)(1) = 1 $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) 1
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 40
+% ==========================================
+
+\subsection*{Enunciado}
+Al aplicar la física a la cinemática en dos dimensiones (como el tiro parabólico), tratamos y resolvemos el movimiento en el eje $x$ como si fuera completamente independiente del movimiento en el eje $y$. Esta poderosa herramienta analítica es una consecuencia directa de:
+\begin{enumerate}[label=\alph*)]
+    \item Que la magnitud de la gravedad es constante
+    \item La ortogonalidad (perpendicularidad) de los vectores base del sistema
+    \item Que las trayectorias parabólicas son funciones cuadráticas
+    \item La masa invariante de la partícula
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Independencia Lineal y Ortogonalidad}
+La justificación profunda detrás del "Principio de Independencia de los Movimientos" formulado por Galileo yace en la naturaleza de los vectores.
+Dado que los ejes cartesianos son \textbf{ortogonales} (el eje $x$ está a $90^\circ$ del eje $y$), el producto punto de sus direcciones unitarias es cero ($\hat{i} \cdot \hat{j} = 0$). 
+Físicamente, esto implica que ninguna fuerza, velocidad o aceleración dirigida puramente a lo largo del eje $y$ tiene "proyección" o "influencia matemática" alguna sobre el eje $x$. Es la perpendicularidad intrínseca del sistema la que permite desacoplar una ecuación vectorial 2D compleja en dos ecuaciones escalares unidimensionales simples y resolubles de manera aislada.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) La ortogonalidad (perpendicularidad) de los vectores base del sistema
+\end{tcolorbox}
+
+\end{document}
+
+\end{document}

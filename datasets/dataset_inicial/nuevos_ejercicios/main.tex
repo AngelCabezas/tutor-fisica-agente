@@ -1,0 +1,3558 @@
+\documentclass[12pt, a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{geometry}
+\usepackage[most]{tcolorbox}
+\usepackage{siunitx}
+\usepackage{enumitem}
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usepackage{verbatim}
+\usepackage{xcolor}
+\usepackage{listings}
+
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta, calc, babel}
+\geometry{a4paper, margin=1in}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstset{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2,
+    language=Python
+}
+
+\title{Dataset de Entrenamiento: Tutor LLM de Física}
+\author{Ángel Cabezas}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\subsection*{Enunciado}
+Dados $\vec{A}$, $\vec{B}$, $\vec{C}$ vectores no nulos. Seleccione la magnitud de $\vec{C}$ a partir de la relación $\vec{A} + \vec{B} + \vec{C} = \vec{0}$, sabiendo que $\vec{A} = (10 \, \si{m}, 120^\circ)$, además, los módulos de los vectores $\vec{A}$ y $\vec{B}$ son ambos $10 \, \si{m}$ y el ángulo que forman entre sí es $120^\circ$.
+
+\begin{enumerate}[label=\alph*)]
+    \item $|\vec{C}| = 20 \, \si{m}$
+    \item $|\vec{C}| = 5 \, \si{m}$
+    \item $|\vec{C}| = 17.3 \, \si{m}$
+    \item $|\vec{C}| = 10 \, \si{m}$
+    \item $|\vec{C}| = 15 \, \si{m}$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Interpretación Física y Geométrica}
+La relación matemática $\vec{A} + \vec{B} + \vec{C} = \vec{0}$ nos indica que la suma vectorial de los tres vectores es nula. Gráficamente, al utilizar el método del polígono, esto significa que los vectores forman un circuito cerrado que regresa al origen. En este caso, al ser tres vectores, forman un triángulo.
+
+Sabemos que el ángulo entre $\vec{A}$ y $\vec{B}$ es de $120^\circ$. En la suma vectorial, cuando se unen cabeza con cola, el ángulo interno del triángulo se calcula como el suplemento del ángulo entre los vectores originales. 
+Por lo tanto, el ángulo interno entre $\vec{A}$ y $\vec{B}$ es:
+$$\theta_{\text{interno}} = 180^\circ - 120^\circ = 60^\circ$$
+
+\subsubsection*{2. Representación Gráfica (Python)}
+Para visualizar mejor la situación geométrica, construimos el triángulo cerrado. Si $\vec{A}$ y $\vec{B}$ tienen la misma magnitud y su ángulo interno es de $60^\circ$, el polígono resultante es un triángulo equilátero.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+import matplotlib.patches as patches
+
+def draw_vector_triangle():
+    fig, ax = plt.subplots(figsize=(6, 5))
+    ax.set_title("Suma Vectorial: $\\vec{A} + \\vec{B} + \\vec{C} = \\vec{0}$")
+    ax.set_aspect('equal')
+    ax.axis('off')
+
+    P1 = np.array([-10, 0])
+    P2 = np.array([0, 0])
+    P3 = np.array([-5, 5 * np.sqrt(3)])
+
+    ax.annotate('', xy=P2, xytext=P1, arrowprops=dict(facecolor='red', edgecolor='red', width=2, headwidth=10))
+    ax.text(-5, -1, '$\\vec{C}$', color='red', fontsize=14, ha='center')
+
+    ax.annotate('', xy=P3, xytext=P2, arrowprops=dict(facecolor='teal', edgecolor='teal', width=2, headwidth=10))
+    ax.text(-2, 5, '$\\vec{A}$', color='teal', fontsize=14, ha='center')
+
+    ax.annotate('', xy=P1, xytext=P3, arrowprops=dict(facecolor='blue', edgecolor='blue', width=2, headwidth=10))
+    ax.text(-8, 5, '$\\vec{B}$', color='blue', fontsize=14, ha='center')
+
+    arc = patches.Arc((-5, 5*np.sqrt(3)), 3, 3, angle=0, theta1=240, theta2=300, color='black')
+    ax.add_patch(arc)
+    ax.text(-5, 7, '$60^\\circ$', fontsize=12, ha='center')
+
+    plt.tight_layout()
+    plt.show()
+
+draw_vector_triangle()
+\end{lstlisting}
+
+\subsubsection*{3. Análisis del Triángulo}
+Dado que los módulos de $\vec{A}$ y $\vec{B}$ son iguales ($|\vec{A}| = |\vec{B}| = 10 \, \si{m}$), el triángulo formado es isósceles. 
+En un triángulo isósceles, los ángulos opuestos a los lados iguales también son iguales. La suma de los ángulos internos de todo triángulo es $180^\circ$. Si el ángulo comprendido es de $60^\circ$, la suma de los otros dos ángulos debe ser:
+$$180^\circ - 60^\circ = 120^\circ$$
+Al ser iguales, cada uno mide:
+$$\frac{120^\circ}{2} = 60^\circ$$
+Dado que los tres ángulos internos son de $60^\circ$, se comprueba que el triángulo es \textbf{equilátero}. En consecuencia, los tres lados tienen la misma longitud.
+
+$$|\vec{A}| = |\vec{B}| = |\vec{C}| = 10 \, \si{m}$$
+
+\subsubsection*{4. Método Analítico (Ley del Coseno)}
+Podemos comprobar este resultado matemáticamente usando la resultante parcial de $\vec{A}$ y $\vec{B}$.
+Llamemos $\vec{R} = \vec{A} + \vec{B}$. Por la ecuación original, sabemos que $\vec{R} + \vec{C} = \vec{0} \Rightarrow \vec{C} = -\vec{R}$.
+Esto indica que la magnitud de $\vec{C}$ es igual a la magnitud de $\vec{R}$.
+Aplicamos la Ley del Coseno para la suma de vectores:
+$$|\vec{R}| = \sqrt{|\vec{A}|^2 + |\vec{B}|^2 + 2|\vec{A}||\vec{B}|\cos(120^\circ)}$$
+$$|\vec{R}| = \sqrt{10^2 + 10^2 + 2(10)(10)\cos(120^\circ)}$$
+Sabiendo que $\cos(120^\circ) = -0.5$:
+$$|\vec{R}| = \sqrt{100 + 100 + 200(-0.5)}$$
+$$|\vec{R}| = \sqrt{200 - 100}$$
+$$|\vec{R}| = \sqrt{100} = 10 \, \si{m}$$
+
+Como $|\vec{C}| = |\vec{R}|$, entonces $|\vec{C}| = 10 \, \si{m}$.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large d) $|\vec{C}| = 10 \, \si{m}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un dron realiza tres desplazamientos en línea recta de igual magnitud $A$. El primero lo hace en dirección N $30^\circ$ E; luego gira $120^\circ$ en sentido antihorario para realizar el segundo desplazamiento, y finalmente realiza el último desplazamiento en dirección S $30^\circ$ E. La magnitud del vector desplazamiento total es:
+
+\begin{enumerate}[label=\alph*)]
+    \item $A$
+    \item $2A$
+    \item $(1/2) A$
+    \item $\sqrt{3}/2 A$
+    \item $0$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Interpretación Física y Trazado de Trayectoria}
+El problema nos pide calcular el desplazamiento total, que se define como la suma vectorial de los desplazamientos individuales: $\Delta\vec{r}_{total} = \Delta\vec{r}_1 + \Delta\vec{r}_2 + \Delta\vec{r}_3$. Dado que todos tienen la misma magnitud $A$, podemos analizar sus direcciones.
+
+\begin{itemize}
+    \item \textbf{Primer desplazamiento ($\Delta\vec{r}_1$):} Dirección Norte $30^\circ$ Este. Si tomamos el Este como el eje $+x$ ($0^\circ$) y el Norte como el eje $+y$ ($90^\circ$), una dirección N $30^\circ$ E significa $30^\circ$ hacia el Este desde el Norte, o un ángulo polar de $60^\circ$.
+    \item \textbf{Segundo desplazamiento ($\Delta\vec{r}_2$):} El dron gira $120^\circ$ en sentido antihorario respecto a su rumbo actual. Si su rumbo era $60^\circ$, su nuevo rumbo es $60^\circ + 120^\circ = 180^\circ$. Esto corresponde a la dirección Oeste.
+    \item \textbf{Tercer desplazamiento ($\Delta\vec{r}_3$):} Dirección Sur $30^\circ$ Este. Esto significa $30^\circ$ hacia el Este desde el Sur, o un ángulo de $-60^\circ$ (o $300^\circ$) medido desde el eje $+x$.
+\end{itemize}
+
+\subsubsection*{2. Representación Gráfica (Python)}
+Generaremos un código en Python para graficar estos tres desplazamientos y visualizar la trayectoria resultante.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+import matplotlib.patches as patches
+
+def draw_drone_path():
+    fig, ax = plt.subplots(figsize=(6, 6))
+    ax.set_title("Trayectoria del Dron")
+    ax.set_aspect('equal')
+    ax.axis('off')
+
+    A = 10
+    
+    P0 = np.array([0, 0])
+    
+    theta1 = np.radians(60)
+    P1 = P0 + np.array([A * np.cos(theta1), A * np.sin(theta1)])
+    
+    theta2 = np.radians(180)
+    P2 = P1 + np.array([A * np.cos(theta2), A * np.sin(theta2)])
+    
+    theta3 = np.radians(300)
+    P3 = P2 + np.array([A * np.cos(theta3), A * np.sin(theta3)])
+
+    ax.annotate('', xy=P1, xytext=P0, arrowprops=dict(facecolor='blue', edgecolor='blue', width=2, headwidth=10))
+    ax.text(P1[0]/2 + 0.5, P1[1]/2, '$\\Delta\\vec{r}_1$', color='blue', fontsize=12)
+
+    ax.annotate('', xy=P2, xytext=P1, arrowprops=dict(facecolor='teal', edgecolor='teal', width=2, headwidth=10))
+    ax.text((P1[0]+P2[0])/2, P1[1] + 0.5, '$\\Delta\\vec{r}_2$', color='teal', fontsize=12)
+
+    ax.annotate('', xy=P3, xytext=P2, arrowprops=dict(facecolor='red', edgecolor='red', width=2, headwidth=10))
+    ax.text((P2[0]+P3[0])/2 - 1.5, (P2[1]+P3[1])/2, '$\\Delta\\vec{r}_3$', color='red', fontsize=12)
+
+    ax.plot([P0[0], P0[0]], [-2, 2], 'k--', alpha=0.5)
+    ax.plot([-2, 2], [P0[1], P0[1]], 'k--', alpha=0.5)
+    ax.text(0, 2.5, 'N', ha='center')
+    ax.text(2.5, 0, 'E', va='center')
+
+    arc = patches.Arc((P1[0], P1[1]), 3, 3, angle=0, theta1=60, theta2=180, color='black')
+    ax.add_patch(arc)
+    ax.text(P1[0]+1, P1[1]+1.5, '$120^\\circ$', fontsize=10)
+
+    plt.tight_layout()
+    plt.show()
+
+draw_drone_path()
+\end{lstlisting}
+
+\subsubsection*{3. Análisis Analítico}
+Para comprobarlo matemáticamente, descomponemos cada vector en sus componentes cartesianas $(x, y)$, asumiendo que la magnitud es $A$:
+
+$$ \Delta\vec{r}_1 = (A \cos 60^\circ) \hat{i} + (A \sin 60^\circ) \hat{j} = \left( \frac{1}{2} A \right) \hat{i} + \left( \frac{\sqrt{3}}{2} A \right) \hat{j} $$
+
+$$ \Delta\vec{r}_2 = (A \cos 180^\circ) \hat{i} + (A \sin 180^\circ) \hat{j} = -A \hat{i} + 0 \hat{j} $$
+
+$$ \Delta\vec{r}_3 = (A \cos(-60^\circ)) \hat{i} + (A \sin(-60^\circ)) \hat{j} = \left( \frac{1}{2} A \right) \hat{i} - \left( \frac{\sqrt{3}}{2} A \right) \hat{j} $$
+
+Sumamos las componentes en $x$:
+$$ \Sigma x = \frac{1}{2} A - A + \frac{1}{2} A = A - A = 0 $$
+
+Sumamos las componentes en $y$:
+$$ \Sigma y = \frac{\sqrt{3}}{2} A + 0 - \frac{\sqrt{3}}{2} A = 0 $$
+
+Dado que las sumas de las componentes cartesianas son nulas, el vector resultante es el vector nulo $\vec{0}$. La trayectoria describe un triángulo equilátero cerrado, retornando exactamente al punto de partida. Por lo tanto, el desplazamiento total y su magnitud son iguales a cero.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large e) $0$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Si se conoce que los vectores $\vec{A}$ y $\vec{B}$ son perpendiculares entre sí y que $\vec{C} = \vec{A} - \vec{B}$; entonces, el módulo de $\vec{C}$ necesariamente es:
+
+\begin{enumerate}[label=\alph*)]
+    \item menor que el módulo de $\vec{A}$ y $\vec{B}$.
+    \item mayor que el módulo de $\vec{A}$ y $\vec{B}$.
+    \item menor que el módulo de $\vec{A} + \vec{B}$.
+    \item mayor que el módulo de $\vec{A} + \vec{B}$.
+    \item igual que el módulo de $\vec{A}$.
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Interpretación Geométrica}
+La operación vectorial dada es la resta $\vec{C} = \vec{A} - \vec{B}$. Geométricamente, si colocamos los vectores $\vec{A}$ y $\vec{B}$ unidos por sus orígenes (cola con cola), el vector diferencia $\vec{C}$ es aquel que se traza desde la punta del vector sustraendo ($\vec{B}$) hasta la punta del vector minuendo ($\vec{A}$).
+
+El enunciado establece una condición fundamental: $\vec{A}$ y $\vec{B}$ son \textbf{perpendiculares} entre sí (el ángulo entre ellos es de $90^\circ$). Al trazar el vector $\vec{C}$ uniendo sus extremos, la figura geométrica que se forma es un \textbf{triángulo rectángulo}.
+
+\subsubsection*{2. Representación Gráfica (Python)}
+Podemos visualizar esta relación utilizando un script para graficar los vectores en el plano cartesiano.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+import matplotlib.patches as patches
+
+def draw_perpendicular_vectors():
+    fig, ax = plt.subplots(figsize=(5, 4))
+    ax.set_title("Vectores $\\vec{A}$ y $\\vec{B}$ perpendiculares")
+    ax.set_aspect('equal')
+    ax.axis('off')
+
+    O = np.array([0, 0])
+    A = np.array([4, 0])
+    B = np.array([0, 3])
+
+    ax.annotate('', xy=A, xytext=O, arrowprops=dict(facecolor='red', edgecolor='red', width=2, headwidth=10))
+    ax.text(2, -0.5, '$\\vec{A}$', color='red', fontsize=14, ha='center')
+
+    ax.annotate('', xy=B, xytext=O, arrowprops=dict(facecolor='teal', edgecolor='teal', width=2, headwidth=10))
+    ax.text(-0.5, 1.5, '$\\vec{B}$', color='teal', fontsize=14, va='center')
+
+    ax.annotate('', xy=A, xytext=B, arrowprops=dict(facecolor='blue', edgecolor='blue', width=2, headwidth=10))
+    ax.text(2.5, 2, '$\\vec{C} = \\vec{A} - \\vec{B}$', color='blue', fontsize=14)
+
+    rect = patches.Rectangle((0, 0), 0.4, 0.4, linewidth=1, edgecolor='purple', facecolor='purple', alpha=0.5)
+    ax.add_patch(rect)
+
+    plt.xlim(-1, 5)
+    plt.ylim(-1, 4)
+    plt.tight_layout()
+    plt.show()
+
+draw_perpendicular_vectors()
+\end{lstlisting}
+
+\subsubsection*{3. Análisis Analítico (Teorema de Pitágoras)}
+En el triángulo rectángulo formado, los módulos de los vectores $\vec{A}$ y $\vec{B}$ corresponden a las longitudes de los catetos, mientras que el módulo del vector $\vec{C}$ corresponde a la longitud de la \textbf{hipotenusa}.
+
+Aplicando el Teorema de Pitágoras para relacionar sus magnitudes:
+$$|\vec{C}|^2 = |\vec{A}|^2 + |\vec{B}|^2$$
+$$|\vec{C}| = \sqrt{|\vec{A}|^2 + |\vec{B}|^2}$$
+
+Por las propiedades de los triángulos rectángulos (y dado que las magnitudes vectoriales son siempre cantidades positivas reales mayores a cero para vectores no nulos), la hipotenusa siempre es estrictamente mayor que cualquiera de los catetos individuales.
+
+Por lo tanto, se cumple matemáticamente que:
+$$|\vec{C}| > |\vec{A}| \quad \text{y} \quad |\vec{C}| > |\vec{B}|$$
+
+\subsubsection*{4. Descarte de otras opciones}
+Para estar completamente seguros, evaluemos las opciones referentes a la suma vectorial $\vec{A} + \vec{B}$.
+Si calculamos la magnitud de la suma de dos vectores perpendiculares usando la misma geometría (que formaría un rectángulo cuyas diagonales son la suma y la diferencia), tenemos:
+$$|\vec{A} + \vec{B}| = \sqrt{|\vec{A}|^2 + |\vec{B}|^2}$$
+Esto demuestra que el módulo de la suma es exactamente igual al módulo de la resta cuando los vectores son perpendiculares:
+$$|\vec{C}| = |\vec{A} - \vec{B}| = |\vec{A} + \vec{B}|$$
+Esto descarta las opciones c) y d), confirmando que la única aseveración necesariamente cierta es la b).
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) mayor que el módulo de $\vec{A}$ y $\vec{B}$.
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Conocidos los vectores $\vec{A} = 6\vec{i} - \vec{j} - 3\vec{k}$ y $\vec{B} = 5\vec{i} + 4\vec{j}$. Si el vector $\vec{C} = \vec{A} + \vec{B}$; entonces, el unitario del vector $\vec{C}$ está dada por:
+
+\begin{enumerate}[label=\alph*)]
+    \item $0.933\vec{i} + 0.407\vec{j} - 0.407\vec{k}$
+    \item $0.933\vec{i} + 0.254\vec{j} - 0.254\vec{k}$
+    \item $0.410\vec{i} - 0.609\vec{j} + 0.609\vec{k}$
+    \item $-0.611\vec{i} + 0.509\vec{j} - 0.509\vec{k}$
+    \item $-0.611\vec{i} - 0.433\vec{j} - 0.433\vec{k}$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Cálculo del Vector Resultante $\vec{C}$}
+El vector $\vec{C}$ se define como la suma vectorial de $\vec{A}$ y $\vec{B}$. Para sumar vectores algebraicamente, se suman sus componentes homólogas (las componentes en $\vec{i}$ con las de $\vec{i}$, las de $\vec{j}$ con las de $\vec{j}$, etc.). 
+
+Note que el vector $\vec{B}$ no tiene componente explícita en $\vec{k}$, lo que significa que su componente en ese eje es cero ($0\vec{k}$).
+
+\begin{align*}
+    \vec{C} &= (A_x + B_x)\vec{i} + (A_y + B_y)\vec{j} + (A_z + B_z)\vec{k} \\
+    \vec{C} &= (6 + 5)\vec{i} + (-1 + 4)\vec{j} + (-3 + 0)\vec{k} \\
+    \vec{C} &= 11\vec{i} + 3\vec{j} - 3\vec{k}
+\end{align*}
+
+\subsubsection*{2. Cálculo del Módulo del Vector $\vec{C}$}
+Para encontrar el vector unitario, primero necesitamos la magnitud (o módulo) del vector $\vec{C}$. El módulo se calcula aplicando el Teorema de Pitágoras en tres dimensiones:
+
+$$|\vec{C}| = \sqrt{C_x^2 + C_y^2 + C_z^2}$$
+$$|\vec{C}| = \sqrt{(11)^2 + (3)^2 + (-3)^2}$$
+$$|\vec{C}| = \sqrt{121 + 9 + 9}$$
+$$|\vec{C}| = \sqrt{139}$$
+
+\subsubsection*{3. Determinación del Vector Unitario}
+El vector unitario $\vec{\mu}_C$ (también denotado comúnmente como $\hat{u}_C$) es un vector con la misma dirección y sentido que $\vec{C}$, pero con una magnitud exactamente igual a $1$. Se obtiene dividiendo cada componente del vector original para su propio módulo:
+
+$$\vec{\mu}_C = \frac{\vec{C}}{|\vec{C}|} = \frac{11\vec{i} + 3\vec{j} - 3\vec{k}}{\sqrt{139}}$$
+
+Separando los términos para cada componente:
+$$\vec{\mu}_C = \frac{11}{\sqrt{139}}\vec{i} + \frac{3}{\sqrt{139}}\vec{j} - \frac{3}{\sqrt{139}}\vec{k}$$
+
+Realizamos las divisiones (aproximando a tres decimales según las opciones dadas):
+\begin{align*}
+    \frac{11}{\sqrt{139}} &\approx 0.933 \\
+    \frac{3}{\sqrt{139}} &\approx 0.254 \\
+    -\frac{3}{\sqrt{139}} &\approx -0.254
+\end{align*}
+
+Reconstruyendo el vector unitario con los valores decimales:
+$$\vec{\mu}_C = 0.933\vec{i} + 0.254\vec{j} - 0.254\vec{k}$$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) $0.933\vec{i} + 0.254\vec{j} - 0.254\vec{k}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Durante una misión de reconocimiento, un dron realiza tres desplazamientos sucesivos: primero avanza $10 \, \si{m}$ hacia el norte, luego $10 \, \si{m}$ hacia el este y finalmente $10 \, \si{m}$ hacia el sur. Con base en el recorrido descrito, la distancia total recorrida por el dron es \_\_\_\_\_\_\_ y la magnitud de su desplazamiento total es \_\_\_\_\_\_\_.
+
+\begin{enumerate}[label=\alph*)]
+    \item $30 \, \si{m}$ -- $0 \, \si{m}$
+    \item $20 \, \si{m}$ -- $10 \, \si{m}$
+    \item $30 \, \si{m}$ -- $10 \, \si{m}$
+    \item $10 \, \si{m}$ -- $30 \, \si{m}$
+    \item $10 \, \si{m}$ -- $0 \, \si{m}$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Distancia Total Recorrida (Magnitud Escalar)}
+La distancia total ($s$ o $d$) es una magnitud escalar que representa la longitud total de la trayectoria seguida por el objeto, independientemente de la dirección en la que se mueva. Para calcularla, simplemente sumamos los módulos (magnitudes) de cada uno de los desplazamientos individuales.
+
+$$s = |\Delta\vec{r}_1| + |\Delta\vec{r}_2| + |\Delta\vec{r}_3|$$
+$$s = 10 \, \si{m} + 10 \, \si{m} + 10 \, \si{m}$$
+$$s = 30 \, \si{m}$$
+
+\subsubsection*{2. Representación Gráfica y Desplazamiento (Python)}
+El desplazamiento ($\Delta\vec{r}_T$) es una magnitud vectorial. Se define como el vector que une directamente el punto de partida con el punto de llegada, sin importar la ruta tomada.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def draw_drone_trajectory():
+    fig, ax = plt.subplots(figsize=(5, 5))
+    ax.set_title("Trayectoria vs Desplazamiento")
+    ax.set_aspect('equal')
+    ax.axis('off')
+
+    O = np.array([0, 0])
+    P1 = np.array([0, 10])
+    P2 = np.array([10, 10])
+    P3 = np.array([10, 0])
+
+    ax.annotate('', xy=P1, xytext=O, arrowprops=dict(facecolor='purple', edgecolor='purple', width=2, headwidth=10))
+    ax.text(-1.5, 5, '$\\Delta\\vec{r}_1$', color='purple', fontsize=12)
+
+    ax.annotate('', xy=P2, xytext=P1, arrowprops=dict(facecolor='teal', edgecolor='teal', width=2, headwidth=10))
+    ax.text(5, 10.5, '$\\Delta\\vec{r}_2$', color='teal', fontsize=12)
+
+    ax.annotate('', xy=P3, xytext=P2, arrowprops=dict(facecolor='blue', edgecolor='blue', width=2, headwidth=10))
+    ax.text(10.5, 5, '$\\Delta\\vec{r}_3$', color='blue', fontsize=12)
+
+    ax.annotate('', xy=P3, xytext=O, arrowprops=dict(facecolor='red', edgecolor='red', width=2, headwidth=10))
+    ax.text(5, -1.5, '$\\Delta\\vec{r}_T$', color='red', fontsize=12)
+
+    ax.plot([0, 0], [-2, 12], 'k--', alpha=0.3)
+    ax.plot([-2, 12], [0, 0], 'k--', alpha=0.3)
+    ax.text(0, 12.5, 'N', ha='center')
+    ax.text(12.5, 0, 'E', va='center')
+
+    plt.xlim(-3, 13)
+    plt.ylim(-3, 13)
+    plt.tight_layout()
+    plt.show()
+
+draw_drone_trajectory()
+\end{lstlisting}
+
+\subsubsection*{3. Cálculo del Desplazamiento Total}
+Expresamos cada desplazamiento en función de los vectores unitarios cartesianos ($\hat{i}$ para el Este, $\hat{j}$ para el Norte):
+
+\begin{itemize}
+    \item Hacia el norte: $\Delta\vec{r}_1 = 10\hat{j} \, \si{m}$
+    \item Hacia el este: $\Delta\vec{r}_2 = 10\hat{i} \, \si{m}$
+    \item Hacia el sur: $\Delta\vec{r}_3 = -10\hat{j} \, \si{m}$
+\end{itemize}
+
+El desplazamiento total es la suma vectorial de estos movimientos:
+$$\Delta\vec{r}_T = \Delta\vec{r}_1 + \Delta\vec{r}_2 + \Delta\vec{r}_3$$
+$$\Delta\vec{r}_T = (10\hat{j}) + (10\hat{i}) + (-10\hat{j})$$
+Agrupando términos semejantes:
+$$\Delta\vec{r}_T = 10\hat{i} + (10 - 10)\hat{j}$$
+$$\Delta\vec{r}_T = 10\hat{i} \, \si{m}$$
+
+Finalmente, calculamos la magnitud (módulo) de este vector desplazamiento. Al tener solo componente en el eje $x$, su magnitud es simplemente el valor absoluto de esa componente:
+$$|\Delta\vec{r}_T| = \sqrt{(10)^2 + (0)^2} = 10 \, \si{m}$$
+
+Por lo tanto, la distancia recorrida es $30 \, \si{m}$ y el desplazamiento es $10 \, \si{m}$.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) $30 \, \si{m}$ -- $10 \, \si{m}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un cartero realiza dos desplazamientos sucesivos en línea recta, partiendo desde la oficina de correos: un primer desplazamiento $\Delta\vec{r}_1 = (22 \, \si{km}, 240^\circ)$ y a continuación, un segundo desplazamiento $\Delta\vec{r}_2 = (62 \, \si{km}, \text{N } 36.87^\circ \text{ O})$. Donde el eje $x$ positivo corresponde al Este y el eje $y$ positivo al Norte. Determine el esquema del movimiento realizado por el cartero.
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis de los Vectores para el Esquema}
+Para trazar el esquema correctamente, ubicamos la oficina de correos en el origen de un plano cartesiano $(0,0)$. 
+\begin{itemize}
+    \item El primer vector ($\Delta\vec{r}_1$) tiene una magnitud de $22 \, \si{km}$ y un ángulo polar de $240^\circ$. Este ángulo se mide desde el eje $x$ positivo en sentido antihorario, ubicando al vector en el tercer cuadrante.
+    \item Desde la punta de este primer vector, trazamos un marco de referencia secundario para el segundo vector ($\Delta\vec{r}_2$).
+    \item El segundo vector tiene un rumbo Norte $36.87^\circ$ Oeste. Esto significa que desde el Norte (eje $y$ positivo), el vector se desvía $36.87^\circ$ hacia el Oeste (eje $x$ negativo). Su magnitud es de $62 \, \si{km}$.
+    \item El vector desplazamiento total ($\Delta\vec{r}_T$) se traza desde el punto de partida (el origen) hasta la punta del segundo vector.
+\end{itemize}
+
+\subsubsection*{2. Representación Gráfica (Python)}
+Generamos el esquema a escala utilizando las librerías de dibujo.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+import matplotlib.patches as patches
+
+def draw_postman_trajectory():
+    fig, ax = plt.subplots(figsize=(7, 6))
+    ax.set_title("Esquema del Movimiento del Cartero")
+    ax.set_aspect('equal')
+    
+    O = np.array([0, 0])
+    
+    theta1 = np.radians(240)
+    R1 = 22
+    P1 = np.array([R1 * np.cos(theta1), R1 * np.sin(theta1)])
+    
+    theta2 = np.radians(90 + 36.87) 
+    R2 = 62
+    P2 = P1 + np.array([R2 * np.cos(theta2), R2 * np.sin(theta2)])
+
+    ax.annotate('', xy=P1, xytext=O, arrowprops=dict(facecolor='purple', edgecolor='purple', width=2, headwidth=10))
+    ax.text(P1[0]/2 + 2, P1[1]/2 - 2, '$\\Delta\\vec{r}_1$', color='purple', fontsize=12)
+
+    ax.annotate('', xy=P2, xytext=P1, arrowprops=dict(facecolor='blue', edgecolor='blue', width=2, headwidth=10))
+    ax.text((P1[0]+P2[0])/2 - 5, (P1[1]+P2[1])/2 - 2, '$\\Delta\\vec{r}_2$', color='blue', fontsize=12)
+
+    ax.annotate('', xy=P2, xytext=O, arrowprops=dict(facecolor='red', edgecolor='red', width=2, headwidth=10))
+    ax.text(P2[0]/2, P2[1]/2 + 3, '$\\Delta\\vec{r}_T$', color='red', fontsize=12)
+
+    ax.plot([-55, 10], [0, 0], 'k-', alpha=0.3)
+    ax.plot([0, 0], [-25, 35], 'k-', alpha=0.3)
+    ax.text(12, 0, '$x$', va='center')
+    ax.text(0, 37, '$y$', ha='center')
+
+    ax.plot([P1[0]-10, P1[0]+10], [P1[1], P1[1]], 'k--', alpha=0.3)
+    ax.plot([P1[0], P1[0]], [P1[1]-5, P1[1]+15], 'k--', alpha=0.3)
+    ax.text(P1[0], P1[1]+17, '$y$', ha='center', alpha=0.5)
+
+    arc1 = patches.Arc((0, 0), 15, 15, angle=0, theta1=0, theta2=240, color='gray')
+    ax.add_patch(arc1)
+    ax.text(-8, 8, '$240^\\circ$', color='gray')
+
+    arc2 = patches.Arc((P1[0], P1[1]), 15, 15, angle=0, theta1=90, theta2=126.87, color='gray')
+    ax.add_patch(arc2)
+    ax.text(P1[0]-6, P1[1]+8, '$36.87^\\circ$', color='gray')
+
+    plt.grid(True, linestyle=':', alpha=0.6)
+    plt.tight_layout()
+    plt.show()
+
+draw_postman_trajectory()
+\end{lstlisting}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering El esquema detallado del movimiento, con sus respectivos ángulos y vectores, se muestra en la figura generada por el script.
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un cartero realiza dos desplazamientos sucesivos en línea recta, partiendo desde la oficina de correos: un primer desplazamiento $\Delta\vec{r}_1 = (22 \, \si{km}, 240^\circ)$ y a continuación, un segundo desplazamiento $\Delta\vec{r}_2 = (62 \, \si{km}, \text{N } 36.87^\circ \text{ O})$. Donde el eje $x$ positivo corresponde al Este y el eje $y$ positivo al Norte. Determine el desplazamiento total.
+
+\subsection*{Solución}
+
+\subsubsection*{1. Descomposición del Primer Vector ($\Delta\vec{r}_1$)}
+El vector está dado en coordenadas polares. Para sumarlo algebraicamente, debemos expresarlo en sus componentes rectangulares ($\hat{i}, \hat{j}$).
+\begin{align*}
+    \Delta\vec{r}_1 &= 22 \, \si{km} (\cos(240^\circ) \hat{i} + \sin(240^\circ) \hat{j}) \\
+    \Delta\vec{r}_1 &= 22 \left(-0.5 \hat{i} - \frac{\sqrt{3}}{2} \hat{j}\right) \\
+    \Delta\vec{r}_1 &= -11\hat{i} - 11\sqrt{3}\hat{j} \, \si{km}
+\end{align*}
+
+\subsubsection*{2. Descomposición del Segundo Vector ($\Delta\vec{r}_2$)}
+El rumbo es Norte $36.87^\circ$ Oeste. Esto significa que el ángulo se mide desde el eje $y$ positivo (Norte) hacia el eje $x$ negativo (Oeste). Para usar las funciones trigonométricas estándar en un sistema de coordenadas polares, convertimos este rumbo a un ángulo polar ($\theta$) medido desde el eje $x$ positivo en sentido antihorario:
+$$\theta_2 = 90^\circ + 36.87^\circ = 126.87^\circ$$
+
+Calculamos las componentes:
+\begin{align*}
+    \Delta\vec{r}_2 &= 62 \, \si{km} (\cos(126.87^\circ) \hat{i} + \sin(126.87^\circ) \hat{j}) \\
+    \Delta\vec{r}_2 &= 62 (-0.60 \hat{i} + 0.80 \hat{j}) \\
+    \Delta\vec{r}_2 &= -37.20\hat{i} + 49.60\hat{j} \, \si{km}
+\end{align*}
+
+\subsubsection*{3. Cálculo del Desplazamiento Resultante}
+El desplazamiento total ($\Delta\vec{r}_T$) es la suma vectorial de los desplazamientos individuales. Sumamos las componentes homólogas:
+\begin{align*}
+    \Delta\vec{r}_T &= \Delta\vec{r}_1 + \Delta\vec{r}_2 \\
+    \Delta\vec{r}_T &= (-11\hat{i} - 11\sqrt{3}\hat{j}) + (-37.20\hat{i} + 49.60\hat{j})
+\end{align*}
+
+Aproximando $\sqrt{3} \approx 1.732$, tenemos $-11\sqrt{3} \approx -19.05$:
+\begin{align*}
+    \Delta\vec{r}_T &= (-11 - 37.20)\hat{i} + (-19.05 + 49.60)\hat{j} \\
+    \Delta\vec{r}_T &= -48.20\hat{i} + 30.55\hat{j} \, \si{km}
+\end{align*}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\Delta\vec{r}_T = -48.20\hat{i} + 30.55\hat{j} \, \si{km}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un cartero realiza dos desplazamientos sucesivos en línea recta, partiendo desde la oficina de correos: un primer desplazamiento $\Delta\vec{r}_1 = (22 \, \si{km}, 240^\circ)$ y a continuación, un segundo desplazamiento $\Delta\vec{r}_2 = (62 \, \si{km}, \text{N } 36.87^\circ \text{ O})$. Donde el eje $x$ positivo corresponde al Este y el eje $y$ positivo al Norte. Determine la distancia total recorrida.
+
+\subsection*{Solución}
+
+\subsubsection*{1. Definición de Distancia Recorrida}
+La distancia total ($s_T$ o $d$) es una magnitud escalar. A diferencia del desplazamiento, la distancia no considera la dirección ni el sentido del movimiento, únicamente representa la longitud de la trayectoria total descrita por el objeto en movimiento. 
+
+Para obtener la distancia total, debemos sumar aritméticamente los módulos (magnitudes) de todos los desplazamientos parciales realizados por el cartero.
+
+\subsubsection*{2. Cálculo de la Distancia}
+El enunciado ya nos proporciona de manera directa las magnitudes de los dos vectores desplazamiento en su notación polar y de rumbo:
+\begin{itemize}
+    \item Magnitud del primer desplazamiento: $|\Delta\vec{r}_1| = 22 \, \si{km}$
+    \item Magnitud del segundo desplazamiento: $|\Delta\vec{r}_2| = 62 \, \si{km}$
+\end{itemize}
+
+Realizamos la suma escalar:
+\begin{align*}
+    s_T &= |\Delta\vec{r}_1| + |\Delta\vec{r}_2| \\
+    s_T &= 22 \, \si{km} + 62 \, \si{km} \\
+    s_T &= 84 \, \si{km}
+\end{align*}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $s_T = 84 \, \si{km}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+En el prisma rectangular de la figura, determine el unitario del vector $\vec{BA}$.
+
+\begin{center}
+\begin{tikzpicture}[x={(1cm,0cm)}, y={(0cm,1cm)}, z={(-0.5cm,-0.4cm)}, scale=0.15, >=Latex, font=\small]
+    \draw[->, thick] (0,0,0) -- (65,0,0) node[right] {$x (+)$};
+    \draw[->, thick] (0,0,0) -- (0,45,0) node[above] {$y (+)$};
+    \draw[->, thick] (0,0,0) -- (0,0,45) node[below left] {$z (+)$};
+
+    \draw[thick] (0,0,0) -- (50,0,0) -- (50,30,0) -- (0,30,0) -- cycle;
+    \draw[thick] (0,0,20) -- (50,0,20) -- (50,30,20) -- (0,30,20) -- cycle;
+    \draw[thick] (0,0,0) -- (0,0,20);
+    \draw[thick] (50,0,0) -- (50,0,20);
+    \draw[thick] (50,30,0) -- (50,30,20);
+    \draw[thick] (0,30,0) -- (0,30,20);
+
+    \coordinate (O) at (0,0,0);
+    \coordinate (A) at (0,5,20);
+    \coordinate (B) at (40,30,0);
+    \coordinate (C) at (50,0,20);
+
+    \node[below right] at (O) {$\mathbf{O}$};
+    \node[above left] at (A) {$\mathbf{A}$};
+    \node[above left] at (B) {$\mathbf{B}$};
+    \node[above left] at (C) {$\mathbf{C}$};
+
+    \draw[<->] (0,-3,20) -- (50,-3,20) node[midway, below] {$50 \, \si{m}$};
+    \draw[<->] (53,0,20) -- (53,0,0) node[midway, right] {$20 \, \si{m}$};
+    \draw[<->] (53,0,0) -- (53,30,0) node[midway, right] {$30 \, \si{m}$};
+    \draw[<->] (40,33,0) -- (50,33,0) node[midway, above] {$10 \, \si{m}$};
+    \draw[<->] (-3,0,20) -- (-3,5,20) node[midway, left] {$5 \, \si{m}$};
+
+    \draw[->, thick, red] (B) -- (A) node[midway, above left] {$\vec{BA}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Determinación de Vectores Posición}
+Para encontrar cualquier vector que une dos puntos en el espacio, primero debemos determinar las coordenadas de dichos puntos respecto al origen $O(0,0,0)$. Esto se conoce como vectores posición ($\vec{r}$).
+
+Analizando el gráfico:
+\begin{itemize}
+    \item El punto $A$ se encuentra sobre la arista frontal izquierda, a una altura de $5 \, \si{m}$ y desplazado $20 \, \si{m}$ en el eje $z$. Su componente en $x$ es $0$.
+    $$\vec{r}_A = 0\hat{i} + 5\hat{j} + 20\hat{k} \, \si{m}$$
+    \item El punto $B$ se ubica en la arista superior trasera. Su altura es total ($30 \, \si{m}$ en $y$), su profundidad en $z$ es $0$ y, dado que la longitud total en $x$ es $50 \, \si{m}$ pero está a $10 \, \si{m}$ del borde derecho, su coordenada en $x$ es $50 - 10 = 40 \, \si{m}$.
+    $$\vec{r}_B = 40\hat{i} + 30\hat{j} + 0\hat{k} \, \si{m}$$
+\end{itemize}
+
+\subsubsection*{2. Cálculo del Vector Relativo $\vec{BA}$}
+El vector $\vec{BA}$ se define geométricamente como la diferencia entre la posición final (la punta de la flecha, punto $A$) y la posición inicial (la cola de la flecha, punto $B$).
+$$\vec{BA} = \vec{r}_{A/B} = \vec{r}_A - \vec{r}_B$$
+$$\vec{BA} = (5\hat{j} + 20\hat{k}) - (40\hat{i} + 30\hat{j})$$
+$$\vec{BA} = -40\hat{i} + (5 - 30)\hat{j} + 20\hat{k}$$
+$$\vec{BA} = -40\hat{i} - 25\hat{j} + 20\hat{k} \, \si{m}$$
+
+\subsubsection*{3. Cálculo del Módulo y Vector Unitario}
+El módulo del vector indica su longitud total en el espacio tridimensional y se calcula mediante el Teorema de Pitágoras:
+$$|\vec{BA}| = \sqrt{(-40)^2 + (-25)^2 + (20)^2}$$
+$$|\vec{BA}| = \sqrt{1600 + 625 + 400} = \sqrt{2625} \approx 51.23 \, \si{m}$$
+
+El vector unitario ($\hat{\mu}_{BA}$) define la dirección y se obtiene dividiendo el vector entre su propio módulo:
+$$\hat{\mu}_{BA} = \frac{\vec{BA}}{|\vec{BA}|} = \frac{-40\hat{i} - 25\hat{j} + 20\hat{k}}{51.23}$$
+$$\hat{\mu}_{BA} = -\frac{40}{51.23}\hat{i} - \frac{25}{51.23}\hat{j} + \frac{20}{51.23}\hat{k}$$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\hat{\mu}_{BA} = -0.78\hat{i} - 0.49\hat{j} + 0.39\hat{k}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+En el prisma rectangular de la figura, determine la distancia entre el punto $B$ y $C$.
+
+\begin{center}
+\begin{tikzpicture}[x={(1cm,0cm)}, y={(0cm,1cm)}, z={(-0.5cm,-0.4cm)}, scale=0.15, >=Latex, font=\small]
+    \draw[->, thick] (0,0,0) -- (65,0,0) node[right] {$x (+)$};
+    \draw[->, thick] (0,0,0) -- (0,45,0) node[above] {$y (+)$};
+    \draw[->, thick] (0,0,0) -- (0,0,45) node[below left] {$z (+)$};
+
+    \draw[thick] (0,0,0) -- (50,0,0) -- (50,30,0) -- (0,30,0) -- cycle;
+    \draw[thick] (0,0,20) -- (50,0,20) -- (50,30,20) -- (0,30,20) -- cycle;
+    \draw[thick] (0,0,0) -- (0,0,20);
+    \draw[thick] (50,0,0) -- (50,0,20);
+    \draw[thick] (50,30,0) -- (50,30,20);
+    \draw[thick] (0,30,0) -- (0,30,20);
+
+    \coordinate (O) at (0,0,0);
+    \coordinate (B) at (40,30,0);
+    \coordinate (C) at (50,0,20);
+
+    \node[below right] at (O) {$\mathbf{O}$};
+    \node[above left] at (B) {$\mathbf{B}$};
+    \node[above left] at (C) {$\mathbf{C}$};
+
+    \draw[<->] (0,-3,20) -- (50,-3,20) node[midway, below] {$50 \, \si{m}$};
+    \draw[<->] (53,0,20) -- (53,0,0) node[midway, right] {$20 \, \si{m}$};
+    \draw[<->] (53,0,0) -- (53,30,0) node[midway, right] {$30 \, \si{m}$};
+    \draw[<->] (40,33,0) -- (50,33,0) node[midway, above] {$10 \, \si{m}$};
+
+    \draw[->, thick, red] (B) -- (C) node[midway, right] {$\vec{BC}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Determinación de Vectores Posición}
+Para calcular la distancia entre dos puntos, podemos construir el vector que los conecta y luego calcular su módulo (longitud). Primero establecemos las coordenadas de los puntos $B$ y $C$.
+
+\begin{itemize}
+    \item El punto $B$ se encuentra en la arista superior trasera. Su coordenada en $x$ es la longitud total menos los $10 \, \si{m}$ del extremo derecho ($50-10=40$). En $y$ tiene la altura total ($30$).
+    $$\vec{r}_B = 40\hat{i} + 30\hat{j} + 0\hat{k} \, \si{m}$$
+    \item El punto $C$ es el vértice inferior frontal derecho. Por lo tanto, avanza $50 \, \si{m}$ en $x$, no tiene altura ($0$ en $y$), y avanza $20 \, \si{m}$ en la profundidad $z$.
+    $$\vec{r}_C = 50\hat{i} + 0\hat{j} + 20\hat{k} \, \si{m}$$
+\end{itemize}
+
+\subsubsection*{2. Cálculo del Vector Relativo $\vec{BC}$}
+Formamos el vector que va desde $B$ hacia $C$ restando las coordenadas del punto de origen ($B$) a las del punto de destino ($C$):
+$$\vec{BC} = \vec{r}_{C/B} = \vec{r}_C - \vec{r}_B$$
+$$\vec{BC} = (50\hat{i} + 0\hat{j} + 20\hat{k}) - (40\hat{i} + 30\hat{j} + 0\hat{k})$$
+$$\vec{BC} = (50 - 40)\hat{i} + (0 - 30)\hat{j} + (20 - 0)\hat{k}$$
+$$\vec{BC} = 10\hat{i} - 30\hat{j} + 20\hat{k} \, \si{m}$$
+
+\subsubsection*{3. Cálculo de la Distancia (Módulo del vector)}
+La distancia lineal $d_{BC}$ entre los dos puntos es la magnitud del vector $\vec{BC}$.
+$$d_{BC} = |\vec{BC}| = \sqrt{(C_x)^2 + (C_y)^2 + (C_z)^2}$$
+$$d_{BC} = \sqrt{(10)^2 + (-30)^2 + (20)^2}$$
+$$d_{BC} = \sqrt{100 + 900 + 400}$$
+$$d_{BC} = \sqrt{1400} \approx 37.42 \, \si{m}$$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $d_{BC} = 37.42 \, \si{m}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+En el prisma rectangular de la figura, determine el ángulo formado por los vectores $\vec{BA}$ y $\vec{BC}$.
+
+\begin{center}
+\begin{tikzpicture}[x={(1cm,0cm)}, y={(0cm,1cm)}, z={(-0.5cm,-0.4cm)}, scale=0.15, >=Latex, font=\small]
+    \draw[->, thick] (0,0,0) -- (65,0,0) node[right] {$x (+)$};
+    \draw[->, thick] (0,0,0) -- (0,45,0) node[above] {$y (+)$};
+    \draw[->, thick] (0,0,0) -- (0,0,45) node[below left] {$z (+)$};
+
+    \draw[thick] (0,0,0) -- (50,0,0) -- (50,30,0) -- (0,30,0) -- cycle;
+    \draw[thick] (0,0,20) -- (50,0,20) -- (50,30,20) -- (0,30,20) -- cycle;
+    \draw[thick] (0,0,0) -- (0,0,20);
+    \draw[thick] (50,0,0) -- (50,0,20);
+    \draw[thick] (50,30,0) -- (50,30,20);
+    \draw[thick] (0,30,0) -- (0,30,20);
+
+    \coordinate (A) at (0,5,20);
+    \coordinate (B) at (40,30,0);
+    \coordinate (C) at (50,0,20);
+
+    \node[above left] at (A) {$\mathbf{A}$};
+    \node[above left] at (B) {$\mathbf{B}$};
+    \node[above left] at (C) {$\mathbf{C}$};
+
+    \draw[->, thick, red] (B) -- (A) node[midway, above left] {$\vec{BA}$};
+    \draw[->, thick, red] (B) -- (C) node[midway, right] {$\vec{BC}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Vectores Implicados}
+Para calcular el ángulo en el espacio tridimensional entre dos vectores que parten del mismo origen (en este caso el punto $B$), necesitamos sus componentes rectangulares y sus módulos.
+
+Del cálculo de posiciones relativas, conocemos que:
+$$\vec{BA} = -40\hat{i} - 25\hat{j} + 20\hat{k} \, \si{m} \quad \text{con} \quad |\vec{BA}| = 51.23 \, \si{m}$$
+$$\vec{BC} = 10\hat{i} - 30\hat{j} + 20\hat{k} \, \si{m} \quad \text{con} \quad |\vec{BC}| = 37.42 \, \si{m}$$
+
+\subsubsection*{2. Producto Punto (Escalar)}
+Una de las propiedades más importantes del producto punto entre dos vectores es que relaciona sus componentes rectangulares con el ángulo $\theta$ formado entre ellos mediante la ecuación:
+$$\vec{BA} \cdot \vec{BC} = |\vec{BA}| |\vec{BC}| \cos(\theta)$$
+
+Primero calculamos el producto escalar algebraicamente multiplicando sus componentes correspondientes:
+$$\vec{BA} \cdot \vec{BC} = (BA_x)(BC_x) + (BA_y)(BC_y) + (BA_z)(BC_z)$$
+$$\vec{BA} \cdot \vec{BC} = (-40)(10) + (-25)(-30) + (20)(20)$$
+$$\vec{BA} \cdot \vec{BC} = -400 + 750 + 400$$
+$$\vec{BA} \cdot \vec{BC} = 750$$
+
+\subsubsection*{3. Cálculo del Ángulo $\theta$}
+Despejamos el ángulo $\theta$ de la fórmula principal:
+$$\cos(\theta) = \frac{\vec{BA} \cdot \vec{BC}}{|\vec{BA}| |\vec{BC}|}$$
+
+Sustituimos el producto punto y las magnitudes de ambos vectores:
+$$\theta = \cos^{-1} \left( \frac{750}{(51.23)(37.42)} \right)$$
+$$\theta = \cos^{-1} \left( \frac{750}{1917.03} \right)$$
+$$\theta = \cos^{-1} (0.3912)$$
+$$\theta = 66.97^\circ$$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\theta = 66.97^\circ$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Sean los vectores $\vec{A}$, $\vec{B}$ y $\vec{C}$ no nulos, tales que $\vec{A} = \vec{B} + \vec{C}$. Si se cumple que las magnitudes de los vectores $\vec{B}$ y $\vec{C}$ son iguales, y que el ángulo entre los vectores $\vec{B}$ y $\vec{C}$ es agudo, seleccione la afirmación correcta:
+
+\begin{enumerate}[label=\alph*)]
+    \item La magnitud de $\vec{A}$ es igual a la magnitud de $\vec{B}$ y $\vec{C}$.
+    \item La magnitud de $\vec{A}$ es menor que la de $\vec{B}$ y $\vec{C}$.
+    \item La magnitud de $\vec{A}$ es mayor que la de $\vec{B}$ y $\vec{C}$.
+    \item La magnitud de $\vec{A}$ es nula.
+    \item La magnitud de $\vec{A}$ puede ser menor, igual o mayor que la de $\vec{B}$, dependiendo únicamente de la dirección de $\vec{C}$.
+\end{enumerate}
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \coordinate (O) at (0,0);
+    \coordinate (B) at (3,0);
+    \coordinate (C) at (5, 2.5); 
+    
+    \draw[->, thick, teal] (O) -- (B) node[midway, below] {$\vec{B}$};
+    \draw[->, thick, blue] (B) -- (C) node[midway, right] {$\vec{C}$};
+    \draw[->, thick, red] (O) -- (C) node[midway, above left] {$\vec{A}$};
+    
+    \draw[dashed, gray] (B) -- (4.5,0);
+    \draw[gray] (3.5,0) arc (0:51.34:0.5); 
+    \node[gray] at (3.8, 0.3) {$\theta$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Analítico (Ley de Cosenos para Vectores)}
+Dado que $\vec{A}$ es el vector resultante de la suma $\vec{B} + \vec{C}$, podemos determinar su magnitud utilizando la Ley de Cosenos aplicada a la suma vectorial. Si $\theta$ es el ángulo que forman los vectores $\vec{B}$ y $\vec{C}$ al unir sus orígenes (que equivale al ángulo exterior cuando se unen cabeza con cola, como en la figura), la ecuación de la magnitud resultante es:
+$$|\vec{A}|^2 = |\vec{B}|^2 + |\vec{C}|^2 + 2|\vec{B}||\vec{C}|\cos(\theta)$$
+
+El problema establece una condición de igualdad de magnitudes: $|\vec{B}| = |\vec{C}|$. Llamemos a esta magnitud común $m$ (donde $m > 0$ ya que son no nulos). Sustituyendo en la ecuación obtenemos:
+$$|\vec{A}|^2 = m^2 + m^2 + 2(m)(m)\cos(\theta)$$
+$$|\vec{A}|^2 = 2m^2 + 2m^2\cos(\theta)$$
+$$|\vec{A}|^2 = 2m^2 (1 + \cos(\theta))$$
+
+\subsubsection*{2. Evaluación de la Condición del Ángulo}
+El enunciado especifica que el ángulo $\theta$ es \textbf{agudo}. Un ángulo agudo se encuentra en el intervalo $0^\circ < \theta < 90^\circ$. 
+En el primer cuadrante, la función coseno siempre toma valores positivos:
+$$\cos(\theta) > 0$$
+
+Si evaluamos esto en nuestro factor $(1 + \cos(\theta))$:
+$$1 + \cos(\theta) > 1$$
+
+Multiplicamos toda la inecuación por $2m^2$ (que es un valor estrictamente positivo):
+$$2m^2 (1 + \cos(\theta)) > 2m^2 (1)$$
+$$|\vec{A}|^2 > 2m^2$$
+
+Dado que $2m^2$ es estrictamente mayor que $m^2$, por transitividad matemática tenemos:
+$$|\vec{A}|^2 > m^2$$
+
+Extrayendo la raíz cuadrada a ambos lados (sabiendo que las magnitudes son distancias positivas):
+$$|\vec{A}| > m$$
+
+Como definimos inicialmente que $m = |\vec{B}| = |\vec{C}|$, concluimos que:
+$$|\vec{A}| > |\vec{B}| \quad \text{y} \quad |\vec{A}| > |\vec{C}|$$
+
+\subsubsection*{3. Análisis Geométrico (Enfoque Alternativo)}
+Podemos llegar a la misma conclusión observando el triángulo formado por los tres vectores. El ángulo interno del triángulo, opuesto al vector $\vec{A}$, es suplementario al ángulo $\theta$.
+$$\text{Ángulo interno} = 180^\circ - \theta$$
+Como $\theta$ es un ángulo agudo ($\theta < 90^\circ$), obligatoriamente el ángulo interno $180^\circ - \theta$ debe ser un ángulo \textbf{obtuso} ($> 90^\circ$). 
+Por geometría euclidiana, en cualquier triángulo, el lado que se opone al ángulo de mayor apertura es invariablemente el lado de mayor longitud. Al oponerse al ángulo obtuso, el vector resultante $\vec{A}$ debe ser el lado más largo del triángulo, siendo estrictamente mayor que $\vec{B}$ y $\vec{C}$.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) La magnitud de $\vec{A}$ es mayor que la de $\vec{B}$ y $\vec{C}$.
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Dados los vectores de la figura. El vector resultante de sumar los demás vectores es:
+
+\begin{enumerate}[label=\alph*)]
+    \item $\vec{A}$
+    \item $\vec{B}$
+    \item $\vec{C}$
+    \item $\vec{D}$
+    \item $\vec{E}$
+\end{enumerate}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9, >=Latex]
+    \coordinate (O) at (0,0);
+    
+    % Polígono Derecho (Circuito Cerrado)
+    \coordinate (C_tip) at (2.5, 1.5);
+    \coordinate (B_tip) at (4, -1);
+    \draw[->, thick] (O) -- (C_tip) node[midway, below right] {$\vec{C}$};
+    \draw[->, thick] (C_tip) -- (B_tip) node[midway, above right] {$\vec{B}$};
+    \draw[->, thick] (B_tip) -- (O) node[midway, below] {$\vec{A}$};
+
+    % Polígono Izquierdo (Resultante)
+    \coordinate (F_tip) at (-2.5, 1.5);
+    \coordinate (E_tip) at (-4.5, -0.5);
+    
+    \draw[->, thick] (O) -- (F_tip) node[midway, below right] {$\vec{F}$};
+    \draw[->, thick] (F_tip) -- (E_tip) node[midway, above left] {$\vec{E}$};
+    
+    % Vector D (Interpretado como la resultante desde el origen para consistencia matemática)
+    \draw[->, thick] (O) -- (E_tip) node[midway, below left] {$\vec{D}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis del Polígono Derecho}
+Analizamos la parte derecha de la figura utilizando el método del polígono para la suma de vectores. Los vectores $\vec{C}$, $\vec{B}$ y $\vec{A}$ están ubicados de manera consecutiva (cabeza con cola). Parten del nodo central (origen) y, tras completar la trayectoria, el vector $\vec{A}$ regresa exactamente al mismo punto de inicio. 
+Dado que forman un circuito cerrado, el desplazamiento neto es nulo. Matemáticamente, esto se expresa como:
+$$ \vec{C} + \vec{B} + \vec{A} = \vec{0} $$
+
+\subsubsection*{2. Análisis del Polígono Izquierdo}
+En la parte izquierda, observamos una trayectoria abierta. La secuencia inicia en el nodo central con el vector $\vec{F}$, al cual se le suma consecutivamente el vector $\vec{E}$. 
+Por definición geométrica, el vector resultante de esta suma es aquel que se traza desde el punto de partida (la cola de $\vec{F}$) hasta el punto de llegada (la punta de $\vec{E}$). En la figura, el vector que cumple esta función de conectar el origen con el extremo final es el vector $\vec{D}$.
+$$ \vec{F} + \vec{E} = \vec{D} $$
+
+\textit{Nota: El diagrama original presenta un trazo con un ligero quiebre visual en el vector $\vec{D}$, sin embargo, el desarrollo algebraico provisto en las bases del ejercicio ($\vec{D} = \vec{C} + \vec{B} + \vec{A} + \vec{F} + \vec{E}$) ratifica que su función geométrica es la de ser la resultante directa desde el nodo central.}
+
+\subsubsection*{3. Determinación de la Suma Solicitada}
+El problema nos solicita identificar cuál vector es el resultado de sumar \textbf{"los demás vectores"}. Vamos a corroborar la opción de probar si el vector $\vec{D}$ es igual a la suma del resto del conjunto.
+Planteamos la suma de todos los vectores excepto $\vec{D}$:
+$$ \text{Suma} = \vec{A} + \vec{B} + \vec{C} + \vec{E} + \vec{F} $$
+
+Reordenamos los términos para agruparlos según los sistemas que acabamos de analizar:
+$$ \text{Suma} = (\vec{C} + \vec{B} + \vec{A}) + (\vec{F} + \vec{E}) $$
+
+Sustituimos las equivalencias halladas en los pasos 1 y 2:
+$$ \text{Suma} = (\vec{0}) + (\vec{D}) $$
+$$ \text{Suma} = \vec{D} $$
+
+Hemos demostrado paso a paso que la suma algebraica del resto de los vectores es exactamente el vector $\vec{D}$.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large d) $\vec{D}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+El ángulo entre el vector $\vec{A} = 2\hat{i} + 3\hat{j}$ y el vector $\vec{B}$ es $45^\circ$. El producto escalar entre $\vec{A}$ y $\vec{B}$ es $3$. Si la componente en $x$ del vector $\vec{B}$ es positiva, ¿cuál es vector $\vec{B}$?
+
+\begin{enumerate}[label=\alph*)]
+    \item $2.96\hat{i} - 0.97\hat{j} \, \si{m}$
+    \item $4.76\hat{i} + 0.95\hat{j} \, \si{m}$
+    \item $3.42\hat{i} + 0.65\hat{j} \, \si{m}$
+    \item $1.15\hat{i} + 0.23\hat{j} \, \si{m}$
+    \item $0.87\hat{i} + 0.42\hat{j} \, \si{m}$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Planteamiento de Ecuaciones}
+Sea el vector desconocido $\vec{B} = B_x\hat{i} + B_y\hat{j}$. Tenemos dos condiciones principales dadas por el problema:
+
+\textbf{Condición 1: Producto Escalar Algebraico}
+El producto punto (o escalar) se define como la suma del producto de sus componentes:
+$$ \vec{A} \cdot \vec{B} = A_x B_x + A_y B_y $$
+Sustituyendo los valores conocidos ($\vec{A} \cdot \vec{B} = 3$, $A_x = 2$, $A_y = 3$):
+$$ 3 = 2B_x + 3B_y \quad \text{--- (Ecuación 1)} $$
+
+\textbf{Condición 2: Producto Escalar Geométrico}
+El producto punto también relaciona los módulos de los vectores y el ángulo entre ellos ($\theta = 45^\circ$):
+$$ \vec{A} \cdot \vec{B} = |\vec{A}| |\vec{B}| \cos(45^\circ) $$
+
+Primero, calculemos el módulo de $\vec{A}$:
+$$ |\vec{A}| = \sqrt{2^2 + 3^2} = \sqrt{4 + 9} = \sqrt{13} $$
+
+Sustituimos en la ecuación geométrica:
+$$ 3 = (\sqrt{13}) |\vec{B}| \cos(45^\circ) $$
+Sabiendo que $\cos(45^\circ) = \frac{\sqrt{2}}{2}$ (o $\frac{1}{\sqrt{2}}$):
+$$ 3 = \sqrt{13} |\vec{B}| \left(\frac{\sqrt{2}}{2}\right) $$
+Despejamos el módulo de $\vec{B}$:
+$$ |\vec{B}| = \frac{3 \cdot 2}{\sqrt{13} \sqrt{2}} = \frac{6}{\sqrt{26}} $$
+Elevamos al cuadrado para trabajar con componentes:
+$$ |\vec{B}|^2 = \frac{36}{26} = \frac{18}{13} $$
+Como $|\vec{B}|^2 = B_x^2 + B_y^2$, tenemos:
+$$ B_x^2 + B_y^2 = \frac{18}{13} \quad \text{--- (Ecuación 2)} $$
+
+\subsubsection*{2. Resolución del Sistema de Ecuaciones}
+Despejamos $B_y$ de la Ecuación 1:
+$$ 3B_y = 3 - 2B_x $$
+$$ B_y = \frac{3 - 2B_x}{3} = 1 - \frac{2}{3}B_x $$
+
+Sustituimos $B_y$ en la Ecuación 2:
+$$ B_x^2 + \left(1 - \frac{2}{3}B_x\right)^2 = \frac{18}{13} $$
+Desarrollamos el binomio al cuadrado:
+$$ B_x^2 + \left(1 - \frac{4}{3}B_x + \frac{4}{9}B_x^2\right) = \frac{18}{13} $$
+Agrupamos términos semejantes:
+$$ \left(1 + \frac{4}{9}\right)B_x^2 - \frac{4}{3}B_x + 1 - \frac{18}{13} = 0 $$
+$$ \left(\frac{13}{9}\right)B_x^2 - \frac{4}{3}B_x + \left(\frac{13 - 18}{13}\right) = 0 $$
+$$ \frac{13}{9}B_x^2 - \frac{4}{3}B_x - \frac{5}{13} = 0 $$
+
+Multiplicamos toda la ecuación por $117$ ($9 \times 13$) para eliminar denominadores:
+$$ 13(13)B_x^2 - 117\left(\frac{4}{3}\right)B_x - 9(5) = 0 $$
+$$ 169B_x^2 - 156B_x - 45 = 0 $$
+
+Resolvemos la ecuación cuadrática utilizando la fórmula general $B_x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$:
+$$ B_x = \frac{156 \pm \sqrt{(-156)^2 - 4(169)(-45)}}{2(169)} $$
+$$ B_x = \frac{156 \pm \sqrt{24336 + 30420}}{338} $$
+$$ B_x = \frac{156 \pm \sqrt{54756}}{338} $$
+$$ B_x = \frac{156 \pm 234}{338} $$
+
+Tenemos dos posibles soluciones para $B_x$:
+$$ B_{x1} = \frac{156 + 234}{338} = \frac{390}{338} \approx 1.1538 $$
+$$ B_{x2} = \frac{156 - 234}{338} = \frac{-78}{338} \approx -0.2307 $$
+
+El enunciado establece que \textbf{"la componente en $x$ del vector $\vec{B}$ es positiva"}, por lo tanto, descartamos la segunda opción y tomamos $B_x = 1.15$.
+
+\subsubsection*{3. Cálculo de la Componente en Y}
+Sustituimos el valor válido de $B_x$ en la ecuación despejada de $B_y$:
+$$ B_y = 1 - \frac{2}{3}(1.1538) $$
+$$ B_y = 1 - 0.7692 $$
+$$ B_y \approx 0.2308 $$
+
+Por lo tanto, el vector es $\vec{B} \approx 1.15\hat{i} + 0.23\hat{j}$.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large d) $1.15\hat{i} + 0.23\hat{j} \, \si{m}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Se tiene dos vectores unitarios en el plano: $\vec{u}_1 = 0.4\hat{i} + 3\alpha\hat{j}$ y $\vec{u}_2 = \alpha\hat{i} + 2\beta\hat{j}$. Sabiendo que $\theta_{polar}$ del primer vector es menor que $180^\circ$ y el del segundo es mayor que $180^\circ$, el vector $\vec{u}_2$ es:
+
+\begin{enumerate}[label=\alph*)]
+    \item $\vec{u}_2 = 0.31\hat{i} - 0.95\hat{j}$
+    \item $\vec{u}_2 = -0.31\hat{i} + 0.48\hat{j}$
+    \item $\vec{u}_2 = 0.31\hat{i} - 0.48\hat{j}$
+    \item $\vec{u}_2 = -0.48\hat{i} + 0.31\hat{j}$
+    \item $\vec{u}_2 = -0.31\hat{i} - 0.95\hat{j}$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis del Primer Vector ($\vec{u}_1$)}
+Por definición, el módulo (o magnitud) de un vector unitario es exactamente igual a $1$. Planteamos la ecuación del módulo para el primer vector:
+$$|\vec{u}_1| = \sqrt{(u_{1x})^2 + (u_{1y})^2} = 1$$
+$$1^2 = (0.4)^2 + (3\alpha)^2$$
+$$1 = 0.16 + 9\alpha^2$$
+
+Despejamos el valor de $\alpha^2$:
+$$9\alpha^2 = 1 - 0.16$$
+$$9\alpha^2 = 0.84$$
+$$\alpha^2 = \frac{0.84}{9} \approx 0.0933$$
+
+Extrayendo la raíz cuadrada obtenemos dos posibles soluciones (una positiva y una negativa):
+$$\alpha \approx \pm 0.3055$$
+
+\textbf{Condición del ángulo polar:} El enunciado indica que $\theta_{polar}$ de $\vec{u}_1$ es menor que $180^\circ$. Esto significa que el vector se encuentra en el primer o segundo cuadrante, por lo que su componente en $y$ debe ser estrictamente positiva ($y > 0$).
+Como su componente $y$ es $3\alpha$, concluimos que $\alpha$ debe ser positivo.
+Redondeando a dos decimales según las opciones de respuesta:
+$$\alpha = 0.31$$
+
+\subsubsection*{2. Representación Gráfica (Python)}
+Para visualizar mejor las condiciones de los ángulos polares y los cuadrantes, generamos un diagrama con la circunferencia unitaria.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+import matplotlib.patches as patches
+
+def draw_unit_vectors():
+    fig, ax = plt.subplots(figsize=(6, 6))
+    ax.set_title("Vectores Unitarios en el Plano")
+    ax.set_aspect('equal')
+    
+    circle = plt.Circle((0, 0), 1, color='gray', fill=False, linestyle='--', alpha=0.5)
+    ax.add_patch(circle)
+
+    ax.axhline(0, color='black', linewidth=1)
+    ax.axvline(0, color='black', linewidth=1)
+    
+    alpha = 0.3055
+    beta_y = -np.sqrt(1 - alpha**2) 
+    
+    u1_x, u1_y = 0.4, 3 * alpha
+    ax.annotate('', xy=(u1_x, u1_y), xytext=(0, 0), arrowprops=dict(facecolor='red', edgecolor='red', width=2, headwidth=10))
+    ax.text(u1_x + 0.1, u1_y, '$\\vec{u}_1$', color='red', fontsize=14)
+    
+    u2_x, u2_y = alpha, beta_y
+    ax.annotate('', xy=(u2_x, u2_y), xytext=(0, 0), arrowprops=dict(facecolor='blue', edgecolor='blue', width=2, headwidth=10))
+    ax.text(u2_x + 0.1, u2_y, '$\\vec{u}_2$', color='blue', fontsize=14)
+
+    arc1 = patches.Arc((0, 0), 0.5, 0.5, angle=0, theta1=0, theta2=np.degrees(np.arctan2(u1_y, u1_x)), color='red')
+    ax.add_patch(arc1)
+    ax.text(0.15, 0.2, '$\\theta_1 < 180^\\circ$', color='red', fontsize=10)
+
+    arc2 = patches.Arc((0, 0), 0.4, 0.4, angle=0, theta1=0, theta2=360+np.degrees(np.arctan2(u2_y, u2_x)), color='blue')
+    ax.add_patch(arc2)
+    ax.text(-0.5, -0.3, '$\\theta_2 > 180^\\circ$', color='blue', fontsize=10)
+
+    ax.text(1.1, 0, '$x$', va='center')
+    ax.text(0, 1.1, '$y$', ha='center')
+
+    plt.xlim(-1.2, 1.2)
+    plt.ylim(-1.2, 1.2)
+    plt.grid(True, linestyle=':', alpha=0.6)
+    plt.show()
+
+draw_unit_vectors()
+\end{lstlisting}
+
+\subsubsection*{3. Análisis del Segundo Vector ($\vec{u}_2$)}
+Conocemos el valor de $\alpha = 0.31$. Sustituimos en el segundo vector:
+$$\vec{u}_2 = 0.31\hat{i} + 2\beta\hat{j}$$
+
+Aplicamos nuevamente la condición de vector unitario ($|\vec{u}_2| = 1$):
+$$1^2 = (0.31)^2 + (2\beta)^2$$
+$$1 = 0.0961 + 4\beta^2$$
+$$4\beta^2 = 1 - 0.0961$$
+$$4\beta^2 = 0.9039$$
+
+Despejamos $\beta^2$:
+$$\beta^2 = \frac{0.9039}{4} \approx 0.2259$$
+$$\beta \approx \pm 0.475 \approx \pm 0.48$$
+
+Calculamos la componente completa en $y$, que es $2\beta$:
+$$2\beta \approx 2(\pm 0.475) \approx \pm 0.95$$
+
+\textbf{Condición del ángulo polar:} El enunciado indica que $\theta_{polar}$ de $\vec{u}_2$ es mayor que $180^\circ$. Esto sitúa al vector en el tercer o cuarto cuadrante, lo que exige obligatoriamente que su componente en $y$ sea negativa ($y < 0$).
+Por tanto, elegimos el valor negativo para la componente $y$:
+$$2\beta = -0.95$$
+
+Reconstruyendo el vector final:
+$$\vec{u}_2 = 0.31\hat{i} - 0.95\hat{j}$$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large a) $\vec{u}_2 = 0.31\hat{i} - 0.95\hat{j}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un transeúnte realiza dos desplazamientos consecutivos: el primero de magnitud $|\Delta\vec{r}_1|$ en dirección Noreste y el segundo en dirección Este. La distancia en línea recta entre el punto de partida y el de llegada resulta ser $2|\Delta\vec{r}_1|$. El rumbo que debe seguir para llegar directamente del origen al destino es:
+
+\begin{enumerate}[label=\alph*)]
+    \item S $69.3^\circ$ E
+    \item N $20.7^\circ$ E
+    \item N $69.3^\circ$ E
+    \item N $69.3^\circ$ O
+    \item S $20.7^\circ$ E
+\end{enumerate}
+
+\begin{center}
+\begin{tikzpicture}[scale=1.5, >=Latex]
+    \coordinate (O) at (0,0);
+    \coordinate (N) at (0,2);
+    \coordinate (S) at (0,-0.8);
+    \coordinate (E) at (3,0);
+    \coordinate (W) at (-0.5,0);
+
+    \draw[->, thick, gray] (S) -- (N) node[above, text=gray] {N};
+    \draw[->, thick, gray] (W) -- (E) node[right, text=gray] {E};
+    \node[below left, text=gray] at (O) {O};
+    \node[below, text=gray] at (S) {S};
+
+    \coordinate (R1) at (1.2, 1.2); 
+    \draw[->, thick, red!70!black] (O) -- (R1) node[midway, below right] {$\Delta\vec{r}_1$};
+
+    \coordinate (R2) at (3.5, 1.2);
+    \draw[->, thick, blue!80!cyan] (R1) -- (R2) node[midway, above] {$\Delta\vec{r}_2$};
+
+    \draw[->, thick, violet] (O) -- (R2) node[midway, below right] {$\Delta\vec{r}_T$};
+
+    \draw[thick, gray] (0, 0.6) arc (90:45:0.6);
+    \node[gray] at (0.3, 0.8) {\small $45^\circ$};
+
+    \draw[thick, violet, ->] (0, 1) arc (90:18.9:1);
+    \node[violet, fill=white, inner sep=1pt] at (0.3, 1.7) {\small mayor a $45^\circ$};
+    \draw[violet, -] (0.3, 1.55) to[out=270,in=120] (0.5, 0.9);
+
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis de las Componentes Vectoriales}
+Definamos el primer desplazamiento $\Delta\vec{r}_1$. Como su dirección es Noreste (exactamente a la mitad del cuadrante), el ángulo que forma con el eje Este ($x$) o con el eje Norte ($y$) es de $45^\circ$.
+Llamemos a su magnitud $R = |\Delta\vec{r}_1|$.
+Sus componentes rectangulares son:
+$$ \Delta\vec{r}_1 = R \cos(45^\circ) \hat{i} + R \sin(45^\circ) \hat{j} $$
+$$ \Delta\vec{r}_1 = R \left(\frac{\sqrt{2}}{2}\right) \hat{i} + R \left(\frac{\sqrt{2}}{2}\right) \hat{j} $$
+
+El segundo desplazamiento $\Delta\vec{r}_2$ se realiza estrictamente en dirección Este, por lo que solo tiene componente en el eje $x$ positivo y carece de componente en $y$:
+$$ \Delta\vec{r}_2 = x_2 \hat{i} + 0 \hat{j} $$
+
+El desplazamiento total $\Delta\vec{r}_T$ es la suma de ambos:
+$$ \Delta\vec{r}_T = \Delta\vec{r}_1 + \Delta\vec{r}_2 $$
+$$ \Delta\vec{r}_T = \left( R \frac{\sqrt{2}}{2} + x_2 \right)\hat{i} + \left( R \frac{\sqrt{2}}{2} \right)\hat{j} $$
+
+Es fundamental notar que la componente vertical (eje $y$) del vector resultante $\Delta\vec{r}_T$ depende \textbf{únicamente} del primer desplazamiento, ya que el segundo fue horizontal.
+Por lo tanto, la componente en $y$ del vector resultante es $y_T = R \frac{\sqrt{2}}{2}$.
+
+\subsubsection*{2. Representación Visual del Triángulo Rectángulo (Python)}
+Para comprender mejor la relación trigonométrica, visualicemos el triángulo rectángulo formado por las componentes del vector resultante.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def draw_resultant_triangle():
+    fig, ax = plt.subplots(figsize=(6, 4))
+    ax.set_title("Triángulo Rectángulo del Desplazamiento Total")
+    ax.set_aspect('equal')
+    ax.axis('off')
+    
+    R1 = 1.0
+    y_T = R1 * np.sin(np.radians(45))
+    R_T = 2 * R1
+    x_T = np.sqrt(R_T**2 - y_T**2)
+    
+    O = np.array([0, 0])
+    PT = np.array([x_T, y_T])
+    PX = np.array([x_T, 0])
+    
+    ax.annotate('', xy=PT, xytext=O, arrowprops=dict(facecolor='violet', edgecolor='violet', width=2, headwidth=10))
+    ax.text(x_T/2 - 0.2, y_T/2 + 0.2, '$|\\Delta\\vec{r}_T| = 2R$', color='violet', fontsize=12, rotation=20)
+    
+    ax.plot([0, x_T], [0, 0], 'k--', lw=2)
+    ax.text(x_T/2, -0.2, 'Componente $x$ (Desconocida)', ha='center')
+    
+    ax.plot([x_T, x_T], [0, y_T], 'r--', lw=2)
+    ax.text(x_T + 0.1, y_T/2, '$y_T = R \\frac{\\sqrt{2}}{2}$', color='red', fontsize=12)
+    
+    ax.plot([x_T-0.1, x_T-0.1, x_T], [0, 0.1, 0.1], 'k-', lw=1)
+    
+    arc = plt.matplotlib.patches.Arc((0, 0), 0.8, 0.8, angle=0, theta1=0, theta2=np.degrees(np.arcsin(y_T/R_T)), color='black')
+    ax.add_patch(arc)
+    ax.text(0.5, 0.1, '$\\alpha$', fontsize=12)
+
+    plt.tight_layout()
+    plt.show()
+
+draw_resultant_triangle()
+\end{lstlisting}
+
+\subsubsection*{3. Cálculo de la Dirección (Ángulo)}
+El enunciado nos da un dato crucial: la magnitud del desplazamiento total es el doble de la magnitud inicial.
+$$ |\Delta\vec{r}_T| = 2R $$
+
+Conocemos la hipotenusa del triángulo rectángulo formado ($2R$) y el cateto opuesto al ángulo $\alpha$ respecto a la horizontal ($R \frac{\sqrt{2}}{2}$).
+Utilizamos la función trigonométrica seno para encontrar el ángulo $\alpha$ (medido desde el Este hacia el Norte):
+$$ \sin(\alpha) = \frac{\text{Cateto Opuesto}}{\text{Hipotenusa}} $$
+$$ \sin(\alpha) = \frac{y_T}{|\Delta\vec{r}_T|} $$
+$$ \sin(\alpha) = \frac{R \frac{\sqrt{2}}{2}}{2R} $$
+
+Simplificamos la variable $R$:
+$$ \sin(\alpha) = \frac{\frac{\sqrt{2}}{2}}{2} = \frac{\sqrt{2}}{4} $$
+
+Calculamos el ángulo inverso:
+$$ \alpha = \arcsin\left(\frac{\sqrt{2}}{4}\right) $$
+Sabiendo que $\frac{\sqrt{2}}{4} \approx 0.3535$:
+$$ \alpha \approx 20.70^\circ $$
+
+Este es el ángulo medido desde el eje Este hacia el Norte.
+
+\subsubsection*{4. Determinación del Rumbo}
+El "rumbo" tradicionalmente se mide partiendo desde el eje Norte o Sur, hacia el Este u Oeste. 
+Como nuestro vector se encuentra en el primer cuadrante (Noreste), el rumbo se medirá desde el Norte hacia el Este.
+El ángulo respecto al Norte ($\theta_{rumbo}$) es el complementario de $\alpha$:
+$$ \theta_{rumbo} = 90^\circ - \alpha $$
+$$ \theta_{rumbo} = 90^\circ - 20.7^\circ $$
+$$ \theta_{rumbo} = 69.3^\circ $$
+
+Por lo tanto, la dirección para ir directamente del origen al destino se expresa como Norte $69.3^\circ$ Este.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) N $69.3^\circ$ E
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un explorador realiza dos desplazamientos sucesivos (cada uno en línea recta). Realiza un primer desplazamiento $\Delta\vec{r}_1 = -30\hat{i} + 80\hat{j} \, \si{km}$. A continuación, realiza un segundo desplazamiento $\Delta\vec{r}_2 = (50 \, \si{km}, \text{N } 36.87^\circ \text{ E})$. Donde el eje $x$ positivo corresponde al Este y el eje $y$ positivo al Norte. Determine el esquema del movimiento realizado por el explorador.
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis de Vectores para el Gráfico}
+Para dibujar el esquema, analizamos las posiciones iniciales y finales de cada vector en un plano cartesiano.
+\begin{itemize}
+    \item El primer desplazamiento $\Delta\vec{r}_1$ parte del origen $(0,0)$. Su componente en el eje $x$ es $-30 \, \si{km}$ (hacia el Oeste) y su componente en el eje $y$ es $80 \, \si{km}$ (hacia el Norte). Por lo tanto, la punta del vector se ubica en el punto $(-30, 80)$.
+    \item El segundo desplazamiento $\Delta\vec{r}_2$ parte desde el punto $(-30, 80)$. Su rumbo es Norte $36.87^\circ$ Este. Esto significa que desde un eje Norte imaginario trazado en ese punto, el vector se desvía $36.87^\circ$ hacia la derecha (Este).
+    \item El vector desplazamiento total $\Delta\vec{r}_T$ se traza desde el punto de partida inicial $(0,0)$ hasta la punta del segundo vector.
+\end{itemize}
+
+\subsubsection*{2. Representación Gráfica (Python)}
+Generamos el esquema vectorial a escala usando Python para visualizar la trayectoria completa del explorador.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+import matplotlib.patches as patches
+
+def draw_explorer_trajectory():
+    fig, ax = plt.subplots(figsize=(6, 8))
+    ax.set_title("Esquema de Desplazamientos del Explorador")
+    ax.set_aspect('equal')
+    
+    O = np.array([0, 0])
+    
+    P1 = np.array([-30, 80])
+    
+    theta_rumbo = np.radians(36.87)
+    R2 = 50
+    P2 = P1 + np.array([R2 * np.sin(theta_rumbo), R2 * np.cos(theta_rumbo)])
+    
+    ax.annotate('', xy=P1, xytext=O, arrowprops=dict(facecolor='firebrick', edgecolor='firebrick', width=2, headwidth=10))
+    ax.text(-25, 30, '$\\Delta\\vec{r}_1$', color='firebrick', fontsize=14)
+    
+    ax.annotate('', xy=P2, xytext=P1, arrowprops=dict(facecolor='dodgerblue', edgecolor='dodgerblue', width=2, headwidth=10))
+    ax.text(-25, 100, '$\\Delta\\vec{r}_2$', color='dodgerblue', fontsize=14)
+    
+    ax.annotate('', xy=P2, xytext=O, arrowprops=dict(facecolor='purple', edgecolor='purple', width=2, headwidth=10))
+    ax.text(5, 50, '$\\Delta\\vec{r}_T$', color='purple', fontsize=14)
+    
+    ax.plot([-40, 20], [0, 0], 'k-', alpha=0.3)
+    ax.plot([0, 0], [-10, 130], 'k-', alpha=0.3)
+    ax.text(22, 0, '$x$', va='center')
+    ax.text(0, 133, '$y$', ha='center')
+    
+    ax.plot([P1[0]-15, P1[0]+15], [P1[1], P1[1]], 'k-', alpha=0.3)
+    ax.plot([P1[0], P1[0]], [P1[1]-15, P1[1]+25], 'k-', alpha=0.3)
+    ax.text(P1[0], P1[1]+28, 'N', ha='center', color='gray')
+    ax.text(P1[0]+17, P1[1], 'E', va='center', color='gray')
+    ax.text(P1[0]-17, P1[1], 'O', va='center', color='gray')
+    ax.text(P1[0], P1[1]-18, 'S', ha='center', color='gray')
+    
+    arc = patches.Arc((P1[0], P1[1]), 20, 20, angle=0, theta1=90-36.87, theta2=90, color='black')
+    ax.add_patch(arc)
+    
+    plt.grid(True, linestyle=':', alpha=0.6)
+    plt.tight_layout()
+    plt.show()
+
+draw_explorer_trajectory()
+\end{lstlisting}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering El esquema detallado del movimiento, respetando los rumbos y coordenadas, se muestra en la figura generada por el script.
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un explorador realiza dos desplazamientos sucesivos (cada uno en línea recta). Realiza un primer desplazamiento $\Delta\vec{r}_1 = -30\hat{i} + 80\hat{j} \, \si{km}$. A continuación, realiza un segundo desplazamiento $\Delta\vec{r}_2 = (50 \, \si{km}, \text{N } 36.87^\circ \text{ E})$. Donde el eje $x$ positivo corresponde al Este y el eje $y$ positivo al Norte. Determine el desplazamiento total en coordenadas rectangulares.
+
+\subsection*{Solución}
+
+\subsubsection*{1. Descomposición de Vectores}
+Para sumar los vectores analíticamente y obtener el desplazamiento total, necesitamos expresar ambos en coordenadas rectangulares ($\hat{i}, \hat{j}$).
+
+El primer vector ya nos lo entregan en este formato:
+$$ \Delta\vec{r}_1 = -30\hat{i} + 80\hat{j} \, \si{km} $$
+
+El segundo vector está expresado mediante su módulo y rumbo: $\Delta\vec{r}_2 = (50 \, \si{km}, \text{N } 36.87^\circ \text{ E})$.
+Un rumbo N $36.87^\circ$ E indica que el ángulo de $36.87^\circ$ se forma partiendo desde el eje Norte (eje $y$) hacia el eje Este (eje $x$).
+En este caso, la componente en $x$ (cateto opuesto al ángulo medido desde la vertical) se relaciona con la función seno, y la componente en $y$ (cateto adyacente) se relaciona con la función coseno.
+
+Calculamos las componentes:
+$$ \Delta r_{2x} = 50 \sin(36.87^\circ) $$
+$$ \Delta r_{2x} = 50 (0.6) = 30 \, \si{km} $$
+
+$$ \Delta r_{2y} = 50 \cos(36.87^\circ) $$
+$$ \Delta r_{2y} = 50 (0.8) = 40 \, \si{km} $$
+
+Por lo tanto, el segundo vector en coordenadas rectangulares es:
+$$ \Delta\vec{r}_2 = 30\hat{i} + 40\hat{j} \, \si{km} $$
+
+\subsubsection*{2. Suma Vectorial}
+El desplazamiento total ($\Delta\vec{r}_T$) es la suma algebraica de las componentes homólogas de los dos desplazamientos:
+$$ \Delta\vec{r}_T = \Delta\vec{r}_1 + \Delta\vec{r}_2 $$
+$$ \Delta\vec{r}_T = (-30\hat{i} + 80\hat{j}) + (30\hat{i} + 40\hat{j}) $$
+$$ \Delta\vec{r}_T = (-30 + 30)\hat{i} + (80 + 40)\hat{j} $$
+$$ \Delta\vec{r}_T = 0\hat{i} + 120\hat{j} \, \si{km} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\Delta\vec{r}_T = 120\hat{j} \, \si{km}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un explorador realiza dos desplazamientos sucesivos (cada uno en línea recta). Realiza un primer desplazamiento $\Delta\vec{r}_1 = -30\hat{i} + 80\hat{j} \, \si{km}$. A continuación, realiza un segundo desplazamiento $\Delta\vec{r}_2 = (50 \, \si{km}, \text{N } 36.87^\circ \text{ E})$. Donde el eje $x$ positivo corresponde al Este y el eje $y$ positivo al Norte. Determine la distancia total recorrida.
+
+\subsection*{Solución}
+
+\subsubsection*{1. Concepto de Distancia Recorrida}
+La distancia total ($S_T$) que recorre el explorador es una cantidad escalar y estrictamente aditiva. Corresponde a la suma de las longitudes (magnitudes o módulos) de cada uno de los tramos que conformaron su viaje, sin importar la dirección que tomó.
+
+$$ S_T = |\Delta\vec{r}_1| + |\Delta\vec{r}_2| $$
+
+\subsubsection*{2. Cálculo de Módulos}
+Primero, encontramos el módulo del primer desplazamiento $\Delta\vec{r}_1$ aplicando el Teorema de Pitágoras sobre sus componentes:
+$$ |\Delta\vec{r}_1| = \sqrt{(-30)^2 + (80)^2} $$
+$$ |\Delta\vec{r}_1| = \sqrt{900 + 6400} $$
+$$ |\Delta\vec{r}_1| = \sqrt{7300} $$
+$$ |\Delta\vec{r}_1| \approx 85.44 \, \si{km} $$
+
+El módulo del segundo desplazamiento ya fue proporcionado directamente en el enunciado del problema (es la magnitud del vector):
+$$ |\Delta\vec{r}_2| = 50 \, \si{km} $$
+
+\subsubsection*{3. Cálculo Final}
+Sumamos aritméticamente ambas magnitudes para obtener la distancia total:
+$$ S_T = 85.44 \, \si{km} + 50 \, \si{km} $$
+$$ S_T = 135.44 \, \si{km} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $S_T = 135.44 \, \si{km}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+La figura representa dos prismas rectangulares. El primero tiene una base de $40 \, \si{m}$ de ancho, $30 \, \si{m}$ de alto y $30 \, \si{m}$ de profundidad. El segundo prisma, adyacente al anterior, posee una base rectangular de $20 \, \si{m}$ de ancho, $10 \, \si{m}$ de alto y $30 \, \si{m}$ de profundidad. Considerando el sistema de coordenadas asociado a la figura y utilizando las operaciones básicas con vectores, determine la distancia entre el punto $A$ y el punto $M$.
+
+\begin{center}
+\begin{tikzpicture}[x={(1cm,0cm)}, y={(0cm,1cm)}, z={(-0.5cm,-0.4cm)}, scale=0.15, >=Latex, font=\small]
+    
+    \draw[->, thick] (0,0,0) -- (60,0,0) node[right] {$x(+)$};
+    \draw[->, thick] (0,0,0) -- (0,50,0) node[above] {$y(+)$};
+    \draw[->, thick] (0,0,0) -- (0,0,50) node[below left] {$z(+)$};
+
+    \draw[thick] (0,0,0) -- (40,0,0) -- (40,30,0) -- (0,30,0) -- cycle;
+    \draw[thick] (0,30,0) -- (20,30,0) -- (20,40,0) -- (0,40,0) -- cycle;
+
+    \draw[thick] (40,0,0) -- (40,0,30);
+    \draw[thick] (40,30,0) -- (40,30,30);
+    \draw[thick] (20,30,0) -- (20,30,30);
+    \draw[thick] (20,40,0) -- (20,40,30);
+    \draw[thick] (0,40,0) -- (0,40,30);
+    \draw[thick] (0,0,0) -- (0,0,30);
+    \draw[thick] (0,30,0) -- (0,30,30);
+
+    \draw[thick] (0,0,30) -- (40,0,30) -- (40,30,30) -- (0,30,30) -- cycle;
+    \draw[thick] (0,30,30) -- (20,30,30) -- (20,40,30) -- (0,40,30) -- cycle;
+
+    \node[left] at (0,0,30) {$A$};
+    \node[right] at (40,0,30) {$D$};
+    \node[above right] at (20,40,0) {$M$};
+    \node[below right] at (0,0,0) {$O$};
+    \node[above left] at (0,40,0) {$L$};
+    \node[above left] at (0,40,30) {$K$};
+    \node[left] at (0,20,0) {$B$}; 
+    \node[right] at (40,30,0) {$F$};
+    \node[right] at (40,30,30) {$C$};
+    \node[right] at (40,0,0) {$E$};
+    \node[above right] at (20,40,30) {$J$};
+    \node[below left] at (20,30,30) {$I$};
+    \node[above left] at (0,30,30) {$G$};
+    \node[below right] at (20,30,0) {$H$};
+
+    \draw[->, thick, red] (20,40,0) -- (0,0,30) node[midway, above left] {$\vec{MA}$};
+    \draw[->, thick, red] (20,40,0) -- (40,0,30) node[midway, right] {$\vec{MD}$};
+
+    \draw[<->] (0,-5,30) -- (40,-5,30) node[midway, below] {$40 \, \si{m}$};
+    \draw[<->] (45,0,30) -- (45,0,0) node[midway, below right] {$30 \, \si{m}$};
+    \draw[<->] (45,0,0) -- (45,30,0) node[midway, right] {$30 \, \si{m}$};
+    \draw[<->] (-5,30,0) -- (-5,40,0) node[midway, left] {$10 \, \si{m}$};
+    \draw[<->] (0,45,0) -- (20,45,0) node[midway, above] {$20 \, \si{m}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Determinación de los Vectores Posición}
+Para hallar la distancia entre los puntos $A$ y $M$, primero debemos determinar las coordenadas de cada punto respecto al origen $O(0,0,0)$, el cual se encuentra en el vértice posterior-inferior-izquierdo.
+
+\begin{itemize}
+    \item \textbf{Punto $A$:} Se ubica en la esquina frontal-inferior-izquierda. No tiene desplazamiento en el eje $x$ ni en el eje $y$, pero avanza toda la profundidad en el eje $z$.
+    $$ \vec{r}_A = 0\hat{i} + 0\hat{j} + 30\hat{k} \, \si{m} $$
+    \item \textbf{Punto $M$:} Se ubica en la esquina posterior-superior-derecha del prisma superior. Se desplaza $20 \, \si{m}$ en el eje $x$, alcanza una altura total de $40 \, \si{m}$ ($30 \, \si{m}$ del prisma base + $10 \, \si{m}$ del prisma superior) en el eje $y$, y no tiene profundidad ($z=0$).
+    $$ \vec{r}_M = 20\hat{i} + 40\hat{j} + 0\hat{k} \, \si{m} $$
+\end{itemize}
+
+\subsubsection*{2. Cálculo del Vector $\vec{MA}$}
+El vector relativo que va desde $M$ hacia $A$ se calcula restando la posición inicial ($\vec{r}_M$) de la posición final ($\vec{r}_A$):
+\begin{align*}
+    \vec{MA} &= \vec{r}_A - \vec{r}_M \\
+    \vec{MA} &= (0\hat{i} + 0\hat{j} + 30\hat{k}) - (20\hat{i} + 40\hat{j} + 0\hat{k}) \\
+    \vec{MA} &= -20\hat{i} - 40\hat{j} + 30\hat{k} \, \si{m}
+\end{align*}
+
+\subsubsection*{3. Cálculo de la Distancia (Módulo del vector)}
+La distancia en línea recta entre los puntos es la magnitud del vector $\vec{MA}$, la cual se obtiene mediante el Teorema de Pitágoras tridimensional:
+\begin{align*}
+    d_{AM} &= |\vec{MA}| = \sqrt{(-20)^2 + (-40)^2 + (30)^2} \\
+    d_{AM} &= \sqrt{400 + 1600 + 900} \\
+    d_{AM} &= \sqrt{2900} \\
+    d_{AM} &= 10\sqrt{29} \, \si{m} \approx 53.851 \, \si{m}
+\end{align*}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $d_{AM} = 10\sqrt{29} \, \si{m} \approx 53.851 \, \si{m}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+La figura representa dos prismas rectangulares. El primero tiene una base de $40 \, \si{m}$ de ancho, $30 \, \si{m}$ de alto y $30 \, \si{m}$ de profundidad. El segundo prisma, adyacente al anterior, posee una base rectangular de $20 \, \si{m}$ de ancho, $10 \, \si{m}$ de alto y $30 \, \si{m}$ de profundidad. Considerando el sistema de coordenadas asociado a la figura y utilizando las operaciones básicas con vectores, determine el ángulo que forman los vectores $\vec{MA}$ y $\vec{MD}$.
+
+\begin{center}
+\begin{tikzpicture}[x={(1cm,0cm)}, y={(0cm,1cm)}, z={(-0.5cm,-0.4cm)}, scale=0.15, >=Latex, font=\small]
+    
+    \draw[->, thick] (0,0,0) -- (60,0,0) node[right] {$x(+)$};
+    \draw[->, thick] (0,0,0) -- (0,50,0) node[above] {$y(+)$};
+    \draw[->, thick] (0,0,0) -- (0,0,50) node[below left] {$z(+)$};
+
+    \draw[thick] (0,0,0) -- (40,0,0) -- (40,30,0) -- (0,30,0) -- cycle;
+    \draw[thick] (0,30,0) -- (20,30,0) -- (20,40,0) -- (0,40,0) -- cycle;
+
+    \draw[thick] (40,0,0) -- (40,0,30);
+    \draw[thick] (40,30,0) -- (40,30,30);
+    \draw[thick] (20,30,0) -- (20,30,30);
+    \draw[thick] (20,40,0) -- (20,40,30);
+    \draw[thick] (0,40,0) -- (0,40,30);
+    \draw[thick] (0,0,0) -- (0,0,30);
+    \draw[thick] (0,30,0) -- (0,30,30);
+
+    \draw[thick] (0,0,30) -- (40,0,30) -- (40,30,30) -- (0,30,30) -- cycle;
+    \draw[thick] (0,30,30) -- (20,30,30) -- (20,40,30) -- (0,40,30) -- cycle;
+
+    \node[left] at (0,0,30) {$A$};
+    \node[right] at (40,0,30) {$D$};
+    \node[above right] at (20,40,0) {$M$};
+    \node[below right] at (0,0,0) {$O$};
+    \node[above left] at (0,40,0) {$L$};
+    \node[above left] at (0,40,30) {$K$};
+    \node[left] at (0,20,0) {$B$}; 
+    \node[right] at (40,30,0) {$F$};
+    \node[right] at (40,30,30) {$C$};
+    \node[right] at (40,0,0) {$E$};
+    \node[above right] at (20,40,30) {$J$};
+    \node[below left] at (20,30,30) {$I$};
+    \node[above left] at (0,30,30) {$G$};
+    \node[below right] at (20,30,0) {$H$};
+
+    \draw[->, thick, red] (20,40,0) -- (0,0,30) node[midway, above left] {$\vec{MA}$};
+    \draw[->, thick, red] (20,40,0) -- (40,0,30) node[midway, right] {$\vec{MD}$};
+
+    \draw[<->] (0,-5,30) -- (40,-5,30) node[midway, below] {$40 \, \si{m}$};
+    \draw[<->] (45,0,30) -- (45,0,0) node[midway, below right] {$30 \, \si{m}$};
+    \draw[<->] (45,0,0) -- (45,30,0) node[midway, right] {$30 \, \si{m}$};
+    \draw[<->] (-5,30,0) -- (-5,40,0) node[midway, left] {$10 \, \si{m}$};
+    \draw[<->] (0,45,0) -- (20,45,0) node[midway, above] {$20 \, \si{m}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Vectores Implicados}
+Del análisis geométrico previo, tenemos el vector $\vec{MA}$:
+$$ \vec{MA} = -20\hat{i} - 40\hat{j} + 30\hat{k} \, \si{m} $$
+Su magnitud es $|\vec{MA}| = 10\sqrt{29} \, \si{m}$.
+
+Ahora, determinamos el vector posición para el punto $D$. Este punto se ubica en la esquina frontal-inferior-derecha del prisma base. Por ende, abarca todo el ancho en $x$ y toda la profundidad en $z$, sin altura en $y$.
+$$ \vec{r}_D = 40\hat{i} + 0\hat{j} + 30\hat{k} \, \si{m} $$
+
+Recordando la posición de $M$ ($\vec{r}_M = 20\hat{i} + 40\hat{j} + 0\hat{k}$), calculamos el vector $\vec{MD}$:
+\begin{align*}
+    \vec{MD} &= \vec{r}_D - \vec{r}_M \\
+    \vec{MD} &= (40\hat{i} + 0\hat{j} + 30\hat{k}) - (20\hat{i} + 40\hat{j} + 0\hat{k}) \\
+    \vec{MD} &= 20\hat{i} - 40\hat{j} + 30\hat{k} \, \si{m}
+\end{align*}
+
+Calculamos la magnitud del vector $\vec{MD}$:
+\begin{align*}
+    |\vec{MD}| &= \sqrt{(20)^2 + (-40)^2 + (30)^2} \\
+    |\vec{MD}| &= \sqrt{400 + 1600 + 900} = \sqrt{2900} = 10\sqrt{29} \, \si{m}
+\end{align*}
+
+\subsubsection*{2. Producto Escalar (Punto)}
+Para hallar el ángulo entre los dos vectores, utilizaremos la definición del producto escalar: $\vec{MA} \cdot \vec{MD} = |\vec{MA}||\vec{MD}|\cos(\theta)$.
+Primero, resolvemos el producto escalar componente a componente:
+\begin{align*}
+    \vec{MA} \cdot \vec{MD} &= (MA_x)(MD_x) + (MA_y)(MD_y) + (MA_z)(MD_z) \\
+    \vec{MA} \cdot \vec{MD} &= (-20)(20) + (-40)(-40) + (30)(30) \\
+    \vec{MA} \cdot \vec{MD} &= -400 + 1600 + 900 \\
+    \vec{MA} \cdot \vec{MD} &= 2100
+\end{align*}
+
+\subsubsection*{3. Cálculo del Ángulo $\theta$}
+Despejamos la función coseno de la fórmula principal:
+\begin{align*}
+    \cos(\theta) &= \frac{\vec{MA} \cdot \vec{MD}}{|\vec{MA}||\vec{MD}|} \\
+    \cos(\theta) &= \frac{2100}{(10\sqrt{29})(10\sqrt{29})} \\
+    \cos(\theta) &= \frac{2100}{100(29)} \\
+    \cos(\theta) &= \frac{2100}{2900} = \frac{21}{29}
+\end{align*}
+
+Finalmente, aplicamos la función arcocoseno para encontrar el valor del ángulo:
+$$ \theta = \cos^{-1}\left(\frac{21}{29}\right) \approx 43.60^\circ $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\theta = 43.60^\circ$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+En el espacio tridimensional se tienen los puntos $A(1,2,3)$, $B(4,0,1)$ y $D(4,2,1)$. ¿Cuál de las siguientes afirmaciones es verdadera?
+
+\begin{enumerate}[label=\alph*)]
+    \item $\vec{AD}$ es paralelo a $\vec{BD}$.
+    \item $\vec{AD}$ es perpendicular a $\vec{BD}$.
+    \item El producto escalar: $\vec{AB} \cdot \vec{BD}$ es nulo.
+    \item Los puntos $A$, $B$ y $D$ son colineales.
+    \item $\vec{AD} = \vec{BD}$.
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Construcción de los Vectores}
+Para evaluar las afirmaciones, primero debemos determinar las componentes rectangulares de los vectores involucrados. Un vector definido por dos puntos se calcula restando las coordenadas del punto de origen a las del punto de destino.
+
+Vector $\vec{AD}$ (desde $A$ hasta $D$):
+\begin{align*}
+    \vec{AD} &= \vec{r}_D - \vec{r}_A \\
+    \vec{AD} &= (4 - 1)\hat{i} + (2 - 2)\hat{j} + (1 - 3)\hat{k} \\
+    \vec{AD} &= 3\hat{i} + 0\hat{j} - 2\hat{k}
+\end{align*}
+
+Vector $\vec{BD}$ (desde $B$ hasta $D$):
+\begin{align*}
+    \vec{BD} &= \vec{r}_D - \vec{r}_B \\
+    \vec{BD} &= (4 - 4)\hat{i} + (2 - 0)\hat{j} + (1 - 1)\hat{k} \\
+    \vec{BD} &= 0\hat{i} + 2\hat{j} + 0\hat{k}
+\end{align*}
+
+\subsubsection*{2. Representación Gráfica (Python)}
+Podemos visualizar la disposición espacial de estos puntos y vectores mediante un script en 3D.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def draw_3d_vectors():
+    fig = plt.figure(figsize=(7, 6))
+    ax = fig.add_subplot(111, projection='3d')
+    ax.set_title("Vectores $\\vec{AD}$ y $\\vec{BD}$ en el Espacio")
+    
+    A = np.array([1, 2, 3])
+    B = np.array([4, 0, 1])
+    D = np.array([4, 2, 1])
+    
+    ax.scatter(*A, color='red', s=50, label='Punto A')
+    ax.scatter(*B, color='blue', s=50, label='Punto B')
+    ax.scatter(*D, color='green', s=50, label='Punto D')
+    
+    ax.text(A[0], A[1], A[2]+0.2, "A", color='red', fontsize=12)
+    ax.text(B[0], B[1], B[2]+0.2, "B", color='blue', fontsize=12)
+    ax.text(D[0], D[1], D[2]+0.2, "D", color='green', fontsize=12)
+    
+    ax.quiver(A[0], A[1], A[2], D[0]-A[0], D[1]-A[1], D[2]-A[2], color='red', arrow_length_ratio=0.1)
+    ax.text((A[0]+D[0])/2, (A[1]+D[1])/2, (A[2]+D[2])/2, "$\\vec{AD}$", color='red', fontsize=12)
+    
+    ax.quiver(B[0], B[1], B[2], D[0]-B[0], D[1]-B[1], D[2]-B[2], color='blue', arrow_length_ratio=0.1)
+    ax.text((B[0]+D[0])/2, (B[1]+D[1])/2, (B[2]+D[2])/2, "$\\vec{BD}$", color='blue', fontsize=12)
+    
+    ax.set_xlabel('Eje X')
+    ax.set_ylabel('Eje Y')
+    ax.set_zlabel('Eje Z')
+    ax.legend()
+    
+    plt.show()
+
+draw_3d_vectors()
+\end{lstlisting}
+
+\subsubsection*{3. Análisis de Perpendicularidad (Producto Escalar)}
+Para comprobar si dos vectores son perpendiculares (ortogonales), su producto escalar debe ser igual a cero.
+$$ \vec{AD} \cdot \vec{BD} = (AD_x)(BD_x) + (AD_y)(BD_y) + (AD_z)(BD_z) $$
+$$ \vec{AD} \cdot \vec{BD} = (3)(0) + (0)(2) + (-2)(0) $$
+$$ \vec{AD} \cdot \vec{BD} = 0 + 0 + 0 $$
+$$ \vec{AD} \cdot \vec{BD} = 0 $$
+
+Dado que el producto escalar es exactamente cero, los vectores $\vec{AD}$ y $\vec{BD}$ forman un ángulo de $90^\circ$ entre sí. Por lo tanto, la afirmación verdadera es que son perpendiculares.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) $\vec{AD}$ es perpendicular a $\vec{BD}$.
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Dos partículas $P$ y $Q$ se mueven durante el mismo intervalo de tiempo $\Delta t$, saliendo del mismo punto inicial y llegando al mismo punto final. La partícula $P$ sigue una trayectoria curva, mientras que $Q$ se mueve en línea recta con rapidez constante. Entonces:
+
+\begin{enumerate}[label=\alph*)]
+    \item Ambas partículas tienen la misma distancia recorrida, pero diferente desplazamiento.
+    \item Ambas partículas tienen el mismo desplazamiento, pero diferente rapidez media.
+    \item Ambas partículas tienen la misma rapidez media, pero diferente velocidad media.
+    \item La velocidad media de $P$ es mayor que la de $Q$, porque recorrió más distancia en el mismo tiempo.
+    \item Ambas partículas tienen el mismo desplazamiento y distinta velocidad media.
+\end{enumerate}
+
+\begin{center}
+\begin{tikzpicture}[scale=1.5, >=Latex]
+    \draw[->, thick] (0,0) -- (4,0) node[right] {$x$};
+    \draw[->, thick] (0,0) -- (0,2) node[above] {$y$};
+    \node[below left] at (0,0) {$0$};
+
+    \coordinate (Start) at (0.5, 0.5);
+    \coordinate (End) at (3.5, 1.2);
+
+    \draw[->, line width=1.5pt, blue!80!cyan] (Start) -- (End) node[midway, below right] {$\Delta\vec{r}_P = \Delta\vec{r}_Q$};
+    \node[right, align=left] at (3.5, 0.8) {camino 2\\(Q)};
+
+    \draw[->, thick, black] (Start) .. controls (0.2, 1.5) and (1.5, 0.5) .. (2, 1.5) .. controls (2.5, 2.5) and (3.5, 1.8) .. (End);
+    \node[above] at (3, 1.8) {camino 1 (P)};
+    
+    \node[text=teal] at (2.5, 1) {$s_P > s_Q$};
+    
+    \filldraw[black] (Start) circle (1.5pt);
+    \filldraw[black] (End) circle (1.5pt);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis del Desplazamiento ($\Delta\vec{r}$)}
+El desplazamiento es una magnitud \textbf{vectorial} definida exclusivamente por el cambio de posición de un objeto. No depende de la trayectoria descrita, sino únicamente de las posiciones inicial ($\vec{r}_i$) y final ($\vec{r}_f$).
+$$ \Delta\vec{r} = \vec{r}_f - \vec{r}_i $$
+Como el enunciado indica que ambas partículas "salen del mismo punto inicial y llegan al mismo punto final", sus vectores posición son idénticos.
+Por lo tanto:
+$$ \Delta\vec{r}_P = \Delta\vec{r}_Q $$
+Tienen exactamente \textbf{el mismo desplazamiento}.
+
+\subsubsection*{2. Análisis de la Distancia Recorrida ($s$)}
+La distancia es una magnitud \textbf{escalar} que cuantifica la longitud total de la trayectoria o el camino real seguido por la partícula.
+En el gráfico observamos que $P$ sigue una trayectoria curva (camino 1), mientras que $Q$ sigue una línea recta (camino 2). La distancia más corta entre dos puntos es siempre la línea recta. Por ende, la curva descrita por $P$ tiene mayor longitud.
+$$ s_P > s_Q $$
+Tienen \textbf{diferente distancia recorrida}.
+
+\subsubsection*{3. Análisis de las Variables Cinemáticas}
+Conociendo las relaciones de distancia y desplazamiento, y sabiendo que el intervalo de tiempo ($\Delta t$) es el mismo para ambas, evaluamos:
+
+\textbf{Velocidad Media ($\vec{v}_m$):} Relaciona el desplazamiento con el tiempo. Es un vector.
+$$ \vec{v}_m = \frac{\Delta\vec{r}}{\Delta t} $$
+Como $\Delta\vec{r}_P = \Delta\vec{r}_Q$ y el tiempo es el mismo, \textbf{tienen la misma velocidad media}. (Esto descarta las opciones c, d y e).
+
+\textbf{Rapidez Media ($v_m$):} Relaciona la distancia total recorrida con el tiempo. Es un escalar.
+$$ v_m = \frac{s}{\Delta t} $$
+Dado que la distancia de $P$ es mayor ($s_P > s_Q$) para el mismo intervalo de tiempo, la rapidez media de $P$ es mayor a la de $Q$. \textbf{Tienen diferente rapidez media}.
+
+Al conjugar estos análisis, la única afirmación consistente es que tienen igual desplazamiento pero diferente rapidez media.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) Ambas partículas tienen el mismo desplazamiento, pero diferente rapidez media.
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+En cinemática, ¿cuál de las siguientes afirmaciones describe correctamente la diferencia entre rapidez media y velocidad media?
+
+\begin{enumerate}[label=\alph*)]
+    \item La rapidez media depende de la distancia recorrida, mientras que la velocidad media depende del desplazamiento.
+    \item Ambas se calculan con la distancia recorrida, pero la velocidad media incluye la dirección.
+    \item La rapidez media y la velocidad media necesariamente tiene la misma dirección.
+    \item La rapidez media depende del tiempo inicial y final, mientras que la velocidad media depende de la trayectoria.
+    \item La rapidez media es necesariamente la magnitud de la velocidad media.
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Definición de Rapidez Media}
+La \textbf{rapidez media} ($v_m$) es una cantidad escalar (no tiene dirección ni sentido). Responde a la pregunta: ¿qué tan rápido se cubre un camino? Se calcula como el cociente entre la \textbf{distancia total recorrida} ($s$) y el intervalo de tiempo ($\Delta t$) que tomó recorrerla.
+$$ v_m = \frac{s}{\Delta t} \quad \text{(Escalar)} $$
+La distancia $s$ es la longitud real de la trayectoria, la cual depende íntimamente del camino elegido (sea curvo, zigzagueante o recto).
+
+\subsubsection*{2. Definición de Velocidad Media}
+La \textbf{velocidad media} ($\vec{v}_m$) es una magnitud vectorial. Responde a la pregunta: ¿a qué tasa cambia la posición de un objeto? Se define como la relación entre el \textbf{desplazamiento} ($\Delta\vec{r}$) y el intervalo de tiempo ($\Delta t$).
+$$ \vec{v}_m = \frac{\Delta\vec{r}}{\Delta t} \quad \text{(Vector)} $$
+El desplazamiento $\Delta\vec{r}$ es la línea recta imaginaria que conecta el punto de origen con el punto de destino, ignorando por completo la trayectoria real del objeto.
+
+\subsubsection*{3. Comparación de Opciones}
+Revisando las características fundamentales de cada variable:
+\begin{itemize}
+    \item La opción \textbf{a} enuncia exactamente la dependencia teórica de ambas magnitudes: Rapidez $\rightarrow$ Distancia, Velocidad $\rightarrow$ Desplazamiento.
+    \item La opción \textbf{b} es falsa porque la velocidad media no usa la distancia recorrida.
+    \item La opción \textbf{c} es falsa porque la rapidez media es un escalar, no posee dirección en absoluto.
+    \item La opción \textbf{d} es falsa porque es exactamente al revés: la rapidez depende de la trayectoria (distancia) y la velocidad depende solo de los puntos inicial y final.
+    \item La opción \textbf{e} es un error conceptual común. La magnitud de la velocidad media ($\left|\frac{\Delta\vec{r}}{\Delta t}\right|$) solo iguala a la rapidez media cuando el movimiento es estrictamente rectilíneo en un solo sentido (donde la magnitud del desplazamiento iguala a la distancia). En cualquier movimiento curvo, la rapidez será mayor.
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large a) La rapidez media depende de la distancia recorrida, mientras que la velocidad media depende del desplazamiento.
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Dos patinadores $A$ y $B$ parten del reposo en línea recta y alcanzan la misma velocidad final. El patinador $A$ tarda $10 \, \si{s}$ en alcanzar esa velocidad, mientras que el patinador $B$ tarda solo $5 \, \si{s}$. En relación con la aceleración media de cada uno, se afirma que:
+
+\begin{enumerate}[label=\alph*)]
+    \item Ambos tienen la misma magnitud de aceleración media.
+    \item La magnitud de la aceleración media del patinador $A$ es mayor.
+    \item La magnitud de la aceleración media del patinador $B$ es mayor.
+    \item La magnitud de la aceleración media de ambos es cero.
+    \item La aceleración media de ambos es nula.
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Definición de Aceleración Media}
+La aceleración media ($\vec{a}_m$) de un cuerpo se define como la tasa de cambio de su velocidad en un intervalo de tiempo determinado. Matemáticamente, se expresa como:
+$$ \vec{a}_m = \frac{\Delta\vec{v}}{\Delta t} = \frac{\vec{v}_f - \vec{v}_0}{\Delta t} $$
+
+\subsubsection*{2. Análisis de las Variables Cinemáticas}
+Del enunciado extraemos las siguientes condiciones para ambos patinadores:
+\begin{itemize}
+    \item \textbf{Velocidad Inicial:} Parten del reposo, por lo tanto $v_0 = 0 \, \si{m/s}$.
+    \item \textbf{Velocidad Final:} Alcanzan la \textit{misma velocidad final}, que llamaremos $v_f$.
+\end{itemize}
+Dado que el movimiento es en línea recta, podemos trabajar con las magnitudes (escalares). La variación de velocidad ($\Delta v$) para ambos patinadores es idéntica:
+$$ \Delta v_A = \Delta v_B = v_f - 0 = v_f $$
+
+Los intervalos de tiempo son diferentes:
+\begin{itemize}
+    \item $\Delta t_A = 10 \, \si{s}$
+    \item $\Delta t_B = 5 \, \si{s}$
+\end{itemize}
+
+\subsubsection*{3. Comparación de las Aceleraciones}
+Sustituimos en la ecuación de aceleración media para cada uno:
+$$ a_{mA} = \frac{v_f}{10} $$
+$$ a_{mB} = \frac{v_f}{5} $$
+
+Podemos observar claramente una relación de proporcionalidad inversa en la ecuación $a_m = \frac{\Delta v}{\Delta t}$. Al ser el numerador ($\Delta v$) una constante para ambos casos, un \textbf{menor tiempo implicará una mayor aceleración media}.
+Como el patinador $B$ logra el mismo cambio de velocidad en la mitad del tiempo que el patinador $A$, su aceleración es el doble:
+$$ a_{mB} = 2 \left(\frac{v_f}{10}\right) = 2 a_{mA} $$
+
+En conclusión, la magnitud de la aceleración del patinador $B$ es mayor.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) La magnitud de la aceleración media del patinador $B$ es mayor.
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Dos vehículos $A$ y $B$ se mueven con la misma rapidez constante, pero recorren pistas circulares de distinto tamaño: el vehículo $A$ avanza por una pista cuyo diámetro es $D_A$, mientras que el vehículo $B$ lo hace por una pista de diámetro $D_B$, siendo $D_B$ mucho mayor que $D_A$. ¿Qué puede afirmarse sobre las magnitudes de las aceleraciones normales de ambos vehículos?
+
+\begin{enumerate}[label=\alph*)]
+    \item Son iguales y distintas de cero.
+    \item Son iguales a cero.
+    \item La de $A$ es mayor que la de $B$.
+    \item La de $A$ es menor que la de $B$.
+    \item Se necesita más información para determinarlo.
+\end{enumerate}
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \begin{scope}[shift={(0,0)}]
+        \draw[->, thick] (-1.5, 0) -- (1.5, 0) node[right] {$x$};
+        \draw[->, thick] (0, -1.5) -- (0, 1.5) node[above] {$y$};
+        
+        \draw[thick] (0,0) circle (0.7);
+        
+        \filldraw (-0.6, -0.36) circle (2.5pt);
+        \node[below left] at (-0.6, -0.36) {A};
+        
+        \draw[->, thick] (0.7, 0.7) arc (45:-15:0.5);
+        \node at (1.2, 0.5) {mov};
+    \end{scope}
+
+    \begin{scope}[shift={(6,0)}]
+        \draw[->, thick] (-2, 0) -- (2, 0) node[right] {$x$};
+        \draw[->, thick] (0, -2) -- (0, 2) node[above] {$y$};
+        
+        \draw[thick] (0,0) circle (1.3);
+        
+        \filldraw (-1.12, -0.65) circle (2.5pt);
+        \node[below left] at (-1.12, -0.65) {B};
+        
+        \draw[->, thick] (1.3, 1.3) arc (45:-15:0.8);
+        \node at (1.8, 1.0) {mov};
+    \end{scope}
+\end{tikzpicture}
+\end{center}
+
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis del Movimiento Circular}
+Ambos vehículos describen un movimiento curvilíneo (circular). En la cinemática de este tipo de movimiento, la aceleración total de una partícula tiene dos componentes intrínsecas:
+\begin{itemize}
+    \item \textbf{Aceleración Tangencial ($a_T$):} Responsable del cambio en la magnitud de la velocidad (rapidez). Como el enunciado indica que se mueven con "rapidez constante", entonces $a_T = 0$.
+    \item \textbf{Aceleración Normal o Centrípeta ($a_N$):} Responsable del cambio en la dirección del vector velocidad. Aparece siempre que hay curvatura en la trayectoria. Su fórmula es:
+    $$ a_N = \frac{v^2}{\rho} $$
+    Donde $v$ es la rapidez tangencial y $\rho$ (o $R$) es el radio de curvatura de la pista.
+\end{itemize}
+
+\subsubsection*{2. Comparación de las Aceleraciones Normales}
+Establecemos la relación para cada vehículo basándonos en la fórmula $a_N = \frac{v^2}{\rho}$.
+Dado que ambos tienen la misma rapidez constante, el numerador ($v^2$) es un valor constante e idéntico para $A$ y $B$.
+$$ a_{NA} = \frac{v^2}{\rho_A} $$
+$$ a_{NB} = \frac{v^2}{\rho_B} $$
+
+El problema establece que el diámetro de la pista $B$ es mucho mayor que el de la pista $A$ ($D_B > D_A$). En consecuencia directa, el radio de curvatura de $B$ también es mayor que el de $A$ ($\rho_B > \rho_A$).
+
+Nuevamente nos encontramos ante una relación de proporcionalidad inversa. Al tener la variable $\rho$ en el denominador, \textbf{un menor radio de curvatura produce una mayor aceleración normal} (el vehículo debe cambiar de dirección de forma más "abrupta" para mantenerse en una curva más cerrada).
+
+Como $\rho_A < \rho_B$, matemáticamente se concluye que:
+$$ a_{NA} > a_{NB} $$
+
+La aceleración normal del vehículo $A$ es de mayor magnitud que la del vehículo $B$.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) La de $A$ es mayor que la de $B$.
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un ciclista realiza una vuelta en U y durante todo el giro su movimiento es curvilíneo retardado. Entonces, necesariamente se cumple que:
+
+\begin{enumerate}[label=\alph*)]
+    \item La velocidad y la aceleración son perpendiculares.
+    \item La velocidad y la aceleración son colineales y tienen el mismo sentido.
+    \item La velocidad y la aceleración son colineales y tienen sentidos opuestos.
+    \item El producto escalar entre la velocidad y la aceleración es positivo.
+    \item El producto escalar entre la velocidad y la aceleración es negativo.
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis de las Componentes de la Aceleración}
+En cualquier movimiento curvilíneo, la aceleración total ($\vec{a}$) de un cuerpo se puede descomponer en dos componentes intrínsecas mutuamente perpendiculares:
+\begin{itemize}
+    \item \textbf{Aceleración Normal o Centrípeta ($\vec{a}_N$):} Es perpendicular a la velocidad y apunta hacia el centro de la curvatura. Es responsable de cambiar la dirección del movimiento. Como el ciclista da una "vuelta en U" (trayectoria curva), obligatoriamente $\vec{a}_N \neq 0$.
+    \item \textbf{Aceleración Tangencial ($\vec{a}_T$):} Es colineal a la velocidad (paralela a la trayectoria). Es responsable de cambiar la magnitud de la velocidad (rapidez).
+\end{itemize}
+
+El enunciado especifica que el movimiento es \textbf{retardado} (o desacelerado). Esto significa que la rapidez del ciclista está disminuyendo. Por definición física, para que un cuerpo frene, la aceleración tangencial debe actuar en \textbf{sentido opuesto} al vector velocidad ($\vec{v}$).
+
+\subsubsection*{2. Representación Vectorial (Python)}
+Podemos visualizar esta relación vectorial utilizando un diagrama generado con Python.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+import matplotlib.patches as patches
+
+def draw_curvilinear_motion():
+    fig, ax = plt.subplots(figsize=(5, 5))
+    ax.set_title("Movimiento Curvilíneo Retardado")
+    ax.set_aspect('equal')
+    ax.axis('off')
+    
+    t = np.linspace(0, np.pi, 100)
+    x = 2 * np.cos(t)
+    y = 2 * np.sin(t)
+    ax.plot(x, y, 'k--', alpha=0.5) 
+    
+    px, py = 2 * np.cos(np.pi/4), 2 * np.sin(np.pi/4)
+    ax.plot(px, py, 'ko', markersize=6)
+    
+    vx, vy = -np.sin(np.pi/4), np.cos(np.pi/4) 
+    ax.annotate('', xy=(px+1.5*vx, py+1.5*vy), xytext=(px, py),
+                arrowprops=dict(facecolor='dodgerblue', edgecolor='dodgerblue', width=2, headwidth=10))
+    ax.text(px+1.7*vx, py+1.7*vy, '$\\vec{v}$', color='dodgerblue', fontsize=14)
+    
+    an_x, an_y = -np.cos(np.pi/4), -np.sin(np.pi/4) 
+    ax.annotate('', xy=(px+an_x, py+an_y), xytext=(px, py),
+                arrowprops=dict(facecolor='gray', edgecolor='gray', width=1, headwidth=6))
+    ax.text(px+1.2*an_x, py+1.2*an_y, '$\\vec{a}_N$', color='gray', fontsize=12)
+    
+    at_x, at_y = np.sin(np.pi/4), -np.cos(np.pi/4)
+    ax.annotate('', xy=(px+0.8*at_x, py+0.8*at_y), xytext=(px, py),
+                arrowprops=dict(facecolor='gray', edgecolor='gray', width=1, headwidth=6))
+    ax.text(px+1.1*at_x, py+1.1*at_y, '$\\vec{a}_T$', color='gray', fontsize=12)
+    
+    a_tot_x, a_tot_y = an_x + 0.8*at_x, an_y + 0.8*at_y
+    ax.annotate('', xy=(px+a_tot_x, py+a_tot_y), xytext=(px, py),
+                arrowprops=dict(facecolor='firebrick', edgecolor='firebrick', width=2, headwidth=10))
+    ax.text(px+1.3*a_tot_x, py+1.3*a_tot_y, '$\\vec{a}$', color='firebrick', fontsize=14)
+
+    v_angle = np.degrees(np.arctan2(vy, vx))
+    a_angle = np.degrees(np.arctan2(a_tot_y, a_tot_x))
+    if a_angle < 0: a_angle += 360
+    
+    arc = patches.Arc((px, py), 1, 1, angle=0, theta1=min(v_angle, a_angle), theta2=max(v_angle, a_angle), color='black')
+    ax.add_patch(arc)
+    ax.text(px - 0.2, py + 0.5, '$\\theta > 90^\\circ$', fontsize=12)
+
+    plt.tight_layout()
+    plt.show()
+
+draw_curvilinear_motion()
+\end{lstlisting}
+
+\subsubsection*{3. Análisis del Producto Escalar}
+Como se observa, el vector velocidad ($\vec{v}$) apunta hacia adelante en la tangente, mientras que el vector aceleración total ($\vec{a}$) apunta hacia el interior de la curva pero inclinado hacia atrás (debido a la componente tangencial negativa).
+
+El ángulo $\theta$ formado entre los vectores $\vec{v}$ y $\vec{a}$ es obtuso ($90^\circ < \theta < 180^\circ$).
+
+Recordemos la definición geométrica del producto escalar:
+$$ \vec{a} \cdot \vec{v} = |\vec{a}| |\vec{v}| \cos(\theta) $$
+
+Para cualquier ángulo en el segundo cuadrante ($90^\circ < \theta < 180^\circ$), la función coseno es estrictamente negativa ($\cos(\theta) < 0$).
+Dado que los módulos $|\vec{a}|$ y $|\vec{v}|$ son positivos, el resultado de la multiplicación necesariamente será menor a cero:
+$$ \vec{a} \cdot \vec{v} < 0 $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large e) El producto escalar entre la velocidad y la aceleración es negativo.
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un dron, partiendo del reposo con aceleración constante, recorre $120 \, \si{m}$ en $10 \, \si{s}$. Luego, en competencia, debe cubrir una distancia de $1.2 \, \si{km}$ partiendo del reposo y con la misma aceleración que antes. ¿Cuánto tiempo le tomará llegar a la meta?
+
+\begin{enumerate}[label=\alph*)]
+    \item $20 \, \si{s}$
+    \item $25.8 \, \si{s}$
+    \item $31.6 \, \si{s}$
+    \item $36 \, \si{s}$
+    \item $40 \, \si{s}$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Cálculo de la Aceleración (Primera Etapa)}
+El dron describe un Movimiento Rectilíneo Uniformemente Variado (MRUV). Utilizamos la ecuación fundamental de la posición para calcular su aceleración:
+$$ \Delta r = v_0 \Delta t + \frac{1}{2} a (\Delta t)^2 $$
+
+Conocemos los siguientes datos de la prueba inicial:
+\begin{itemize}
+    \item Velocidad inicial: $v_0 = 0 \, \si{m/s}$ (parte del reposo)
+    \item Distancia: $\Delta r = 120 \, \si{m}$
+    \item Tiempo: $\Delta t = 10 \, \si{s}$
+\end{itemize}
+
+Sustituimos en la ecuación:
+$$ 120 = (0)(10) + \frac{1}{2} a (10)^2 $$
+$$ 120 = \frac{1}{2} a (100) $$
+$$ 120 = 50 a $$
+$$ a = \frac{120}{50} = 2.4 \, \si{m/s^2} $$
+
+\subsubsection*{2. Cálculo del Tiempo (Etapa de Competencia)}
+Para la competencia, el dron debe cubrir una nueva distancia partiendo de las mismas condiciones iniciales (reposo) y manteniendo la misma capacidad de aceleración ($a = 2.4 \, \si{m/s^2}$).
+
+Primero, homogeneizamos las unidades. Convertimos la distancia a metros:
+$$ \Delta r = 1.2 \, \si{km} = 1200 \, \si{m} $$
+
+Aplicamos nuevamente la ecuación cinemática, esta vez despejando el tiempo $\Delta t$:
+$$ \Delta r = v_0 \Delta t + \frac{1}{2} a (\Delta t)^2 $$
+$$ 1200 = (0)\Delta t + \frac{1}{2} (2.4) (\Delta t)^2 $$
+$$ 1200 = 1.2 (\Delta t)^2 $$
+
+Despejamos $(\Delta t)^2$:
+$$ (\Delta t)^2 = \frac{1200}{1.2} $$
+$$ (\Delta t)^2 = 1000 $$
+
+Extraemos la raíz cuadrada:
+$$ \Delta t = \sqrt{1000} \approx 31.62 \, \si{s} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) $31.6 \, \si{s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una partícula se mueve a lo largo del eje $x$ de acuerdo con el gráfico velocidad versus tiempo que se muestra a continuación. Entonces, el desplazamiento total para el intervalo de tiempo entre $0$ y $15$ segundos es:
+
+\begin{enumerate}[label=\alph*)]
+    \item $+15\hat{i} \, \si{m}$
+    \item $-25\hat{i} \, \si{m}$
+    \item $-30\hat{i} \, \si{m}$
+    \item $+30\hat{i} \, \si{m}$
+    \item $+90\hat{i} \, \si{m}$
+\end{enumerate}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9, >=Latex]
+    \draw[->, thick] (0,0) -- (6,0) node[right] {$t \, (\si{s})$};
+    \draw[->, thick] (0,-3) -- (0,3) node[above] {$v_x \, (\si{m/s})$};
+    \node[below left] at (0,0) {$0$};
+
+    \draw[dashed] (0,2) node[left] {$+12$} -- (5,2);
+    \draw[dashed] (0,-2) node[left] {$-12$} -- (2,-2);
+
+    \draw[thick, fill=purple!30, fill opacity=0.5] (0,0) -- (2,-2) -- (2,0) -- cycle;
+    \draw[thick, fill=red!30, fill opacity=0.5] (2,-2) -- (4,0) -- (2,0) -- cycle;
+    \draw[thick, fill=teal!30, fill opacity=0.5] (4,0) -- (5,2) -- (5,0) -- cycle;
+    
+    \draw[very thick] (0,0) -- (2,-2) -- (4,0) -- (5,2);
+
+    \draw[dashed] (5,0) node[below] {$15$} -- (5,2);
+    \draw[dashed] (4,0) node[above left] {$10$} -- (4,0);
+    \draw[dashed] (2,0) node[above] {$5$} -- (2,-2);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Interpretación del Gráfico v-t}
+En un gráfico de velocidad en función del tiempo ($v-t$), el desplazamiento ($\Delta r$) equivale al \textbf{área bajo la curva}. 
+\begin{itemize}
+    \item Las áreas ubicadas \textbf{sobre} el eje del tiempo ($v > 0$) representan un desplazamiento positivo (hacia la derecha).
+    \item Las áreas ubicadas \textbf{debajo} del eje del tiempo ($v < 0$) representan un desplazamiento negativo (hacia la izquierda).
+\end{itemize}
+
+Para encontrar el desplazamiento total, debemos calcular y sumar algebraicamente las áreas de las figuras geométricas que se forman entre la línea de la gráfica y el eje del tiempo, en este caso, tres triángulos.
+
+\subsubsection*{2. Cálculo de Áreas (Desplazamientos Parciales)}
+Recordemos que el área de un triángulo se calcula como: $A = \frac{\text{base} \times \text{altura}}{2}$.
+
+\textbf{Tramo 1 (de $0$ a $5$ segundos):}
+La base es $\Delta t = 5 - 0 = 5 \, \si{s}$. La altura máxima llega a $v = -12 \, \si{m/s}$.
+$$ A_1 = \frac{5 \times (-12)}{2} = \frac{-60}{2} = -30 \, \si{m} $$
+
+\textbf{Tramo 2 (de $5$ a $10$ segundos):}
+La base es $\Delta t = 10 - 5 = 5 \, \si{s}$. La altura parte de $v = -12 \, \si{m/s}$ y sube hasta $0$.
+$$ A_2 = \frac{5 \times (-12)}{2} = \frac{-60}{2} = -30 \, \si{m} $$
+
+\textbf{Tramo 3 (de $10$ a $15$ segundos):}
+La base es $\Delta t = 15 - 10 = 5 \, \si{s}$. La altura máxima llega a $v = +12 \, \si{m/s}$.
+$$ A_3 = \frac{5 \times (12)}{2} = \frac{60}{2} = +30 \, \si{m} $$
+
+\subsubsection*{3. Cálculo del Desplazamiento Total}
+Sumamos algebraicamente las tres áreas calculadas:
+$$ \Delta r_T = A_1 + A_2 + A_3 $$
+$$ \Delta r_T = -30 \, \si{m} - 30 \, \si{m} + 30 \, \si{m} $$
+$$ \Delta r_T = -30 \, \si{m} $$
+
+Como el movimiento se realiza exclusivamente a lo largo del eje $x$, expresamos el resultado utilizando el vector unitario $\hat{i}$:
+$$ \Delta\vec{r}_T = -30\hat{i} \, \si{m} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) $-30\hat{i} \, \si{m}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un vehículo parte de la ciudad $A$ con velocidad constante $\vec{v} = (60 \, \si{km/h}, \text{N } 60^\circ \text{ O})$ y viaja durante $10$ horas hasta llegar a una ciudad $B$, a continuación, cambia su dirección para dirigirse a la ciudad $C$, la cual se encuentra en una posición con respecto de la ciudad $A$ de $(200 \, \si{km}, \text{N } 30^\circ \text{ O})$. La rapidez se mantiene constante en todo momento en $60 \, \si{km/h}$. Con esta información, realiza el bosquejo del movimiento.
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis de Direcciones y Magnitudes}
+Para realizar el bosquejo correctamente, definiremos la ciudad $A$ como el origen de nuestro sistema de coordenadas $(0,0)$.
+
+\textbf{Tramo A hacia B ($\Delta\vec{r}_1$):}
+El vehículo viaja a $60 \, \si{km/h}$ durante $10$ horas. La magnitud de su desplazamiento es la distancia recorrida:
+$$ |\Delta\vec{r}_1| = v \cdot t = 60 \cdot 10 = 600 \, \si{km} $$
+La dirección es Norte $60^\circ$ Oeste. Esto significa que desde el Norte (eje $y$), se desvía $60^\circ$ hacia el Oeste (eje $-x$). Medido desde el eje $x$ positivo (Este) en sentido antihorario, el ángulo polar es:
+$$ \theta_1 = 90^\circ + 60^\circ = 150^\circ $$
+
+\textbf{Posición de C respecto a A ($\vec{r}_{C/A}$):}
+La magnitud es $200 \, \si{km}$.
+La dirección es Norte $30^\circ$ Oeste. Medido desde el eje $x$ positivo, el ángulo polar es:
+$$ \theta_C = 90^\circ + 30^\circ = 120^\circ $$
+
+El desplazamiento de la ciudad $B$ a la ciudad $C$ será el vector que une ambos puntos ($\Delta\vec{r}_2$).
+
+\subsubsection*{2. Representación Gráfica (Python)}
+Generamos el esquema a escala utilizando los datos analizados.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def draw_vehicle_trajectory():
+    fig, ax = plt.subplots(figsize=(8, 5))
+    ax.set_title("Bosquejo del Movimiento del Vehículo")
+    ax.set_aspect('equal')
+    
+    A = np.array([0, 0])
+    
+    R1 = 600
+    theta1 = np.radians(150)
+    B = np.array([R1 * np.cos(theta1), R1 * np.sin(theta1)])
+    
+    RC = 200
+    thetaC = np.radians(120)
+    C = np.array([RC * np.cos(thetaC), RC * np.sin(thetaC)])
+    
+    ax.annotate('', xy=B, xytext=A, arrowprops=dict(facecolor='dodgerblue', edgecolor='dodgerblue', width=2, headwidth=10))
+    ax.text(B[0]/2 - 30, B[1]/2 - 40, '$\\Delta\\vec{r}_1$', color='dodgerblue', fontsize=14)
+    
+    ax.annotate('', xy=C, xytext=A, arrowprops=dict(facecolor='teal', edgecolor='teal', width=2, headwidth=10))
+    ax.text(C[0]/2 + 10, C[1]/2, '$\\vec{r}_{C/A}$', color='teal', fontsize=14)
+    
+    ax.annotate('', xy=C, xytext=B, arrowprops=dict(facecolor='dodgerblue', edgecolor='dodgerblue', width=2, headwidth=10))
+    ax.text((B[0]+C[0])/2, (B[1]+C[1])/2 + 30, '$\\Delta\\vec{r}_2$', color='dodgerblue', fontsize=14)
+    
+    ax.text(A[0]+10, A[1]-30, 'A', fontsize=14, fontweight='bold')
+    ax.text(B[0]-40, B[1], 'B', fontsize=14, fontweight='bold')
+    ax.text(C[0]+10, C[1]+10, 'C', fontsize=14, fontweight='bold')
+    
+    ax.plot([-600, 100], [0, 0], 'k-', alpha=0.3)
+    ax.plot([0, 0], [-100, 400], 'k-', alpha=0.3)
+    ax.text(110, 0, 'E', va='center', color='gray')
+    ax.text(0, 410, 'N', ha='center', color='gray')
+    ax.text(-610, 0, 'O', va='center', color='gray')
+    ax.text(0, -110, 'S', ha='center', color='gray')
+
+    plt.grid(True, linestyle=':', alpha=0.6)
+    plt.tight_layout()
+    plt.show()
+
+draw_vehicle_trajectory()
+\end{lstlisting}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering El esquema detallado del movimiento se muestra en la figura generada por el script.
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un vehículo parte de la ciudad $A$ con velocidad constante $\vec{v} = (60 \, \si{km/h}, \text{N } 60^\circ \text{ O})$ y viaja durante $10$ horas hasta llegar a una ciudad $B$, a continuación, cambia su dirección para dirigirse a la ciudad $C$, la cual se encuentra en una posición con respecto de la ciudad $A$ de $(200 \, \si{km}, \text{N } 30^\circ \text{ O})$. La rapidez se mantiene constante en todo momento en $60 \, \si{km/h}$. Con esta información, calcula el desplazamiento de $B$ a $C$ en coordenadas rectangulares.
+
+\subsection*{Solución}
+
+\subsubsection*{1. Descomposición del Desplazamiento de A hacia B ($\Delta\vec{r}_1$)}
+Convertimos la magnitud ($600 \, \si{km}$) y el ángulo polar ($150^\circ$) a coordenadas rectangulares.
+\begin{align*}
+    \Delta\vec{r}_1 &= 600 (\cos(150^\circ) \hat{i} + \sin(150^\circ) \hat{j}) \\
+    \Delta\vec{r}_1 &= 600 \left(-\frac{\sqrt{3}}{2} \hat{i} + 0.5 \hat{j}\right) \\
+    \Delta\vec{r}_1 &= -300\sqrt{3}\hat{i} + 300\hat{j} \, \si{km}
+\end{align*}
+
+\subsubsection*{2. Descomposición de la Posición de C respecto a A ($\vec{r}_{C/A}$)}
+Convertimos la posición de la ciudad C ($200 \, \si{km}$) y su ángulo polar ($120^\circ$) a coordenadas rectangulares.
+\begin{align*}
+    \vec{r}_{C/A} &= 200 (\cos(120^\circ) \hat{i} + \sin(120^\circ) \hat{j}) \\
+    \vec{r}_{C/A} &= 200 \left(-0.5 \hat{i} + \frac{\sqrt{3}}{2} \hat{j}\right) \\
+    \vec{r}_{C/A} &= -100\hat{i} + 100\sqrt{3}\hat{j} \, \si{km}
+\end{align*}
+
+\subsubsection*{3. Cálculo del Desplazamiento $\Delta\vec{r}_2$}
+Aplicando el método del polígono, sabemos que la posición final es igual a la suma de los desplazamientos: $\vec{r}_{C/A} = \Delta\vec{r}_1 + \Delta\vec{r}_2$. 
+Despejamos el desplazamiento de $B$ a $C$ ($\Delta\vec{r}_2$):
+$$ \Delta\vec{r}_2 = \vec{r}_{C/A} - \Delta\vec{r}_1 $$
+
+Sustituimos los vectores en forma rectangular:
+\begin{align*}
+    \Delta\vec{r}_2 &= (-100\hat{i} + 100\sqrt{3}\hat{j}) - (-300\sqrt{3}\hat{i} + 300\hat{j}) \\
+    \Delta\vec{r}_2 &= (-100 + 300\sqrt{3})\hat{i} + (100\sqrt{3} - 300)\hat{j}
+\end{align*}
+
+Sabiendo que $\sqrt{3} \approx 1.73205$:
+$$ -100 + 300(1.73205) = -100 + 519.615 = 419.615 \approx 419.62 $$
+$$ 100(1.73205) - 300 = 173.205 - 300 = -126.795 \approx -126.79 $$
+
+Por lo tanto:
+$$ \Delta\vec{r}_2 = 419.62\hat{i} - 126.79\hat{j} \, \si{km} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\Delta\vec{r}_2 = 419.62\hat{i} - 126.79\hat{j} \, \si{km}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un vehículo parte de la ciudad $A$ con velocidad constante $\vec{v} = (60 \, \si{km/h}, \text{N } 60^\circ \text{ O})$ y viaja durante $10$ horas hasta llegar a una ciudad $B$, a continuación, cambia su dirección para dirigirse a la ciudad $C$, la cual se encuentra en una posición con respecto de la ciudad $A$ de $(200 \, \si{km}, \text{N } 30^\circ \text{ O})$. La rapidez se mantiene constante en todo momento en $60 \, \si{km/h}$. Con esta información, determina la velocidad media correspondiente a todo el recorrido.
+
+\subsection*{Solución}
+
+\subsubsection*{1. Cálculo del Tiempo Total}
+La velocidad media relaciona el desplazamiento total con el tiempo total empleado en el viaje ($\Delta t_{Total} = \Delta t_1 + \Delta t_2$).
+
+El tiempo del primer tramo ($\Delta t_1$) es dato del problema: $10 \, \si{h}$.
+El tiempo del segundo tramo ($\Delta t_2$) se calcula dividiendo la distancia recorrida en ese tramo ($|\Delta\vec{r}_2|$) para la rapidez constante del vehículo ($60 \, \si{km/h}$).
+
+Calculamos el módulo de $\Delta\vec{r}_2$:
+$$ |\Delta\vec{r}_2| = \sqrt{(419.62)^2 + (-126.79)^2} $$
+$$ |\Delta\vec{r}_2| = \sqrt{176080.94 + 16075.70} $$
+$$ |\Delta\vec{r}_2| = \sqrt{192156.64} \approx 438.35 \, \si{km} $$
+
+Calculamos el tiempo total:
+\begin{align*}
+    \Delta t_{Total} &= 10 + \frac{438.35}{60} \\
+    \Delta t_{Total} &= 10 + 7.31 \\
+    \Delta t_{Total} &= 17.31 \, \si{h}
+\end{align*}
+
+\subsubsection*{2. Cálculo de la Velocidad Media}
+La velocidad media ($\vec{v}_m$) es el desplazamiento total dividido para el tiempo total. El desplazamiento total para ir de la ciudad $A$ a la ciudad $C$ es directamente el vector posición $\vec{r}_{C/A}$.
+
+$$ \vec{v}_m = \frac{\Delta\vec{r}_{Total}}{\Delta t_{Total}} = \frac{\vec{r}_{C/A}}{\Delta t_{Total}} $$
+
+Sustituimos las componentes calculadas en el literal anterior:
+$$ \vec{v}_m = \frac{-100\hat{i} + 100\sqrt{3}\hat{j}}{17.31} $$
+Sabiendo que $100\sqrt{3} \approx 173.20$:
+$$ \vec{v}_m = \left( \frac{-100}{17.31} \right)\hat{i} + \left( \frac{173.20}{17.31} \right)\hat{j} $$
+$$ \vec{v}_m = -5.78\hat{i} + 10.01\hat{j} \, \si{km/h} $$
+
+\textit{Nota: Aseguramos el uso de las unidades correctas (\si{km/h}) ya que todos los datos de entrada están en kilómetros y horas.}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{v}_m = -5.78\hat{i} + 10.01\hat{j} \, \si{km/h}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un auto se mueve a lo largo del eje $x$, de acuerdo con el gráfico velocidad vs tiempo mostrado en la figura. Si la aceleración en el intervalo de $0 \, \si{s}$ a $10 \, \si{s}$ es igual en magnitud y de dirección opuesta a la del intervalo de $48 \, \si{s}$ a $t$, determina para todo el movimiento el tiempo $t$.
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[->, thick] (0,0) -- (7.5,0) node[right] {$t \, (\si{s})$};
+    \draw[->, thick] (0,-0.5) -- (0,6) node[above] {$v_x \, (\si{m/s})$};
+    \node[below left] at (0,0) {$0$};
+    
+    \draw (-0.1, 3.5) -- (0.1, 3.5) node[left=5pt] {$+35$};
+    \draw (-0.1, 5.0) -- (0.1, 5.0) node[left=5pt] {$+50$};
+    
+    \draw (1.0, -0.1) -- (1.0, 0.1) node[below=5pt] {$10$};
+    \draw (3.0, -0.1) -- (3.0, 0.1) node[below=5pt] {$30$};
+    \draw (4.8, -0.1) -- (4.8, 0.1) node[below=5pt] {$48$};
+    \draw (6.5, -0.1) -- (6.5, 0.1) node[below=5pt] {$t$};
+    
+    \draw[dashed] (0,3.5) -- (3.0,3.5);
+    \draw[dashed] (0,5.0) -- (4.8,5.0);
+    \draw[dashed] (1.0,0) -- (1.0,3.5);
+    \draw[dashed] (3.0,0) -- (3.0,3.5);
+    \draw[dashed] (4.8,0) -- (4.8,5.0);
+    
+    \draw[fill=red!40, opacity=0.6] (0,0) -- (1.0,3.5) -- (1.0,0) -- cycle;
+    \draw[fill=purple!40, opacity=0.6] (1.0,0) -- (1.0,3.5) -- (3.0,3.5) -- (3.0,0) -- cycle;
+    \draw[fill=teal!40, opacity=0.6] (3.0,0) -- (3.0,3.5) -- (4.8,5.0) -- (4.8,0) -- cycle;
+    \draw[fill=orange!40, opacity=0.6] (4.8,0) -- (4.8,5.0) -- (6.5,0) -- cycle;
+    
+    \draw[very thick] (0,0) -- (1.0,3.5) -- (3.0,3.5) -- (4.8,5.0) -- (6.5,0);
+    
+    \draw[->, thick, dodgerblue] (-1, 1.5) node[left] {$+\vec{a}$} to[out=0, in=135] (0.5, 1.75);
+    \draw[->, thick, dodgerblue] (6.5, 3.5) node[right] {$-\vec{a}$} to[out=180, in=45] (5.65, 2.5);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis de la Aceleración Inicial}
+En una gráfica de velocidad vs tiempo, la aceleración media corresponde a la pendiente de la recta en un intervalo dado. 
+Calculamos la aceleración para el primer intervalo (de $0$ a $10 \, \si{s}$):
+$$ \vec{a} = \frac{\Delta \vec{v}}{\Delta t} = \frac{\vec{v}_f - \vec{v}_0}{t_f - t_0} $$
+$$ \vec{a} = \frac{35\hat{i} - 0\hat{i}}{10 - 0} $$
+$$ \vec{a} = \frac{35\hat{i}}{10} $$
+$$ \vec{a} = +3.5\hat{i} \, \si{m/s^2} $$
+
+\subsubsection*{2. Determinación del Tiempo $t$}
+El enunciado establece que la aceleración en el último tramo (de $48 \, \si{s}$ a $t$) es igual en magnitud pero de dirección opuesta a la del primer tramo. Por lo tanto, la aceleración en este último intervalo es:
+$$ \vec{a}_{final} = -3.5\hat{i} \, \si{m/s^2} $$
+
+Aplicamos nuevamente la fórmula de la pendiente para este último intervalo, donde la velocidad inicial es $50 \, \si{m/s}$ (en $t=48$) y la velocidad final es $0 \, \si{m/s}$ (en el tiempo $t$ desconocido, ya que la gráfica toca el eje de las abscisas):
+$$ -3.5 = \frac{v_f - v_0}{t_f - t_0} $$
+$$ -3.5 = \frac{0 - 50}{t - 48} $$
+
+Despejamos el tiempo $t$:
+$$ -3.5 (t - 48) = -50 $$
+$$ t - 48 = \frac{-50}{-3.5} $$
+$$ t - 48 = 14.2857... $$
+$$ t = 48 + 14.2857... $$
+$$ t \approx 62.285 \, \si{s} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $t = 62.285 \, \si{s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un auto se mueve a lo largo del eje $x$, de acuerdo con el gráfico velocidad vs tiempo mostrado en la figura. Si la aceleración en el intervalo de $0 \, \si{s}$ a $10 \, \si{s}$ es igual en magnitud y de dirección opuesta a la del intervalo de $48 \, \si{s}$ a $t$, determina para todo el movimiento el desplazamiento total.
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[->, thick] (0,0) -- (7.5,0) node[right] {$t \, (\si{s})$};
+    \draw[->, thick] (0,-0.5) -- (0,6) node[above] {$v_x \, (\si{m/s})$};
+    \node[below left] at (0,0) {$0$};
+    
+    \draw (-0.1, 3.5) -- (0.1, 3.5) node[left=5pt] {$+35$};
+    \draw (-0.1, 5.0) -- (0.1, 5.0) node[left=5pt] {$+50$};
+    
+    \draw (1.0, -0.1) -- (1.0, 0.1) node[below=5pt] {$10$};
+    \draw (3.0, -0.1) -- (3.0, 0.1) node[below=5pt] {$30$};
+    \draw (4.8, -0.1) -- (4.8, 0.1) node[below=5pt] {$48$};
+    \draw (6.23, -0.1) -- (6.23, 0.1) node[below=5pt] {$t$};
+    
+    \draw[dashed] (0,3.5) -- (3.0,3.5);
+    \draw[dashed] (0,5.0) -- (4.8,5.0);
+    \draw[dashed] (1.0,0) -- (1.0,3.5);
+    \draw[dashed] (3.0,0) -- (3.0,3.5);
+    \draw[dashed] (4.8,0) -- (4.8,5.0);
+    
+    \draw[fill=red!40, opacity=0.6] (0,0) -- (1.0,3.5) -- (1.0,0) -- cycle;
+    \draw[fill=purple!40, opacity=0.6] (1.0,0) -- (1.0,3.5) -- (3.0,3.5) -- (3.0,0) -- cycle;
+    \draw[fill=teal!40, opacity=0.6] (3.0,0) -- (3.0,3.5) -- (4.8,5.0) -- (4.8,0) -- cycle;
+    \draw[fill=orange!40, opacity=0.6] (4.8,0) -- (4.8,5.0) -- (6.23,0) -- cycle;
+    
+    \draw[very thick] (0,0) -- (1.0,3.5) -- (3.0,3.5) -- (4.8,5.0) -- (6.23,0);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Fundamento Geométrico del Desplazamiento}
+El desplazamiento total ($\Delta\vec{r}$) en un gráfico de velocidad versus tiempo equivale al área total bajo la curva delimitada por la función y el eje del tiempo. 
+Para facilitar el cálculo, dividiremos esta área total en cuatro figuras geométricas más simples correspondientes a cada tramo del movimiento, como se observa en los colores de la gráfica.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def draw_area_analysis():
+    fig, ax = plt.subplots(figsize=(8, 4))
+    ax.set_title("Análisis de Áreas (Desplazamientos Parciales)")
+    
+    # Coordenadas
+    t = [0, 10, 30, 48, 62.285]
+    v = [0, 35, 35, 50, 0]
+    
+    # Trazado de las areas
+    ax.fill_between([t[0], t[1]], [v[0], v[1]], color='red', alpha=0.3, label='$A_1$ (Triángulo)')
+    ax.fill_between([t[1], t[2]], [v[1], v[2]], color='purple', alpha=0.3, label='$A_2$ (Rectángulo)')
+    ax.fill_between([t[2], t[3]], [v[2], v[3]], color='teal', alpha=0.3, label='$A_3$ (Trapecio)')
+    ax.fill_between([t[3], t[4]], [v[3], v[4]], color='orange', alpha=0.3, label='$A_4$ (Triángulo)')
+    
+    ax.plot(t, v, 'k-', linewidth=2)
+    
+    # Anotaciones de areas
+    ax.text(5, 15, '$A_1$', fontsize=14, ha='center')
+    ax.text(20, 17.5, '$A_2$', fontsize=14, ha='center')
+    ax.text(39, 20, '$A_3$', fontsize=14, ha='center')
+    ax.text(55, 15, '$A_4$', fontsize=14, ha='center')
+
+    ax.set_xlabel('Tiempo (s)')
+    ax.set_ylabel('Velocidad (m/s)')
+    ax.grid(True, linestyle='--', alpha=0.5)
+    ax.legend()
+    plt.tight_layout()
+    plt.show()
+
+draw_area_analysis()
+\end{lstlisting}
+
+\subsubsection*{2. Cálculo de Áreas Individuales}
+Del literal anterior, conocemos que el tiempo final es $t \approx 62.285 \, \si{s}$.
+
+\textbf{Área 1 ($A_1$): Triángulo}
+$$ A_1 = \frac{\text{base} \times \text{altura}}{2} = \frac{(10 - 0) \times 35}{2} $$
+$$ A_1 = \frac{350}{2} = 175 \, \si{m} $$
+
+\textbf{Área 2 ($A_2$): Rectángulo}
+$$ A_2 = \text{base} \times \text{altura} = (30 - 10) \times 35 $$
+$$ A_2 = 20 \times 35 = 700 \, \si{m} $$
+
+\textbf{Área 3 ($A_3$): Trapecio}
+La fórmula del área de un trapecio es $A = \frac{(\text{Base mayor} + \text{Base menor}) \times \text{altura}}{2}$. En este contexto, las "bases" son las velocidades verticales y la "altura" es el intervalo de tiempo horizontal.
+$$ A_3 = \frac{(50 + 35) \times (48 - 30)}{2} $$
+$$ A_3 = \frac{(85) \times (18)}{2} $$
+$$ A_3 = 85 \times 9 = 765 \, \si{m} $$
+
+\textbf{Área 4 ($A_4$): Triángulo}
+$$ A_4 = \frac{\text{base} \times \text{altura}}{2} = \frac{(62.285 - 48) \times 50}{2} $$
+$$ A_4 = \frac{(14.285) \times 50}{2} $$
+$$ A_4 = 14.285 \times 25 = 357.125 \, \si{m} $$
+
+\subsubsection*{3. Cálculo del Desplazamiento Total}
+Sumamos las áreas parciales para obtener el desplazamiento total de la partícula.
+$$ \Delta\vec{r} = A_1 + A_2 + A_3 + A_4 $$
+$$ \Delta\vec{r} = 175 + 700 + 765 + 357.125 $$
+$$ \Delta\vec{r} = 1997.125 \, \si{m} $$
+
+Al ser un movimiento a lo largo del eje $x$, expresamos el vector con su unidad vectorial correspondiente:
+$$ \Delta\vec{r} = 1997.125\hat{i} \, \si{m} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\Delta\vec{r} = 1997.125\hat{i} \, \si{m}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un automóvil se desplaza a $40 \, \si{m/s}$ e inicia el frenado justo cuando ingresa a un puente metálico mojado, con una desaceleración constante de $a_1 = 1 \, \si{m/s^2}$ durante los primeros $120 \, \si{m}$. Al salir del puente la vía es de asfalto seco y la desaceleración constante cambia a $a_2 = 8 \, \si{m/s^2}$. Desde el instante en que comienza a frenar el conductor observa un accidente a $160 \, \si{m}$ por delante de su posición inicial (se desprecia el tiempo de reacción). Determine la velocidad del automóvil al salir del puente metálico.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9, >=Latex]
+    \draw[thick, ->] (-1,0) -- (13,0) node[right] {$x \, (\si{m})$};
+
+    \draw[line width=3pt, gray] (0,0) -- (8,0); 
+    \draw[line width=3pt, darkgray] (8,0) -- (11,0); 
+    
+    \draw (0, 0.3) -- (0, -0.3) node[below] {$0$};
+    \draw (8, 0.3) -- (8, -0.3) node[below] {$120$};
+    \draw (11, 0.3) -- (11, -0.3) node[below] {$160$};
+
+    \node[above, text=dodgerblue] at (4, 1) {Tramo 1 (Puente)};
+    \node[below, text=dodgerblue] at (4, -0.5) {$\Delta x_1 = 120 \, \si{m}$};
+    \node[below, text=dodgerblue] at (4, -1) {$a_1 = -1 \, \si{m/s^2}$};
+
+    \node[above, text=teal] at (9.5, 1) {Tramo 2 (Asfalto)};
+    \node[below, text=teal] at (9.5, -0.5) {$\Delta x_2 = 40 \, \si{m}$};
+    \node[below, text=teal] at (9.5, -1) {$a_2 = -8 \, \si{m/s^2}$};
+
+    \draw[thick, fill=blue!20] (-0.6, 0.15) rectangle (0, 0.5);
+    \draw[thick, fill=black] (-0.4, 0.15) circle (0.1);
+    \draw[thick, fill=black] (-0.1, 0.15) circle (0.1);
+    \draw[->, thick, blue] (0, 0.5) -- (1.5, 0.5) node[above] {$v_0 = 40 \, \si{m/s}$};
+
+    \node[text=red, font=\bfseries\Large] at (11, 0.3) {$\times$};
+    \node[above, text=red] at (11, 0.6) {Accidente};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis del Tramo 1 (Puente Metálico)}
+El automóvil describe un Movimiento Rectilíneo Uniformemente Variado (MRUV). El enunciado nos indica que es un movimiento de "frenado" o "desacelerado", lo que significa que la aceleración actúa en sentido opuesto a la velocidad. 
+Si establecemos el sentido del movimiento como positivo ($v_0 = +40 \, \si{m/s}$), la aceleración debe tener signo negativo:
+$$ a_1 = -1 \, \si{m/s^2} $$
+
+Conocemos la velocidad inicial ($v_0$), la aceleración ($a_1$) y el desplazamiento en el puente ($\Delta x_1 = 120 \, \si{m}$). Se nos pide calcular la velocidad final de este tramo ($v_f$), por lo que utilizamos la ecuación cinemática independiente del tiempo:
+$$ v_f^2 = v_0^2 + 2a_1\Delta x_1 $$
+
+\subsubsection*{2. Cálculo de la Velocidad Final}
+Sustituimos los valores en la ecuación:
+$$ v_f^2 = (40)^2 + 2(-1)(120) $$
+$$ v_f^2 = 1600 - 240 $$
+$$ v_f^2 = 1360 $$
+
+Extraemos la raíz cuadrada para obtener la magnitud de la velocidad:
+$$ v_f = \sqrt{1360} \approx 36.88 \, \si{m/s} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $v_f = 36.88 \, \si{m/s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un automóvil se desplaza a $40 \, \si{m/s}$ e inicia el frenado justo cuando ingresa a un puente metálico mojado, con una desaceleración constante de $a_1 = 1 \, \si{m/s^2}$ durante los primeros $120 \, \si{m}$. Al salir del puente la vía es de asfalto seco y la desaceleración constante cambia a $a_2 = 8 \, \si{m/s^2}$. Desde el instante en que comienza a frenar el conductor observa un accidente a $160 \, \si{m}$ por delante de su posición inicial (se desprecia el tiempo de reacción). Determine si el vehículo impacta o logra detenerse antes del accidente. En caso de impacto, determine la rapidez en el momento del choque.
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis del Tramo 2 (Asfalto Seco)}
+El automóvil acaba de salir del puente y entra al asfalto seco.
+\begin{itemize}
+    \item La velocidad inicial de este nuevo tramo es la velocidad final del puente calculada en el literal anterior: $v_0 = 36.88 \, \si{m/s}$.
+    \item La nueva desaceleración es más pronunciada debido a la mejor tracción del asfalto: $a_2 = -8 \, \si{m/s^2}$.
+    \item La distancia disponible para frenar es la diferencia entre la posición del accidente ($160 \, \si{m}$) y la longitud del puente ya recorrido ($120 \, \si{m}$):
+    $$ \Delta x_2 = 160 \, \si{m} - 120 \, \si{m} = 40 \, \si{m} $$
+\end{itemize}
+
+\subsubsection*{2. Verificación de Impacto}
+Para saber si choca o se detiene, calcularemos cuál es la velocidad del automóvil al momento de recorrer exactamente esos $40 \, \si{m}$ de asfalto utilizando nuevamente la ecuación independiente del tiempo:
+$$ v_f^2 = v_0^2 + 2a_2\Delta x_2 $$
+
+Sustituimos los datos (utilizando el valor exacto $v_0^2 = 1360$ para mayor precisión):
+$$ v_f^2 = 1360 + 2(-8)(40) $$
+$$ v_f^2 = 1360 - 640 $$
+$$ v_f^2 = 720 $$
+
+Extraemos la raíz cuadrada:
+$$ v_f = \sqrt{720} \approx 26.83 \, \si{m/s} $$
+
+Dado que la velocidad calculada es estrictamente mayor a cero ($v_f > 0$), significa que el automóvil no logró alcanzar el reposo en la distancia disponible. Por lo tanto, \textbf{sí impacta} contra el accidente. Su rapidez en ese preciso instante es de $26.83 \, \si{m/s}$.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering 
+\Large ¡Sí choca! \\
+\vspace{0.2cm}
+\normalsize Rapidez al momento del choque: $v_f = 26.83 \, \si{m/s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un automóvil se desplaza a $40 \, \si{m/s}$ e inicia el frenado justo cuando ingresa a un puente metálico mojado, con una desaceleración constante de $a_1 = 1 \, \si{m/s^2}$ durante los primeros $120 \, \si{m}$. Al salir del puente la vía es de asfalto seco y la desaceleración constante cambia a $a_2 = 8 \, \si{m/s^2}$. Desde el instante en que comienza a frenar el conductor observa un accidente a $160 \, \si{m}$ por delante de su posición inicial (se desprecia el tiempo de reacción). Determine el tiempo total transcurrido hasta el impacto.
+
+\subsection*{Solución}
+
+\subsubsection*{1. Cálculo del Tiempo en el Tramo 1 (Puente)}
+El tiempo total será la suma del tiempo que pasó en el puente más el tiempo que estuvo sobre el asfalto antes de chocar. 
+
+Para el primer tramo, conocemos las velocidades inicial y final ($40 \, \si{m/s}$ y $36.88 \, \si{m/s}$) y la aceleración ($-1 \, \si{m/s^2}$). Utilizamos la ecuación de velocidad en función del tiempo:
+$$ v_f = v_0 + a_1\Delta t_1 $$
+
+Despejamos el tiempo $\Delta t_1$:
+$$ \Delta t_1 = \frac{v_f - v_0}{a_1} $$
+$$ \Delta t_1 = \frac{36.88 - 40}{-1} $$
+$$ \Delta t_1 = \frac{-3.12}{-1} = 3.12 \, \si{s} $$
+
+\subsubsection*{2. Cálculo del Tiempo en el Tramo 2 (Asfalto)}
+De manera análoga, para el segundo tramo, el vehículo entra con $36.88 \, \si{m/s}$ y choca con una velocidad de $26.83 \, \si{m/s}$, experimentando una aceleración de $-8 \, \si{m/s^2}$.
+$$ v_f = v_0 + a_2\Delta t_2 $$
+
+Despejamos el tiempo $\Delta t_2$:
+$$ \Delta t_2 = \frac{v_f - v_0}{a_2} $$
+$$ \Delta t_2 = \frac{26.83 - 36.88}{-8} $$
+$$ \Delta t_2 = \frac{-10.05}{-8} \approx 1.26 \, \si{s} $$
+
+\subsubsection*{3. Tiempo Total}
+Sumamos los intervalos de tiempo de ambos tramos:
+$$ \Delta t_{Total} = \Delta t_1 + \Delta t_2 $$
+$$ \Delta t_{Total} = 3.12 \, \si{s} + 1.26 \, \si{s} $$
+$$ \Delta t_{Total} = 4.38 \, \si{s} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\Delta t_{Total} = 4.38 \, \si{s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Se dan los siguientes vectores $\vec{a} = 3\hat{i} - 2\hat{j} + \hat{k}$ y $\vec{b} = (p + 9)\hat{i} - 6\hat{j} + 3\hat{k}$ donde $p$ es una constante escalar. Halle el valor de $p$ si $\vec{a}$ y $\vec{b}$ son perpendiculares.
+
+\begin{enumerate}[label=\alph*)]
+    \item $-20$
+    \item $-14$
+    \item $-7$
+    \item $0$
+    \item $5$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Condición de Perpendicularidad (Ortogonalidad)}
+Dos vectores no nulos son perpendiculares entre sí si y solo si su producto escalar (o producto punto) es igual a cero. 
+Por lo tanto, la condición matemática que debe cumplirse es:
+$$ \vec{a} \cdot \vec{b} = 0 $$
+
+\subsubsection*{2. Cálculo del Producto Escalar}
+El producto escalar se calcula multiplicando y sumando las componentes homólogas (eje con eje) de ambos vectores.
+Nuestros vectores son:
+$$ \vec{a} = 3\hat{i} - 2\hat{j} + 1\hat{k} $$
+$$ \vec{b} = (p + 9)\hat{i} - 6\hat{j} + 3\hat{k} $$
+
+Planteamos la ecuación del producto punto:
+$$ (a_x)(b_x) + (a_y)(b_y) + (a_z)(b_z) = 0 $$
+$$ (3)(p + 9) + (-2)(-6) + (1)(3) = 0 $$
+
+\subsubsection*{3. Resolución de la Ecuación Algebraica}
+Desarrollamos las multiplicaciones:
+$$ 3p + 27 + 12 + 3 = 0 $$
+Agrupamos los términos independientes:
+$$ 3p + 42 = 0 $$
+Despejamos la constante $p$:
+$$ 3p = -42 $$
+$$ p = \frac{-42}{3} $$
+$$ p = -14 $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) $-14$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una persona se desplaza desde el punto $A$ hasta el punto $B$ recorriendo un camino formado por dos cuartos de circunferencia consecutivos como se muestra en la figura, de radios $R_1 = 10 \, \si{m}$ y $R_2 = 5 \, \si{m}$, respectivamente. Si completa el recorrido en $120 \, \si{s}$, determina la distancia total recorrida y su rapidez media.
+
+\begin{enumerate}[label=\alph*)]
+    \item $15 \, \si{m} \quad \text{---} \quad 7.5 \, \si{m/s}$
+    \item $23.56 \, \si{m} \quad \text{---} \quad 11.78 \, \si{m/s}$
+    \item $15 \, \si{m} \quad \text{---} \quad 0.196 \, \si{m/s}$
+    \item $23.56 \, \si{m} \quad \text{---} \quad 0.196 \, \si{m/s}$
+    \item $30 \, \si{m} \quad \text{---} \quad 15 \, \si{m/s}$
+\end{enumerate}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.3, >=Latex]
+    \draw[thick, dashed] (0,0) -- (10,0);
+    \draw[thick, dashed] (10,0) -- (15,0);
+    \draw[thick, dashed] (0,0) -- (0,10);
+    \draw[thick, dashed] (15,0) -- (15,5);
+
+    \draw[very thick] (0,10) arc (90:0:10);
+    
+    \draw[very thick] (10,0) arc (180:90:5);
+
+    \node[above] at (0,10) {A};
+    \node[above] at (15,5) {B};
+    
+    \draw[<->] (0,-1) -- (10,-1) node[midway, below] {$10 \, \si{m}$};
+    \draw[<->] (10,-1) -- (15,-1) node[midway, below] {$5 \, \si{m}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Cálculo de la Distancia Recorrida ($s_T$)}
+La distancia recorrida es la longitud real del camino curvo (escalar). El recorrido se compone de dos arcos de circunferencia.
+Sabemos que el perímetro completo de una circunferencia es $L = 2\pi R$. Como cada tramo es un "cuarto" de circunferencia, la longitud de cada arco será $s = \frac{1}{4}(2\pi R) = \frac{\pi R}{2}$.
+
+Para el primer arco ($R_1 = 10 \, \si{m}$):
+$$ s_1 = \frac{\pi (10)}{2} = 5\pi \, \si{m} $$
+
+Para el segundo arco ($R_2 = 5 \, \si{m}$):
+$$ s_2 = \frac{\pi (5)}{2} = 2.5\pi \, \si{m} $$
+
+La distancia total recorrida es la suma de ambos tramos:
+$$ s_T = s_1 + s_2 $$
+$$ s_T = 5\pi + 2.5\pi = 7.5\pi \, \si{m} $$
+Aproximando $\pi \approx 3.14159$:
+$$ s_T \approx 7.5 (3.14159) \approx 23.56 \, \si{m} $$
+
+\subsubsection*{2. Cálculo de la Rapidez Media ($v_m$)}
+La rapidez media relaciona la distancia total recorrida con el tiempo empleado.
+$$ v_m = \frac{s_T}{\Delta t} $$
+Sustituimos el valor de la distancia obtenida y el tiempo que nos da el enunciado ($\Delta t = 120 \, \si{s}$):
+$$ v_m = \frac{7.5\pi}{120} $$
+$$ v_m \approx \frac{23.5619}{120} $$
+$$ v_m \approx 0.1963 \, \si{m/s} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large d) $23.56 \, \si{m} \quad \text{---} \quad 0.196 \, \si{m/s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Respecto a la velocidad instantánea, ¿cuál de las siguientes afirmaciones es correcta?
+
+\begin{enumerate}[label=\alph*)]
+    \item Se define como la distancia recorrida en un intervalo de tiempo muy pequeño.
+    \item Necesariamente tiene la misma dirección y sentido que la velocidad media.
+    \item Es un vector tangente a la trayectoria, cuya magnitud es la rapidez instantánea.
+    \item Solo puede calcularse cuando la aceleración es constante.
+    \item En movimientos rectilíneos uniformes, puede ser nulo.
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Definición Analítica de la Velocidad Instantánea}
+En física, la velocidad instantánea ($\vec{v}$) se define como el límite de la velocidad media cuando el intervalo de tiempo ($\Delta t$) tiende a cero. Es la derivada del vector posición ($\vec{r}$) con respecto al tiempo:
+$$ \vec{v} = \lim_{\Delta t \to 0} \frac{\Delta\vec{r}}{\Delta t} = \frac{d\vec{r}}{dt} $$
+
+\subsubsection*{2. Interpretación Geométrica y Conceptos}
+Analicemos cada opción basándonos en los fundamentos del cálculo vectorial:
+
+\begin{itemize}
+    \item \textbf{Opción a) Falsa.} La distancia recorrida es un escalar. La velocidad instantánea es un \textbf{vector}. La afirmación describe la \textit{rapidez instantánea}, no la velocidad.
+    \item \textbf{Opción b) Falsa.} La velocidad media tiene la dirección de la cuerda (secante) que une dos puntos en la trayectoria. La velocidad instantánea tiene la dirección de la trayectoria en un instante exacto. Si el movimiento es curvo, estas direcciones nunca coincidirán.
+    \item \textbf{Opción c) Verdadera.} Al aplicar el límite de $\Delta t \to 0$, el vector desplazamiento secante se convierte en la derivada, la cual geométricamente representa un \textbf{vector tangente} a la curva de la trayectoria en ese punto específico. Además, el módulo (magnitud) de este vector tangente es precisamente la \textbf{rapidez instantánea}.
+    \item \textbf{Opción d) Falsa.} La velocidad instantánea se puede calcular (mediante derivación) para cualquier tipo de movimiento, sin importar si la aceleración es variable o constante.
+    \item \textbf{Opción e) Falsa.} En un Movimiento Rectilíneo Uniforme (MRU), la velocidad es constante. Si es "nulo", el objeto está simplemente en reposo estático, por lo que carece de sentido catalogarlo como "movimiento" uniforme.
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) Es un vector tangente a la trayectoria, cuya magnitud es la rapidez instantánea.
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un automóvil se mueve en línea recta con velocidad constante de $20 \, \si{m/s}$. Al ver un semáforo en rojo, comienza a frenar de manera uniforme hasta quedar en reposo en $4 \, \si{s}$. Tomando el eje $x$ positivo en el sentido del movimiento. En ese intervalo de tiempo, la aceleración media del automóvil:
+
+\begin{enumerate}[label=\alph*)]
+    \item Es cero, porque al final del movimiento la velocidad es cero.
+    \item Es positiva, porque el auto se mueve hacia adelante.
+    \item Es negativa, porque la velocidad disminuye con el tiempo.
+    \item No existe, porque la velocidad cambia a lo largo del movimiento.
+    \item Es positiva porque el auto se mueve con rapidez constante.
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Planteamiento de las Variables Cinemáticas}
+Definimos el marco de referencia: el automóvil se mueve a lo largo del eje $x$, siendo el sentido de avance la dirección positiva ($+\hat{i}$).
+
+Extraemos los datos del evento de frenado:
+\begin{itemize}
+    \item Velocidad inicial ($\vec{v}_0$): El vehículo venía moviéndose a $20 \, \si{m/s}$ en sentido positivo, por lo que $\vec{v}_0 = +20\hat{i} \, \si{m/s}$.
+    \item Velocidad final ($\vec{v}_f$): El auto queda "en reposo" al llegar al semáforo, por lo que $\vec{v}_f = 0\hat{i} \, \si{m/s}$.
+    \item Intervalo de tiempo ($\Delta t$): El proceso toma $4 \, \si{s}$.
+\end{itemize}
+
+\subsubsection*{2. Cálculo de la Aceleración Media}
+Utilizamos la ecuación de definición de la aceleración media vectorial:
+$$ \vec{a}_m = \frac{\Delta \vec{v}}{\Delta t} = \frac{\vec{v}_f - \vec{v}_0}{\Delta t} $$
+$$ \vec{a}_m = \frac{0\hat{i} - 20\hat{i}}{4} $$
+$$ \vec{a}_m = \frac{-20\hat{i}}{4} $$
+$$ \vec{a}_m = -5\hat{i} \, \si{m/s^2} $$
+
+\subsubsection*{3. Análisis del Resultado Físico}
+El cálculo nos arroja un valor negativo. Físicamente, esto significa que el vector aceleración apunta en el eje $-x$ (hacia atrás). 
+Cuando la velocidad y la aceleración tienen \textbf{signos opuestos} (en este caso $v > 0$ y $a < 0$), el cuerpo experimenta una disminución en la magnitud de su velocidad a lo largo del tiempo. Este fenómeno se conoce clásicamente como movimiento "desacelerado" o de frenado.
+
+En base a la justificación teórica y al signo obtenido, la aceleración media es \textbf{negativa}.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) Es negativa, porque la velocidad disminuye con el tiempo.
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una partícula se mueve en una trayectoria circunferencial, en sentido horario. Considere que el eje $y$ positivo apunta al Norte y el eje $x$ positivo al Este. En el punto más al sur de la trayectoria, la partícula reduce su rapidez a un ritmo constante. Al pasar por este punto, la dirección de la aceleración instantánea es:
+
+\begin{enumerate}[label=\alph*)]
+    \item $\uparrow$
+    \item $\rightarrow$
+    \item $\nearrow$
+    \item $\nwarrow$
+    \item $\downarrow$
+\end{enumerate}
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2, >=Latex]
+    \draw[->, thick] (-2,0) -- (2,0) node[right] {$x$};
+    \draw[->, thick] (0,-2) -- (0,2) node[above] {$y$};
+    
+    \draw[thick] (0,0) circle (1.2);
+    
+    \draw[->, thick] (1.5, 1.5) arc (45:-15:0.8);
+    \node at (2, 1.2) {mov};
+    
+    \filldraw (0,-1.2) circle (2pt);
+    
+    \draw[->, thick, dodgerblue] (0,-1.2) -- (-1.5,-1.2) node[below] {$\vec{v}$};
+    
+    \draw[->, thick, dodgerblue] (0,-1.2) -- (1,-0.2) node[below right] {$\vec{a}$};
+    
+    \draw[thick] (0, -0.9) arc (90:45:0.3);
+    \node[text=dodgerblue] at (-0.2, -0.8) {$\theta$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis de la Velocidad ($\vec{v}$)}
+La partícula se mueve en una trayectoria circular en \textbf{sentido horario}. Al encontrarse en el punto más al sur de su trayectoria (la parte inferior del círculo), su vector velocidad, que siempre es \textbf{tangente} a la trayectoria, debe apuntar hacia la izquierda. En nuestro sistema de coordenadas, esto corresponde a la dirección Oeste (hacia el eje $-x$).
+
+\subsubsection*{2. Análisis de las Componentes de la Aceleración}
+La aceleración instantánea total ($\vec{a}$) en un movimiento circular se compone de la suma vectorial de dos componentes:
+$$ \vec{a} = \vec{a}_N + \vec{a}_T $$
+
+\begin{itemize}
+    \item \textbf{Aceleración Normal o Centrípeta ($\vec{a}_N$):} Esta componente es la responsable de hacer que la partícula gire, y \textbf{siempre} apunta hacia el centro de la circunferencia. Al estar la partícula en el extremo sur, el centro se encuentra directamente arriba de ella. Por lo tanto, $\vec{a}_N$ apunta hacia el \textbf{Norte} (eje $+y$, $\uparrow$).
+    \item \textbf{Aceleración Tangencial ($\vec{a}_T$):} Esta componente es responsable del cambio de rapidez. El problema indica que la partícula \textbf{"reduce su rapidez"}. Para frenar a un objeto, la aceleración tangencial debe actuar en \textbf{sentido opuesto} a su velocidad. Como la velocidad apunta hacia el Oeste, $\vec{a}_T$ debe apuntar hacia el \textbf{Este} (eje $+x$, $\rightarrow$).
+\end{itemize}
+
+\subsubsection*{3. Suma Vectorial y Dirección Final (Python)}
+Para determinar la dirección final de la aceleración instantánea, sumamos los vectores $\vec{a}_N$ (Norte) y $\vec{a}_T$ (Este).
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def draw_acceleration_vectors():
+    fig, ax = plt.subplots(figsize=(5, 5))
+    ax.set_title("Componentes de la Aceleración (Punto Sur)")
+    ax.set_aspect('equal')
+    ax.axis('off')
+    
+    # Origen (Punto mas al sur)
+    O = np.array([0, -1])
+    ax.plot(*O, 'ko', markersize=8)
+    
+    # Vector Velocidad (Oeste)
+    ax.annotate('', xy=O + [-1.5, 0], xytext=O, arrowprops=dict(facecolor='gray', edgecolor='gray', width=2, headwidth=10))
+    ax.text(O[0] - 1.5, O[1] - 0.2, '$\\vec{v}$ (Oeste)', color='gray', fontsize=12)
+    
+    # Aceleracion Normal (Norte)
+    a_N = np.array([0, 1.2])
+    ax.annotate('', xy=O + a_N, xytext=O, arrowprops=dict(facecolor='teal', edgecolor='teal', width=2, headwidth=10))
+    ax.text(O[0] - 0.4, O[1] + 1.0, '$\\vec{a}_N$', color='teal', fontsize=14)
+    
+    # Aceleracion Tangencial (Este)
+    a_T = np.array([1, 0])
+    ax.annotate('', xy=O + a_T, xytext=O, arrowprops=dict(facecolor='purple', edgecolor='purple', width=2, headwidth=10))
+    ax.text(O[0] + 0.8, O[1] - 0.2, '$\\vec{a}_T$', color='purple', fontsize=14)
+    
+    # Aceleracion Total (Resultante)
+    a_Tot = a_N + a_T
+    ax.annotate('', xy=O + a_Tot, xytext=O, arrowprops=dict(facecolor='firebrick', edgecolor='firebrick', width=2.5, headwidth=12))
+    ax.text(O[0] + 1.1, O[1] + 1.2, '$\\vec{a} = \\vec{a}_N + \\vec{a}_T$', color='firebrick', fontsize=14)
+    
+    # Lineas guias
+    ax.plot([O[0]+a_T[0], O[0]+a_Tot[0]], [O[1]+a_T[1], O[1]+a_Tot[1]], 'k--', alpha=0.5)
+    ax.plot([O[0]+a_N[0], O[0]+a_Tot[0]], [O[1]+a_N[1], O[1]+a_Tot[1]], 'k--', alpha=0.5)
+
+    # Ejes de referencia
+    ax.plot([-2, 2], [-1, -1], 'k-', alpha=0.2)
+    ax.plot([0, 0], [-1.5, 1], 'k-', alpha=0.2)
+    ax.text(1.8, -0.9, 'E', alpha=0.5)
+    ax.text(0.1, 0.8, 'N', alpha=0.5)
+
+    plt.xlim(-2, 2)
+    plt.ylim(-1.5, 1.5)
+    plt.tight_layout()
+    plt.show()
+
+draw_acceleration_vectors()
+\end{lstlisting}
+
+Al sumar un vector que apunta al Norte con uno que apunta al Este, el vector resultante se ubica en el primer cuadrante. Su dirección es \textbf{Noreste} ($\nearrow$).
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) $\nearrow$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+En el tramo F - I mostrado en la figura, la rapidez del esquiador cambia de forma constante en el tiempo. Con esta información, el movimiento entre los puntos F e I necesariamente es:
+
+\begin{enumerate}[label=\alph*)]
+    \item Curvilíneo uniforme.
+    \item Curvilíneo uniformemente variado.
+    \item Curvilíneo acelerado.
+    \item Circular uniformemente variado y acelerado.
+    \item Circular uniforme.
+\end{enumerate}
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[ultra thick, gray] (0,0) .. controls (2,1) and (4,2) .. (6,1.5) .. controls (7,1.25) and (8,1) .. (9,1);
+    
+    \filldraw (1.5, 0.7) circle (3pt);
+    \node[below right] at (1.5, 0.6) {F};
+    
+    \filldraw (7.5, 1.2) circle (3pt);
+    \node[below] at (7.5, 1.0) {I};
+    
+    \draw[thick] (1.3, 1.3) circle (0.15); 
+    \draw[thick] (1.3, 1.15) -- (1.3, 0.8); 
+    \draw[thick] (1.3, 0.8) -- (1.1, 0.5); 
+    \draw[thick] (1.3, 0.8) -- (1.5, 0.7); 
+    \draw[thick] (1.0, 1.0) -- (1.3, 1.0) -- (1.6, 0.8); 
+    \draw[very thick] (0.8, 0.5) -- (2.2, 0.9); 
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Clasificación por la Trayectoria}
+Observando el gráfico proporcionado, el recorrido que realiza el esquiador entre los puntos F e I es una \textbf{curva} abierta (como una colina). 
+\begin{itemize}
+    \item No es una línea recta, por lo que descartamos los movimientos rectilíneos.
+    \item No es una circunferencia perfecta (no hay indicios de un radio constante), por lo que las opciones que especifican un movimiento "Circular" (opciones d y e) se descartan.
+    \item El término general para una trayectoria de este tipo es \textbf{Curvilíneo}.
+\end{itemize}
+
+\subsubsection*{2. Clasificación por la Rapidez}
+El enunciado nos da una clave fundamental: \textit{"la rapidez del esquiador cambia de forma constante en el tiempo"}.
+\begin{itemize}
+    \item Si la rapidez cambia, no puede ser un movimiento "uniforme". (Se descarta la opción a).
+    \item Que cambie de "forma constante" significa que la tasa de cambio de la rapidez (es decir, la aceleración tangencial) tiene un valor fijo y distinto de cero. 
+    \item En la terminología cinemática, un movimiento donde la aceleración es constante se denomina \textbf{Uniformemente Variado}.
+\end{itemize}
+
+El término "acelerado" (opción c) es muy general y no captura la condición de que el cambio sea a un ritmo "constante". Además, el movimiento podría ser retardado (frenando) a un ritmo constante, lo que también entra en la categoría de "variado".
+
+Juntando ambas características (trayectoria curva + aceleración tangencial constante), concluimos que el movimiento es \textbf{Curvilíneo uniformemente variado}.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) Curvilíneo uniformemente variado.
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un objeto se desplaza a lo largo de una línea recta. Se sabe que su rapidez en el intervalo de $0$ a $1 \, \si{min}$ es exactamente igual a su rapidez en el instante $0 \, \si{min}$. Sin embargo, en el instante $3 \, \si{min}$ su rapidez resulta ser mayor. ¿Cuál de las siguientes afirmaciones es correcta sobre el movimiento del objeto?
+
+\begin{enumerate}[label=\alph*)]
+    \item El objeto se mueve necesariamente con MRU durante todo el intervalo de 0 a 3 min.
+    \item El objeto tiene aceleración nula entre 0 y 1 min, pero su aceleración puede estar a favor de su velocidad entre 1 y 3 min.
+    \item El movimiento corresponde a un MRUV con aceleración constante y positiva.
+    \item La rapidez del objeto necesariamente es creciente en todo el intervalo de 1 min a 3 min.
+    \item La aceleración del objeto entre 0 y 1 min es negativa, y entre 1 y 3 min necesariamente cambia de signo.
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis del Primer Intervalo ($0$ a $1 \, \si{min}$)}
+El enunciado afirma que la rapidez se mantiene \textit{"exactamente igual a su rapidez en el instante $0 \, \si{min}$"} durante todo el intervalo de $0$ a $1 \, \si{min}$.
+Si un objeto se mueve en línea recta y su rapidez no cambia durante un periodo de tiempo, su velocidad es constante. 
+La aceleración mide el cambio de velocidad. Como la velocidad no cambia en este tramo, \textbf{la aceleración es nula} ($a = 0$). El objeto describe un Movimiento Rectilíneo Uniforme (MRU) únicamente durante este primer minuto.
+
+Esto descarta las opciones a (dice que es MRU hasta el minuto 3), c (dice que la aceleración es constante y positiva desde el principio) y e (dice que la aceleración es negativa al principio).
+
+\subsubsection*{2. Análisis del Segundo Intervalo ($1$ a $3 \, \si{min}$)}
+En el instante $t = 3 \, \si{min}$, \textit{"su rapidez resulta ser mayor"} que la que tenía en el primer minuto.
+Para que un objeto aumente su rapidez, debe haber experimentado una aceleración que actúe en el \textbf{mismo sentido (a favor) de su velocidad} en algún momento entre el minuto 1 y el minuto 3.
+
+Evaluamos las opciones restantes:
+\begin{itemize}
+    \item \textbf{Opción b:} Afirma que la aceleración es nula entre $0$ y $1 \, \si{min}$ (Correcto, lo demostramos en el paso 1). Afirma que su aceleración puede estar a favor de su velocidad entre $1$ y $3 \, \si{min}$ (Correcto, esto justificaría el aumento de rapidez).
+    \item \textbf{Opción d:} Afirma que la rapidez \textit{necesariamente} es creciente \textit{en todo} el intervalo. Esto es falso, ya que el objeto podría haber mantenido su velocidad constante hasta el minuto $2$, y luego acelerar bruscamente en el último minuto. Solo sabemos el estado final, no que el crecimiento haya sido continuo.
+\end{itemize}
+
+Por exclusión y justificación teórica, la opción correcta es la b.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) El objeto tiene aceleración nula entre 0 y 1 min, pero su aceleración puede estar a favor de su velocidad entre 1 y 3 min.
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una partícula se mueve a lo largo del eje $x$ de acuerdo con el gráfico velocidad versus tiempo que se muestra a continuación. Entonces, el desplazamiento total para el intervalo de tiempo entre $0$ y $15$ segundos es:
+
+\begin{enumerate}[label=\alph*)]
+    \item $0\hat{i} \, \si{m}$
+    \item $-25\hat{i} \, \si{m}$
+    \item $+25\hat{i} \, \si{m}$
+    \item $+50\hat{i} \, \si{m}$
+    \item $+75\hat{i} \, \si{m}$
+\end{enumerate}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9, >=Latex]
+    \draw[->, thick] (0,0) -- (6,0) node[right] {$t \, (\si{s})$};
+    \draw[->, thick] (0,-2.5) -- (0,2.5) node[above] {$v_x \, (\si{m/s})$};
+    \node[below left] at (0,0) {$0$};
+
+    \draw[dashed] (0,1.5) node[left] {$+10$} -- (2.5,1.5);
+    \draw[dashed] (0,-1.5) node[left] {$-10$} -- (5,-1.5);
+
+    \draw[thick, fill=purple!30, fill opacity=0.5] (0,0) -- (1.25,1.5) -- (1.25,0) -- cycle;
+    \draw[thick, fill=red!30, fill opacity=0.5] (1.25,0) -- (1.25,1.5) -- (2.5,0) -- cycle;
+    \draw[thick, fill=teal!30, fill opacity=0.5] (2.5,0) -- (5,-1.5) -- (5,0) -- cycle;
+    
+    \draw[very thick] (0,0) -- (1.25,1.5) -- (2.5,0) -- (5,-1.5) -- (5.5,-1.5);
+
+    \draw[dashed] (5,0) node[above] {$15$} -- (5,-1.5);
+    \draw[dashed] (2.5,0) node[above right] {$10$} -- (2.5,0);
+    \draw[dashed] (1.25,0) node[below] {$5$} -- (1.25,1.5);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis del Gráfico v-t}
+El desplazamiento ($\Delta r$) en un gráfico de velocidad en función del tiempo corresponde al área bajo la curva. Las áreas por encima del eje horizontal (velocidad positiva) representan desplazamientos en la dirección $+x$, mientras que las áreas por debajo del eje horizontal (velocidad negativa) representan desplazamientos en la dirección $-x$.
+
+Para seguir un orden pedagógico, dividiremos el área total en tres triángulos más pequeños, guiándonos por los cortes en el eje temporal ($t = 5$, $t = 10$, $t = 15$).
+
+\subsubsection*{2. Cálculo de los Desplazamientos Parciales (Áreas)}
+El área de un triángulo se calcula como $\frac{\text{base} \times \text{altura}}{2}$.
+
+\textbf{Tramo 1 (de $0$ a $5 \, \si{s}$):}
+$$ A_1 = \frac{(5 - 0) \times 10}{2} = \frac{50}{2} = +25 \, \si{m} $$
+
+\textbf{Tramo 2 (de $5$ a $10 \, \si{s}$):}
+$$ A_2 = \frac{(10 - 5) \times 10}{2} = \frac{50}{2} = +25 \, \si{m} $$
+
+\textbf{Tramo 3 (de $10$ a $15 \, \si{s}$):}
+Aquí la altura corresponde a una velocidad negativa ($-10 \, \si{m/s}$).
+$$ A_3 = \frac{(15 - 10) \times (-10)}{2} = \frac{-50}{2} = -25 \, \si{m} $$
+
+\subsubsection*{3. Desplazamiento Total}
+Sumamos algebraicamente los desplazamientos calculados:
+$$ \Delta r_T = A_1 + A_2 + A_3 $$
+$$ \Delta r_T = 25 \, \si{m} + 25 \, \si{m} + (-25 \, \si{m}) $$
+$$ \Delta r_T = 50 \, \si{m} - 25 \, \si{m} $$
+$$ \Delta r_T = +25 \, \si{m} $$
+
+Como el movimiento ocurre a lo largo del eje $x$, le agregamos el vector unitario correspondiente:
+$$ \Delta\vec{r}_T = +25\hat{i} \, \si{m} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) $+25\hat{i} \, \si{m}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un vehículo parte desde una ciudad $A$ manteniendo una velocidad constante $\vec{v} = (50 \, \si{km/h}, -330^\circ)$ durante $12$ horas hasta llegar a una ciudad $B$, a continuación, cambia su dirección para dirigirse a la ciudad $C$, la cual se encuentra en una posición con respecto de la ciudad $A$ de $-60\hat{i} + 80\hat{j} \, \si{km}$. La rapidez se mantiene constante en todo momento en $50 \, \si{km/h}$. Con esta información, realiza el bosquejo del movimiento.
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis de Vectores y Posiciones}
+Ubicamos la ciudad de partida ($A$) en el origen de nuestro sistema de coordenadas cartesiano $(0,0)$.
+
+\textbf{Posición de B ($\Delta\vec{r}_1$):}
+El vehículo viaja con una rapidez de $50 \, \si{km/h}$ durante $12$ horas. La magnitud de su primer desplazamiento es:
+$$ |\Delta\vec{r}_1| = v \cdot t = 50 \cdot 12 = 600 \, \si{km} $$
+El ángulo polar proporcionado es $-330^\circ$. En una circunferencia trigonométrica, un ángulo negativo se mide en sentido horario. Su ángulo equivalente positivo (coterminal) se halla sumando $360^\circ$:
+$$ \theta_1 = -330^\circ + 360^\circ = 30^\circ $$
+Por lo tanto, el vector $\Delta\vec{r}_1$ se ubica en el primer cuadrante.
+
+\textbf{Posición de C ($\vec{r}_{C/A}$):}
+La ciudad $C$ se encuentra en la coordenada $-60\hat{i} + 80\hat{j}$. Al tener su componente $x$ negativa y su componente $y$ positiva, este vector se sitúa en el segundo cuadrante.
+
+El desplazamiento de la ciudad $B$ hacia la ciudad $C$ será el vector secundario $\Delta\vec{r}_2$, trazado desde la punta de $\Delta\vec{r}_1$ hasta el punto $C$.
+
+\subsubsection*{2. Representación Gráfica (Python)}
+Construimos el bosquejo vectorial a escala, evidenciando las posiciones de las tres ciudades.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+import matplotlib.patches as patches
+
+def draw_vehicle_trajectory():
+    fig, ax = plt.subplots(figsize=(8, 5))
+    ax.set_title("Bosquejo del Movimiento del Vehículo")
+    ax.set_aspect('equal')
+    
+    A = np.array([0, 0])
+    
+    R1 = 600
+    theta1 = np.radians(30) 
+    B = np.array([R1 * np.cos(theta1), R1 * np.sin(theta1)])
+    
+    C = np.array([-60, 80])
+    
+    ax.annotate('', xy=B, xytext=A, arrowprops=dict(facecolor='dodgerblue', edgecolor='dodgerblue', width=2, headwidth=10))
+    ax.text(B[0]/2 + 10, B[1]/2 - 30, '$\\Delta\\vec{r}_1$', color='dodgerblue', fontsize=14)
+    
+    ax.annotate('', xy=C, xytext=A, arrowprops=dict(facecolor='teal', edgecolor='teal', width=2, headwidth=10))
+    ax.text(C[0]/2 - 40, C[1]/2 + 10, '$\\vec{r}_{C/A}$', color='teal', fontsize=14)
+    
+    ax.annotate('', xy=C, xytext=B, arrowprops=dict(facecolor='purple', edgecolor='purple', width=2, headwidth=10))
+    ax.text((B[0]+C[0])/2 + 20, (B[1]+C[1])/2 + 20, '$\\Delta\\vec{r}_2$', color='purple', fontsize=14)
+    
+    ax.text(A[0]+10, A[1]-30, 'A', fontsize=14, fontweight='bold')
+    ax.text(B[0]+10, B[1], 'B', fontsize=14, fontweight='bold')
+    ax.text(C[0]-30, C[1], 'C', fontsize=14, fontweight='bold')
+    
+    ax.plot([-150, 600], [0, 0], 'k-', alpha=0.3)
+    ax.plot([0, 0], [-50, 350], 'k-', alpha=0.3)
+    ax.text(610, 0, 'x (E)', va='center', color='gray')
+    ax.text(0, 360, 'y (N)', ha='center', color='gray')
+    
+    arc = patches.Arc((0, 0), 150, 150, angle=0, theta1=0, theta2=30, color='gray')
+    ax.add_patch(arc)
+    ax.text(80, 20, '$30^\\circ$', color='gray')
+
+    plt.grid(True, linestyle=':', alpha=0.6)
+    plt.tight_layout()
+    plt.show()
+
+draw_vehicle_trajectory()
+\end{lstlisting}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering El bosquejo detallado del movimiento, validando los cuadrantes y el ángulo coterminal, se muestra en la gráfica generada por el script.
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un vehículo parte desde una ciudad $A$ manteniendo una velocidad constante $\vec{v} = (50 \, \si{km/h}, -330^\circ)$ durante $12$ horas hasta llegar a una ciudad $B$, a continuación, cambia su dirección para dirigirse a la ciudad $C$, la cual se encuentra en una posición con respecto de la ciudad $A$ de $-60\hat{i} + 80\hat{j} \, \si{km}$. La rapidez se mantiene constante en todo momento en $50 \, \si{km/h}$. Con esta información, calcula el desplazamiento de $B$ a $C$ en coordenadas rectangulares.
+
+\subsection*{Solución}
+
+\subsubsection*{1. Descomposición del Primer Desplazamiento ($\Delta\vec{r}_1$)}
+Como determinamos anteriormente, el primer desplazamiento tiene una magnitud de $600 \, \si{km}$ y su ángulo polar equivalente es $30^\circ$. Lo transformamos a coordenadas rectangulares ($\hat{i}, \hat{j}$):
+\begin{align*}
+    \Delta\vec{r}_1 &= 600 (\cos(30^\circ)\hat{i} + \sin(30^\circ)\hat{j}) \\
+    \Delta\vec{r}_1 &= 600 \left(\frac{\sqrt{3}}{2}\hat{i} + 0.5\hat{j}\right) \\
+    \Delta\vec{r}_1 &= 300\sqrt{3}\hat{i} + 300\hat{j} \, \si{km}
+\end{align*}
+
+\subsubsection*{2. Cálculo del Segundo Desplazamiento ($\Delta\vec{r}_2$)}
+Por el método del polígono para la suma vectorial, sabemos que la posición final es la suma de todos los desplazamientos parciales:
+$$ \vec{r}_{C/A} = \Delta\vec{r}_1 + \Delta\vec{r}_2 $$
+
+Despejamos el vector de interés ($\Delta\vec{r}_2$, que es el desplazamiento de $B$ a $C$):
+$$ \Delta\vec{r}_2 = \vec{r}_{C/A} - \Delta\vec{r}_1 $$
+
+Sustituimos el vector $\vec{r}_{C/A}$ (dado en el problema) y el vector $\Delta\vec{r}_1$ recién calculado:
+\begin{align*}
+    \Delta\vec{r}_2 &= (-60\hat{i} + 80\hat{j}) - (300\sqrt{3}\hat{i} + 300\hat{j}) \\
+    \Delta\vec{r}_2 &= (-60 - 300\sqrt{3})\hat{i} + (80 - 300)\hat{j}
+\end{align*}
+
+Utilizando la aproximación $\sqrt{3} \approx 1.73205$:
+$$ -60 - 300(1.73205) = -60 - 519.615 = -579.615 \approx -579.62 $$
+$$ 80 - 300 = -220 $$
+
+Ensamblamos el vector resultante:
+$$ \Delta\vec{r}_2 = -579.62\hat{i} - 220\hat{j} \, \si{km} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\Delta\vec{r}_2 = -579.62\hat{i} - 220\hat{j} \, \si{km}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un vehículo parte desde una ciudad $A$ manteniendo una velocidad constante $\vec{v} = (50 \, \si{km/h}, -330^\circ)$ durante $12$ horas hasta llegar a una ciudad $B$, a continuación, cambia su dirección para dirigirse a la ciudad $C$, la cual se encuentra en una posición con respecto de la ciudad $A$ de $-60\hat{i} + 80\hat{j} \, \si{km}$. La rapidez se mantiene constante en todo momento en $50 \, \si{km/h}$. Con esta información, determina la velocidad media correspondiente a todo el recorrido.
+
+\subsection*{Solución}
+
+\subsubsection*{1. Cálculo del Tiempo Total}
+La velocidad media es una magnitud vectorial que se define como el desplazamiento total dividido por el tiempo total empleado en dicho desplazamiento.
+$$ \vec{v}_m = \frac{\Delta\vec{r}_{Total}}{\Delta t_{Total}} $$
+
+Necesitamos conocer el tiempo que le tomó recorrer ambos tramos ($\Delta t_{Total} = t_1 + t_2$).
+\begin{itemize}
+    \item El tiempo del primer tramo es un dato explícito: $t_1 = 12 \, \si{h}$.
+    \item Para el segundo tramo, primero debemos calcular la distancia recorrida de $B$ a $C$ (la magnitud de $\Delta\vec{r}_2$).
+\end{itemize}
+
+Calculamos la magnitud del segundo desplazamiento con el Teorema de Pitágoras:
+$$ |\Delta\vec{r}_2| = \sqrt{(-579.62)^2 + (-220)^2} $$
+$$ |\Delta\vec{r}_2| = \sqrt{335959.34 + 48400} $$
+$$ |\Delta\vec{r}_2| = \sqrt{384359.34} \approx 619.96 \, \si{km} $$
+
+Como la rapidez es constante ($50 \, \si{km/h}$), el tiempo del segundo tramo es:
+$$ t_2 = \frac{|\Delta\vec{r}_2|}{v} = \frac{619.96}{50} \approx 12.4 \, \si{h} $$
+
+El tiempo total empleado en el viaje es:
+$$ \Delta t_{Total} = 12 + 12.4 = 24.4 \, \si{h} $$
+
+\subsubsection*{2. Cálculo de la Velocidad Media}
+El desplazamiento total del viaje (desde la partida en $A$ hasta el destino final en $C$) es simplemente el vector de posición relativa $\vec{r}_{C/A}$, ya que ambos parten del mismo origen.
+$$ \Delta\vec{r}_{Total} = \vec{r}_{C/A} = -60\hat{i} + 80\hat{j} \, \si{km} $$
+
+Dividimos este vector entre el tiempo total calculado:
+$$ \vec{v}_m = \frac{-60\hat{i} + 80\hat{j}}{24.4} $$
+
+Separando las componentes:
+$$ \vec{v}_m = \left(\frac{-60}{24.4}\right)\hat{i} + \left(\frac{80}{24.4}\right)\hat{j} $$
+$$ \vec{v}_m = -2.459\hat{i} + 3.278\hat{j} \, \si{km/h} $$
+
+Redondeando a dos decimales obtenemos:
+$$ \vec{v}_m = -2.46\hat{i} + 3.28\hat{j} \, \si{km/h} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{v}_m = -2.46\hat{i} + 3.28\hat{j} \, \si{km/h}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un auto se mueve a lo largo del eje $x$, de acuerdo con el gráfico velocidad vs tiempo mostrado en la figura. Si la aceleración en el intervalo de $40 \, \si{s}$ a $55 \, \si{s}$ es igual a la del intervalo de $60 \, \si{s}$ a $t$, determina para todo el movimiento el tiempo $t$.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9, >=Latex]
+    \draw[->, thick] (0,0) -- (8.5,0) node[right] {$t \, (\si{s})$};
+    \draw[->, thick] (0,-2.5) -- (0,4.5) node[above] {$v_x \, (\si{m/s})$};
+    \node[below left] at (0,0) {$0$};
+    
+    \draw (-0.1, 3.5) -- (0.1, 3.5) node[left=5pt] {$+35$};
+    \draw (-0.1, -2.0) -- (0.1, -2.0) node[left=5pt] {$-20$};
+    
+    \draw (1.0, -0.1) -- (1.0, 0.1) node[below=5pt] {$10$};
+    \draw (4.0, -0.1) -- (4.0, 0.1) node[below=5pt] {$40$};
+    \draw (5.5, -0.1) -- (5.5, 0.1) node[below=5pt] {$55$};
+    \draw (6.0, -0.1) -- (6.0, 0.1) node[below=5pt] {$60$};
+    \draw (7.5, -0.1) -- (7.5, 0.1) node[above=5pt] {$t$};
+    
+    \draw[dashed] (0,3.5) -- (4.0,3.5);
+    \draw[dashed] (0,-2.0) -- (7.5,-2.0);
+    \draw[dashed] (1.0,0) -- (1.0,3.5);
+    \draw[dashed] (4.0,0) -- (4.0,3.5);
+    \draw[dashed] (7.5,0) -- (7.5,-2.0);
+    
+    \draw[fill=red!40, opacity=0.6] (0,0) -- (1.0,3.5) -- (1.0,0) -- cycle;
+    \draw[fill=purple!40, opacity=0.6] (1.0,0) -- (1.0,3.5) -- (4.0,3.5) -- (4.0,0) -- cycle;
+    \draw[fill=teal!40, opacity=0.6] (4.0,0) -- (4.0,3.5) -- (5.5,0) -- cycle;
+    \draw[fill=orange!40, opacity=0.6] (6.0,0) -- (7.5,-2.0) -- (7.5,0) -- cycle;
+    
+    \draw[very thick] (0,0) -- (1.0,3.5) -- (4.0,3.5) -- (5.5,0) -- (6.0,0) -- (7.5,-2.0);
+    
+    \draw[->, thick, dodgerblue] (5.5, 2.0) node[right] {$\vec{a}$} to[out=180, in=45] (4.8, 1.5);
+    \draw[->, thick, dodgerblue] (6.0, -1.5) node[left] {$\vec{a}$} to[out=0, in=225] (6.7, -1.0);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Cálculo de la Aceleración (Tramo 40 a 55 s)}
+En un gráfico de velocidad vs tiempo, la aceleración media se calcula como la pendiente de la recta. Tomamos los datos del intervalo entre $40 \, \si{s}$ y $55 \, \si{s}$, donde la velocidad inicial es $35 \, \si{m/s}$ y la velocidad final es $0 \, \si{m/s}$.
+$$ \vec{a} = \frac{\Delta\vec{v}}{\Delta t} = \frac{\vec{v}_f - \vec{v}_0}{t_f - t_0} $$
+$$ \vec{a} = \frac{0\hat{i} - 35\hat{i}}{55 - 40} $$
+$$ \vec{a} = \frac{-35\hat{i}}{15} $$
+$$ \vec{a} = -2.333\hat{i} \, \si{m/s^2} $$
+
+\subsubsection*{2. Determinación del Tiempo $t$}
+El enunciado indica que la aceleración en el intervalo de $60 \, \si{s}$ a $t$ es exactamente la misma ($-2.333\hat{i} \, \si{m/s^2}$). En este tramo, la velocidad parte de $0 \, \si{m/s}$ (en $t = 60 \, \si{s}$) y llega a $-20 \, \si{m/s}$ (en el instante $t$).
+Planteamos la ecuación de la pendiente para este nuevo intervalo:
+$$ \vec{a} = \frac{\vec{v}_f - \vec{v}_0}{t_f - t_0} $$
+$$ -2.333 = \frac{-20 - 0}{t - 60} $$
+
+Despejamos el valor de $t$:
+$$ -2.333 (t - 60) = -20 $$
+$$ t - 60 = \frac{-20}{-2.333} $$
+$$ t - 60 = 8.57 $$
+$$ t = 60 + 8.57 $$
+$$ t = 68.57 \, \si{s} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $t = 68.57 \, \si{s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un auto se mueve a lo largo del eje $x$, de acuerdo con el gráfico velocidad vs tiempo mostrado en la figura. Si la aceleración en el intervalo de $40 \, \si{s}$ a $55 \, \si{s}$ es igual a la del intervalo de $60 \, \si{s}$ a $t$, determina para todo el movimiento el desplazamiento total.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9, >=Latex]
+    \draw[->, thick] (0,0) -- (8.5,0) node[right] {$t \, (\si{s})$};
+    \draw[->, thick] (0,-2.5) -- (0,4.5) node[above] {$v_x \, (\si{m/s})$};
+    \node[below left] at (0,0) {$0$};
+    
+    \draw (-0.1, 3.5) -- (0.1, 3.5) node[left=5pt] {$+35$};
+    \draw (-0.1, -2.0) -- (0.1, -2.0) node[left=5pt] {$-20$};
+    
+    \draw (1.0, -0.1) -- (1.0, 0.1) node[below=5pt] {$10$};
+    \draw (4.0, -0.1) -- (4.0, 0.1) node[below=5pt] {$40$};
+    \draw (5.5, -0.1) -- (5.5, 0.1) node[below=5pt] {$55$};
+    \draw (6.0, -0.1) -- (6.0, 0.1) node[below=5pt] {$60$};
+    \draw (6.86, -0.1) -- (6.86, 0.1) node[above=5pt] {$t$};
+    
+    \draw[dashed] (0,3.5) -- (4.0,3.5);
+    \draw[dashed] (0,-2.0) -- (7.5,-2.0);
+    \draw[dashed] (1.0,0) -- (1.0,3.5);
+    \draw[dashed] (4.0,0) -- (4.0,3.5);
+    \draw[dashed] (6.86,0) -- (6.86,-2.0);
+    
+    \draw[fill=red!40, opacity=0.6] (0,0) -- (1.0,3.5) -- (1.0,0) -- cycle;
+    \draw[fill=purple!40, opacity=0.6] (1.0,0) -- (1.0,3.5) -- (4.0,3.5) -- (4.0,0) -- cycle;
+    \draw[fill=teal!40, opacity=0.6] (4.0,0) -- (4.0,3.5) -- (5.5,0) -- cycle;
+    \draw[fill=orange!40, opacity=0.6] (6.0,0) -- (6.86,-2.0) -- (6.86,0) -- cycle;
+    
+    \draw[very thick] (0,0) -- (1.0,3.5) -- (4.0,3.5) -- (5.5,0) -- (6.0,0) -- (6.86,-2.0);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Planteamiento de las Áreas (Desplazamientos Parciales)}
+El desplazamiento total ($\Delta\vec{r}$) se calcula encontrando el área total bajo la curva de la gráfica $v_x$ vs $t$. El área sobre el eje horizontal es un desplazamiento positivo, y el área por debajo del eje horizontal es un desplazamiento negativo.
+Dividiremos el área en cuatro figuras geométricas:
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+def draw_area_analysis_2():
+    fig, ax = plt.subplots(figsize=(8, 4))
+    ax.set_title("Análisis de Áreas")
+    
+    # Coordenadas
+    t = [0, 10, 40, 55, 60, 68.57]
+    v = [0, 35, 35, 0, 0, -20]
+    
+    ax.fill_between([t[0], t[1]], [v[0], v[1]], color='red', alpha=0.3, label='$A_1$ (Triángulo)')
+    ax.fill_between([t[1], t[2]], [v[1], v[2]], color='purple', alpha=0.3, label='$A_2$ (Rectángulo)')
+    ax.fill_between([t[2], t[3]], [v[2], v[3]], color='teal', alpha=0.3, label='$A_3$ (Triángulo)')
+    ax.fill_between([t[4], t[5]], [v[4], v[5]], color='orange', alpha=0.3, label='$A_4$ (Triángulo)')
+    
+    ax.plot(t, v, 'k-', linewidth=2)
+    
+    # Anotaciones
+    ax.text(6.5, 15, '$A_1$', fontsize=14, ha='center')
+    ax.text(25, 17.5, '$A_2$', fontsize=14, ha='center')
+    ax.text(45, 12, '$A_3$', fontsize=14, ha='center')
+    ax.text(66, -8, '$A_4$', fontsize=14, ha='center')
+
+    ax.set_xlabel('Tiempo (s)')
+    ax.set_ylabel('Velocidad (m/s)')
+    ax.grid(True, linestyle='--', alpha=0.5)
+    ax.legend(loc='lower left')
+    plt.tight_layout()
+    plt.show()
+
+draw_area_analysis_2()
+\end{lstlisting}
+
+\subsubsection*{2. Cálculo Geométrico de las Áreas}
+Para el cálculo utilizaremos las fórmulas básicas de áreas (Triángulo = $\frac{b \cdot h}{2}$, Rectángulo = $b \cdot h$). Del literal anterior, sabemos que el tiempo final es $t = 68.57 \, \si{s}$.
+
+\textbf{Área 1 ($A_1$): Triángulo de $0$ a $10 \, \si{s}$}
+$$ A_1 = \frac{10 \times 35}{2} = \frac{350}{2} = 175 \, \si{m} $$
+
+\textbf{Área 2 ($A_2$): Rectángulo de $10$ a $40 \, \si{s}$}
+$$ A_2 = (40 - 10) \times 35 = 30 \times 35 = 1050 \, \si{m} $$
+
+\textbf{Área 3 ($A_3$): Triángulo de $40$ a $55 \, \si{s}$}
+$$ A_3 = \frac{(55 - 40) \times 35}{2} = \frac{15 \times 35}{2} = \frac{525}{2} = 262.5 \, \si{m} $$
+
+\textbf{Área 4 ($A_4$): Triángulo de $60$ a $68.57 \, \si{s}$}
+Notemos que la "altura" de este triángulo es la velocidad negativa ($-20 \, \si{m/s}$), lo que producirá un desplazamiento negativo.
+$$ A_4 = \frac{(68.57 - 60) \times (-20)}{2} = \frac{8.57 \times (-20)}{2} $$
+$$ A_4 = \frac{-171.4}{2} = -85.7 \, \si{m} $$
+
+\subsubsection*{3. Cálculo del Desplazamiento Total}
+Sumamos algebraicamente todas las áreas parciales:
+$$ \Delta\vec{r} = A_1 + A_2 + A_3 + A_4 $$
+$$ \Delta\vec{r} = 175 + 1050 + 262.5 - 85.7 $$
+$$ \Delta\vec{r} = 1401.8 \, \si{m} $$
+
+Al estar restringido el movimiento al eje $x$, agregamos su respectivo vector unitario:
+$$ \Delta\vec{r} = 1401.8\hat{i} \, \si{m} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\Delta\vec{r} = 1401.8\hat{i} \, \si{m}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un automóvil se desplaza por una carretera recta (eje $x$) con una rapidez inicial de $30 \, \si{m/s}$. De pronto, el conductor observa un accidente situado a $160 \, \si{m}$ por delante de su posición e inmediatamente aplica los frenos (se desprecia el tiempo de reacción). Realizando dos tramos de frenado:
+\begin{itemize}
+    \item Primer tramo: $100 \, \si{m}$, donde la desaceleración constante es de $a_1 = 1 \, \si{m/s^2}$.
+    \item Segundo tramo: donde la desaceleración constante cambia a $a_2 = 7 \, \si{m/s^2}$.
+\end{itemize}
+Se solicita:
+a) Construir el gráfico velocidad vs. tiempo.
+
+\subsection*{Solución}
+
+\subsubsection*{1. Determinación de los Puntos Clave del Gráfico}
+Para construir el gráfico de velocidad versus tiempo ($v_x - t$), necesitamos conocer las velocidades y los instantes de tiempo en los que ocurren los cambios de aceleración.
+
+\textbf{Punto Inicial:}
+El automóvil empieza a frenar en el instante $t_0 = 0 \, \si{s}$ con una velocidad de $v_0 = +30 \, \si{m/s}$.
+Coordenada: $(0, 30)$
+
+\textbf{Punto de Transición (Fin del Tramo 1):}
+Calculamos la velocidad al finalizar los primeros $100 \, \si{m}$ usando $v_f^2 = v_0^2 - 2a_1 d_1$:
+$$ v_1 = \sqrt{30^2 - 2(1)(100)} = \sqrt{900 - 200} = \sqrt{700} \approx 26.46 \, \si{m/s} $$
+El tiempo que tarda en este tramo se obtiene con $v_f = v_0 - a_1 t_1$:
+$$ 26.46 = 30 - (1)t_1 \Rightarrow t_1 = 30 - 26.46 = 3.54 \, \si{s} $$
+Coordenada: $(3.54, 26.46)$
+
+\textbf{Punto Final (Reposo):}
+El vehículo frena hasta detenerse ($v_2 = 0 \, \si{m/s}$) con una nueva aceleración de $7 \, \si{m/s^2}$. El tiempo adicional para este tramo es:
+$$ 0 = 26.46 - 7(t_{adicional}) \Rightarrow t_{adicional} = \frac{26.46}{7} \approx 3.78 \, \si{s} $$
+El tiempo total final es $t_2 = 3.54 + 3.78 = 7.32 \, \si{s}$.
+Coordenada: $(7.32, 0)$
+
+\subsubsection*{2. Representación Gráfica}
+Al tratarse de dos desaceleraciones constantes distintas, el gráfico estará compuesto por dos segmentos de recta con pendientes negativas diferentes. El primer segmento será menos inclinado (desaceleración menor) y el segundo será más pronunciado (frenado brusco).
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2, >=Latex]
+    \draw[->, thick] (0,0) -- (6,0) node[right] {$t \, (\si{s})$};
+    \draw[->, thick] (0,-0.5) -- (0,4) node[above] {$v_x \, (\si{m/s})$};
+    \node[below left] at (0,0) {$0$};
+
+    \draw (-0.1, 3.0) -- (0.1, 3.0) node[left=5pt] {$+30$};
+    \draw (-0.1, 2.646) -- (0.1, 2.646) node[left=5pt] {$+26.46$};
+
+    \draw (2.5, -0.1) -- (2.5, 0.1);
+    \node[below] at (2.5, -0.1) {$3.54$};
+    
+    \draw (4.5, -0.1) -- (4.5, 0.1);
+    \node[below] at (4.5, -0.1) {$7.32$};
+
+    \draw[dashed] (0, 2.646) -- (2.5, 2.646);
+    \draw[dashed] (2.5, 0) -- (2.5, 2.646);
+
+    \draw[very thick, dodgerblue] (0, 3.0) -- (2.5, 2.646);
+    \draw[very thick, dodgerblue] (2.5, 2.646) -- (4.5, 0);
+
+\end{tikzpicture}
+\end{center}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering El gráfico $v_x$ vs $t$ se ha construido validando los puntos de transición.
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un automóvil se desplaza por una carretera recta (eje $x$) con una rapidez inicial de $30 \, \si{m/s}$. De pronto, el conductor observa un accidente situado a $160 \, \si{m}$ por delante de su posición e inmediatamente aplica los frenos (se desprecia el tiempo de reacción). Realizando dos tramos de frenado:
+\begin{itemize}
+    \item Primer tramo: $100 \, \si{m}$, donde la desaceleración constante es de $a_1 = 1 \, \si{m/s^2}$.
+    \item Segundo tramo: donde la desaceleración constante cambia a $a_2 = 7 \, \si{m/s^2}$.
+\end{itemize}
+Se solicita:
+b) Si el vehículo impacta o logra detenerse antes del accidente. En caso de detenerse, determina la distancia total recorrida.
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis del Tramo 1}
+En el primer tramo, el vehículo frena durante $100 \, \si{m}$ con una aceleración contraria al movimiento de $a_1 = -1 \, \si{m/s^2}$.
+Utilizamos la ecuación cinemática independiente del tiempo para calcular la velocidad que tiene justo al finalizar este tramo:
+$$ v_f^2 = v_0^2 + 2a_1 d_1 $$
+$$ v_f^2 = (30)^2 + 2(-1)(100) $$
+$$ v_f^2 = 900 - 200 = 700 $$
+$$ v_f = \sqrt{700} \approx 26.46 \, \si{m/s} $$
+
+\subsubsection*{2. Análisis del Tramo 2 y Verificación de Impacto}
+En el segundo tramo, el conductor aumenta la fuerza de frenado, logrando una desaceleración de $a_2 = -7 \, \si{m/s^2}$.
+Para saber si el vehículo se detiene antes del accidente, calcularemos qué distancia exacta necesita para frenar por completo ($v_{final} = 0$) partiendo con la velocidad de $26.46 \, \si{m/s}$.
+Planteamos nuevamente la misma ecuación:
+$$ v_{final}^2 = v_i^2 + 2a_2 d_2 $$
+$$ 0^2 = (\sqrt{700})^2 + 2(-7)d_2 $$
+$$ 0 = 700 - 14d_2 $$
+
+Despejamos la distancia $d_2$:
+$$ 14d_2 = 700 $$
+$$ d_2 = \frac{700}{14} = 50 \, \si{m} $$
+
+Esto significa que el vehículo necesita $50 \, \si{m}$ adicionales para detenerse completamente.
+
+\subsubsection*{3. Distancia Total Recorrida}
+Sumamos las distancias recorridas en ambos tramos:
+$$ d_{Total} = d_1 + d_2 $$
+$$ d_{Total} = 100 \, \si{m} + 50 \, \si{m} = 150 \, \si{m} $$
+
+Dado que el obstáculo (accidente) se encontraba a $160 \, \si{m}$, y el vehículo logró frenar completamente en $150 \, \si{m}$, concluimos que \textbf{no impacta}. Queda detenido $10 \, \si{m}$ antes del obstáculo.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering 
+\Large No choca. \\
+\vspace{0.2cm}
+\normalsize Distancia total recorrida: $d_{Total} = 150 \, \si{m}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un automóvil se desplaza por una carretera recta (eje $x$) con una rapidez inicial de $30 \, \si{m/s}$. De pronto, el conductor observa un accidente situado a $160 \, \si{m}$ por delante de su posición e inmediatamente aplica los frenos (se desprecia el tiempo de reacción). Realizando dos tramos de frenado:
+\begin{itemize}
+    \item Primer tramo: $100 \, \si{m}$, donde la desaceleración constante es de $a_1 = 1 \, \si{m/s^2}$.
+    \item Segundo tramo: donde la desaceleración constante cambia a $a_2 = 7 \, \si{m/s^2}$.
+\end{itemize}
+Se solicita:
+c) Calcular el tiempo total de frenado.
+
+\subsection*{Solución}
+
+\subsubsection*{1. Tiempo empleado en el Tramo 1}
+En el primer tramo, la velocidad del automóvil pasa de $v_0 = 30 \, \si{m/s}$ a $v_f = 26.46 \, \si{m/s}$ (calculado previamente a partir de la distancia de $100 \, \si{m}$). La aceleración es $a_1 = -1 \, \si{m/s^2}$.
+Empleamos la ecuación de la velocidad para despejar el intervalo de tiempo:
+$$ v_f = v_0 + a_1\Delta t_1 $$
+$$ 26.46 = 30 + (-1)\Delta t_1 $$
+$$ 26.46 = 30 - \Delta t_1 $$
+$$ \Delta t_1 = 30 - 26.46 = 3.54 \, \si{s} $$
+
+\subsubsection*{2. Tiempo empleado en el Tramo 2}
+En el segundo tramo, la velocidad pasa de $v_i = 26.46 \, \si{m/s}$ a $v_f = 0 \, \si{m/s}$ (reposo absoluto), bajo una aceleración de $a_2 = -7 \, \si{m/s^2}$.
+Aplicamos la misma relación:
+$$ v_f = v_i + a_2\Delta t_2 $$
+$$ 0 = 26.46 + (-7)\Delta t_2 $$
+$$ 0 = 26.46 - 7\Delta t_2 $$
+$$ 7\Delta t_2 = 26.46 $$
+$$ \Delta t_2 = \frac{26.46}{7} \approx 3.78 \, \si{s} $$
+
+\subsubsection*{3. Tiempo Total}
+El tiempo total que le tomó al automóvil detenerse por completo es la suma de los tiempos de ambos tramos:
+$$ \Delta t_{Total} = \Delta t_1 + \Delta t_2 $$
+$$ \Delta t_{Total} = 3.54 \, \si{s} + 3.78 \, \si{s} $$
+$$ \Delta t_{Total} = 7.32 \, \si{s} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\Delta t_{Total} = 7.32 \, \si{s}$
+\end{tcolorbox}
+
+\end{document}

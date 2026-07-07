@@ -1,0 +1,1676 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish, es-tabla]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{siunitx}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstset{
+    language=Python,
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2
+}
+
+\begin{document}
+
+\subsection*{Enunciado}
+
+La figura debajo muestra una piedra lanzada que sigue una trayectoria parabólica. Esta inicia en el punto P, pasa por los puntos Q y R antes de alcanzar su altura máxima en T, y termina en S. La resistencia del aire es despreciable.
+
+\vspace{0.5cm}
+\begin{center}
+\begin{tikzpicture}
+\draw[thick, ->] (-0.5,0) -- (8.5,0);
+\draw[thick, domain=0:8, smooth, samples=50] plot (\x, {-0.25*(\x-4)*(\x-4) + 4});
+\filldraw (0,0) circle (2pt) node[above left] {P};
+\filldraw (2,3) circle (2pt) node[above left] {Q};
+\filldraw (3,3.75) circle (2pt) node[above left] {R};
+\filldraw (4,4) circle (2pt) node[above] {T};
+\filldraw (8,0) circle (2pt) node[above right] {S};
+\end{tikzpicture}
+\end{center}
+\vspace{0.5cm}
+
+Cuando sube, ¿qué relación hay entre la rapidez en el punto R con la rapidez en el punto Q?
+
+\begin{itemize}
+    \item A. La rapidez en R es la mitad de la rapidez en Q.
+    \item B. La rapidez en R es menor que la rapidez en Q, pero no la mitad.
+    \item C. La rapidez en R es igual que la rapidez en Q.
+    \item D. La rapidez en R es el doble de la rapidez en Q.
+    \item E. La rapidez en R es mayor que la rapidez en Q, pero no el doble.
+\end{itemize}
+
+\subsection*{Solución}
+
+\subsubsection*{Fundamentos del Movimiento de Proyectiles}
+
+De acuerdo con los principios de la física conceptual establecidos por Paul G. Hewitt, el movimiento de un proyectil en ausencia de resistencia del aire se analiza separando el movimiento en dos componentes independientes: la componente horizontal y la componente vertical. La única fuerza que actúa sobre la piedra una vez lanzada es la gravedad, la cual tiene una dirección puramente vertical hacia abajo. 
+
+Esto implica que la aceleración horizontal es cero, por lo que la componente de la velocidad horizontal se mantiene constante durante todo el trayecto. Por otro lado, la componente vertical de la velocidad está sujeta a la aceleración de la gravedad, lo que provoca que disminuya conforme el objeto asciende.
+
+\subsubsection*{Análisis Vectorial en el Ascenso}
+
+La rapidez en cualquier punto de la trayectoria se define como la magnitud del vector velocidad, el cual se calcula mediante el teorema de Pitágoras utilizando sus componentes ortogonales. Si denotamos la velocidad horizontal como vx y la velocidad vertical como vy, la rapidez v está dada por la expresión matemática:
+
+\begin{equation}
+v = \sqrt{v_x^2 + v_y^2}
+\end{equation}
+
+Tanto el punto Q como el punto R se encuentran en la fase de ascenso de la trayectoria parabólica, antes de llegar al punto más alto T donde la componente vertical de la velocidad es nula. 
+
+\subsubsection*{Generación de Diagrama de Componentes de Velocidad}
+
+Para visualizar mejor este fenómeno físico y entender la variación de la magnitud del vector resultante, el siguiente código en Python utiliza la librería Matplotlib para graficar los vectores de velocidad en los puntos Q y R. La componente horizontal se mantiene igual (vector azul), mientras que la componente vertical disminuye (vector rojo), resultando en un vector velocidad total más pequeño (vector verde).
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+x = np.linspace(0, 8, 100)
+y = -0.25 * (x - 4)**2 + 4
+
+plt.figure(figsize=(8, 4))
+plt.plot(x, y, color='black', linewidth=2)
+plt.axhline(0, color='black', linewidth=1)
+
+pts_x = [2, 3]
+pts_y = [-0.25 * (px - 4)**2 + 4 for px in pts_x]
+labels = ['Q', 'R']
+
+vx = 1.5
+for px, py, label in zip(pts_x, pts_y, labels):
+    vy = -0.5 * (px - 4)
+    plt.plot(px, py, 'ko')
+    plt.text(px - 0.2, py + 0.2, label, fontsize=12)
+    plt.quiver(px, py, vx, 0, color='blue', scale=1, scale_units='xy', angles='xy', width=0.005)
+    plt.quiver(px, py, 0, vy, color='red', scale=1, scale_units='xy', angles='xy', width=0.005)
+    plt.quiver(px, py, vx, vy, color='green', scale=1, scale_units='xy', angles='xy', width=0.006)
+
+plt.title('Descomposicion Vectorial en Q y R')
+plt.axis('equal')
+plt.axis('off')
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Comparación de las Magnitudes}
+
+Al comparar el punto Q con el punto R, sabemos que el punto R se encuentra a una mayor altura y, temporalmente, más cerca del vértice T. En consecuencia, la gravedad ha actuado durante más tiempo sobre el proyectil al llegar a R en comparación con Q. 
+
+Dado que vx permanece inalterable, tenemos que la velocidad horizontal en Q es igual a la velocidad horizontal en R. Sin embargo, debido a la desaceleración gravitatoria en el ascenso, la velocidad vertical en R es menor que la velocidad vertical en Q.
+
+Al sustituir estos hechos en la ecuación de la rapidez, al tener un término vy más pequeño en el punto R, la suma de los cuadrados también será menor. Por lo tanto, la raíz cuadrada resultante obliga a que la rapidez total en R sea estrictamente menor que la rapidez total en Q.
+
+\subsubsection*{Descarte de la Proporcionalidad Exacta}
+
+Una vez establecido que la rapidez disminuye, debemos evaluar si existe una relación de reducción a exactamente la mitad. Para que la rapidez en R sea la mitad de la rapidez en Q, se requeriría una configuración geométrica y cinemática sumamente específica que relacione a vx y vy de manera estricta, lo cual no es una propiedad general de cualquier par de puntos arbitrarios en una trayectoria parabólica. Como los puntos en el esquema conceptual representan posiciones genéricas de ascenso, asumir una relación de proporción entera o fraccionaria exacta carece de sustento matemático. Por consiguiente, podemos afirmar con certeza que la rapidez es menor, pero no tenemos evidencia ni principios físicos que dicten que sea exactamente la mitad.
+
+\subsubsection*{Conclusión}
+
+B. La rapidez en R es menor que la rapidez en Q, pero no la mitad.
+
+\newpage
+
+\subsection*{Enunciado}
+
+P.2. Considere la figura de la pregunta 1 y que la resistencia del aire es despreciable. Se definen las fuerzas:
+
+\begin{itemize}
+    \item $F_1$: Una fuerza en la misma dirección que la velocidad.
+    \item $F_2$: Una fuerza vertical que apunta hacia abajo.
+\end{itemize}
+
+Cuando sube, ¿qué fuerzas actúan sobre la piedra?
+
+\begin{itemize}
+    \item A. Una fuerza $F_2$ casi constante.
+    \item B. Una $F_1$ que aumenta hasta llegar a T y luego decrece.
+    \item C. Una $F_2$ que aumenta hasta llegar a T y luego decrece.
+    \item D. Una $F_1$ constante y una $F_2$ que decrece.
+    \item E. Una $F_2$ constante y una $F_1$ que decrece.
+\end{itemize}
+
+\subsection*{Solución}
+
+\subsubsection*{El Principio de Inercia y la Fuerza de Empuje}
+
+Para comprender las fuerzas que actúan sobre un proyectil, debemos basarnos en la Primera Ley de Newton, o Ley de la Inercia. Esta ley establece que un objeto en movimiento continuará moviéndose a menos que una fuerza neta externa actúe sobre él. 
+
+Un error conceptual muy común en el estudio de la física, originado en la antigua teoría del ímpetu, es creer que se necesita una fuerza continua en la dirección del movimiento para que el objeto siga avanzando. En este problema, esa fuerza imaginaria está etiquetada como $F_1$. Sin embargo, según la física newtoniana, una vez que la piedra abandona la mano de quien la lanza, la fuerza de empuje cesa por completo. El movimiento horizontal y ascendente de la piedra se mantiene únicamente por su inercia. Por lo tanto, la fuerza $F_1$ es inexistente durante el vuelo.
+
+\subsubsection*{La Gravedad como Única Fuerza Interactuante}
+
+Dado que el problema establece que la resistencia del aire es despreciable, la única entidad física que interactúa con la piedra mientras está en el aire es el planeta Tierra. La Tierra ejerce una fuerza de atracción gravitacional sobre la masa de la piedra. 
+
+Esta fuerza gravitacional siempre apunta en dirección vertical y hacia abajo, directamente hacia el centro del planeta. En el contexto de este problema, esta fuerza corresponde exactamente a la definición de la fuerza $F_2$.
+
+\subsubsection*{Magnitud de la Fuerza de Gravedad}
+
+La magnitud de la fuerza gravitacional (el peso) se calcula multiplicando la masa del objeto por la aceleración de la gravedad. Para trayectorias de proyectiles a nivel del suelo, donde los cambios de altitud son minúsculos en comparación con el radio del planeta, la aceleración de la gravedad se considera una constante. Como la masa de la piedra tampoco cambia, la fuerza $F_2$ mantiene un valor casi constante durante todo el recorrido parabólico, independientemente de si la piedra está subiendo, bajando o en el punto de altura máxima.
+
+\subsubsection*{Generación de Diagrama de Cuerpo Libre}
+
+Para que un modelo de inteligencia artificial o un estudiante visualice correctamente este escenario, el Diagrama de Cuerpo Libre debe ser sumamente simple. A diferencia de los diagramas cinemáticos que muestran vectores de velocidad, un Diagrama de Cuerpo Libre dinámico solo grafica las fuerzas. El siguiente código en Python genera este diagrama, demostrando que independientemente del vector velocidad, solo existe un vector de fuerza dirigido hacia abajo.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+plt.figure(figsize=(5, 5))
+
+plt.plot(0, 0, 'ko', markersize=15)
+
+plt.quiver(0, 0, 0, -2, color='red', scale=1, scale_units='xy', angles='xy', width=0.015)
+
+plt.text(0.1, -1, 'Fuerza F2 (Gravedad)', color='red', fontsize=12, fontweight='bold')
+plt.text(0.1, 0.2, 'Masa de la piedra', fontsize=12)
+
+plt.xlim(-2, 2)
+plt.ylim(-3, 1)
+plt.axis('equal')
+plt.axis('off')
+plt.title('Diagrama de Cuerpo Libre en Vuelo')
+
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+
+A. Una fuerza $F_2$ casi constante.
+
+\newpage
+
+\subsection*{Enunciado}
+
+P.3. Considere la figura de la pregunta 1 y que la resistencia del aire es despreciable. ¿Qué ocurre con la velocidad en los puntos P y S?
+
+\begin{itemize}
+    \item A. La velocidad en P es perpendicular a la velocidad en S.
+    \item B. La velocidad en P es antiparalela a la velocidad en S.
+    \item C. La velocidad es igual en ambos puntos.
+    \item D. El módulo de la velocidad en P es igual al módulo de la velocidad en S.
+    \item E. El módulo de la velocidad en P es distinto al módulo de la velocidad en S.
+\end{itemize}
+
+\subsection*{Solución}
+
+\subsubsection*{Simetría en el Movimiento de Proyectiles}
+
+Basados en los conceptos de física de Paul G. Hewitt, la trayectoria de un proyectil en el vacío, sujeto únicamente a la aceleración gravitacional constante, describe una parábola matemáticamente perfecta. Esta forma geométrica posee un eje de simetría vertical que pasa por el punto de altura máxima. 
+
+En términos cinemáticos, esta simetría implica que el movimiento de ascenso es una imagen especular del movimiento de descenso. Por lo tanto, cualquier par de puntos en la trayectoria que se encuentren a la misma altitud compartirán características específicas en sus velocidades. Los puntos P (lanzamiento) y S (aterrizaje) se encuentran exactamente al mismo nivel horizontal.
+
+\subsubsection*{Análisis de las Componentes de la Velocidad}
+
+Como se estableció en problemas anteriores, la componente horizontal de la velocidad se mantiene constante durante todo el vuelo debido a la ausencia de fuerzas horizontales. Por ende, el vector de velocidad horizontal en el punto P es idéntico en magnitud y dirección al vector de velocidad horizontal en el punto S.
+
+Por otro lado, la componente vertical de la velocidad se ve afectada por la gravedad. El proyectil pierde velocidad vertical al subir y la recupera al bajar. Al estar P y S a la misma altura, el proyectil ha tenido el mismo tiempo para desacelerar hasta el vértice y acelerar desde el vértice. Esto resulta en que la velocidad vertical en P y la velocidad vertical en S tienen exactamente la misma magnitud, pero direcciones opuestas: en P apunta hacia arriba y en S apunta hacia abajo.
+
+\subsubsection*{Magnitud del Vector Resultante}
+
+El módulo de la velocidad, comúnmente llamado rapidez, se obtiene calculando la magnitud del vector resultante a partir de sus componentes utilizando el teorema de Pitágoras.
+
+\begin{equation}
+|v_P| = \sqrt{v_{Px}^2 + v_{Py}^2}
+\end{equation}
+
+\begin{equation}
+|v_S| = \sqrt{v_{Sx}^2 + v_{Sy}^2}
+\end{equation}
+
+Sabemos que $v_{Px} = v_{Sx}$ y que $v_{Py} = -v_{Sy}$. Al elevar al cuadrado la componente vertical en S, el signo negativo desaparece, ya que el cuadrado de un número negativo es positivo.
+
+\begin{equation}
+(-v_{Sy})^2 = v_{Py}^2
+\end{equation}
+
+En consecuencia, la suma de los cuadrados de las componentes es idéntica en ambos puntos, lo que garantiza matemáticamente que los módulos de las velocidades totales en P y en S son iguales. Es crucial notar que los vectores de velocidad no son iguales, ya que sus direcciones difieren, por lo que la opción C es incorrecta.
+
+\subsubsection*{Representación Gráfica Vectorial}
+
+Para clarificar la diferencia entre el vector velocidad y su módulo, el siguiente fragmento en Python genera una visualización de los vectores en los puntos P y S. Se puede observar que las flechas verdes (velocidad total) tienen la misma longitud (módulo igual) pero apuntan en ángulos distintos (vectores diferentes). Las componentes rojas demuestran la inversión de la dirección vertical.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+x = np.linspace(0, 8, 100)
+y = -0.25 * (x - 4)**2 + 4
+
+plt.figure(figsize=(8, 4))
+plt.plot(x, y, color='black', linewidth=2)
+plt.axhline(0, color='black', linewidth=1)
+
+plt.plot(0, 0, 'ko')
+plt.text(-0.3, 0.2, 'P', fontsize=12)
+plt.quiver(0, 0, 1.5, 2, color='green', scale=1, scale_units='xy', angles='xy', width=0.006)
+plt.quiver(0, 0, 1.5, 0, color='blue', scale=1, scale_units='xy', angles='xy', width=0.005)
+plt.quiver(0, 0, 0, 2, color='red', scale=1, scale_units='xy', angles='xy', width=0.005)
+
+plt.plot(8, 0, 'ko')
+plt.text(8.2, 0.2, 'S', fontsize=12)
+plt.quiver(8, 0, 1.5, -2, color='green', scale=1, scale_units='xy', angles='xy', width=0.006)
+plt.quiver(8, 0, 1.5, 0, color='blue', scale=1, scale_units='xy', angles='xy', width=0.005)
+plt.quiver(8, 0, 0, -2, color='red', scale=1, scale_units='xy', angles='xy', width=0.005)
+
+plt.title('Vectores de Velocidad en P y S')
+plt.axis('equal')
+plt.axis('off')
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+
+D. El módulo de la velocidad en P es igual al módulo de la velocidad en S.
+
+\newpage
+
+\subsection*{Enunciado}
+
+P.4. La figura debajo muestra la posición de dos partículas A y B en intervalos de 1 segundo. Los números representan el instante de tiempo al que se mide cada posición. Las partículas se mueven hacia la derecha.
+
+\vspace{0.5cm}
+\begin{center}
+\begin{tikzpicture}[scale=0.9, transform shape]
+\draw[thick] (0,0) -- (16.5,0);
+\foreach \x in {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16} {
+    \draw[thick] (\x,0.2) -- (\x,-0.2);
+}
+\node[left] at (-0.5, 0) {\textbf{Posición}};
+
+\node[left] at (-0.5, 1) {\textbf{A}};
+\foreach \t/\x in {0/1, 1/3, 2/5, 3/7, 4/9, 5/11, 6/13, 7/15} {
+    \node[rectangle, fill=black, inner sep=3pt] at (\x, 1) {};
+    \node[above] at (\x, 1.2) {\textbf{\t}};
+}
+
+\node[left] at (-0.5, -1) {\textbf{B}};
+\foreach \t/\x in {0/1, 1/1.75, 2/3, 3/4.75, 4/7, 5/9.75, 6/13, 7/16.75} {
+    \node[circle, fill=black, inner sep=2.5pt] at (\x, -1) {};
+    \node[below] at (\x, -1.2) {\textbf{\t}};
+}
+\end{tikzpicture}
+\end{center}
+\vspace{0.5cm}
+
+Se puede afirmar que las partículas:
+
+\begin{itemize}
+    \item A. En el instante inicial, tienen la misma posición e igual aceleración.
+    \item B. En el instante inicial, tienen distinta posición e igual aceleración.
+    \item C. En los instantes 0 y 6, tienen distintas posiciones pero igual aceleración.
+    \item D. En los instantes 0 y 6, tienen las mismas posiciones e igual aceleración.
+    \item E. En los instantes 0 y 6, tienen las mismas posiciones pero distinta aceleración.
+\end{itemize}
+
+\subsection*{Solución}
+
+\subsubsection*{Conceptos Fundamentales de Cinemática}
+
+Para resolver este problema, nos basamos en los conceptos cinemáticos descritos por Paul G. Hewitt. La velocidad se define como la tasa de cambio de la posición respecto al tiempo, mientras que la aceleración se define como la tasa de cambio de la velocidad respecto al tiempo. En un diagrama estroboscópico, donde las posiciones se marcan a intervalos de tiempo regulares (en este caso, cada 1 segundo), la distancia entre dos puntos consecutivos es directamente proporcional a la velocidad media en ese intervalo.
+
+\subsubsection*{Análisis del Movimiento de la Partícula A}
+
+Al observar la trayectoria de la partícula A, notamos que la distancia espacial entre los puntos sucesivos (0 a 1, 1 a 2, 2 a 3, etc.) es constante. Si la partícula recorre distancias iguales en intervalos de tiempo iguales, significa que su velocidad es constante a lo largo de todo el trayecto. 
+
+Matemáticamente, si la velocidad no cambia, su derivada temporal es cero. Por lo tanto, podemos afirmar con certeza que la aceleración de la partícula A es nula a lo largo de todo el movimiento analizado.
+
+\subsubsection*{Análisis del Movimiento de la Partícula B}
+
+Por el contrario, al observar la trayectoria de la partícula B, la distancia entre los puntos consecutivos se incrementa a medida que avanza el tiempo. El desplazamiento entre el segundo 0 y 1 es pequeño, entre el 1 y 2 es mayor, y así sucesivamente. 
+
+El hecho de que la partícula recorra cada vez mayor distancia en el mismo intervalo de 1 segundo implica que su velocidad está aumentando continuamente. Un aumento en la velocidad a lo largo del tiempo es la definición de una aceleración positiva. En consecuencia, la aceleración de la partícula B es distinta de cero.
+
+\subsubsection*{Comparación de Estados en t=0 y t=6}
+
+Evaluemos ahora las posiciones específicas dictadas por las opciones de respuesta. En el diagrama, el eje horizontal central representa una línea de posición única y compartida para ambas partículas.
+
+En el instante t=0, tanto la marca cuadrada de A como la marca circular de B están alineadas verticalmente sobre la misma división de la recta numérica. Esto demuestra de forma irrefutable que ambas inician en la misma posición geométrica.
+
+Al buscar el siguiente punto de encuentro visual, ubicamos el instante t=6. Nuevamente, la marca de A y la marca de B se encuentran alineadas de forma perfecta sobre la misma coordenada en el eje de posición. Por lo tanto, en los instantes 0 y 6, tienen exactamente las mismas posiciones. 
+
+Sin embargo, como determinamos en los pasos anteriores, la partícula A tiene aceleración nula y la partícula B tiene aceleración positiva. A pesar de coincidir en el espacio en esos dos instantes precisos, sus condiciones dinámicas (aceleración) son estructuralmente diferentes.
+
+\subsubsection*{Generación de Gráficas Cinemáticas}
+
+Para ilustrar pedagógicamente cómo dos cuerpos con distinta aceleración pueden coincidir en posición en dos tiempos distintos, el siguiente código en Python utiliza Matplotlib para reconstruir matemáticamente el escenario. Grafica las funciones de posición y velocidad respecto al tiempo, evidenciando las intersecciones espaciales y la divergencia en las aceleraciones (representada por la pendiente de la velocidad).
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+t = np.linspace(0, 7, 100)
+
+x_A = 1 + 2 * t
+x_B = 1 + 0.5 * t + 0.25 * t**2
+
+fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(8, 8))
+
+ax1.plot(t, x_A, label='Particula A', color='blue', linewidth=2)
+ax1.plot(t, x_B, label='Particula B', color='red', linewidth=2)
+ax1.plot([0, 6], [1, 13], 'ko', markersize=6, zorder=5)
+ax1.set_title('Posicion vs Tiempo')
+ax1.set_xlabel('Tiempo (s)')
+ax1.set_ylabel('Posicion')
+ax1.legend()
+ax1.grid(True)
+
+v_A = np.full_like(t, 2)
+v_B = 0.5 + 0.5 * t
+
+ax2.plot(t, v_A, label='Velocidad A', color='blue', linewidth=2)
+ax2.plot(t, v_B, label='Velocidad B', color='red', linewidth=2)
+ax2.set_title('Velocidad vs Tiempo')
+ax2.set_xlabel('Tiempo (s)')
+ax2.set_ylabel('Velocidad')
+ax2.legend()
+ax2.grid(True)
+
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+
+E. En los instantes 0 y 6, tienen las mismas posiciones pero distinta aceleración.
+
+\newpage
+
+\subsection*{Enunciado}
+Una carreta inicia su movimiento en dirección sur (S) por la acción de dos fuerzas $F$ y $F'$. La dirección de la fuerza $F$ es hacia el este (E). ¿En qué dirección se aplica $F'$?
+
+\begin{itemize}
+    \item A. En dirección suroeste (S-O).
+    \item B. En dirección sureste (S-E).
+    \item C. En dirección este (E).
+    \item D. En dirección sur (S).
+    \item E. En dirección oeste (O).
+\end{itemize}
+
+\subsection*{Solución}
+
+\subsubsection*{Relación entre Fuerza Neta y Movimiento}
+
+De acuerdo con la Segunda Ley de Newton explorada en la física conceptual de Hewitt, la aceleración de un objeto siempre tiene la misma dirección que la fuerza neta que actúa sobre él. El problema establece que la carreta "inicia su movimiento" en dirección sur. Esto indica que la carreta parte del reposo y acelera hacia el sur. Por lo tanto, podemos concluir de manera categórica que la fuerza neta resultante (la suma vectorial de todas las fuerzas aplicadas) debe apuntar estrictamente hacia el sur.
+
+\subsubsection*{Análisis de la Suma Vectorial}
+
+Sabemos que la fuerza neta es el resultado de sumar las dos fuerzas individuales: $\vec{F}_{neta} = \vec{F} + \vec{F}'$. 
+
+El problema nos proporciona la dirección de la primera fuerza, $\vec{F}$, que apunta hacia el este. Sin embargo, para que la resultante final ($\vec{F}_{neta}$) apunte exclusivamente hacia el sur, la componente horizontal este de $\vec{F}$ debe ser completamente anulada, ya que la fuerza neta no tiene componente en el eje este-oeste. 
+
+Para lograr esto, la segunda fuerza, $\vec{F}'$, debe poseer obligatoriamente una componente hacia el oeste (para cancelar el empuje de $\vec{F}$ hacia el este). Además, $\vec{F}'$ debe proporcionar toda la fuerza necesaria para generar el movimiento hacia el sur, lo que significa que también debe tener una componente hacia el sur. Un vector que posee simultáneamente componentes hacia el sur y hacia el oeste tiene una dirección combinada hacia el suroeste.
+
+\subsubsection*{Visualización Vectorial en el Plano}
+
+Para comprender mejor esta interacción, el siguiente código en Python utiliza Matplotlib para trazar la suma vectorial utilizando el método del polígono (o punta a cola). Se observa cómo el vector $\vec{F}'$ (rojo) no solo debe apuntar hacia el sur para dar el movimiento deseado, sino que debe retroceder hacia el oeste para contrarrestar el vector $\vec{F}$ (azul), originando un vector resultante neto (verde) puramente hacia el sur.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+plt.figure(figsize=(6, 6))
+
+plt.quiver(0, 0, 3, 0, color='blue', scale=1, scale_units='xy', angles='xy', width=0.015)
+plt.text(1.5, 0.2, 'Fuerza F (Este)', color='blue', fontsize=12, fontweight='bold')
+
+plt.quiver(3, 0, -3, -4, color='red', scale=1, scale_units='xy', angles='xy', width=0.015)
+plt.text(1.5, -2, 'Fuerza F\' (Suroeste)', color='red', fontsize=12, fontweight='bold')
+
+plt.quiver(0, 0, 0, -4, color='green', scale=1, scale_units='xy', angles='xy', width=0.015)
+plt.text(-1.8, -2, 'Fuerza Neta (Sur)', color='green', fontsize=12, fontweight='bold')
+
+plt.xlim(-2, 4)
+plt.ylim(-5, 1)
+plt.axhline(0, color='black', linewidth=0.8, linestyle='--')
+plt.axvline(0, color='black', linewidth=0.8, linestyle='--')
+plt.axis('off')
+plt.title('Metodo del Poligono para Suma de Fuerzas')
+
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+
+A. En dirección suroeste (S-O).
+
+\newpage
+\subsection*{Enunciado}
+Considere el caso de la pregunta 5, incluyendo su respuesta. ¿En qué dirección hay que aplicar una nueva fuerza $F''$ para que la carreta se mueva en dirección sur (S) a velocidad constante?
+
+\begin{itemize}
+    \item A. En dirección sur (S).
+    \item B. En dirección norte (N).
+    \item C. En dirección oeste (O).
+    \item D. En dirección este (E).
+    \item E. No es necesario aplicar una nueva fuerza $F''$.
+\end{itemize}
+
+\subsection*{Solución}
+
+\subsubsection*{Condición de Equilibrio Dinámico}
+
+Para resolver esta interrogante, debemos aplicar la Primera Ley de Newton, también conocida como Ley de la Inercia. Hewitt estipula que si un objeto se mueve a una velocidad constante en una línea recta (en este caso, hacia el sur), su aceleración es cero. Si la aceleración es cero, la Segunda Ley de Newton ($F = ma$) dictamina que la fuerza neta que actúa sobre el objeto debe ser exactamente cero. A este estado se le denomina equilibrio dinámico.
+
+\subsubsection*{Determinación de la Fuerza Equilibrante}
+
+En la situación actual heredada de la pregunta 5, la carreta está sometida a una fuerza neta resultante que apunta hacia el sur, lo que causa que acelere en esa dirección. 
+
+Para que la carreta deje de acelerar y mantenga la velocidad que ha adquirido, necesitamos neutralizar esa fuerza neta existente. Esto se logra aplicando una nueva fuerza, $F''$, que actúe como una fuerza equilibrante. Matemáticamente, la suma de la fuerza neta anterior y la nueva fuerza debe ser cero: $\vec{F}_{neta\_previa} + \vec{F}'' = 0$, lo que implica que $\vec{F}'' = -\vec{F}_{neta\_previa}$.
+
+Puesto que la fuerza neta previa apunta hacia el sur, la nueva fuerza $F''$ debe tener la misma magnitud pero apuntar en la dirección diametralmente opuesta. La dirección opuesta al sur es el norte. Una vez aplicada esta fuerza hacia el norte, la suma de todas las fuerzas se anula y, por inercia, la carreta continuará moviéndose hacia el sur a una velocidad constante, sin acelerar ni frenar.
+
+\subsubsection*{Diagrama de Fuerzas Colineales}
+
+El siguiente diagrama generado mediante Python ilustra la condición de equilibrio. Muestra cómo la nueva fuerza aplicada cancela la fuerza motriz original, dejando a la carreta bajo una fuerza neta nula.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+plt.figure(figsize=(4, 6))
+
+plt.plot(0, 0, 'ks', markersize=20)
+plt.text(0.2, 0, 'Carreta', fontsize=12)
+
+plt.quiver(0, 0, 0, -3, color='green', scale=1, scale_units='xy', angles='xy', width=0.02)
+plt.text(0.1, -1.5, 'Fuerza Neta Previa (Sur)', color='green', fontsize=11, fontweight='bold')
+
+plt.quiver(0, 0, 0, 3, color='purple', scale=1, scale_units='xy', angles='xy', width=0.02)
+plt.text(0.1, 1.5, 'Nueva Fuerza F\'\' (Norte)', color='purple', fontsize=11, fontweight='bold')
+
+plt.xlim(-1, 2)
+plt.ylim(-4, 4)
+plt.axis('off')
+plt.title('Fuerza Equilibrante para Velocidad Constante')
+
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+
+B. En dirección norte (N).
+
+\newpage
+\subsection*{Enunciado}
+Una persona de 70 kg empuja una caja liviana a lo largo de un pasillo. Durante este proceso:
+
+\begin{itemize}
+    \item A. La persona ejerce una fuerza mayor sobre la caja.
+    \item B. La caja ejerce una fuerza mayor sobre la persona.
+    \item C. La persona y la caja ejercen fuerzas entre si, al mismo tiempo.
+    \item D. Únicamente la persona ejerce una fuerza sobre la caja.
+    \item E. Ni la persona ni la caja ejercen fuerzas entre si.
+\end{itemize}
+
+\subsection*{Solución}
+
+\subsubsection*{La Interacción como Base de las Fuerzas}
+
+Para abordar este problema, es fundamental recurrir a la Tercera Ley de Newton, conocida como la Ley de Acción y Reacción. Como explica magistralmente Hewitt, una fuerza no es una cosa aislada, sino que forma parte de una interacción mutua entre dos objetos. Es físicamente imposible que un objeto ejerza una fuerza sobre otro sin experimentar una fuerza a cambio. Por lo tanto, no existe tal cosa como una fuerza unidireccional (descartando la opción D) o una ausencia de fuerzas durante un empuje (descartando la opción E).
+
+\subsubsection*{Magnitud y Simultaneidad del Par de Fuerzas}
+
+La regla fundamental de toda interacción dicta que el par de fuerzas constituyente (acción y reacción) siempre posee magnitudes exactamente iguales y direcciones opuestas. Esta igualdad matemática es inquebrantable y ocurre sin importar la diferencia de masa, tamaño o estado de movimiento de los objetos involucrados. El hecho de que la persona tenga 70 kg y la caja sea "liviana" afectará sus aceleraciones resultantes (debido a la Segunda Ley, $a = F/m$), pero la fuerza de empuje de la mano sobre la caja es idéntica en magnitud a la fuerza de resistencia de la caja sobre la mano. Esto descarta automáticamente las opciones A y B.
+
+Además, estas fuerzas coexisten en el tiempo. Una no es la precursora con retraso de la otra; ocurren de forma simultánea. Al momento mismo en que las moléculas de la mano empujan las moléculas de la caja, estas reaccionan instantáneamente empujando a la mano. Por consiguiente, la única descripción correcta bajo los principios de la mecánica newtoniana es que ambas entidades se ejercen fuerza mutuamente y de manera simultánea.
+
+\subsubsection*{Conclusión}
+
+C. La persona y la caja ejercen fuerzas entre si, al mismo tiempo.
+
+
+\newpage
+
+\subsection*{Enunciado}
+Una persona de 70 kg empuja una caja liviana a lo largo de un pasillo. ¿Qué se podría agregar para asegurar que la caja se mueva con una rapidez que aumenta en el tiempo?
+
+\begin{itemize}
+    \item A. Que el suelo sea de asfalto, agregando un gran rozamiento entre la caja y el suelo.
+    \item B. Que el suelo sea de hielo, eliminando totalmente el rozamiento entre la caja y el suelo.
+    \item C. Dos personas que jalen la caja desde los lados y en sentidos opuestos.
+    \item D. Otra persona que jale la caja en dirección contraria en que la primera persona la está empujando.
+    \item E. Nada, la caja solo puede moverse a velocidad constante.
+\end{itemize}
+
+\subsection*{Solución}
+
+\subsubsection*{Condición para el Aumento de Rapidez}
+
+Siguiendo los preceptos de la mecánica clásica presentados por Hewitt, un objeto experimenta un aumento en su rapidez cuando posee una aceleración positiva en la misma dirección que su movimiento. La Segunda Ley de Newton establece que la aceleración es directamente proporcional a la fuerza neta aplicada sobre el objeto y ocurre en la misma dirección. Por lo tanto, para garantizar que la rapidez aumente continuamente, debemos asegurar que exista una fuerza neta constante e ininterrumpida a favor del movimiento.
+
+\subsubsection*{Análisis de las Fuerzas Antagónicas}
+
+Cuando una persona empuja una caja en el mundo real, la fuerza aplicada por la persona es resistida por la fuerza de fricción o rozamiento estático y cinético entre la caja y el suelo. La fuerza neta es el resultado de restar esta fricción a la fuerza de empuje. 
+
+Si la fricción llega a ser igual a la fuerza de empuje, la fuerza neta se vuelve cero y, por la Primera Ley de Newton, la caja se movería a velocidad constante (sin aumento de rapidez). Si se agrega asfalto (opción A), se incrementa dramáticamente esta fuerza opositora, lo que podría incluso detener la caja. Si se añaden personas jalando en direcciones opuestas al empuje (opción D) o hacia los lados (opción C), se introducen nuevos vectores de fuerza que reducen o no aportan a la fuerza neta en la dirección del avance. 
+
+\subsubsection*{El Caso Ideal del Hielo}
+
+Para maximizar la fuerza neta y garantizar que toda la fuerza ejercida por la persona se traduzca en aceleración, se debe eliminar cualquier fuerza que se oponga al movimiento. Al colocar la caja sobre una superficie de hielo (que en la física conceptual aproxima un entorno sin fricción), la fuerza de rozamiento se vuelve cero. 
+
+Bajo esta condición, la fuerza neta es exactamente igual a la fuerza de empuje de la persona. Al existir una fuerza neta positiva constante sin ninguna resistencia que la contrarreste, la caja experimentará una aceleración constante, lo que se traduce inevitablemente en una rapidez que aumenta indefinidamente en el tiempo mientras se mantenga el empuje.
+
+\subsubsection*{Generación del Diagrama de Fuerzas Netas}
+
+El siguiente fragmento en Python utilizando Matplotlib ilustra de manera pedagógica el contraste entre un empuje con fricción y un empuje sobre hielo. En el escenario del hielo, el vector opositor desaparece, permitiendo que la resultante (fuerza neta) sea máxima e igual a la fuerza aplicada.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 4))
+
+ax1.plot([0], [0], 'ks', markersize=30)
+ax1.quiver(0, 0, 3, 0, color='blue', scale=1, scale_units='xy', angles='xy', width=0.015)
+ax1.quiver(0, 0, -2, 0, color='orange', scale=1, scale_units='xy', angles='xy', width=0.015)
+ax1.quiver(0, 0, 1, 0, color='green', scale=1, scale_units='xy', angles='xy', width=0.03, alpha=0.5)
+ax1.text(1, 0.5, 'Empuje', color='blue', fontweight='bold')
+ax1.text(-2.5, 0.5, 'Friccion', color='orange', fontweight='bold')
+ax1.set_xlim(-3, 4)
+ax1.set_ylim(-2, 2)
+ax1.axis('off')
+ax1.set_title('Con Suelo Normal (Asfalto/Madera)')
+
+ax2.plot([0], [0], 'ks', markersize=30)
+ax2.plot([-3, 4], [-0.3, -0.3], color='cyan', linewidth=4, alpha=0.5)
+ax2.quiver(0, 0, 3, 0, color='blue', scale=1, scale_units='xy', angles='xy', width=0.015)
+ax2.quiver(0, 0, 3, 0, color='green', scale=1, scale_units='xy', angles='xy', width=0.03, alpha=0.5)
+ax2.text(1.5, 0.5, 'Empuje = Fuerza Neta', color='blue', fontweight='bold')
+ax2.text(-1, -0.8, 'Hielo (Friccion Cero)', color='cyan', fontweight='bold')
+ax2.set_xlim(-3, 4)
+ax2.set_ylim(-2, 2)
+ax2.axis('off')
+ax2.set_title('Con Suelo de Hielo')
+
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+
+B. Que el suelo sea de hielo, eliminando totalmente el rozamiento entre la caja y el suelo.
+
+\newpage
+
+\subsection*{Enunciado}
+
+Imagine que levanta una bola de boliche con rapidez constante $v$ hasta un décimo piso, utilizando una cuerda y una polea ideales. La bola asciende verticalmente y el efecto del aire es despreciable. Si, de repente, usted tira de la cuerda con el doble de fuerza, entonces la bola:
+
+\begin{itemize}
+    \item A. Asciende con rapidez constante $2v$.
+    \item B. Asciende con rapidez constante menor que $2v$.
+    \item C. Mantiene su rapidez $v$ por un instante y luego su rapidez aumenta continuamente.
+    \item D. Asciende con una rapidez que aumenta continuamente.
+    \item E. Asciende con una rapidez que aumenta continuamente durante un tiempo y luego se mantiene constante.
+\end{itemize}
+
+\subsection*{Solución}
+
+\subsubsection*{Análisis del Estado Dinámico Inicial}
+
+Para resolver este problema bajo la óptica de la física newtoniana, primero debemos comprender qué significa físicamente levantar un objeto con "rapidez constante". Según la Primera Ley de Newton, si un cuerpo se mueve a velocidad constante (sin cambiar su dirección ni su rapidez), su aceleración es cero. 
+
+Si la aceleración es cero, la Segunda Ley de Newton nos indica que la fuerza neta que actúa sobre la bola de boliche debe ser exactamente nula. En este escenario vertical, existen dos fuerzas actuando sobre la bola: el peso (la fuerza de gravedad hacia abajo) y la tensión de la cuerda (la fuerza hacia arriba que usted ejerce). Para que la fuerza neta sea cero, la fuerza con la que usted tira de la cuerda debe ser exactamente igual en magnitud al peso de la bola de boliche.
+
+\subsubsection*{Evaluación de la Nueva Condición de Fuerza}
+
+El enunciado plantea una perturbación en el sistema: "de repente, usted tira de la cuerda con el doble de fuerza". 
+
+Si la fuerza original era igual al peso de la bola ($W$), la nueva fuerza de tensión ejercida hacia arriba será el doble del peso ($2W$). Sin embargo, la masa de la bola de boliche y la gravedad de la Tierra no han cambiado, por lo que el peso de la bola hacia abajo sigue siendo exactamente $W$.
+
+Al realizar la sumatoria de fuerzas, tenemos una fuerza hacia arriba de $2W$ y una fuerza hacia abajo de $W$. Esto resulta en una fuerza neta desequilibrada hacia arriba equivalente a la magnitud de $W$ ($2W - W = W$).
+
+\subsubsection*{Efecto Cinemático de la Fuerza Neta}
+
+Un error conceptual común, derivado de la física aristotélica, es pensar que una fuerza constante produce una velocidad constante, lo que llevaría a elegir incorrectamente la opción A (el doble de fuerza produce el doble de velocidad). 
+
+No obstante, la Segunda Ley de Newton establece inequívocamente que una fuerza neta constante no produce una velocidad constante, sino una aceleración constante. Dado que ahora existe una fuerza neta constante apuntando hacia arriba, la bola experimentará una aceleración constante hacia arriba. Por definición cinemática, si un objeto tiene aceleración en la misma dirección de su movimiento, su rapidez se incrementará de forma continua a lo largo del tiempo mientras dicha fuerza siga actuando. No hay retrasos temporales en la aplicación de las leyes de Newton, el cambio de aceleración es instantáneo, por lo que la rapidez empieza a aumentar en ese mismo instante.
+
+\subsubsection*{Generación del Diagrama de Cuerpo Libre Comparativo}
+
+Para ilustrar este concepto, el siguiente código en Python genera los diagramas de cuerpo libre del estado inicial y el nuevo estado. En el gráfico de la izquierda, las fuerzas se equilibran. En el gráfico de la derecha, se evidencia visualmente el origen de la fuerza neta ascendente que causará el aumento continuo de la rapidez.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 5))
+
+ax1.plot(0, 0, 'ko', markersize=30)
+ax1.quiver(0, 0, 0, 2, color='blue', scale=1, scale_units='xy', angles='xy', width=0.015)
+ax1.quiver(0, 0, 0, -2, color='red', scale=1, scale_units='xy', angles='xy', width=0.015)
+ax1.text(0.1, 1, 'Tension = W', color='blue', fontsize=12, fontweight='bold')
+ax1.text(0.1, -1.5, 'Peso = W', color='red', fontsize=12, fontweight='bold')
+ax1.set_xlim(-1, 2)
+ax1.set_ylim(-3, 5)
+ax1.axis('off')
+ax1.set_title('Estado Inicial: Velocidad Constante')
+
+ax2.plot(0, 0, 'ko', markersize=30)
+ax2.quiver(0, 0, 0, 4, color='blue', scale=1, scale_units='xy', angles='xy', width=0.015)
+ax2.quiver(0, 0, 0, -2, color='red', scale=1, scale_units='xy', angles='xy', width=0.015)
+ax2.quiver(1, 0, 0, 2, color='green', scale=1, scale_units='xy', angles='xy', width=0.02)
+ax2.text(0.1, 3, 'Tension = 2W', color='blue', fontsize=12, fontweight='bold')
+ax2.text(0.1, -1.5, 'Peso = W', color='red', fontsize=12, fontweight='bold')
+ax2.text(1.2, 1, 'Fuerza Neta = W\n(Causa Aceleracion)', color='green', fontsize=11, fontweight='bold')
+ax2.set_xlim(-1, 3)
+ax2.set_ylim(-3, 5)
+ax2.axis('off')
+ax2.set_title('Nuevo Estado: Fuerza Duplicada')
+
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+
+D. Asciende con una rapidez que aumenta continuamente.
+
+
+\newpage
+
+\subsection*{Enunciado}
+
+Un auto se encuentra en una montaña cuya pendiente forma un ángulo de 30$^\circ$ con la horizontal. Si en cierto instante la aceleración producida por el motor apunta hacia arriba de la montaña, entonces:
+
+\begin{itemize}
+    \item A. El auto se mueve hacia arriba de la montaña.
+    \item B. El auto se mueve hacia abajo de la montaña.
+    \item C. El auto está quieto.
+    \item D. A, B, y C pueden ser correctas.
+    \item E. Solo A y B pueden ser correctas.
+\end{itemize}
+
+\subsection*{Solución}
+
+\subsubsection*{Independencia Vectorial entre Velocidad y Aceleración}
+
+Para resolver este problema, es indispensable recurrir a la diferenciación cinemática conceptualizada por Paul G. Hewitt. Uno de los errores más comunes en el estudio de la física es asumir que un objeto siempre se mueve en la misma dirección en la que está acelerando. 
+
+La velocidad indica la dirección y la rapidez con la que se mueve un objeto en un instante dado. La aceleración, en cambio, es la tasa de cambio de esa velocidad. La aceleración no nos dice hacia dónde se mueve el objeto ahora, sino hacia dónde se está modificando su estado de movimiento. Por lo tanto, el vector aceleración y el vector velocidad son completamente independientes en un instante específico y pueden apuntar en cualquier dirección relativa el uno del otro.
+
+\subsubsection*{Análisis de los Estados Cinemáticos Posibles}
+
+El problema establece una única condición: el vector aceleración apunta hacia arriba de la montaña. Evaluemos cómo esta aceleración puede coexistir con diferentes estados de velocidad:
+
+Caso A (Moviéndose hacia arriba): Si el auto sube la montaña (velocidad hacia arriba) y el motor genera una aceleración en la misma dirección (hacia arriba), los vectores son paralelos. Físicamente, esto significa que el auto está subiendo y aumentando su rapidez (acelerando). Este es un escenario completamente válido.
+
+Caso B (Moviéndose hacia abajo): Si el auto se desliza hacia abajo de la montaña (velocidad hacia abajo) pero el motor aplica una fuerza para subir (aceleración hacia arriba), los vectores son antiparalelos. Físicamente, esto representa un auto que retrocede montaña abajo pero está frenando para intentar detenerse o revertir su marcha. Este también es un escenario perfectamente válido.
+
+Caso C (Quieto): Si la velocidad del auto es exactamente cero en ese instante, pero la aceleración apunta hacia arriba, significa que el auto estaba en reposo y en ese preciso momento está comenzando a moverse hacia arriba, o bien es el instante exacto en que detuvo su caída (del Caso B) antes de empezar a subir. Tener velocidad nula no implica aceleración nula. Por lo tanto, este estado es válido.
+
+\subsubsection*{Generación de Diagrama de Estados Cinemáticos}
+
+Para que este análisis sea procesado adecuadamente, el siguiente script de Python con Matplotlib genera una representación visual de los tres casos posibles sobre el plano inclinado, demostrando que un mismo vector de aceleración (verde) puede acompañar a vectores de velocidad (azul) de diferentes magnitudes y sentidos.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig, axs = plt.subplots(1, 3, figsize=(12, 4))
+angle = np.radians(30)
+x = np.linspace(0, 4, 100)
+y = np.tan(angle) * x
+
+casos = ['Caso A: Subiendo y acelerando', 'Caso B: Bajando y frenando', 'Caso C: Reposo inicial, arranca']
+v_dirs = [1, -1, 0]
+a_dir = 1 
+
+for i, ax in enumerate(axs):
+    ax.plot(x, y, color='black', linewidth=2)
+    
+    car_x = 2
+    car_y = np.tan(angle) * car_x
+    ax.plot(car_x, car_y, 'ks', markersize=15)
+    
+    dx_a = a_dir * np.cos(angle)
+    dy_a = a_dir * np.sin(angle)
+    ax.quiver(car_x, car_y + 0.5, dx_a, dy_a, color='green', scale=5, width=0.02)
+    ax.text(car_x, car_y + 0.8, 'a', color='green', fontsize=12, fontweight='bold')
+    
+    if v_dirs[i] != 0:
+        dx_v = v_dirs[i] * np.cos(angle)
+        dy_v = v_dirs[i] * np.sin(angle)
+        ax.quiver(car_x, car_y, dx_v, dy_v, color='blue', scale=5, width=0.02)
+        ax.text(car_x + dx_v*0.2, car_y + dy_v*0.2 - 0.4, 'v', color='blue', fontsize=12, fontweight='bold')
+    else:
+        ax.text(car_x, car_y - 0.5, 'v = 0', color='blue', fontsize=12, fontweight='bold')
+        
+    ax.set_title(casos[i], fontsize=10)
+    ax.set_xlim(0, 4)
+    ax.set_ylim(0, 3)
+    ax.axis('off')
+
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+
+D. A, B, y C pueden ser correctas.
+
+\newpage
+\subsection*{Enunciado}
+
+Un auto averiado es empujado hacia el norte (N) por un grupo de personas a lo largo de una avenida recta. Existe rozamiento. ¿Qué se puede afirmar sobre la velocidad del auto?
+
+\begin{itemize}
+    \item A. Su velocidad es cero.
+    \item B. Su velocidad apunta en dirección opuesta a la del empuje.
+    \item C. Su velocidad apunta en la misma dirección que el empuje.
+    \item D. Solo A y C pueden ser correctas.
+    \item E. A, B y C pueden ser correctas.
+\end{itemize}
+
+\subsection*{Solución}
+
+\subsubsection*{Relación entre Fuerza, Rozamiento y Estado de Movimiento}
+
+En concordancia con el problema anterior, debemos separar el concepto de fuerza aplicada del concepto de velocidad instantánea. La Segunda Ley de Newton vincula la fuerza neta con la aceleración, no con la velocidad. El enunciado nos indica que existe un empuje hacia el norte y que existe rozamiento, pero no nos informa si el auto partió del reposo o si ya poseía un movimiento previo. 
+
+El rozamiento siempre se opone al movimiento relativo (o a la tendencia al movimiento) entre las superficies en contacto. Evaluaremos los escenarios cinemáticos basados en la falta de restricciones sobre el estado inicial del vehículo.
+
+\subsubsection*{Evaluación de los Escenarios Dinámicos}
+
+Caso A (Velocidad Cero): Las personas aplican una fuerza hacia el norte, pero esta fuerza podría no ser suficiente para superar la fuerza de rozamiento estático máxima entre los neumáticos y el asfalto. Si el empuje es equilibrado exactamente por el rozamiento estático, la fuerza neta es cero y el auto no se mueve. Su velocidad es cero.
+
+Caso C (Velocidad en la misma dirección): Las personas logran superar el rozamiento estático o el auto ya se estaba moviendo hacia el norte. La fuerza de empuje vence al rozamiento cinético (que apuntaría hacia el sur), generando una velocidad constante o una aceleración hacia el norte. En este caso muy habitual, el auto se mueve hacia el norte.
+
+Caso B (Velocidad en dirección opuesta): Aunque contraintuitivo, es físicamente posible. Supongamos que el auto averiado estaba retrocediendo (rodando libremente hacia el sur) debido a un impulso previo. Para detenerlo, el grupo de personas se coloca en la parte trasera y lo empuja hacia el norte. En este instante, el auto aún se mueve hacia el sur (velocidad sur), el rozamiento cinético apunta hacia el norte (oponiéndose al movimiento), y el empuje es hacia el norte. El auto está frenando, pero su velocidad instantánea sigue apuntando al sur, en dirección opuesta al empuje.
+
+\subsubsection*{Generación de Vectores de Estado}
+
+El código en Python a continuación grafica estos tres escenarios en una dimensión, mostrando cómo el vector de fuerza de empuje (naranja) permanece inalterable hacia el norte en todos los casos, mientras que el vector de velocidad (azul) puede adoptar cualquier estado sin violar las leyes de la física dictadas por el problema.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+fig, axs = plt.subplots(3, 1, figsize=(8, 6))
+scenarios = ['Caso A: Atascado por rozamiento estatico', 
+             'Caso C: Avanzando con el empuje', 
+             'Caso B: Retrocediendo, siendo frenado']
+v_vals = [0, 2, -2]
+
+for i, ax in enumerate(axs):
+    ax.axhline(0, color='gray', linewidth=2)
+    ax.plot(0, 0, 'ks', markersize=20)
+    
+    ax.quiver(0, 0.5, 1.5, 0, color='orange', scale=1, scale_units='xy', angles='xy', width=0.01)
+    ax.text(1.6, 0.4, 'Empuje (N)', color='orange', fontweight='bold')
+    
+    if v_vals[i] > 0:
+        ax.quiver(0, -0.5, v_vals[i], 0, color='blue', scale=1, scale_units='xy', angles='xy', width=0.01)
+        ax.text(v_vals[i] + 0.1, -0.6, 'Velocidad (N)', color='blue', fontweight='bold')
+    elif v_vals[i] < 0:
+        ax.quiver(0, -0.5, v_vals[i], 0, color='blue', scale=1, scale_units='xy', angles='xy', width=0.01)
+        ax.text(v_vals[i] - 1.5, -0.6, 'Velocidad (S)', color='blue', fontweight='bold')
+    else:
+        ax.text(-0.2, -0.6, 'v = 0', color='blue', fontweight='bold')
+        
+    ax.set_title(scenarios[i])
+    ax.set_xlim(-4, 4)
+    ax.set_ylim(-1.5, 1.5)
+    ax.axis('off')
+
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+
+E. A, B y C pueden ser correctas.
+
+
+\newpage
+
+\subsection*{Enunciado}
+
+La aceleración de un objeto apunta hacia la izquierda. ¿Qué se puede afirmar sobre el movimiento del objeto?
+
+\begin{itemize}
+    \item A. Se mueve a la derecha y su rapidez es constante.
+    \item B. Se mueve a la izquierda y su rapidez decrece.
+    \item C. Se mueve a la izquierda y su rapidez aumenta.
+    \item D. Solo A y C pueden ser correctas.
+    \item E. A, B, y C pueden ser correctas.
+\end{itemize}
+
+\subsection*{Solución}
+
+\subsubsection*{Definición de Aceleración y Cambios de Rapidez}
+
+Para analizar rigurosamente este problema bajo los conceptos de Paul G. Hewitt, debemos recordar que la aceleración se define como el cambio de la velocidad en el tiempo. Puesto que la velocidad es un vector, una aceleración distinta de cero implica que el objeto debe estar cambiando su rapidez, su dirección, o ambas. 
+
+El enunciado nos indica explícitamente que existe una aceleración y que esta tiene una dirección definida (hacia la izquierda). Al existir una aceleración, es físicamente imposible que la rapidez se mantenga constante si el objeto se mueve en una trayectoria rectilínea. Este principio nos permite descartar de forma inmediata la opción A, ya que afirma que la rapidez es constante en presencia de una aceleración.
+
+\subsubsection*{Relación Vectorial entre Velocidad y Aceleración}
+
+El cambio en la magnitud de la velocidad (la rapidez) depende exclusivamente de la alineación entre el vector velocidad y el vector aceleración:
+
+1. Si la velocidad y la aceleración apuntan en la misma dirección (son paralelos), la rapidez del objeto aumenta.
+2. Si la velocidad y la aceleración apuntan en direcciones opuestas (son antiparalelos), la rapidez del objeto decrece (el objeto frena).
+
+\subsubsection*{Evaluación de los Escenarios Restantes}
+
+Sabiendo que el vector aceleración apunta hacia la izquierda, evaluemos las opciones que sugieren movimiento hacia la izquierda (es decir, el vector velocidad también apunta hacia la izquierda):
+
+En el caso de las opciones B y C, el objeto se mueve hacia la izquierda. Esto significa que tanto el vector velocidad como el vector aceleración apuntan en la misma dirección (hacia la izquierda). De acuerdo con la regla cinemática establecida en el paso anterior, cuando ambos vectores son paralelos, la rapidez debe aumentar obligatoriamente. 
+
+Por consiguiente, la afirmación de la opción B (su rapidez decrece) entra en una contradicción física fundamental y debe ser descartada. La única afirmación lógicamente coherente y físicamente posible entre las opciones presentadas es la opción C, donde la coincidencia direccional de ambos vectores resulta en un aumento de la rapidez.
+
+\subsubsection*{Representación Gráfica de Estados Cinemáticos}
+
+Para que un modelo de lenguaje o un estudiante visualice claramente esta interacción vectorial, el siguiente código en Python utiliza Matplotlib para contrastar el escenario válido (opción C) con otro escenario físicamente posible pero que no se encuentra entre las opciones correctas (moverse a la derecha y frenar). Esto consolida el aprendizaje de que la aceleración por sí sola no determina la dirección del movimiento, pero sí dicta cómo cambia este.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+fig, axs = plt.subplots(2, 1, figsize=(8, 4))
+
+axs[0].axhline(0, color='gray', linewidth=1)
+axs[0].plot(0, 0, 'ko', markersize=15)
+axs[0].quiver(0, 0.3, -1.5, 0, color='blue', scale=1, scale_units='xy', angles='xy', width=0.01)
+axs[0].quiver(0, -0.3, -1, 0, color='green', scale=1, scale_units='xy', angles='xy', width=0.01)
+axs[0].text(-1.4, 0.5, 'Velocidad (Izquierda)', color='blue', fontweight='bold')
+axs[0].text(-1, -0.8, 'Aceleracion (Izquierda)', color='green', fontweight='bold')
+axs[0].set_title('Escenario Opcion C: Movimiento a la izquierda, rapidez aumenta')
+axs[0].set_xlim(-3, 3)
+axs[0].set_ylim(-1.5, 1.5)
+axs[0].axis('off')
+
+axs[1].axhline(0, color='gray', linewidth=1)
+axs[1].plot(0, 0, 'ko', markersize=15)
+axs[1].quiver(0, 0.3, 1.5, 0, color='blue', scale=1, scale_units='xy', angles='xy', width=0.01)
+axs[1].quiver(0, -0.3, -1, 0, color='green', scale=1, scale_units='xy', angles='xy', width=0.01)
+axs[1].text(0.1, 0.5, 'Velocidad (Derecha)', color='blue', fontweight='bold')
+axs[1].text(-1, -0.8, 'Aceleracion (Izquierda)', color='green', fontweight='bold')
+axs[1].set_title('Otro caso valido (no listado): Movimiento a la derecha, rapidez decrece')
+axs[1].set_xlim(-3, 3)
+axs[1].set_ylim(-1.5, 1.5)
+axs[1].axis('off')
+
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+
+C. Se mueve a la izquierda y su rapidez aumenta.
+
+\newpage
+
+\subsection*{Enunciado}
+
+Un avión se desplaza a velocidad Mach 1.5 a altura constante. Si posteriormente su energía cinética aumenta en un factor 2, ¿qué ocurre con su rapidez?
+
+\begin{itemize}
+    \item A. Aumenta en un factor $\sqrt{2}$.
+    \item B. Aumenta en un factor $2$.
+    \item C. Aumenta en un factor entre $\sqrt{2}$.
+    \item D. No cambia, pues se trata del mismo avión.
+    \item E. No cambia, pues la altura permanece constante.
+\end{itemize}
+
+\subsection*{Solución}
+
+\subsubsection*{Definición de Energía Cinética}
+
+Para analizar este fenómeno, nos basamos en los fundamentos de la mecánica descritos por Paul G. Hewitt. La energía cinética ($E_k$) es la energía que posee un cuerpo debido a su movimiento. Depende de dos variables fundamentales: la masa del objeto ($m$) y su rapidez ($v$). La expresión matemática que define esta relación es:
+
+\begin{equation}
+E_k = \frac{1}{2}mv^2
+\end{equation}
+
+Esta ecuación nos revela que la energía cinética es directamente proporcional a la masa, pero es directamente proporcional al \textit{cuadrado} de la rapidez.
+
+\subsubsection*{Análisis de Variables y Distractores}
+
+El problema nos proporciona datos iniciales que funcionan como distractores conceptuales. 
+
+Primero, nos indica que la velocidad inicial es "Mach 1.5". Sin embargo, el valor numérico exacto de la velocidad inicial es irrelevante para determinar el \textit{factor} de cambio. Las leyes de proporción se aplican independientemente del valor inicial.
+
+Segundo, nos indica que la altura es constante. Esto simplemente asegura que la energía potencial gravitatoria del avión no cambia, confirmando que el aumento de energía se debe exclusivamente a un cambio en la energía cinética. Esto descarta inmediatamente la opción E.
+
+Tercero, es el "mismo avión", lo que significa que su masa ($m$) permanece rigurosamente constante durante todo el proceso. Una masa constante no impide que la rapidez cambie, descartando la opción D.
+
+\subsubsection*{Demostración Matemática del Factor de Aumento}
+
+Establezcamos las ecuaciones para los dos estados del avión. 
+
+Estado 1 (Inicial):
+\begin{equation}
+E_{k1} = \frac{1}{2}mv_1^2
+\end{equation}
+
+Estado 2 (Final): El problema establece que la energía cinética aumenta en un factor de 2, lo que significa que la energía final es el doble de la inicial.
+\begin{equation}
+E_{k2} = 2E_{k1}
+\end{equation}
+
+Sustituimos la definición de energía cinética en ambas partes de esta igualdad:
+\begin{equation}
+\frac{1}{2}mv_2^2 = 2 \left( \frac{1}{2}mv_1^2 \right)
+\end{equation}
+
+Dado que la masa $m$ y la constante $\frac{1}{2}$ están presentes en ambos lados de la ecuación, se cancelan matemáticamente, aislando la relación exclusiva entre las velocidades:
+\begin{equation}
+v_2^2 = 2v_1^2
+\end{equation}
+
+Para encontrar la rapidez final $v_2$, aplicamos la raíz cuadrada a ambos lados de la ecuación:
+\begin{equation}
+\sqrt{v_2^2} = \sqrt{2v_1^2}
+\end{equation}
+\begin{equation}
+v_2 = \sqrt{2}v_1
+\end{equation}
+
+Este resultado matemático demuestra que la rapidez final $v_2$ es igual a la rapidez inicial $v_1$ multiplicada por un factor de $\sqrt{2}$ (aproximadamente 1.414). La opción B es un error común que asume una relación lineal ($E_k \propto v$) en lugar de cuadrática ($E_k \propto v^2$).
+
+\subsubsection*{Representación Gráfica de la Relación No Lineal}
+
+Para que el modelo visualice y consolide pedagógicamente por qué duplicar la energía no duplica la velocidad, el siguiente código en Python con Matplotlib grafica la curva parabólica de la energía cinética. Se observa claramente que al subir en el eje Y (Energía) al doble, el avance en el eje X (Rapidez) es mucho menor al doble, correspondiendo exactamente al factor $\sqrt{2}$.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+v = np.linspace(0, 3, 100)
+E_k = v**2
+
+plt.figure(figsize=(8, 5))
+plt.plot(v, E_k, label='Energia Cinetica ($E_k \propto v^2$)', color='blue', linewidth=2)
+
+v1 = 1.5
+Ek1 = v1**2
+v2 = v1 * np.sqrt(2)
+Ek2 = 2 * Ek1
+
+plt.plot([v1, v1], [0, Ek1], 'k--', alpha=0.6)
+plt.plot([0, v1], [Ek1, Ek1], 'k--', alpha=0.6)
+plt.plot(v1, Ek1, 'bo', markersize=8)
+plt.text(v1 + 0.1, Ek1 - 0.2, f'Estado 1\n$v_1={v1}$\n$E_k={Ek1}$', fontsize=10)
+
+plt.plot([v2, v2], [0, Ek2], 'k--', alpha=0.6)
+plt.plot([0, v2], [Ek2, Ek2], 'k--', alpha=0.6)
+plt.plot(v2, Ek2, 'ro', markersize=8)
+plt.text(v2 + 0.1, Ek2 - 0.2, f'Estado 2\n$v_2 \\approx {v2:.2f}$\n$E_k={Ek2}$', fontsize=10)
+
+plt.title('Relacion No Lineal entre Rapidez y Energia Cinetica')
+plt.xlabel('Rapidez (Factor)')
+plt.ylabel('Energia Cinetica (Factor)')
+plt.xlim(0, 3)
+plt.ylim(0, 5)
+plt.grid(True, linestyle=':', alpha=0.7)
+plt.legend()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+
+A. Aumenta en un factor $\sqrt{2}$.
+
+\newpage
+
+\subsection*{Enunciado}
+
+Usted ha diseñado una máquina que genera energía eléctrica al convertir la energía cinética de gotas de lluvia que impactan sobre su plataforma. ¿Qué condiciones favorecerían el rendimiento de la máquina?
+
+\begin{itemize}
+    \item A. Ubicar la máquina en un lugar donde las gotas de lluvia sean más masivas que en otros lugares.
+    \item B. Ubicar la máquina en la cima de una montaña.
+    \item C. Aumentar el área de la plataforma, de modo que impacten más gotas por unidad de tiempo.
+    \item D. Solo A y C pueden ser correctas.
+    \item E. Solo A y B pueden ser correctas.
+\end{itemize}
+
+\subsection*{Solución}
+
+\subsubsection*{Fundamentos de la Potencia y Energía Cinética}
+
+Para analizar el rendimiento de esta máquina, debemos basarnos en los principios de conservación y transferencia de energía expuestos por Paul G. Hewitt. El rendimiento de un generador se mide por su potencia, que es la tasa a la cual convierte la energía en el tiempo. En este caso, la máquina captura la energía cinética ($E_k$) de cada gota de lluvia. 
+
+La energía cinética de una sola gota está definida por su masa ($m$) y su rapidez al momento del impacto ($v$):
+
+\begin{equation}
+E_k = \frac{1}{2}mv^2
+\end{equation}
+
+La potencia total (rendimiento) dependerá de cuánta energía trae cada gota y de cuántas gotas impactan la plataforma por cada segundo que transcurre.
+
+\subsubsection*{Análisis de la Masa (Opción A)}
+
+Si la máquina se ubica en una región donde las gotas de lluvia son más masivas (mayor $m$), la ecuación de la energía cinética nos indica que cada gota transportará una mayor cantidad de energía. 
+
+Además, en la dinámica de fluidos real, las gotas más masivas tienen una mayor velocidad terminal, ya que requieren una mayor fuerza de arrastre del aire para equilibrar su peso. Esto significa que un aumento en la masa no solo aumenta el término $m$ de la ecuación, sino que indirectamente aumenta el término $v^2$, resultando en un incremento muy significativo de la energía cinética disponible por impacto. Por lo tanto, la opción A favorece claramente el rendimiento.
+
+\subsubsection*{Análisis del Área de Recolección (Opción C)}
+
+El rendimiento no solo depende de la energía individual de las gotas, sino del flujo total de masa. Si aumentamos el área de la plataforma, la máquina abarcará una mayor sección transversal de la lluvia que cae. Esto garantiza que un número matemáticamente mayor de gotas impacte la máquina en el mismo intervalo de tiempo. 
+
+Si la cantidad de impactos por unidad de tiempo aumenta, la energía total recolectada por segundo (Potencia) aumentará proporcionalmente al área, asumiendo una densidad de lluvia uniforme. Esto convierte a la opción C en una condición extremadamente favorable.
+
+\subsubsection*{Análisis de la Altitud (Opción B)}
+
+Es un error conceptual común pensar que dejar caer un objeto desde una montaña mucho más alta resultará en una velocidad de impacto infinitamente mayor. Debido a la resistencia del aire, las gotas de lluvia alcanzan rápidamente su velocidad terminal, un estado de equilibrio dinámico donde la aceleración se vuelve cero y la velocidad es constante. 
+
+Ubicar la máquina en la cima de una montaña no garantiza que las gotas impacten más rápido; de hecho, al estar más cerca de la base de la nube, las gotas podrían tener menos tiempo para desarrollar toda su velocidad, o el cambio de densidad del aire podría tener efectos insignificantes en la energía final. La altitud per se no es un factor que incremente el rendimiento energético en este sistema.
+
+\subsubsection*{Generación de Gráfica de Rendimiento}
+
+Para modelar cómo las variables A y C afectan el rendimiento, el siguiente script en Python utiliza Matplotlib para graficar la energía total acumulada en el tiempo. Se demuestra que tanto un aumento en la masa individual (A) como un aumento en la tasa de impacto por área (C) incrementan la pendiente de la gráfica, lo que se traduce en un rendimiento superior (mayor potencia) respecto a una plataforma base.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+t = np.linspace(0, 10, 100)
+
+potencia_base = 1.0
+E_base = potencia_base * t
+
+potencia_masa_doble = 2.0 
+E_masa = potencia_masa_doble * t
+
+potencia_area_doble = 2.0
+E_area = potencia_area_doble * t
+
+plt.figure(figsize=(8, 5))
+plt.plot(t, E_base, label='Plataforma Base', color='black', linestyle='--')
+plt.plot(t, E_masa, label='Gotas mas masivas (Opcion A)', color='blue', linewidth=2)
+plt.plot(t, E_area, label='Mayor Area (Opcion C)', color='green', linestyle=':', linewidth=3)
+
+plt.title('Rendimiento del Generador: Energia vs Tiempo')
+plt.xlabel('Tiempo (s)')
+plt.ylabel('Energia Total Generada (J)')
+plt.legend()
+plt.grid(True, linestyle=':', alpha=0.7)
+
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+
+D. Solo A y C pueden ser correctas.
+
+
+\newpage
+
+\subsection*{Enunciado}
+
+Dos pelotas se sueltan desde una altura de 5 metros. La pelota 1 cae libremente hasta el suelo, mientras que la pelota 2 desciende por unas escaleras, rebotando tres veces antes de llegar al suelo. Si los rebotes de la pelota 2 son elásticos, ¿cómo se comparan las energías cinéticas de ambas pelotas al llegar al suelo?
+
+\begin{itemize}
+    \item A. La pelota 1 llega al suelo con mayor energía cinética, pues no presenta interrupciones en su descenso.
+    \item B. La pelota 2 llega al suelo con mayor energía cinética, pues su velocidad aumenta con cada rebote.
+    \item C. La pelota 2 llega al suelo con mayor energía cinética, pues en cada rebote gana energía potencial.
+    \item D. No son iguales.
+    \item E. Son iguales.
+\end{itemize}
+
+\subsection*{Solución}
+
+\subsubsection*{Principio de Conservación de la Energía}
+
+El núcleo de este problema reside en el principio de conservación de la energía mecánica, un concepto fundamental en la física de Paul G. Hewitt. La energía mecánica total de un sistema cerrado (la suma de su energía potencial gravitatoria y su energía cinética) se mantiene constante siempre que no actúen fuerzas no conservativas (como la fricción o la resistencia del aire) que transformen esa energía en calor.
+
+Ambas pelotas se sueltan desde el reposo a una altura inicial de 5 metros. Esto significa que ambas inician su recorrido con una energía cinética de cero y una cantidad idéntica de energía potencial gravitatoria (asumiendo que tienen la misma masa, o enfocándonos en la conversión total de la energía disponible para cada una).
+
+\subsubsection*{Análisis de la Pelota 1 (Caída Libre)}
+
+La pelota 1 experimenta una caída libre directa. A medida que pierde altura, su energía potencial gravitatoria se transforma continua y totalmente en energía cinética. Justo un instante antes de impactar contra el suelo, toda su energía potencial inicial se ha convertido en energía cinética.
+
+\subsubsection*{Análisis de la Pelota 2 (Rebotes Elásticos)}
+
+La pelota 2 sigue una trayectoria más compleja, interrumpida por tres rebotes en las escaleras. La palabra clave en el enunciado es "elásticos". Un choque perfectamente elástico es aquel en el que no hay pérdida de energía cinética; es decir, no se disipa energía en forma de calor, sonido o deformación permanente de la pelota. 
+
+Aunque la pelota 2 cambia la dirección de su velocidad en cada rebote, la cantidad total de energía mecánica del sistema se conserva intacta. Durante el descenso entre rebotes, la energía potencial se convierte en cinética. Durante el impacto elástico, la energía se conserva. Al alcanzar el nivel del suelo, independientemente de la ruta tomada y de las interrupciones elásticas, la pelota 2 habrá perdido la misma cantidad de altura (5 metros) que la pelota 1. Por lo tanto, habrá transformado exactamente la misma cantidad de energía potencial en energía cinética.
+
+\subsubsection*{Independencia de la Trayectoria}
+
+Este escenario ilustra una propiedad crucial de los campos conservativos (como el campo gravitatorio idealizado sin fricción): el trabajo realizado por la gravedad y, en consecuencia, el cambio en la energía cinética, depende única y exclusivamente de la diferencia de altura inicial y final, no de la trayectoria seguida por el objeto.
+
+Para visualizar pedagógicamente esta independencia de la trayectoria, el siguiente código en Python genera un esquema de ambos descensos. Demuestra que, a pesar de las diferencias geométricas en el viaje, el resultado energético al llegar a la cota cero es idéntico.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 5), sharey=True)
+
+ax1.plot([0, 0], [5, 0], 'b--', linewidth=2)
+ax1.plot([0], [5], 'bo', markersize=12)
+ax1.plot([0], [0], 'bo', markersize=12, alpha=0.4)
+ax1.set_title('Pelota 1: Caida Libre')
+ax1.set_xlim(-1, 1)
+ax1.set_ylim(-0.5, 5.5)
+ax1.axis('off')
+ax1.text(0.1, 2.5, 'Toda la Energia Potencial\nse convierte en Cinetica', color='blue', fontsize=10)
+
+ax2.plot([0, 1, 1, 2, 2, 3, 3, 4], [5, 5, 3.33, 3.33, 1.66, 1.66, 0, 0], 'k-', linewidth=2)
+
+x_bounce1 = np.linspace(0, 1, 30)
+y_bounce1 = 5 - 1.67*(x_bounce1)**2
+
+x_bounce2 = np.linspace(1, 2, 30)
+y_bounce2 = -6.68*(x_bounce2-1.5)**2 + 5
+
+x_bounce3 = np.linspace(2, 3, 30)
+y_bounce3 = -6.68*(x_bounce3-2.5)**2 + 3.33
+
+ax2.plot(x_bounce1, y_bounce1, 'r--', linewidth=2)
+ax2.plot(x_bounce2, y_bounce2, 'r--', linewidth=2)
+ax2.plot(x_bounce3, y_bounce3, 'r--', linewidth=2)
+
+ax2.plot([0], [5], 'ro', markersize=12)
+ax2.plot([3], [0], 'ro', markersize=12, alpha=0.4)
+ax2.set_title('Pelota 2: Rebotes Elasticos')
+ax2.set_xlim(-0.5, 4.5)
+ax2.axis('off')
+ax2.text(1, 1.5, 'Conservacion de energia\nindependiente de la trayectoria', color='red', fontsize=10)
+
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+
+E. Son iguales.
+
+\newpage
+
+\subsection*{Enunciado}
+
+ Usted evalúa la seguridad de los ocupantes de automóviles frente a choques. Para ello, realiza colisiones controladas contra un muro y analiza la deformación del vehículo. ¿Cuál de las siguientes sería una recomendación adecuada para los fabricantes?
+
+\begin{itemize}
+    \item A. Construir el auto con materiales deformables, de modo que, en un choque, se transforme principalmente en energía potencial elástica recuperable.
+    \item B. Construir el auto con materiales rígidos, de modo que, en un choque, el auto transfiera toda su energía cinética al muro.
+    \item C. Construir el auto con materiales deformables, de modo que, en un choque, la energía cinética se absorba en la deformación.
+    \item D. Construir el auto con materiales rígidos, de modo que, en un choque, el auto rebote y conserve su energía cinética.
+    \item E. Ninguna de las anteriores.
+\end{itemize}
+
+\subsection*{Solución}
+
+\subsubsection*{El Teorema del Impulso y la Cantidad de Movimiento}
+
+Para abordar la física de las colisiones desde la perspectiva conceptual de Paul G. Hewitt, debemos analizar la relación entre la fuerza, el tiempo y el cambio en la cantidad de movimiento (momentum). El teorema del impulso establece que el impulso aplicado a un objeto es igual a su cambio en la cantidad de movimiento:
+
+\begin{equation}
+F \cdot \Delta t = \Delta p
+\end{equation}
+
+En un choque automovilístico, el vehículo (y sus ocupantes) debe pasar de una velocidad inicial $v$ al reposo ($v=0$). Por lo tanto, el cambio en la cantidad de movimiento ($\Delta p = m \cdot \Delta v$) es un valor fijo e inevitable. Dado que $\Delta p$ es constante, la fuerza promedio del impacto ($F$) es inversamente proporcional al tiempo de colisión ($\Delta t$). Si logramos aumentar el tiempo que dura el impacto, la fuerza letal que experimentan los ocupantes se reducirá drásticamente.
+
+\subsubsection*{Trabajo, Energía y Zonas de Deformación}
+
+Desde el enfoque del teorema del trabajo y la energía, detener un automóvil requiere realizar un trabajo mecánico ($W$) equivalente a su energía cinética inicial ($E_k$). 
+
+\begin{equation}
+W = F \cdot d = \Delta E_k
+\end{equation}
+
+Para minimizar la fuerza $F$ que recae sobre los pasajeros, es imperativo maximizar la distancia $d$ sobre la cual ocurre la detención. Si el auto se construye con materiales rígidos (opciones B y D), la distancia de frenado al chocar contra un muro es prácticamente nula, lo que resulta en una fuerza de impacto colosal. 
+
+Por el contrario, al utilizar materiales deformables (zonas de aplastamiento o \textit{crumple zones}), la parte frontal del auto colapsa progresivamente. Este colapso absorbe la energía cinética, transformándola en trabajo de deformación plástica y calor, permitiendo que la cabina de pasajeros se detenga sobre una distancia $d$ mucho mayor, reduciendo fuerzas y aceleraciones a niveles sobrevivibles.
+
+\subsubsection*{El Peligro del Rebote (Elasticidad)}
+
+Hewitt hace especial énfasis en la diferencia entre detenerse y rebotar. Un impacto elástico (opciones A y D) implica que el auto choca, se detiene momentáneamente, y luego es empujado hacia atrás. 
+
+Cinemáticamente, pasar de una velocidad $v$ a $-v$ (rebote) produce un cambio en la cantidad de movimiento del doble de magnitud ($\Delta p = 2mv$) que simplemente detenerse ($\Delta p = mv$). Un impulso mayor exige una fuerza promedio mucho mayor. Por esta razón, diseñar un auto para que rebote como un resorte (energía potencial elástica recuperable) sería catastrófico para la supervivencia de los ocupantes, ya que experimentarían un latigazo cervical y fuerzas G extremadamente altas. La deformación debe ser plástica e inelástica.
+
+\subsubsection*{Generación de Gráficas Comparativas de Fuerza y Tiempo}
+
+Para que un modelo de inteligencia artificial o estudiante aprecie la justificación matemática detrás del diseño automotriz moderno, el siguiente código en Python utiliza Matplotlib para graficar los perfiles de fuerza durante un choque. El área bajo ambas curvas es el mismo (mismo impulso para detener el auto), pero el auto deformable distribuye esa área en un tiempo mayor, recortando el pico de fuerza destructiva.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+from scipy.stats import norm
+
+t = np.linspace(0, 0.2, 500)
+
+impulso_total = 1000
+
+fuerza_rigida = norm.pdf(t, loc=0.03, scale=0.005)
+fuerza_rigida = fuerza_rigida * (impulso_total / np.sum(fuerza_rigida))
+
+fuerza_deformable = norm.pdf(t, loc=0.08, scale=0.025)
+fuerza_deformable = fuerza_deformable * (impulso_total / np.sum(fuerza_deformable))
+
+plt.figure(figsize=(8, 5))
+plt.plot(t, fuerza_rigida, color='red', linewidth=2, label='Auto Rigido (Op B/D)')
+plt.fill_between(t, fuerza_rigida, color='red', alpha=0.2)
+
+plt.plot(t, fuerza_deformable, color='blue', linewidth=2, label='Auto Deformable (Op C)')
+plt.fill_between(t, fuerza_deformable, color='blue', alpha=0.2)
+
+plt.title('Perfil de Fuerza durante la Colision (Igual Impulso)')
+plt.xlabel('Tiempo de impacto (s)')
+plt.ylabel('Fuerza ejercida sobre los ocupantes (N)')
+plt.xlim(0, 0.2)
+plt.ylim(0, max(fuerza_rigida)*1.1)
+plt.yticks([]) 
+plt.legend()
+plt.grid(True, linestyle=':', alpha=0.7)
+
+plt.annotate('Fuerza Letal', xy=(0.03, max(fuerza_rigida)*0.95), xytext=(0.06, max(fuerza_rigida)*0.95),
+             arrowprops=dict(facecolor='black', shrink=0.05, width=1.5, headwidth=6))
+
+plt.annotate('Fuerza Segura', xy=(0.08, max(fuerza_deformable)*1.05), xytext=(0.12, max(fuerza_deformable)*2.5),
+             arrowprops=dict(facecolor='black', shrink=0.05, width=1.5, headwidth=6))
+
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+
+C. Construir el auto con materiales deformables, de modo que, en un choque, la energía cinética se absorba en la deformación.
+
+\newpage
+
+\subsection*{Enunciado}
+
+Dos personas corren en línea recta: una tiene masa $m$ y velocidad $-\vec{v}$, y la otra tiene masa $4m$ y velocidad $\vec{v}$. ¿Cuál es la energía cinética total del sistema?
+
+\begin{itemize}
+    \item A. $\frac{1}{2}mv^2$
+    \item B. $\frac{3}{2}mv^2$
+    \item C. $\frac{5}{2}mv^2$
+    \item D. $3mv^2$
+    \item E. $5mv^2$
+\end{itemize}
+
+\subsection*{Solución}
+
+\subsubsection*{Naturaleza Escalar de la Energía}
+
+Uno de los conceptos más importantes en la física conceptual de Paul G. Hewitt es la distinción fundamental entre cantidades vectoriales y escalares. La velocidad ($\vec{v}$) y la cantidad de movimiento ($\vec{p}$) son vectores; poseen magnitud y dirección (indicada por el signo positivo o negativo en un problema unidimensional). 
+
+Sin embargo, la energía, en todas sus formas, es una cantidad escalar. La energía cinética representa la capacidad de un objeto para realizar trabajo debido a su movimiento, y esta capacidad no tiene una dirección asociada en el espacio. El signo negativo en la velocidad de la primera persona ($-\vec{v}$) simplemente indica que corre en dirección opuesta a la segunda persona, pero no implica que posea "energía negativa". La energía cinética siempre es un valor positivo o cero.
+
+\subsubsection*{Cálculo de las Energías Individuales}
+
+La fórmula matemática para la energía cinética ($E_k$) es el semiproducto de la masa por el cuadrado de la rapidez (la magnitud de la velocidad):
+
+\begin{equation}
+E_k = \frac{1}{2}mv^2
+\end{equation}
+
+Procedemos a calcular la energía cinética de cada persona por separado:
+
+Para la primera persona (masa $m$, velocidad $-\vec{v}$):
+Al elevar al cuadrado una velocidad negativa, el resultado matemático es positivo. Físicamente, esto confirma que la dirección no afecta la cantidad de energía.
+\begin{equation}
+E_{k1} = \frac{1}{2}m(-\vec{v})^2 = \frac{1}{2}mv^2
+\end{equation}
+
+Para la segunda persona (masa $4m$, velocidad $\vec{v}$):
+\begin{equation}
+E_{k2} = \frac{1}{2}(4m)(\vec{v})^2 = 2mv^2
+\end{equation}
+
+\subsubsection*{Energía Total del Sistema}
+
+Al ser la energía una cantidad escalar, la energía total de un sistema compuesto por múltiples partes es simplemente la suma aritmética o algebraica directa de las energías individuales de sus componentes. A diferencia de las fuerzas o la cantidad de movimiento, las energías no se cancelan entre sí por tener direcciones opuestas de movimiento.
+
+Sumamos las dos energías cinéticas calculadas:
+\begin{equation}
+E_{k,total} = E_{k1} + E_{k2}
+\end{equation}
+\begin{equation}
+E_{k,total} = \frac{1}{2}mv^2 + 2mv^2
+\end{equation}
+
+Para sumar estas expresiones algebraicas, buscamos un denominador común:
+\begin{equation}
+E_{k,total} = \frac{1}{2}mv^2 + \frac{4}{2}mv^2
+\end{equation}
+\begin{equation}
+E_{k,total} = \frac{5}{2}mv^2
+\end{equation}
+
+\subsubsection*{Visualización: Escalar vs Vectorial}
+
+Para entrenar adecuadamente la intuición física sobre este problema, el siguiente código en Python genera dos gráficas contrastantes. La primera muestra cómo la cantidad de movimiento ($p=mv$) sí depende de la dirección, resultando en valores negativos. La segunda gráfica muestra cómo la energía cinética ($E_k$) forma una parábola estrictamente positiva, demostrando visualmente por qué las energías de dos objetos que se mueven en direcciones opuestas se suman y nunca se restan.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+v = np.linspace(-3, 3, 100)
+m = 1
+
+p = m * v
+Ek = 0.5 * m * v**2
+
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 4))
+
+ax1.plot(v, p, color='blue', linewidth=2)
+ax1.axhline(0, color='black', linewidth=1)
+ax1.axvline(0, color='black', linewidth=1)
+ax1.plot(-2, -2, 'ro', markersize=8)
+ax1.plot(2, 2, 'go', markersize=8)
+ax1.set_title('Cantidad de Movimiento (Vectorial)')
+ax1.set_xlabel('Velocidad (v)')
+ax1.set_ylabel('Momentum (p)')
+ax1.grid(True, linestyle=':', alpha=0.7)
+
+ax2.plot(v, Ek, color='purple', linewidth=2)
+ax2.axhline(0, color='black', linewidth=1)
+ax2.axvline(0, color='black', linewidth=1)
+ax2.plot(-2, 2, 'ro', markersize=8)
+ax2.plot(2, 2, 'go', markersize=8)
+ax2.set_title('Energia Cinetica (Escalar)')
+ax2.set_xlabel('Velocidad (v)')
+ax2.set_ylabel('Energia (Ek)')
+ax2.grid(True, linestyle=':', alpha=0.7)
+
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+
+C. $\frac{5}{2}mv^2$
+
+
+\newpage
+
+\subsection*{Enunciado}
+
+ Una pelota se lanza desde una altura $h$ y cae sobre un resorte. Sea $K$ la energía cinética, $G$ la energía potencial gravitatoria, y $R$ la energía potencial elástica. Desde el punto de máxima compresión del resorte, ¿cuál es el orden de transformación de energías hasta volver a alcanzar la altura $h$?
+
+\begin{itemize}
+    \item A. $R \to (K + G + R) \to (K + G) \to G$
+    \item B. $R \to K \to G$
+    \item C. $R \to (K + R) \to (K + G) \to G$
+    \item D. $R \to (K + G) \to G$
+    \item E. Ninguna de las anteriores.
+\end{itemize}
+
+\subsection*{Solución}
+
+\subsubsection*{El Principio de Conservación de la Energía}
+
+De acuerdo con la física conceptual de Paul G. Hewitt, en un sistema ideal sin fricción ni resistencia del aire, la energía mecánica total se conserva. Esta energía no se crea ni se destruye, sino que se transforma continuamente entre sus formas cinética (asociada al movimiento) y potencial (asociada a la posición o configuración). En este problema interactúan tres formas de energía: cinética ($K$), potencial gravitatoria ($G$) y potencial elástica del resorte ($R$). 
+
+Para analizar la secuencia, estableceremos nuestro nivel de referencia para la energía potencial gravitatoria ($G=0$) exactamente en el punto más bajo del movimiento: el punto de máxima compresión del resorte.
+
+\subsubsection*{Fase 1: Punto de Máxima Compresión}
+
+El análisis comienza en el instante en que el resorte está comprimido al máximo. En este punto de retorno, la pelota se detiene momentáneamente antes de ser impulsada hacia arriba, por lo que su velocidad es cero y, en consecuencia, su energía cinética es nula ($K=0$). Al estar en nuestro nivel de referencia más bajo, $G=0$. Toda la energía del sistema se encuentra almacenada en la deformación del resorte.
+Por lo tanto, el estado inicial de energía es puramente elástico: $R$.
+
+\subsubsection*{Fase 2: Ascenso Inicial (En contacto con el resorte)}
+
+A medida que el resorte comienza a descomprimirse, empuja la pelota hacia arriba. Durante este trayecto, la pelota adquiere velocidad ascendente (por lo que $K > 0$) y gana altura respecto al punto más bajo (por lo que $G > 0$). Dado que el resorte aún no ha recuperado su longitud natural, todavía conserva cierta deformación y, por ende, energía elástica ($R > 0$). 
+En este estado intermedio, la energía original se ha repartido en las tres formas simultáneamente: $K + G + R$.
+
+\subsubsection*{Fase 3: Vuelo Libre (Ascenso)}
+
+Eventualmente, el resorte alcanza su longitud natural y deja de empujar la pelota. En este instante, el resorte ya no está deformado, lo que significa que la energía potencial elástica se ha agotado por completo ($R=0$). La pelota, por inercia, continúa su viaje hacia arriba despegada del resorte, teniendo aún velocidad ascendente ($K > 0$) y ganando cada vez más altura ($G > 0$).
+En esta fase de vuelo, la energía del sistema está compuesta únicamente por: $K + G$.
+
+\subsubsection*{Fase 4: Retorno a la Altura Máxima}
+
+La gravedad desacelera la pelota de forma constante hasta que esta alcanza de nuevo su altura original $h$. En el ápice de su trayectoria, la pelota se detiene por un instante antes de volver a caer, lo que implica que su energía cinética vuelve a ser cero ($K=0$). El resorte no interviene aquí ($R=0$). Toda la energía cinética que poseía se ha transformado en altura.
+En este estado final, toda la energía del sistema es potencial gravitatoria: $G$.
+
+\subsubsection*{Representación Gráfica de las Transformaciones}
+
+Para visualizar mejor este desglose conceptual, el siguiente código en Python utiliza Matplotlib para generar un gráfico de barras apiladas. Demuestra cómo la energía total (que siempre suma el 100 por ciento) cambia de forma, coincidiendo matemáticamente con la secuencia deducida en los pasos anteriores.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+estados = ['1. Maxima Compresion', '2. Ascenso Inicial',
+           '3. Vuelo Libre', '4. Altura Maxima h']
+
+R = np.array([100, 25, 0, 0])
+K = np.array([0, 45, 40, 0])
+G = np.array([0, 30, 60, 100])
+
+fig, ax = plt.subplots(figsize=(9, 5))
+
+bar_width = 0.5
+p1 = ax.bar(estados, R, bar_width, label='R (Elastica)', color='green', alpha=0.8)
+p2 = ax.bar(estados, K, bar_width, bottom=R, label='K (Cinetica)', color='blue', alpha=0.8)
+p3 = ax.bar(estados, G, bar_width, bottom=R+K, label='G (Gravitatoria)', color='orange', alpha=0.8)
+
+ax.set_ylabel('Porcentaje de Energia Total')
+ax.set_title('Secuencia de Transformacion de Energia Mecanica')
+ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.1), ncol=3)
+
+for i in range(len(estados)):
+    ax.text(i, 105, ['R', '(K + G + R)', '(K + G)', 'G'][i], 
+            ha='center', va='bottom', fontweight='bold', fontsize=11)
+
+ax.axhline(100, color='black', linestyle='--', alpha=0.5)
+ax.set_ylim(0, 120)
+
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+
+A. $R \to (K + G + R) \to (K + G) \to G$
+
+\newpage
+
+\subsection*{Enunciado}
+
+El radio de una esfera es r. ¿Cuál de las siguientes opciones tiene unidades de volumen?
+
+\begin{itemize}
+    \item A. $4\pi r^2$
+    \item B. $\pi r^2$
+    \item C. $\frac{1}{2}\pi^2 r^4$
+    \item D. $\frac{4}{3}\pi r^3$
+    \item E. $2\pi r$
+\end{itemize}
+
+\subsection*{Solución}
+
+\subsubsection*{El Concepto de Dimensión Física}
+
+De acuerdo con la filosofía de la física conceptual de Paul G. Hewitt, las ecuaciones matemáticas en la física no son simples combinaciones de números y letras, sino que son "guías para pensar". Cada variable en una ecuación física representa una dimensión tangible del mundo real. 
+
+Para resolver este problema no necesitamos memorizar todas las fórmulas geométricas, sino aplicar un análisis dimensional. El análisis dimensional es una herramienta que nos permite deducir la naturaleza de una cantidad física (como longitud, área o volumen) observando únicamente los exponentes de sus variables fundamentales.
+
+\subsubsection*{Análisis Dimensional de la Variable}
+
+La variable fundamental en todas las opciones proporcionadas es el radio de la esfera, denotado por $r$. El radio es una medida de distancia unidimensional (una línea recta desde el centro hasta el borde). Por lo tanto, el radio tiene unidades de longitud, que en el Sistema Internacional (SI) se miden en metros ($m$).
+
+Los números fraccionarios (como $\frac{4}{3}$ o $\frac{1}{2}$) y las constantes matemáticas (como $\pi$) son adimensionales; es decir, son puros factores de escala que no aportan ninguna unidad de medida al resultado final. Las unidades de la expresión completa dependerán exclusiva y estrictamente de a qué potencia esté elevada la variable de longitud $r$.
+
+\subsubsection*{Relación Geométrica de las Dimensiones}
+
+Podemos clasificar el espacio geométrico en base al exponente de la unidad de longitud:
+
+1. \textbf{Unidad Unidimensional (1D):} Si $r$ está elevado a la primera potencia ($r^1$), el resultado será una longitud lineal, medida en metros ($m$). Ejemplos clásicos son el perímetro o la circunferencia.
+2. \textbf{Unidad Bidimensional (2D):} Si $r$ está elevado al cuadrado ($r^2$), estamos multiplicando una longitud por otra longitud. El resultado mide una superficie o área, con unidades de metros cuadrados ($m^2$).
+3. \textbf{Unidad Tridimensional (3D):} Si $r$ está elevado al cubo ($r^3$), multiplicamos la longitud en tres direcciones espaciales. El resultado representa la cantidad de espacio tridimensional ocupado, lo que se define como volumen, con unidades de metros cúbicos ($m^3$).
+
+\subsubsection*{Visualización de las Dimensiones Espaciales}
+
+Para que un modelo pedagógico estructure mejor esta relación entre exponentes geométricos y dimensiones físicas, el siguiente código en Python genera una comparativa visual utilizando la librería Matplotlib. Muestra cómo progresan las unidades físicas al incrementar el exponente de la variable de longitud $r$.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig = plt.figure(figsize=(10, 4))
+
+ax1 = fig.add_subplot(131)
+ax1.plot([0, 1], [0, 0], 'b-', linewidth=4)
+ax1.plot([0, 1], [0, 0], 'ko', markersize=6)
+ax1.text(0.5, 0.05, 'r', ha='center', fontsize=14)
+ax1.text(0.5, -0.2, 'Longitud (1D)\nExponente: $r^1$\nUnidades: $m$', ha='center', fontsize=12)
+ax1.set_xlim(-0.2, 1.2)
+ax1.set_ylim(-0.5, 0.5)
+ax1.axis('off')
+
+ax2 = fig.add_subplot(132)
+circle = plt.Circle((0, 0), 1, color='blue', alpha=0.5)
+ax2.add_patch(circle)
+ax2.plot([0, 1], [0, 0], 'k--', linewidth=2)
+ax2.text(0.5, 0.1, 'r', ha='center', fontsize=14)
+ax2.text(0, -1.4, 'Area o Superficie (2D)\nExponente: $r^2$\nUnidades: $m^2$', ha='center', fontsize=12)
+ax2.set_xlim(-1.5, 1.5)
+ax2.set_ylim(-1.6, 1.5)
+ax2.axis('off')
+
+ax3 = fig.add_subplot(133, projection='3d')
+u = np.linspace(0, 2 * np.pi, 30)
+v = np.linspace(0, np.pi, 30)
+x = np.outer(np.cos(u), np.sin(v))
+y = np.outer(np.sin(u), np.sin(v))
+z = np.outer(np.ones(np.size(u)), np.cos(v))
+ax3.plot_surface(x, y, z, color='blue', alpha=0.5)
+ax3.plot([0, 1], [0, 0], [0, 0], 'k--', linewidth=3)
+ax3.text(0.5, 0, 0.2, 'r', ha='center', fontsize=14)
+ax3.text2D(0.5, -0.05, "Volumen (3D)\nExponente: $r^3$\nUnidades: $m^3$", transform=ax3.transAxes, ha='center', fontsize=12)
+ax3.axis('off')
+
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Evaluación de las Alternativas}
+
+Aplicamos el análisis dimensional a cada opción, ignorando las constantes adimensionales:
+
+\begin{itemize}
+    \item A. $4\pi r^2$: Depende de $r^2$. Tiene unidades de área ($m^2$). Corresponde al área superficial de una esfera.
+    \item B. $\pi r^2$: Depende de $r^2$. Tiene unidades de área ($m^2$). Corresponde al área de un círculo bidimensional.
+    \item C. $\frac{1}{2}\pi^2 r^4$: Depende de $r^4$. Tendría unidades de hipervolumen cuatridimensional ($m^4$), lo cual no representa un volumen físico estándar tridimensional.
+    \item E. $2\pi r$: Depende de $r^1$. Tiene unidades de longitud ($m$). Corresponde a la circunferencia de un círculo.
+    \item D. $\frac{4}{3}\pi r^3$: Depende de $r^3$. Posee unidades de metros cúbicos ($m^3$). Cumple matemáticamente con el requisito para representar un volumen físico real en tres dimensiones.
+\end{itemize}
+
+\subsubsection*{Conclusión}
+
+D. $\frac{4}{3}\pi r^3$
+
+\newpage
+
+\subsection*{Enunciado}
+
+ Cuatro fuerzas, F1, F2, F3 y F4, actúan juntas sobre un disco de hockey. El disco se mueve con rapidez constante en línea recta en la dirección de F4. Las flechas en la figura muestran las direcciones de las fuerzas, pero no sus magnitudes.
+
+¿Qué relación representa mejor las magnitudes de las cuatro fuerzas?
+
+\begin{itemize}
+    \item A. $F_4 = F_2$ y $F_3 = F_1$.
+    \item B. $F_4 = F_2$ y $F_3 > F_1$.
+    \item C. $F_4 > F_2$ y $F_3 > F_1$.
+    \item D. $F_4 < F_2$ y $F_3 < F_1$.
+    \item E. $F_4 > F_2$ y $F_3 < F_1$.
+\end{itemize}
+
+\subsection*{Solución}
+
+\subsubsection*{La Primera Ley de Newton y el Equilibrio Dinámico}
+
+Para resolver este problema, debemos aplicar la Primera Ley de Newton (la Ley de la Inercia) tal como la expone Paul G. Hewitt en su obra de física conceptual. Esta ley establece que todo objeto persevera en su estado de reposo o de movimiento rectilíneo uniforme a menos que sea obligado a cambiar ese estado por fuerzas netas impresas sobre él. 
+
+El enunciado contiene una frase clave que define el estado físico del sistema: "El disco se mueve con rapidez constante en línea recta". Esta es la definición exacta de un movimiento rectilíneo uniforme. Cuando la rapidez y la dirección no cambian, la aceleración del objeto es matemáticamente cero ($\vec{a} = 0$). Un objeto que se mueve sin aceleración se encuentra en un estado que denominamos "equilibrio dinámico".
+
+\subsubsection*{Relación entre Aceleración y Fuerza Neta}
+
+De acuerdo con la Segunda Ley de Newton, la aceleración es directamente proporcional a la fuerza neta e inversamente proporcional a la masa del objeto ($\vec{a} = \frac{\vec{F}_{neta}}{m}$). 
+
+Si hemos establecido por la cinemática del problema que la aceleración es cero, la ecuación exige categóricamente que la fuerza neta ($\vec{F}_{neta}$) también sea cero. La fuerza neta es la suma vectorial de todas las fuerzas individuales que actúan sobre el disco de hockey. 
+
+\begin{equation}
+\sum \vec{F} = 0
+\end{equation}
+
+\subsubsection*{Análisis de las Fuerzas por Ejes Ortogonales}
+
+Para que la suma vectorial de varias fuerzas sea cero, las componentes de las fuerzas en cada eje independiente deben anularse entre sí. Dividimos el análisis en el eje vertical (y) y el eje horizontal (x).
+
+En el eje vertical, tenemos a $F_3$ apuntando hacia arriba y $F_1$ apuntando hacia abajo. Para que el disco no acelere ni hacia arriba (no levante vuelo) ni hacia abajo (no se hunda en el hielo), la suma de estas componentes debe ser nula:
+\begin{equation}
+\sum F_y = F_3 - F_1 = 0 \implies F_3 = F_1
+\end{equation}
+
+En el eje horizontal, tenemos a $F_4$ apuntando a la derecha y $F_2$ apuntando a la izquierda. Puesto que el disco viaja a rapidez constante hacia la derecha sin acelerar ni frenar, las fuerzas horizontales también deben estar en perfecto equilibrio:
+\begin{equation}
+\sum F_x = F_4 - F_2 = 0 \implies F_4 = F_2
+\end{equation}
+
+\subsubsection*{Descarte del Error Conceptual Común}
+
+El distractor principal de este problema (opciones C y E) se basa en el razonamiento aristotélico intuitivo pero incorrecto: "Si el objeto se mueve hacia la derecha, la fuerza hacia la derecha ($F_4$) debe ser mayor que la fuerza hacia la izquierda ($F_2$)". 
+
+Es vital comprender, como enfatiza Hewitt, que la fuerza no es necesaria para mantener el movimiento; la fuerza es necesaria para alterar el estado de movimiento. Si $F_4$ fuese mayor que $F_2$, existiría una fuerza neta hacia la derecha y, en consecuencia, el disco experimentaría una aceleración hacia la derecha, provocando que su rapidez aumentara continuamente. Como el problema afirma que la rapidez es constante, $F_4$ no puede ser mayor que $F_2$. Deben ser de igual magnitud.
+
+\subsubsection*{Generación de Diagrama de Equilibrio Vectorial}
+
+El siguiente fragmento de código en Python utiliza Matplotlib para trazar el diagrama de cuerpo libre del disco en equilibrio. Las longitudes de las flechas representan las magnitudes de las fuerzas. Se hace evidente que para lograr una sumatoria vectorial nula, el vector rojo debe medir lo mismo que el naranja, y el azul lo mismo que el verde.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+plt.figure(figsize=(6, 6))
+
+plt.plot(0, 0, 'ko', markersize=15)
+plt.text(0.2, 0.2, 'Disco de Hockey\n(v = constante)', fontsize=10)
+
+magnitud_y = 2.0
+magnitud_x = 3.0
+
+plt.quiver(0, 0.2, 0, magnitud_y, color='blue', scale=1, scale_units='xy', angles='xy', width=0.015)
+plt.text(0.1, magnitud_y/2, 'F3', color='blue', fontsize=12, fontweight='bold')
+
+plt.quiver(0, -0.2, 0, -magnitud_y, color='green', scale=1, scale_units='xy', angles='xy', width=0.015)
+plt.text(0.1, -magnitud_y/2, 'F1 (Igual a F3)', color='green', fontsize=12, fontweight='bold')
+
+plt.quiver(0.2, 0, magnitud_x, 0, color='red', scale=1, scale_units='xy', angles='xy', width=0.015)
+plt.text(magnitud_x/2, 0.2, 'F4', color='red', fontsize=12, fontweight='bold')
+
+plt.quiver(-0.2, 0, -magnitud_x, 0, color='orange', scale=1, scale_units='xy', angles='xy', width=0.015)
+plt.text(-magnitud_x/2 - 0.5, 0.2, 'F2 (Igual a F4)', color='orange', fontsize=12, fontweight='bold')
+
+plt.xlim(-4, 4)
+plt.ylim(-4, 4)
+plt.axis('off')
+plt.title('Diagrama de Cuerpo Libre en Equilibrio Dinamico')
+
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+
+A. $F_4 = F_2$ y $F_3 = F_1$.
+
+
+\end{document}

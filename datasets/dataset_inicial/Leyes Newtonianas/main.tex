@@ -1,0 +1,4525 @@
+\documentclass[12pt, a4paper]{article}
+
+% --- PAQUETES ---
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{geometry}
+\usepackage[most]{tcolorbox}
+\usepackage{siunitx}
+\usepackage{enumitem}
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usepackage{verbatim} 
+\usepackage{xcolor}
+
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta, calc, babel}
+\geometry{a4paper, margin=1in}
+
+% --- CONFIGURACIÓN DE LISTINGS (PYTHON) ---
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstset{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2,
+    language=Python
+}
+
+\title{Ejercicio: Dinámica con Rozamiento}
+\author{Dataset Entrenamiento LLM}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\subsection*{Enunciado}
+En el sistema de la figura, el bloque de masa $m_1 = 10 \, \si{kg}$ baja con rapidez constante cuando se aplica una fuerza horizontal $\vec{F}$ sobre el bloque de masa $m_2 = 25 \, \si{kg}$. Si el coeficiente de rozamiento cinético entre $m_2$ y el plano horizontal es $\mu_k = 0.6$, determine la magnitud de la fuerza $\vec{F}$. (Considere $g=10\,\si{m/s^2}$).
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    % Superficie mesa
+    \draw[thick] (-4, 0) -- (0, 0); % Horizontal
+    \draw[thick] (0, 0) -- (0, -3); % Vertical (borde mesa)
+    
+    % Polea
+    \draw[fill=gray!30] (0,0) circle (0.3);
+    
+    % Bloque 2 (Masa en la mesa)
+    \draw[fill=blue!10, thick] (-3, 0) rectangle (-1.5, 1) node[midway] {$m_2$};
+    
+    % Bloque 1 (Masa colgante)
+    \draw[fill=red!10, thick] (0.3, -2) rectangle (1.3, -3) node[midway] {$m_1$};
+    
+    % Cuerdas
+    \draw[thick] (-1.5, 0.5) -- (0, 0.3); % Horizontal
+    \draw[thick] (0.3, 0) -- (0.8, -2);   % Vertical
+    
+    % Vector Fuerza F (Empujando m2)
+    \draw[->, thick, orange, line width=1.5pt] (-4.5, 0.5) -- (-3, 0.5) node[midway, above] {$\vec{F}$};
+    
+    % Vector Velocidad (Indicando movimiento)
+    \draw[->, dashed, gray] (1.5, -2.2) -- (1.5, -2.8) node[midway, right] {$\vec{v} = \text{cte}$};
+
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Interpretación Física}
+La frase clave del problema es \textbf{"baja con rapidez constante"}. Esto implica, según la Primera Ley de Newton, que la aceleración del sistema es nula ($\vec{a} = 0$). El sistema se encuentra en \textbf{equilibrio dinámico}.
+
+Dirección del movimiento:
+\begin{itemize}
+    \item $m_1$ baja $\rightarrow$ $m_2$ se mueve a la derecha.
+    \item La fuerza de rozamiento ($f_k$) siempre se opone al movimiento, por lo tanto, sobre $m_2$ actúa hacia la izquierda.
+\end{itemize}
+
+\subsubsection*{2. Análisis del Bloque 1 ($m_1$)}
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+def draw_dcl():
+fig, (ax1) = plt.subplots(1, figsize=(10, 5))
+    
+# --- DCL BLOQUE 1 (m1) ---
+ax1.set_title("DCL Bloque $m_1$")
+ax1.set_xlim(-2, 2); ax1.set_ylim(-2, 2)
+ax1.axis('off')
+    
+# Bloque
+rect1 = patches.Rectangle((-0.5, -0.5), 1, 1, linewidth=1.5, edgecolor='black', facecolor='white')
+ax1.add_patch(rect1)
+ax1.text(0, 0, '$m_1$', ha='center', va='center', fontsize=12)
+    
+# Fuerzas m1
+# Tension (Arriba)
+ax1.arrow(0, 0.5, 0, 1, head_width=0.1, head_length=0.2, fc='black', ec='black')
+ax1.text(0.2, 1.2, 'T', fontsize=12)
+# Peso (Abajo)
+ax1.arrow(0, -0.5, 0, -1, head_width=0.1, head_length=0.2, fc='black', ec='black')
+ax1.text(0.2, -1.2, '$W_1$', fontsize=12)
+    
+plt.tight_layout()
+plt.show()
+
+draw_dcl()
+\end{lstlisting}
+
+Realizamos la sumatoria de fuerzas en el eje vertical.
+$$ \sum F_y = m_1 a_y = 0 $$
+$$ T - W_1 = 0 \Rightarrow T = m_1 g $$
+
+Sustituyendo los datos:
+$$ T = (10)(10) = 100 \, \si{N} $$
+
+
+\subsubsection*{3. Análisis del Bloque 2 ($m_2$)}
+
+\begin{lstlisting}
+    import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+def draw_dcl():
+    fig, (ax1) = plt.subplots(1, figsize=(10, 5))
+    
+    # --- DCL BLOQUE 2 (m2) ---
+    ax1.set_title("DCL Bloque $m_2$")
+    ax1.set_xlim(-2, 2); ax1.set_ylim(-2, 2)
+    ax1.axis('off')
+    
+    # Bloque
+    rect2 = patches.Rectangle((-0.5, -0.5), 1, 1, linewidth=1.5, edgecolor='black', facecolor='white')
+    ax1.add_patch(rect2)
+    ax1.text(0, 0, '$m_2$', ha='center', va='center', fontsize=12)
+    
+    # Fuerzas m2
+    # Normal (Arriba)
+    ax1.arrow(0, 0.5, 0, 1, head_width=0.1, head_length=0.2, fc='black', ec='black')
+    ax1.text(0.1, 1.2, 'N', fontsize=12)
+    # Peso (Abajo)
+    ax1.arrow(0, -0.5, 0, -1, head_width=0.1, head_length=0.2, fc='black', ec='black')
+    ax1.text(0.1, -1.2, '$W_2$', fontsize=12)
+    # Fuerza F (Empujando desde izquierda hacia derecha)
+    ax1.arrow(-1.6, 0, 0.9, 0, head_width=0.1, head_length=0.2, fc='black', ec='black')
+    ax1.text(-1.2, 0.2, 'F', fontsize=12)
+    # Tensión (Jalando hacia derecha)
+    ax1.arrow(0.5, 0, 1, 0, head_width=0.1, head_length=0.2, fc='black', ec='black')
+    ax1.text(1.2, 0.2, 'T', fontsize=12)
+    # Rozamiento (Oponiéndose hacia izquierda)
+    ax1.arrow(1.7, -0.4, -1, 0, head_width=0.1, head_length=0.2, fc='black', ec='black')
+    ax1.text(0.6, -0.7, '$f_R$', fontsize=12)
+
+    plt.tight_layout()
+    plt.show()
+
+draw_dcl()
+\end{lstlisting}
+
+\textbf{Eje Vertical:}
+
+$$ \sum F_y = 0 \Rightarrow N - W_2 = 0 \Rightarrow N = m_2 g $$
+$$ N = (25)(10) = 250 \, \si{N} $$
+
+Calculamos la fuerza de rozamiento cinético:
+$$ f_k = \mu_k N = (0.6)(250) = 150 \, \si{N} $$
+
+\textbf{Eje Horizontal:}
+Las fuerzas que apuntan a la derecha (movimiento) son la Tensión ($T$) y la Fuerza aplicada ($F$). La fuerza que se opone es el rozamiento ($f_k$).
+$$ \sum F_x = m_2 a_x = 0 $$
+$$ F + T - f_k = 0 $$
+
+\subsubsection*{4. Cálculo Final}
+Despejamos la fuerza $F$:
+\begin{align*}
+    F &= f_k - T \\
+    F &= 150 - 100 \\
+    F &= 50 \, \si{N}
+\end{align*}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $F = 50 \, \si{N}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+En el sistema de la figura no existe rozamiento entre el bloque $B$ y el piso. Las masas de los bloques $A$ y $B$ son de $5 \, \si{kg}$ y $15 \, \si{kg}$, respectivamente. Una fuerza $F = 80 \, \si{N}$ actúa sobre el bloque $B$ con un ángulo de $60^\circ$. Determine:
+\begin{enumerate}[label=\alph*)]
+    \item El valor del coeficiente de rozamiento estático entre $A$ y $B$, para que $A$ no se mueva con respecto a $B$.
+\end{enumerate}
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    % Suelo
+    \draw[thick] (-3, 0) -- (5, 0);
+    
+    % Bloque B (Abajo)
+    \draw[thick, fill=white] (-1, 0) rectangle (3, 1.5) node[midway] {$B$};
+    
+    % Bloque A (Arriba)
+    \draw[thick, fill=white] (0, 1.5) rectangle (2, 2.5) node[midway] {$A$};
+    
+    % Fuerza F
+    \draw[->, thick, black] (3, 1.5) -- (4.5, 2.5) node[right] {$F=80\,\si{N}$};
+    
+    % Angulo
+    \draw[dashed] (3, 1.5) -- (4.5, 1.5);
+    \draw (3.8, 1.5) arc (0:35:0.8);
+    \node at (4.1, 1.8) {\small $60^\circ$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+\subsubsection*{1. Análisis del Sistema Total ($A+B$)}
+Para que los bloques se muevan juntos (A no deslice sobre B), ambos deben tener la misma aceleración. Analizamos el sistema como una sola masa $m_T = m_A + m_B$.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+def draw_dcl_system():
+    fig, ax = plt.subplots(figsize=(5, 4))
+    ax.set_title("DCL Sistema (A + B)")
+    ax.set_xlim(-2, 2); ax.set_ylim(-2, 2)
+    ax.axis('off')
+    
+    # Bloque combinado
+    rect = patches.Rectangle((-0.8, -0.5), 1.6, 1, linewidth=1.5, edgecolor='black', facecolor='white')
+    ax.add_patch(rect)
+    ax.text(0, 0, '$A+B$', ha='center', va='center', fontsize=12)
+    
+    # Fuerzas
+    # Componente Horizontal de F
+    ax.arrow(0.8, 0, 1, 0, head_width=0.1, head_length=0.2, fc='black', ec='black')
+    ax.text(1.2, -0.2, '$F_x$')
+    
+    # Normal Suelo y Peso Total
+    ax.arrow(0, 0.5, 0, 1, head_width=0.1, head_length=0.2, fc='black', ec='black')
+    ax.text(0.1, 1.3, '$N_2$')
+    ax.arrow(0, -0.5, 0, -1, head_width=0.1, head_length=0.2, fc='black', ec='black')
+    ax.text(0.1, -1.3, '$W_{total}$')
+
+    plt.tight_layout()
+    plt.show()
+
+draw_dcl_system()
+\end{lstlisting}
+
+Aplicamos la Segunda Ley de Newton en el eje horizontal:
+$$ \Sigma F_x = m_{total} a $$
+$$ F \cos(60^\circ) = (m_A + m_B) a $$
+$$ 80 (0.5) = (5 + 15) a $$
+$$ 40 = 20 a $$
+$$ \boxed{a = 2 \, \si{m/s^2}} $$
+
+\subsubsection*{2. Análisis del Bloque A}
+Aislamos el bloque superior $A$. La fuerza que produce su aceleración es la fricción estática ejercida por $B$.
+
+\begin{lstlisting}
+def draw_dcl_A():
+    fig, ax = plt.subplots(figsize=(5, 4))
+    ax.set_title("DCL Bloque A")
+    ax.set_xlim(-2, 2); ax.set_ylim(-2, 2)
+    ax.axis('off')
+    
+    # Bloque A
+    rect = patches.Rectangle((-0.5, -0.5), 1, 1, linewidth=1.5, edgecolor='black', facecolor='white')
+    ax.add_patch(rect)
+    ax.text(0, 0, '$A$', ha='center', va='center', fontsize=12)
+    
+    # Fuerzas
+    # Normal A
+    ax.arrow(0, 0.5, 0, 0.8, head_width=0.1, fc='black', ec='black')
+    ax.text(0.1, 1.1, '$N_A$')
+    # Peso A
+    ax.arrow(0, -0.5, 0, -0.8, head_width=0.1, fc='black', ec='black')
+    ax.text(0.1, -1.1, '$W_A$')
+    # Rozamiento (Hacia la derecha, acelera al bloque)
+    ax.arrow(0.5, -0.5, 0.8, 0, head_width=0.1, fc='black', ec='black')
+    ax.text(0.8, -0.3, '$f_R$')
+
+    plt.tight_layout()
+    plt.show()
+
+draw_dcl_A()
+\end{lstlisting}
+
+\textbf{Eje Vertical:}
+$$ \Sigma F_y = 0 \Rightarrow N_A = W_A = m_A g $$
+$$ N_A = 5(10) = 50 \, \si{N} $$
+
+\textbf{Eje Horizontal:}
+$$ \Sigma F_x = m_A a $$
+$$ f_R = 5(2) = 10 \, \si{N} $$
+
+Para hallar el coeficiente, usamos la relación máxima de fricción estática:
+$$ \mu = \frac{f_R}{N_A} $$
+$$ \mu = \frac{10}{50} $$
+$$ \boxed{\mu = 0.2} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\mu = 0,2 $
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+En el sistema de la figura no existe rozamiento entre el bloque $B$ y el piso. Las masas de los bloques $A$ y $B$ son de $5 \, \si{kg}$ y $15 \, \si{kg}$, respectivamente. Una fuerza $F = 80 \, \si{N}$ actúa sobre el bloque $B$ con un ángulo de $60^\circ$. Determine:
+\begin{enumerate}[label=\alph*)]
+    \item La aceleración con la que se mueve $A$, con respecto al piso.
+\end{enumerate}
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    % Suelo
+    \draw[thick] (-3, 0) -- (5, 0);
+    
+    % Bloque B (Abajo)
+    \draw[thick, fill=white] (-1, 0) rectangle (3, 1.5) node[midway] {$B$};
+    
+    % Bloque A (Arriba)
+    \draw[thick, fill=white] (0, 1.5) rectangle (2, 2.5) node[midway] {$A$};
+    
+    % Fuerza F
+    \draw[->, thick, black] (3, 1.5) -- (4.5, 2.5) node[right] {$F=80\,\si{N}$};
+    
+    % Angulo
+    \draw[dashed] (3, 1.5) -- (4.5, 1.5);
+    \draw (3.8, 1.5) arc (0:35:0.8);
+    \node at (4.1, 1.8) {\small $60^\circ$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis del Sistema Total ($A+B$)}
+Para que los bloques se muevan juntos (A no deslice sobre B), ambos deben tener la misma aceleración. Analizamos el sistema como una sola masa $m_T = m_A + m_B$.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+def draw_dcl_system():
+    fig, ax = plt.subplots(figsize=(5, 4))
+    ax.set_title("DCL Sistema (A + B)")
+    ax.set_xlim(-2, 2); ax.set_ylim(-2, 2)
+    ax.axis('off')
+    
+    # Bloque combinado
+    rect = patches.Rectangle((-0.8, -0.5), 1.6, 1, linewidth=1.5, edgecolor='black', facecolor='white')
+    ax.add_patch(rect)
+    ax.text(0, 0, '$A+B$', ha='center', va='center', fontsize=12)
+    
+    # Fuerzas
+    # Componente Horizontal de F
+    ax.arrow(0.8, 0, 1, 0, head_width=0.1, head_length=0.2, fc='black', ec='black')
+    ax.text(1.2, -0.2, '$F_x$')
+    
+    # Normal Suelo y Peso Total
+    ax.arrow(0, 0.5, 0, 1, head_width=0.1, head_length=0.2, fc='black', ec='black')
+    ax.text(0.1, 1.3, '$N_2$')
+    ax.arrow(0, -0.5, 0, -1, head_width=0.1, head_length=0.2, fc='black', ec='black')
+    ax.text(0.1, -1.3, '$W_{total}$')
+
+    plt.tight_layout()
+    plt.show()
+
+draw_dcl_system()
+\end{lstlisting}
+
+Aplicamos la Segunda Ley de Newton en el eje horizontal:
+$$ \Sigma F_x = m_{total} a $$
+$$ F \cos(60^\circ) = (m_A + m_B) a $$
+$$ 80 (0.5) = (5 + 15) a $$
+$$ 40 = 20 a $$
+$$ \boxed{a = 2 \, \si{m/s^2}} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $ a = 2 \, \si{m/s^2} $
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+En el sistema de la figura no existe rozamiento entre el bloque $B$ y el piso. Las masas de los bloques $A$ y $B$ son de $5 \, \si{kg}$ y $15 \, \si{kg}$, respectivamente. Una fuerza $F = 80 \, \si{N}$ actúa sobre el bloque $B$ con un ángulo de $60^\circ$. Determine:
+\begin{enumerate}[label=\alph*)]
+    \item La fuerza que hace el piso sobre el bloque $B$..
+\end{enumerate}
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    % Suelo
+    \draw[thick] (-3, 0) -- (5, 0);
+    
+    % Bloque B (Abajo)
+    \draw[thick, fill=white] (-1, 0) rectangle (3, 1.5) node[midway] {$B$};
+    
+    % Bloque A (Arriba)
+    \draw[thick, fill=white] (0, 1.5) rectangle (2, 2.5) node[midway] {$A$};
+    
+    % Fuerza F
+    \draw[->, thick, black] (3, 1.5) -- (4.5, 2.5) node[right] {$F=80\,\si{N}$};
+    
+    % Angulo
+    \draw[dashed] (3, 1.5) -- (4.5, 1.5);
+    \draw (3.8, 1.5) arc (0:35:0.8);
+    \node at (4.1, 1.8) {\small $60^\circ$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis del Piso }
+La fuerza que hace el piso sobre el bloque $B$ es la normal $N_2$.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+def draw_dcl_system():
+    fig, ax = plt.subplots(figsize=(5, 4))
+    ax.set_title("DCL Sistema (A + B)")
+    ax.set_xlim(-2, 2); ax.set_ylim(-2, 2)
+    ax.axis('off')
+    
+    # Bloque combinado
+    rect = patches.Rectangle((-0.8, -0.5), 1.6, 1, linewidth=1.5, edgecolor='black', facecolor='white')
+    ax.add_patch(rect)
+    ax.text(0, 0, '$A+B$', ha='center', va='center', fontsize=12)
+    
+    # Fuerzas
+    # Componente Horizontal de F
+    ax.arrow(0.8, 0, 1, 0, head_width=0.1, head_length=0.2, fc='black', ec='black')
+    ax.text(1.2, -0.2, '$F_x$')
+    
+    # Normal Suelo y Peso Total
+    ax.arrow(0, 0.5, 0, 1, head_width=0.1, head_length=0.2, fc='black', ec='black')
+    ax.text(0.1, 1.3, '$N_2$')
+    ax.arrow(0, -0.5, 0, -1, head_width=0.1, head_length=0.2, fc='black', ec='black')
+    ax.text(0.1, -1.3, '$W_{total}$')
+
+    plt.tight_layout()
+    plt.show()
+
+draw_dcl_system()
+\end{lstlisting}
+
+Calculando $N_2$. La fuerza que hace el piso sobre el bloque $B$.
+
+$$ N_2 = W_{total} $$
+$$ N_2 = (m_A + m_B)g $$
+$$ N_2 = (20)(10) $$
+$$ N_2 = 200 \, \si{N} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $ N_2 = 200 jN $
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un ascensor que pesa $500 \, \si{N}$ sube verticalmente por un túnel sin rozamiento. El gráfico muestra la velocidad del ascensor contra el tiempo. Calcule la tensión del cable que soporta al ascensor, durante el movimiento en el intervalo de tiempo de $0$ a $2 \, \si{s}$.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    % Ejes
+    \draw[->] (0,0) -- (7,0) node[right] {$t(s)$};
+    \draw[->] (0,0) -- (0,6) node[above] {$v(m/s)$};
+    
+    % Gráfica
+    \draw[thick, blue] (0,0) -- (2,5) -- (4,5) -- (6,0);
+    
+    % Líneas guía
+    \draw[dashed] (2,0) node[below] {$2$} -- (2,5);
+    \draw[dashed] (4,0) node[below] {$4$} -- (4,5);
+    \draw[dashed] (6,0) node[below] {$6$} -- (6,0);
+    \draw[dashed] (0,5) node[left] {$10$} -- (2,5);
+    
+    % Origen
+    \node at (0,0) [below left] {$0$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Cálculo de la Aceleración}
+En una gráfica velocidad vs. tiempo, la aceleración corresponde a la pendiente de la recta.
+Para el intervalo $t \in [0, 2]$:
+$$ a = \frac{\Delta v}{\Delta t} = \frac{v_f - v_0}{t_f - t_0} $$
+$$ a = \frac{10 - 0}{2 - 0} = \frac{10}{2} = 5 \, \si{m/s^2} $$
+El ascensor está acelerando hacia arriba.
+
+\subsubsection*{2. Diagrama de Cuerpo Libre (Python)}
+Dado que el ascensor acelera hacia arriba, la Tensión ($T$) debe ser mayor que el Peso ($W$).
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+def draw_dcl_a():
+    fig, ax = plt.subplots(figsize=(4, 5))
+    ax.set_title("DCL (0 a 2 s)\nAceleacion hacia arriba")
+    ax.set_xlim(-2, 2); ax.set_ylim(-2, 2)
+    ax.axis('off')
+    
+    # Ascensor
+    rect = patches.Rectangle((-0.5, -0.5), 1, 1, linewidth=1.5, edgecolor='black', facecolor='white')
+    ax.add_patch(rect)
+    ax.text(0, 0, '$m$', ha='center', va='center', fontsize=12)
+    
+    # Fuerzas
+    # Tensión (Mayor magnitud visual)
+    ax.arrow(0, 0.5, 0, 1.2, head_width=0.15, head_length=0.2, fc='blue', ec='blue')
+    ax.text(0.2, 1.5, 'T', color='blue', fontsize=12)
+    
+    # Peso (Menor magnitud)
+    ax.arrow(0, -0.5, 0, -0.8, head_width=0.15, head_length=0.2, fc='red', ec='red')
+    ax.text(0.2, -1.2, 'W=500N', color='red', fontsize=12)
+    
+    # Indicador de aceleracion
+    ax.arrow(1.2, -0.2, 0, 0.5, head_width=0.1, head_length=0.1, fc='black', ec='black')
+    ax.text(1.3, 0, 'a', fontsize=10)
+
+    plt.tight_layout()
+    plt.show()
+
+draw_dcl_a()
+\end{lstlisting}
+
+\subsubsection*{3. Cálculo de la Tensión}
+Aplicamos la Segunda Ley de Newton en el eje Y:
+$$ \sum F_y = m a $$
+$$ T - W = m a $$
+
+Primero, obtenemos la masa del ascensor ($g=10\,\si{m/s^2}$):
+$$ m = \frac{W}{g} = \frac{500}{10} = 50 \, \si{kg} $$
+
+Sustituimos en la ecuación de fuerzas:
+$$ T - 500 = 50(5) $$
+$$ T = 500 + 250 $$
+$$ \boxed{T = 750 \, \si{N}} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $T = 750 \, \si{N}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un ascensor que pesa $500 \, \si{N}$ sube verticalmente por un túnel sin rozamiento. El gráfico muestra la velocidad del ascensor contra el tiempo. Calcule la tensión del cable que soporta al ascensor, durante el movimiento en el intervalo de tiempo de $2$ a $4 \, \si{s}$.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    \draw[->] (0,0) -- (7,0) node[right] {$t(s)$};
+    \draw[->] (0,0) -- (0,6) node[above] {$v(m/s)$};
+    \draw[thick, blue] (0,0) -- (2,5) -- (4,5) -- (6,0);
+    \draw[dashed] (2,0) node[below] {$2$} -- (2,5);
+    \draw[dashed] (4,0) node[below] {$4$} -- (4,5);
+    \draw[dashed] (6,0) node[below] {$6$} -- (6,0);
+    \draw[dashed] (0,5) node[left] {$10$} -- (2,5);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Cálculo de la Aceleración}
+Para el intervalo $t \in [2, 4]$, observamos que la gráfica es una línea horizontal.
+$$ a = \frac{\Delta v}{\Delta t} = \frac{10 - 10}{4 - 2} = 0 \, \si{m/s^2} $$
+El ascensor se mueve con \textbf{velocidad constante}.
+
+\subsubsection*{2. Diagrama de Cuerpo Libre (Python)}
+Al no existir aceleración, las fuerzas están en equilibrio. La Tensión es igual al Peso.
+
+\begin{lstlisting}
+def draw_dcl_b():
+    fig, ax = plt.subplots(figsize=(4, 5))
+    ax.set_title("DCL (2 a 4 s)\nVelocidad Constante (a=0)")
+    ax.set_xlim(-2, 2); ax.set_ylim(-2, 2)
+    ax.axis('off')
+    
+    # Ascensor
+    rect = patches.Rectangle((-0.5, -0.5), 1, 1, linewidth=1.5, edgecolor='black', facecolor='white')
+    ax.add_patch(rect)
+    ax.text(0, 0, '$m$', ha='center', va='center', fontsize=12)
+    
+    # Fuerzas (Misma magnitud visual)
+    ax.arrow(0, 0.5, 0, 1.0, head_width=0.15, head_length=0.2, fc='blue', ec='blue')
+    ax.text(0.2, 1.3, 'T', color='blue')
+    
+    ax.arrow(0, -0.5, 0, -1.0, head_width=0.15, head_length=0.2, fc='red', ec='red')
+    ax.text(0.2, -1.3, 'W', color='red')
+
+    plt.tight_layout()
+    plt.show()
+
+draw_dcl_b()
+\end{lstlisting}
+
+\subsubsection*{3. Cálculo de la Tensión}
+Aplicamos la Primera Ley de Newton (Equilibrio):
+$$ \sum F_y = 0 $$
+$$ T - W = 0 $$
+$$ T = W $$
+$$ \boxed{T = 500 \, \si{N}} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $T = 500 \, \si{N}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un ascensor que pesa $500 \, \si{N}$ sube verticalmente por un túnel sin rozamiento. El gráfico muestra la velocidad del ascensor contra el tiempo. Calcule la tensión del cable que soporta al ascensor, durante el movimiento en el intervalo de tiempo de $4$ a $6 \, \si{s}$.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    \draw[->] (0,0) -- (7,0) node[right] {$t(s)$};
+    \draw[->] (0,0) -- (0,6) node[above] {$v(m/s)$};
+    \draw[thick, blue] (0,0) -- (2,5) -- (4,5) -- (6,0);
+    \draw[dashed] (2,0) node[below] {$2$} -- (2,5);
+    \draw[dashed] (4,0) node[below] {$4$} -- (4,5);
+    \draw[dashed] (6,0) node[below] {$6$} -- (6,0);
+    \draw[dashed] (0,5) node[left] {$10$} -- (2,5);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Cálculo de la Aceleración}
+Para el intervalo $t \in [4, 6]$, la pendiente es negativa (el ascensor frena mientras sube).
+$$ a = \frac{v_f - v_0}{t_f - t_0} = \frac{0 - 10}{6 - 4} $$
+$$ a = \frac{-10}{2} = -5 \, \si{m/s^2} $$
+El vector aceleración apunta hacia abajo.
+
+\subsubsection*{2. Diagrama de Cuerpo Libre (Python)}
+Como la aceleración neta es hacia abajo, el Peso ($W$) debe ser mayor que la Tensión ($T$).
+
+\begin{lstlisting}
+def draw_dcl_c():
+    fig, ax = plt.subplots(figsize=(4, 5))
+    ax.set_title("DCL (4 a 6 s)\nDesaceleración (a hacia abajo)")
+    ax.set_xlim(-2, 2); ax.set_ylim(-2, 2)
+    ax.axis('off')
+    
+    # Ascensor
+    rect = patches.Rectangle((-0.5, -0.5), 1, 1, linewidth=1.5, edgecolor='black', facecolor='white')
+    ax.add_patch(rect)
+    ax.text(0, 0, '$m$', ha='center', va='center', fontsize=12)
+    
+    # Fuerzas
+    # Tensión (Menor magnitud visual)
+    ax.arrow(0, 0.5, 0, 0.6, head_width=0.15, head_length=0.2, fc='blue', ec='blue')
+    ax.text(0.2, 1.0, 'T', color='blue')
+    
+    # Peso (Mayor magnitud visual)
+    ax.arrow(0, -0.5, 0, -1.2, head_width=0.15, head_length=0.2, fc='red', ec='red')
+    ax.text(0.2, -1.5, 'W', color='red')
+    
+    # Indicador de aceleracion
+    ax.arrow(1.2, 0.3, 0, -0.5, head_width=0.1, head_length=0.1, fc='black', ec='black')
+    ax.text(1.3, 0, 'a', fontsize=10)
+
+    plt.tight_layout()
+    plt.show()
+
+draw_dcl_c()
+\end{lstlisting}
+
+\subsubsection*{3. Cálculo de la Tensión}
+Aplicamos la Segunda Ley de Newton. Tomando el sentido positivo hacia arriba (movimiento):
+$$ \sum F_y = m a $$
+$$ T - W = m (-5) $$
+
+Sustituimos los valores ($m=50\,\si{kg}$, $W=500\,\si{N}$):
+$$ T - 500 = 50(-5) $$
+$$ T - 500 = -250 $$
+$$ T = 500 - 250 $$
+$$ \boxed{T = 250 \, \si{N}} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $T = 250 \, \si{N}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+En el sistema de la figura, el bloque $A$ pesa $50 \, \si{N}$, el bloque $B$ pesa $20 \, \si{N}$, la fuerza horizontal aplicada es $F = 50 \, \si{N}$ y el coeficiente de rozamiento cinético entre $A$ y la pared es de $0.2$. Determine la magnitud y dirección de la fuerza que ejerce $B$ sobre $A$. (Considere $g=10\,\si{m/s^2}$).
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    % Pared Vertical
+    \draw[thick, fill=gray!20] (-0.5, -1) rectangle (0, 4);
+    \draw[thick] (0, -1) -- (0, 4);
+    
+    % Bloque A
+    \draw[thick, fill=white] (0, 0.5) rectangle (2, 2.5) node[midway] {$A$};
+    
+    % Bloque B
+    \draw[thick, fill=white] (0.5, 2.5) rectangle (1.5, 3.5) node[midway] {$B$};
+    
+    % Fuerza F
+    \draw[->, thick, black] (3.5, 1.5) -- (2, 1.5) node[midway, above] {$F$};
+    
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Físico}
+El sistema está sujeto a la gravedad y desliza verticalmente hacia abajo a lo largo de la pared.
+\begin{itemize}
+    \item La fuerza de rozamiento ($f_R$) actúa sobre $A$ hacia arriba (opuesta al movimiento).
+    \item La fuerza que ejerce $B$ sobre $A$ es una fuerza normal de contacto ($N_{B/A}$) dirigida hacia abajo.
+    \item Por la Tercera Ley de Newton, $N_{B/A} = N_{A/B}$ en magnitud.
+\end{itemize}
+
+Calculamos las masas ($g=10$):
+$$ m_A = \frac{50}{10} = 5 \, \si{kg}, \quad m_B = \frac{20}{10} = 2 \, \si{kg} $$
+
+\subsubsection*{2. Diagramas de Cuerpo Libre (Python)}
+Generamos los DCL para visualizar las fuerzas en cada bloque por separado.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+def draw_dcls():
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 5))
+    
+    # --- DCL BLOQUE B (Arriba) ---
+    ax1.set_title("DCL Bloque B")
+    ax1.set_xlim(-2, 2); ax1.set_ylim(-2, 2)
+    ax1.axis('off')
+    
+    # Bloque B
+    rectB = patches.Rectangle((-0.5, -0.5), 1, 1, linewidth=1.5, edgecolor='black', facecolor='white')
+    ax1.add_patch(rectB)
+    ax1.text(0, 0, '$B$', ha='center', va='center', fontsize=12)
+    
+    # Fuerzas B
+    # Normal de A sobre B (Arriba)
+    ax1.arrow(0, 0.5, 0, 0.8, head_width=0.1, fc='blue', ec='blue')
+    ax1.text(0.2, 1.2, '$N_{A/B}$', color='blue')
+    # Peso B (Abajo)
+    ax1.arrow(0, -0.5, 0, -1.0, head_width=0.1, fc='black', ec='black')
+    ax1.text(0.2, -1.3, '$W_B$')
+    # Aceleración
+    ax1.arrow(-0.8, 0, 0, -0.5, head_width=0.08, color='gray')
+    ax1.text(-1, -0.3, '$a$', color='gray')
+
+    # --- DCL BLOQUE A (Abajo) ---
+    ax2.set_title("DCL Bloque A")
+    ax2.set_xlim(-2, 2); ax2.set_ylim(-2, 2)
+    ax2.axis('off')
+    
+    # Bloque A
+    rectA = patches.Rectangle((-0.5, -0.5), 1, 1, linewidth=1.5, edgecolor='black', facecolor='white')
+    ax2.add_patch(rectA)
+    ax2.text(0, 0, '$A$', ha='center', va='center', fontsize=12)
+    
+    # Fuerzas A
+    # Rozamiento (Arriba)
+    ax2.arrow(-0.5, 0.5, 0, 0.8, head_width=0.1, fc='red', ec='red')
+    ax2.text(-0.8, 1.0, '$f_R$', color='red')
+    # Peso A (Abajo)
+    ax2.arrow(0, -0.5, 0, -1.0, head_width=0.1, fc='black', ec='black')
+    ax2.text(0.2, -1.3, '$W_A$')
+    # Normal de B sobre A (Abajo - Acción/Reacción)
+    ax2.arrow(0, 1.05, 0, -0.4, head_width=0.1, fc='blue', ec='blue')
+    ax2.text(0.2, 0.7, '$N_{B/A}$', color='blue')
+    # Fuerza F (Izquierda)
+    ax2.arrow(1.55, 0, -0.9, 0, head_width=0.1, fc='black', ec='black')
+    ax2.text(0.8, 0.2, '$F$')
+    # Normal Pared (Derecha)
+    ax2.arrow(-1.55, 0, 0.9, 0, head_width=0.1, fc='black', ec='black')
+    ax2.text(-1, 0.2, '$N_P$')
+
+    plt.tight_layout()
+    plt.show()
+
+draw_dcls()
+\end{lstlisting}
+
+\subsubsection*{3. Planteamiento de Ecuaciones}
+Consideramos el movimiento vertical hacia abajo como positivo ($+y$).
+
+\textbf{Bloque B (Eje Y):}
+$$ \sum F_y = m_B a $$
+$$ W_B - N_{A/B} = m_B a $$
+$$ 20 - N = 2a \quad \text{(Ec. 1)} $$
+(Llamaremos $N$ a la fuerza de contacto entre bloques).
+
+\textbf{Bloque A (Eje X - Equilibrio Horizontal):}
+$$ \sum F_x = 0 \Rightarrow N_{Pared} = F = 50 \, \si{N} $$
+Calculamos el rozamiento:
+$$ f_R = \mu N_{Pared} = 0.2(50) = 10 \, \si{N} $$
+
+\textbf{Bloque A (Eje Y):}
+Las fuerzas hacia abajo son el Peso de A y la Normal de B sobre A. Hacia arriba actúa el rozamiento.
+$$ \sum F_y = m_A a $$
+$$ W_A + N_{B/A} - f_R = m_A a $$
+$$ 50 + N - 10 = 5a $$
+$$ 40 + N = 5a \quad \text{(Ec. 2)} $$
+
+\subsubsection*{4. Resolución del Sistema}
+Sumamos la (Ec. 1) y la (Ec. 2) para eliminar $N$:
+$$ (20 - N) + (40 + N) = 2a + 5a $$
+$$ 60 = 7a $$
+$$ a = \frac{60}{7} \approx 8.57 \, \si{m/s^2} $$
+
+Ahora sustituimos la aceleración en la (Ec. 1) para hallar la fuerza de contacto $N$:
+$$ 20 - N = 2(8.57) $$
+$$ 20 - N = 17.14 $$
+$$ N = 20 - 17.14 $$
+$$ N = 2.86 \, \si{N} $$
+
+\textbf{Dirección:} Como se trata de la fuerza que ejerce $B$ (arriba) sobre $A$ (abajo), la dirección es vertical hacia abajo.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering
+Magnitud: $2.86 \, \si{N}$ \\
+Dirección: Vertical hacia abajo
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+En el rizo de la figura, determine el valor de la fuerza normal cuando un cuerpo de masa $m$ se encuentra en el punto $C$. La rapidez en este punto es de $3 \, \si{m/s}$.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2, >=Latex]
+    % Rizo (Círculo)
+    \draw[thick] (0,0) circle (2);
+    
+    % Línea de entrada al rizo (estética)
+    \draw[thick] (-2, -2.5) -- (-2, 0); % Línea vertical izquierda o rampa
+    % Ajustamos para que parezca un rizo real conectando tangente
+    
+    % Ejes o Radios de referencia
+    \draw[dashed] (0,0) -- (0,2);
+    \draw[dashed] (0,0) -- (2,0);
+    \draw[dashed] (0,0) -- (-2,0);
+    \draw[dashed] (0,0) -- (0,-2);
+    
+    % Punto C
+    % Altura R/2 implica y = 1 (si R=2). angulo sin(alpha) = 1/2 => alpha = 30 grados con horizontal
+    \coordinate (C) at ({2*cos(30)}, {2*sin(30)}); % 30 grados desde horizontal = 60 desde vertical
+    
+    % Radio vector
+    \draw[->] (0,0) -- (C) node[midway, below right] {$R$};
+    
+    % Punto C dibujo
+    \fill (C) circle (0.1) node[above right] {$C$};
+    
+    % Indicación de altura R/2
+    \draw[<->] (0.2, 0) -- (0.2, 1) node[midway, left] {\small $R/2$};
+    \draw[dashed] (0,1) -- (C);
+    
+    % Angulo theta (con la vertical, basado en solución cos = 0.5)
+    % El triángulo rectángulo se forma con la vertical.
+    \draw (0, 0.5) arc (90:30:0.5);
+    \node at (0.3, 0.7) {$\theta$};
+
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Geométrico}
+Observando la figura, el punto $C$ se encuentra a una altura vertical $h = R/2$ respecto al centro del rizo. Esto forma un triángulo rectángulo donde la hipotenusa es el radio $R$ y el cateto adyacente al ángulo con la vertical es $R/2$.
+\begin{lstlisting}
+    import matplotlib.pyplot as plt
+import numpy as np
+
+# Configuración básica
+plt.rcParams['font.family'] = 'serif'
+plt.rcParams['mathtext.fontset'] = 'cm'
+
+# Definimos dimensiones
+R = 4.0
+x_len = np.sqrt(R**2 - (R/2)**2) # Pitágoras para la base
+y_len = R/2
+
+# --- FIGURA 1: Triángulo Geométrico ---
+plt.subplot(2, 1, 1) # Panel superior
+plt.axis('equal')
+plt.axis('off')
+
+# Coordenadas
+O = [0, 0]
+Base = [x_len, 0]
+C = [x_len, y_len]
+
+# Dibujar Triángulo
+plt.plot([O[0], C[0]], [O[1], C[1]], 'k-', lw=1.5)        # Hipotenusa
+plt.plot([O[0], Base[0]], [O[1], Base[1]], 'k-', lw=1.5)  # Base
+plt.plot([C[0], Base[0]], [C[1], Base[1]], 'k-', lw=1.5)  # Altura R/2
+
+# Puntos y Etiquetas
+plt.plot(C[0], C[1], 'ko', markersize=6)
+plt.text(O[0]-0.2, O[1], '$O$', fontsize=14, va='center')
+plt.text(C[0], C[1]+0.3, '$C$', fontsize=14, ha='center')
+plt.text(C[0]+0.1, C[1]/2, '$R/2$', fontsize=14, va='center')
+
+# Arco del ángulo theta (en C)
+# El ángulo de la hipotenusa es 30 grados (arcsin 0.5), pero el arco se dibuja desde 
+# la línea vertical (270 grados) hasta la hipotenusa (210 grados).
+theta = np.linspace(np.radians(210), np.radians(270), 30)
+r_arc = 1.0
+plt.plot(C[0] + r_arc*np.cos(theta), C[1] + r_arc*np.sin(theta), 'k-', lw=1)
+plt.text(C[0] - 0.4, C[1] - 0.8, r'$\theta$', fontsize=14)
+
+
+# --- FIGURA 2: Diagrama de Cuerpo Libre ---
+plt.subplot(2, 1, 2) # Panel inferior
+plt.axis('equal')
+plt.axis('off')
+plt.xlim(-2, 2)
+plt.ylim(-3, 1)
+
+# Origen (Punto C)
+origin = [0, 0]
+plt.plot(0, 0, 'ko', markersize=6)
+plt.text(0, 0.3, '$C$', fontsize=14, ha='center')
+
+# Vector Peso (W) - Vertical hacia abajo
+plt.arrow(0, 0, 0, -2, head_width=0.15, head_length=0.2, fc='k', ec='k', length_includes_head=True)
+plt.text(0.2, -1.5, '$W$', fontsize=14)
+
+# Vector Normal (N) - 60 grados respecto a la vertical
+# Ángulo: 270 - 60 = 210 grados (apunta hacia abajo a la izquierda)
+angle_rad = np.radians(210)
+len_n = 2
+dx = len_n * np.cos(angle_rad)
+dy = len_n * np.sin(angle_rad)
+
+plt.arrow(0, 0, dx, dy, head_width=0.15, head_length=0.2, fc='k', ec='k', length_includes_head=True)
+plt.text(dx - 0.3, dy, '$N$', fontsize=14)
+
+# Arco de 60 grados
+theta_60 = np.linspace(np.radians(210), np.radians(270), 30)
+r_arc_60 = 1.2
+plt.plot(r_arc_60*np.cos(theta_60), r_arc_60*np.sin(theta_60), 'k-', lw=1)
+plt.text(-0.3, -0.9, r'$60^\circ$', fontsize=12)
+
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+Calculamos el ángulo $\theta$ que forma el radio con la vertical:
+$$ \cos \theta = \frac{\text{cateto adyacente}}{\text{hipotenusa}} = \frac{R/2}{R} = 0.5 $$
+$$ \theta = \arccos(0.5) = 60^\circ $$
+
+\subsubsection*{2. Diagrama de Cuerpo Libre (Python)}
+En el punto $C$, las fuerzas que actúan sobre el cuerpo son:
+\begin{itemize}
+    \item El Peso ($W = mg$), siempre vertical hacia abajo.
+    \item La Normal ($N$), perpendicular a la superficie y dirigida hacia el centro del giro (fuerza centrípeta).
+\end{itemize}
+
+Generamos el DCL para visualizar la descomposición del peso en la dirección radial:
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Configuración del lienzo
+plt.figure(figsize=(5, 5))
+plt.title("DCL en el Punto C")
+plt.axis('equal') # Fundamental para que el círculo no se vea ovalado
+plt.axis('off')
+plt.xlim(-0.2, 1.2)
+plt.ylim(-0.4, 1.2)
+
+# --- GEOMETRÍA ---
+# Angulos
+theta_deg = 30 # Angulo con la horizontal
+theta_rad = np.radians(theta_deg)
+
+# Coordenadas Punto C (Radio unitario visual R=1)
+x = np.cos(theta_rad)
+y = np.sin(theta_rad)
+
+# 1. Dibujar el Rizo (Arco)
+# Usamos linspace para dibujar el arco de 0 a 90 grados
+angulos = np.linspace(0, np.pi/2, 50)
+plt.plot(np.cos(angulos), np.sin(angulos), 'gray', linestyle='--')
+
+# 2. Radio vector (Línea punteada)
+plt.plot([0, x], [0, y], 'k--', alpha=0.5)
+
+# 3. Cuerpo (Punto C)
+plt.plot(x, y, 'ko', markersize=12) # 'ko' = color negro, marker circle
+plt.text(x + 0.05, y + 0.05, 'C', fontsize=12)
+
+# --- FUERZAS ---
+
+# 1. Normal (Hacia el centro)
+# Dirección vectorial hacia el origen: (-x, -y)
+len_n = 0.4
+plt.arrow(x, y, -len_n*x, -len_n*y, head_width=0.04, fc='blue', ec='blue', length_includes_head=True)
+plt.text(x - 0.2, y - 0.05, r'$\vec{N}$', color='blue', fontsize=12)
+
+# 2. Peso (Vertical abajo)
+len_w = 0.6
+plt.arrow(x, y, 0, -len_w, head_width=0.04, fc='red', ec='red', length_includes_head=True)
+plt.text(x + 0.05, y - 0.4, r'$m\vec{g}$', color='red', fontsize=12)
+
+# 3. Proyección del Peso (Radial)
+# Proyección = W * cos(60)
+# El ángulo entre la vertical y el radio es 60 grados
+proj_val = len_w * np.cos(np.radians(60)) 
+
+# Dibujar la proyección sobre la línea radial (hacia el centro)
+plt.arrow(x, y, -proj_val*x, -proj_val*y, head_width=0.02, fc='red', ec='red', 
+          alpha=0.5, linestyle=':', length_includes_head=True)
+
+plt.text(x - 0.15, y - 0.25, r'$mg \cos 60^\circ$', color='red', fontsize=10)
+
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{3. Ecuaciones Dinámicas}
+Aplicamos la Segunda Ley de Newton en el eje radial (centrípeto). La aceleración centrípeta apunta hacia el centro del círculo.
+$$ \sum F_c = m a_c = m \frac{v^2}{R} $$
+
+Las fuerzas que apuntan al centro son la Normal y la componente radial del peso:
+$$ N + W_{radial} = m \frac{v^2}{R} $$
+
+La componente radial del peso se obtiene proyectando $mg$ sobre la línea del radio. El ángulo entre la vertical (dirección del peso) y el radio es $\theta = 60^\circ$.
+$$ W_{radial} = mg \cos(60^\circ) $$
+
+Sustituyendo en la ecuación de fuerzas:
+$$ N + mg \cos(60^\circ) = m \frac{v^2}{R} $$
+
+\subsubsection*{4. Resolución}
+Despejamos la fuerza Normal $N$:
+$$ N = m \frac{v^2}{R} - mg \cos(60^\circ) $$
+
+Sabemos que $\cos(60^\circ) = 0.5$ y $v = 3$:
+$$ N = m \left( \frac{3^2}{R} - g(0.5) \right) $$
+$$ N = m \left( \frac{9}{R} - 10(0.5) \right) $$
+(Asumiendo $g=10\,\si{m/s^2}$)
+$$ N = m \left( \frac{9}{R} - 5 \right) $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $N = m \left( \frac{9}{R} - 5 \right) \, \si{N}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una caja de $20 \, \si{kg}$ se encuentra en reposo sobre una superficie horizontal rugosa. Un hombre empuja horizontalmente la caja con una fuerza de $50 \, \si{N}$ dirigida hacia la derecha. Entre la superficie y la caja, los coeficientes de rozamiento son $\mu_e = 0.4$ y $\mu_c = 0.3$. Determine la fuerza de rozamiento sobre la caja. (Considere $g = 10 \, \si{m/s^2}$).
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[thick] (-3, 0) -- (3, 0);
+    
+    \draw[thick, fill=blue!10] (-1, 0) rectangle (1, 1.5) node[midway] {$m = 20\,\si{kg}$};
+    
+    \draw[->, thick, orange, line width=1.5pt] (-2.5, 0.75) -- (-1, 0.75) node[midway, above] {$\vec{F} = 50\,\si{N}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis y Diagrama de Cuerpo Libre}
+Primero, identificamos todas las fuerzas que actúan sobre la caja: el peso de la caja hacia abajo, la fuerza normal que ejerce la superficie hacia arriba, la fuerza aplicada externa hacia la derecha, y la fuerza de rozamiento estático que se opone al posible deslizamiento hacia la izquierda.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+def draw_dcl():
+    fig, ax = plt.subplots(figsize=(6, 5))
+    ax.set_title("Diagrama de Cuerpo Libre (Caja)")
+    ax.set_xlim(-3, 3); ax.set_ylim(-3, 3)
+    ax.axis('off')
+
+    rect = patches.Rectangle((-1, -1), 2, 2, linewidth=1.5, edgecolor='black', facecolor='white')
+    ax.add_patch(rect)
+    ax.text(0, 0, 'm', ha='center', va='center', fontsize=14)
+
+    ax.arrow(0, 1, 0, 1.2, head_width=0.15, fc='blue', ec='blue')
+    ax.text(0.2, 2.0, 'N', color='blue', fontsize=12)
+
+    ax.arrow(0, -1, 0, -1.2, head_width=0.15, fc='red', ec='red')
+    ax.text(0.2, -2.2, 'W', color='red', fontsize=12)
+
+    ax.arrow(1, 0, 1.2, 0, head_width=0.15, fc='orange', ec='orange')
+    ax.text(2.0, 0.2, 'F = 50 N', color='orange', fontsize=12)
+
+    ax.arrow(-1, 0, -1.2, 0, head_width=0.15, fc='green', ec='green')
+    ax.text(-2.2, 0.2, 'f_r', color='green', fontsize=12)
+
+    plt.tight_layout()
+    plt.show()
+
+draw_dcl()
+\end{lstlisting}
+
+\subsubsection*{2. Análisis en el Eje Vertical (Y)}
+La caja no tiene movimiento en la dirección vertical, por lo que se encuentra en equilibrio. Aplicamos la Primera Ley de Newton:
+$$ \sum F_y = 0 $$
+$$ N - W = 0 $$
+$$ N = m g $$
+
+Sustituyendo los valores de la masa y la aceleración de la gravedad:
+$$ N = (20)(10) $$
+$$ N = 200 \, \si{N} $$
+
+\subsubsection*{3. Cálculo de la Fuerza de Rozamiento Estático Máxima}
+Para determinar si la caja logra moverse, debemos calcular la fuerza de fricción estática máxima. Este es el umbral que la fuerza externa debe superar para iniciar el movimiento.
+$$ f_{e,max} = \mu_e N $$
+$$ f_{e,max} = (0.4)(200) $$
+$$ f_{e,max} = 80 \, \si{N} $$
+
+\subsubsection*{4. Condición de Movimiento}
+Comparamos la magnitud de la fuerza aplicada ($F$) con la fuerza de rozamiento estático máxima ($f_{e,max}$):
+$$ F = 50 \, \si{N} $$
+$$ f_{e,max} = 80 \, \si{N} $$
+
+Dado que la fuerza de empuje es menor que el umbral máximo de fricción ($F < f_{e,max}$), concluimos que la fuerza externa no es suficiente para vencer el rozamiento. Por lo tanto, \textbf{la caja no se mueve} y el sistema permanece en reposo.
+
+\subsubsection*{5. Cálculo de la Fuerza de Rozamiento Real}
+Al estar en reposo, la caja se encuentra en equilibrio estático en el eje horizontal. Aplicamos la Primera Ley de Newton en el eje X:
+$$ \sum F_x = 0 $$
+$$ F - f_r = 0 $$
+$$ f_r = F $$
+
+La fuerza de rozamiento estático no asume su valor máximo, sino que se autoajusta para igualar exactamente a la fuerza aplicada, cancelando el movimiento.
+$$ f_r = 50 \, \si{N} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $f_r = 50 \, \si{N}$ (Hacia la izquierda)
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Determine la aceleración del sistema y la tensión en la cuerda que une a los bloques, cuando: $F = 50 \, \si{N}$, $m_1 = 1 \, \si{kg}$ y $m_2 = 3 \, \si{kg}$. (Considere $g = 10 \, \si{m/s^2}$).
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[thick, fill=white] (0, 0) rectangle (1.5, 1.5) node[midway] {$m_1$};
+    
+    \draw[thick, fill=white] (0, -2.5) rectangle (1.5, -1) node[midway] {$m_2$};
+    
+    \draw[thick] (0.75, 0) -- (0.75, -1);
+    
+    \draw[->, thick, black, line width=1.2pt] (0.75, 1.5) -- (0.75, 2.8) node[above] {$\vec{F}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Físico y Diagramas de Cuerpo Libre}
+El sistema está compuesto por dos masas conectadas por una cuerda inextensible, lo que significa que ambos bloques se mueven verticalmente con la misma aceleración $\vec{a}$. 
+La fuerza $\vec{F}$ tira del sistema hacia arriba. La cuerda transmite una fuerza de tensión $T$ entre los bloques: tira hacia abajo del bloque $m_1$ y hacia arriba del bloque $m_2$. Adicionalmente, sobre cada masa actúa la fuerza de la gravedad (el peso).
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+def draw_dcls():
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8, 5))
+    
+    ax1.set_title("DCL Bloque 1 ($m_1$)")
+    ax1.set_xlim(-2, 2); ax1.set_ylim(-2, 3)
+    ax1.axis('off')
+    
+    rect1 = patches.Rectangle((-0.5, -0.5), 1, 1, linewidth=1.5, edgecolor='black', facecolor='white')
+    ax1.add_patch(rect1)
+    ax1.text(0, 0, '$m_1$', ha='center', va='center', fontsize=12)
+    
+    ax1.arrow(0, 0.5, 0, 1.5, head_width=0.15, fc='black', ec='black')
+    ax1.text(0.2, 1.8, 'F', fontsize=12)
+    
+    ax1.arrow(-0.2, -0.5, 0, -1.0, head_width=0.1, fc='blue', ec='blue')
+    ax1.text(-0.5, -1.2, 'T', color='blue', fontsize=12)
+    ax1.arrow(0.2, -0.5, 0, -1.0, head_width=0.1, fc='red', ec='red')
+    ax1.text(0.4, -1.2, '$W_1$', color='red', fontsize=12)
+    
+    ax2.set_title("DCL Bloque 2 ($m_2$)")
+    ax2.set_xlim(-2, 2); ax2.set_ylim(-2, 3)
+    ax2.axis('off')
+    
+    rect2 = patches.Rectangle((-0.5, -0.5), 1, 1, linewidth=1.5, edgecolor='black', facecolor='white')
+    ax2.add_patch(rect2)
+    ax2.text(0, 0, '$m_2$', ha='center', va='center', fontsize=12)
+    
+    ax2.arrow(0, 0.5, 0, 1.0, head_width=0.15, fc='blue', ec='blue')
+    ax2.text(0.2, 1.3, 'T', color='blue', fontsize=12)
+    
+    ax2.arrow(0, -0.5, 0, -1.5, head_width=0.15, fc='red', ec='red')
+    ax2.text(0.2, -1.8, '$W_2$', color='red', fontsize=12)
+    
+    plt.tight_layout()
+    plt.show()
+
+draw_dcls()
+\end{lstlisting}
+
+Calculamos los pesos de cada bloque asumiendo $g = 10 \, \si{m/s^2}$:
+$$ W_1 = m_1 g = (1)(10) = 10 \, \si{N} $$
+$$ W_2 = m_2 g = (3)(10) = 30 \, \si{N} $$
+
+\subsubsection*{2. Ecuaciones de Movimiento}
+Aplicamos la Segunda Ley de Newton ($\sum F_y = m a_y$) para cada bloque. Tomamos el sentido hacia arriba como positivo.
+
+Para el bloque $m_1$:
+$$ \sum F_y = m_1 a $$
+$$ F - T - W_1 = m_1 a \quad \text{(Ecuación 1)} $$
+
+Para el bloque $m_2$:
+$$ \sum F_y = m_2 a $$
+$$ T - W_2 = m_2 a \quad \text{(Ecuación 2)} $$
+
+\subsubsection*{3. Cálculo de la Aceleración}
+Podemos resolver el sistema sumando la Ecuación 1 y la Ecuación 2. Al hacer esto, la fuerza interna $T$ se cancela:
+$$ (F - T - W_1) + (T - W_2) = m_1 a + m_2 a $$
+$$ F - W_1 - W_2 = (m_1 + m_2) a $$
+
+Sustituimos los valores numéricos:
+$$ 50 - 10 - 30 = (1 + 3) a $$
+$$ 10 = 4 a $$
+$$ a = \frac{10}{4} = 2.5 \, \si{m/s^2} $$
+
+Expresado como vector (dirección vertical hacia arriba):
+$$ \vec{a} = 2.5 \, \hat{j} \, \si{m/s^2} $$
+
+\subsubsection*{4. Cálculo de la Tensión}
+Para encontrar la magnitud de la tensión $T$, sustituimos el valor de la aceleración encontrada en la Ecuación 2:
+$$ T - W_2 = m_2 a $$
+$$ T - 30 = 3(2.5) $$
+$$ T - 30 = 7.5 $$
+$$ T = 30 + 7.5 $$
+$$ T = 37.5 \, \si{N} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering
+$\vec{a} = 2.5 \, \hat{j} \, \si{m/s^2}$ \\
+$T = 37.5 \, \si{N}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+En el sistema de la figura, calcule la aceleración de cada bloque y la magnitud de la tensión en la cuerda. Desprecie la masa y el rozamiento en la polea. Considere que $m_1 = 1 \, \si{kg}$ y $m_2 = 2 \, \si{kg}$. (Considere $g = 10 \, \si{m/s^2}$).
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[thick] (-1.5, 3) -- (1.5, 3);
+    
+    \draw[thick] (0, 3) -- (0, 1.5);
+    \draw[thick, fill=white] (0, 1.5) circle (0.6);
+    \fill (0, 1.5) circle (0.05);
+    
+    \draw[thick] (-0.6, 1.5) -- (-0.6, -0.5);
+    \draw[thick] (0.6, 1.5) -- (0.6, -1.5);
+    
+    \draw[thick, fill=white] (-1.1, -1.5) rectangle (-0.1, -0.5) node[midway] {$m_1$};
+    
+    \draw[thick, fill=white] (0.1, -2.5) rectangle (1.1, -1.5) node[midway] {$m_2$};
+    
+    \draw[->, blue, thick] (-1.5, -1.5) -- (-1.5, -0.5) node[midway, left] {$\vec{a}$};
+    \draw[->, blue, thick] (1.5, -1.5) -- (1.5, -2.5) node[midway, right] {$\vec{a}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Físico del Sistema}
+El sistema es una Máquina de Atwood clásica. Dado que la masa $m_2$ ($2 \, \si{kg}$) es mayor que la masa $m_1$ ($1 \, \si{kg}$), el bloque $m_2$ acelerará hacia abajo mientras que el bloque $m_1$ acelerará hacia arriba. Como están unidos por una cuerda inextensible, la magnitud de la aceleración $a$ será la misma para ambos. La tensión $T$ en la cuerda es uniforme en todo su trayecto porque se desprecia la masa y la fricción de la polea.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+def draw_dcls():
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8, 5))
+    
+    ax1.set_title("DCL Bloque 1 ($m_1$)")
+    ax1.set_xlim(-2, 2); ax1.set_ylim(-3, 3)
+    ax1.axis('off')
+    
+    rect1 = patches.Rectangle((-0.5, -0.5), 1, 1, linewidth=1.5, edgecolor='black', facecolor='white')
+    ax1.add_patch(rect1)
+    ax1.text(0, 0, '$m_1$', ha='center', va='center', fontsize=12)
+    
+    ax1.arrow(0, 0.5, 0, 1.5, head_width=0.15, fc='blue', ec='blue')
+    ax1.text(0.2, 1.8, 'T', color='blue', fontsize=12)
+    ax1.arrow(0, -0.5, 0, -1.0, head_width=0.15, fc='red', ec='red')
+    ax1.text(0.2, -1.2, '$W_1$', color='red', fontsize=12)
+    
+    ax1.arrow(-1.2, -0.5, 0, 1.0, head_width=0.1, fc='black', ec='black')
+    ax1.text(-1.5, 0, 'a', fontsize=12)
+    
+    ax2.set_title("DCL Bloque 2 ($m_2$)")
+    ax2.set_xlim(-2, 2); ax2.set_ylim(-3, 3)
+    ax2.axis('off')
+    
+    rect2 = patches.Rectangle((-0.5, -0.5), 1, 1, linewidth=1.5, edgecolor='black', facecolor='white')
+    ax2.add_patch(rect2)
+    ax2.text(0, 0, '$m_2$', ha='center', va='center', fontsize=12)
+    
+    ax2.arrow(0, 0.5, 0, 1.5, head_width=0.15, fc='blue', ec='blue')
+    ax2.text(0.2, 1.8, 'T', color='blue', fontsize=12)
+    ax2.arrow(0, -0.5, 0, -2.0, head_width=0.15, fc='red', ec='red')
+    ax2.text(0.2, -2.2, '$W_2$', color='red', fontsize=12)
+    
+    ax2.arrow(-1.2, 0.5, 0, -1.0, head_width=0.1, fc='black', ec='black')
+    ax2.text(-1.5, 0, 'a', fontsize=12)
+    
+    plt.tight_layout()
+    plt.show()
+
+draw_dcls()
+\end{lstlisting}
+
+Calculamos los pesos de los bloques ($g = 10 \, \si{m/s^2}$):
+$$ W_1 = m_1 g = (1)(10) = 10 \, \si{N} $$
+$$ W_2 = m_2 g = (2)(10) = 20 \, \si{N} $$
+
+\subsubsection*{2. Planteamiento de las Ecuaciones de Newton}
+Aplicamos la Segunda Ley de Newton ($\sum F_y = m a_y$) estableciendo un sistema de referencia estándar donde el eje vertical hacia arriba es positivo ($\hat{j}$).
+
+Para el bloque $m_1$ (acelera hacia arriba):
+$$ \sum F_{y1} = m_1 a $$
+$$ T - W_1 = m_1 a \quad \text{(Ecuación 1)} $$
+
+Para el bloque $m_2$ (acelera hacia abajo, por lo tanto su vector aceleración es $-a\hat{j}$):
+$$ \sum F_{y2} = m_2 (-a) $$
+$$ T - W_2 = -m_2 a $$
+Multiplicando por $-1$ para facilitar la resolución:
+$$ W_2 - T = m_2 a \quad \text{(Ecuación 2)} $$
+
+\subsubsection*{3. Cálculo de la Magnitud de la Aceleración}
+Sumamos la Ecuación 1 y la Ecuación 2 para eliminar la tensión $T$:
+$$ (T - W_1) + (W_2 - T) = m_1 a + m_2 a $$
+$$ W_2 - W_1 = (m_1 + m_2) a $$
+
+Despejamos la magnitud de la aceleración $a$:
+$$ a = \frac{W_2 - W_1}{m_1 + m_2} $$
+$$ a = \frac{20 - 10}{1 + 2} $$
+$$ a = \frac{10}{3} \approx 3.33 \, \si{m/s^2} $$
+
+Expresando las aceleraciones de forma vectorial (hacia arriba es positivo $\hat{j}$, hacia abajo es negativo $-\hat{j}$):
+$$ \vec{a}_1 = 3.33 \, \hat{j} \, \si{m/s^2} $$
+$$ \vec{a}_2 = -3.33 \, \hat{j} \, \si{m/s^2} $$
+
+\subsubsection*{4. Cálculo de la Tensión}
+Sustituimos la magnitud de la aceleración en la Ecuación 1 para encontrar la tensión $T$:
+$$ T - W_1 = m_1 a $$
+$$ T = m_1 a + W_1 $$
+$$ T = (1)(3.33) + 10 $$
+$$ T = 13.33 \, \si{N} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering
+$\vec{a}_1 = 3.33 \, \hat{j} \, \si{m/s^2}$ \\
+$\vec{a}_2 = -3.33 \, \hat{j} \, \si{m/s^2}$ \\
+$T = 13.33 \, \si{N}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Por un plano inclinado, que forma un ángulo de $15^\circ$ con la horizontal, se lanza hacia arriba un cuerpo. Determine el coeficiente de rozamiento, si el tiempo de ascenso resultó ser 2 veces menor que el de descenso.
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[thick] (0, 0) -- (6, 0);
+    \draw[thick] (0, 0) -- (5.79, 1.55);
+    \draw[thick] (5.79, 1.55) -- (5.79, 0);
+    
+    \draw (1.2, 0) arc (0:15:1.2);
+    \node at (1.6, 0.2) {$15^\circ$};
+    
+    \begin{scope}[rotate=15]
+        \draw[thick, fill=blue!10] (0.5, 0) rectangle (1.5, 0.5);
+        \draw[->, thick, orange, dashed] (1.5, 0.25) -- (2.5, 0.25) node[right] {$\vec{v}_0$};
+    \end{scope}
+    
+    \begin{scope}[rotate=15]
+        \draw[thick, dashed] (4.5, 0) rectangle (5.5, 0.5);
+    \end{scope}
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Cinemático}
+El movimiento del cuerpo se divide en dos fases: el ascenso (donde el cuerpo frena hasta detenerse) y el descenso (donde el cuerpo acelera partiendo del reposo). Ambos recorren la misma distancia $d$ sobre el plano inclinado.
+
+Definimos las variables de tiempo según el enunciado:
+$$ t_{ascenso} = t_1 $$
+$$ t_{descenso} = t_2 $$
+Sabemos que el tiempo de ascenso es la mitad del de descenso:
+$$ t_1 = \frac{t_2}{2} \implies t_2 = 2t_1 $$
+
+Utilizando las ecuaciones de la cinemática para la distancia, asumiendo aceleraciones constantes y considerando sus magnitudes (donde $a_1$ es la aceleración de frenado en el ascenso y $a_2$ la aceleración en el descenso):
+
+Para el ascenso (movimiento uniformemente retardado hasta detenerse):
+$$ d = \frac{1}{2} a_1 t_1^2 $$
+
+Para el descenso (partiendo del reposo):
+$$ d = \frac{1}{2} a_2 t_2^2 $$
+
+Igualamos ambas distancias y sustituimos $t_2$:
+$$ \frac{1}{2} a_1 t_1^2 = \frac{1}{2} a_2 (2t_1)^2 $$
+$$ a_1 t_1^2 = a_2 (4 t_1^2) $$
+$$ a_1 = 4 a_2 $$
+Esta relación nos indica que la magnitud de la aceleración durante la subida es cuatro veces mayor que durante la bajada.
+
+\subsubsection*{2. Diagramas de Cuerpo Libre}
+Para analizar las fuerzas, establecemos un sistema de referencia con el eje X paralelo al plano inclinado y el eje Y perpendicular a este. La dirección de la fuerza de rozamiento ($f_r$) siempre se opone al movimiento.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+import numpy as np
+
+def draw_dcls():
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 5))
+    
+    angle = 15
+    theta = np.radians(angle)
+    cos_t = np.cos(theta)
+    sin_t = np.sin(theta)
+    
+    for ax, title in zip([ax1, ax2], ["DCL Ascenso", "DCL Descenso"]):
+        ax.set_title(title)
+        ax.set_xlim(-2, 2); ax.set_ylim(-2, 2)
+        ax.axis('off')
+        
+        ax.plot([-2*cos_t, 2*cos_t], [-2*sin_t, 2*sin_t], 'k--', alpha=0.3)
+        ax.plot([-2*sin_t, 2*sin_t], [2*cos_t, -2*cos_t], 'k--', alpha=0.3)
+        
+        w, h = 1.0, 0.6
+        pts = np.array([[-w/2, -h/2], [w/2, -h/2], [w/2, h/2], [-w/2, h/2]])
+        rot = np.array([[cos_t, -sin_t], [sin_t, cos_t]])
+        pts_rot = np.dot(pts, rot.T)
+        poly = patches.Polygon(pts_rot, closed=True, fill=True, facecolor='white', edgecolor='black', lw=1.5)
+        ax.add_patch(poly)
+        ax.text(0, 0, 'm', ha='center', va='center', fontsize=12)
+        
+        ax.arrow(0, 0, 1.2*(-sin_t), 1.2*cos_t, head_width=0.1, fc='blue', ec='blue')
+        ax.text(-1.4*sin_t, 1.4*cos_t, 'N', color='blue', fontsize=12)
+        
+        ax.arrow(0, 0, 0, -1.5, head_width=0.1, fc='red', ec='red')
+        ax.text(0.1, -1.6, 'W', color='red', fontsize=12)
+        
+    ax1.arrow(0, 0, 1.2*(-cos_t), 1.2*(-sin_t), head_width=0.1, fc='green', ec='green')
+    ax1.text(-1.4*cos_t, -1.4*sin_t, 'f_r', color='green', fontsize=12)
+    ax1.arrow(1.2*cos_t, 1.2*sin_t, 0.5*cos_t, 0.5*sin_t, head_width=0.1, fc='gray', ec='gray')
+    ax1.text(1.8*cos_t, 1.8*sin_t, 'v (sube)', color='gray')
+    
+    ax2.arrow(0, 0, 1.2*cos_t, 1.2*sin_t, head_width=0.1, fc='green', ec='green')
+    ax2.text(1.4*cos_t, 1.4*sin_t, 'f_r', color='green', fontsize=12)
+    ax2.arrow(-1.2*cos_t, -1.2*sin_t, -0.5*cos_t, -0.5*sin_t, head_width=0.1, fc='gray', ec='gray')
+    ax2.text(-1.8*cos_t, -1.8*sin_t, 'v (baja)', color='gray')
+
+    plt.tight_layout()
+    plt.show()
+
+draw_dcls()
+\end{lstlisting}
+
+\subsubsection*{3. Análisis Dinámico de las Fuerzas}
+El peso se descompone en:
+$$ W_x = m g \sin(15^\circ) $$
+$$ W_y = m g \cos(15^\circ) $$
+
+En el eje Y (perpendicular al plano), el cuerpo no se mueve, por lo que las fuerzas se equilibran en ambos casos:
+$$ \sum F_y = 0 \implies N - W_y = 0 \implies N = m g \cos(15^\circ) $$
+La fuerza de rozamiento cinético será:
+$$ f_r = \mu N = \mu m g \cos(15^\circ) $$
+
+\textbf{Fase de Ascenso:}
+El cuerpo se mueve hacia arriba, por lo que el peso ($W_x$) y el rozamiento ($f_r$) apuntan hacia abajo del plano, causando la desaceleración $a_1$.
+$$ \sum F_x = m a_1 $$
+$$ W_x + f_r = m a_1 $$
+$$ m g \sin(15^\circ) + \mu m g \cos(15^\circ) = m a_1 $$
+Dividiendo entre la masa $m$:
+$$ a_1 = g (\sin(15^\circ) + \mu \cos(15^\circ)) $$
+
+\textbf{Fase de Descenso:}
+El cuerpo se mueve hacia abajo del plano. El peso ($W_x$) tira hacia abajo, pero el rozamiento ($f_r$) se opone apuntando hacia arriba.
+$$ \sum F_x = m a_2 $$
+$$ W_x - f_r = m a_2 $$
+$$ m g \sin(15^\circ) - \mu m g \cos(15^\circ) = m a_2 $$
+Dividiendo entre la masa $m$:
+$$ a_2 = g (\sin(15^\circ) - \mu \cos(15^\circ)) $$
+
+\subsubsection*{4. Cálculo del Coeficiente de Rozamiento ($\mu$)}
+Sustituimos las expresiones de aceleración obtenidas de la dinámica en la relación cinemática que encontramos en el paso 1 ($a_1 = 4 a_2$):
+$$ g (\sin(15^\circ) + \mu \cos(15^\circ)) = 4 g (\sin(15^\circ) - \mu \cos(15^\circ)) $$
+
+Cancelamos la gravedad ($g$) de ambos lados:
+$$ \sin(15^\circ) + \mu \cos(15^\circ) = 4 \sin(15^\circ) - 4 \mu \cos(15^\circ) $$
+
+Agrupamos los términos con $\mu$ en el lado izquierdo y los demás en el derecho:
+$$ \mu \cos(15^\circ) + 4 \mu \cos(15^\circ) = 4 \sin(15^\circ) - \sin(15^\circ) $$
+$$ 5 \mu \cos(15^\circ) = 3 \sin(15^\circ) $$
+
+Despejamos el coeficiente de rozamiento $\mu$:
+$$ \mu = \frac{3 \sin(15^\circ)}{5 \cos(15^\circ)} $$
+$$ \mu = \frac{3}{5} \tan(15^\circ) $$
+
+Calculamos el valor numérico ($\tan(15^\circ) \approx 0.2679$):
+$$ \mu = 0.6 \times 0.2679 $$
+$$ \mu \approx 0.1607 $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\mu \approx 0.16$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+El sistema se abandona desde el reposo en la posición indicada en la figura, si luego de $2 \, \si{s}$ de iniciado el movimiento, los bloques se encuentran a la misma altura, determine la relación $m_1/m_2$. El coeficiente de rozamiento para todas las superficies en contacto es $0.3$. (Considere $g=10\,\si{m/s^2}$).
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=stealth]
+    \coordinate (A) at (0,0);
+    \coordinate (V) at (4,4);
+    \coordinate (B) at (10.93, 0);
+    
+    \draw[thick] (A) -- (B) -- (V) -- cycle;
+    
+    \draw[thick] (0.8,0) arc (0:45:0.8);
+    \node at (1.3, 0.4) {$45^\circ$};
+    
+    \draw[thick] (10.13, 0) arc (180:150:0.8);
+    \node at (9.4, 0.4) {$30^\circ$};
+    
+    \coordinate (posM2) at (0.5, 0.5);
+    \coordinate (posM1) at (6.6, 2.5);
+    
+    \draw[dashed, thick] (0, 0.5) -- (6, 0.5);
+    \draw[dashed, thick] (2.1, 2.5) -- (7.6, 2.5);
+    
+    \draw[<->, thick] (4.5, 0.5) -- (4.5, 2.5) node[midway, right] {$1\text{ m}$};
+    
+    \node[draw, thick, fill=white, minimum width=1.2cm, minimum height=0.8cm, rotate=45, anchor=south] (M2) at (posM2) {$m_2$};
+    \node[draw, thick, fill=white, minimum width=1.2cm, minimum height=0.8cm, rotate=-30, anchor=south] (M1) at (posM1) {$m_1$};
+    
+    \draw[thick] (M2.east) -- (3.93, 4.49) -- (M1.west);
+    
+    \coordinate (P) at (3.93, 4.15);
+    \draw[thick, fill=white] (P) circle (0.35);
+    \draw[thick] (P) circle (0.1);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Cinemático}
+Los bloques parten del reposo ($v_0 = 0$) y se mueven durante $t = 2 \, \si{s}$. El bloque $m_2$ sube por el plano inclinado, mientras que $m_1$ baja. Como están unidos por una cuerda inextensible, ambos recorren la misma distancia $\Delta x$ sobre sus respectivos planos.
+
+Para que se encuentren a la misma altura, la suma de sus desplazamientos verticales debe ser igual a la diferencia de altura inicial ($1 \, \si{m}$).
+El desplazamiento vertical de $m_2$ (hacia arriba) es $\Delta y_2 = \Delta x \sin(45^\circ)$.
+El desplazamiento vertical de $m_1$ (hacia abajo) es $\Delta y_1 = \Delta x \sin(30^\circ)$.
+
+$$ \Delta y_2 + \Delta y_1 = 1 $$
+$$ \Delta x \sin(45^\circ) + \Delta x \sin(30^\circ) = 1 $$
+$$ \Delta x \left( \frac{\sqrt{2}}{2} + \frac{1}{2} \right) = 1 $$
+$$ \Delta x (0.707 + 0.5) = 1 $$
+$$ 1.207 \Delta x = 1 \implies \Delta x \approx 0.828 \, \si{m} $$
+
+Usando la ecuación de posición del Movimiento Rectilíneo Uniformemente Variado (MRUV):
+$$ \Delta x = v_0 t + \frac{1}{2} a t^2 $$
+$$ 0.828 = 0 + \frac{1}{2} a (2)^2 $$
+$$ 0.828 = 2 a \implies a = 0.414 \, \si{m/s^2} $$
+
+\subsubsection*{2. Diagramas de Cuerpo Libre}
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+import numpy as np
+
+def draw_dcls():
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 5))
+    
+    # --- DCL m2 (Plano 45 grados) ---
+    ax1.set_title("DCL $m_2$ (Sube)")
+    ax1.set_xlim(-2, 2); ax1.set_ylim(-2, 2); ax1.axis('off')
+    th2 = np.radians(45)
+    c2, s2 = np.cos(th2), np.sin(th2)
+    
+    ax1.plot([-2*c2, 2*c2], [-2*s2, 2*s2], 'k--', alpha=0.3)
+    ax1.plot([-2*s2, 2*s2], [2*c2, -2*c2], 'k--', alpha=0.3)
+    
+    poly2 = patches.Polygon([[-0.5*c2 - -0.3*s2, -0.5*s2 + -0.3*c2], 
+                             [0.5*c2 - -0.3*s2, 0.5*s2 + -0.3*c2], 
+                             [0.5*c2 - 0.3*s2, 0.5*s2 + 0.3*c2], 
+                             [-0.5*c2 - 0.3*s2, -0.5*s2 + 0.3*c2]], 
+                            closed=True, fill=True, facecolor='white', edgecolor='black')
+    ax1.add_patch(poly2)
+    ax1.text(0, 0, '$m_2$', ha='center', va='center', fontsize=12)
+    
+    ax1.arrow(0, 0, 1.2*c2, 1.2*s2, head_width=0.1, fc='blue', ec='blue')
+    ax1.text(1.3*c2, 1.3*s2, 'T', color='blue', fontsize=12)
+    ax1.arrow(0, 0, -s2, c2, head_width=0.1, fc='blue', ec='blue')
+    ax1.text(-1.2*s2, 1.2*c2, 'N_2', color='blue', fontsize=12)
+    ax1.arrow(0, 0, 0, -1.5, head_width=0.1, fc='red', ec='red')
+    ax1.text(0.1, -1.6, 'W_2', color='red', fontsize=12)
+    ax1.arrow(0, 0, -0.8*c2, -0.8*s2, head_width=0.1, fc='green', ec='green')
+    ax1.text(-1.0*c2, -1.0*s2, 'f_{r2}', color='green', fontsize=12)
+    
+    # --- DCL m1 (Plano 30 grados, baja hacia la derecha) ---
+    ax2.set_title("DCL $m_1$ (Baja)")
+    ax2.set_xlim(-2, 2); ax2.set_ylim(-2, 2); ax2.axis('off')
+    th1 = np.radians(-30)
+    c1, s1 = np.cos(th1), np.sin(th1)
+    
+    ax2.plot([-2*c1, 2*c1], [-2*s1, 2*s1], 'k--', alpha=0.3)
+    ax2.plot([-2*s1, 2*s1], [2*c1, -2*c1], 'k--', alpha=0.3)
+    
+    poly1 = patches.Polygon([[-0.5*c1 - -0.3*s1, -0.5*s1 + -0.3*c1], 
+                             [0.5*c1 - -0.3*s1, 0.5*s1 + -0.3*c1], 
+                             [0.5*c1 - 0.3*s1, 0.5*s1 + 0.3*c1], 
+                             [-0.5*c1 - 0.3*s1, -0.5*s1 + 0.3*c1]], 
+                            closed=True, fill=True, facecolor='white', edgecolor='black')
+    ax2.add_patch(poly1)
+    ax2.text(0, 0, '$m_1$', ha='center', va='center', fontsize=12)
+    
+    ax2.arrow(0, 0, -1.2*c1, -1.2*s1, head_width=0.1, fc='blue', ec='blue')
+    ax2.text(-1.4*c1, -1.4*s1, 'T', color='blue', fontsize=12)
+    ax2.arrow(0, 0, -s1, c1, head_width=0.1, fc='blue', ec='blue')
+    ax2.text(-1.2*s1, 1.2*c1, 'N_1', color='blue', fontsize=12)
+    ax2.arrow(0, 0, 0, -1.5, head_width=0.1, fc='red', ec='red')
+    ax2.text(0.1, -1.6, 'W_1', color='red', fontsize=12)
+    ax2.arrow(0, 0, -0.8*c1, -0.8*s1, head_width=0.1, fc='green', ec='green')
+    ax2.text(-1.0*c1, -0.6*s1, 'f_{r1}', color='green', fontsize=12)
+
+    plt.tight_layout()
+    plt.show()
+
+draw_dcls()
+\end{lstlisting}
+
+\subsubsection*{3. Ecuaciones Dinámicas}
+Establecemos las ecuaciones de la Segunda Ley de Newton para cada bloque en el eje paralelo al movimiento.
+
+\textbf{Para el bloque $\mathbf{m_2}$ (Sube por el plano de $\mathbf{45^\circ}$):}
+$$ N_2 = W_{2y} = m_2 g \cos(45^\circ) $$
+$$ f_{r2} = \mu N_2 = \mu m_2 g \cos(45^\circ) $$
+$$ \sum F_x = m_2 a \implies T - W_{2x} - f_{r2} = m_2 a $$
+$$ T - m_2 g \sin(45^\circ) - \mu m_2 g \cos(45^\circ) = m_2 a $$
+Despejamos la tensión $T$:
+$$ T = m_2 (a + g \sin(45^\circ) + \mu g \cos(45^\circ)) \quad \text{(Ecuación 1)} $$
+
+\textbf{Para el bloque $\mathbf{m_1}$ (Baja por el plano de $\mathbf{30^\circ}$):}
+$$ N_1 = W_{1y} = m_1 g \cos(30^\circ) $$
+$$ f_{r1} = \mu N_1 = \mu m_1 g \cos(30^\circ) $$
+Las fuerzas que se oponen al movimiento (Tensión y fricción) apuntan hacia arriba del plano, mientras el peso tira hacia abajo.
+$$ \sum F_x = m_1 a \implies W_{1x} - T - f_{r1} = m_1 a $$
+$$ m_1 g \sin(30^\circ) - T - \mu m_1 g \cos(30^\circ) = m_1 a $$
+Despejamos la tensión $T$:
+$$ T = m_1 (g \sin(30^\circ) - \mu g \cos(30^\circ) - a) \quad \text{(Ecuación 2)} $$
+
+\subsubsection*{4. Relación de Masas}
+Igualamos las ecuaciones 1 y 2 para la tensión $T$:
+$$ m_1 (g \sin(30^\circ) - \mu g \cos(30^\circ) - a) = m_2 (a + g \sin(45^\circ) + \mu g \cos(45^\circ)) $$
+$$ \frac{m_1}{m_2} = \frac{a + g \sin(45^\circ) + \mu g \cos(45^\circ)}{g \sin(30^\circ) - \mu g \cos(30^\circ) - a} $$
+
+Sustituimos los valores numéricos ($g = 10 \, \si{m/s^2}$, $\mu = 0.3$, $a = 0.414 \, \si{m/s^2}$):
+$$ \frac{m_1}{m_2} = \frac{0.414 + 10 \sin(45^\circ) + 0.3(10) \cos(45^\circ)}{10 \sin(30^\circ) - 0.3(10) \cos(30^\circ) - 0.414} $$
+$$ \frac{m_1}{m_2} = \frac{0.414 + 10(0.707) + 3(0.707)}{10(0.5) - 3(0.866) - 0.414} $$
+$$ \frac{m_1}{m_2} = \frac{0.414 + 7.071 + 2.121}{5.0 - 2.598 - 0.414} $$
+$$ \frac{m_1}{m_2} = \frac{9.606}{1.988} \approx 4.83 $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\frac{m_1}{m_2} = 4.83$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+En el sistema de la figura: $m = 60 \, \si{kg}$, $F = 400 \, \si{N}$, $\theta = 36.87^\circ$, $\mu = 0.4$. Determine:
+a) A partir del reposo, si el bloque de masa $m$ se mueve; para donde lo hace y cuál es su aceleración. Si no se mueve hacia donde tiende a moverse. (Considere $g = 10 \, \si{m/s^2}$).
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[thick] (0, 0) -- (6, 0);
+    \draw[thick] (1, 0) -- (5, 3);
+    
+    \draw (2, 0) arc (0:36.87:1);
+    \node at (2.4, 0.3) {$\theta$};
+    
+    \begin{scope}[rotate around={36.87:(1,0)}]
+        \coordinate (LeftMid) at (2.5, 0.6);
+        \draw[thick, fill=white] (2.5, 0) rectangle (4.0, 1.2) node[midway] {$m$};
+    \end{scope}
+    
+    \draw[->, thick, black, line width=1.2pt] ([xshift=-1.5cm]LeftMid) -- (LeftMid) node[midway, above] {$\vec{F}$};
+    
+    \draw[->, thick] (3.8, 1.2) to[bend left] (4.3, 0.5);
+    \node at (4.6, 0.6) {$\mu$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis y Descomposición de Fuerzas}
+El bloque se encuentra sobre un plano inclinado un ángulo $\theta = 36.87^\circ$. Establecemos un sistema de referencia rotado, donde el eje X es paralelo al plano inclinado (positivo hacia arriba del plano) y el eje Y es perpendicular al plano (positivo hacia arriba).
+
+Las fuerzas que actúan son:
+1. El peso ($W = mg$), vertical hacia abajo.
+2. La fuerza normal ($N$), perpendicular al plano hacia arriba.
+3. La fuerza aplicada ($F$), horizontal hacia la derecha.
+4. La fuerza de rozamiento ($f_r$), paralela al plano, oponiéndose a la tendencia de movimiento.
+
+Calculamos el peso:
+$$ W = m g = (60)(10) = 600 \, \si{N} $$
+
+Descomponemos el peso y la fuerza horizontal en los ejes X e Y.
+Para el peso ($W$):
+$$ W_x = W \sin(36.87^\circ) = 600(0.6) = 360 \, \si{N} \quad \text{(Apunta hacia abajo del plano)} $$
+$$ W_y = W \cos(36.87^\circ) = 600(0.8) = 480 \, \si{N} \quad \text{(Apunta hacia adentro del plano)} $$
+
+Para la fuerza aplicada ($F$):
+El ángulo entre la fuerza horizontal $F$ y el plano inclinado es $\theta$.
+$$ F_x = F \cos(36.87^\circ) = 400(0.8) = 320 \, \si{N} \quad \text{(Apunta hacia arriba del plano)} $$
+$$ F_y = F \sin(36.87^\circ) = 400(0.6) = 240 \, \si{N} \quad \text{(Apunta hacia adentro del plano)} $$
+
+\subsubsection*{2. Diagrama de Cuerpo Libre}
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+import numpy as np
+
+def draw_dcl():
+    fig, ax = plt.subplots(figsize=(6, 6))
+    ax.set_title("DCL del bloque (Ejes rotados)")
+    ax.set_xlim(-3, 3); ax.set_ylim(-3, 3)
+    ax.axis('off')
+    
+    th = np.radians(36.87)
+    c, s = np.cos(th), np.sin(th)
+    
+    ax.plot([-3*c, 3*c], [-3*s, 3*s], 'k--', alpha=0.3)
+    ax.plot([-3*s, 3*s], [3*c, -3*c], 'k--', alpha=0.3)
+    
+    poly = patches.Polygon([[-0.8*c - -0.5*s, -0.8*s + -0.5*c], 
+                            [0.8*c - -0.5*s, 0.8*s + -0.5*c], 
+                            [0.8*c - 0.5*s, 0.8*s + 0.5*c], 
+                            [-0.8*c - 0.5*s, -0.8*s + 0.5*c]], 
+                           closed=True, fill=True, facecolor='white', edgecolor='black', lw=1.5)
+    ax.add_patch(poly)
+    
+    ax.arrow(0, 0, -s, c, head_width=0.15, fc='blue', ec='blue')
+    ax.text(-1.3*s, 1.3*c, 'N', color='blue', fontsize=12)
+    
+    ax.arrow(0, 0, 0, -2, head_width=0.15, fc='red', ec='red')
+    ax.text(0.1, -2.2, 'W', color='red', fontsize=12)
+    
+    ax.arrow(0, 0, 1.5, 0, head_width=0.15, fc='orange', ec='orange')
+    ax.text(1.7, 0, 'F', color='orange', fontsize=12)
+    
+    ax.arrow(0, 0, 1.2*c, 1.2*s, head_width=0.1, fc='green', ec='green')
+    ax.text(1.5*c, 1.5*s, 'f_r', color='green', fontsize=12)
+
+    plt.tight_layout()
+    plt.show()
+
+draw_dcl()
+\end{lstlisting}
+
+\subsubsection*{3. Análisis en el Eje Y (Perpendicular al plano)}
+El bloque no tiene movimiento en la dirección perpendicular al plano, por lo que aplicamos la condición de equilibrio:
+$$ \sum F_y = 0 $$
+$$ N - W_y - F_y = 0 $$
+$$ N = W_y + F_y $$
+$$ N = 480 + 240 $$
+$$ N = 720 \, \si{N} $$
+
+\subsubsection*{4. Tendencia de Movimiento (Eje X)}
+Para saber hacia dónde tiende a moverse el bloque, comparamos las fuerzas impulsoras a lo largo del plano inclinado antes de considerar la fricción:
+Fuerza que empuja hacia abajo del plano: $W_x = 360 \, \si{N}$
+Fuerza que empuja hacia arriba del plano: $F_x = 320 \, \si{N}$
+
+Dado que $W_x > F_x$ ($360 \, \si{N} > 320 \, \si{N}$), la fuerza neta sin fricción apunta hacia abajo. Por lo tanto, \textbf{el bloque tiende a moverse hacia abajo del plano}. Esto significa que la fuerza de rozamiento estático actuará hacia arriba del plano para intentar evitar el movimiento.
+
+\subsubsection*{5. Condición de Movimiento}
+Calculamos la fuerza neta que intenta mover el bloque:
+$$ F_{neta} = W_x - F_x = 360 - 320 = 40 \, \si{N} \quad \text{(Hacia abajo)} $$
+
+Calculamos la fuerza de rozamiento estático máxima que la superficie puede proporcionar:
+$$ f_{r,max} = \mu N = 0.4(720) = 288 \, \si{N} $$
+
+Comparamos ambas fuerzas:
+$$ F_{neta} < f_{r,max} $$
+$$ 40 \, \si{N} < 288 \, \si{N} $$
+
+Como la fuerza neta que intenta mover el bloque es mucho menor que la capacidad máxima de fricción estática, concluimos que \textbf{no existe movimiento}.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering
+¿Se mueve?: No. \\
+Aceleración: $\vec{a} = 0 \, \si{m/s^2}$ \\
+Tendencia de movimiento: Hacia abajo del plano inclinado.
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+En el sistema de la figura: $m = 60 \, \si{kg}$, $F = 400 \, \si{N}$, $\theta = 36.87^\circ$, $\mu = 0.4$. Determine:
+b) La magnitud de la fuerza de rozamiento. (Considere $g = 10 \, \si{m/s^2}$).
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[thick] (0, 0) -- (6, 0);
+    \draw[thick] (1, 0) -- (5, 3);
+    
+    \draw (2, 0) arc (0:36.87:1);
+    \node at (2.4, 0.3) {$\theta$};
+    
+    \begin{scope}[rotate around={36.87:(1,0)}]
+        \coordinate (LeftMid) at (2.5, 0.6);
+        \draw[thick, fill=white] (2.5, 0) rectangle (4.0, 1.2) node[midway] {$m$};
+    \end{scope}
+    
+    \draw[->, thick, black, line width=1.2pt] ([xshift=-1.5cm]LeftMid) -- (LeftMid) node[midway, above] {$\vec{F}$};
+    
+    \draw[->, thick] (3.8, 1.2) to[bend left] (4.3, 0.5);
+    \node at (4.6, 0.6) {$\mu$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis de la Fuerza de Rozamiento}
+En el literal anterior demostramos que el sistema se encuentra en reposo absoluto debido a que la fuerza impulsora neta a lo largo del plano ($40 \, \si{N}$) es inferior a la fricción estática máxima soportada por las superficies ($288 \, \si{N}$).
+
+Cuando un cuerpo no se mueve, la fuerza de rozamiento estático no asume su valor máximo ($\mu N$), sino que autoajusta su magnitud para equilibrar exactamente las fuerzas aplicadas y mantener la aceleración en cero.
+
+\subsubsection*{2. Ecuación de Equilibrio en el Eje X}
+Aplicamos la Primera Ley de Newton a lo largo del plano inclinado. Tomando como positivo el sentido hacia abajo del plano (dirección de la tendencia de movimiento):
+$$ \sum F_x = 0 $$
+$$ W_x - F_x - f_r = 0 $$
+
+Reemplazando con los componentes previamente calculados ($W_x = 360 \, \si{N}$, $F_x = 320 \, \si{N}$):
+$$ 360 - 320 - f_r = 0 $$
+$$ 40 - f_r = 0 $$
+$$ f_r = 40 \, \si{N} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $f_r = 40 \, \si{N}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Dos cuerpos $A$ y $B$, de $1.5 \, \si{kg}$ y $3 \, \si{kg}$ respectivamente, están conectados por una cuerda, sobre un plano inclinado rugoso, como se muestra en la figura. Si se sueltan los cuerpos a partir del reposo, determine la magnitud de la tensión en la cuerda. 
+Datos: $\theta = 53.13^\circ$, $\mu_1 = 0.375$ (para el cuerpo A), $\mu_2 = 0.250$ (para el cuerpo B). (Considere $g=10\,\si{m/s^2}$).
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[thick] (0, 0) -- (7, 0);
+    \draw[thick] (0, 0) -- (4.5, 6);
+    
+    \draw (1.5, 0) arc (0:53.13:1.5);
+    \node at (2.2, 0.5) {$\theta = 53.13^\circ$};
+    
+    \begin{scope}[rotate=53.13]
+        \draw[thick, fill=white] (2.0, 0) rectangle (3.5, 1.0) node[midway] {$B$};
+        \draw[thick] (3.5, 0.5) -- (4.5, 0.5);
+        \draw[thick, fill=white] (4.5, 0) rectangle (6.0, 1.0) node[midway] {$A$};
+        
+        \node at (2.75, -0.5) {$\mu_2 = 0.250$};
+        \node at (5.25, -0.5) {$\mu_1 = 0.375$};
+    \end{scope}
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Físico y Diagramas de Cuerpo Libre}
+Ambos bloques se encuentran sobre un plano inclinado de $53.13^\circ$ y se mueven juntos hacia abajo del plano con la misma aceleración $a$.
+El bloque $B$ (masa $m_2 = 3 \, \si{kg}$) está más abajo en el plano. La cuerda tira de él hacia arriba del plano.
+El bloque $A$ (masa $m_1 = 1.5 \, \si{kg}$) está más arriba. La cuerda tira de él hacia abajo del plano.
+Las fuerzas de rozamiento se oponen al movimiento, por lo que para ambos bloques apuntan hacia arriba del plano.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+import numpy as np
+
+def draw_dcls():
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 5))
+    
+    th = np.radians(53.13)
+    c, s = np.cos(th), np.sin(th)
+    
+    ax1.set_title("DCL Bloque B ($m_2$)")
+    ax1.set_xlim(-2.5, 2.5); ax1.set_ylim(-2.5, 2.5); ax1.axis('off')
+    ax1.plot([-3*c, 3*c], [-3*s, 3*s], 'k--', alpha=0.3)
+    ax1.plot([-3*s, 3*s], [3*c, -3*c], 'k--', alpha=0.3)
+    
+    polyB = patches.Polygon([[-0.6*c - -0.4*s, -0.6*s + -0.4*c], 
+                             [0.6*c - -0.4*s, 0.6*s + -0.4*c], 
+                             [0.6*c - 0.4*s, 0.6*s + 0.4*c], 
+                             [-0.6*c - 0.4*s, -0.6*s + 0.4*c]], 
+                            closed=True, fill=True, facecolor='white', edgecolor='black')
+    ax1.add_patch(polyB)
+    ax1.text(0, 0, '$B$', ha='center', va='center', fontsize=12)
+    
+    ax1.arrow(0, 0, -s, c, head_width=0.1, fc='blue', ec='blue')
+    ax1.text(-1.2*s, 1.2*c, '$N_B$', color='blue', fontsize=12)
+    ax1.arrow(0, 0, 0, -1.8, head_width=0.1, fc='red', ec='red')
+    ax1.text(0.1, -2.0, '$W_B$', color='red', fontsize=12)
+    ax1.arrow(0, 0, 1.2*c, 1.2*s, head_width=0.1, fc='green', ec='green')
+    ax1.text(1.4*c, 1.4*s, '$T$', color='green', fontsize=12)
+    ax1.arrow(0, 0, 0.8*c, 0.8*s, head_width=0.1, fc='orange', ec='orange')
+    ax1.text(1.0*c, 0.5*s, '$f_{rB}$', color='orange', fontsize=12)
+    
+    ax2.set_title("DCL Bloque A ($m_1$)")
+    ax2.set_xlim(-2.5, 2.5); ax2.set_ylim(-2.5, 2.5); ax2.axis('off')
+    ax2.plot([-3*c, 3*c], [-3*s, 3*s], 'k--', alpha=0.3)
+    ax2.plot([-3*s, 3*s], [3*c, -3*c], 'k--', alpha=0.3)
+    
+    polyA = patches.Polygon([[-0.6*c - -0.4*s, -0.6*s + -0.4*c], 
+                             [0.6*c - -0.4*s, 0.6*s + -0.4*c], 
+                             [0.6*c - 0.4*s, 0.6*s + 0.4*c], 
+                             [-0.6*c - 0.4*s, -0.6*s + 0.4*c]], 
+                            closed=True, fill=True, facecolor='white', edgecolor='black')
+    ax2.add_patch(polyA)
+    ax2.text(0, 0, '$A$', ha='center', va='center', fontsize=12)
+    
+    ax2.arrow(0, 0, -s, c, head_width=0.1, fc='blue', ec='blue')
+    ax2.text(-1.2*s, 1.2*c, '$N_A$', color='blue', fontsize=12)
+    ax2.arrow(0, 0, 0, -1.8, head_width=0.1, fc='red', ec='red')
+    ax2.text(0.1, -2.0, '$W_A$', color='red', fontsize=12)
+    ax2.arrow(0, 0, -1.2*c, -1.2*s, head_width=0.1, fc='green', ec='green')
+    ax2.text(-1.4*c, -1.4*s, '$T$', color='green', fontsize=12)
+    ax2.arrow(0, 0, 0.8*c, 0.8*s, head_width=0.1, fc='orange', ec='orange')
+    ax2.text(1.0*c, 0.5*s, '$f_{rA}$', color='orange', fontsize=12)
+
+    plt.tight_layout()
+    plt.show()
+
+draw_dcls()
+\end{lstlisting}
+
+\subsubsection*{2. Descomposición de Fuerzas}
+Consideramos el eje X paralelo al plano (positivo hacia abajo, sentido del movimiento) y el eje Y perpendicular (positivo hacia arriba).
+Sabiendo que $\sin(53.13^\circ) \approx 0.8$ y $\cos(53.13^\circ) \approx 0.6$.
+
+Para el bloque $B$ ($m_2 = 3 \, \si{kg}$):
+$$ W_B = m_2 g = (3)(10) = 30 \, \si{N} $$
+$$ W_{Bx} = W_B \sin(53.13^\circ) = 30(0.8) = 24 \, \si{N} $$
+$$ W_{By} = W_B \cos(53.13^\circ) = 30(0.6) = 18 \, \si{N} $$
+$$ N_B = W_{By} = 18 \, \si{N} $$
+$$ f_{rB} = \mu_2 N_B = 0.250(18) = 4.5 \, \si{N} $$
+
+Para el bloque $A$ ($m_1 = 1.5 \, \si{kg}$):
+$$ W_A = m_1 g = (1.5)(10) = 15 \, \si{N} $$
+$$ W_{Ax} = W_A \sin(53.13^\circ) = 15(0.8) = 12 \, \si{N} $$
+$$ W_{Ay} = W_A \cos(53.13^\circ) = 15(0.6) = 9 \, \si{N} $$
+$$ N_A = W_{Ay} = 9 \, \si{N} $$
+$$ f_{rA} = \mu_1 N_A = 0.375(9) = 3.375 \, \si{N} $$
+
+\subsubsection*{3. Planteamiento de Ecuaciones Dinámicas}
+Aplicamos la Segunda Ley de Newton en el eje X para cada bloque.
+
+Ecuación para el bloque $B$ (La tensión lo frena):
+$$ \sum F_x = m_2 a $$
+$$ W_{Bx} - f_{rB} - T = m_2 a $$
+$$ 24 - 4.5 - T = 3a $$
+$$ 19.5 - T = 3a \quad \text{(Ecuación 1)} $$
+
+Ecuación para el bloque $A$ (La tensión lo empuja hacia abajo del plano):
+$$ \sum F_x = m_1 a $$
+$$ W_{Ax} - f_{rA} + T = m_1 a $$
+$$ 12 - 3.375 + T = 1.5a $$
+$$ 8.625 + T = 1.5a \quad \text{(Ecuación 2)} $$
+
+\subsubsection*{4. Resolución del Sistema}
+Para hallar la aceleración, sumamos la Ecuación 1 y la Ecuación 2 para eliminar $T$:
+$$ (19.5 - T) + (8.625 + T) = 3a + 1.5a $$
+$$ 28.125 = 4.5a $$
+$$ a = \frac{28.125}{4.5} = 6.25 \, \si{m/s^2} $$
+
+Ahora, sustituimos la aceleración en la Ecuación 2 para despejar la tensión $T$:
+$$ 8.625 + T = 1.5(6.25) $$
+$$ 8.625 + T = 9.375 $$
+$$ T = 9.375 - 8.625 $$
+$$ T = 0.75 \, \si{N} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $T = 0.75 \, \si{N}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Dos cuerpos $A$ y $B$, de $1.5 \, \si{kg}$ y $3 \, \si{kg}$ respectivamente, están conectados por una cuerda, sobre un plano inclinado rugoso, como se muestra en la figura. Si se sueltan los cuerpos a partir del reposo, determine la magnitud de la aceleración de cada cuerpo.
+Datos: $\theta = 53.13^\circ$, $\mu_1 = 0.375$ (para el cuerpo A), $\mu_2 = 0.250$ (para el cuerpo B). (Considere $g=10\,\si{m/s^2}$).
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[thick] (0, 0) -- (7, 0);
+    \draw[thick] (0, 0) -- (4.5, 6);
+    
+    \draw (1.5, 0) arc (0:53.13:1.5);
+    \node at (2.2, 0.5) {$\theta = 53.13^\circ$};
+    
+    \begin{scope}[rotate=53.13]
+        \draw[thick, fill=white] (2.0, 0) rectangle (3.5, 1.0) node[midway] {$B$};
+        \draw[thick] (3.5, 0.5) -- (4.5, 0.5);
+        \draw[thick, fill=white] (4.5, 0) rectangle (6.0, 1.0) node[midway] {$A$};
+        
+        \node at (2.75, -0.5) {$\mu_2 = 0.250$};
+        \node at (5.25, -0.5) {$\mu_1 = 0.375$};
+    \end{scope}
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Dinámico}
+Al estar conectados por una cuerda inextensible, ambos cuerpos experimentan la misma aceleración. El movimiento se da a lo largo del plano inclinado hacia abajo.
+Para resolver este sistema, aplicamos la Segunda Ley de Newton a cada bloque, tomando la dirección del movimiento (hacia abajo del plano) como positiva.
+
+\subsubsection*{2. Ecuaciones del Sistema}
+Las componentes del peso en el eje del movimiento y las fuerzas normales de cada cuerpo son:
+$$ W_{Bx} = m_B g \sin(53.13^\circ) = 3(10)(0.8) = 24 \, \si{N} $$
+$$ N_B = m_B g \cos(53.13^\circ) = 3(10)(0.6) = 18 \, \si{N} $$
+$$ f_{rB} = \mu_2 N_B = 0.250(18) = 4.5 \, \si{N} $$
+
+$$ W_{Ax} = m_A g \sin(53.13^\circ) = 1.5(10)(0.8) = 12 \, \si{N} $$
+$$ N_A = m_A g \cos(53.13^\circ) = 1.5(10)(0.6) = 9 \, \si{N} $$
+$$ f_{rA} = \mu_1 N_A = 0.375(9) = 3.375 \, \si{N} $$
+
+Establecemos las ecuaciones de fuerza neta ($\sum F_x = m a$):
+Para el bloque $B$: 
+$$ W_{Bx} - f_{rB} - T = m_B a $$
+$$ 24 - 4.5 - T = 3a $$
+$$ 19.5 - T = 3a \quad \text{(Ecuación 1)} $$
+
+Para el bloque $A$: 
+$$ W_{Ax} - f_{rA} + T = m_A a $$
+$$ 12 - 3.375 + T = 1.5a $$
+$$ 8.625 + T = 1.5a \quad \text{(Ecuación 2)} $$
+
+\subsubsection*{3. Cálculo de la Aceleración}
+Podemos encontrar la aceleración directamente sumando ambas ecuaciones de movimiento. Esto equivale a considerar a los dos bloques como un solo sistema para eliminar las fuerzas internas (como la tensión de la cuerda).
+
+$$ (19.5 - T) + (8.625 + T) = 3a + 1.5a $$
+$$ 19.5 + 8.625 = 4.5 a $$
+$$ 28.125 = 4.5 a $$
+$$ a = \frac{28.125}{4.5} $$
+$$ a = 6.25 \, \si{m/s^2} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $a = 6.25 \, \si{m/s^2}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Se lanza un bloque de $4 \, \si{kg}$ que desliza hacia arriba de un plano inclinado rugoso ($\theta = 36.87^\circ$, $\mu = 0.25$), con una rapidez inicial de $20 \, \si{m/s}$. Determine el tiempo que tarda el bloque en regresar al punto de lanzamiento. (Considere $g = 10 \, \si{m/s^2}$).
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[thick] (0, 0) -- (6, 0);
+    \draw[thick] (0, 0) -- (5, 3.75);
+    
+    \draw (1.5, 0) arc (0:36.87:1.5);
+    \node at (2.0, 0.4) {$36.87^\circ$};
+    
+    \begin{scope}[rotate=36.87]
+        \draw[thick, fill=blue!10] (1.0, 0) rectangle (2.0, 0.8) node[midway] {$m$};
+        \draw[->, thick, orange] (2.0, 0.4) -- (3.5, 0.4) node[right] {$v_0 = 20\,\si{m/s}$};
+    \end{scope}
+    
+    \node at (3.5, 3.0) {$\mu = 0.25$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Cálculo de Fuerzas Básicas}
+Primero calculamos el peso del bloque y sus componentes a lo largo de los ejes paralelo (X) y perpendicular (Y) al plano inclinado.
+$$ W = m g = (4)(10) = 40 \, \si{N} $$
+
+Sabiendo que $\sin(36.87^\circ) \approx 0.6$ y $\cos(36.87^\circ) \approx 0.8$:
+$$ W_x = W \sin(36.87^\circ) = 40(0.6) = 24 \, \si{N} $$
+$$ W_y = W \cos(36.87^\circ) = 40(0.8) = 32 \, \si{N} $$
+
+En el eje Y no hay movimiento, por lo tanto, la suma de fuerzas es cero:
+$$ \sum F_y = 0 $$
+$$ N - W_y = 0 \implies N = 32 \, \si{N} $$
+
+Con la fuerza normal calculada, obtenemos la magnitud de la fuerza de rozamiento cinético:
+$$ f_r = \mu N = 0.25(32) = 8 \, \si{N} $$
+
+\subsubsection*{2. Diagramas de Cuerpo Libre}
+El movimiento tiene dos fases distintas. En el ascenso, el bloque se mueve hacia arriba del plano, por lo que la fricción apunta hacia abajo. En el descenso, el bloque se mueve hacia abajo del plano, por lo que la fricción apunta hacia arriba.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+import numpy as np
+
+def draw_dcls():
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 5))
+    
+    th = np.radians(36.87)
+    c, s = np.cos(th), np.sin(th)
+    
+    for ax, title in zip([ax1, ax2], ["DCL Fase de Ascenso", "DCL Fase de Descenso"]):
+        ax.set_title(title)
+        ax.set_xlim(-2.5, 2.5); ax.set_ylim(-2.5, 2.5)
+        ax.axis('off')
+        
+        ax.plot([-3*c, 3*c], [-3*s, 3*s], 'k--', alpha=0.3)
+        ax.plot([-3*s, 3*s], [3*c, -3*c], 'k--', alpha=0.3)
+        
+        poly = patches.Polygon([[-0.6*c - -0.4*s, -0.6*s + -0.4*c], 
+                                [0.6*c - -0.4*s, 0.6*s + -0.4*c], 
+                                [0.6*c - 0.4*s, 0.6*s + 0.4*c], 
+                                [-0.6*c - 0.4*s, -0.6*s + 0.4*c]], 
+                               closed=True, fill=True, facecolor='white', edgecolor='black')
+        ax.add_patch(poly)
+        
+        ax.arrow(0, 0, -1.2*s, 1.2*c, head_width=0.1, fc='blue', ec='blue')
+        ax.text(-1.4*s, 1.4*c, 'N', color='blue', fontsize=12)
+        
+        ax.arrow(0, 0, 0, -1.8, head_width=0.1, fc='red', ec='red')
+        ax.text(0.1, -2.0, 'W', color='red', fontsize=12)
+        
+    ax1.arrow(0, 0, -1.2*c, -1.2*s, head_width=0.1, fc='green', ec='green')
+    ax1.text(-1.4*c, -1.4*s, 'f_r', color='green', fontsize=12)
+    ax1.arrow(0, 0, 1.5*c, 1.5*s, head_width=0.1, fc='gray', ec='gray', linestyle=':')
+    ax1.text(1.7*c, 1.7*s, 'v', color='gray', fontsize=12)
+    
+    ax2.arrow(0, 0, 1.2*c, 1.2*s, head_width=0.1, fc='green', ec='green')
+    ax2.text(1.4*c, 1.4*s, 'f_r', color='green', fontsize=12)
+    ax2.arrow(0, 0, -1.5*c, -1.5*s, head_width=0.1, fc='gray', ec='gray', linestyle=':')
+    ax2.text(-1.7*c, -1.7*s, 'v', color='gray', fontsize=12)
+
+    plt.tight_layout()
+    plt.show()
+
+draw_dcls()
+\end{lstlisting}
+
+\subsubsection*{3. Análisis de la Fase de Ascenso}
+Definimos el eje X positivo hacia arriba del plano. Ambas fuerzas, la componente del peso en X ($W_x$) y el rozamiento ($f_r$), apuntan en sentido contrario al movimiento (frenan al bloque).
+$$ \sum F_x = m a_1 $$
+$$ - W_x - f_r = m a_1 $$
+$$ - 24 - 8 = 4 a_1 $$
+$$ - 32 = 4 a_1 \implies a_1 = -8 \, \si{m/s^2} $$
+
+Calculamos el tiempo de subida ($t_1$), sabiendo que en el punto más alto la velocidad final es cero ($v_f = 0$):
+$$ v_f = v_0 + a_1 t_1 $$
+$$ 0 = 20 - 8 t_1 $$
+$$ 8 t_1 = 20 \implies t_1 = 2.5 \, \si{s} $$
+
+Calculamos la distancia ($d$) que recorre hasta detenerse:
+$$ v_f^2 = v_0^2 + 2 a_1 d $$
+$$ 0 = 20^2 + 2(-8) d $$
+$$ 16 d = 400 \implies d = 25 \, \si{m} $$
+
+\subsubsection*{4. Análisis de la Fase de Descenso}
+Ahora el bloque parte del reposo desde la altura máxima alcanzada y desciende los mismos $25 \, \si{m}$. Definimos el eje X positivo hacia abajo del plano. El peso ($W_x$) lo acelera hacia abajo, y el rozamiento ($f_r$) lo frena hacia arriba.
+$$ \sum F_x = m a_2 $$
+$$ W_x - f_r = m a_2 $$
+$$ 24 - 8 = 4 a_2 $$
+$$ 16 = 4 a_2 \implies a_2 = 4 \, \si{m/s^2} $$
+
+Calculamos el tiempo de bajada ($t_2$) usando la ecuación de posición ($v_0 = 0$):
+$$ d = v_0 t_2 + \frac{1}{2} a_2 t_2^2 $$
+$$ 25 = 0 + \frac{1}{2}(4) t_2^2 $$
+$$ 25 = 2 t_2^2 $$
+$$ t_2^2 = 12.5 \implies t_2 = \sqrt{12.5} \approx 3.535 \, \si{s} $$
+
+\subsubsection*{5. Cálculo del Tiempo Total}
+El tiempo total que tarda el bloque en regresar al punto de lanzamiento es la suma del tiempo de ascenso y el tiempo de descenso.
+$$ t_T = t_1 + t_2 $$
+$$ t_T = 2.5 + 3.535 $$
+$$ t_T \approx 6.035 \, \si{s} $$
+Redondeando a dos decimales, obtenemos $6.04 \, \si{s}$.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $t_T = 6.04 \, \si{s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un bloque, de masa $m = 2 \, \si{kg}$, descansa sobre una superficie lisa, que tiene una inclinación de $60^\circ$ y una aceleración $\vec{a}$, como indica la figura. Si el bloque permanece en reposo respecto a la superficie inclinada, determine la magnitud de la aceleración $\vec{a}$. ¿Qué pasaría si la aceleración de la superficie lisa tiene un valor mayor que $\vec{a}$? Explique. (Considere $g = 10 \, \si{m/s^2}$).
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[thick] (0, 0) -- (5, 0);
+    \draw[thick] (1, 0) -- (1, 3.464);
+    \draw[thick] (1, 3.464) -- (3, 0);
+    
+    \draw (2.5, 0) arc (180:120:0.5);
+    \node at (2.2, 0.3) {$60^\circ$};
+    
+    \begin{scope}[rotate around={-60:(3,0)}, shift={(0.5,0)}]
+        \draw[thick, fill=white] (2.5, 0) rectangle (3.5, 1.0) node[midway, rotate=-60] {$m$};
+    \end{scope}
+    
+    \draw[->, thick, black, line width=1.2pt] (1.3, 1.5) -- (2.3, 1.5) node[midway, above] {$\vec{a}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Físico}
+El problema indica que el bloque se encuentra en "reposo respecto a la superficie inclinada". Esto no significa que el bloque tenga aceleración cero; significa que se mueve exactamente con la misma aceleración que la cuña.
+Por lo tanto, la aceleración absoluta del bloque es puramente horizontal y tiene una magnitud $a$ dirigida hacia la derecha.
+Al ser una superficie lisa, no existe fuerza de rozamiento ($\mu = 0$).
+
+\subsubsection*{2. Diagrama de Cuerpo Libre}
+Para este problema, el sistema de referencia más sencillo es el inercial estándar: el eje X horizontal y el eje Y vertical.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+import numpy as np
+
+def draw_dcl():
+    fig, ax = plt.subplots(figsize=(6, 5))
+    ax.set_title("DCL del Bloque (Ejes Estándar)")
+    ax.set_xlim(-2, 3); ax.set_ylim(-3, 3)
+    ax.axis('off')
+    
+    ax.plot([-2, 3], [0, 0], 'k--', alpha=0.3)
+    ax.plot([0, 0], [-3, 3], 'k--', alpha=0.3)
+    
+    th = np.radians(-60)
+    c, s = np.cos(th), np.sin(th)
+    
+    poly = patches.Polygon([[-0.5*c - -0.5*s, -0.5*s + -0.5*c], 
+                            [0.5*c - -0.5*s, 0.5*s + -0.5*c], 
+                            [0.5*c - 0.5*s, 0.5*s + 0.5*c], 
+                            [-0.5*c - 0.5*s, -0.5*s + 0.5*c]], 
+                           closed=True, fill=white, facecolor='white', edgecolor='black', lw=1.5)
+    ax.add_patch(poly)
+    ax.text(0, 0, 'm', ha='center', va='center', fontsize=12)
+    
+    ax.arrow(0, 0, 0, -2, head_width=0.15, fc='red', ec='red')
+    ax.text(0.1, -2.2, 'W', color='red', fontsize=12)
+    
+    ax.arrow(0, 0, 1.5, 2.6, head_width=0.15, fc='blue', ec='blue')
+    ax.text(1.7, 2.7, 'N', color='blue', fontsize=12)
+    
+    ax.arrow(0, 0, 1.5, 0, head_width=0.1, fc='blue', ec='blue', linestyle=':')
+    ax.text(1.0, -0.3, 'N_x', color='blue', fontsize=10)
+    ax.arrow(0, 0, 0, 2.6, head_width=0.1, fc='blue', ec='blue', linestyle=':')
+    ax.text(-0.4, 1.5, 'N_y', color='blue', fontsize=10)
+    
+    ax.arrow(2, -1, 0.8, 0, head_width=0.15, fc='black', ec='black')
+    ax.text(2.3, -0.8, 'a', fontsize=14, fontweight='bold')
+
+    plt.tight_layout()
+    plt.show()
+
+draw_dcl()
+\end{lstlisting}
+
+\subsubsection*{3. Planteamiento de Ecuaciones Dinámicas}
+Las únicas fuerzas que actúan sobre la masa $m$ son el peso ($W = mg$) dirigido hacia abajo, y la fuerza Normal ($N$) perpendicular a la superficie.
+El ángulo de inclinación es $\theta = 60^\circ$. Por geometría, el ángulo que forma la Normal con la vertical (eje Y) es exactamente igual al ángulo del plano inclinado ($60^\circ$).
+
+Descomponemos la fuerza Normal en los ejes X e Y:
+$$ N_x = N \sin(60^\circ) $$
+$$ N_y = N \cos(60^\circ) $$
+
+Aplicamos la Segunda Ley de Newton.
+\textbf{En el eje Y (Vertical):}
+No hay aceleración vertical, el bloque se mantiene a la misma altura en la cuña.
+$$ \sum F_y = 0 $$
+$$ N_y - W = 0 $$
+$$ N \cos(60^\circ) = m g \quad \text{(Ecuación 1)} $$
+
+\textbf{En el eje X (Horizontal):}
+La componente horizontal de la Normal es la única fuerza que empuja al bloque hacia la derecha, provocando la aceleración $a$.
+$$ \sum F_x = m a $$
+$$ N_x = m a $$
+$$ N \sin(60^\circ) = m a \quad \text{(Ecuación 2)} $$
+
+\subsubsection*{4. Cálculo de la Aceleración}
+Para resolver el sistema y eliminar la variable $N$, dividimos la Ecuación 2 entre la Ecuación 1:
+$$ \frac{N \sin(60^\circ)}{N \cos(60^\circ)} = \frac{m a}{m g} $$
+$$ \tan(60^\circ) = \frac{a}{g} $$
+$$ a = g \tan(60^\circ) $$
+
+Sustituimos los valores numéricos ($g = 10 \, \si{m/s^2}$ y $\tan(60^\circ) = \sqrt{3} \approx 1.732$):
+$$ a = 10 (\sqrt{3}) $$
+$$ a = 17.32 \, \si{m/s^2} $$
+
+Expresado vectorialmente hacia la derecha:
+$$ \vec{a} = 17.32 \, \hat{i} \, \si{m/s^2} $$
+
+\subsubsection*{5. Análisis Conceptual: ¿Qué pasaría si la aceleración es mayor?}
+Si la aceleración de la superficie lisa (cuña) fuera mayor que $17.32 \, \si{m/s^2}$, la fuerza necesaria para mantener al bloque moviéndose junto a la cuña ($m a$) sería mayor que la componente horizontal máxima que la Normal puede proporcionar en esa posición de equilibrio.
+En consecuencia, la cuña "empujaría" al bloque con más fuerza de la que la gravedad puede contrarrestar para mantenerlo abajo. El bloque perdería su estado de reposo relativo y \textbf{comenzaría a deslizarse hacia arriba} sobre el plano inclinado.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering
+$\vec{a} = 17.32 \, \hat{i} \, \si{m/s^2}$ \\
+Si la aceleración es mayor, el bloque se deslizará hacia arriba del plano inclinado.
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un pequeño cuerpo, de masa $m$, se abandona en la parte superior de un plano inclinado rugoso, $\theta = 30^\circ$ sobre la horizontal. El tiempo que le toma llegar a la parte inferior del plano es el doble del tiempo que le tomaría si el plano fuera liso. Determine el coeficiente de rozamiento cinético $\mu_c$ entre el cuerpo y el plano.
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[thick] (0, 0) -- (6, 0);
+    \draw[thick] (0, 0) -- (5.196, 3);
+    \draw[thick] (5.196, 3) -- (5.196, 0);
+    
+    \draw (1.5, 0) arc (0:30:1.5);
+    \node at (2.0, 0.4) {$30^\circ$};
+    
+    \begin{scope}[rotate=30]
+        \draw[thick, fill=white] (4.5, 0) rectangle (5.5, 0.5);
+        \draw[thick, dashed] (0.5, 0) rectangle (1.5, 0.5);
+    \end{scope}
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Cinemático}
+El bloque parte del reposo ($v_0 = 0$) en la parte superior del plano inclinado y recorre una misma distancia $d$ en ambos escenarios (con rozamiento y sin rozamiento).
+Sea $a_1$ la aceleración en el plano rugoso y $t_1$ el tiempo que tarda en bajar.
+Sea $a_2$ la aceleración en el plano liso y $t_2$ el tiempo que tarda en bajar.
+
+El enunciado nos indica que el tiempo con rozamiento es el doble que el tiempo sin rozamiento:
+$$ t_1 = 2 t_2 $$
+
+Usamos la ecuación de posición del movimiento rectilíneo uniformemente variado (partiendo del reposo):
+$$ d = \frac{1}{2} a t^2 $$
+
+Como la distancia recorrida es la misma en ambos casos, igualamos las ecuaciones:
+$$ \frac{1}{2} a_1 t_1^2 = \frac{1}{2} a_2 t_2^2 $$
+
+Sustituimos $t_1 = 2 t_2$ en la ecuación:
+$$ a_1 (2 t_2)^2 = a_2 t_2^2 $$
+$$ a_1 (4 t_2^2) = a_2 t_2^2 $$
+
+Cancelamos $t_2^2$ en ambos lados:
+$$ 4 a_1 = a_2 \quad \text{(Ecuación A)} $$
+Esto significa que la aceleración sin rozamiento es 4 veces mayor que la aceleración con rozamiento.
+
+\subsubsection*{2. Diagramas de Cuerpo Libre}
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+import numpy as np
+
+def draw_dcls():
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 5))
+    
+    th = np.radians(30)
+    c, s = np.cos(th), np.sin(th)
+    
+    for ax, title in zip([ax1, ax2], ["DCL (Plano Rugoso)", "DCL (Plano Liso)"]):
+        ax.set_title(title)
+        ax.set_xlim(-2.5, 2.5); ax.set_ylim(-2.5, 2.5)
+        ax.axis('off')
+        
+        ax.plot([-3*c, 3*c], [-3*s, 3*s], 'k--', alpha=0.3)
+        ax.plot([-3*s, 3*s], [3*c, -3*c], 'k--', alpha=0.3)
+        
+        poly = patches.Polygon([[-0.6*c - -0.4*s, -0.6*s + -0.4*c], 
+                                [0.6*c - -0.4*s, 0.6*s + -0.4*c], 
+                                [0.6*c - 0.4*s, 0.6*s + 0.4*c], 
+                                [-0.6*c - 0.4*s, -0.6*s + 0.4*c]], 
+                               closed=True, fill=True, facecolor='white', edgecolor='black')
+        ax.add_patch(poly)
+        
+        ax.arrow(0, 0, -1.2*s, 1.2*c, head_width=0.1, fc='blue', ec='blue')
+        ax.text(-1.4*s, 1.4*c, 'N', color='blue', fontsize=12)
+        
+        ax.arrow(0, 0, 0, -1.8, head_width=0.1, fc='red', ec='red')
+        ax.text(0.1, -2.0, 'W', color='red', fontsize=12)
+        
+        ax.arrow(0, 0, 1.5*c, 1.5*s, head_width=0.1, fc='gray', ec='gray')
+        ax.text(1.7*c, 1.7*s, 'a', color='gray', fontsize=12)
+    
+    ax1.arrow(0, 0, -1.2*c, -1.2*s, head_width=0.1, fc='green', ec='green')
+    ax1.text(-1.4*c, -1.4*s, 'f_r', color='green', fontsize=12)
+    
+    plt.tight_layout()
+    plt.show()
+
+draw_dcls()
+\end{lstlisting}
+
+\subsubsection*{3. Análisis Dinámico (Plano Liso)}
+Definimos el eje X paralelo al plano y positivo hacia abajo.
+$$ W_x = m g \sin(30^\circ) $$
+Como no hay rozamiento, la única fuerza en el eje X es la componente del peso. Aplicamos la Segunda Ley de Newton:
+$$ \sum F_x = m a_2 $$
+$$ m g \sin(30^\circ) = m a_2 $$
+Cancelando la masa $m$:
+$$ a_2 = g \sin(30^\circ) \quad \text{(Ecuación B)} $$
+
+\subsubsection*{4. Análisis Dinámico (Plano Rugoso)}
+En este caso, la fuerza de rozamiento cinético se opone al movimiento (apunta hacia arriba del plano).
+En el eje Y (perpendicular al plano) hay equilibrio:
+$$ \sum F_y = 0 \implies N = W_y = m g \cos(30^\circ) $$
+La fuerza de rozamiento es:
+$$ f_r = \mu_c N = \mu_c m g \cos(30^\circ) $$
+
+Aplicamos la Segunda Ley de Newton en el eje X:
+$$ \sum F_x = m a_1 $$
+$$ W_x - f_r = m a_1 $$
+$$ m g \sin(30^\circ) - \mu_c m g \cos(30^\circ) = m a_1 $$
+Cancelando la masa $m$ y factorizando $g$:
+$$ a_1 = g (\sin(30^\circ) - \mu_c \cos(30^\circ)) \quad \text{(Ecuación C)} $$
+
+\subsubsection*{5. Cálculo del Coeficiente de Rozamiento ($\mu_c$)}
+Sustituimos las ecuaciones de las aceleraciones (B y C) en nuestra relación cinemática inicial (Ecuación A):
+$$ a_2 = 4 a_1 $$
+$$ g \sin(30^\circ) = 4 [ g (\sin(30^\circ) - \mu_c \cos(30^\circ)) ] $$
+
+Podemos cancelar la gravedad $g$ de ambos lados:
+$$ \sin(30^\circ) = 4 \sin(30^\circ) - 4 \mu_c \cos(30^\circ) $$
+
+Reordenamos los términos para despejar $\mu_c$:
+$$ 4 \mu_c \cos(30^\circ) = 4 \sin(30^\circ) - \sin(30^\circ) $$
+$$ 4 \mu_c \cos(30^\circ) = 3 \sin(30^\circ) $$
+$$ \mu_c = \frac{3 \sin(30^\circ)}{4 \cos(30^\circ)} $$
+$$ \mu_c = \frac{3}{4} \tan(30^\circ) $$
+
+Sabiendo que $\tan(30^\circ) = \frac{\sqrt{3}}{3} \approx 0.5774$:
+$$ \mu_c = 0.75 (0.5774) $$
+$$ \mu_c \approx 0.433 $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\mu_c = 0.43$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Entre qué límites debe variar la relación de la masa del bloque $m_2$ respecto a la masa del bloque $m_1$, para que el sistema de la figura no se mueva. El coeficiente de fricción entre el bloque $m_2$ y el plano es $\mu$.
+
+\begin{center}
+\begin{tikzpicture}[scale=1, thick, line cap=round, line join=round]
+
+    % Piso y plano inclinado
+    \draw (0.4,0) -- (7.0,0);
+    \draw (0.5,2.25) -- (6.2,0);
+
+    % Soportes
+    \draw (1.15,0) -- (1.15,1.95);
+    \draw (0.15,1.95) -- (0.15,3.45);
+
+    % Poleas
+    \draw[fill=white] (0.95,1.70) circle (0.30);
+    \draw[fill=white] (2.45,1.67) circle (0.30);
+
+    % Cuerda
+    \draw (0.15,2.95) -- (2.30,1.97);
+    \draw (1.15,1.88) -- (2.22,1.92);
+    \draw (0.65,1.70) -- (0.65,0.95);
+    \draw (2.72,1.55) -- (3.55,1.22);
+
+    % Bloque m1
+    \node[draw, fill=white, minimum width=0.72cm, minimum height=0.72cm] at (0.65,0.55) {$m_1$};
+
+    % Bloque m2 sobre el plano
+    \node[
+        draw,
+        fill=white,
+        minimum width=1.35cm,
+        minimum height=0.90cm,
+        rotate=-22
+    ] at (4.25,1.08) {$m_2$};
+
+    % Ángulo theta
+    \draw (5.55,0) arc[start angle=180, end angle=159, radius=0.70];
+    \node at (5.15,0.22) {$\theta$};
+
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis del Sistema y de la Polea Móvil}
+El sistema consta de dos masas conectadas por una cuerda que pasa por dos poleas. La condición del problema es que el sistema "no se mueva", lo que implica un estado de equilibrio estático ($\vec{a} = 0$).
+
+Para el bloque colgante $m_1$, la única fuerza hacia arriba es la tensión de la cuerda ($T_1$) y hacia abajo su peso. En equilibrio:
+$$ T_1 = W_1 = m_1 g $$
+
+La cuerda transmite esta misma tensión $T_1$ a lo largo de todo su recorrido. Observamos que el bloque $m_2$ tiene acoplada una polea móvil. La cuerda pasa por esta polea, por lo que tira del bloque $m_2$ hacia arriba del plano inclinado mediante \textbf{dos segmentos} de cuerda paralelos. 
+Por lo tanto, la fuerza total $T_2$ que tracciona al bloque $m_2$ hacia arriba del plano es:
+$$ T_2 = 2 T_1 = 2 m_1 g $$
+
+\subsubsection*{2. Diagramas de Cuerpo Libre (Bloque $m_2$)}
+Para que $m_2$ permanezca en reposo, la fuerza de fricción estática ($f_r$) actuará en la dirección necesaria para contrarrestar la tendencia al movimiento. Existen dos casos límite:
+1. \textbf{Límite Superior:} $m_2$ es tan masivo que tiende a deslizar hacia abajo del plano. La fricción actúa hacia arriba.
+2. \textbf{Límite Inferior:} $m_1$ es tan masivo que tiende a arrastrar a $m_2$ hacia arriba del plano. La fricción actúa hacia abajo.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+import numpy as np
+
+def draw_dcls():
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 5))
+    
+    th = np.radians(30)
+    c, s = np.cos(th), np.sin(th)
+    
+    for ax, title in zip([ax1, ax2], ["DCL (Tendencia a Bajar)", "DCL (Tendencia a Subir)"]):
+        ax.set_title(title)
+        ax.set_xlim(-2.5, 2.5); ax.set_ylim(-2.5, 2.5)
+        ax.axis('off')
+        
+        ax.plot([-3*c, 3*c], [3*s, -3*s], 'k--', alpha=0.3)
+        ax.plot([3*s, -3*s], [3*c, -3*c], 'k--', alpha=0.3)
+        
+        poly = patches.Polygon([[-0.6*c - 0.4*s, 0.6*s - 0.4*c], 
+                                [0.6*c - 0.4*s, -0.6*s - 0.4*c], 
+                                [0.6*c + 0.4*s, -0.6*s + 0.4*c], 
+                                [-0.6*c + 0.4*s, 0.6*s + 0.4*c]], 
+                               closed=True, fill=True, facecolor='white', edgecolor='black')
+        ax.add_patch(poly)
+        ax.text(0, 0, '$m_2$', ha='center', va='center', fontsize=12)
+        
+        ax.arrow(0, 0, s, c, head_width=0.1, fc='blue', ec='blue')
+        ax.text(1.2*s, 1.2*c, 'N', color='blue', fontsize=12)
+        
+        ax.arrow(0, 0, 0, -1.8, head_width=0.1, fc='red', ec='red')
+        ax.text(0.1, -2.0, '$W_2$', color='red', fontsize=12)
+        
+        ax.arrow(0, 0, -1.5*c, 1.5*s, head_width=0.1, fc='blue', ec='blue')
+        ax.text(-1.7*c, 1.7*s, '$2T_1$', color='blue', fontsize=12)
+        
+    ax1.arrow(0, 0, -0.8*c, 0.8*s, head_width=0.1, fc='green', ec='green')
+    ax1.text(-1.0*c, 0.6*s, '$f_r$', color='green', fontsize=12)
+    ax1.arrow(1.0*c, -1.0*s, 0.5*c, -0.5*s, head_width=0.1, fc='gray', ec='gray', linestyle=':')
+    ax1.text(1.7*c, -1.7*s, 'Tendencia', color='gray', fontsize=10)
+    
+    ax2.arrow(0, 0, 0.8*c, -0.8*s, head_width=0.1, fc='green', ec='green')
+    ax2.text(1.0*c, -0.6*s, '$f_r$', color='green', fontsize=12)
+    ax2.arrow(-1.0*c, 1.0*s, -0.5*c, 0.5*s, head_width=0.1, fc='gray', ec='gray', linestyle=':')
+    ax2.text(-1.7*c, 1.7*s, 'Tendencia', color='gray', fontsize=10)
+
+    plt.tight_layout()
+    plt.show()
+
+draw_dcls()
+\end{lstlisting}
+
+\subsubsection*{3. Análisis del Límite Superior (Tendencia a deslizar hacia abajo)}
+Descomponemos el peso de $m_2$ en sus ejes:
+$$ W_{2x} = m_2 g \sin\theta \quad \text{(hacia abajo del plano)} $$
+$$ W_{2y} = m_2 g \cos\theta \quad \text{(hacia adentro del plano)} $$
+
+De la sumatoria en el eje perpendicular obtenemos la normal:
+$$ N = m_2 g \cos\theta $$
+La fricción estática máxima es:
+$$ f_r = \mu N = \mu m_2 g \cos\theta $$
+
+En este caso, la fricción apunta hacia \textbf{arriba} del plano para ayudar a la tensión a sostener a $m_2$. Aplicando $\sum F_x = 0$:
+$$ 2 T_1 + f_r - W_{2x} = 0 $$
+$$ 2 (m_1 g) + \mu m_2 g \cos\theta - m_2 g \sin\theta = 0 $$
+
+Dividimos todo por $g$ y despejamos la relación $m_2 / m_1$:
+$$ 2 m_1 = m_2 \sin\theta - \mu m_2 \cos\theta $$
+$$ 2 m_1 = m_2 (\sin\theta - \mu \cos\theta) $$
+$$ \frac{m_2}{m_1} = \frac{2}{\sin\theta - \mu \cos\theta} $$
+Este es el valor máximo que puede tomar $m_2$ en relación con $m_1$ antes de empezar a caer.
+
+\subsubsection*{4. Análisis del Límite Inferior (Tendencia a deslizar hacia arriba)}
+En este escenario, el peso $m_2$ es tan ligero que los $2T_1$ amenazan con arrastrarlo cuesta arriba. La fricción cambia de sentido y apunta hacia \textbf{abajo} del plano, ayudando al peso.
+$$ \sum F_x = 0 $$
+$$ 2 T_1 - f_r - W_{2x} = 0 $$
+$$ 2 (m_1 g) - \mu m_2 g \cos\theta - m_2 g \sin\theta = 0 $$
+
+Dividimos por $g$ y despejamos la relación:
+$$ 2 m_1 = m_2 \sin\theta + \mu m_2 \cos\theta $$
+$$ 2 m_1 = m_2 (\sin\theta + \mu \cos\theta) $$
+$$ \frac{m_2}{m_1} = \frac{2}{\sin\theta + \mu \cos\theta} $$
+Este es el valor mínimo que puede tomar $m_2$ en relación con $m_1$ antes de ser elevado por la polea.
+
+\subsubsection*{5. Conclusión}
+Para que el sistema permanezca en reposo absoluto, la relación de masas debe encontrarse contenida entre estos dos límites calculados.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\frac{2}{\sin\theta + \mu \cos\theta} \leq \frac{m_2}{m_1} \leq \frac{2}{\sin\theta - \mu \cos\theta}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+En la figura, a partir del reposo, determine para dónde se mueve o tiende a moverse el bloque $A$. Considere que el peso del bloque A es $P_A = 20\,\si{N}$; el peso del bloque B es $P_B = 12\,\si{N}$ y el coeficiente de rozamiento es $\mu = 0.1$.
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[thick] (-1, 0) -- (6, 0);
+    \draw[thick] (0, 0) -- (4, 2.309);
+    \draw[thick] (4, 2.309) -- (4, 0);
+    
+    \draw (1, 0) arc (0:30:1);
+    \node at (1.5, 0.3) {$30^\circ$};
+    
+    \begin{scope}[rotate around={30:(0,0)}]
+        \draw[thick, fill=white] (2, 0) rectangle (3.5, 1.2) node[midway] {$A$};
+    \end{scope}
+    
+    \draw[thick, fill=white] (4.2, 2.42) circle (0.3);
+    \fill (4.2, 2.42) circle (0.05);
+    
+    \draw[thick] (3.1, 2.05) -- (3.95, 2.55);
+    
+    \draw[thick] (4.5, 2.42) -- (4.5, 0.5);
+    \draw[thick, fill=white] (4.0, -0.5) rectangle (5.0, 0.5) node[midway] {$B$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis de las Fuerzas Impulsoras}
+Para determinar hacia dónde tiende a moverse el sistema, debemos comparar las fuerzas que "tiran" de la cuerda en los extremos, asumiendo inicialmente que no hay fricción.
+
+Denotaremos los pesos como $W_A = P_A = 20\,\si{N}$ y $W_B = P_B = 12\,\si{N}$.
+El bloque $B$ tira de la cuerda hacia abajo con su peso total:
+$$ W_B = 12\,\si{N} $$
+
+El bloque $A$ tira de la cuerda hacia abajo a lo largo del plano inclinado con la componente en X de su peso ($W_{Ax}$).
+$$ W_{Ax} = W_A \sin(30^\circ) = 20(0.5) = 10\,\si{N} $$
+
+Comparando estas dos fuerzas:
+$$ W_B > W_{Ax} $$
+$$ 12\,\si{N} > 10\,\si{N} $$
+Como el peso de $B$ es mayor que la componente del peso de $A$ a lo largo del plano, la fuerza neta impulsora (sin fricción) apunta hacia la derecha. Por lo tanto, \textbf{el bloque $A$ tiende a moverse hacia arriba del plano inclinado}.
+
+\subsubsection*{2. Verificación del Movimiento (Fricción)}
+Para confirmar si el sistema realmente se mueve, debemos calcular la fuerza de rozamiento estático máxima y ver si la fuerza neta impulsora logra vencerla.
+Dado que $A$ tiende a subir, la fuerza de rozamiento ($f_r$) actuará hacia abajo del plano.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+import numpy as np
+
+def draw_dcls_tendency():
+    fig, ax = plt.subplots(figsize=(6, 5))
+    ax.set_title("DCL Bloque A (Análisis de Tendencia)")
+    ax.set_xlim(-2.5, 2.5); ax.set_ylim(-2.5, 2.5)
+    ax.axis('off')
+    
+    th = np.radians(30)
+    c, s = np.cos(th), np.sin(th)
+    
+    ax.plot([-3*c, 3*c], [-3*s, 3*s], 'k--', alpha=0.3)
+    ax.plot([-3*s, 3*s], [3*c, -3*c], 'k--', alpha=0.3)
+    
+    poly = patches.Polygon([[-0.6*c - -0.4*s, -0.6*s + -0.4*c], 
+                            [0.6*c - -0.4*s, 0.6*s + -0.4*c], 
+                            [0.6*c - 0.4*s, 0.6*s + 0.4*c], 
+                            [-0.6*c - 0.4*s, -0.6*s + 0.4*c]], 
+                           closed=True, fill=True, facecolor='white', edgecolor='black')
+    ax.add_patch(poly)
+    
+    ax.arrow(0, 0, -1.2*s, 1.2*c, head_width=0.1, fc='blue', ec='blue')
+    ax.text(-1.4*s, 1.4*c, 'N', color='blue', fontsize=12)
+    ax.arrow(0, 0, 0, -2.0, head_width=0.1, fc='red', ec='red')
+    ax.text(0.1, -2.2, 'W_A', color='red', fontsize=12)
+    ax.arrow(0, 0, 1.5*c, 1.5*s, head_width=0.1, fc='blue', ec='blue')
+    ax.text(1.7*c, 1.7*s, 'T (Tira B)', color='blue', fontsize=10)
+    
+    ax.arrow(0, 0, -0.8*c, -0.8*s, head_width=0.1, fc='green', ec='green')
+    ax.text(-1.0*c, -0.6*s, 'f_r', color='green', fontsize=12)
+
+    plt.tight_layout()
+    plt.show()
+
+draw_dcls_tendency()
+\end{lstlisting}
+
+Calculamos la fuerza Normal sobre el bloque $A$:
+$$ \sum F_y = 0 \implies N - W_{Ay} = 0 $$
+$$ N = W_A \cos(30^\circ) = 20 \left(\frac{\sqrt{3}}{2}\right) = 10\sqrt{3}\,\si{N} $$
+
+Calculamos la fricción máxima disponible:
+$$ f_{r,max} = \mu N = 0.1(10\sqrt{3}) = \sqrt{3}\,\si{N} \approx 1.732\,\si{N} $$
+
+La fuerza neta que intenta mover el sistema es la diferencia entre el empuje de $B$ y el empuje de $A$:
+$$ F_{neta} = W_B - W_{Ax} = 12 - 10 = 2\,\si{N} $$
+
+Comparamos la fuerza neta impulsora con la fricción máxima:
+$$ F_{neta} > f_{r,max} \implies 2\,\si{N} > 1.732\,\si{N} $$
+Como la fuerza neta es mayor que la fricción estática máxima, \textbf{el bloque A sí se mueve hacia arriba del plano inclinado}.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering
+El bloque A se mueve hacia arriba del plano inclinado (hacia la derecha).
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+En la figura, a partir del reposo, determine la magnitud de la aceleración de los cuerpos $A$ y $B$. Considere que el peso del bloque A es $P_A = 20\,\si{N}$; el peso del bloque B es $P_B = 12\,\si{N}$ y el coeficiente de rozamiento es $\mu = 0.1$. (Considere $g = 10\,\si{m/s^2}$).
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[thick] (-1, 0) -- (6, 0);
+    \draw[thick] (0, 0) -- (4, 2.309);
+    \draw[thick] (4, 2.309) -- (4, 0);
+    
+    \draw (1, 0) arc (0:30:1);
+    \node at (1.5, 0.3) {$30^\circ$};
+    
+    \begin{scope}[rotate around={30:(0,0)}]
+        \draw[thick, fill=white] (2, 0) rectangle (3.5, 1.2) node[midway] {$A$};
+    \end{scope}
+    
+    \draw[thick, fill=white] (4.2, 2.42) circle (0.3);
+    \fill (4.2, 2.42) circle (0.05);
+    
+    \draw[thick] (3.1, 2.05) -- (3.95, 2.55);
+    
+    \draw[thick] (4.5, 2.42) -- (4.5, 0.5);
+    \draw[thick, fill=white] (4.0, -0.5) rectangle (5.0, 0.5) node[midway] {$B$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Dinámico}
+Basándonos en el análisis previo, sabemos que el bloque $A$ sube por el plano inclinado y el bloque $B$ desciende verticalmente. Al estar conectados por una cuerda inextensible, ambos cuerpos experimentan la misma magnitud de aceleración $a$. La fuerza de rozamiento cinético sobre $A$ actuará hacia abajo del plano.
+
+Primero, obtenemos las masas de cada bloque dividiendo sus pesos por la gravedad ($g = 10\,\si{m/s^2}$):
+$$ m_A = \frac{W_A}{g} = \frac{20}{10} = 2\,\si{kg} $$
+$$ m_B = \frac{W_B}{g} = \frac{12}{10} = 1.2\,\si{kg} $$
+
+\subsubsection*{2. Diagramas de Cuerpo Libre}
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+import numpy as np
+
+def draw_dcls_dynamic():
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 5))
+    
+    th = np.radians(30)
+    c, s = np.cos(th), np.sin(th)
+    
+    ax1.set_title("DCL Bloque A (Sube)")
+    ax1.set_xlim(-2.5, 2.5); ax1.set_ylim(-2.5, 2.5); ax1.axis('off')
+    ax1.plot([-3*c, 3*c], [-3*s, 3*s], 'k--', alpha=0.3)
+    ax1.plot([-3*s, 3*s], [3*c, -3*c], 'k--', alpha=0.3)
+    
+    polyA = patches.Polygon([[-0.6*c - -0.4*s, -0.6*s + -0.4*c], 
+                             [0.6*c - -0.4*s, 0.6*s + -0.4*c], 
+                             [0.6*c - 0.4*s, 0.6*s + 0.4*c], 
+                             [-0.6*c - 0.4*s, -0.6*s + 0.4*c]], 
+                            closed=True, fill=True, facecolor='white', edgecolor='black')
+    ax1.add_patch(polyA)
+    ax1.text(0, 0, 'A', ha='center', va='center', fontsize=12)
+    
+    ax1.arrow(0, 0, -1.2*s, 1.2*c, head_width=0.1, fc='blue', ec='blue')
+    ax1.text(-1.4*s, 1.4*c, 'N', color='blue', fontsize=12)
+    ax1.arrow(0, 0, 0, -2.0, head_width=0.1, fc='red', ec='red')
+    ax1.text(0.1, -2.2, 'W_A', color='red', fontsize=12)
+    ax1.arrow(0, 0, 1.5*c, 1.5*s, head_width=0.1, fc='blue', ec='blue')
+    ax1.text(1.7*c, 1.7*s, 'T', color='blue', fontsize=12)
+    ax1.arrow(0, 0, -0.8*c, -0.8*s, head_width=0.1, fc='green', ec='green')
+    ax1.text(-1.0*c, -0.6*s, 'f_k', color='green', fontsize=12)
+    ax1.arrow(1.0*c, 2.0*s, 0.5*c, 0.5*s, head_width=0.1, fc='black', ec='black')
+    ax1.text(1.6*c, 2.6*s, 'a', fontsize=12)
+    
+    ax2.set_title("DCL Bloque B (Baja)")
+    ax2.set_xlim(-2.0, 2.0); ax2.set_ylim(-2.5, 2.5); ax2.axis('off')
+    
+    rectB = patches.Rectangle((-0.5, -0.5), 1, 1, linewidth=1.5, edgecolor='black', facecolor='white')
+    ax2.add_patch(rectB)
+    ax2.text(0, 0, 'B', ha='center', va='center', fontsize=12)
+    
+    ax2.arrow(0, 0.5, 0, 1.2, head_width=0.1, fc='blue', ec='blue')
+    ax2.text(0.2, 1.7, 'T', color='blue', fontsize=12)
+    ax2.arrow(0, -0.5, 0, -1.5, head_width=0.1, fc='red', ec='red')
+    ax2.text(0.2, -2.0, 'W_B', color='red', fontsize=12)
+    ax2.arrow(1.0, 0.5, 0, -0.8, head_width=0.1, fc='black', ec='black')
+    ax2.text(1.2, -0.3, 'a', fontsize=12)
+
+    plt.tight_layout()
+    plt.show()
+
+draw_dcls_dynamic()
+\end{lstlisting}
+
+\subsubsection*{3. Planteamiento de Ecuaciones de Movimiento}
+Establecemos la Segunda Ley de Newton para cada bloque en la dirección de su movimiento.
+
+\textbf{Bloque A (Sube por el plano inclinado):}
+Ya calculamos sus fuerzas horizontales en el literal anterior:
+$W_{Ax} = 10\,\si{N}$ y $f_k = \sqrt{3}\,\si{N}$.
+La ecuación en el eje del plano es:
+$$ \sum F_x = m_A a $$
+$$ T - W_{Ax} - f_k = m_A a $$
+$$ T - 10 - \sqrt{3} = 2a \quad \text{(Ecuación 1)} $$
+
+\textbf{Bloque B (Baja verticalmente):}
+$$ \sum F_y = m_B a $$
+$$ W_B - T = m_B a $$
+$$ 12 - T = 1.2a \quad \text{(Ecuación 2)} $$
+
+\subsubsection*{4. Resolución del Sistema}
+Sumamos la Ecuación 1 y la Ecuación 2 para eliminar la variable tensión ($T$):
+$$ (T - 10 - \sqrt{3}) + (12 - T) = 2a + 1.2a $$
+$$ 12 - 10 - \sqrt{3} = 3.2a $$
+$$ 2 - \sqrt{3} = 3.2a $$
+
+Despejamos la aceleración $a$ ($\sqrt{3} \approx 1.732$):
+$$ a = \frac{2 - 1.732}{3.2} $$
+$$ a = \frac{0.268}{3.2} $$
+$$ a = 0.08375\,\si{m/s^2} $$
+
+Redondeando a tres decimales obtenemos:
+$$ a \approx 0.084\,\si{m/s^2} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $a \approx 0.084\,\si{m/s^2}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+En el sistema de la figura, determine el valor de la masa $m_2$ para que esta suba con aceleración constante de $2\,\si{m/s^2}$. Considere que $m_1 = 12\,\si{kg}$; $\theta = 53.13^\circ$ y $\mu = 0.5$. (Considere $g = 10\,\si{m/s^2}$).
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[thick] (-1, 0) -- (6, 0);
+    \draw[thick] (0, 0) -- (5, 6.66);
+    \draw[thick] (5, 6.66) -- (5, 0);
+    
+    \draw (1.5, 0) arc (0:53.13:1.5);
+    \node at (2.0, 0.5) {$\theta$};
+    
+    \draw[thick, fill=white] (5.2, 6.8) circle (0.4);
+    \fill (5.2, 6.8) circle (0.05);
+    
+    \begin{scope}[rotate around={53.13:(0,0)}]
+        \draw[thick, fill=white] (3.5, 0) rectangle (5.0, 1.2) node[midway] {$m_1$};
+        \draw[thick] (5.0, 0.6) -- (8.3, 0.6);
+        \node at (4.25, -0.4) {$\mu$};
+        \draw[->, thick, gray, dashed] (3.0, 1.5) -- (2.0, 1.5);
+    \end{scope}
+    
+    \draw[thick] (5.6, 6.8) -- (5.6, 4.0);
+    \draw[thick, fill=white] (5.0, 2.8) rectangle (6.2, 4.0) node[midway] {$m_2$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Físico y Cinemático}
+El problema establece que la masa $m_2$ debe subir con una aceleración de $a = 2\,\si{m/s^2}$.
+Debido a que los bloques están conectados por una cuerda inextensible, el bloque $m_1$ debe descender por el plano inclinado con la misma magnitud de aceleración ($a = 2\,\si{m/s^2}$).
+Como el bloque $m_1$ se desliza hacia abajo, la fuerza de rozamiento cinético ($f_r$) actuará en dirección opuesta, es decir, hacia arriba del plano inclinado.
+
+\subsubsection*{2. Diagramas de Cuerpo Libre}
+Establecemos un sistema de ejes rotado para $m_1$ (eje X paralelo al plano, positivo hacia abajo) y un sistema de ejes estándar para $m_2$ (eje Y vertical, positivo hacia arriba).
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+import numpy as np
+
+def draw_dcls():
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 5))
+    
+    th = np.radians(53.13)
+    c, s = np.cos(th), np.sin(th)
+    
+    ax1.set_title("DCL Bloque 1 ($m_1$)")
+    ax1.set_xlim(-3, 3); ax1.set_ylim(-3, 3)
+    ax1.axis('off')
+    
+    ax1.plot([-4*c, 4*c], [-4*s, 4*s], 'k--', alpha=0.3)
+    ax1.plot([-4*s, 4*s], [4*c, -4*c], 'k--', alpha=0.3)
+    
+    poly1 = patches.Polygon([[-0.8*c - -0.6*s, -0.8*s + -0.6*c], 
+                             [0.8*c - -0.6*s, 0.8*s + -0.6*c], 
+                             [0.8*c - 0.6*s, 0.8*s + 0.6*c], 
+                             [-0.8*c - 0.6*s, -0.8*s + 0.6*c]], 
+                            closed=True, fill=True, facecolor='white', edgecolor='black')
+    ax1.add_patch(poly1)
+    ax1.text(0, 0, '$m_1$', ha='center', va='center', fontsize=12)
+    
+    ax1.arrow(0, 0, -1.8*s, 1.8*c, head_width=0.15, fc='blue', ec='blue')
+    ax1.text(-2.0*s, 2.0*c, 'N', color='blue', fontsize=12)
+    
+    ax1.arrow(0, 0, 0, -2.5, head_width=0.15, fc='red', ec='red')
+    ax1.text(0.2, -2.7, '$W_1$', color='red', fontsize=12)
+    
+    ax1.arrow(0, 0, 1.5*c, 1.5*s, head_width=0.15, fc='blue', ec='blue')
+    ax1.text(1.7*c, 1.7*s, 'T', color='blue', fontsize=12)
+    
+    ax1.arrow(0, 0, 1.0*c, 1.0*s, head_width=0.15, fc='green', ec='green')
+    ax1.text(1.2*c, 0.8*s, '$f_r$', color='green', fontsize=12)
+    
+    ax1.arrow(-1.5*c, -1.5*s, -0.5*c, -0.5*s, head_width=0.1, fc='black', ec='black')
+    ax1.text(-2.2*c, -2.2*s, 'a', fontsize=12)
+    
+    ax2.set_title("DCL Bloque 2 ($m_2$)")
+    ax2.set_xlim(-2, 2); ax2.set_ylim(-3, 3)
+    ax2.axis('off')
+    
+    rect2 = patches.Rectangle((-0.6, -0.6), 1.2, 1.2, linewidth=1.5, edgecolor='black', facecolor='white')
+    ax2.add_patch(rect2)
+    ax2.text(0, 0, '$m_2$', ha='center', va='center', fontsize=12)
+    
+    ax2.arrow(0, 0.6, 0, 1.5, head_width=0.15, fc='blue', ec='blue')
+    ax2.text(0.2, 2.2, 'T', color='blue', fontsize=12)
+    
+    ax2.arrow(0, -0.6, 0, -1.5, head_width=0.15, fc='red', ec='red')
+    ax2.text(0.2, -2.2, '$W_2$', color='red', fontsize=12)
+    
+    ax2.arrow(-1.0, 0.5, 0, 1.0, head_width=0.1, fc='black', ec='black')
+    ax2.text(-1.3, 1.0, 'a', fontsize=12)
+
+    plt.tight_layout()
+    plt.show()
+
+draw_dcls()
+\end{lstlisting}
+
+\subsubsection*{3. Análisis del Bloque $m_1$}
+Calculamos el peso del bloque $m_1$ y sus componentes a lo largo de los ejes rotados ($\sin(53.13^\circ) \approx 0.8$ y $\cos(53.13^\circ) \approx 0.6$).
+$$ W_1 = m_1 g = (12)(10) = 120\,\si{N} $$
+$$ W_{1x} = W_1 \sin(53.13^\circ) = 120(0.8) = 96\,\si{N} $$
+$$ W_{1y} = W_1 \cos(53.13^\circ) = 120(0.6) = 72\,\si{N} $$
+
+En el eje perpendicular al plano no hay aceleración:
+$$ \sum F_y = 0 \implies N - W_{1y} = 0 $$
+$$ N = 72\,\si{N} $$
+
+Calculamos la fuerza de rozamiento cinético:
+$$ f_r = \mu N = 0.5(72) = 36\,\si{N} $$
+
+Aplicamos la Segunda Ley de Newton en el eje paralelo al plano. Tomamos el sentido hacia abajo del plano como positivo (dirección del movimiento).
+$$ \sum F_x = m_1 a $$
+$$ W_{1x} - f_r - T = m_1 a $$
+$$ 96 - 36 - T = 12(2) $$
+$$ 60 - T = 24 $$
+$$ T = 60 - 24 $$
+$$ T = 36\,\si{N} $$
+
+\subsubsection*{4. Análisis del Bloque $m_2$}
+El bloque $m_2$ se mueve hacia arriba con aceleración $a = 2\,\si{m/s^2}$. Tomamos el sentido hacia arriba como positivo.
+$$ \sum F_y = m_2 a $$
+$$ T - W_2 = m_2 a $$
+$$ T - m_2 g = m_2 a $$
+
+Sustituimos la tensión calculada ($T = 36\,\si{N}$) y los demás valores conocidos:
+$$ 36 - 10 m_2 = m_2 (2) $$
+$$ 36 = 2 m_2 + 10 m_2 $$
+$$ 36 = 12 m_2 $$
+$$ m_2 = \frac{36}{12} $$
+$$ m_2 = 3\,\si{kg} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $m_2 = 3\,\si{kg}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Si en el sistema de la figura $m_A = 50\,\si{kg}$, $m_B = 20\,\si{kg}$ y $\mu = 0.5$, determine para dónde se mueve o tiende a moverse el sistema. (Considere $g = 10\,\si{m/s^2}$).
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[thick] (-2, 0) -- (6, 0);
+    
+    \draw[thick] (0, 0) -- (0, 2.5) -- (5, 2.5) -- (5, 0);
+    
+    \draw[thick, fill=white] (0, 2.5) circle (0.3);
+    \fill (0, 2.5) circle (0.05);
+    
+    \draw[thick, fill=white] (2.0, 2.5) rectangle (3.5, 3.5) node[midway] {$A$};
+    
+    \draw[thick] (-0.3, 2.5) -- (-0.3, 1.2);
+    \draw[thick, fill=white] (-0.8, 0.2) rectangle (0.2, 1.2) node[midway] {$B$};
+    
+    \draw[thick] (0.0, 2.8) -- (2.0, 2.8);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Físico del Sistema}
+El sistema está compuesto por dos bloques unidos por una cuerda. El bloque $A$ descansa sobre una superficie horizontal rugosa, mientras que el bloque $B$ cuelga libremente sometido a la gravedad. 
+
+Para determinar hacia dónde tiende a moverse el sistema, analizamos las fuerzas que intentan generar movimiento. La única fuerza impulsora externa a lo largo de la dirección de movimiento posible es el peso del bloque $B$ ($W_B$). La fuerza de gravedad tira del bloque $B$ hacia abajo, lo que a su vez tensa la cuerda y tira del bloque $A$ hacia la izquierda.
+
+Calculamos el peso del bloque $B$:
+$$ W_B = m_B g = (20)(10) = 200\,\si{N} $$
+
+Como no hay ninguna otra fuerza activa tirando en sentido contrario (hacia la derecha), la fuerza neta impulsora (sin contar aún la fricción) apunta hacia la izquierda.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering
+El sistema tiende a moverse hacia la izquierda (el bloque A hacia la izquierda y el bloque B hacia abajo).
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Si en el sistema de la figura $m_A = 50\,\si{kg}$, $m_B = 20\,\si{kg}$ y $\mu = 0.5$, determine la magnitud de la aceleración del sistema. (Considere $g = 10\,\si{m/s^2}$).
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[thick] (-2, 0) -- (6, 0);
+    \draw[thick] (0, 0) -- (0, 2.5) -- (5, 2.5) -- (5, 0);
+    \draw[thick, fill=white] (0, 2.5) circle (0.3);
+    \fill (0, 2.5) circle (0.05);
+    \draw[thick, fill=white] (2.0, 2.5) rectangle (3.5, 3.5) node[midway] {$A$};
+    \draw[thick] (-0.3, 2.5) -- (-0.3, 1.2);
+    \draw[thick, fill=white] (-0.8, 0.2) rectangle (0.2, 1.2) node[midway] {$B$};
+    \draw[thick] (0.0, 2.8) -- (2.0, 2.8);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Diagramas de Cuerpo Libre}
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+def draw_dcls():
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 5))
+    
+    ax1.set_title("DCL Bloque A")
+    ax1.set_xlim(-2.5, 2.5); ax1.set_ylim(-2.5, 2.5); ax1.axis('off')
+    
+    ax1.plot([-2.5, 2.5], [0, 0], 'k--', alpha=0.3)
+    ax1.plot([0, 0], [-2.5, 2.5], 'k--', alpha=0.3)
+    
+    rectA = patches.Rectangle((-0.8, -0.6), 1.6, 1.2, linewidth=1.5, edgecolor='black', facecolor='white')
+    ax1.add_patch(rectA)
+    ax1.text(0, 0, 'A', ha='center', va='center', fontsize=12)
+    
+    ax1.arrow(0, 0.6, 0, 1.2, head_width=0.15, fc='blue', ec='blue')
+    ax1.text(0.2, 1.9, 'N', color='blue', fontsize=12)
+    ax1.arrow(0, -0.6, 0, -1.5, head_width=0.15, fc='red', ec='red')
+    ax1.text(0.2, -2.2, 'W_A', color='red', fontsize=12)
+    ax1.arrow(-0.8, 0, -1.2, 0, head_width=0.15, fc='blue', ec='blue')
+    ax1.text(-2.2, 0.2, 'T', color='blue', fontsize=12)
+    ax1.arrow(0.8, 0, 1.0, 0, head_width=0.15, fc='green', ec='green')
+    ax1.text(1.9, 0.2, 'f_r', color='green', fontsize=12)
+    
+    ax2.set_title("DCL Bloque B")
+    ax2.set_xlim(-2, 2); ax2.set_ylim(-2.5, 2.5); ax2.axis('off')
+    
+    rectB = patches.Rectangle((-0.6, -0.6), 1.2, 1.2, linewidth=1.5, edgecolor='black', facecolor='white')
+    ax2.add_patch(rectB)
+    ax2.text(0, 0, 'B', ha='center', va='center', fontsize=12)
+    
+    ax2.arrow(0, 0.6, 0, 1.2, head_width=0.15, fc='blue', ec='blue')
+    ax2.text(0.2, 1.9, 'T', color='blue', fontsize=12)
+    ax2.arrow(0, -0.6, 0, -1.2, head_width=0.15, fc='red', ec='red')
+    ax2.text(0.2, -1.9, 'W_B', color='red', fontsize=12)
+
+    plt.tight_layout()
+    plt.show()
+
+draw_dcls()
+\end{lstlisting}
+
+\subsubsection*{2. Análisis de Fuerzas en el Bloque A}
+Calculamos el peso del bloque A y la fuerza Normal que ejerce la superficie sobre él. Como el bloque A no tiene movimiento vertical:
+$$ W_A = m_A g = (50)(10) = 500\,\si{N} $$
+$$ \sum F_y = 0 \implies N - W_A = 0 \implies N = 500\,\si{N} $$
+
+Para determinar si el bloque se mueve, calculamos la fuerza de rozamiento estático máxima. Esta es la resistencia máxima que ofrece la superficie antes de permitir el deslizamiento:
+$$ f_{r,max} = \mu N = 0.5(500) = 250\,\si{N} $$
+
+\subsubsection*{3. Condición de Movimiento}
+La fuerza que intenta arrastrar al bloque A hacia la izquierda es la Tensión ($T$), que en el caso límite de inminencia de movimiento es igual al peso del bloque B ($W_B$).
+$$ W_B = m_B g = (20)(10) = 200\,\si{N} $$
+
+Comparamos la fuerza impulsora con la resistencia máxima por fricción:
+$$ W_B < f_{r,max} $$
+$$ 200\,\si{N} < 250\,\si{N} $$
+
+Como la fuerza impulsora es menor que la fricción estática máxima disponible, la fuerza no es suficiente para vencer el rozamiento. El sistema permanece en reposo absoluto.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $a = 0\,\si{m/s^2}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Si en el sistema de la figura $m_A = 50\,\si{kg}$, $m_B = 20\,\si{kg}$ y $\mu = 0.5$, determine la magnitud de la fuerza de rozamiento que actúa sobre el bloque A. (Considere $g = 10\,\si{m/s^2}$).
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[thick] (-2, 0) -- (6, 0);
+    \draw[thick] (0, 0) -- (0, 2.5) -- (5, 2.5) -- (5, 0);
+    \draw[thick, fill=white] (0, 2.5) circle (0.3);
+    \fill (0, 2.5) circle (0.05);
+    \draw[thick, fill=white] (2.0, 2.5) rectangle (3.5, 3.5) node[midway] {$A$};
+    \draw[thick] (-0.3, 2.5) -- (-0.3, 1.2);
+    \draw[thick, fill=white] (-0.8, 0.2) rectangle (0.2, 1.2) node[midway] {$B$};
+    \draw[thick] (0.0, 2.8) -- (2.0, 2.8);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Ecuaciones de Equilibrio}
+Como se demostró en el literal anterior, el sistema se encuentra en reposo ($a = 0\,\si{m/s^2}$). Cuando un sistema está en reposo y la fuerza aplicada no supera la fricción estática máxima, la fuerza de rozamiento estático se ajusta automáticamente para igualar a la fuerza impulsora y mantener el equilibrio.
+
+Aplicamos la Primera Ley de Newton para el bloque B en el eje vertical:
+$$ \sum F_y = 0 $$
+$$ T - W_B = 0 $$
+$$ T = W_B $$
+$$ T = (20)(10) = 200\,\si{N} $$
+
+Aplicamos la Primera Ley de Newton para el bloque A en el eje horizontal:
+$$ \sum F_x = 0 $$
+$$ T - f_r = 0 $$
+$$ f_r = T $$
+$$ f_r = 200\,\si{N} $$
+
+La fuerza de rozamiento real que actúa sobre el bloque A no es $250\,\si{N}$ (que es solo su límite máximo teórico), sino exactamente $200\,\si{N}$ hacia la derecha, contrarrestando la tensión de la cuerda.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $f_r = 200\,\si{N}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un bloque, de masa $m$, ingresa en una superficie horizontal rugosa ($\mu = 0.7$) de longitud $100 \, \si{m}$, con una rapidez igual a $15 \, \si{m/s}$. Determine si el bloque logra recorrer toda la superficie. (Considere $g = 10 \, \si{m/s^2}$).
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[thick] (-2, 0) -- (0, 0);
+    \draw[thick, fill=gray!20] (0, -0.2) rectangle (6, 0);
+    \draw[thick] (0, 0) -- (6, 0);
+    
+    \draw[thick, fill=white] (-1.5, 0) rectangle (-0.5, 0.8) node[midway] {$m$};
+    \draw[->, thick, orange] (-0.5, 0.4) -- (0.8, 0.4) node[right] {$v_0 = 15\,\si{m/s}$};
+    
+    \draw[dashed] (0, 0) -- (0, -0.8);
+    \draw[dashed] (6, 0) -- (6, -0.8);
+    \draw[<->, thick] (0, -0.6) -- (6, -0.6) node[midway, below] {$L = 100\,\si{m}, \quad \mu = 0.7$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Dinámico y Diagrama de Cuerpo Libre}
+Una vez que el bloque ingresa a la superficie rugosa, la única fuerza que actúa en la dirección horizontal es la fuerza de rozamiento cinético ($f_r$), la cual se opone al movimiento y hace que el bloque desacelere.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+def draw_dcl():
+    fig, ax = plt.subplots(figsize=(5, 5))
+    ax.set_title("DCL del Bloque")
+    ax.set_xlim(-2, 2); ax.set_ylim(-2, 2)
+    ax.axis('off')
+    
+    ax.plot([-2, 2], [0, 0], 'k--', alpha=0.3)
+    ax.plot([0, 0], [-2, 2], 'k--', alpha=0.3)
+    
+    rect = patches.Rectangle((-0.5, -0.5), 1, 1, linewidth=1.5, edgecolor='black', facecolor='white')
+    ax.add_patch(rect)
+    ax.text(0, 0, 'm', ha='center', va='center', fontsize=12)
+    
+    ax.arrow(0, 0.5, 0, 1.0, head_width=0.1, fc='blue', ec='blue')
+    ax.text(0.2, 1.3, 'N', color='blue', fontsize=12)
+    
+    ax.arrow(0, -0.5, 0, -1.0, head_width=0.1, fc='red', ec='red')
+    ax.text(0.2, -1.3, 'W', color='red', fontsize=12)
+    
+    ax.arrow(-0.5, 0, -1.0, 0, head_width=0.1, fc='green', ec='green')
+    ax.text(-1.3, 0.2, 'f_r', color='green', fontsize=12)
+    
+    ax.arrow(0.6, 0.8, 0.8, 0, head_width=0.1, fc='gray', ec='gray', linestyle=':')
+    ax.text(1.0, 1.0, 'v', color='gray', fontsize=12)
+
+    plt.tight_layout()
+    plt.show()
+
+draw_dcl()
+\end{lstlisting}
+
+Aplicamos la Segunda Ley de Newton en ambos ejes.
+
+\textbf{Eje Y (Vertical):}
+El bloque no tiene movimiento vertical.
+$$ \sum F_y = 0 $$
+$$ N - W = 0 \implies N = m g $$
+
+La fuerza de rozamiento cinético es:
+$$ f_r = \mu N = \mu m g $$
+
+\textbf{Eje X (Horizontal):}
+Asumimos el sentido del movimiento (hacia la derecha) como positivo. La fuerza de rozamiento apunta hacia la izquierda.
+$$ \sum F_x = m a $$
+$$ -f_r = m a $$
+$$ -\mu m g = m a $$
+
+Cancelando la masa $m$ de ambos lados de la ecuación:
+$$ a = -\mu g $$
+
+Sustituyendo los valores conocidos ($\mu = 0.7$ y $g = 10 \, \si{m/s^2}$):
+$$ a = -(0.7)(10) $$
+$$ a = -7 \, \si{m/s^2} $$
+El signo negativo indica que es una desaceleración, como era de esperarse.
+
+\subsubsection*{2. Análisis Cinemático}
+Ahora calculamos la distancia de frenado. Queremos saber qué distancia $d$ recorre el bloque hasta detenerse completamente ($v_f = 0 \, \si{m/s}$), partiendo con una velocidad inicial de $v_0 = 15 \, \si{m/s}$.
+
+Utilizamos la ecuación cinemática independiente del tiempo:
+$$ v_f^2 = v_0^2 + 2 a d $$
+
+Sustituimos los valores:
+$$ 0^2 = (15)^2 + 2 (-7) d $$
+$$ 0 = 225 - 14 d $$
+$$ 14 d = 225 $$
+$$ d = \frac{225}{14} $$
+$$ d \approx 16.07 \, \si{m} $$
+
+\subsubsection*{3. Conclusión}
+Comparamos la distancia que necesita el bloque para detenerse por completo ($16.07 \, \si{m}$) con la longitud total de la superficie rugosa ($100 \, \si{m}$).
+$$ d < L $$
+$$ 16.07 \, \si{m} < 100 \, \si{m} $$
+
+Dado que la distancia de frenado es mucho menor que la longitud total de la superficie, el bloque se detiene en su interior.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering
+No, el bloque no logra recorrer toda la superficie. Se detiene a los $16.07 \, \si{m}$.
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Determine las magnitudes de las aceleraciones de las masas $m_1$ y $m_2$ de la figura. Las superficies son lisas y las masas de las poleas son despreciables.
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[thick] (0, 0) -- (4, 0) -- (4, -4);
+    
+    \draw[thick, fill=white] (1.0, 0) rectangle (2.5, 1.0) node[midway] {$m_1$};
+    
+    \draw[thick, fill=white] (4, 0.4) circle (0.3);
+    \fill (4, 0.4) circle (0.05);
+    
+    \draw[thick] (2.5, 0.4) -- (4, 0.4);
+    
+    \draw[thick] (4.3, 0.4) -- (4.3, -1.5);
+    
+    \draw[thick, fill=white] (4.6, -1.5) circle (0.3);
+    \fill (4.6, -1.5) circle (0.05);
+    
+    \draw[thick] (4.9, -1.5) -- (4.9, 2.0);
+    \draw[thick] (4.1, 2.0) -- (5.7, 2.0);
+    
+    \draw[thick] (4.6, -1.8) -- (4.6, -2.5);
+    \draw[thick, fill=white] (4.0, -2.5) rectangle (5.2, -3.5) node[midway] {$m_2$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Cinemático y Relación de Poleas}
+El sistema consta de una polea fija y una polea móvil. La cuerda principal está unida a $m_1$, pasa por la polea fija, desciende, da la vuelta por la polea móvil y finalmente se ancla al techo.
+Si el bloque $m_2$ (y por tanto la polea móvil) desciende una distancia $y$, se requiere que ambos lados de la cuerda que sostienen la polea móvil se alarguen en $y$. Esto significa que la cuerda principal debe liberar una longitud de $2y$. 
+Por lo tanto, el desplazamiento horizontal de $m_1$ es $x = 2y$.
+Derivando dos veces respecto al tiempo, obtenemos la relación de aceleraciones:
+$$ a_1 = 2 a_2 $$
+
+\subsubsection*{2. Diagramas de Cuerpo Libre}
+Definiremos $T_1$ como la tensión de la cuerda principal y $T_2$ como la tensión del segmento de cuerda que une la polea móvil con $m_2$.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+def draw_dcls():
+    fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(12, 4))
+    
+    ax1.set_title("DCL Bloque $m_1$")
+    ax1.set_xlim(-2, 2); ax1.set_ylim(-2, 2); ax1.axis('off')
+    ax1.plot([-2, 2], [0, 0], 'k--', alpha=0.3)
+    ax1.plot([0, 0], [-2, 2], 'k--', alpha=0.3)
+    rect1 = patches.Rectangle((-0.6, -0.6), 1.2, 1.2, fill=True, facecolor='white', edgecolor='black', lw=1.5)
+    ax1.add_patch(rect1)
+    ax1.text(0, 0, '$m_1$', ha='center', va='center', fontsize=12)
+    ax1.arrow(0, 0.6, 0, 0.8, head_width=0.1, fc='blue', ec='blue')
+    ax1.text(0.2, 1.5, 'N', color='blue', fontsize=12)
+    ax1.arrow(0, -0.6, 0, -1.0, head_width=0.1, fc='red', ec='red')
+    ax1.text(0.2, -1.8, '$W_1$', color='red', fontsize=12)
+    ax1.arrow(0.6, 0, 0.8, 0, head_width=0.1, fc='blue', ec='blue')
+    ax1.text(1.5, 0.2, '$T_1$', color='blue', fontsize=12)
+    
+    ax2.set_title("DCL Polea Móvil")
+    ax2.set_xlim(-2, 2); ax2.set_ylim(-2, 2); ax2.axis('off')
+    circle = patches.Circle((0, 0), 0.4, fill=True, facecolor='white', edgecolor='black', lw=1.5)
+    ax2.add_patch(circle)
+    ax2.arrow(-0.4, 0, 0, 1.2, head_width=0.1, fc='blue', ec='blue')
+    ax2.text(-0.8, 1.3, '$T_1$', color='blue', fontsize=12)
+    ax2.arrow(0.4, 0, 0, 1.2, head_width=0.1, fc='blue', ec='blue')
+    ax2.text(0.5, 1.3, '$T_1$', color='blue', fontsize=12)
+    ax2.arrow(0, -0.4, 0, -1.0, head_width=0.1, fc='blue', ec='blue')
+    ax2.text(0.2, -1.5, '$T_2$', color='blue', fontsize=12)
+    
+    ax3.set_title("DCL Bloque $m_2$")
+    ax3.set_xlim(-2, 2); ax3.set_ylim(-2, 2); ax3.axis('off')
+    rect2 = patches.Rectangle((-0.6, -0.6), 1.2, 1.2, fill=True, facecolor='white', edgecolor='black', lw=1.5)
+    ax3.add_patch(rect2)
+    ax3.text(0, 0, '$m_2$', ha='center', va='center', fontsize=12)
+    ax3.arrow(0, 0.6, 0, 0.8, head_width=0.1, fc='blue', ec='blue')
+    ax3.text(0.2, 1.5, '$T_2$', color='blue', fontsize=12)
+    ax3.arrow(0, -0.6, 0, -1.0, head_width=0.1, fc='red', ec='red')
+    ax3.text(0.2, -1.8, '$W_2$', color='red', fontsize=12)
+
+    plt.tight_layout()
+    plt.show()
+
+draw_dcls()
+\end{lstlisting}
+
+\subsubsection*{3. Ecuaciones Dinámicas}
+Dado que la masa de la polea móvil es despreciable ($m_p \approx 0$), la sumatoria de fuerzas sobre ella es cero:
+$$ \sum F_y = 0 \implies 2 T_1 - T_2 = 0 \implies T_2 = 2 T_1 $$
+
+Aplicamos la Segunda Ley de Newton para el bloque $m_1$ en la dirección horizontal (acelera hacia la derecha):
+$$ \sum F_x = m_1 a_1 $$
+$$ T_1 = m_1 a_1 \quad \text{(Ecuación 1)} $$
+
+Aplicamos la Segunda Ley de Newton para el bloque $m_2$ en la dirección vertical (acelera hacia abajo):
+$$ \sum F_y = m_2 a_2 $$
+$$ W_2 - T_2 = m_2 a_2 $$
+Sustituyendo $W_2 = m_2 g$ y $T_2 = 2 T_1$:
+$$ m_2 g - 2 T_1 = m_2 a_2 \quad \text{(Ecuación 2)} $$
+
+\subsubsection*{4. Resolución del Sistema}
+Sustituimos la Ecuación 1 ($T_1 = m_1 a_1$) y la relación cinemática ($a_2 = \frac{a_1}{2}$) en la Ecuación 2:
+$$ m_2 g - 2 (m_1 a_1) = m_2 \left(\frac{a_1}{2}\right) $$
+
+Multiplicamos toda la expresión por $2$ para eliminar el denominador:
+$$ 2 m_2 g - 4 m_1 a_1 = m_2 a_1 $$
+
+Agrupamos los términos con $a_1$ en un solo lado de la ecuación:
+$$ 2 m_2 g = m_2 a_1 + 4 m_1 a_1 $$
+$$ 2 m_2 g = a_1 (m_2 + 4 m_1) $$
+
+Despejamos la aceleración $a_1$:
+$$ a_1 = \frac{2 m_2}{m_2 + 4 m_1} g $$
+
+Finalmente, hallamos $a_2$ usando la relación $a_2 = \frac{a_1}{2}$:
+$$ a_2 = \frac{1}{2} \left( \frac{2 m_2}{m_2 + 4 m_1} g \right) $$
+$$ a_2 = \frac{m_2}{m_2 + 4 m_1} g $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering
+$a_1 = \left( \frac{2 m_2}{m_2 + 4 m_1} \right) g$ \\ \vspace{0.2cm}
+$a_2 = \left( \frac{m_2}{m_2 + 4 m_1} \right) g$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un bloque, de $2 \, \si{kg}$, desliza hacia arriba sobre un plano inclinado $36.87^\circ$ sobre la horizontal, con una aceleración constante de $0.2 \, \si{m/s^2}$ y un coeficiente de rozamiento de $0.4$. Determine la magnitud de la fuerza horizontal que hará que el bloque suba. (Considere $g = 10 \, \si{m/s^2}$).
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2, >=Latex]
+    \draw[thick] (0, 0) -- (5, 0);
+    \draw[thick] (0, 0) -- (4, 3);
+    \draw[thick] (4, 3) -- (4, 0);
+    
+    \draw (1.2, 0) arc (0:36.87:1.2);
+    \node at (1.8, 0.4) {$36.87^\circ$};
+    
+    \begin{scope}[rotate=36.87]
+        \draw[thick, fill=white] (2.0, 0) rectangle (3.0, 0.8) node[midway] {$m$};
+        \coordinate (Center) at (2.0, 0.4);
+    \end{scope}
+    
+    \draw[->, thick, black, line width=1.2pt] ([xshift=-1.5cm]Center) -- (Center) node[midway, above] {$\vec{F}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis y Descomposición de Fuerzas}
+El bloque es empujado por una fuerza $\vec{F}$ que es estrictamente **horizontal**, no paralela al plano. Para facilitar el análisis dinámico, estableceremos un sistema de ejes rotados donde el eje X es paralelo al plano inclinado (positivo hacia arriba) y el eje Y es perpendicular al plano (positivo hacia arriba).
+
+Dado el ángulo $\theta = 36.87^\circ$, sabemos que $\sin(36.87^\circ) \approx 0.6$ y $\cos(36.87^\circ) \approx 0.8$.
+El peso del bloque es $W = mg = (2)(10) = 20 \, \si{N}$.
+
+Descomponemos el peso $W$ (que es vertical) en sus componentes respecto al plano:
+$$ W_x = W \sin(36.87^\circ) = 20(0.6) = 12 \, \si{N} \quad \text{(Apunta hacia abajo del plano)} $$
+$$ W_y = W \cos(36.87^\circ) = 20(0.8) = 16 \, \si{N} \quad \text{(Apunta hacia adentro del plano)} $$
+
+Descomponemos la fuerza horizontal $F$. El ángulo que forma esta fuerza horizontal con el plano inclinado es exactamente $\theta = 36.87^\circ$.
+$$ F_x = F \cos(36.87^\circ) = 0.8 F \quad \text{(Apunta hacia arriba del plano)} $$
+$$ F_y = F \sin(36.87^\circ) = 0.6 F \quad \text{(Apunta hacia adentro del plano, comprimiendo el bloque)} $$
+
+\subsubsection*{2. Diagrama de Cuerpo Libre}
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+import numpy as np
+
+def draw_dcl():
+    fig, ax = plt.subplots(figsize=(6, 6))
+    ax.set_title("DCL del Bloque (Ejes Rotados)")
+    ax.set_xlim(-3, 3); ax.set_ylim(-3, 3)
+    ax.axis('off')
+    
+    th = np.radians(36.87)
+    c, s = np.cos(th), np.sin(th)
+    
+    ax.plot([-3*c, 3*c], [-3*s, 3*s], 'k--', alpha=0.3)
+    ax.plot([-3*s, 3*s], [3*c, -3*c], 'k--', alpha=0.3)
+    
+    poly = patches.Polygon([[-0.8*c - -0.5*s, -0.8*s + -0.5*c], 
+                            [0.8*c - -0.5*s, 0.8*s + -0.5*c], 
+                            [0.8*c - 0.5*s, 0.8*s + 0.5*c], 
+                            [-0.8*c - 0.5*s, -0.8*s + 0.5*c]], 
+                           closed=True, fill=True, facecolor='white', edgecolor='black', lw=1.5)
+    ax.add_patch(poly)
+    
+    ax.arrow(0, 0, -1.2*s, 1.2*c, head_width=0.15, fc='blue', ec='blue')
+    ax.text(-1.5*s, 1.5*c, 'N', color='blue', fontsize=12)
+    
+    ax.arrow(0, 0, 0, -2, head_width=0.15, fc='red', ec='red')
+    ax.text(0.1, -2.2, 'W', color='red', fontsize=12)
+    
+    ax.arrow(0, 0, 1.5, 0, head_width=0.15, fc='orange', ec='orange')
+    ax.text(1.7, 0, 'F', color='orange', fontsize=12)
+    
+    ax.arrow(0, 0, -0.8*c, -0.8*s, head_width=0.1, fc='green', ec='green')
+    ax.text(-1.0*c, -1.0*s, 'f_r', color='green', fontsize=12)
+    
+    ax.arrow(1.0*c, 1.5*s, 0.8*c, 0.8*s, head_width=0.1, fc='black', ec='black')
+    ax.text(1.9*c, 2.4*s, 'a = 0.2 m/s^2', fontsize=12)
+
+    plt.tight_layout()
+    plt.show()
+
+draw_dcl()
+\end{lstlisting}
+
+\subsubsection*{3. Ecuaciones Dinámicas}
+Aplicamos la Segunda Ley de Newton en el eje perpendicular al plano (Eje Y). Como no hay movimiento en esa dirección, la aceleración es cero. Es vital notar que la fuerza horizontal $F$ contribuye a aplastar el bloque contra el plano, aumentando la normal.
+$$ \sum F_y = 0 $$
+$$ N - W_y - F_y = 0 $$
+$$ N = W_y + F_y $$
+$$ N = 16 + 0.6 F $$
+
+Con la fuerza Normal calculada en función de $F$, expresamos la fuerza de rozamiento cinético. Al deslizar el bloque hacia arriba, la fricción apunta hacia abajo del plano.
+$$ f_r = \mu N = 0.4 (16 + 0.6 F) $$
+$$ f_r = 6.4 + 0.24 F $$
+
+Aplicamos la Segunda Ley de Newton en el eje paralelo al plano (Eje X). El bloque acelera hacia arriba a $0.2 \, \si{m/s^2}$.
+$$ \sum F_x = m a $$
+$$ F_x - W_x - f_r = m a $$
+$$ 0.8 F - 12 - (6.4 + 0.24 F) = (2)(0.2) $$
+
+\subsubsection*{4. Resolución Algebraica}
+Simplificamos y despejamos la variable $F$:
+$$ 0.8 F - 12 - 6.4 - 0.24 F = 0.4 $$
+$$ (0.8 - 0.24) F - 18.4 = 0.4 $$
+$$ 0.56 F = 0.4 + 18.4 $$
+$$ 0.56 F = 18.8 $$
+$$ F = \frac{18.8}{0.56} $$
+$$ F \approx 33.5714 \, \si{N} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $F \approx 33.57 \, \si{N}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una persona, de $60 \, \si{kg}$, que aborda un ascensor en el piso 50 de un edificio de 100 pisos, se para sobre una balanza. Cuando el ascensor empieza a moverse la persona observa que la balanza marca $720 \, \si{N}$ durante $5 \, \si{s}$, $600 \, \si{N}$ durante $20 \, \si{s}$, $480 \, \si{N}$ durante $5 \, \si{s}$, con lo cual el ascensor llega al reposo al final de su viaje. Determine:
+a) si el ascensor está en la parte más alta o más baja del edificio. (Considere $g = 10 \, \si{m/s^2}$).
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[thick] (0, 0) -- (2, 0);
+    \draw[thick] (0, 0) -- (0, 4);
+    \draw[thick] (2, 0) -- (2, 4);
+    
+    \draw[thick, fill=gray!10] (0.2, 1.5) rectangle (1.8, 2.5);
+    \draw[thick] (1.0, 2.5) -- (1.0, 4.0);
+    
+    \draw[thick, fill=blue!10] (0.6, 1.6) rectangle (1.4, 2.3) node[midway] {$m$};
+    \draw[thick, line width=2pt] (0.6, 1.5) -- (1.4, 1.5);
+    
+    \node at (3.5, 2.0) {Piso 50};
+    \draw[->, dashed] (2.5, 2.0) -- (1.8, 2.0);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Dinámico Inicial}
+La balanza mide la fuerza Normal ($N$) que ejerce sobre la persona. El peso de la persona se calcula con la masa y la gravedad:
+$$ W = mg = (60)(10) = 600 \, \si{N} $$
+
+Para determinar la dirección del movimiento, analizamos la primera fase (los primeros $5 \, \si{s}$), donde el ascensor parte del reposo.
+Aplicamos la Segunda Ley de Newton en el eje vertical (asumiendo el sentido hacia arriba como positivo):
+$$ \sum F_y = m a_1 $$
+$$ N_1 - W = m a_1 $$
+
+Sustituimos la lectura de la balanza en esta primera fase ($N_1 = 720 \, \si{N}$):
+$$ 720 - 600 = 60 a_1 $$
+$$ 120 = 60 a_1 $$
+$$ a_1 = 2 \, \si{m/s^2} $$
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+def draw_dcl():
+    fig, ax = plt.subplots(figsize=(4, 5))
+    ax.set_title("DCL de la Persona (0 a 5 s)")
+    ax.set_xlim(-2, 2); ax.set_ylim(-2, 3)
+    ax.axis('off')
+    
+    rect = patches.Rectangle((-0.5, -0.5), 1, 1, linewidth=1.5, edgecolor='black', facecolor='white')
+    ax.add_patch(rect)
+    ax.text(0, 0, 'm', ha='center', va='center', fontsize=12)
+    
+    ax.arrow(0, 0.5, 0, 1.5, head_width=0.15, fc='blue', ec='blue')
+    ax.text(0.2, 1.8, 'N = 720 N', color='blue', fontsize=12)
+    
+    ax.arrow(0, -0.5, 0, -1.0, head_width=0.15, fc='red', ec='red')
+    ax.text(0.2, -1.3, 'W = 600 N', color='red', fontsize=12)
+    
+    ax.arrow(-1.0, 0, 0, 1.0, head_width=0.1, fc='black', ec='black')
+    ax.text(-1.5, 0.5, 'a > 0', fontsize=12)
+
+    plt.tight_layout()
+    plt.show()
+
+draw_dcl()
+\end{lstlisting}
+
+\subsubsection*{2. Conclusión de la Dirección}
+Como la aceleración inicial es positiva ($a_1 = 2 \, \si{m/s^2}$) y el ascensor parte del reposo, el vector velocidad apunta hacia **arriba**.
+Dado que el recorrido inicia en la mitad exacta del edificio (piso 50 de 100), y se mueve sostenidamente hacia arriba hasta detenerse al final de su viaje, concluirá su trayecto en la parte superior.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering
+El ascensor está en la parte más alta del edificio.
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una persona, de $60 \, \si{kg}$, que aborda un ascensor en el piso 50 de un edificio de 100 pisos, se para sobre una balanza. Cuando el ascensor empieza a moverse la persona observa que la balanza marca $720 \, \si{N}$ durante $5 \, \si{s}$, $600 \, \si{N}$ durante $20 \, \si{s}$, $480 \, \si{N}$ durante $5 \, \si{s}$, con lo cual el ascensor llega al reposo al final de su viaje. Determine:
+b) la altura del edificio. (Considere $g = 10 \, \si{m/s^2}$).
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[thick] (0, 0) -- (2, 0);
+    \draw[thick] (0, 0) -- (0, 4);
+    \draw[thick] (2, 0) -- (2, 4);
+    
+    \draw[thick, fill=gray!10] (0.2, 1.5) rectangle (1.8, 2.5);
+    \draw[thick] (1.0, 2.5) -- (1.0, 4.0);
+    
+    \draw[thick, fill=blue!10] (0.6, 1.6) rectangle (1.4, 2.3) node[midway] {$m$};
+    \draw[thick, line width=2pt] (0.6, 1.5) -- (1.4, 1.5);
+    
+    \node at (3.5, 2.0) {Piso 50};
+    \draw[->, dashed] (2.5, 2.0) -- (1.8, 2.0);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Cálculo de Distancias por Intervalos (Cinemática)}
+El movimiento ascendente se divide en tres fases. El peso de la persona es constante ($W = 600 \, \si{N}$).
+
+\textbf{Fase 1 (Aceleración: 0 a 5 s)}
+$$ t_1 = 5 \, \si{s} \quad ; \quad v_0 = 0 \, \si{m/s} $$
+Ya calculamos que la aceleración es $a_1 = 2 \, \si{m/s^2}$.
+La distancia recorrida en esta fase es:
+$$ d_1 = v_0 t_1 + \frac{1}{2} a_1 t_1^2 = 0 + \frac{1}{2} (2) (5)^2 = 25 \, \si{m} $$
+La velocidad al finalizar esta fase es:
+$$ v_1 = v_0 + a_1 t_1 = 0 + 2(5) = 10 \, \si{m/s} $$
+
+\textbf{Fase 2 (Velocidad Constante: 5 a 25 s)}
+$$ t_2 = 20 \, \si{s} \quad ; \quad N_2 = 600 \, \si{N} $$
+$$ N_2 - W = m a_2 \implies 600 - 600 = 60 a_2 \implies a_2 = 0 \, \si{m/s^2} $$
+El ascensor se mueve con Movimiento Rectilíneo Uniforme (MRU) a la velocidad $v_1$.
+$$ d_2 = v_1 t_2 = 10 (20) = 200 \, \si{m} $$
+
+\textbf{Fase 3 (Frenado: 25 a 30 s)}
+$$ t_3 = 5 \, \si{s} \quad ; \quad N_3 = 480 \, \si{N} $$
+$$ N_3 - W = m a_3 \implies 480 - 600 = 60 a_3 \implies -120 = 60 a_3 \implies a_3 = -2 \, \si{m/s^2} $$
+La distancia recorrida hasta detenerse por completo es:
+$$ d_3 = v_1 t_3 + \frac{1}{2} a_3 t_3^2 = 10(5) + \frac{1}{2} (-2) (5)^2 $$
+$$ d_3 = 50 - 25 = 25 \, \si{m} $$
+
+\subsubsection*{2. Cálculo de la Altura Total del Edificio}
+Sumamos las distancias de las tres fases para obtener el desplazamiento total del ascensor:
+$$ d_{total} = d_1 + d_2 + d_3 = 25 + 200 + 25 = 250 \, \si{m} $$
+
+Sabemos que el ascensor abordó en el piso 50 (la mitad exacta del edificio) y, según el literal anterior, viajó hacia arriba hasta el reposo en la cima (piso 100).
+Esto significa que los $250 \, \si{m}$ recorridos equivalen a la mitad superior del edificio. 
+
+Por lo tanto, la altura total $H$ del edificio será el doble de la distancia recorrida:
+$$ H = 2 \times d_{total} $$
+$$ H = 2 \times 250 $$
+$$ H = 500 \, \si{m} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $h = 500 \, \si{m}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+En el sistema de la figura, determine el intervalo de masas que puede tener el cuerpo $B$ para que el cuerpo $A$ de $50\,\si{kg}$ no se mueva. Se conoce que entre $A$ y el plano inclinado el coeficiente de rozamiento es $\mu_e = 0.3$; $\theta = 20^\circ$.
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[thick] (-1, 0) -- (6, 0);
+    \draw[thick] (0, 0) -- (4, 1.456);
+    \draw[thick] (4, 1.456) -- (4, 0);
+    
+    \draw (1, 0) arc (0:20:1);
+    \node at (1.5, 0.2) {$20^\circ$};
+    
+    \begin{scope}[rotate around={20:(0,0)}]
+        \draw[thick, fill=white] (2.0, 0) rectangle (3.5, 1.0) node[midway] {$A$};
+        \draw[thick] (3.5, 0.5) -- (4.4, 0.5);
+    \end{scope}
+    
+    \draw[thick, fill=white] (4.2, 1.6) circle (0.3);
+    \fill (4.2, 1.6) circle (0.05);
+    
+    \draw[thick] (4.5, 1.6) -- (4.5, 0.0);
+    \draw[thick, fill=white] (4.0, -1.0) rectangle (5.0, 0.0) node[midway] {$B$};
+    
+    \node at (2.5, 0.6) {$\mu_e$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Físico y Tensión de la Cuerda}
+Para que el sistema permanezca en reposo, ambos bloques deben estar en equilibrio estático.
+Analizando el bloque $B$, las únicas fuerzas que actúan sobre él son su peso ($W_B$) hacia abajo y la tensión de la cuerda ($T$) hacia arriba.
+$$ \sum F_y = 0 \implies T - W_B = 0 \implies T = m_B g $$
+La tensión de la cuerda en todo momento es directamente proporcional a la masa del bloque $B$.
+
+El bloque $A$ se encuentra en un plano inclinado. Para que no se mueva, la fuerza de rozamiento estático ($f_r$) debe equilibrar al sistema. Existirán dos casos límite:
+1.  **Límite Superior (Masa B Máxima):** $m_B$ es muy grande y tiende a jalar al bloque $A$ hacia **arriba** del plano. La fricción actuará hacia **abajo**.
+2.  **Límite Inferior (Masa B Mínima):** $m_B$ es muy pequeña y el bloque $A$ tiende a deslizar hacia **abajo** por su propio peso. La fricción actuará hacia **arriba**.
+
+\subsubsection*{2. Diagramas de Cuerpo Libre}
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+import numpy as np
+
+def draw_dcls():
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 5))
+    
+    th = np.radians(20)
+    c, s = np.cos(th), np.sin(th)
+    
+    for ax, title, fr_dir in zip([ax1, ax2], ["DCL Bloque A (Masa B Máxima)", "DCL Bloque A (Masa B Mínima)"], [-1, 1]):
+        ax.set_title(title)
+        ax.set_xlim(-2.5, 2.5); ax.set_ylim(-2.5, 2.5)
+        ax.axis('off')
+        
+        ax.plot([-3*c, 3*c], [-3*s, 3*s], 'k--', alpha=0.3)
+        ax.plot([-3*s, 3*s], [3*c, -3*c], 'k--', alpha=0.3)
+        
+        poly = patches.Polygon([[-0.8*c - -0.6*s, -0.8*s + -0.6*c], 
+                                [0.8*c - -0.6*s, 0.8*s + -0.6*c], 
+                                [0.8*c - 0.6*s, 0.8*s + 0.6*c], 
+                                [-0.8*c - 0.6*s, -0.8*s + 0.6*c]], 
+                               closed=True, fill=True, facecolor='white', edgecolor='black')
+        ax.add_patch(poly)
+        ax.text(0, 0, 'A', ha='center', va='center', fontsize=12)
+        
+        ax.arrow(0, 0, -1.2*s, 1.2*c, head_width=0.1, fc='blue', ec='blue')
+        ax.text(-1.4*s, 1.4*c, 'N', color='blue', fontsize=12)
+        
+        ax.arrow(0, 0, 0, -2.0, head_width=0.1, fc='red', ec='red')
+        ax.text(0.1, -2.2, '$W_A$', color='red', fontsize=12)
+        
+        ax.arrow(0, 0, 1.5*c, 1.5*s, head_width=0.1, fc='blue', ec='blue')
+        ax.text(1.7*c, 1.7*s, 'T', color='blue', fontsize=12)
+        
+        ax.arrow(0, 0, fr_dir*1.2*c, fr_dir*1.2*s, head_width=0.1, fc='green', ec='green')
+        ax.text(fr_dir*1.3*c, fr_dir*0.9*s, '$f_{r,max}$', color='green', fontsize=12)
+
+    plt.tight_layout()
+    plt.show()
+
+draw_dcls()
+\end{lstlisting}
+
+\subsubsection*{3. Fuerzas sobre el Bloque A}
+Descomponemos el peso de $A$ en los ejes paralelo y perpendicular al plano:
+$$ W_{Ax} = m_A g \sin(20^\circ) $$
+$$ W_{Ay} = m_A g \cos(20^\circ) $$
+
+En el eje perpendicular al plano hay equilibrio:
+$$ \sum F_y = 0 \implies N - W_{Ay} = 0 \implies N = m_A g \cos(20^\circ) $$
+
+La fuerza de rozamiento estático máxima que el plano puede ejercer es:
+$$ f_{r,max} = \mu_e N = \mu_e m_A g \cos(20^\circ) $$
+
+\subsubsection*{4. Cálculo del Intervalo de Masas}
+
+\textbf{Límite Superior (Masa Máxima de B):}
+El bloque $B$ está a punto de arrastrar a $A$ hacia arriba. La fricción máxima apunta hacia abajo.
+$$ \sum F_x = 0 $$
+$$ T - W_{Ax} - f_{r,max} = 0 $$
+$$ m_{B,max} g = m_A g \sin(20^\circ) + \mu_e m_A g \cos(20^\circ) $$
+
+Cancelamos la aceleración de la gravedad $g$ y factorizamos $m_A$:
+$$ m_{B,max} = m_A (\sin 20^\circ + \mu_e \cos 20^\circ) $$
+Sustituyendo los valores numéricos ($m_A = 50\,\si{kg}$, $\mu_e = 0.3$):
+$$ m_{B,max} = 50 (\sin 20^\circ + 0.3 \cos 20^\circ) $$
+$$ m_{B,max} = 50 (0.3420 + 0.3(0.9397)) $$
+$$ m_{B,max} = 50 (0.3420 + 0.2819) $$
+$$ m_{B,max} = 50 (0.6239) \approx 31.20\,\si{kg} $$
+
+\textbf{Límite Inferior (Masa Mínima de B):}
+El bloque $A$ está a punto de deslizar hacia abajo por su propio peso. La fricción máxima apunta hacia arriba, ayudando a la tensión de la cuerda.
+$$ \sum F_x = 0 $$
+$$ T + f_{r,max} - W_{Ax} = 0 $$
+$$ T = W_{Ax} - f_{r,max} $$
+$$ m_{B,min} g = m_A g \sin(20^\circ) - \mu_e m_A g \cos(20^\circ) $$
+
+Cancelando $g$ y factorizando $m_A$:
+$$ m_{B,min} = m_A (\sin 20^\circ - \mu_e \cos 20^\circ) $$
+$$ m_{B,min} = 50 (0.3420 - 0.2819) $$
+$$ m_{B,min} = 50 (0.0601) \approx 3.01\,\si{kg} $$
+
+Para que el bloque $A$ no se mueva, la masa del bloque $B$ debe estar comprendida entre estos dos valores.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $3.01\,\si{kg} \leq m_B \leq 31.20\,\si{kg}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Se mueve un cubo con agua, atado a una cuerda, de manera que describe una circunferencia vertical de $0.9 \, \si{m}$ de radio. Determine la rapidez mínima que debe tener el cubo, en la parte más alta de la circunferencia, para que no se derrame el agua. (Considere $g = 10 \, \si{m/s^2}$).
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[dashed, thick, gray] (0, 0) circle (2);
+    \fill (0, 0) circle (0.05) node[below] {$O$};
+    
+    \draw[thick] (0, 0) -- (0, 2);
+    \node[right] at (0, 1) {$R = 0.9\,\si{m}$};
+    
+    \draw[thick, fill=blue!10] (-0.4, 2) -- (0.4, 2) -- (0.3, 2.6) -- (-0.3, 2.6) -- cycle;
+    \draw[thick, blue] (-0.35, 2.2) -- (0.35, 2.2);
+    
+    \draw[->, thick, orange, line width=1.2pt] (0.4, 2.3) -- (1.5, 2.3) node[right] {$v$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Físico del Problema}
+El cubo con agua describe un movimiento circular en el plano vertical. En el punto más alto de la trayectoria, el cubo se encuentra totalmente invertido. Para que el agua no se derrame (es decir, no caiga separándose del fondo del cubo por acción de la gravedad), el líquido debe mantenerse en contacto continuo con dicho fondo.
+
+La condición límite para determinar la rapidez mínima ocurre en el instante exacto en que el agua está a punto de perder el contacto con el cubo. Físicamente, esto significa que la fuerza Normal ($N$), que ejerce el fondo del cubo sobre el agua, se reduce a cero ($N = 0$). En ese instante límite, la aceleración centrípeta necesaria para mantener la trayectoria circular es suministrada única y exclusivamente por el propio peso del agua.
+
+\subsubsection*{2. Diagrama de Cuerpo Libre}
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+def draw_dcl():
+    fig, ax = plt.subplots(figsize=(5, 5))
+    ax.set_title("DCL del Agua (En la parte más alta)")
+    ax.set_xlim(-2, 2); ax.set_ylim(-3, 1)
+    ax.axis('off')
+    
+    poly = patches.Polygon([[-0.8, 0], [0.8, 0], [0.6, 0.8], [-0.6, 0.8]], 
+                           closed=True, fill=True, facecolor='lightblue', edgecolor='black', lw=1.5)
+    ax.add_patch(poly)
+    ax.text(0, 0.4, 'Agua', ha='center', va='center', fontsize=12)
+    
+    ax.arrow(0, 0, 0, -1.2, head_width=0.1, fc='blue', ec='blue')
+    ax.text(-0.6, -1.0, 'N = 0', color='blue', fontsize=12)
+    
+    ax.arrow(0, 0, 0, -2.0, head_width=0.1, fc='red', ec='red')
+    ax.text(0.2, -2.2, 'W = mg', color='red', fontsize=12)
+    
+    ax.arrow(1.5, 0.5, 0, -1.5, head_width=0.1, fc='black', ec='black')
+    ax.text(1.7, -0.5, 'a_c', fontsize=14, fontweight='bold')
+
+    plt.tight_layout()
+    plt.show()
+
+draw_dcl()
+\end{lstlisting}
+
+\subsubsection*{3. Ecuaciones Dinámicas}
+En el punto más alto de la circunferencia, tanto el peso ($W = mg$) como la fuerza Normal ($N$) apuntan hacia abajo (en dirección al centro de la trayectoria circular). La suma de estas dos fuerzas es lo que proporciona la fuerza centrípeta requerida.
+
+Aplicamos la Segunda Ley de Newton en la dirección radial, tomando como positivo el sentido hacia el centro del círculo:
+$$ \sum F_c = m a_c $$
+$$ N + mg = m \frac{v^2}{R} $$
+
+Sustituimos la condición límite para la rapidez mínima, donde la Normal se anula ($N = 0$):
+$$ 0 + mg = m \frac{v^2}{R} $$
+$$ mg = m \frac{v^2}{R} $$
+
+\subsubsection*{4. Cálculo de la Rapidez Mínima}
+Podemos simplificar la ecuación cancelando la masa $m$ en ambos lados. Esto nos demuestra un principio clave: la rapidez mínima necesaria para que el líquido no caiga es completamente independiente de la cantidad de masa o de agua que contenga el cubo.
+$$ g = \frac{v^2}{R} $$
+
+Despejamos la velocidad tangencial $v$:
+$$ v^2 = g \cdot R $$
+$$ v = \sqrt{g \cdot R} $$
+
+Sustituimos los valores numéricos proporcionados en el enunciado ($g = 10 \, \si{m/s^2}$ y $R = 0.9 \, \si{m}$):
+$$ v = \sqrt{10 \times 0.9} $$
+$$ v = \sqrt{9} $$
+$$ v = 3 \, \si{m/s} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $v = 3 \, \si{m/s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una moneda está colocada a $25 \, \si{cm}$ del centro de un disco de madera, que gira con velocidad angular constante. Se observa que la moneda está a punto de deslizar sobre el disco, cuando su rapidez es de $50 \, \si{cm/s}$. Calcule el coeficiente de rozamiento entre la moneda y el disco de madera. (Considere $g = 10 \, \si{m/s^2}$).
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[thick] (0, 0) ellipse (3cm and 1cm);
+    
+    \fill (0, 0) circle (0.05) node[below] {$O$};
+    
+    \draw[thick, fill=gray!30] (1.5, -0.3) ellipse (0.2cm and 0.05cm);
+    \draw[thick] (1.5, -0.3) -- (1.5, -0.2); 
+    \draw[thick, fill=gray!10] (1.5, -0.2) ellipse (0.2cm and 0.05cm);
+    
+    \draw[dashed, thick] (0, 0) -- (1.5, -0.2) node[midway, above] {$R$};
+    
+    \draw[->, thick, orange, line width=1.2pt] (1.5, -0.2) -- (2.5, 0.2) node[right] {$v$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Conversión de Unidades}
+Primero, es fundamental trabajar en el Sistema Internacional (SI) para mantener la coherencia con la gravedad ($g = 10\,\si{m/s^2}$).
+Radio de giro:
+$$ R = 25 \, \si{cm} = 0.25 \, \si{m} $$
+Rapidez tangencial:
+$$ v = 50 \, \si{cm/s} = 0.5 \, \si{m/s} $$
+
+\subsubsection*{2. Análisis Físico y Diagrama de Cuerpo Libre}
+La moneda describe un movimiento circular uniforme. Para que se mantenga en esta trayectoria y no salga disparada, debe existir una fuerza dirigida hacia el centro del disco (fuerza centrípeta). En este caso, la única fuerza horizontal disponible para cumplir este rol es la fuerza de rozamiento estático entre la moneda y la madera.
+
+El enunciado indica que la moneda está "a punto de deslizar", lo que significa que la fuerza de rozamiento estático ha alcanzado su valor máximo teórico ($f_{r,max} = \mu N$).
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+def draw_dcl():
+    fig, ax = plt.subplots(figsize=(5, 5))
+    ax.set_title("DCL de la Moneda (Vista lateral)")
+    ax.set_xlim(-2, 2); ax.set_ylim(-2, 2)
+    ax.axis('off')
+    
+    ax.plot([-2, 2], [0, 0], 'k--', alpha=0.3)
+    ax.plot([0, 0], [-2, 2], 'k--', alpha=0.3)
+    
+    rect = patches.Rectangle((-0.4, -0.2), 0.8, 0.4, linewidth=1.5, edgecolor='black', facecolor='lightgray')
+    ax.add_patch(rect)
+    ax.text(0, 0, 'm', ha='center', va='center', fontsize=12)
+    
+    ax.arrow(0, 0.2, 0, 1.0, head_width=0.1, fc='blue', ec='blue')
+    ax.text(0.2, 1.3, 'N', color='blue', fontsize=12)
+    
+    ax.arrow(0, -0.2, 0, -1.0, head_width=0.1, fc='red', ec='red')
+    ax.text(0.2, -1.3, 'W', color='red', fontsize=12)
+    
+    ax.arrow(-0.4, 0, -1.0, 0, head_width=0.1, fc='green', ec='green')
+    ax.text(-1.3, 0.2, 'f_r', color='green', fontsize=12)
+    
+    ax.arrow(-1.5, 1.0, -0.4, 0, head_width=0.1, fc='black', ec='black')
+    ax.text(-1.8, 1.2, 'a_c', fontsize=12)
+
+    plt.tight_layout()
+    plt.show()
+
+draw_dcl()
+\end{lstlisting}
+
+\subsubsection*{3. Ecuaciones Dinámicas}
+Aplicamos la Primera Ley de Newton en el eje vertical (no hay movimiento vertical):
+$$ \sum F_y = 0 \implies N - W = 0 \implies N = mg $$
+
+La fuerza de rozamiento estático máxima será entonces:
+$$ f_r = \mu N = \mu mg $$
+
+Aplicamos la Segunda Ley de Newton en el eje radial. La fuerza de rozamiento es la encargada de proporcionar la aceleración centrípeta ($a_c = \frac{v^2}{R}$):
+$$ \sum F_c = m a_c $$
+$$ f_r = m \frac{v^2}{R} $$
+
+\subsubsection*{4. Cálculo del Coeficiente de Rozamiento ($\mu$)}
+Sustituimos la expresión de la fuerza de rozamiento máxima en la ecuación centrípeta:
+$$ \mu mg = m \frac{v^2}{R} $$
+
+Cancelamos la masa $m$ de ambos lados de la igualdad (lo que demuestra que el deslizamiento es independiente de la masa de la moneda):
+$$ \mu g = \frac{v^2}{R} $$
+
+Despejamos el coeficiente de rozamiento $\mu$:
+$$ \mu = \frac{v^2}{g R} $$
+
+Sustituimos los valores en el SI:
+$$ \mu = \frac{(0.5)^2}{(10)(0.25)} $$
+$$ \mu = \frac{0.25}{2.5} $$
+$$ \mu = 0.1 $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\mu = 0.1$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Sobre un disco horizontal, inicialmente en reposo, se coloca una moneda a una distancia $d = 0.2 \, \si{m}$ del centro del disco. Si el disco empieza a girar con una aceleración angular constante $\alpha = 2 \, \si{rad/s^2}$ y el coeficiente de rozamiento entre la moneda y el disco es $\mu = 0.3$, determine el tiempo que la moneda permanece sobre el disco sin deslizar. (Considere $g = 10 \, \si{m/s^2}$).
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[thick] (0, 0) ellipse (3cm and 1cm);
+    
+    \fill (0, 0) circle (0.05) node[below] {$O$};
+    
+    \draw[thick, fill=gray!30] (1.5, -0.3) ellipse (0.2cm and 0.05cm);
+    \draw[thick] (1.5, -0.3) -- (1.5, -0.2); 
+    \draw[thick, fill=gray!10] (1.5, -0.2) ellipse (0.2cm and 0.05cm);
+    
+    \draw[<->, thick] (0, 0) -- (1.5, -0.2) node[midway, above] {$d = 0.2\,\si{m}$};
+    
+    \draw[dashed, gray] (0,0) ellipse (1.51cm and 0.4cm);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Físico Riguroso}
+Dado que el disco posee una \textbf{aceleración angular ($\alpha$)}, la moneda experimenta dos tipos de aceleración en el plano horizontal:
+1. \textbf{Aceleración centrípeta ($a_c$):} dirigida hacia el centro, necesaria para mantener la trayectoria circular. Depende de la velocidad angular instantánea ($\omega$).
+2. \textbf{Aceleración tangencial ($a_t$):} tangente a la trayectoria, producida por el aumento de la velocidad de giro.
+
+Ambas aceleraciones deben ser proporcionadas por la única fuerza horizontal disponible: la fuerza de rozamiento estático ($f_r$). Cuando la combinación vectorial de ambas fuerzas requeridas supere a la fricción máxima disponible, la moneda empezará a deslizar.
+
+\subsubsection*{2. Diagramas de Cuerpo Libre}
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+def draw_dcls():
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 5))
+
+    ax1.set_title("DCL (Vista Lateral)")
+    ax1.set_xlim(-2, 2); ax1.set_ylim(-2, 2); ax1.axis('off')
+    ax1.plot([-2, 2], [0, 0], 'k--', alpha=0.3)
+    
+    rect = patches.Rectangle((-0.4, 0), 0.8, 0.4, linewidth=1.5, edgecolor='black', facecolor='lightgray')
+    ax1.add_patch(rect)
+    ax1.arrow(0, 0.4, 0, 1.0, head_width=0.1, fc='blue', ec='blue')
+    ax1.text(0.2, 1.3, 'N', color='blue', fontsize=12)
+    ax1.arrow(0, 0, 0, -1.2, head_width=0.1, fc='red', ec='red')
+    ax1.text(0.2, -1.0, 'W', color='red', fontsize=12)
+
+    ax2.set_title("Fuerzas en el Plano (Vista Superior)")
+    ax2.set_xlim(-1, 3); ax2.set_ylim(-1, 2); ax2.axis('off')
+    ax2.plot(0, 0, 'ko'); ax2.text(0, -0.2, 'O', ha='center')
+    ax2.plot([0, 2], [0, 0], 'k--', alpha=0.5)
+    
+    circle = patches.Circle((2, 0), 0.3, fill=True, facecolor='lightgray', edgecolor='black', lw=1.5)
+    ax2.add_patch(circle)
+    
+    ax2.arrow(2, 0, 0, 1.0, head_width=0.1, fc='green', ec='green')
+    ax2.text(2.1, 1.0, 'f_{r, tangencial}', color='green', fontsize=12)
+    ax2.arrow(2, 0, -1.5, 0, head_width=0.1, fc='green', ec='green')
+    ax2.text(0.5, 0.1, 'f_{r, radial}', color='green', fontsize=12)
+    ax2.arrow(2, 0, -1.5, 1.0, head_width=0.1, fc='purple', ec='purple')
+    ax2.text(0.2, 1.1, 'f_{r, total}', color='purple', fontsize=12)
+
+    plt.tight_layout()
+    plt.show()
+
+draw_dcls()
+\end{lstlisting}
+
+\subsubsection*{3. Ecuaciones Dinámicas}
+En el eje vertical hay equilibrio:
+$$ \sum F_y = 0 \implies N - W = 0 \implies N = m g $$
+$$ N = m (10) = 10m $$
+
+La fuerza de rozamiento estático máxima será:
+$$ f_{r,max} = \mu N = 0.3 (10m) = 3m $$
+
+En el plano horizontal, calculamos las aceleraciones:
+$$ a_t = \alpha d = 2(0.2) = 0.4 \, \si{m/s^2} $$
+$$ a_c = \omega^2 d = \omega^2 (0.2) = 0.2 \omega^2 $$
+
+La magnitud de la aceleración total es:
+$$ a = \sqrt{a_t^2 + a_c^2} = \sqrt{(0.4)^2 + (0.2\omega^2)^2} = \sqrt{0.16 + 0.04\omega^4} $$
+
+La Segunda Ley de Newton establece que el rozamiento total causa esta aceleración:
+$$ f_r = m a = m \sqrt{0.16 + 0.04\omega^4} $$
+
+\subsubsection*{4. Condición de Deslizamiento}
+El deslizamiento inminente ocurre cuando la fricción requerida iguala a la máxima disponible:
+$$ f_r = f_{r,max} $$
+$$ m \sqrt{0.16 + 0.04\omega^4} = 3m $$
+
+Cancelamos la masa $m$ y elevamos al cuadrado ambos lados:
+$$ 0.16 + 0.04\omega^4 = 9 $$
+$$ 0.04\omega^4 = 9 - 0.16 $$
+$$ 0.04\omega^4 = 8.84 $$
+$$ \omega^4 = \frac{8.84}{0.04} = 221 $$
+
+Despejamos la velocidad angular $\omega$:
+$$ \omega = \sqrt[4]{221} \approx 3.8587 \, \si{rad/s} $$
+
+\subsubsection*{5. Cálculo del Tiempo}
+Sabiendo que el disco parte del reposo ($\omega_0 = 0$) con aceleración angular constante ($\alpha = 2 \, \si{rad/s^2}$):
+$$ \omega = \omega_0 + \alpha t $$
+$$ 3.8587 = 0 + 2t $$
+$$ t = \frac{3.8587}{2} \approx 1.929 \, \si{s} $$
+
+Redondeando a dos decimales, confirmamos la respuesta.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $t = 1.93 \, \si{s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Si se peralta, en forma correcta, una curva de $60 \, \si{m}$ de radio, para que un automóvil pase por ella a $27 \, \si{km/h}$, sin tender a derrapar. Calcule el coeficiente mínimo de fricción estática entre las ruedas y la pista, para que no derrape al recorrerla a $72 \, \si{km/h}$. (Considere $g = 10 \, \si{m/s^2}$).
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[thick] (0, 0) -- (5, 0);
+    \draw[thick] (0, 0) -- (4.5, 1.5);
+    
+    \draw (1.5, 0) arc (0:18.43:1.5);
+    \node at (2.0, 0.3) {$\theta$};
+    
+    \begin{scope}[rotate=18.43]
+        \draw[thick, fill=gray!20] (2.5, 0) rectangle (3.5, 0.8) node[midway] {Auto};
+        \draw[thick, fill=black] (2.7, 0) circle (0.15);
+        \draw[thick, fill=black] (3.3, 0) circle (0.15);
+    \end{scope}
+    
+    \draw[dashed, thick] (2.9, 0.9) -- (2.9, 2.5) -- (6, 2.5) node[right] {Centro de curvatura};
+    \draw[<->, thick] (2.9, 2.3) -- (6, 2.3) node[midway, above] {$R = 60\,\si{m}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Conversión de Unidades}
+Convertimos las velocidades dadas en $\si{km/h}$ a $\si{m/s}$ para trabajar en el Sistema Internacional.
+Velocidad ideal (sin fricción):
+$$ v_1 = 27 \, \si{km/h} \times \left( \frac{1000 \, \si{m}}{1 \, \si{km}} \right) \times \left( \frac{1 \, \si{h}}{3600 \, \si{s}} \right) = 7.5 \, \si{m/s} $$
+
+Velocidad máxima (con fricción):
+$$ v_2 = 72 \, \si{km/h} \times \left( \frac{1000 \, \si{m}}{1 \, \si{km}} \right) \times \left( \frac{1 \, \si{h}}{3600 \, \si{s}} \right) = 20 \, \si{m/s} $$
+
+\subsubsection*{2. Diagramas de Cuerpo Libre}
+El automóvil describe una trayectoria circular horizontal, por lo que su aceleración centrípeta ($a_c$) siempre es netamente horizontal y apunta hacia el centro de la curva.
+Tendremos dos casos: el caso ideal (donde solo la Normal y el Peso actúan) y el caso límite a máxima velocidad (donde la fricción actúa hacia abajo del peralte para evitar que el auto salga despedido hacia afuera).
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+import numpy as np
+
+def draw_dcls():
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 5))
+    
+    th = np.radians(20) 
+    c, s = np.cos(th), np.sin(th)
+    
+    for ax, title, has_friction in zip([ax1, ax2], ["DCL (Velocidad Ideal $v_1$)", "DCL (Velocidad Máxima $v_2$)"], [False, True]):
+        ax.set_title(title)
+        ax.set_xlim(-2, 3); ax.set_ylim(-2.5, 2.5)
+        ax.axis('off')
+        
+        ax.plot([-3, 3], [0, 0], 'k--', alpha=0.3)
+        ax.plot([0, 0], [-3, 3], 'k--', alpha=0.3)
+        
+        ax.plot([-3*c, 3*c], [-3*s, 3*s], 'k--', alpha=0.5)
+        
+        poly = patches.Polygon([[-0.5*c - -0.4*s, -0.5*s + -0.4*c], 
+                                [0.5*c - -0.4*s, 0.5*s + -0.4*c], 
+                                [0.5*c - 0.4*s, 0.5*s + 0.4*c], 
+                                [-0.5*c - 0.4*s, -0.5*s + 0.4*c]], 
+                               closed=True, fill=True, facecolor='white', edgecolor='black')
+        ax.add_patch(poly)
+        
+        ax.arrow(0, 0, -1.2*s, 1.2*c, head_width=0.1, fc='blue', ec='blue')
+        ax.text(-1.4*s, 1.4*c, 'N', color='blue', fontsize=12)
+        
+        ax.arrow(0, 0, 0, -1.5, head_width=0.1, fc='red', ec='red')
+        ax.text(0.1, -1.7, 'mg', color='red', fontsize=12)
+        
+        ax.arrow(0.5, 1.0, 1.0, 0, head_width=0.1, fc='black', ec='black')
+        ax.text(1.6, 1.0, 'a_c', fontsize=12)
+        
+        if has_friction:
+            ax.arrow(0, 0, -1.0*c, -1.0*s, head_width=0.1, fc='green', ec='green')
+            ax.text(-1.2*c, -1.2*s, 'f_r', color='green', fontsize=12)
+
+    plt.tight_layout()
+    plt.show()
+
+draw_dcls()
+\end{lstlisting}
+
+\subsubsection*{3. Cálculo del Ángulo de Peralte ($\theta$)}
+En la condición ideal (velocidad $v_1 = 7.5 \, \si{m/s}$), no hay fricción. La componente horizontal de la Normal proporciona la aceleración centrípeta.
+$$ \sum F_y = 0 \implies N \cos\theta - mg = 0 \implies N = \frac{mg}{\cos\theta} $$
+$$ \sum F_x = m a_c \implies N \sin\theta = m \frac{v_1^2}{R} $$
+
+Sustituimos $N$ en la ecuación de $F_x$:
+$$ \left( \frac{mg}{\cos\theta} \right) \sin\theta = m \frac{v_1^2}{R} $$
+$$ g \tan\theta = \frac{v_1^2}{R} $$
+$$ \tan\theta = \frac{v_1^2}{Rg} $$
+
+Evaluamos con los datos ($R = 60 \, \si{m}$, $g = 10 \, \si{m/s^2}$):
+$$ \tan\theta = \frac{(7.5)^2}{60 \times 10} = \frac{56.25}{600} = 0.09375 $$
+
+\subsubsection*{4. Análisis Dinámico a Rapidez Máxima}
+Cuando el auto toma la curva a la velocidad máxima ($v_2 = 20 \, \si{m/s}$), tiende a derrapar hacia afuera (hacia arriba del peralte). La fricción estática máxima ($f_r = \mu N$) actúa hacia abajo del peralte.
+
+Descomponemos las fuerzas en los ejes horizontal y vertical estándar:
+\textbf{Eje Vertical (Equilibrio):}
+$$ \sum F_y = 0 $$
+$$ N \cos\theta - f_r \sin\theta - mg = 0 $$
+$$ N \cos\theta - \mu N \sin\theta = mg $$
+$$ N (\cos\theta - \mu \sin\theta) = mg $$
+$$ N = \frac{mg}{\cos\theta - \mu \sin\theta} \quad \text{(Ecuación 1)} $$
+
+\textbf{Eje Horizontal (Aceleración Centrípeta):}
+Tanto la componente horizontal de la Normal como la de la fricción apuntan hacia el centro de la curva.
+$$ \sum F_x = m a_c $$
+$$ N \sin\theta + f_r \cos\theta = m \frac{v_2^2}{R} $$
+$$ N \sin\theta + \mu N \cos\theta = m \frac{v_2^2}{R} $$
+$$ N (\sin\theta + \mu \cos\theta) = m \frac{v_2^2}{R} \quad \text{(Ecuación 2)} $$
+
+\subsubsection*{5. Cálculo del Coeficiente de Fricción ($\mu$)}
+Sustituimos la Ecuación 1 en la Ecuación 2:
+$$ \left( \frac{mg}{\cos\theta - \mu \sin\theta} \right) (\sin\theta + \mu \cos\theta) = m \frac{v_2^2}{R} $$
+
+Cancelamos la masa $m$ y dividimos el numerador y el denominador de la fracción del lado izquierdo entre $\cos\theta$:
+$$ g \left( \frac{\frac{\sin\theta}{\cos\theta} + \mu \frac{\cos\theta}{\cos\theta}}{\frac{\cos\theta}{\cos\theta} - \mu \frac{\sin\theta}{\cos\theta}} \right) = \frac{v_2^2}{R} $$
+$$ g \left( \frac{\tan\theta + \mu}{1 - \mu \tan\theta} \right) = \frac{v_2^2}{R} $$
+$$ \frac{\tan\theta + \mu}{1 - \mu \tan\theta} = \frac{v_2^2}{Rg} $$
+
+Sustituimos los valores conocidos ($\tan\theta = 0.09375$, $v_2 = 20$, $R = 60$, $g = 10$):
+$$ \frac{0.09375 + \mu}{1 - 0.09375 \mu} = \frac{20^2}{60 \times 10} $$
+$$ \frac{0.09375 + \mu}{1 - 0.09375 \mu} = \frac{400}{600} = \frac{2}{3} $$
+
+Resolvemos para $\mu$:
+$$ 3 (0.09375 + \mu) = 2 (1 - 0.09375 \mu) $$
+$$ 0.28125 + 3 \mu = 2 - 0.1875 \mu $$
+$$ 3 \mu + 0.1875 \mu = 2 - 0.28125 $$
+$$ 3.1875 \mu = 1.71875 $$
+$$ \mu = \frac{1.71875}{3.1875} $$
+$$ \mu \approx 0.5392 $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\mu = 0.54$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un cuerpo de $4 \, \si{kg}$ está unido a una varilla giratoria vertical, por medio de dos cuerdas, como se indica en la figura. Si el cuerpo describe una circunferencia horizontal con una rapidez constante de $6 \, \si{m/s}$, determine las magnitudes de las tensiones en las cuerdas superior e inferior. (Considere $g = 10 \, \si{m/s^2}$).
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[thick, line width=2pt] (0, -3) -- (0, 3);
+    
+    \draw[->, thick] (-0.4, -2.8) arc (180:360:0.4 and 0.15);
+    \draw[dashed, thick] (0, -2.8) arc (0:180:0.4 and 0.15);
+    
+    \draw[dashed, gray, thick] (0, 0) ellipse (2.5cm and 0.6cm);
+    
+    \draw[thick, fill=black] (2.5, 0) circle (0.15);
+    
+    \draw[thick] (0, 1.5) -- (2.5, 0) node[midway, above right] {$2\,\si{m}$};
+    \draw[thick] (0, -1.5) -- (2.5, 0) node[midway, below right] {$2\,\si{m}$};
+    
+    \draw[<->, thick] (-0.8, -1.5) -- (-0.8, 1.5) node[midway, fill=white] {$3\,\si{m}$};
+    \draw[dashed] (0, 1.5) -- (-0.8, 1.5);
+    \draw[dashed] (0, -1.5) -- (-0.8, -1.5);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Geométrico}
+El sistema forma un triángulo isósceles. La distancia vertical total entre los puntos de anclaje es $3 \, \si{m}$, por lo que la distancia desde cada anclaje hasta el plano horizontal de rotación es de $1.5 \, \si{m}$.
+La longitud de cada cuerda es $L = 2 \, \si{m}$.
+El radio $R$ de la trayectoria circular corresponde a la altura de este triángulo respecto a su base vertical. Usamos el Teorema de Pitágoras:
+$$ R^2 + (1.5)^2 = L^2 $$
+$$ R^2 + 2.25 = 4 $$
+$$ R^2 = 1.75 \implies R = \sqrt{1.75} \approx 1.3229 \, \si{m} $$
+
+Definimos el ángulo $\theta$ que forman las cuerdas con el plano horizontal. Mediante trigonometría:
+$$ \sin\theta = \frac{\text{cateto opuesto}}{\text{hipotenusa}} = \frac{1.5}{2} = 0.75 $$
+$$ \cos\theta = \frac{\text{cateto adyacente}}{\text{hipotenusa}} = \frac{R}{2} = \frac{\sqrt{1.75}}{2} \approx 0.6614 $$
+
+\subsubsection*{2. Diagrama de Cuerpo Libre}
+Sobre la masa actúan el peso y las dos tensiones. El centro de la circunferencia horizontal se encuentra hacia la izquierda en nuestro esquema, por lo que las tensiones tiran hacia la izquierda y proporcionan la fuerza centrípeta.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+import numpy as np
+
+def draw_dcl():
+    fig, ax = plt.subplots(figsize=(6, 5))
+    ax.set_title("DCL del Cuerpo")
+    ax.set_xlim(-2.5, 1.5); ax.set_ylim(-2.5, 2.5)
+    ax.axis('off')
+
+    ax.plot([-2.5, 1.5], [0, 0], 'k--', alpha=0.3)
+    ax.plot([0, 0], [-2.5, 2.5], 'k--', alpha=0.3)
+
+    circle = patches.Circle((0, 0), 0.15, fill=True, facecolor='black', edgecolor='black')
+    ax.add_patch(circle)
+
+    th = np.arcsin(0.75)
+    c, s = np.cos(th), np.sin(th)
+
+    ax.arrow(0, 0, -1.5*c, 1.5*s, head_width=0.1, fc='blue', ec='blue')
+    ax.text(-1.7*c, 1.7*s, 'T_1', color='blue', fontsize=12)
+
+    ax.arrow(0, 0, -1.5*c, -1.5*s, head_width=0.1, fc='blue', ec='blue')
+    ax.text(-1.7*c, -1.7*s, 'T_2', color='blue', fontsize=12)
+
+    ax.arrow(0, 0, 0, -1.5, head_width=0.1, fc='red', ec='red')
+    ax.text(0.1, -1.7, 'W', color='red', fontsize=12)
+
+    ax.arrow(-0.5, 1.5, -1.0, 0, head_width=0.1, fc='black', ec='black')
+    ax.text(-1.2, 1.7, 'a_c', fontsize=12)
+
+    plt.tight_layout()
+    plt.show()
+
+draw_dcl()
+\end{lstlisting}
+
+\subsubsection*{3. Ecuaciones Dinámicas}
+El peso del cuerpo es $W = mg = (4)(10) = 40 \, \si{N}$.
+
+\textbf{Eje Y (Equilibrio Vertical):}
+El cuerpo se mueve en un plano horizontal, por lo que no hay aceleración vertical.
+$$ \sum F_y = 0 $$
+$$ T_1 \sin\theta - T_2 \sin\theta - W = 0 $$
+$$ (T_1 - T_2) \sin\theta = W $$
+
+Sustituimos los valores conocidos ($\sin\theta = 0.75$):
+$$ (T_1 - T_2) (0.75) = 40 $$
+$$ T_1 - T_2 = \frac{40}{0.75} = \frac{160}{3} \approx 53.33 \, \si{N} \quad \text{(Ecuación 1)} $$
+
+\textbf{Eje X (Movimiento Circular):}
+Las componentes horizontales de ambas tensiones apuntan hacia el centro de rotación y proveen la fuerza centrípeta.
+$$ \sum F_c = m a_c = m \frac{v^2}{R} $$
+$$ T_1 \cos\theta + T_2 \cos\theta = m \frac{v^2}{R} $$
+$$ (T_1 + T_2) \cos\theta = 4 \left( \frac{6^2}{\sqrt{1.75}} \right) $$
+
+Sustituimos $\cos\theta = \frac{\sqrt{1.75}}{2}$:
+$$ (T_1 + T_2) \left( \frac{\sqrt{1.75}}{2} \right) = \frac{144}{\sqrt{1.75}} $$
+$$ T_1 + T_2 = \frac{144 \times 2}{\sqrt{1.75} \times \sqrt{1.75}} = \frac{288}{1.75} $$
+$$ T_1 + T_2 = \frac{288}{1.75} \approx 164.57 \, \si{N} \quad \text{(Ecuación 2)} $$
+
+\subsubsection*{4. Resolución del Sistema}
+Tenemos un sistema de dos ecuaciones lineales:
+1. $T_1 - T_2 = 53.33$
+2. $T_1 + T_2 = 164.57$
+
+Sumamos ambas ecuaciones para aislar $T_1$:
+$$ 2 T_1 = 164.57 + 53.33 $$
+$$ 2 T_1 = 217.90 $$
+$$ T_1 = \frac{217.90}{2} = 108.95 \, \si{N} $$
+
+Restamos la primera ecuación de la segunda para aislar $T_2$:
+$$ 2 T_2 = 164.57 - 53.33 $$
+$$ 2 T_2 = 111.24 $$
+$$ T_2 = \frac{111.24}{2} = 55.62 \, \si{N} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering
+Tensión superior ($T_1$) $= 108.95 \, \si{N}$ \\
+Tensión inferior ($T_2$) $= 55.62 \, \si{N}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+El coeficiente de rozamiento único entre los bloques $A$ y $C$ y las superficies horizontales es $\mu = 0.2$. Si se conoce que $m_A = 5\,\si{kg}$, $m_B = 10\,\si{kg}$ y $m_C = 10\,\si{kg}$, determine la magnitud de la aceleración de cada bloque. (Considere $g = 10\,\si{m/s^2}$).
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[thick] (-3, 0) -- (-0.6, 0) -- (-0.6, -2);
+    \draw[thick] (3, 0) -- (0.6, 0) -- (0.6, -2);
+    
+    \draw[thick, fill=white] (-2.5, 0) rectangle (-1.5, 0.8) node[midway] {$A$};
+    \draw[thick, fill=white] (1.5, 0) rectangle (2.5, 0.8) node[midway] {$C$};
+    
+    \draw[thick, fill=white] (-0.6, 0.3) circle (0.3);
+    \fill (-0.6, 0.3) circle (0.05);
+    \draw[thick, fill=white] (0.6, 0.3) circle (0.3);
+    \fill (0.6, 0.3) circle (0.05);
+    
+    \draw[thick, fill=white] (0, -1.5) circle (0.3);
+    \fill (0, -1.5) circle (0.05);
+    
+    \draw[thick] (-1.5, 0.6) -- (-0.6, 0.6);
+    \draw[thick] (-0.6, 0.6) arc (90:0:0.3);
+    
+    \draw[thick] (-0.3, 0.3) -- (-0.3, -1.5);
+    \draw[thick] (-0.3, -1.5) arc (180:360:0.3);
+    \draw[thick] (0.3, -1.5) -- (0.3, 0.3);
+    
+    \draw[thick] (0.3, 0.3) arc (180:90:0.3);
+    \draw[thick] (0.6, 0.6) -- (1.5, 0.6);
+    
+    \draw[thick] (0, -1.8) -- (0, -2.5);
+    \draw[thick, fill=white] (-0.5, -2.5) rectangle (0.5, -3.5) node[midway] {$B$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Cinemático y Relación de Poleas}
+El sistema consta de una cuerda única que pasa por dos poleas fijas y una polea móvil. La cuerda tira del bloque $A$ hacia la derecha y del bloque $C$ hacia la izquierda. La tensión en toda esta cuerda es constante, la llamaremos $T_1$.
+La polea móvil sostiene al bloque $B$ mediante una segunda cuerda o acople con tensión $T_2$.
+Si el bloque $A$ se desplaza una distancia $x_A$ hacia la derecha y el bloque $C$ se desplaza $x_C$ hacia la izquierda, la cantidad total de cuerda liberada hacia el centro es $x_A + x_C$. Como la polea móvil está sostenida por dos tramos de la misma cuerda, esta longitud liberada permite que el bloque $B$ descienda una distancia $y_B$, tal que:
+$$ 2 y_B = x_A + x_C $$
+
+Derivando dos veces con respecto al tiempo, obtenemos la relación de aceleraciones entre los tres bloques:
+$$ 2 a_B = a_A + a_C $$
+
+\subsubsection*{2. Diagramas de Cuerpo Libre}
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+def draw_dcls():
+    fig, axs = plt.subplots(1, 4, figsize=(14, 3.5))
+    
+    axs[0].set_title("DCL Bloque A")
+    axs[0].set_xlim(-2, 2); axs[0].set_ylim(-2, 2); axs[0].axis('off')
+    axs[0].plot([-2, 2], [0, 0], 'k--', alpha=0.3)
+    axs[0].plot([0, 0], [-2, 2], 'k--', alpha=0.3)
+    axs[0].add_patch(patches.Rectangle((-0.5, -0.5), 1, 1, fc='white', ec='black', lw=1.5))
+    axs[0].text(0, 0, 'A', ha='center', va='center', fontsize=12)
+    axs[0].arrow(0, 0.5, 0, 0.8, head_width=0.1, fc='blue', ec='blue')
+    axs[0].text(0.2, 1.4, 'N_A', color='blue', fontsize=12)
+    axs[0].arrow(0, -0.5, 0, -0.8, head_width=0.1, fc='red', ec='red')
+    axs[0].text(0.2, -1.4, 'W_A', color='red', fontsize=12)
+    axs[0].arrow(0.5, 0, 0.8, 0, head_width=0.1, fc='blue', ec='blue')
+    axs[0].text(1.4, 0.2, 'T_1', color='blue', fontsize=12)
+    axs[0].arrow(-0.5, 0, -0.8, 0, head_width=0.1, fc='green', ec='green')
+    axs[0].text(-1.4, 0.2, 'f_{rA}', color='green', fontsize=12)
+    
+    axs[1].set_title("DCL Bloque C")
+    axs[1].set_xlim(-2, 2); axs[1].set_ylim(-2, 2); axs[1].axis('off')
+    axs[1].plot([-2, 2], [0, 0], 'k--', alpha=0.3)
+    axs[1].plot([0, 0], [-2, 2], 'k--', alpha=0.3)
+    axs[1].add_patch(patches.Rectangle((-0.5, -0.5), 1, 1, fc='white', ec='black', lw=1.5))
+    axs[1].text(0, 0, 'C', ha='center', va='center', fontsize=12)
+    axs[1].arrow(0, 0.5, 0, 0.8, head_width=0.1, fc='blue', ec='blue')
+    axs[1].text(0.2, 1.4, 'N_C', color='blue', fontsize=12)
+    axs[1].arrow(0, -0.5, 0, -0.8, head_width=0.1, fc='red', ec='red')
+    axs[1].text(0.2, -1.4, 'W_C', color='red', fontsize=12)
+    axs[1].arrow(-0.5, 0, -0.8, 0, head_width=0.1, fc='blue', ec='blue')
+    axs[1].text(-1.4, 0.2, 'T_1', color='blue', fontsize=12)
+    axs[1].arrow(0.5, 0, 0.8, 0, head_width=0.1, fc='green', ec='green')
+    axs[1].text(1.4, 0.2, 'f_{rC}', color='green', fontsize=12)
+    
+    axs[2].set_title("Polea Móvil")
+    axs[2].set_xlim(-2, 2); axs[2].set_ylim(-2, 2); axs[2].axis('off')
+    axs[2].add_patch(patches.Circle((0, 0), 0.4, fc='white', ec='black', lw=1.5))
+    axs[2].arrow(-0.4, 0, 0, 1.0, head_width=0.1, fc='blue', ec='blue')
+    axs[2].text(-0.8, 1.1, 'T_1', color='blue', fontsize=12)
+    axs[2].arrow(0.4, 0, 0, 1.0, head_width=0.1, fc='blue', ec='blue')
+    axs[2].text(0.5, 1.1, 'T_1', color='blue', fontsize=12)
+    axs[2].arrow(0, -0.4, 0, -1.0, head_width=0.1, fc='blue', ec='blue')
+    axs[2].text(0.2, -1.5, 'T_2', color='blue', fontsize=12)
+    
+    axs[3].set_title("DCL Bloque B")
+    axs[3].set_xlim(-2, 2); axs[3].set_ylim(-2, 2); axs[3].axis('off')
+    axs[3].plot([-2, 2], [0, 0], 'k--', alpha=0.3)
+    axs[3].plot([0, 0], [-2, 2], 'k--', alpha=0.3)
+    axs[3].add_patch(patches.Rectangle((-0.5, -0.5), 1, 1, fc='white', ec='black', lw=1.5))
+    axs[3].text(0, 0, 'B', ha='center', va='center', fontsize=12)
+    axs[3].arrow(0, 0.5, 0, 0.8, head_width=0.1, fc='blue', ec='blue')
+    axs[3].text(0.2, 1.4, 'T_2', color='blue', fontsize=12)
+    axs[3].arrow(0, -0.5, 0, -0.8, head_width=0.1, fc='red', ec='red')
+    axs[3].text(0.2, -1.4, 'W_B', color='red', fontsize=12)
+
+    plt.tight_layout()
+    plt.show()
+
+draw_dcls()
+\end{lstlisting}
+
+\subsubsection*{3. Análisis de Fuerzas}
+Calculamos los pesos y fuerzas normales para los bloques horizontales:
+$$ W_A = m_A g = (5)(10) = 50\,\si{N} \implies N_A = 50\,\si{N} $$
+$$ W_C = m_C g = (10)(10) = 100\,\si{N} \implies N_C = 100\,\si{N} $$
+$$ W_B = m_B g = (10)(10) = 100\,\si{N} $$
+
+Las fuerzas de rozamiento cinético que se oponen al movimiento son:
+$$ f_{rA} = \mu N_A = 0.2(50) = 10\,\si{N} $$
+$$ f_{rC} = \mu N_C = 0.2(100) = 20\,\si{N} $$
+
+\subsubsection*{4. Ecuaciones de Movimiento}
+Analizamos la polea móvil asumiendo que su masa es despreciable:
+$$ \sum F_y = 0 \implies 2 T_1 - T_2 = 0 \implies T_2 = 2 T_1 $$
+
+Aplicamos la Segunda Ley de Newton para cada bloque en la dirección de su movimiento:
+
+\textbf{Bloque A (Acelera hacia la derecha):}
+$$ \sum F_x = m_A a_A $$
+$$ T_1 - f_{rA} = m_A a_A \implies T_1 - 10 = 5 a_A \implies a_A = \frac{T_1 - 10}{5} $$
+
+\textbf{Bloque C (Acelera hacia la izquierda):}
+$$ \sum F_x = m_C a_C $$
+$$ T_1 - f_{rC} = m_C a_C \implies T_1 - 20 = 10 a_C \implies a_C = \frac{T_1 - 20}{10} $$
+
+\textbf{Bloque B (Acelera hacia abajo):}
+$$ \sum F_y = m_B a_B $$
+$$ W_B - T_2 = m_B a_B \implies 100 - 2 T_1 = 10 a_B \implies a_B = \frac{100 - 2 T_1}{10} $$
+
+\subsubsection*{5. Resolución del Sistema}
+Sustituimos las expresiones de las aceleraciones en la relación cinemática que encontramos en el paso 1 ($2 a_B = a_A + a_C$):
+$$ 2 \left( \frac{100 - 2 T_1}{10} \right) = \frac{T_1 - 10}{5} + \frac{T_1 - 20}{10} $$
+$$ \frac{200 - 4 T_1}{10} = \frac{2(T_1 - 10) + (T_1 - 20)}{10} $$
+Multiplicamos ambos lados por 10 para simplificar:
+$$ 200 - 4 T_1 = 2 T_1 - 20 + T_1 - 20 $$
+$$ 200 - 4 T_1 = 3 T_1 - 40 $$
+$$ 240 = 7 T_1 $$
+$$ T_1 = \frac{240}{7} \approx 34.28\,\si{N} $$
+
+Finalmente, sustituimos $T_1$ en las ecuaciones de aceleración:
+$$ a_A = \frac{\frac{240}{7} - 10}{5} = \frac{\frac{240 - 70}{7}}{5} = \frac{170}{35} = \frac{34}{7} \approx 4.86\,\si{m/s^2} $$
+$$ a_C = \frac{\frac{240}{7} - 20}{10} = \frac{\frac{240 - 140}{7}}{10} = \frac{100}{70} = \frac{10}{7} \approx 1.43\,\si{m/s^2} $$
+$$ a_B = \frac{100 - 2\left(\frac{240}{7}\right)}{10} = \frac{\frac{700 - 480}{7}}{10} = \frac{220}{70} = \frac{22}{7} \approx 3.14\,\si{m/s^2} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering
+$a_A = 4.86\,\si{m/s^2}$ \\
+$a_B = 3.14\,\si{m/s^2}$ \\
+$a_C = 1.43\,\si{m/s^2}$
+\end{tcolorbox}
+
+\end{document}

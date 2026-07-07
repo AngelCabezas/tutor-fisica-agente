@@ -1,0 +1,1910 @@
+\documentclass[12pt, a4paper]{article}
+
+% --- PAQUETES ---
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{geometry}
+\usepackage[most]{tcolorbox}
+\usepackage{graphicx}
+\usepackage{siunitx}
+\usepackage{enumitem}
+\usepackage{pgfplots}
+\usetikzlibrary{babel} %
+\geometry{a4paper, margin=1in}
+
+% --- CONFIGURACIÓN DE SIUNITX ---
+\sisetup{
+    per-mode = symbol,
+    separate-uncertainty = true
+}
+
+% --- DATOS DEL DOCUMENTO ---
+\title{Ejercicios Resueltos de Aceleración\\[0.5em]\large Cinemática en Una Dimensión}
+\author{Material para Entrenamiento LLM}
+\date{\today}
+
+% --- INICIO DEL DOCUMENTO ---
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+\newpage
+
+\subsection*{Enunciado}
+Encuentre la aceleración media entre los instantes $t = \SI{1}{s}$ y $t = \SI{2}{s}$ para un vehículo que se mueve sobre el eje $x$, de acuerdo con la función $v_x(t) = 0.5t + 0.1t^2$, donde $t$ está en segundos y $v_x$ en $\SI{}{m/s}$.
+
+\subsection*{Solución}
+
+\subsubsection*{Concepto Fundamental}
+La \textbf{aceleración media} ($a_{mx}$) mide cómo cambia la velocidad en promedio durante un intervalo de tiempo. Se define como:
+\begin{equation}
+a_{mx} = \frac{\Delta v_x}{\Delta t} = \frac{v_{x,f} - v_{x,i}}{t_f - t_i}
+\end{equation}
+donde $v_{x,i}$ es la velocidad inicial, $v_{x,f}$ es la velocidad final, $t_i$ es el tiempo inicial y $t_f$ es el tiempo final.
+
+\subsubsection*{Datos del problema}
+\begin{itemize}[leftmargin=2cm]
+    \item Función de velocidad: $v_x(t) = 0.5t + 0.1t^2$ (en $\SI{}{m/s}$)
+    \item Intervalo de tiempo: $t_i = \SI{1}{s}$, $t_f = \SI{2}{s}$
+    \item Incógnita: $a_{mx}$ (aceleración media)
+\end{itemize}
+
+\subsubsection*{Paso 1: Calcular la velocidad inicial en $t_i = \SI{1}{s}$}
+Sustituimos $t = 1$ en la función de velocidad:
+\begin{align*}
+v_x(1) &= 0.5(1) + 0.1(1)^2 \\
+&= 0.5 + 0.1 \\
+&= \SI{0.6}{m/s}
+\end{align*}
+
+\textit{Interpretación física:} En el instante $t = \SI{1}{s}$, el vehículo se mueve con una velocidad de $\SI{0.6}{m/s}$ en la dirección positiva del eje $x$.
+
+\subsubsection*{Paso 2: Calcular la velocidad final en $t_f = \SI{2}{s}$}
+Sustituimos $t = 2$ en la función de velocidad:
+\begin{align*}
+v_x(2) &= 0.5(2) + 0.1(2)^2 \\
+&= 1.0 + 0.1(4) \\
+&= 1.0 + 0.4 \\
+&= \SI{1.4}{m/s}
+\end{align*}
+
+\textit{Interpretación física:} En el instante $t = \SI{2}{s}$, el vehículo ha incrementado su velocidad a $\SI{1.4}{m/s}$ en la misma dirección.
+
+\subsubsection*{Paso 3: Calcular la aceleración media}
+Aplicamos la definición de aceleración media:
+\begin{align*}
+a_{mx} &= \frac{v_x(2) - v_x(1)}{2 - 1} \\
+&= \frac{\SI{1.4}{m/s} - \SI{0.6}{m/s}}{\SI{1}{s}} \\
+&= \frac{\SI{0.8}{m/s}}{\SI{1}{s}} \\
+&= \SI{0.8}{m/s^2}
+\end{align*}
+
+\subsubsection*{Análisis dimensional}
+Verificamos que las unidades sean correctas:
+\begin{equation*}
+[a_{mx}] = \frac{[\text{velocidad}]}{[\text{tiempo}]} = \frac{\SI{}{m/s}}{\SI{}{s}} = \SI{}{m/s^2} \quad \checkmark
+\end{equation*}
+
+\subsubsection*{Interpretación del resultado}
+La aceleración media es $a_{mx} = \SI{0.8}{m/s^2}$ (positiva). Esto significa que, en promedio, la velocidad del vehículo aumentó a razón de $\SI{0.8}{m/s}$ cada segundo durante el intervalo analizado. El vehículo está acelerando en la dirección positiva del eje $x$.
+
+\begin{tcolorbox}[colback=blue!5!white, colframe=blue!75!black, title=Respuesta Final]
+\centering
+\Large $\boxed{a_{mx} = \SI{0.8}{m/s^2}}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+La posición de una partícula que se mueve sobre el eje $x$ está dada por la ecuación $x(t) = 2t^3 - 4t^2 + 5$, donde $x$ se mide en metros ($\SI{}{m}$) y $t$ en segundos ($\SI{}{s}$). Determine la aceleración instantánea de la partícula en $t = \SI{2}{s}$.
+
+\subsection*{Solución}
+
+\subsubsection*{Concepto Fundamental}
+La \textbf{aceleración instantánea} ($a_x(t)$) es la aceleración en un instante específico de tiempo. Se obtiene mediante la relación cinemática:
+\begin{equation}
+a_x(t) = \frac{dv_x}{dt} = \frac{d^2x}{dt^2}
+\end{equation}
+
+Es decir, la aceleración es la derivada de la velocidad respecto al tiempo, o equivalentemente, la \textit{segunda derivada} de la posición respecto al tiempo.
+
+\subsubsection*{Datos del problema}
+\begin{itemize}[leftmargin=2cm]
+    \item Función de posición: $x(t) = 2t^3 - 4t^2 + 5$ (en $\SI{}{m}$)
+    \item Instante de evaluación: $t = \SI{2}{s}$
+    \item Incógnita: $a_x(2)$ (aceleración instantánea en $t = \SI{2}{s}$)
+\end{itemize}
+
+\subsubsection*{Paso 1: Obtener la función de velocidad $v_x(t)$}
+La velocidad es la primera derivada de la posición. Aplicamos la regla de la potencia $\frac{d}{dt}(t^n) = nt^{n-1}$:
+\begin{align*}
+v_x(t) &= \frac{dx}{dt} \\
+&= \frac{d}{dt}(2t^3 - 4t^2 + 5) \\
+&= 2 \cdot 3t^{3-1} - 4 \cdot 2t^{2-1} + 0 \\
+&= 6t^2 - 8t \quad \text{(en } \SI{}{m/s}\text{)}
+\end{align*}
+
+\textit{Significado físico:} Esta función describe cómo varía la velocidad de la partícula en cada instante de tiempo.
+
+\subsubsection*{Paso 2: Obtener la función de aceleración $a_x(t)$}
+La aceleración es la derivada de la velocidad. Derivamos $v_x(t)$:
+\begin{align*}
+a_x(t) &= \frac{dv_x}{dt} \\
+&= \frac{d}{dt}(6t^2 - 8t) \\
+&= 6 \cdot 2t^{2-1} - 8 \cdot 1t^{1-1} \\
+&= 12t - 8 \quad \text{(en } \SI{}{m/s^2}\text{)}
+\end{align*}
+
+\textit{Observación importante:} Note que la aceleración es una función lineal del tiempo, lo que significa que la aceleración cambia de manera constante (la partícula experimenta un movimiento con aceleración variable).
+
+\subsubsection*{Paso 3: Evaluar la aceleración en $t = \SI{2}{s}$}
+Sustituimos $t = 2$ en la función de aceleración:
+\begin{align*}
+a_x(2) &= 12(2) - 8 \\
+&= 24 - 8 \\
+&= \SI{16}{m/s^2}
+\end{align*}
+
+\subsubsection*{Análisis dimensional}
+Verificamos las unidades:
+\begin{equation*}
+[a_x] = \frac{[x]}{[t]^2} = \frac{\SI{}{m}}{\SI{}{s^2}} = \SI{}{m/s^2} \quad \checkmark
+\end{equation*}
+
+\subsubsection*{Interpretación del resultado}
+En el instante $t = \SI{2}{s}$, la partícula tiene una aceleración instantánea de $\SI{16}{m/s^2}$ en la dirección positiva del eje $x$. Esto significa que en ese preciso momento, la velocidad de la partícula está aumentando a razón de $\SI{16}{m/s}$ por cada segundo.
+
+\textbf{Nota adicional:} Si evaluáramos la aceleración en otros instantes, obtendríamos valores diferentes. Por ejemplo:
+\begin{itemize}
+    \item En $t = 0$: $a_x(0) = 12(0) - 8 = -\SI{8}{m/s^2}$ (aceleración negativa)
+    \item En $t = 1$: $a_x(1) = 12(1) - 8 = \SI{4}{m/s^2}$
+\end{itemize}
+
+\begin{tcolorbox}[colback=blue!5!white, colframe=blue!75!black, title=Respuesta Final]
+\centering
+\Large $\boxed{a_x(\SI{2}{s}) = \SI{16}{m/s^2}}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Para la misma partícula del ejercicio anterior, cuya posición es $x(t) = 2t^3 - 4t^2 + 5$, determine la aceleración media en el intervalo de $t = \SI{1}{s}$ a $t = \SI{3}{s}$.
+
+\subsection*{Solución}
+
+\subsubsection*{Concepto Fundamental}
+Este ejercicio combina dos conceptos importantes:
+\begin{enumerate}
+    \item Primero debemos obtener la \textit{velocidad} derivando la posición: $v_x(t) = \frac{dx}{dt}$
+    \item Luego calculamos la \textit{aceleración media} usando: $a_{mx} = \frac{\Delta v_x}{\Delta t}$
+\end{enumerate}
+
+La aceleración media representa el cambio promedio de velocidad durante un intervalo, aunque la aceleración instantánea pueda variar en cada momento dentro de ese intervalo.
+
+\subsubsection*{Datos del problema}
+\begin{itemize}[leftmargin=2cm]
+    \item Función de posición: $x(t) = 2t^3 - 4t^2 + 5$ (en $\SI{}{m}$)
+    \item Intervalo: $t_i = \SI{1}{s}$, $t_f = \SI{3}{s}$
+    \item Incógnita: $a_{mx}$ (aceleración media en el intervalo)
+\end{itemize}
+
+\subsubsection*{Paso 1: Obtener la función de velocidad $v_x(t)$}
+Como ya calculamos en el ejercicio anterior, derivamos la posición:
+\begin{align*}
+v_x(t) &= \frac{dx}{dt} = \frac{d}{dt}(2t^3 - 4t^2 + 5) \\
+&= 6t^2 - 8t \quad \text{(en } \SI{}{m/s}\text{)}
+\end{align*}
+
+\subsubsection*{Paso 2: Calcular la velocidad inicial en $t_i = \SI{1}{s}$}
+Evaluamos la función de velocidad en $t = 1$:
+\begin{align*}
+v_x(1) &= 6(1)^2 - 8(1) \\
+&= 6 - 8 \\
+&= \SI{-2}{m/s}
+\end{align*}
+
+\textit{Interpretación física:} En $t = \SI{1}{s}$, la partícula se mueve con velocidad de $\SI{2}{m/s}$ en la dirección \textit{negativa} del eje $x$ (el signo negativo indica dirección opuesta al sentido positivo del eje).
+
+\subsubsection*{Paso 3: Calcular la velocidad final en $t_f = \SI{3}{s}$}
+Evaluamos la función de velocidad en $t = 3$:
+\begin{align*}
+v_x(3) &= 6(3)^2 - 8(3) \\
+&= 6(9) - 24 \\
+&= 54 - 24 \\
+&= \SI{30}{m/s}
+\end{align*}
+
+\textit{Interpretación física:} En $t = \SI{3}{s}$, la partícula se mueve con velocidad de $\SI{30}{m/s}$ en la dirección \textit{positiva} del eje $x$. Note que la partícula cambió su sentido de movimiento durante el intervalo.
+
+\subsubsection*{Paso 4: Calcular la aceleración media}
+Aplicamos la definición de aceleración media:
+\begin{align*}
+a_{mx} &= \frac{v_x(t_f) - v_x(t_i)}{t_f - t_i} \\
+&= \frac{v_x(3) - v_x(1)}{3 - 1} \\
+&= \frac{\SI{30}{m/s} - (\SI{-2}{m/s})}{\SI{2}{s}} \\
+&= \frac{\SI{30}{m/s} + \SI{2}{m/s}}{\SI{2}{s}} \\
+&= \frac{\SI{32}{m/s}}{\SI{2}{s}} \\
+&= \SI{16}{m/s^2}
+\end{align*}
+
+\subsubsection*{Análisis dimensional}
+\begin{equation*}
+[a_{mx}] = \frac{[\Delta v_x]}{[\Delta t]} = \frac{\SI{}{m/s}}{\SI{}{s}} = \SI{}{m/s^2} \quad \checkmark
+\end{equation*}
+
+\subsubsection*{Interpretación del resultado}
+La aceleración media es $a_{mx} = \SI{16}{m/s^2}$ (positiva). Durante el intervalo de $\SI{2}{s}$, la velocidad cambió en total $\Delta v_x = \SI{32}{m/s}$ (de $\SI{-2}{m/s}$ a $\SI{30}{m/s}$), lo que representa un cambio promedio de $\SI{16}{m/s}$ por cada segundo.
+
+\subsubsection*{Observación importante}
+Note que la aceleración media ($\SI{16}{m/s^2}$) coincide con la aceleración instantánea calculada en $t = \SI{2}{s}$ del ejercicio anterior. Esto \textit{no es una coincidencia}: ocurre porque la aceleración varía linealmente con el tiempo ($a_x(t) = 12t - 8$), y el instante $t = \SI{2}{s}$ está exactamente en la mitad del intervalo $[\SI{1}{s}, \SI{3}{s}]$. 
+
+En general, para funciones lineales, el valor promedio en un intervalo es igual al valor en el punto medio del intervalo.
+
+\subsubsection*{Verificación conceptual}
+Podemos verificar esto calculando el promedio aritmético de las aceleraciones en los extremos:
+\begin{itemize}
+    \item $a_x(1) = 12(1) - 8 = \SI{4}{m/s^2}$
+    \item $a_x(3) = 12(3) - 8 = \SI{28}{m/s^2}$
+    \item Promedio: $\dfrac{4 + 28}{2} = \SI{16}{m/s^2}$ \quad $\checkmark$
+\end{itemize}
+
+\begin{tcolorbox}[colback=blue!5!white, colframe=blue!75!black, title=Respuesta Final]
+\centering
+\Large $\boxed{a_{mx} = \SI{16}{m/s^2}}$
+\end{tcolorbox}
+
+\subsection*{Enunciado}
+De acuerdo con los gráficos $v$ contra $t$ que se indican, determine el vector aceleración media en el intervalo de tiempo comprendido entre $t_1$ y $t_2$.
+
+\begin{center}
+\begin{tikzpicture}
+    \begin{axis}[
+        width=5cm,
+        height=5cm,
+        axis lines=middle,
+        xlabel={$t$},
+        ylabel={$v_x$},
+        xmin=0, xmax=3.5,
+        ymin=-1.5, ymax=1.5,
+        xtick={1,2},
+        xticklabels={$t_1$,$t_2$},
+        ytick={-1,1},
+        yticklabels={$-v_1$},
+        grid=none,
+        samples=2,
+        thick
+    ]
+    \addplot[blue, thick] coordinates {(0,-1) (1,-1)};
+    \addplot[blue, thick] coordinates {(1,0) (1,-1)};
+    \addplot[blue, thick] coordinates {(1,-1) (2.5,0.5)};
+    \end{axis}
+\end{tikzpicture}
+\hspace{1cm}
+\begin{tikzpicture}
+    \begin{axis}[
+        width=5cm,
+        height=5cm,
+        axis lines=middle,
+        xlabel={$t$},
+        ylabel={$v_y$},
+        xmin=0, xmax=3.5,
+        ymin=-1.5, ymax=1.5,
+        xtick={1,2},
+        xticklabels={$t_1$,$t_2$},
+        ytick={-1},
+        yticklabels={$-v_1$},
+        grid=none,
+        samples=2,
+        thick
+    ]
+    \addplot[red, thick] coordinates {(0,-1) (2,-1)};
+    \addplot[red, thick] coordinates {(1,0) (1,-1)};
+    \addplot[red, thick] coordinates {(2,0) (2,-1)};
+    \end{axis}
+\end{tikzpicture}
+\hspace{1cm}
+\begin{tikzpicture}
+    \begin{axis}[
+        width=5cm,
+        height=5cm,
+        axis lines=middle,
+        xlabel={$t$},
+        ylabel={$v_z$},
+        xmin=0, xmax=3.5,
+        ymin=-1.5, ymax=1.5,
+        xtick={1,2},
+        xticklabels={$t_1$,$t_2$},
+        ytick={1,-1},
+        yticklabels={$v$,-$v_1$},
+        grid=none,
+        samples=2,
+        thick
+    ]
+    \addplot[green!60!black, thick] coordinates {(0,-1) (2,-1)};
+    \addplot[green!60!black, thick] coordinates {(2,0) (2,-1)};
+    \addplot[green!60!black, thick] coordinates {(0,1) (2,-1)};
+    \end{axis}
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{Concepto Fundamental}
+El \textbf{vector aceleración media} se calcula componente por componente usando la definición:
+\begin{equation}
+\vec{a}_m = \frac{\Delta \vec{v}}{\Delta t} = \frac{\vec{v}(t_2) - \vec{v}(t_1)}{t_2 - t_1}
+\end{equation}
+
+En forma de componentes:
+\begin{equation}
+\vec{a}_m = a_{mx}\hat{\imath} + a_{my}\hat{\jmath} + a_{mz}\hat{k}
+\end{equation}
+
+donde cada componente se calcula como:
+\begin{equation}
+a_{mi} = \frac{v_i(t_2) - v_i(t_1)}{t_2 - t_1} \quad \text{para } i = x, y, z
+\end{equation}
+
+\subsubsection*{Datos del problema}
+De las gráficas extraemos la información de cada componente de velocidad:
+
+\textbf{Gráfica de $v_x$ vs $t$:}
+\begin{itemize}[leftmargin=2cm]
+    \item En $t_1$: $v_x = v_1$
+    \item En $t_2$: $v_x = -v_1$
+\end{itemize}
+
+\textbf{Gráfica de $v_y$ vs $t$:}
+\begin{itemize}[leftmargin=2cm]
+    \item En $t_1$: $v_y = -v_1$
+    \item En $t_2$: $v_y = -v_1$
+\end{itemize}
+
+\textbf{Gráfica de $v_z$ vs $t$:}
+\begin{itemize}[leftmargin=2cm]
+    \item En $t_1$: $v_z = v_1$
+    \item En $t_2$: $v_z = 0$
+\end{itemize}
+
+\subsubsection*{Paso 1: Expresar los vectores velocidad en $t_1$ y $t_2$}
+
+\textbf{Vector velocidad en $t_1$:}
+\begin{equation}
+\vec{v}_1 = \vec{v}(t_1) = v_1\hat{\imath} + (-v_1)\hat{\jmath} + v_1\hat{k} = v_1\hat{\imath} - v_1\hat{\jmath} + v_1\hat{k}
+\end{equation}
+
+\textbf{Vector velocidad en $t_2$:}
+\begin{equation}
+\vec{v}_2 = \vec{v}(t_2) = (-v_1)\hat{\imath} + (-v_1)\hat{\jmath} + 0\hat{k} = -v_1\hat{\imath} - v_1\hat{\jmath}
+\end{equation}
+
+\textit{Interpretación física:} El vector $\vec{v}_1$ tiene componentes en las tres direcciones, mientras que $\vec{v}_2$ solo tiene componentes en $x$ y $y$ (ambas negativas), habiendo perdido completamente su componente en $z$.
+
+\subsubsection*{Paso 2: Calcular el cambio de velocidad $\Delta \vec{v}$}
+
+El cambio en el vector velocidad es:
+\begin{align*}
+\Delta \vec{v} &= \vec{v}_2 - \vec{v}_1 \\
+&= (-v_1\hat{\imath} - v_1\hat{\jmath}) - (v_1\hat{\imath} - v_1\hat{\jmath} + v_1\hat{k}) \\
+&= -v_1\hat{\imath} - v_1\hat{\jmath} - v_1\hat{\imath} + v_1\hat{\jmath} - v_1\hat{k} \\
+&= -2v_1\hat{\imath} + 0\hat{\jmath} - v_1\hat{k}
+\end{align*}
+
+Simplificando:
+\begin{equation}
+\Delta \vec{v} = -2v_1\hat{\imath} - v_1\hat{k}
+\end{equation}
+
+\textit{Análisis del cambio:}
+\begin{itemize}
+    \item \textbf{Componente $x$:} Cambió de $v_1$ a $-v_1$, un cambio total de $-2v_1$
+    \item \textbf{Componente $y$:} Se mantuvo constante en $-v_1$, cambio nulo
+    \item \textbf{Componente $z$:} Disminuyó de $v_1$ a $0$, un cambio de $-v_1$
+\end{itemize}
+
+\subsubsection*{Paso 3: Calcular el vector aceleración media}
+
+Aplicamos la definición:
+\begin{align*}
+\vec{a}_m &= \frac{\Delta \vec{v}}{t_2 - t_1} \\
+&= \frac{-2v_1\hat{\imath} - v_1\hat{k}}{t_2 - t_1} \\
+&= \frac{-2v_1}{t_2 - t_1}\hat{\imath} + \frac{-v_1}{t_2 - t_1}\hat{k}
+\end{align*}
+
+Factorizando:
+\begin{equation}
+\vec{a}_m = \frac{v_1}{t_2 - t_1}(-2\hat{\imath} - \hat{k})
+\end{equation}
+
+O en forma de componentes:
+\begin{equation}
+\vec{a}_m = \left[\frac{-2v_1}{t_2 - t_1}\right]\hat{\imath} + 0\hat{\jmath} + \left[\frac{-v_1}{t_2 - t_1}\right]\hat{k}
+\end{equation}
+
+Si expresamos $\frac{v_1}{t_2 - t_1}$ como una constante (con unidades de aceleración):
+\begin{equation}
+\boxed{\vec{a}_m = \left[\frac{v_1}{t_2 - t_1}\right](-2\hat{\imath} - \hat{k}) \text{ m/s}^2}
+\end{equation}
+
+\subsubsection*{Análisis dimensional}
+\begin{equation}
+[\vec{a}_m] = \frac{[v_1]}{[t_2 - t_1]} = \frac{\text{m/s}}{\text{s}} = \text{m/s}^2 \quad \checkmark
+\end{equation}
+
+\subsubsection*{Interpretación del resultado}
+
+El vector aceleración media tiene:
+\begin{itemize}
+    \item \textbf{Componente en $x$:} $a_{mx} = \frac{-2v_1}{t_2-t_1}$ (negativa, el doble de magnitud que la componente $z$)
+    \item \textbf{Componente en $y$:} $a_{my} = 0$ (no hay aceleración en esta dirección)
+    \item \textbf{Componente en $z$:} $a_{mz} = \frac{-v_1}{t_2-t_1}$ (negativa)
+\end{itemize}
+
+Físicamente, esto significa que la partícula experimenta una aceleración que:
+\begin{enumerate}
+    \item Invierte y aumenta la componente de velocidad en $x$
+    \item No afecta la componente en $y$ (permanece constante)
+    \item Reduce a cero la componente en $z$
+\end{enumerate}
+
+\begin{tcolorbox}[colback=blue!5!white, colframe=blue!75!black, title=Respuesta Final]
+\centering
+\Large $\boxed{\vec{a}_m = \left[\frac{v_1}{t_2 - t_1}\right](-2\hat{\imath} - \hat{k}) \text{ m/s}^2}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+De acuerdo con los mismos gráficos $v$ contra $t$ del ejercicio anterior, determine el vector aceleración instantánea en $t_2$.
+
+\begin{center}
+\begin{tikzpicture}
+    \begin{axis}[
+        width=5cm,
+        height=5cm,
+        axis lines=middle,
+        xlabel={$t$},
+        ylabel={$v_x$},
+        xmin=0, xmax=3.5,
+        ymin=-1.5, ymax=1.5,
+        xtick={1,2},
+        xticklabels={$t_1$,$t_2$},
+        ytick={-1,1},
+        yticklabels={$-v_1$},
+        grid=none,
+        samples=2,
+        thick
+    ]
+    \addplot[blue, thick] coordinates {(0,-1) (1,-1)};
+    \addplot[blue, thick] coordinates {(1,0) (1,-1)};
+    \addplot[blue, thick] coordinates {(1,-1) (2.5,0.5)};
+    \end{axis}
+\end{tikzpicture}
+\hspace{1cm}
+\begin{tikzpicture}
+    \begin{axis}[
+        width=5cm,
+        height=5cm,
+        axis lines=middle,
+        xlabel={$t$},
+        ylabel={$v_y$},
+        xmin=0, xmax=3.5,
+        ymin=-1.5, ymax=1.5,
+        xtick={1,2},
+        xticklabels={$t_1$,$t_2$},
+        ytick={-1},
+        yticklabels={$-v_1$},
+        grid=none,
+        samples=2,
+        thick
+    ]
+    \addplot[red, thick] coordinates {(0,-1) (2,-1)};
+    \addplot[red, thick] coordinates {(1,0) (1,-1)};
+    \addplot[red, thick] coordinates {(2,0) (2,-1)};
+    \end{axis}
+\end{tikzpicture}
+\hspace{1cm}
+\begin{tikzpicture}
+    \begin{axis}[
+        width=5cm,
+        height=5cm,
+        axis lines=middle,
+        xlabel={$t$},
+        ylabel={$v_z$},
+        xmin=0, xmax=3.5,
+        ymin=-1.5, ymax=1.5,
+        xtick={1,2},
+        xticklabels={$t_1$,$t_2$},
+        ytick={1,-1},
+        yticklabels={$v$,-$v_1$},
+        grid=none,
+        samples=2,
+        thick
+    ]
+    \addplot[green!60!black, thick] coordinates {(0,-1) (2,-1)};
+    \addplot[green!60!black, thick] coordinates {(2,0) (2,-1)};
+    \addplot[green!60!black, thick] coordinates {(0,1) (2,-1)};
+    \end{axis}
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{Concepto Fundamental}
+La \textbf{aceleración instantánea} es la derivada del vector velocidad respecto al tiempo:
+\begin{equation}
+\vec{a}(t) = \frac{d\vec{v}}{dt} = \frac{dv_x}{dt}\hat{\imath} + \frac{dv_y}{dt}\hat{\jmath} + \frac{dv_z}{dt}\hat{k}
+\end{equation}
+
+En una gráfica velocidad-tiempo, la aceleración instantánea es igual a la \textbf{pendiente} de la curva $v$ vs $t$ en ese instante.
+
+\textbf{Interpretación gráfica:}
+\begin{itemize}
+    \item Si la gráfica es una \textit{línea recta horizontal} → pendiente = 0 → aceleración = 0
+    \item Si la gráfica es una \textit{línea recta inclinada} → pendiente constante → aceleración constante
+    \item Si hay un \textit{cambio brusco} (discontinuidad) → aceleración indefinida (impulso)
+\end{itemize}
+
+\subsubsection*{Análisis de las gráficas en el intervalo $t \geq t_1$}
+
+Observemos el comportamiento de cada componente de velocidad para tiempos $t \geq t_1$:
+
+\textbf{Gráfica de $v_x$ vs $t$:}
+\begin{itemize}
+    \item En $t = t_1$: Hay un cambio brusco (de $v_1$ a $-v_1$)
+    \item Para $t_1 < t < t_2$: $v_x = -v_1$ (constante)
+    \item Para $t \geq t_2$: $v_x = -v_1$ (constante)
+\end{itemize}
+
+\textit{Conclusión:} Para $t \geq t_1$, la velocidad $v_x$ es constante, por lo que:
+\begin{equation}
+a_x = \frac{dv_x}{dt} = 0
+\end{equation}
+
+\textbf{Gráfica de $v_y$ vs $t$:}
+\begin{itemize}
+    \item En $t = t_1$: Hay un cambio brusco (de $0$ a $-v_1$)
+    \item Para $t_1 < t < t_2$: $v_y = -v_1$ (constante)
+    \item Para $t \geq t_2$: $v_y = -v_1$ (constante)
+\end{itemize}
+
+\textit{Conclusión:} Para $t \geq t_1$, la velocidad $v_y$ es constante, por lo que:
+\begin{equation}
+a_y = \frac{dv_y}{dt} = 0
+\end{equation}
+
+\textbf{Gráfica de $v_z$ vs $t$:}
+\begin{itemize}
+    \item Para $t < t_1$: $v_z = v_1$ (constante)
+    \item Para $t_1 \leq t \leq t_2$: $v_z$ disminuye linealmente de $v_1$ a $0$
+    \item Para $t > t_2$: $v_z = 0$ (constante)
+\end{itemize}
+
+\textit{Análisis del tramo $t_1 \leq t \leq t_2$:} 
+
+La velocidad disminuye linealmente, por lo que la aceleración es constante en este intervalo. Calculamos la pendiente:
+\begin{align*}
+a_z &= \frac{dv_z}{dt} = \frac{\Delta v_z}{\Delta t} \\
+&= \frac{v_z(t_2) - v_z(t_1)}{t_2 - t_1} \\
+&= \frac{0 - v_1}{t_2 - t_1} \\
+&= \frac{-v_1}{t_2 - t_1}
+\end{align*}
+
+\subsubsection*{Paso 1: Determinar la aceleración en $t = t_2$}
+
+En el instante $t = t_2$:
+
+\textbf{Componente $x$:}
+\begin{equation}
+a_x(t_2) = 0 \quad \text{(velocidad constante)}
+\end{equation}
+
+\textbf{Componente $y$:}
+\begin{equation}
+a_y(t_2) = 0 \quad \text{(velocidad constante)}
+\end{equation}
+
+\textbf{Componente $z$:}
+
+Justo antes de $t_2$ (desde la izquierda), la velocidad está cambiando con:
+\begin{equation}
+a_z(t_2^-) = \frac{-v_1}{t_2 - t_1}
+\end{equation}
+
+Justo después de $t_2$ (desde la derecha), la velocidad es constante:
+\begin{equation}
+a_z(t_2^+) = 0
+\end{equation}
+
+\textit{Observación importante:} En $t = t_2$ hay un cambio en la aceleración (de un valor negativo a cero). Sin embargo, la pregunta pide la aceleración instantánea, que matemáticamente corresponde al límite desde la izquierda (el valor que tiene la aceleración justo en ese punto, considerando la tendencia inmediatamente anterior).
+
+Por lo tanto, para $t = t_2$, tomamos el valor desde el intervalo $(t_1, t_2)$:
+\begin{equation}
+a_z(t_2) = \frac{-v_1}{t_2 - t_1}
+\end{equation}
+
+\subsubsection*{Paso 2: Expresar el vector aceleración instantánea}
+
+Combinando las tres componentes:
+\begin{equation}
+\vec{a}(t_2) = 0\hat{\imath} + 0\hat{\jmath} + \frac{-v_1}{t_2 - t_1}\hat{k}
+\end{equation}
+
+Simplificando:
+\begin{equation}
+\vec{a}(t_2) = \frac{-v_1}{t_2 - t_1}\hat{k}
+\end{equation}
+
+O factorizando el signo negativo:
+\begin{equation}
+\boxed{\vec{a}(t_2) = -\frac{v_1}{t_2 - t_1}\hat{k} \text{ m/s}^2}
+\end{equation}
+
+\subsubsection*{Análisis dimensional}
+\begin{equation}
+[\vec{a}(t_2)] = \frac{[v_1]}{[t_2 - t_1]} = \frac{\text{m/s}}{\text{s}} = \text{m/s}^2 \quad \checkmark
+\end{equation}
+
+\subsubsection*{Interpretación del resultado}
+
+En el instante $t = t_2$, el vector aceleración instantánea:
+\begin{itemize}
+    \item \textbf{Solo tiene componente en $z$} (dirección $\hat{k}$)
+    \item Es \textbf{negativa} (apunta en la dirección $-\hat{k}$)
+    \item Su magnitud es $|\vec{a}(t_2)| = \frac{v_1}{t_2 - t_1}$
+\end{itemize}
+
+\textbf{Significado físico:}
+
+La partícula, en el instante $t_2$, solo experimenta aceleración en la dirección $z$, y esta aceleración está frenando (reduciendo) la componente $v_z$ de la velocidad. En las direcciones $x$ e $y$, la partícula se mueve con velocidad constante (movimiento rectilíneo uniforme), mientras que en $z$ está experimentando una desaceleración constante.
+
+\subsubsection*{Comparación con la aceleración media}
+
+Recordemos del ejercicio anterior que:
+\begin{equation}
+\vec{a}_m = \frac{v_1}{t_2 - t_1}(-2\hat{\imath} - \hat{k})
+\end{equation}
+
+Mientras que en $t_2$:
+\begin{equation}
+\vec{a}(t_2) = -\frac{v_1}{t_2 - t_1}\hat{k}
+\end{equation}
+
+\textbf{Diferencia clave:} La aceleración media incluye el cambio brusco que ocurrió en $t_1$ (que afectó principalmente a $v_x$ y $v_y$), mientras que la aceleración instantánea en $t_2$ solo refleja lo que está ocurriendo en ese preciso momento (cambio solo en $v_z$).
+
+\begin{tcolorbox}[colback=blue!5!white, colframe=blue!75!black, title=Respuesta Final]
+\centering
+\Large $\boxed{\vec{a}(t_2) = -\frac{v_1}{t_2 - t_1}\hat{k} \text{ m/s}^2}$
+
+\vspace{0.3cm}
+\normalsize
+O equivalentemente: $\boxed{\vec{a}(t_2) = \left[\frac{v_1}{t_2 - t_1}\right](-\hat{k}) \text{ m/s}^2}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Determine las componentes tangencial y normal de la aceleración, en términos de $\hat{\imath}$ y $\hat{\jmath}$, de un proyectil que se mueve con una aceleración constante de $\vec{g} = -10\hat{\jmath} \, \si{m/s^2}$, en el instante en que su velocidad es de $\vec{v} = 2\hat{\imath} - \hat{\jmath} \, \si{m/s}$.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=latex]
+    % Coordenadas
+    \coordinate (O) at (0,0);
+    \coordinate (V) at (2, -1);
+    \coordinate (G) at (0, -5); % Escalado visualmente para claridad
+    \coordinate (GT) at (3.2, -1.6); % Proyección aproximada
+
+    % Ejes auxiliares
+    \draw[dashed, gray] (0,0) -- (2,0) node[midway, above] {\small $2$};
+    \draw[dashed, gray] (2,0) -- (2,-1) node[midway, right] {\small $-1$};
+
+    % Vectores Principales
+    \draw[->, thick, blue] (O) -- (V) node[right] {$\vec{v}$};
+    \draw[->, thick, black] (O) -- (G) node[below] {$\vec{g} = -10\hat{\jmath}$};
+
+    % Ángulo Theta
+    \draw (0.5,0) arc (0:-26.5:0.5);
+    \node at (0.7, -0.2) {$\theta$};
+
+    % Componentes vectoriales
+    \draw[->, red, thick] (O) -- (GT) node[right] {$\vec{g}_T$};
+    \draw[->, orange, thick] (O) -- (-3.2, -2.6) node[left] {$\vec{g}_N$};
+
+    % Proyecciones
+    \draw[dashed] (GT) -- (G);
+    \draw[dashed] (-3.2, -2.6) -- (G);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{Concepto Fundamental}
+La aceleración total de una partícula ($\vec{g}$) se puede descomponer en dos vectores ortogonales basados en la trayectoria:
+\begin{enumerate}
+    \item \textbf{Aceleración Tangencial ($\vec{g}_T$):} Es la componente paralela a la velocidad. Es responsable del cambio en la \textit{rapidez} (magnitud de la velocidad). Se calcula proyectando $\vec{g}$ sobre $\vec{v}$:
+    \begin{equation}
+    \vec{g}_T = \left( \frac{\vec{g} \cdot \vec{v}}{\|\vec{v}\|^2} \right) \vec{v}
+    \end{equation}
+    \item \textbf{Aceleración Normal ($\vec{g}_N$):} Es la componente perpendicular a la velocidad. Es responsable del cambio en la \textit{dirección} del movimiento. Se obtiene restando la componente tangencial de la aceleración total:
+    \begin{equation}
+    \vec{g}_N = \vec{g} - \vec{g}_T
+    \end{equation}
+\end{enumerate}
+
+\subsubsection*{Datos del problema}
+\begin{itemize}[leftmargin=2cm]
+    \item Aceleración total: $\vec{g} = 0\hat{\imath} - 10\hat{\jmath} \, \si{m/s^2}$
+    \item Velocidad instantánea: $\vec{v} = 2\hat{\imath} - 1\hat{\jmath} \, \si{m/s}$
+    \item Incógnitas: $\vec{g}_T$ y $\vec{g}_N$
+\end{itemize}
+
+\subsubsection*{Paso 1: Calcular productos escalares y magnitud}
+Primero calculamos el producto punto $\vec{g} \cdot \vec{v}$:
+\begin{align*}
+\vec{g} \cdot \vec{v} &= (g_x v_x) + (g_y v_y) \\
+&= (0)(2) + (-10)(-1) \\
+&= 0 + 10 \\
+&= 10
+\end{align*}
+
+Luego, calculamos el cuadrado de la magnitud de la velocidad ($\|\vec{v}\|^2$):
+\begin{align*}
+\|\vec{v}\|^2 &= (v_x)^2 + (v_y)^2 \\
+&= (2)^2 + (-1)^2 \\
+&= 4 + 1 \\
+&= 5
+\end{align*}
+
+\subsubsection*{Paso 2: Calcular la Aceleración Tangencial ($\vec{g}_T$)}
+Sustituimos los valores en la fórmula de proyección:
+\begin{align*}
+\vec{g}_T &= \left( \frac{10}{5} \right) \vec{v} \\
+&= 2 (2\hat{\imath} - \hat{\jmath}) \\
+&= 4\hat{\imath} - 2\hat{\jmath} \, \si{m/s^2}
+\end{align*}
+
+\textit{Interpretación:} La componente tangencial $\vec{g}_T$ apunta en la misma dirección general que la velocidad (cuarto cuadrante), lo que indica que está contribuyendo a cambiar la magnitud de la velocidad en esa dirección.
+
+\subsubsection*{Paso 3: Calcular la Aceleración Normal ($\vec{g}_N$)}
+Usamos la relación vectorial $\vec{g} = \vec{g}_T + \vec{g}_N$ para despejar $\vec{g}_N$:
+\begin{align*}
+\vec{g}_N &= \vec{g} - \vec{g}_T \\
+&= (0\hat{\imath} - 10\hat{\jmath}) - (4\hat{\imath} - 2\hat{\jmath}) \\
+&= (0 - 4)\hat{\imath} + (-10 - (-2))\hat{\jmath} \\
+&= -4\hat{\imath} + (-10 + 2)\hat{\jmath} \\
+&= -4\hat{\imath} - 8\hat{\jmath} \, \si{m/s^2}
+\end{align*}
+
+\subsubsection*{Verificación (Opcional)}
+Podemos verificar que $\vec{g}_T$ y $\vec{g}_N$ son perpendiculares calculando su producto punto, el cual debe ser cero:
+\begin{equation*}
+\vec{g}_T \cdot \vec{g}_N = (4)(-4) + (-2)(-8) = -16 + 16 = 0 \quad \checkmark
+\end{equation*}
+
+\begin{tcolorbox}[colback=blue!5!white, colframe=blue!75!black, title=Respuesta Final]
+\centering
+\large
+a) $\vec{g}_T = 4\hat{\imath} - 2\hat{\jmath} \, \si{m/s^2}$ \\[0.5em]
+b) $\vec{g}_N = -4\hat{\imath} - 8\hat{\jmath} \, \si{m/s^2}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una partícula se mueve a lo largo de cierta trayectoria. En un punto P se conocen su velocidad $\vec{v} = 4\hat{\imath} + 3\hat{\jmath} \, \si{m/s}$ y su aceleración $\vec{a} = 5\hat{\imath} \, \si{m/s^2}$. En el mencionado punto P, encuentre la \textbf{aceleración tangencial}.
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=latex]
+    % Coordenadas
+    \coordinate (O) at (0,0);
+    \coordinate (V) at (4, 3);
+    \coordinate (A) at (5, 0);
+
+    % Ejes (Grid ligero)
+    \draw[step=1cm, gray!20, very thin] (-1,-1) grid (6,4);
+    \draw[->, gray] (-0.5,0) -- (6,0) node[right] {$x$};
+    \draw[->, gray] (0,-0.5) -- (0,4) node[above] {$y$};
+
+    % Vectores
+    \draw[->, thick, blue] (O) -- (V) node[midway, above left] {$\vec{v}$};
+    \draw[->, thick, black] (O) -- (A) node[midway, below] {$\vec{a}$};
+
+    % Etiquetas de componentes
+    \node[blue] at (4, 3.3) {$(4,3)$};
+    \node[black] at (5, -0.3) {$(5,0)$};
+
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{Concepto Fundamental}
+La \textbf{aceleración tangencial} ($\vec{a}_T$) es la proyección del vector aceleración total ($\vec{a}$) sobre la dirección del vector velocidad ($\vec{v}$). Su magnitud representa cuánto cambia la rapidez de la partícula.
+La fórmula vectorial es:
+\begin{equation}
+\vec{a}_T = \left( \frac{\vec{a} \cdot \vec{v}}{\|\vec{v}\|^2} \right) \vec{v}
+\end{equation}
+
+\subsubsection*{Datos del problema}
+\begin{itemize}
+    \item Velocidad: $\vec{v} = 4\hat{\imath} + 3\hat{\jmath}$
+    \item Aceleración: $\vec{a} = 5\hat{\imath} + 0\hat{\jmath}$
+\end{itemize}
+
+\subsubsection*{Paso 1: Calcular el producto punto $\vec{a} \cdot \vec{v}$}
+\begin{align*}
+\vec{a} \cdot \vec{v} &= (a_x v_x) + (a_y v_y) \\
+&= (5)(4) + (0)(3) \\
+&= 20 + 0 \\
+&= 20
+\end{align*}
+
+\subsubsection*{Paso 2: Calcular el cuadrado de la magnitud de la velocidad $\|\vec{v}\|^2$}
+\begin{align*}
+\|\vec{v}\|^2 &= (v_x)^2 + (v_y)^2 \\
+&= (4)^2 + (3)^2 \\
+&= 16 + 9 \\
+&= 25
+\end{align*}
+
+\subsubsection*{Paso 3: Calcular el vector aceleración tangencial}
+Sustituimos los valores escalares en la fórmula original:
+\begin{align*}
+\vec{a}_T &= \left( \frac{20}{25} \right) \vec{v} \\
+&= 0.8 (4\hat{\imath} + 3\hat{\jmath}) \\
+&= (0.8 \cdot 4)\hat{\imath} + (0.8 \cdot 3)\hat{\jmath} \\
+&= 3.2\hat{\imath} + 2.4\hat{\jmath} \, \si{m/s^2}
+\end{align*}
+
+\begin{tcolorbox}[colback=blue!5!white, colframe=blue!75!black, title=Respuesta Final]
+\centering
+\Large $\vec{a}_T = 3.2\hat{\imath} + 2.4\hat{\jmath} \, \si{m/s^2}$
+\end{tcolorbox}
+
+
+\newpage
+
+\subsection*{Enunciado}
+Una partícula se mueve a lo largo de cierta trayectoria. En un punto P se conocen su velocidad $\vec{v} = 4\hat{\imath} + 3\hat{\jmath} \, \si{m/s}$ y su aceleración $\vec{a} = 5\hat{\imath} \, \si{m/s^2}$.Determine la \textbf{aceleración normal} en el punto P.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=latex]
+    % Coordenadas
+    \coordinate (O) at (0,0);
+    \coordinate (V) at (4, 3);
+    \coordinate (A) at (5, 0);
+    % Aceleración tangencial calculada previamente (3.2, 2.4)
+    \coordinate (AT) at (3.2, 2.4);
+
+    % Ejes
+    \draw[->, gray] (-0.5,0) -- (6,0) node[right] {$x$};
+    \draw[->, gray] (0,-0.5) -- (0,4) node[above] {$y$};
+
+    % Vectores base
+    \draw[->, thick, blue] (O) -- (V) node[above] {$\vec{v}$};
+    \draw[->, thick, black] (O) -- (A) node[below right] {$\vec{a}$};
+    
+    % Vector Tangencial (referencia)
+    \draw[->, thick, red] (O) -- (AT) node[midway, left] {$\vec{a}_T$};
+    
+    % Línea punteada para sugerir la descomposición
+    \draw[dashed] (AT) -- (A);
+    \node at (4.2, 1.5) {?}; % Incógnita
+
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{Concepto Fundamental}
+La \textbf{aceleración normal} ($\vec{a}_N$) es la componente de la aceleración perpendicular a la trayectoria. Vectorialmente, la suma de la componente tangencial y la normal es igual a la aceleración total:
+$$ \vec{a} = \vec{a}_T + \vec{a}_N $$
+Por lo tanto, podemos encontrar $\vec{a}_N$ por simple resta vectorial:
+\begin{equation}
+\vec{a}_N = \vec{a} - \vec{a}_T
+\end{equation}
+
+\subsubsection*{Datos del problema}
+\begin{itemize}
+    \item Aceleración total: $\vec{a} = 5\hat{\imath} + 0\hat{\jmath}$
+    \item Aceleración tangencial (calculada en el Ejercicio 7): $\vec{a}_T = 3.2\hat{\imath} + 2.4\hat{\jmath}$
+\end{itemize}
+
+\subsubsection*{Paso 1: Realizar la resta vectorial}
+\begin{align*}
+\vec{a}_N &= (5\hat{\imath} + 0\hat{\jmath}) - (3.2\hat{\imath} + 2.4\hat{\jmath}) \\
+&= (5 - 3.2)\hat{\imath} + (0 - 2.4)\hat{\jmath} \\
+&= 1.8\hat{\imath} - 2.4\hat{\jmath} \, \si{m/s^2}
+\end{align*}
+
+\subsubsection*{Verificación (Producto Punto)}
+La aceleración normal debe ser perpendicular a la tangencial (y a la velocidad). Verificamos si $\vec{a}_T \cdot \vec{a}_N = 0$:
+\begin{align*}
+\vec{a}_T \cdot \vec{a}_N &= (3.2)(1.8) + (2.4)(-2.4) \\
+&= 5.76 - 5.76 \\
+&= 0 \quad (\text{Correcto})
+\end{align*}
+
+\begin{tcolorbox}[colback=blue!5!white, colframe=blue!75!black, title=Respuesta Final]
+\centering
+\Large $\vec{a}_N = 1.8\hat{\imath} - 2.4\hat{\jmath} \, \si{m/s^2}$
+\end{tcolorbox}
+
+\subsubsection*{Visualización Geométrica (Python)}
+El siguiente código genera un gráfico preciso mostrando cómo $\vec{a}_T$ y $\vec{a}_N$ forman un triángulo vectorial que resulta en $\vec{a}$.
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Datos
+origin = np.array([0, 0])
+v = np.array([4, 3])         # Velocidad (azul)
+a = np.array([5, 0])         # Aceleración total (negro)
+a_t = np.array([3.2, 2.4])   # Tangencial (rojo)
+a_n = np.array([1.8, -2.4])  # Normal (verde)
+
+plt.figure(figsize=(6, 6))
+
+# Función plot
+def plot_vec(vec, start, color, label):
+    plt.quiver(*start, *vec, color=color, angles='xy', scale_units='xy', scale=1, label=label)
+
+# Graficar
+plot_vec(v, origin, 'blue', r'Velocidad $\vec{v}$')
+plot_vec(a, origin, 'black', r'Aceleración $\vec{a}$')
+plot_vec(a_t, origin, 'red', r'Tangencial $\vec{a}_T$')
+# Normal desde la punta de la tangencial
+plot_vec(a_n, a_t, 'green', r'Normal $\vec{a}_N$')
+
+# Configuración
+plt.xlim(-1, 6)
+plt.ylim(-3, 5)
+plt.grid(True, linestyle=':', alpha=0.6)
+plt.axhline(0, color='gray', lw=0.5)
+plt.axvline(0, color='gray', lw=0.5)
+plt.gca().set_aspect('equal')
+plt.title('Descomposición de la Aceleración')
+plt.legend()
+plt.savefig('aceleracion_decomp.png')
+plt.show()
+\end{verbatim}
+
+\newpage
+
+\subsection*{Enunciado}
+El movimiento de una partícula se realiza de acuerdo con los siguientes gráficos de velocidad ($v_x$ y $v_y$) contra el tiempo ($t$). Determine el vector \textbf{aceleración} ($\vec{a}$) y el vector \textbf{velocidad} ($\vec{v}$) en el instante $t = \SI{6}{s}$.
+
+\begin{center}
+% Gráfico Vx vs t
+\begin{tikzpicture}
+    \begin{axis}[
+        width=5.5cm, height=5.5cm,
+        axis lines=middle,
+        xlabel={$t$ (\si{s})}, ylabel={$v_x$},
+        xmin=0, xmax=7,
+        ymin=-12, ymax=25,
+        xtick={2}, xticklabels={2},
+        ytick={-10}, yticklabels={$-10$},
+        grid=major, grid style={dashed, gray!30},
+        thick
+    ]
+    \addplot[blue, thick, domain=0:7] {5*x - 10};
+    \node[anchor=north west] at (axis cs: 0.5, 0) {\small};
+    \end{axis}
+\end{tikzpicture}
+\hspace{1cm}
+% Gráfico Vy vs t
+\begin{tikzpicture}
+    \begin{axis}[
+        width=5.5cm, height=5.5cm,
+        axis lines=middle,
+        xlabel={$t$}, ylabel={$v_v$},
+        xmin=0, xmax=7,
+        ymin=0, ymax=60,
+        xtick={4}, xticklabels={4},
+        ytick={20, 40}, yticklabels={20, 40},
+        grid=major, grid style={dashed, gray!30},
+        thick
+    ]
+    \addplot[red, thick, domain=0:7] {5*x + 20};
+    \node[anchor=south east] at (axis cs: 6, 50) {\small $v_v(t)$};
+    \end{axis}
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{Concepto Fundamental}
+En una gráfica de velocidad vs. tiempo:
+\begin{itemize}
+    \item La \textbf{pendiente} de la recta representa la \textbf{aceleración} de esa componente ($a = \frac{\Delta v}{\Delta t}$).
+    \item La ecuación de la recta tiene la forma $v(t) = v_0 + at$, lo que nos permite calcular la velocidad en cualquier instante $t$.
+\end{itemize}
+
+\subsubsection*{Paso 1: Determinar las componentes de la Aceleración ($\vec{a}$)}
+Calculamos la pendiente para cada gráfico. Como las gráficas son líneas rectas, la aceleración es constante.
+
+\textbf{Para el eje $x$:}
+Tomamos los puntos visibles $(t_1, v_{x1}) = (0, -10)$ y $(t_2, v_{x2}) = (2, 0)$.
+\begin{equation}
+a_x = \frac{\Delta v_x}{\Delta t} = \frac{0 - (-10)}{2 - 0} = \frac{10}{2} = \SI{5}{m/s^2}
+\end{equation}
+
+\textbf{Para el eje $y$:}
+Tomamos los puntos visibles $(t_1, v_{y1}) = (0, 20)$ y $(t_2, v_{y2}) = (4, 40)$.
+\begin{equation}
+a_y = \frac{\Delta v_y}{\Delta t} = \frac{40 - 20}{4 - 0} = \frac{20}{4} = \SI{5}{m/s^2}
+\end{equation}
+
+Por lo tanto, el vector aceleración es:
+\begin{equation}
+\vec{a} = 5\hat{\imath} + 5\hat{\jmath} \, \si{m/s^2}
+\end{equation}
+
+\subsubsection*{Paso 2: Determinar las componentes de la Velocidad en $t = \SI{6}{s}$}
+Construimos las ecuaciones de velocidad y evaluamos en $t=6$.
+
+\textbf{Eje $x$ ($v_x = v_{0x} + a_x t$):}
+Sabemos que $v_{0x} = -10$ (intersección eje vertical) y $a_x = 5$.
+\begin{align*}
+v_x(t) &= -10 + 5t \\
+v_x(6) &= -10 + 5(6) = -10 + 30 = \SI{20}{m/s}
+\end{align*}
+
+\textbf{Eje $y$ ($v_y = v_{0y} + a_y t$):}
+Sabemos que $v_{0y} = 20$ (intersección eje vertical) y $a_y = 5$.
+\begin{align*}
+v_y(t) &= 20 + 5t \\
+v_y(6) &= 20 + 5(6) = 20 + 30 = \SI{50}{m/s}
+\end{align*}
+
+Por lo tanto, el vector velocidad en $t=\SI{6}{s}$ es:
+\begin{equation}
+\vec{v}_{6s} = 20\hat{\imath} + 50\hat{\jmath} \, \si{m/s}
+\end{equation}
+
+\begin{tcolorbox}[colback=blue!5!white, colframe=blue!75!black, title=Respuesta Final]
+\centering
+$\vec{a} = 5\hat{\imath} + 5\hat{\jmath} \, \si{m/s^2}$ \\
+$\vec{v}_{6s} = 20\hat{\imath} + 50\hat{\jmath} \, \si{m/s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+El movimiento de una partícula se realiza de acuerdo con los siguientes gráficos de velocidad ($v_x$ y $v_y$) contra el tiempo ($t$). Determine los vectores aceleración tangencial ($\vec{a}_T$) y aceleración normal ($\vec{a}_N$) en el instante $t = \SI{6}{s}$.
+
+\begin{center}
+% Gráfico Vx vs t
+\begin{tikzpicture}
+    \begin{axis}[
+        width=5.5cm, height=5.5cm,
+        axis lines=middle,
+        xlabel={$t$ (\si{s})}, ylabel={$v_x$},
+        xmin=0, xmax=7,
+        ymin=-12, ymax=25,
+        xtick={2}, xticklabels={2},
+        ytick={-10}, yticklabels={$-10$},
+        grid=major, grid style={dashed, gray!30},
+        thick
+    ]
+    \addplot[blue, thick, domain=0:7] {5*x - 10};
+    \node[anchor=north west] at (axis cs: 0.5, 0) {\small};
+    \end{axis}
+\end{tikzpicture}
+\hspace{1cm}
+% Gráfico Vy vs t
+\begin{tikzpicture}
+    \begin{axis}[
+        width=5.5cm, height=5.5cm,
+        axis lines=middle,
+        xlabel={$t$}, ylabel={$v_v$},
+        xmin=0, xmax=7,
+        ymin=0, ymax=60,
+        xtick={4}, xticklabels={4},
+        ytick={20, 40}, yticklabels={20, 40},
+        grid=major, grid style={dashed, gray!30},
+        thick
+    ]
+    \addplot[red, thick, domain=0:7] {5*x + 20};
+    \node[anchor=south east] at (axis cs: 6, 50) {\small $v_v(t)$};
+    \end{axis}
+\end{tikzpicture}
+\end{center}    
+
+\subsection*{Solución}
+
+\subsubsection*{Concepto Fundamental}
+En una gráfica de velocidad vs. tiempo:
+\begin{itemize}
+    \item La \textbf{pendiente} de la recta representa la \textbf{aceleración} de esa componente ($a = \frac{\Delta v}{\Delta t}$).
+    \item La ecuación de la recta tiene la forma $v(t) = v_0 + at$, lo que nos permite calcular la velocidad en cualquier instante $t$.
+\end{itemize}
+
+\subsubsection*{Paso 1: Determinar las componentes de la Aceleración ($\vec{a}$)}
+Calculamos la pendiente para cada gráfico. Como las gráficas son líneas rectas, la aceleración es constante.
+
+\textbf{Para el eje $x$:}
+Tomamos los puntos visibles $(t_1, v_{x1}) = (0, -10)$ y $(t_2, v_{x2}) = (2, 0)$.
+\begin{equation}
+a_x = \frac{\Delta v_x}{\Delta t} = \frac{0 - (-10)}{2 - 0} = \frac{10}{2} = \SI{5}{m/s^2}
+\end{equation}
+
+\textbf{Para el eje $y$:}
+Tomamos los puntos visibles $(t_1, v_{y1}) = (0, 20)$ y $(t_2, v_{y2}) = (4, 40)$.
+\begin{equation}
+a_y = \frac{\Delta v_y}{\Delta t} = \frac{40 - 20}{4 - 0} = \frac{20}{4} = \SI{5}{m/s^2}
+\end{equation}
+
+Por lo tanto, el vector aceleración es:
+\begin{equation}
+\vec{a} = 5\hat{\imath} + 5\hat{\jmath} \, \si{m/s^2}
+\end{equation}
+
+\subsubsection*{Paso 2: Calcular la Aceleración Tangencial ($\vec{a}_T$)}
+Usamos la fórmula de proyección de $\vec{a}$ sobre $\vec{v}$:
+\begin{equation}
+\vec{a}_T = \left( \frac{\vec{a} \cdot \vec{v}}{\|\vec{v}\|^2} \right) \vec{v}
+\end{equation}
+
+\textbf{Producto punto ($\vec{a} \cdot \vec{v}$):}
+\begin{align*}
+\vec{a} \cdot \vec{v} &= (5)(20) + (5)(50) \\
+&= 100 + 250 \\
+&= 350
+\end{align*}
+
+\textbf{Magnitud al cuadrado de la velocidad ($\|\vec{v}\|^2$):}
+\begin{align*}
+\|\vec{v}\|^2 &= (20)^2 + (50)^2 \\
+&= 400 + 2500 \\
+&= 2900
+\end{align*}
+
+\textbf{Sustitución:}
+\begin{align*}
+\vec{a}_T &= \left( \frac{350}{2900} \right) (20\hat{\imath} + 50\hat{\jmath}) \\
+\text{Factor } k &= \frac{350}{2900} \approx 0.1207 \\
+\vec{a}_T &= 0.1207(20\hat{\imath}) + 0.1207(50\hat{\jmath}) \\
+\vec{a}_T &\approx 2.41\hat{\imath} + 6.03\hat{\jmath} \, \si{m/s^2}
+\end{align*}
+
+\subsubsection*{Paso 3: Calcular la Aceleración Normal ($\vec{a}_N$)}
+Restamos la componente tangencial de la aceleración total:
+\begin{align*}
+\vec{a}_N &= \vec{a} - \vec{a}_T \\
+\vec{a}_N &= (5\hat{\imath} + 5\hat{\jmath}) - (2.41\hat{\imath} + 6.03\hat{\jmath}) \\
+\vec{a}_N &= (5 - 2.41)\hat{\imath} + (5 - 6.03)\hat{\jmath} \\
+\vec{a}_N &\approx 2.59\hat{\imath} - 1.03\hat{\jmath} \, \si{m/s^2}
+\end{align*}
+
+\begin{tcolorbox}[colback=blue!5!white, colframe=blue!75!black, title=Respuesta Final]
+a) $\vec{a}_T \approx 2.41\hat{\imath} + 6.03\hat{\jmath} \, \si{m/s^2}$ \\
+b) $\vec{a}_N \approx 2.59\hat{\imath} - 1.03\hat{\jmath} \, \si{m/s^2}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+La velocidad de una partícula está dada por $\vec{v} = (8 - t^2) \, \vec{i} \, \si{m/s}$, donde $t$ es el tiempo en segundos ($\si{s}$). Determine la aceleración media para el intervalo de $0$ a $2 \, \si{s}$.
+
+\subsection*{Solución}
+
+\subsubsection*{1. Concepto Físico y Fórmula}
+La \textbf{aceleración media} ($\vec{a}_m$) de una partícula describe cómo cambia su velocidad en un intervalo de tiempo específico. Se define como el cociente entre el vector de cambio de velocidad ($\Delta \vec{v}$) y el intervalo de tiempo ($\Delta t$) en el que se produce dicho cambio.
+
+Matemáticamente se expresa mediante la fórmula:
+$$ \vec{a}_m = \frac{\Delta \vec{v}}{\Delta t} = \frac{\vec{v}_f - \vec{v}_0}{t_f - t_0} $$
+Donde:
+\begin{itemize}
+    \item $\vec{v}_f$ es la velocidad final evaluada en el instante $t_f$.
+    \item $\vec{v}_0$ es la velocidad inicial evaluada en el instante $t_0$.
+\end{itemize}
+
+\subsubsection*{2. Evaluación de las Velocidades}
+Para calcular la aceleración media en el intervalo de $t_0 = 0 \, \si{s}$ a $t_f = 2 \, \si{s}$, primero debemos encontrar la velocidad instantánea de la partícula en los extremos de dicho intervalo, evaluando la función $\vec{v}(t) = (8 - t^2) \, \vec{i}$.
+
+\textbf{Para el instante inicial ($t_0 = 0 \, \si{s}$):}
+Reemplazamos $t=0$ en la ecuación de velocidad:
+\begin{align*}
+    \vec{v}_0 &= \vec{v}(0) = (8 - 0^2) \, \vec{i} \\
+    \vec{v}_0 &= 8 \, \vec{i} \, \si{m/s}
+\end{align*}
+
+\textbf{Para el instante final ($t_f = 2 \, \si{s}$):}
+Reemplazamos $t=2$ en la ecuación de velocidad:
+\begin{align*}
+    \vec{v}_f &= \vec{v}(2) = (8 - 2^2) \, \vec{i} \\
+    \vec{v}_f &= (8 - 4) \, \vec{i} \\
+    \vec{v}_f &= 4 \, \vec{i} \, \si{m/s}
+\end{align*}
+
+
+
+\subsubsection*{3. Cálculo de la Aceleración Media}
+Conociendo $\vec{v}_0 = 8 \, \vec{i} \, \si{m/s}$ y $\vec{v}_f = 4 \, \vec{i} \, \si{m/s}$, y sabiendo que el intervalo de tiempo es $\Delta t = 2 \, \si{s} - 0 \, \si{s} = 2 \, \si{s}$, sustituimos estos valores en la fórmula original:
+
+\begin{align*}
+    \vec{a}_m &= \frac{4 \, \vec{i} - 8 \, \vec{i}}{2 - 0} \\
+    \vec{a}_m &= \frac{-4 \, \vec{i}}{2} \\
+    \vec{a}_m &= -2 \, \vec{i} \, \si{m/s^2}
+\end{align*}
+
+El signo negativo nos indica que, en promedio durante esos $2$ segundos, el vector aceleración apunta en dirección contraria al sentido positivo del eje (la partícula está reduciendo su velocidad en la dirección $\vec{i}$).
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{a}_m = -2 \, \vec{i} \, \si{m/s^2}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una partícula $A$ que se desplaza sobre el eje $x$ tiene una velocidad de $v = 4t^2 - 32 \, \si{m/s}$, donde $t$ es el tiempo en $\si{s}$. Determine el vector aceleración media de la partícula para el intervalo de $3$ a $5 \, \si{s}$.
+
+\subsection*{Solución}
+
+\subsubsection*{1. Interpretación Vectorial}
+El problema indica que la partícula se desplaza exclusivamente sobre el eje $x$. Por lo tanto, aunque la velocidad se presenta de forma escalar como $v = 4t^2 - 32$, podemos expresarla como un vector utilizando el vector unitario $\vec{i}$ asociado al eje $x$:
+$$ \vec{v}(t) = (4t^2 - 32) \, \vec{i} \, \si{m/s} $$
+
+La aceleración media se rige por la definición estándar:
+$$ \vec{a}_m = \frac{\vec{v}_f - \vec{v}_0}{t_f - t_0} $$
+
+\subsubsection*{2. Evaluación en los Extremos del Intervalo}
+El intervalo de tiempo dado es desde $t_0 = 3 \, \si{s}$ hasta $t_f = 5 \, \si{s}$. Evaluamos la magnitud de la velocidad en estos instantes.
+
+\textbf{Velocidad inicial en $t_0 = 3 \, \si{s}$:}
+\begin{align*}
+    v_0 &= 4(3)^2 - 32 \\
+    v_0 &= 4(9) - 32 \\
+    v_0 &= 36 - 32 = 4 \, \si{m/s}
+\end{align*}
+Vectorialmente: $\vec{v}_0 = 4 \, \vec{i} \, \si{m/s}$
+
+\textbf{Velocidad final en $t_f = 5 \, \si{s}$:}
+\begin{align*}
+    v_f &= 4(5)^2 - 32 \\
+    v_f &= 4(25) - 32 \\
+    v_f &= 100 - 32 = 68 \, \si{m/s}
+\end{align*}
+Vectorialmente: $\vec{v}_f = 68 \, \vec{i} \, \si{m/s}$
+
+\subsubsection*{3. Cálculo de la Aceleración Media}
+Sustituimos los vectores encontrados y la variación del tiempo ($\Delta t = 5 - 3 = 2 \, \si{s}$) en la fórmula principal:
+
+\begin{align*}
+    \vec{a}_m &= \frac{68 \, \vec{i} - 4 \, \vec{i}}{5 - 3} \\
+    \vec{a}_m &= \frac{64 \, \vec{i}}{2} \\
+    \vec{a}_m &= 32 \, \vec{i} \, \si{m/s^2}
+\end{align*}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{a}_m = 32 \, \vec{i} \, \si{m/s^2}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una partícula se mueve a lo largo del eje $y$. Su velocidad en función del tiempo está dada por la ecuación $v = -4 + 3t - 2t^2 \, (\si{m/s})$. Determine la aceleración media de la partícula para el intervalo comprendido entre $5$ y $10 \, \si{s}$.
+
+\subsection*{Solución}
+
+\subsubsection*{1. Interpretación Vectorial y Fórmula}
+El enunciado especifica que la partícula se mueve a lo largo del eje $y$. Por lo tanto, la magnitud escalar de la velocidad se debe expresar vectorialmente utilizando el vector unitario $\vec{j}$:
+$$ \vec{v}(t) = (-4 + 3t - 2t^2) \, \vec{j} \, \si{m/s} $$
+
+La aceleración media ($\vec{a}_m$) se calcula mediante la relación del cambio de velocidad respecto al tiempo:
+$$ \vec{a}_m = \frac{\Delta \vec{v}}{\Delta t} = \frac{\vec{v}_f - \vec{v}_0}{t_f - t_0} $$
+
+\subsubsection*{2. Evaluación de las Velocidades}
+Calculamos la velocidad instantánea en los extremos del intervalo de tiempo dado, es decir, para $t_0 = 5 \, \si{s}$ y $t_f = 10 \, \si{s}$.
+
+\textbf{Para el instante inicial ($t_0 = 5 \, \si{s}$):}
+Reemplazamos $t=5$ en la ecuación de velocidad:
+\begin{align*}
+    v_0 &= -4 + 3(5) - 2(5)^2 \\
+    v_0 &= -4 + 15 - 2(25) \\
+    v_0 &= -4 + 15 - 50 \\
+    v_0 &= -39 \, \si{m/s}
+\end{align*}
+Vectorialmente: $\vec{v}_0 = -39 \, \vec{j} \, \si{m/s}$
+
+\textbf{Para el instante final ($t_f = 10 \, \si{s}$):}
+Reemplazamos $t=10$ en la ecuación de velocidad:
+\begin{align*}
+    v_f &= -4 + 3(10) - 2(10)^2 \\
+    v_f &= -4 + 30 - 2(100) \\
+    v_f &= -4 + 30 - 200 \\
+    v_f &= -174 \, \si{m/s}
+\end{align*}
+Vectorialmente: $\vec{v}_f = -174 \, \vec{j} \, \si{m/s}$
+
+\subsubsection*{3. Cálculo de la Aceleración Media}
+Con los vectores de velocidad inicial y final, y sabiendo que el intervalo de tiempo es $\Delta t = 10 - 5 = 5 \, \si{s}$, aplicamos la fórmula de la aceleración media:
+
+\begin{align*}
+    \vec{a}_m &= \frac{-174 \, \vec{j} - (-39 \, \vec{j})}{10 - 5} \\
+    \vec{a}_m &= \frac{-174 \, \vec{j} + 39 \, \vec{j}}{5} \\
+    \vec{a}_m &= \frac{-135 \, \vec{j}}{5} \\
+    \vec{a}_m &= -27 \, \vec{j} \, \si{m/s^2}
+\end{align*}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{a}_m = -27 \, \vec{j} \, \si{m/s^2}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una partícula se mueve por una circunferencia, como se indica en la figura. Determine la aceleración media del movimiento para el intervalo de $0$ a $2 \, \si{s}$. Considere que $v_0 = 20 \, \si{m/s}$ y $v_2 = 60 \, \si{m/s}$.
+
+\begin{center}
+\begin{tikzpicture}[scale=2, >=Latex]
+    % Ejes
+    \draw[->, thick] (-1.2, 0) -- (1.5, 0) node[right] {$x \, (\si{m})$};
+    \draw[->, thick] (0, -1.2) -- (0, 1.5) node[above] {$y \, (\si{m})$};
+
+    % Circunferencia
+    \draw[thick] (0,0) circle (1);
+
+    % Vector v0 (Punto superior)
+    \draw[->, thick, black] (0, 1) -- (0.8, 1) node[midway, above] {$v_0$};
+
+    % Punto a 45 grados
+    \coordinate (P) at ({cos(45)}, {sin(45)});
+    \draw[dashed] (0,0) -- (P);
+
+    % Angulo 45 en el origen
+    \draw (0.25, 0) arc (0:45:0.25);
+    \node at (0.4, 0.15) {\small $45^\circ$};
+
+    % Lineas guia para el punto P
+    \draw[dashed] (P) -- ({cos(45)}, 0);
+    \draw[dashed] (P) -- (0, {sin(45)});
+
+    % Linea horizontal punteada desde P para el angulo alpha
+    \draw[dashed] (P) -- ({cos(45)+0.6}, {sin(45)});
+
+    % Vector v2 (tangente, apunta hacia abajo a la derecha)
+    % Si la posicion es 45 grados, la tangente perpendicular apunta a -45 grados
+    \coordinate (V2) at ({cos(45) + 0.7*cos(-45)}, {sin(45) + 0.7*sin(-45)});
+    \draw[->, thick, black] (P) -- (V2) node[right] {$v_2$};
+
+    % Angulo alpha
+    \draw ({cos(45)+0.3}, {sin(45)}) arc (0:-45:0.3);
+    \node at ({cos(45)+0.5}, {sin(45)-0.15}) {\small $\alpha = 45^\circ$};
+
+\end{tikzpicture}
+\end{center}
+
+
+\subsection*{Solución}
+
+\subsubsection*{1. Descomposición Vectorial de las Velocidades}
+Para calcular la aceleración media, primero debemos expresar las velocidades en forma vectorial utilizando los vectores unitarios $\vec{i}$ (eje $x$) y $\vec{j}$ (eje $y$).
+
+\textbf{Velocidad inicial ($t_0 = 0 \, \si{s}$):}
+Observando el gráfico, el vector $\vec{v}_0$ se encuentra en el punto más alto de la circunferencia y es tangente a la trayectoria apuntando completamente en la dirección positiva del eje $x$.
+$$\vec{v}_0 = 20 \, \vec{i} \, \si{m/s}$$
+
+\textbf{Velocidad final ($t_f = 2 \, \si{s}$):}
+El vector $\vec{v}_2$ tiene una magnitud de $60 \, \si{m/s}$ y, al ser tangente a la trayectoria en el punto de $45^\circ$, forma un ángulo $\alpha = 45^\circ$ por debajo de la horizontal. Descomponemos este vector en sus componentes rectangulares:
+\begin{align*}
+    v_{2x} &= v_2 \cos(45^\circ) = 60 \left(\frac{\sqrt{2}}{2}\right) \approx 60 (0.7071) = 42.43 \, \si{m/s} \\
+    v_{2y} &= -v_2 \sin(45^\circ) = -60 \left(\frac{\sqrt{2}}{2}\right) \approx -60 (0.7071) = -42.43 \, \si{m/s}
+\end{align*}
+Expresado vectorialmente:
+$$\vec{v}_2 = 42.43 \, \vec{i} - 42.43 \, \vec{j} \, \si{m/s}$$
+
+\subsubsection*{2. Cálculo de la Aceleración Media}
+La aceleración media es la variación del vector velocidad dividida por el intervalo de tiempo:
+$$\vec{a}_m = \frac{\Delta \vec{v}}{\Delta t} = \frac{\vec{v}_2 - \vec{v}_0}{t_f - t_0}$$
+
+Sustituimos los vectores encontrados y el intervalo de tiempo $\Delta t = 2 - 0 = 2 \, \si{s}$:
+\begin{align*}
+    \vec{a}_m &= \frac{(42.43 \, \vec{i} - 42.43 \, \vec{j}) - 20 \, \vec{i}}{2} \\
+    \vec{a}_m &= \frac{(42.43 - 20) \, \vec{i} - 42.43 \, \vec{j}}{2} \\
+    \vec{a}_m &= \frac{22.43 \, \vec{i} - 42.43 \, \vec{j}}{2}
+\end{align*}
+
+Dividimos cada componente entre $2$:
+\begin{align*}
+    a_{mx} &= \frac{22.43}{2} = 11.215 \approx 11.21 \, \si{m/s^2} \\
+    a_{my} &= \frac{-42.43}{2} = -21.215 \approx -21.21 \, \si{m/s^2}
+\end{align*}
+
+El vector aceleración media final es:
+$$\vec{a}_m = 11.21 \, \vec{i} - 21.21 \, \vec{j} \, \si{m/s^2}$$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{a}_m = 11.21 \, \vec{i} - 21.21 \, \vec{j} \, \si{m/s^2}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+De la parada, el trole arranca con una aceleración constante de $5 \, \si{m/s^2}$. ¿En qué tiempo alcanzará una rapidez de $20 \, \si{m/s}$?
+
+
+\subsection*{Solución}
+
+\subsubsection*{1. Identificación de Datos y Fórmula}
+El problema describe un Movimiento Rectilíneo Uniformemente Variado (MRUV) con aceleración constante. Extraemos los siguientes datos a partir de la interpretación del enunciado:
+\begin{itemize}
+    \item \textbf{Rapidez inicial ($v_0$):} Al indicar "De la parada" y "arranca", inferimos que el cuerpo parte del reposo, por lo tanto $v_0 = 0 \, \si{m/s}$.
+    \item \textbf{Aceleración ($a$):} Es constante y tiene un valor de $5 \, \si{m/s^2}$.
+    \item \textbf{Rapidez final ($v_f$):} Es el objetivo a alcanzar, $20 \, \si{m/s}$.
+    \item \textbf{Tiempo inicial ($t_0$):} Como es habitual, fijamos el inicio del cronómetro en $t_0 = 0 \, \si{s}$.
+\end{itemize}
+
+Partimos de la definición cinemática de la aceleración constante:
+$$ a = \frac{\Delta v}{\Delta t} = \frac{v_f - v_0}{t_f - t_0} $$
+
+\subsubsection*{2. Despeje de la Variable}
+El objetivo es determinar el tiempo final ($t_f$) necesario para alcanzar la rapidez dada. Asumiendo $t_0 = 0$, la ecuación se simplifica a:
+$$ a = \frac{v_f - v_0}{t_f} $$
+
+Procedemos a despejar el tiempo $t_f$:
+\begin{align*}
+    a \cdot t_f &= v_f - v_0 \\
+    t_f &= \frac{v_f - v_0}{a}
+\end{align*}
+
+\subsubsection*{3. Cálculo Final}
+Sustituimos los valores numéricos identificados en el primer paso dentro de la ecuación despejada:
+\begin{align*}
+    t_f &= \frac{20 - 0}{5} \\
+    t_f &= \frac{20}{5} \\
+    t_f &= 4 \, \si{s}
+\end{align*}
+
+El trole tardará $4$ segundos en alcanzar dicha rapidez.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $t = 4 \, \si{s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Las lecturas del velocímetro de un auto, que se mueve a lo largo de una carretera recta (eje x), se indican a continuación:
+
+\begin{center}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{l c c c c c c c c}
+$v \, (\si{m/s})$ & $10.0$ & $11.2$ & $12.2$ & $13.2$ & $14.1$ & $17.3$ & $20.0$ & $22.4$ \\
+$t \, (\si{s})$   & $10.0$ & $12.5$ & $15.0$ & $17.5$ & $20.0$ & $30.0$ & $40.0$ & $50.0$
+\end{tabular}
+\end{center}
+
+A partir del gráfico $v_x$ contra $t$, determine la aceleración de la partícula a $t = 25 \, \si{s}$.
+
+\begin{center}
+\begin{tikzpicture}
+    \begin{axis}[
+        width=12cm, height=8cm,
+        xlabel={Tiempo $t \, (\si{s})$},
+        ylabel={Velocidad $v_x \, (\si{m/s})$},
+        xmin=5, xmax=55,
+        ymin=8, ymax=25,
+        axis lines=left,
+        grid=both,
+        grid style={dashed, gray!50},
+        xtick={10, 12.5, 15, 17.5, 20, 30, 40, 50},
+        ytick={10, 11.2, 12.2, 13.2, 14.1, 17.3, 20, 22.4},
+        ticklabel style={font=\footnotesize},
+        x tick label style={rotate=45, anchor=east}
+    ]
+    % Gráfico de la línea conectando los puntos
+    \addplot[
+        color=red,
+        mark=*,
+        mark size=1.5pt,
+        thick
+    ] coordinates {
+        (10.0, 10.0) (12.5, 11.2) (15.0, 12.2) (17.5, 13.2)
+        (20.0, 14.1) (30.0, 17.3) (40.0, 20.0) (50.0, 22.4)
+    };
+    
+    % Resaltar los puntos clave para t=25
+    \addplot[
+        color=blue,
+        only marks,
+        mark=o,
+        mark size=3pt,
+        thick
+    ] coordinates {
+        (20.0, 14.1) (30.0, 17.3)
+    };
+    \end{axis}
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis del Gráfico y Concepto Físico}
+El problema nos pide calcular la aceleración instantánea en un tiempo específico, $t = 25 \, \si{s}$. Al disponer de un conjunto de datos discretos, la aceleración en un instante dado se aproxima calculando la pendiente de la recta (aceleración media) en el intervalo que contiene directamente a dicho instante.
+
+El tiempo $t = 25 \, \si{s}$ se encuentra exactamente a la mitad del intervalo comprendido entre las lecturas de $t = 20.0 \, \si{s}$ y $t = 30.0 \, \si{s}$. Por lo tanto, calcularemos la aceleración tomando estos dos puntos.
+
+\subsubsection*{2. Identificación de Datos Vectoriales}
+Dado que el auto se mueve a lo largo de una carretera recta sobre el eje $x$, expresaremos las velocidades como vectores usando el vector unitario $\vec{i}$.
+
+Extraemos los puntos de la tabla:
+\begin{itemize}
+    \item \textbf{Punto 1 (Inicial para el intervalo):} En $t_1 = 20.0 \, \si{s}$, la velocidad es $\vec{v}_1 = 14.1 \, \vec{i} \, \si{m/s}$.
+    \item \textbf{Punto 2 (Final para el intervalo):} En $t_2 = 30.0 \, \si{s}$, la velocidad es $\vec{v}_2 = 17.3 \, \vec{i} \, \si{m/s}$.
+\end{itemize}
+
+\subsubsection*{3. Cálculo de la Aceleración}
+Aplicamos la fórmula de la aceleración, que corresponde a la variación de la velocidad sobre la variación del tiempo:
+$$ \vec{a} = \frac{\Delta \vec{v}}{\Delta t} = \frac{\vec{v}_2 - \vec{v}_1}{t_2 - t_1} $$
+
+Sustituimos los valores identificados:
+\begin{align*}
+    \vec{a} &= \frac{17.3 \, \vec{i} - 14.1 \, \vec{i}}{30.0 - 20.0} \\
+    \vec{a} &= \frac{(17.3 - 14.1) \, \vec{i}}{10.0} \\
+    \vec{a} &= \frac{3.2 \, \vec{i}}{10.0} \\
+    \vec{a} &= 0.32 \, \vec{i} \, \si{m/s^2}
+\end{align*}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{a} = 0.32 \, \vec{i} \, \si{m/s^2}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una partícula describe una trayectoria curvilínea bajo la acción de una aceleración constante $\vec{a} = 30 \, \vec{i} + 60 \, \vec{j} \, \si{m/s^2}$. Determine las componentes vectoriales tangencial y normal de la aceleración, en el instante en que la velocidad es $\vec{v} = -30 \, \vec{i} + 40 \, \vec{j} \, \si{m/s}$.
+
+\subsection*{Solución}
+
+\subsubsection*{1. Concepto Físico}
+En un movimiento curvilíneo, el vector aceleración ($\vec{a}$) se puede descomponer en dos componentes perpendiculares entre sí:
+\begin{itemize}
+    \item \textbf{Aceleración Tangencial ($\vec{a}_t$):} Es paralela al vector velocidad ($\vec{v}$) y se encarga de cambiar la magnitud (rapidez) de la partícula. Se calcula proyectando el vector aceleración sobre la dirección de la velocidad.
+    \item \textbf{Aceleración Normal o Centrípeta ($\vec{a}_n$):} Es perpendicular al vector velocidad y se encarga de cambiar la dirección del movimiento.
+\end{itemize}
+
+Por definición geométrica, la suma de ambas componentes nos da el vector aceleración total:
+$$ \vec{a} = \vec{a}_t + \vec{a}_n $$
+
+\subsubsection*{2. Vector Unitario de la Velocidad}
+Para encontrar la componente tangencial, primero necesitamos la dirección del movimiento, la cual está dada por el vector unitario de la velocidad ($\hat{u}_v$).
+
+Calculamos el módulo de la velocidad:
+\begin{align*}
+    |\vec{v}| &= \sqrt{(-30)^2 + (40)^2} \\
+    |\vec{v}| &= \sqrt{900 + 1600} \\
+    |\vec{v}| &= \sqrt{2500} = 50 \, \si{m/s}
+\end{align*}
+
+Obtenemos el vector unitario dividiendo el vector velocidad entre su módulo:
+\begin{align*}
+    \hat{u}_v &= \frac{\vec{v}}{|\vec{v}|} = \frac{-30 \, \vec{i} + 40 \, \vec{j}}{50} \\
+    \hat{u}_v &= -0.6 \, \vec{i} + 0.8 \, \vec{j}
+\end{align*}
+
+\subsubsection*{3. Cálculo de la Aceleración Tangencial ($\vec{a}_t$)}
+La aceleración tangencial se obtiene multiplicando el producto escalar (producto punto) entre la aceleración total y el vector unitario de la velocidad, por el mismo vector unitario:
+$$ \vec{a}_t = (\vec{a} \cdot \hat{u}_v) \hat{u}_v $$
+
+Primero resolvemos el producto escalar $\vec{a} \cdot \hat{u}_v$ (que representa la magnitud de la aceleración tangencial):
+\begin{align*}
+    \vec{a} \cdot \hat{u}_v &= (30)(-0.6) + (60)(0.8) \\
+    \vec{a} \cdot \hat{u}_v &= -18 + 48 \\
+    \vec{a} \cdot \hat{u}_v &= 30 \, \si{m/s^2}
+\end{align*}
+
+Ahora multiplicamos este escalar por el vector unitario para obtener el vector $\vec{a}_t$:
+\begin{align*}
+    \vec{a}_t &= 30 (-0.6 \, \vec{i} + 0.8 \, \vec{j}) \\
+    \vec{a}_t &= -18 \, \vec{i} + 24 \, \vec{j} \, \si{m/s^2}
+\end{align*}
+
+\subsubsection*{4. Cálculo de la Aceleración Normal ($\vec{a}_n$)}
+Sabiendo que $\vec{a} = \vec{a}_t + \vec{a}_n$, despejamos la aceleración normal mediante una simple resta vectorial:
+$$ \vec{a}_n = \vec{a} - \vec{a}_t $$
+
+Sustituimos los vectores correspondientes:
+\begin{align*}
+    \vec{a}_n &= (30 \, \vec{i} + 60 \, \vec{j}) - (-18 \, \vec{i} + 24 \, \vec{j}) \\
+    \vec{a}_n &= (30 + 18) \, \vec{i} + (60 - 24) \, \vec{j} \\
+    \vec{a}_n &= 48 \, \vec{i} + 36 \, \vec{j} \, \si{m/s^2}
+\end{align*}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering 
+$\vec{a}_t = -18 \, \vec{i} + 24 \, \vec{j} \, \si{m/s^2}$ \\
+\vspace{0.2cm}
+$\vec{a}_n = 48 \, \vec{i} + 36 \, \vec{j} \, \si{m/s^2}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Se lanza una partícula desde la terraza de un edificio con una velocidad de $14.7 \, \si{m/s}$ que forma un ángulo de $30^\circ$ por encima de la horizontal. Si la aceleración es la de la gravedad, halle las componentes tangencial y normal de la aceleración de la partícula en ese instante. \\
+(R: $-4.33 \, \vec{i} - 2.50 \, \vec{j} \, \si{m/s^2}$ y $4.33 \, \vec{i} - 7.50 \, \vec{j} \, \si{m/s^2}$)
+
+\begin{center}
+\begin{tikzpicture}[scale=1.5, >=Latex]
+    % Ejes
+    \draw[->, thick] (-1, 0) -- (2.5, 0) node[right] {$x$};
+    \draw[->, thick] (0, -2.5) -- (0, 1.5) node[above] {$y$};
+
+    % Vector Velocidad
+    \draw[->, thick, blue] (0, 0) -- ({2.5*cos(30)}, {2.5*sin(30)}) node[above left] {$\vec{v} \ (14.7 \, \si{m/s})$};
+    
+    % Angulo de 30 grados
+    \draw (0.5, 0) arc (0:30:0.5);
+    \node at (0.7, 0.2) {\small $30^\circ$};
+
+    % Vector Aceleracion (Gravedad hacia abajo)
+    \draw[->, thick, red, line width=1.2pt] (0, 0) -- (0, -2) node[midway, right] {$\vec{a}$};
+
+    % Linea de accion de la velocidad (Tangente)
+    \draw[dashed, gray] ({-1.5*cos(30)}, {-1.5*sin(30)}) -- ({3*cos(30)}, {3*sin(30)});
+
+    % Componente Tangencial
+    % Proyección de (0, -2) sobre el angulo de 30 grados
+    % Producto punto = -2 * sin(30) = -1. Vector = -1 * (cos30, sin30)
+    \coordinate (AT) at ({-1*cos(30)}, {-1*sin(30)});
+    \draw[->, thick, magenta] (0,0) -- (AT) node[left] {$\vec{a}_t$};
+
+    % Componente Normal
+    % a_n = a - a_t = (0, -2) - (-cos30, -sin30)
+    \coordinate (AN) at ({1*cos(30)}, {-2 + 1*sin(30)});
+    \draw[->, thick, orange] (0,0) -- (AN) node[below right] {$\vec{a}_n$};
+
+    % Paralelogramo de proyecciones
+    \draw[dashed, blue] (AT) -- (0, -2);
+    \draw[dashed, blue] (AN) -- (0, -2);
+    
+    % Angulo recto
+    \draw[dashed, gray] ({-1*cos(30) + 0.15*cos(-60)}, {-1*sin(30) + 0.15*sin(-60)}) -- ({-1*cos(30) + 0.15*cos(-60) + 0.15*cos(30)}, {-1*sin(30) + 0.15*sin(-60) + 0.15*sin(30)}) -- ({-1*cos(30) + 0.15*cos(30)}, {-1*sin(30) + 0.15*sin(30)});
+
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Identificación de Vectores y Premisas}
+Para coincidir de forma exacta con la respuesta proporcionada por el texto, aproximaremos la aceleración de la gravedad a $g = 10 \, \si{m/s^2}$. Como la gravedad siempre apunta verticalmente hacia abajo, el vector aceleración es:
+$$ \vec{a} = -10 \, \vec{j} \, \si{m/s^2} $$
+
+El vector velocidad forma un ángulo de $30^\circ$ con la horizontal. No necesitamos su magnitud completa ($14.7 \, \si{m/s}$) para calcular la proyección, sino únicamente su dirección, la cual está definida por su vector unitario $\hat{u}_v$:
+\begin{align*}
+    \hat{u}_v &= \cos(30^\circ) \, \vec{i} + \sin(30^\circ) \, \vec{j} \\
+    \hat{u}_v &\approx 0.866 \, \vec{i} + 0.500 \, \vec{j}
+\end{align*}
+
+\subsubsection*{2. Cálculo de la Aceleración Tangencial ($\vec{a}_t$)}
+La aceleración tangencial es la proyección del vector aceleración sobre la dirección del movimiento (el vector unitario de la velocidad). La calculamos mediante el producto escalar:
+$$ \vec{a}_t = (\vec{a} \cdot \hat{u}_v) \hat{u}_v $$
+
+Realizamos el producto punto $\vec{a} \cdot \hat{u}_v$:
+\begin{align*}
+    \vec{a} \cdot \hat{u}_v &= (0 \, \vec{i} - 10 \, \vec{j}) \cdot (0.866 \, \vec{i} + 0.500 \, \vec{j}) \\
+    \vec{a} \cdot \hat{u}_v &= (0)(0.866) + (-10)(0.500) \\
+    \vec{a} \cdot \hat{u}_v &= -5.00 \, \si{m/s^2}
+\end{align*}
+\textit{Nota: El signo negativo indica que la gravedad está frenando la partícula en la dirección tangencial (el objeto está subiendo).}
+
+Multiplicamos este valor escalar por el vector unitario $\hat{u}_v$:
+\begin{align*}
+    \vec{a}_t &= -5.00 (0.866 \, \vec{i} + 0.500 \, \vec{j}) \\
+    \vec{a}_t &= -4.33 \, \vec{i} - 2.50 \, \vec{j} \, \si{m/s^2}
+\end{align*}
+
+\subsubsection*{3. Cálculo de la Aceleración Normal ($\vec{a}_n$)}
+Sabiendo que la aceleración total es la suma vectorial de la tangencial y la normal ($\vec{a} = \vec{a}_t + \vec{a}_n$), despejamos la componente normal restando:
+$$ \vec{a}_n = \vec{a} - \vec{a}_t $$
+
+Sustituimos los vectores correspondientes:
+\begin{align*}
+    \vec{a}_n &= (0 \, \vec{i} - 10 \, \vec{j}) - (-4.33 \, \vec{i} - 2.50 \, \vec{j}) \\
+    \vec{a}_n &= (0 + 4.33) \, \vec{i} + (-10 + 2.50) \, \vec{j} \\
+    \vec{a}_n &= 4.33 \, \vec{i} - 7.50 \, \vec{j} \, \si{m/s^2}
+\end{align*}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering 
+$\vec{a}_t = -4.33 \, \vec{i} - 2.50 \, \vec{j} \, \si{m/s^2}$ \\
+\vspace{0.2cm}
+$\vec{a}_n = 4.33 \, \vec{i} - 7.50 \, \vec{j} \, \si{m/s^2}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+En un instante dado, la rapidez de una partícula, que se mueve sobre una circunferencia de $10 \, \si{m}$ de radio, es de $50 \, \si{m/s}$ y la magnitud de su aceleración tangencial es de $2.5 \, \si{m/s^2}$. Para dicho instante, determine el ángulo, $\theta$, formado por la aceleración y la dirección normal. (R: $0.57^\circ$)
+
+\begin{center}
+\begin{tikzpicture}[scale=1.5, >=Latex]
+    % Posición de la partícula
+    \coordinate (P) at (0,0);
+    
+    % Aceleración normal (a_n) - asumiendo dirección horizontal hacia el centro
+    \draw[->, thick, blue] (P) -- (-3, 0) node[midway, below] {$a_n$};
+    
+    % Aceleración tangencial (a_t) - perpendicular a la normal
+    \draw[->, thick, magenta] (P) -- (0, 1.5) node[midway, right] {$a_t$};
+    
+    % Aceleración total (a)
+    \draw[->, thick, red] (P) -- (-3, 1.5) node[midway, above left] {$a$};
+    
+    % Rectángulo de proyecciones
+    \draw[dashed, gray] (-3, 0) -- (-3, 1.5);
+    \draw[dashed, gray] (0, 1.5) -- (-3, 1.5);
+    
+    % Ángulo theta entre a_n y a
+    \draw (-0.6, 0) arc (180:153.4:0.6);
+    \node at (-0.9, 0.25) {$\theta$};
+    
+    % Símbolo de ángulo recto
+    \draw (-0.2, 0) -- (-0.2, 0.2) -- (0, 0.2);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Identificación de Datos y Conceptos}
+El problema nos proporciona los siguientes datos en un instante específico de un movimiento circular:
+\begin{itemize}
+    \item \textbf{Radio de la trayectoria ($R$):} $10 \, \si{m}$
+    \item \textbf{Rapidez ($v$):} $50 \, \si{m/s}$
+    \item \textbf{Aceleración tangencial ($a_t$):} $2.5 \, \si{m/s^2}$
+\end{itemize}
+
+Sabemos que la aceleración total ($\vec{a}$) se compone de dos vectores perpendiculares entre sí: la aceleración tangencial ($\vec{a}_t$), tangente a la trayectoria, y la aceleración normal o centrípeta ($\vec{a}_n$), dirigida hacia el centro de la curvatura.
+
+\subsubsection*{2. Cálculo de la Aceleración Normal ($a_n$)}
+La magnitud de la aceleración normal depende exclusivamente de la rapidez en ese instante y del radio de la curvatura. Se calcula mediante la fórmula:
+$$ a_n = \frac{v^2}{R} $$
+
+Sustituimos los valores dados:
+\begin{align*}
+    a_n &= \frac{(50)^2}{10} \\
+    a_n &= \frac{2500}{10} \\
+    a_n &= 250 \, \si{m/s^2}
+\end{align*}
+
+\subsubsection*{3. Análisis Trigonométrico del Ángulo $\theta$}
+Como se observa en el diagrama vectorial, los vectores $\vec{a}_n$ y $\vec{a}_t$ forman un triángulo rectángulo donde la aceleración total $\vec{a}$ es la hipotenusa. 
+
+El problema nos pide el ángulo $\theta$ formado por la aceleración total ($\vec{a}$) y la dirección normal ($\vec{a}_n$). En este triángulo rectángulo:
+\begin{itemize}
+    \item El cateto adyacente al ángulo $\theta$ es la magnitud de la aceleración normal ($a_n$).
+    \item El cateto opuesto al ángulo $\theta$ es la magnitud de la aceleración tangencial ($a_t$).
+\end{itemize}
+
+Por lo tanto, podemos relacionar estas magnitudes usando la función trigonométrica tangente:
+$$ \tan(\theta) = \frac{\text{Cateto Opuesto}}{\text{Cateto Adyacente}} = \frac{a_t}{a_n} $$
+
+\subsubsection*{4. Cálculo Final del Ángulo}
+Despejamos el ángulo $\theta$ usando la función arcotangente (o tangente inversa):
+$$ \theta = \arctan\left(\frac{a_t}{a_n}\right) $$
+
+Sustituimos los valores calculados:
+\begin{align*}
+    \theta &= \arctan\left(\frac{2.5}{250}\right) \\
+    \theta &= \arctan(0.01)
+\end{align*}
+
+Evaluando la expresión (asegurándonos de que la calculadora esté en grados):
+$$ \theta \approx 0.5729^\circ $$
+
+Redondeando a dos decimales, obtenemos el resultado solicitado:
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\theta = 0.57^\circ$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una partícula se mueve por una trayectoria circular, localizada en el plano $xy$, en el sentido de las manecillas de un reloj. En el instante inicial, pasa por la posición $-3 \, \vec{i} + 4 \, \vec{j} \, \si{m}$, con una aceleración de $8 \, \vec{i} + 3 \, \vec{j} \, \si{m/s^2}$. Determine las componentes normal y tangencial de la aceleración de la partícula en ese instante. \\
+(R: $1.44 \, \vec{i} - 1.92 \, \vec{j} \, \si{m/s^2}$ y $6.56 \, \vec{i} + 4.92 \, \vec{j} \, \si{m/s^2}$)
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    % Ejes
+    \draw[->, thick] (-5, 0) -- (3, 0) node[right] {$x \, (\si{m})$};
+    \draw[->, thick] (0, -1) -- (0, 6) node[above] {$y \, (\si{m})$};
+
+    % Trayectoria circular (Radio = 5, centro en el origen)
+    % Posición (-3, 4) equivale a un ángulo de 126.87 grados. Dibujamos un arco alrededor de este punto
+    \draw[thick, dashed, gray] (0,0) circle (5);
+    \draw[thick, blue, ->] (-4.33, 2.5) arc (150:110:5); % Segmento de trayectoria horario
+    
+    % Punto P (-3, 4)
+    \coordinate (P) at (-3, 4);
+    \fill (P) circle (0.1) node[above right] {$P(-3, 4)$};
+
+    % Vector Posición (r)
+    \draw[->, thick, black!60] (0,0) -- (P) node[midway, left] {$\vec{r}$};
+
+    % Vector Velocidad (Tangente, sentido horario -> apunta hacia abajo y derecha en ese cuadrante)
+    % La perpendicular a (-3, 4) en sentido horario es (4, 3)
+    \coordinate (V) at (-3+2, 4+1.5); 
+    \draw[->, thick, blue] (P) -- (V) node[above right] {$\vec{v}$ (tangente)};
+
+    % Aceleración Total (8i + 3j) (Escalada para visualizar)
+    \coordinate (A) at (-3+2.66, 4+1);
+    \draw[->, thick, red] (P) -- (A) node[right] {$\vec{a}$};
+
+    % Aceleración Normal (Apunta hacia el centro)
+    \coordinate (AN) at (-3+1.5, 4-2);
+    \draw[->, thick, orange] (P) -- (AN) node[below left] {$\vec{a}_n$};
+    
+    % Aceleración Tangencial (Proyección sobre la tangente)
+    \coordinate (AT) at (-3+2.18, 4+1.64);
+    \draw[->, thick, magenta] (P) -- (AT) node[above] {$\vec{a}_t$};
+    
+    % Rectángulo de proyecciones
+    \draw[dashed, gray] (AT) -- (A);
+    \draw[dashed, gray] (AN) -- (A);
+
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Geométrico: Dirección Tangencial}
+Sabemos que la partícula describe una trayectoria circular centrada en el origen. En cualquier movimiento circular, el vector velocidad ($\vec{v}$) es perpendicular al vector posición ($\vec{r}$).
+
+El vector posición es:
+$$ \vec{r} = -3 \, \vec{i} + 4 \, \vec{j} \, \si{m} $$
+
+Para hallar una dirección perpendicular a un vector $(x, y)$ en el plano, rotamos el vector $90^\circ$. El problema especifica que el movimiento es en el \textbf{sentido de las manecillas del reloj (horario)}. Geométricamente, una rotación de $90^\circ$ en sentido horario transforma las coordenadas $(x, y)$ en $(y, -x)$.
+Aplicando esta transformación geométrica a la posición:
+$$ \text{Dirección tangencial} = (4) \, \vec{i} + (-(-3)) \, \vec{j} = 4 \, \vec{i} + 3 \, \vec{j} $$
+
+Calculamos el módulo de esta dirección para obtener el \textbf{vector unitario tangencial ($\hat{u}_t$)}, que representa la dirección de la velocidad:
+\begin{align*}
+    |\vec{v}_{dir}| &= \sqrt{4^2 + 3^2} = \sqrt{16 + 9} = 5 \\
+    \hat{u}_t &= \frac{4 \, \vec{i} + 3 \, \vec{j}}{5} = 0.8 \, \vec{i} + 0.6 \, \vec{j}
+\end{align*}
+
+\subsubsection*{2. Cálculo de la Aceleración Tangencial ($\vec{a}_t$)}
+La aceleración tangencial se obtiene proyectando el vector aceleración total ($\vec{a} = 8 \, \vec{i} + 3 \, \vec{j}$) sobre la dirección del movimiento ($\hat{u}_t$), usando el producto punto:
+$$ \vec{a}_t = (\vec{a} \cdot \hat{u}_t) \hat{u}_t $$
+
+Calculamos primero la magnitud escalar ($\vec{a} \cdot \hat{u}_t$):
+\begin{align*}
+    \vec{a} \cdot \hat{u}_t &= (8 \, \vec{i} + 3 \, \vec{j}) \cdot (0.8 \, \vec{i} + 0.6 \, \vec{j}) \\
+    \vec{a} \cdot \hat{u}_t &= (8)(0.8) + (3)(0.6) \\
+    \vec{a} \cdot \hat{u}_t &= 6.4 + 1.8 = 8.2 \, \si{m/s^2}
+\end{align*}
+
+Ahora, multiplicamos este escalar por el vector unitario:
+\begin{align*}
+    \vec{a}_t &= 8.2 (0.8 \, \vec{i} + 0.6 \, \vec{j}) \\
+    \vec{a}_t &= 6.56 \, \vec{i} + 4.92 \, \vec{j} \, \si{m/s^2}
+\end{align*}
+
+\subsubsection*{3. Cálculo de la Aceleración Normal ($\vec{a}_n$)}
+La aceleración total es la suma vectorial de sus componentes intrínsecas: $\vec{a} = \vec{a}_t + \vec{a}_n$.
+Despejamos la aceleración normal restando la tangencial de la total:
+$$ \vec{a}_n = \vec{a} - \vec{a}_t $$
+
+Sustituimos los vectores correspondientes:
+\begin{align*}
+    \vec{a}_n &= (8 \, \vec{i} + 3 \, \vec{j}) - (6.56 \, \vec{i} + 4.92 \, \vec{j}) \\
+    \vec{a}_n &= (8 - 6.56) \, \vec{i} + (3 - 4.92) \, \vec{j} \\
+    \vec{a}_n &= 1.44 \, \vec{i} - 1.92 \, \vec{j} \, \si{m/s^2}
+\end{align*}
+\textit{Nota: Si comprobamos la dirección de $\vec{a}_n$, vemos que es proporcional a $(1.44, -1.92) = 0.48(3, -4)$. Esto confirma que apunta exactamente hacia el centro de la trayectoria (el origen), en dirección opuesta al vector posición $(-3, 4)$.}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering 
+$\vec{a}_n = 1.44 \, \vec{i} - 1.92 \, \vec{j} \, \si{m/s^2}$ \\
+\vspace{0.2cm}
+$\vec{a}_t = 6.56 \, \vec{i} + 4.92 \, \vec{j} \, \si{m/s^2}$
+\end{tcolorbox}
+
+\end{document}

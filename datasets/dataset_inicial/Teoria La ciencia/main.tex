@@ -1,0 +1,1606 @@
+\documentclass[12pt, a4paper]{article}
+
+% --- PAQUETES ---
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{geometry}
+\usepackage[most]{tcolorbox}
+\usepackage{siunitx}
+\usepackage{enumitem}
+
+\geometry{a4paper, margin=1in}
+
+\begin{document}
+
+% ==========================================
+% EJERCICIO 1
+% ==========================================
+
+\subsection*{Enunciado}
+El desarrollo de la ciencia se ha efectuado:
+\begin{enumerate}[label=\alph*)]
+    \item sólo en la época de los griegos
+    \item en la edad media
+    \item ha ocurrido siempre aunque no de una manera lineal
+    \item en la época moderna
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Teórico e Histórico}
+Para resolver esta pregunta, debemos analizar cómo evoluciona el conocimiento científico a lo largo de la historia de la humanidad:
+
+\begin{itemize}
+    \item \textbf{Opción a (sólo en la época de los griegos):} Falsa. Aunque los griegos (como Aristóteles o Arquímedes) hicieron aportes fundamentales, la ciencia no se detuvo ni se limitó exclusivamente a su época.
+    \item \textbf{Opción b (en la edad media):} Falsa. Similar al punto anterior, hubo desarrollo científico (especialmente en el mundo islámico y la alquimia), pero reducir todo el desarrollo de la ciencia a esta única época es incorrecto.
+    \item \textbf{Opción d (en la época moderna):} Falsa. La Revolución Científica aceleró el progreso, pero ignoraría miles de años de observaciones astronómicas, matemáticas y médicas previas.
+\end{itemize}
+
+La ciencia es una construcción humana continua. Sin embargo, su progreso no es una línea recta ascendente perfecta; ha tenido épocas de estancamiento, retrocesos temporales y saltos agigantados (cambios de paradigma o revoluciones científicas). Por lo tanto, el desarrollo científico es un proceso constante pero con fluctuaciones en su ritmo y dirección.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) ha ocurrido siempre aunque no de una manera lineal
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 2
+% ==========================================
+
+\subsection*{Enunciado}
+Suponga una ecuación hipotética, $T = a A + b B$. Donde $T$ está en $\text{kg/m}$, $A$ en $\text{m/kg}$ y $B$ en $\text{m}$. Para que esta ecuación tenga sentido, las unidades de $a$ y $b$ deberían ser:
+\begin{enumerate}[label=\alph*)]
+    \item $a \text{ m}^3$; $b \text{ m}^3\text{/kg}$
+    \item $a \text{ kg}^2\text{/m}^2$; $b \text{ m}^3$
+    \item $a \text{ kg}^2\text{/m}^2$; $b \text{ kg/m}^2$
+    \item $a \text{ m}^3\text{/kg}^3$; $b \text{ m}^2\text{/kg}^2$
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Principio de Homogeneidad Dimensional}
+Para que una ecuación física (o hipotética) tenga sentido y sea dimensionalmente correcta, todos los términos que se suman o restan deben tener exactamente las mismas unidades. Además, estas deben ser iguales a las unidades del resultado de la ecuación.
+
+Dada la ecuación:
+$$ T = a A + b B $$
+
+El Principio de Homogeneidad establece que las unidades (denotadas por corchetes $[\,]$) deben cumplir:
+$$ [T] = [aA] = [bB] $$
+$$ [T] = [a][A] = [b][B] $$
+
+\subsubsection*{2. Identificación de Datos}
+El problema nos proporciona las siguientes unidades:
+\begin{itemize}
+    \item $[T] = \frac{\text{kg}}{\text{m}}$
+    \item $[A] = \frac{\text{m}}{\text{kg}}$
+    \item $[B] = \text{m}$
+\end{itemize}
+
+\subsubsection*{3. Cálculo de las unidades de "$a$"}
+Igualamos las unidades de $T$ con las del primer término sumando:
+$$ [T] = [a][A] $$
+$$ \frac{\text{kg}}{\text{m}} = [a] \cdot \left( \frac{\text{m}}{\text{kg}} \right) $$
+
+Despejamos $[a]$ multiplicando ambos lados por la fracción inversa de $[A]$:
+$$ [a] = \frac{\text{kg}}{\text{m}} \cdot \frac{\text{kg}}{\text{m}} $$
+$$ [a] = \frac{\text{kg}^2}{\text{m}^2} $$
+
+\subsubsection*{4. Cálculo de las unidades de "$b$"}
+Igualamos las unidades de $T$ con las del segundo término sumando:
+$$ [T] = [b][B] $$
+$$ \frac{\text{kg}}{\text{m}} = [b] \cdot (\text{m}) $$
+
+Despejamos $[b]$ dividiendo ambos lados por $\text{m}$:
+$$ [b] = \frac{\frac{\text{kg}}{\text{m}}}{\text{m}} $$
+$$ [b] = \frac{\text{kg}}{\text{m}^2} $$
+
+\subsubsection*{5. Comprobación}
+Si sustituimos las unidades halladas en la ecuación original:
+$$ \frac{\text{kg}}{\text{m}} = \left( \frac{\text{kg}^2}{\text{m}^2} \right) \left( \frac{\text{m}}{\text{kg}} \right) + \left( \frac{\text{kg}}{\text{m}^2} \right) (\text{m}) $$
+$$ \frac{\text{kg}}{\text{m}} = \frac{\text{kg}}{\text{m}} + \frac{\text{kg}}{\text{m}} $$
+La ecuación es dimensionalmente consistente.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) $a \text{ kg}^2\text{/m}^2$; $b \text{ kg/m}^2$
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 3
+% ==========================================
+
+\subsection*{Enunciado}
+La Física puede relacionarse con casi todas las ciencias, entonces es cierto que:
+\begin{enumerate}[label=\alph*)]
+    \item con la Física se puede explicar todo en la naturaleza
+    \item la Física es una ciencia básica y fundamental
+    \item el conocimiento del ser humano ha avanzado solo gracias a la Física
+    \item todas las actividades del ser humano están relacionadas con la Física
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis del Alcance de la Física}
+Evaluemos cada una de las afirmaciones para determinar su validez epistemológica:
+
+\begin{itemize}
+    \item \textbf{Opción a (se puede explicar todo):} Falsa. Aunque la Física estudia las leyes más elementales del universo, fenómenos complejos (como la evolución biológica, el comportamiento social humano o los procesos psicológicos) requieren marcos teóricos propios de la Biología, Sociología o Psicología para ser explicados de manera práctica y estructurada.
+    \item \textbf{Opción c (el avance es solo gracias a la Física):} Falsa. El conocimiento humano ha avanzado gracias a un esfuerzo multidisciplinario (matemáticas, filosofía, química, medicina, etc.).
+    \item \textbf{Opción d (todas las actividades están relacionadas con la Física):} Falsa. Si bien la física subyace a la realidad material, afirmar que "todas" las actividades humanas (como escribir poesía, crear leyes jurídicas o la ética) están directamente relacionadas con la ciencia física es una extrapolación excesiva.
+\end{itemize}
+
+Por exclusión y por definición teórica, llegamos a la opción \textbf{b}. La Física se considera una ciencia \textbf{básica} (porque sus principios no dependen de otras ciencias naturales para existir) y \textbf{fundamental} (porque sienta las bases, como la estructura atómica y la conservación de la energía, sobre las cuales se construyen otras ciencias como la Química, la Astronomía o las ciencias de la Tierra).
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) la Física es una ciencia básica y fundamental
+\end{tcolorbox}
+\newpage
+
+% ==========================================
+% EJERCICIO 4
+% ==========================================
+
+\subsection*{Enunciado}
+De las siguientes afirmaciones, escoja la correcta:
+\begin{enumerate}[label=\alph*)]
+    \item se puede entender Física solo si se conoce de las Matemáticas
+    \item la Física se ha desarrollado gracias a las Matemáticas
+    \item se puede entender Física sin saber Matemáticas
+    \item la Matemática se ha desarrollado gracias a la Física
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Relación entre Física y Matemáticas}
+La Física y la Matemática tienen una relación simbiótica, pero cumplen roles distintos:
+\begin{itemize}
+    \item \textbf{Opciones a y c:} Son extremistas. Es posible entender los \textit{conceptos} físicos cualitativamente sin matemática avanzada (por ejemplo, saber que la gravedad nos atrae hacia el centro de la Tierra). Sin embargo, para un estudio riguroso y predictivo, la matemática es indispensable.
+    \item \textbf{Opción d:} Aunque la Física ha motivado el desarrollo de ciertas ramas matemáticas (como el cálculo por Newton para explicar el movimiento), la Matemática es una ciencia formal pura que también se desarrolla independientemente de la naturaleza.
+    \item \textbf{Opción b (Correcta):} La Matemática proporciona el \textbf{lenguaje formal} mediante el cual la Física expresa sus leyes. El desarrollo histórico de la Física moderna no habría sido posible sin las herramientas matemáticas. 
+\end{itemize}
+
+Para ilustrar esto, consideremos la Segunda Ley de Newton. Conceptualmente dice que "la fuerza altera el estado de movimiento". Pero su poder real para el desarrollo científico surge al expresarla matemáticamente como una ecuación diferencial:
+$$ \sum \vec{F} = m \frac{d\vec{v}}{dt} = m \vec{a} $$
+Es esta formulación matemática la que permitió a la Física calcular trayectorias, predecir eclipses y enviar cohetes al espacio.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) la Física se ha desarrollado gracias a las Matemáticas
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 5
+% ==========================================
+
+\subsection*{Enunciado}
+De las siguientes afirmaciones, ¿cuál es una afirmación científica?:
+\begin{enumerate}[label=\alph*)]
+    \item la superficie de Marte está pintada de rojo
+    \item es probable que exista vida inteligente en alguna otra parte del universo
+    \item Galileo es el científico más grande hasta la actualidad
+    \item la mayoría de los conductores se detienen ante una luz roja
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Criterio de Falsabilidad y Observación Empírica}
+En el contexto del método científico, una afirmación es científica si es \textbf{empíricamente comprobable} (testable) y \textbf{falsable} (existe un experimento que podría demostrar que es falsa).
+\begin{itemize}
+    \item \textbf{Opción a:} Aunque es comprobable y demostrablemente falsa (Marte es rojo por óxido de hierro, no pintura), el tono de la prueba suele buscar afirmaciones fundamentadas en observaciones reales.
+    \item \textbf{Opción b:} Es una hipótesis estadística (Ecuación de Drake), pero actualmente es in-comprobable. No tenemos medios tecnológicos para confirmarla o refutarla hoy en día.
+    \item \textbf{Opción c:} Es una opinión subjetiva. No existe una unidad de medida para la "grandeza" de un científico.
+    \item \textbf{Opción d (Correcta):} Es una afirmación basada en la observación empírica que puede ser medida, cuantificada y sometida a prueba estadística. 
+\end{itemize}
+
+Si definimos $P(\text{detenerse})$ como la probabilidad de que un conductor se detenga, la afirmación se puede traducir en un modelo matemático comprobable:
+$$ P(\text{detenerse} \mid \text{luz roja}) > 0.5 $$
+Esta hipótesis se puede probar mediante un experimento (observar un semáforo y contar vehículos), lo cual es la esencia de una afirmación científica factual.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large d) la mayoría de los conductores se detienen ante una luz roja
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 6
+% ==========================================
+
+\subsection*{Enunciado}
+De las siguientes afirmaciones, escoja la correcta:
+\begin{enumerate}[label=\alph*)]
+    \item la ciencia y la tecnología son una forma de hacer
+    \item la ciencia es una forma de hacer, la tecnología una forma de conocer
+    \item la ciencia es una forma de conocer, la tecnología una forma de hacer
+    \item la ciencia existe porque la tecnología se ha desarrollado
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Diferencia Epistemológica}
+Para entrenar un modelo en filosofía de la ciencia, es crucial distinguir entre estos dos conceptos:
+\begin{itemize}
+    \item \textbf{Ciencia (Conocer):} Su objetivo fundamental es la búsqueda del conocimiento, el descubrimiento de leyes naturales y la comprensión del universo. Es teórica y descriptiva. Responde a la pregunta: \textit{¿Por qué ocurre esto?}
+    \item \textbf{Tecnología (Hacer):} Es la aplicación práctica del conocimiento científico para resolver problemas humanos, diseñar herramientas o alterar el entorno. Es aplicada y prescriptiva. Responde a la pregunta: \textit{¿Cómo construimos esto?}
+\end{itemize}
+
+Por ejemplo, la Termodinámica (Ciencia) nos permite \textbf{conocer} que la eficiencia máxima de una máquina térmica está dictada por el Teorema de Carnot:
+$$ \eta_{\text{max}} = 1 - \frac{T_C}{T_H} $$
+La ingeniería mecánica (Tecnología) utiliza esta fórmula para \textbf{hacer} o fabricar motores de combustión interna más eficientes.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) la ciencia es una forma de conocer, la tecnología una forma de hacer
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 7
+% ==========================================
+
+\subsection*{Enunciado}
+Los dominios de la ciencia y de la religión son:
+\begin{enumerate}[label=\alph*)]
+    \item iguales
+    \item diferentes
+    \item depende del tipo de ciencia que se esté estudiando
+    \item no son complementarias
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Dominios y Magisterios}
+Este es un problema clásico de demarcación. De acuerdo a las posturas epistemológicas modernas (como el principio de los "Magisterios No Superpuestos" o NOMA del biólogo Stephen Jay Gould):
+
+\begin{itemize}
+    \item \textbf{El Dominio de la Ciencia:} Abarca el mundo empírico (de qué está hecho el universo y por qué funciona de esa manera). Trabaja con el método científico, evidencias observables y mediciones.
+    \item \textbf{El Dominio de la Religión:} Abarca la moral, los valores y el significado espiritual. Trabaja con axiomas de fe, textos sagrados y reflexiones filosóficas.
+\end{itemize}
+
+Dado que operan bajo conjuntos de reglas completamente distintos, no se superponen en sus objetivos primarios; por lo tanto, la opción más precisa bajo la lupa del análisis metodológico es que no son complementarias para la demostración de hechos factuales (una ecuación física no requiere validación teológica, ni un principio moral se valida en un laboratorio).
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large d) no son complementarias
+\end{tcolorbox}
+
+\newpage
+
+¡Perfecto! He recibido las imágenes con los ejercicios del 8 al 20.
+
+Para mantener la más alta calidad en las justificaciones y asegurarnos de que no se corte el código, te enviaré esta transcripción en dos partes. En esta tanda, procesaremos los ejercicios del 8 al 12, integrando ecuaciones fundamentales para reforzar el aprendizaje del modelo LLM.
+
+Aquí tienes el código LaTeX:
+
+Fragmento de código
+\documentclass[12pt, a4paper]{article}
+
+% --- PAQUETES ---
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{geometry}
+\usepackage[most]{tcolorbox}
+\usepackage{siunitx}
+\usepackage{enumitem}
+
+\geometry{a4paper, margin=1in}
+
+\begin{document}
+
+% ==========================================
+% EJERCICIO 8
+% ==========================================
+
+\subsection*{Enunciado}
+Se dice que una hipótesis es científica cuando:
+\begin{enumerate}[label=\alph*)]
+    \item no es susceptible de ponerse a prueba
+    \item es susceptible de ponerse a prueba
+    \item no encaja en la estructura de la ciencia
+    \item no existe una prueba que permita determinar si es errónea
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Falsabilidad y Comprobación}
+Este ejercicio aborda el criterio de demarcación de la ciencia, formalizado por el filósofo Karl Popper. Una hipótesis, para ser considerada científica, debe poseer la cualidad de la \textbf{falsabilidad}. 
+
+\begin{itemize}
+    \item \textbf{Opciones a y d:} Si una hipótesis no puede ser sometida a experimentación (no hay forma de probar que es falsa), entra en el terreno del dogma o la pseudociencia, no de la ciencia formal.
+    \item \textbf{Opción b (Correcta):} Para que una hipótesis sea científica, el investigador debe poder diseñar un experimento u observación que, teóricamente, pueda dar un resultado que contradiga la hipótesis. Es decir, debe ser \textit{susceptible de ponerse a prueba} (testeable empíricamente).
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) es susceptible de ponerse a prueba
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 9
+% ==========================================
+
+\subsection*{Enunciado}
+La Física como ciencia empieza formalmente con:
+\begin{enumerate}[label=\alph*)]
+    \item Copérnico y Kepler
+    \item Einstein y Feynman
+    \item Galileo y Newton
+    \item Joule y Planck
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. El Nacimiento de la Física Clásica}
+Aunque la ciencia tiene raíces antiguas, la "Física Clásica" como una disciplina matemática y experimental rigurosa nació en el siglo XVII.
+
+\begin{itemize}
+    \item \textbf{Galileo Galilei} fue el pionero del método experimental. Introdujo la idea de idealizar sistemas (ignorar la fricción) y describió la cinemática matemáticamente, estableciendo que la distancia en caída libre es proporcional al cuadrado del tiempo: $y = \frac{1}{2}gt^2$.
+    \item \textbf{Isaac Newton} consolidó este trabajo formulando las tres Leyes del Movimiento y la Ley de Gravitación Universal, unificando la mecánica terrestre y celeste bajo las mismas ecuaciones, como la Segunda Ley:
+    $$ \sum \vec{F} = m \vec{a} $$
+\end{itemize}
+Copérnico y Kepler fueron vitales para la astronomía, y Einstein, Feynman o Planck para la física moderna (Relatividad y Cuántica), pero los fundadores formales de la física como marco metodológico y predictivo moderno fueron Galileo y Newton.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) Galileo y Newton
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 10
+% ==========================================
+
+\subsection*{Enunciado}
+Se dice que la Física es inherentemente simple, esto se debe a que:
+\begin{enumerate}[label=\alph*)]
+    \item los conceptos fundamentales son pocos y las leyes fundamentales muchas
+    \item los conceptos fundamentales son muchos y las leyes fundamentales pocas
+    \item los conceptos fundamentales y las leyes fundamentales son pocas
+    \item los conceptos fundamentales y las leyes fundamentales son muchas
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. El Principio de Parsimonia en Física}
+A diferencia de ciencias descriptivas que requieren memorizar innumerables variaciones o clasificaciones, la Física busca la unificación. 
+\begin{itemize}
+    \item Utiliza \textbf{pocos conceptos fundamentales} (masa, longitud, tiempo, carga eléctrica, temperatura).
+    \item Se rige por \textbf{pocas leyes fundamentales} (Leyes de Newton, Ecuaciones de Maxwell, Leyes de la Termodinámica, Ecuación de Schrödinger).
+\end{itemize}
+La "simplicidad" inherente de la física radica en que, a partir de un conjunto muy reducido de axiomas matemáticos y conceptos básicos, se puede explicar una complejidad inmensa de fenómenos en el universo (desde el movimiento de un electrón hasta la órbita de una galaxia).
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) los conceptos fundamentales y las leyes fundamentales son pocas
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 11
+% ==========================================
+
+\subsection*{Enunciado}
+La Física es una Ciencia Natural que estudia formalmente:
+\begin{enumerate}[label=\alph*)]
+    \item las interacciones gravitacionales
+    \item las interacciones electromagnéticas
+    \item las interacciones fundamentales de la naturaleza
+    \item las interacciones nucleares
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. El Campo de Estudio de la Física}
+Las opciones \textit{a}, \textit{b} y \textit{d} describen ramas específicas de la física (Mecánica Celeste, Electromagnetismo y Física Nuclear, respectivamente). Sin embargo, la definición global e integradora de la física es el estudio de la materia, la energía y \textbf{todas} las interacciones fundamentales que rigen el comportamiento del universo.
+
+Existen cuatro interacciones fundamentales conocidas:
+\begin{enumerate}
+    \item \textbf{Fuerza Gravitatoria:} $F_g = G \frac{m_1 m_2}{r^2}$
+    \item \textbf{Fuerza Electromagnética:} $F_e = k_e \frac{q_1 q_2}{r^2}$
+    \item \textbf{Fuerza Nuclear Fuerte:} Mantiene unidos a los quarks y nucleones.
+    \item \textbf{Fuerza Nuclear Débil:} Responsable del decaimiento radiactivo (como la desintegración beta).
+\end{enumerate}
+Por lo tanto, la opción \textit{c} es la más completa y correcta, ya que engloba a todas las demás.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) las interacciones fundamentales de la naturaleza
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 12
+% ==========================================
+
+\subsection*{Enunciado}
+Es correcto afirmar que una ciencia puede:
+\begin{enumerate}[label=\alph*)]
+    \item explicar pero no predecir
+    \item no explicar pero si predecir
+    \item explicar y predecir
+    \item ni explicar ni predecir
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Objetivos de la Ciencia}
+El rigor científico tiene dos propósitos primordiales e inseparables:
+\begin{itemize}
+    \item \textbf{Explicar:} La ciencia busca entender la causalidad (por qué ocurren los fenómenos). Construye modelos teóricos para dar sentido a las observaciones empíricas del presente o del pasado.
+    \item \textbf{Predecir:} Un modelo científico no es válido solo porque explique el pasado; su verdadera prueba de fuego es predecir con exactitud resultados futuros. 
+\end{itemize}
+
+Por ejemplo, con la cinemática, la ciencia \textit{explica} por qué un proyectil sigue una trayectoria parabólica y, usando la ecuación de posición $\vec{r}(t) = \vec{r}_0 + \vec{v}_0 t + \frac{1}{2}\vec{a}t^2$, nos permite \textit{predecir} exactamente las coordenadas donde caerá en el futuro. Si un modelo explica pero pierde su capacidad de predecir, o predice sin un marco causal explicativo, no se considera una teoría científica completa.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) explicar y predecir
+\end{tcolorbox}
+
+\newpage
+% ==========================================
+% EJERCICIO 13
+% ==========================================
+
+\subsection*{Enunciado}
+El elemento de la ciencia que permite la elaboración de nuevos conocimientos es:
+\begin{enumerate}[label=\alph*)]
+    \item el objeto
+    \item la investigación
+    \item el método
+    \item la teoría
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Dinámica de la Creación del Conocimiento}
+Para entender cómo avanza la ciencia, debemos diferenciar los roles de cada elemento:
+\begin{itemize}
+    \item \textbf{El objeto} es aquello que se estudia (por ejemplo, una estrella o un péndulo).
+    \item \textbf{El método} es la herramienta o la serie de pasos lógicos (el Método Científico).
+    \item \textbf{La teoría} es el resultado final, el marco conceptual consolidado que explica el fenómeno.
+    \item \textbf{La investigación (Opción b):} Es la acción sistemática, el proceso activo y creativo de aplicar el método al objeto de estudio para descubrir algo que no se sabía. Sin el acto de investigar, el método es letra muerta y las teorías no se actualizan. La investigación es el motor que genera la novedad científica.
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) la investigación
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 14
+% ==========================================
+
+\subsection*{Enunciado}
+Los conocimientos científicos son como:
+\begin{enumerate}[label=\alph*)]
+    \item invenciones del investigador
+    \item imágenes de la realidad
+    \item suposiciones del investigador
+    \item descripciones del universo
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Modelos Físicos y Realidad}
+Esta es una cuestión epistemológica profunda sobre qué es una "Ley de la Física".
+\begin{itemize}
+    \item Las opciones \textit{a} y \textit{c} reducen la ciencia a meras opiniones subjetivas, lo cual es falso debido al rigor experimental.
+    \item La opción \textit{d} ("descripciones del universo") puede parecer correcta, pero es demasiado absoluta. La ciencia no describe la totalidad del universo de forma perfecta y definitiva.
+    \item \textbf{Opción b (Correcta):} En Física, trabajamos con \textbf{modelos}. Un modelo matemático o físico es una "imagen" o una "representación" simplificada de la realidad. 
+\end{itemize}
+
+Por ejemplo, la Ley de Gravitación Universal de Newton:
+$$ F = G \frac{m_1 m_2}{r^2} $$
+No es una "descripción absoluta" (falla a velocidades cercanas a la luz o masas inmensas, donde se necesita la Relatividad General de Einstein). Es una \textbf{imagen muy precisa y útil} de cómo funciona la gravedad en nuestra escala cotidiana, pero sigue siendo una representación perfectible de una realidad más compleja.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) imágenes de la realidad
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 15
+% ==========================================
+
+\subsection*{Enunciado}
+Escoja la afirmación correcta:
+\begin{enumerate}[label=\alph*)]
+    \item un conocimiento científico es inmutable en el tiempo
+    \item la ciencia se desarrolla por el esfuerzo individual de científicos que trabajan aisladamente
+    \item la literatura, la música y la pintura permiten conocer parte de la realidad
+    \item el conocimiento empírico busca explicar y predecir el comportamiento de la naturaleza
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Naturaleza del Conocimiento Científico y Humano}
+Evaluemos la veracidad de cada postulado:
+\begin{itemize}
+    \item \textbf{Opción a:} Falsa. El conocimiento científico es provisional; cambia o se refina cuando surge nueva evidencia (ej. pasar del modelo atómico de Thomson al de Rutherford, y luego al de Bohr).
+    \item \textbf{Opción b:} Falsa. La ciencia es un esfuerzo colectivo (el principio de "estar a hombros de gigantes").
+    \item \textbf{Opción d:} Falsa. El conocimiento \textit{empírico cotidiano} se basa en la mera observación repetida (saber que el sol sale, sin saber por qué). Es el conocimiento \textit{científico} (que añade rigor metodológico y teórico) el que busca explicar causalmente y predecir.
+    \item \textbf{Opción c (Correcta):} La realidad humana es multifacética. La ciencia nos da la realidad objetiva y material, pero dimensiones estéticas, emocionales, morales y subjetivas de la experiencia humana se exploran y conocen verdaderamente a través del arte y las humanidades. No hay contradicción en afirmar que el arte también es una vía de conocimiento de la "realidad humana".
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) la literatura, la música y la pintura permiten conocer parte de la realidad
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 16
+% ==========================================
+
+\subsection*{Enunciado}
+Un estudiante en el laboratorio realiza una medición y obtiene un valor de $4 \, \text{m/s}$. Este valor corresponde a una:
+\begin{enumerate}[label=\alph*)]
+    \item cantidad
+    \item magnitud
+    \item dimensión
+    \item dimensión y cantidad
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Diferencia entre Cantidad, Dimensión y Magnitud}
+En metrología y física, es vital usar los términos precisos:
+\begin{itemize}
+    \item \textbf{Cantidad:} Se refiere exclusivamente al valor numérico aislado (el número "$4$").
+    \item \textbf{Dimensión:} Es la naturaleza física básica de lo que se mide, sin especificar el sistema de unidades. Para la velocidad, su ecuación dimensional es $[v] = L \cdot T^{-1}$ (Longitud dividida por Tiempo).
+    \item \textbf{Magnitud (Opción b):} Una magnitud física es una propiedad medible de un sistema que se expresa como el producto de un \textit{valor numérico} (cantidad) y una \textit{unidad de medida} (que le da sentido dimensional). 
+\end{itemize}
+Al decir $v = 4 \, \text{m/s}$, estamos combinando la cantidad matemática ($4$) con la unidad del Sistema Internacional ($\text{m/s}$), conformando así una \textbf{magnitud física} completa.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) magnitud
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 17
+% ==========================================
+
+\subsection*{Enunciado}
+Señale la afirmación correcta:
+\begin{enumerate}[label=\alph*)]
+    \item los experimentos mentales son aplicaciones inútiles en el campo de la Física
+    \item los modelos físicos no han aportado significativamente al desarrollo de la Física
+    \item las leyes físicas no deben expresarse necesariamente en forma matemática
+    \item los principios de conservación de la masa y carga, de la energía, de la cantidad de movimiento son válidos en toda la Física
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Los Pilares de la Física}
+Descartemos rápidamente las opciones erróneas: los experimentos mentales ("Gedankenexperiment") fueron vitales para Einstein (opción a); los modelos son la base de la física (opción b); y las leyes requieren formulación matemática para su predicción (opción c).
+
+\textbf{Opción d (Correcta):} Las leyes de conservación son las verdades más fundamentales y universales de la física. Según el Teorema de Noether, toda simetría diferenciable de la acción de un sistema físico tiene su correspondiente ley de conservación. 
+\begin{itemize}
+    \item \textbf{Conservación de Energía:} $\sum E_{inicial} = \sum E_{final}$
+    \item \textbf{Conservación del Momento Lineal:} $\sum \vec{p}_{inicial} = \sum \vec{p}_{final}$
+    \item \textbf{Conservación de la Carga Eléctrica:} $\sum q_{inicial} = \sum q_{final}$
+\end{itemize}
+Estos principios se mantienen irrompibles ya sea que analicemos el choque de dos bolas de billar en la mecánica clásica, el decaimiento radiactivo en la física nuclear o las interacciones de partículas en la mecánica cuántica.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large d) los principios de conservación [...] son válidos en toda la Física
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 18
+% ==========================================
+
+\subsection*{Enunciado}
+Una verdad objetiva, es aquella que:
+\begin{enumerate}[label=\alph*)]
+    \item depende del sujeto, de su ideología, de su forma de concebir el mundo
+    \item se cumple independientemente de lo que piense el sujeto, de su conciencia
+    \item es inmutable
+    \item es un dogma
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Epistemología: Subjetividad vs. Objetividad}
+La ciencia se fundamenta en la búsqueda de verdades objetivas para modelar el universo.
+\begin{itemize}
+    \item \textbf{Subjetividad (Opción a):} Depende de la percepción, emociones o sesgos de quien observa (ej. "El agua está fría").
+    \item \textbf{Dogma (Opción d):} Es una creencia incuestionable impuesta por autoridad, contraria al espíritu científico.
+    \item \textbf{Objetividad (Opción b):} Una verdad es objetiva cuando su existencia o comportamiento no requiere de un observador consciente que crea en ella. 
+\end{itemize}
+Por ejemplo, la Ley de Snell para la refracción de la luz:
+$$ n_1 \sin(\theta_1) = n_2 \sin(\theta_2) $$
+La luz se curvará al pasar del aire al agua siguiendo esta ecuación \textit{independientemente de la ideología, la nacionalidad o la conciencia del experimentador que la esté midiendo}.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) se cumple independientemente de lo que piense el sujeto, de su conciencia
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 19
+% ==========================================
+
+\subsection*{Enunciado}
+Se dice que la Física es inherentemente simple porque:
+\begin{enumerate}[label=\alph*)]
+    \item solo tiene pocos conceptos básicos
+    \item solo tiene leyes y principios fundamentales
+    \item tiene pocos conceptos, leyes y principios fundamentales
+    \item no tiene ni conceptos ni leyes, solo principios fundamentales
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Unificación y Parsimonia}
+Esta pregunta refuerza el concepto visto en el Ejercicio 10. La belleza de la física radica en su capacidad de reducción y unificación. No requiere de una enciclopedia interminable de reglas inconexas.
+Con unos \textbf{pocos conceptos fundamentales} (como la masa $m$, la longitud $L$, el tiempo $t$ y la carga $q$) y un conjunto muy reducido de \textbf{leyes y principios universales} (como las Leyes de Newton, las Ecuaciones de Maxwell para el electromagnetismo y los principios de la Termodinámica), los físicos pueden modelar y explicar prácticamente todos los fenómenos observables, desde el vuelo de un insecto hasta el colapso de una estrella.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) tiene pocos conceptos, leyes y principios fundamentales
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 20
+% ==========================================
+
+\subsection*{Enunciado}
+De acuerdo con el método de la Física, a la Física se le puede considerar como una ciencia:
+\begin{enumerate}[label=\alph*)]
+    \item solo experimental
+    \item solo teórica
+    \item teórica y experimental
+    \item social
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. La Dualidad del Método Físico}
+El progreso de la Física requiere un ciclo de retroalimentación constante e indispensable entre dos ramas:
+\begin{itemize}
+    \item \textbf{La Física Teórica:} Utiliza las matemáticas para formular nuevos modelos y predecir fenómenos (Ejemplo: Paul Dirac formulando la ecuación relativista del electrón predijo teóricamente la existencia de la antimateria antes de que nadie la viera).
+    \item \textbf{La Física Experimental:} Diseña experimentos para medir, observar y recopilar datos del mundo real. Su rol es validar o refutar los modelos propuestos por los teóricos (Ejemplo: Carl Anderson descubriendo el positrón experimentalmente, validando a Dirac).
+\end{itemize}
+Ambas son indisolubles. Una teoría sin experimentación no puede verificarse; un experimento sin un marco teórico carece de sentido interpretativo. Por lo tanto, la física es una ciencia integralmente \textbf{teórica y experimental}.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) teórica y experimental
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 21
+% ==========================================
+
+\subsection*{Enunciado}
+Escoja la afirmación correcta. La ciencia:
+\begin{enumerate}[label=\alph*)]
+    \item se ha desarrollado en forma lineal
+    \item es una actividad humana que tiene teorías y realiza investigaciones
+    \item justifica ciertos dogmas de la Iglesia
+    \item solo es válida para la época en la que se realizaron investigaciones
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Naturaleza de la Actividad Científica}
+La ciencia no es una entidad abstracta independiente; es intrínsecamente una \textbf{actividad humana}.
+\begin{itemize}
+    \item \textbf{Opción a:} Falsa. Como vimos en ejercicios anteriores, el desarrollo científico tiene revoluciones, estancamientos y cambios de paradigma (no es estrictamente lineal).
+    \item \textbf{Opciones c y d:} Falsas. La ciencia no justifica dogmas (se basa en la duda y la falsabilidad) y sus leyes (como la conservación de la energía) son universales e invariantes en el tiempo, no solo válidas en su época de descubrimiento.
+    \item \textbf{Opción b (Correcta):} La ciencia se compone de \textbf{teorías} (el marco conceptual que explica los fenómenos) e \textbf{investigaciones} (el método sistemático y experimental para probar, refutar o ampliar dichas teorías).
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) es una actividad humana que tiene teorías y realiza investigaciones
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 22
+% ==========================================
+
+\subsection*{Enunciado}
+La Física, al ser una ciencia natural, podrá estudiar:
+\begin{enumerate}[label=\alph*)]
+    \item solo a los cuerpos macroscópicos
+    \item las interacciones entre los cuerpos
+    \item únicamente a los cuerpos microscópicos
+    \item las interacciones fundamentales de la naturaleza de manera formal
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. El Objeto de Estudio Formal de la Física}
+La física es la ciencia fundamental que estudia la materia y la energía en todas sus escalas:
+\begin{itemize}
+    \item \textbf{Opciones a y c:} Son limitantes. La física estudia desde los quarks (microscópico, Mecánica Cuántica) hasta los cúmulos de galaxias (macroscópico, Relatividad General).
+    \item \textbf{Opción b:} Es correcta pero incompleta.
+    \item \textbf{Opción d (Correcta):} La física estudia las \textbf{interacciones fundamentales} (gravedad, electromagnetismo, fuerza nuclear fuerte y débil) de \textbf{manera formal}, es decir, mediante el lenguaje riguroso de las matemáticas. 
+\end{itemize}
+
+Por ejemplo, una interacción electromagnética se estudia formalmente mediante las Ecuaciones de Maxwell, o en física de partículas, la interacción de un sistema se modela matemáticamente a través de su Lagrangiano ($\mathcal{L}$), que dicta las ecuaciones de movimiento del sistema:
+$$ \mathcal{L} = T - V $$
+(Donde $T$ es la energía cinética y $V$ la energía potencial de las interacciones).
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large d) las interacciones fundamentales de la naturaleza de manera formal
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 23
+% ==========================================
+
+\subsection*{Enunciado}
+De las siguientes afirmaciones, escoja la correcta:
+\begin{enumerate}[label=\alph*)]
+    \item el conocimiento empírico busca explicar y predecir el comportamiento de la naturaleza
+    \item el avance de la ciencia es independiente del avance de la sociedad
+    \item el conocimiento científico es el reflejo de la realidad en el cerebro del hombre por medio de conceptos
+    \item la literatura, la sociología y la medicina no permiten conocer la realidad
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Epistemología y Formación de Conceptos}
+Analizamos las opciones bajo la lupa de la filosofía de la ciencia:
+\begin{itemize}
+    \item \textbf{Opción a:} Falsa. El conocimiento empírico (cotidiano) solo observa, no busca una explicación causal formal ni usa matemáticas para predecir.
+    \item \textbf{Opción b:} Falsa. La ciencia responde a las necesidades tecnológicas y culturales de la sociedad, y viceversa.
+    \item \textbf{Opción d:} Falsa. Estas disciplinas abordan dimensiones sociales y biológicas vitales de la realidad.
+    \item \textbf{Opción c (Correcta):} La "realidad" existe de forma objetiva, pero nosotros la procesamos creando \textbf{conceptos} abstractos. Términos como "Masa", "Energía" o "Fuerza" no son objetos físicos que se puedan tocar; son \textit{conceptos} creados por la mente humana para reflejar y cuantificar matemáticamente el comportamiento de esa realidad física.
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) el conocimiento científico es el reflejo de la realidad en el cerebro del hombre por medio de conceptos
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 24
+% ==========================================
+
+\subsection*{Enunciado}
+Con el avance de la Física en la actualidad, es correcto decir que:
+\begin{enumerate}[label=\alph*)]
+    \item el estudio de la Física ya se terminó
+    \item el estudio de la Física debe seguir
+    \item se debe sustituir el estudio de la Física por la Literatura
+    \item se debe dar más importancia al desarrollo de la Tecnología
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. La Ciencia como Proceso Inconcluso}
+A finales del siglo XIX, algunos físicos (como Lord Kelvin) creían que la física estaba casi terminada y solo faltaba medir con más precisión. Sin embargo, poco después nacieron la Relatividad y la Mecánica Cuántica, revolucionando nuestra comprensión del universo.
+\begin{itemize}
+    \item \textbf{Opción a:} Falsa. Hoy en día existen grandes misterios sin resolver: la naturaleza de la materia oscura, la energía oscura, la unificación de la gravedad con la mecánica cuántica (Gravedad Cuántica), etc.
+    \item \textbf{Opción b (Correcta):} El estudio de la Física debe continuar. Cada nuevo modelo matemático amplía nuestra frontera de conocimiento, pero también revela nuevas preguntas que requieren una investigación teórica y experimental aún más profunda.
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) el estudio de la Física debe seguir
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 25
+% ==========================================
+
+\subsection*{Enunciado}
+De las siguientes afirmaciones, escoja la correcta:
+\begin{enumerate}[label=\alph*)]
+    \item en la actualidad la investigación no requiere de inversión económica
+    \item el telescopio Hubble se colocó en órbita solo por interés de la NASA
+    \item Galileo desarrolló el método científico
+    \item las Leyes de Newton ayudan a estudiar el comportamiento de las partículas del átomo
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Historia y Limitaciones de los Modelos}
+\begin{itemize}
+    \item \textbf{Opción a:} Falsa. Experimentos como el Gran Colisionador de Hadrones (CERN) requieren miles de millones de dólares.
+    \item \textbf{Opción b:} Falsa. Fue un esfuerzo internacional (NASA y la Agencia Espacial Europea - ESA) para el avance científico global, no un interés aislado.
+    \item \textbf{Opción d:} Falsa. Las Leyes de Newton (Mecánica Clásica) pierden validez a escalas atómicas y subatómicas, donde rige el Principio de Incertidumbre de Heisenberg y la Mecánica Cuántica.
+    \item \textbf{Opción c (Correcta):} Galileo Galilei es considerado el padre de la ciencia moderna. Fue pionero en combinar la \textbf{observación empírica} sistemática (usando telescopios, planos inclinados) con la \textbf{formulación matemática} de los resultados (método científico).
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) Galileo desarrolló el método científico
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 26
+% ==========================================
+
+\subsection*{Enunciado}
+De las siguientes afirmaciones, escoja la correcta:
+\begin{enumerate}[label=\alph*)]
+    \item la Física es dogmática
+    \item la Política es parte de la Física
+    \item la Economía utiliza modelos de la Física
+    \item la Física y la Biología explican lo mismo
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Interdisciplinariedad y Econofísica}
+La física provee herramientas matemáticas muy robustas para analizar sistemas complejos.
+\begin{itemize}
+    \item \textbf{Opción c (Correcta):} Existe una rama interdisciplinaria llamada \textbf{Econofísica}. Los economistas han tomado modelos desarrollados en la física (especialmente en la mecánica estadística y la termodinámica) para explicar el comportamiento de los mercados. 
+\end{itemize}
+
+Un ejemplo clásico es el movimiento errático de las partículas suspendidas en un fluido (\textbf{Movimiento Browniano}), estudiado por Albert Einstein. Años después, matemáticos y economistas utilizaron la misma estructura de ecuaciones estocásticas para modelar la fluctuación aleatoria de los precios de las acciones en el mercado de valores (como en el famoso modelo de Black-Scholes para opciones financieras).
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) la Economía utiliza modelos de la Física
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 27
+% ==========================================
+
+\subsection*{Enunciado}
+La famosa frase dicha por Newton ``me he subido a hombros de gigantes'' significa que:
+\begin{enumerate}[label=\alph*)]
+    \item en la época de Newton había gigantes que habitaban la Tierra
+    \item Newton pudo desarrollar su teoría gracias al aporte teórico de grandes científicos
+    \item Galileo y Newton vivieron en la misma época y se consideran gigantes de la ciencia
+    \item Newton desarrolló su teoría gracias a su gigante imaginación
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. El Carácter Acumulativo de la Ciencia}
+La famosa cita original de Isaac Newton en una carta a Robert Hooke (1675) fue: \textit{"Si he visto más lejos es porque estoy sentado sobre los hombros de gigantes"}.
+\begin{itemize}
+    \item \textbf{Significado Epistemológico (Opción b):} Con esta metáfora, Newton reconocía que sus extraordinarios hallazgos (como la Ley de Gravitación Universal) no surgieron de la nada, sino que fueron la síntesis matemática y la evolución natural de los trabajos previos de mentes brillantes (los "gigantes") que le precedieron, tales como Copérnico (heliocentrismo), Kepler (leyes del movimiento planetario) y Galileo (cinemática e inercia). La ciencia construye conocimiento apilando nuevas teorías sobre las anteriores.
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) Newton pudo desarrollar su teoría gracias al aporte teórico de grandes científicos
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 28
+% ==========================================
+
+\subsection*{Enunciado}
+En la actualidad muchos de los experimentos de la Física buscan estudiar y conocer:
+\begin{enumerate}[label=\alph*)]
+    \item solo el comportamiento del átomo
+    \item solo el comportamiento de las galaxias
+    \item formas de mejorar las condiciones de vida del ser humano
+    \item la manera de viajar a la velocidad de la luz
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Física Aplicada y Bienestar Humano}
+Aunque la Física Pura busca el conocimiento fundamental por sí mismo (el átomo, las galaxias), una enorme rama de esta ciencia es la \textbf{Física Aplicada}.
+\begin{itemize}
+    \item \textbf{Opción d:} Viajar a la velocidad de la luz es imposible para cuerpos con masa, según la Relatividad Especial ($E = \frac{mc^2}{\sqrt{1 - v^2/c^2}}$), por lo que no es el objetivo de los experimentos actuales.
+    \item \textbf{Opción c (Correcta):} Muchos experimentos actuales en ciencia de materiales, física del estado sólido, termodinámica e ingeniería cuántica tienen como objetivo directo la creación de nuevas tecnologías: paneles solares más eficientes, resonancias magnéticas médicas (MRI) basadas en electromagnetismo, y superconductores que mejoren la distribución de energía. Todo ello está enfocado en mejorar la calidad de vida de la humanidad.
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) formas de mejorar las condiciones de vida del ser humano
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 29
+% ==========================================
+
+\subsection*{Enunciado}
+Se afirma que la Física es una ciencia básica, esto se debe a que:
+\begin{enumerate}[label=\alph*)]
+    \item todo el mundo puede estudiar Física
+    \item se relaciona con todas las ciencias
+    \item explica cómo funcionan las cosas
+    \item explica el comportamiento del ser humano
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Jerarquía de las Ciencias Naturales}
+La Física se considera la ciencia "básica" o "fundamental" porque establece los cimientos operacionales del resto del universo material.
+\begin{itemize}
+    \item La \textbf{Química} se basa enteramente en las interacciones electromagnéticas y la mecánica cuántica de los electrones (Física) para explicar los enlaces químicos.
+    \item La \textbf{Biología} se fundamenta en la Química orgánica para estudiar la vida.
+    \item Ciencias como la Geología, la Meteorología o la Astronomía aplican principios de la termodinámica, dinámica de fluidos y gravitación (conceptos de Física) a sus respectivos objetos de estudio.
+\end{itemize}
+Por lo tanto, es básica porque \textbf{se relaciona intrínsecamente y da soporte conceptual a todas las demás ciencias naturales}.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) se relaciona con todas las ciencias
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 30
+% ==========================================
+
+\subsection*{Enunciado}
+En la actualidad la Astronomía y la Astrofísica utilizan equipos de alta tecnología para estudiar los cuerpos del Universo, entonces:
+\begin{enumerate}[label=\alph*)]
+    \item el telescopio inventado por Galileo aportó muy poco en el estudio de los planetas
+    \item el mapa galáctico realizado por los griegos no describe la realidad de la época
+    \item los equipos de alta tecnología actuales permiten ver con más claridad lo que los griegos y Galileo observaron
+    \item sin los equipos actuales no se podría estudiar el universo
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. La Tecnología como Extensión de los Sentidos}
+El avance tecnológico no borra ni invalida el esfuerzo científico de los predecesores; simplemente amplía los límites de lo observable.
+\begin{itemize}
+    \item Galileo revolucionó la astronomía al observar los cráteres de la Luna y las lunas de Júpiter. Su aporte fue monumental, no "muy poco".
+    \item La astronomía a simple vista es posible (Opción d falsa), pero está limitada por el espectro visible y la capacidad de resolución del ojo humano.
+    \item \textbf{Opción c (Correcta):} Telescopios espaciales modernos (como el Hubble o el James Webb) utilizan espejos inmensos, sensores infrarrojos y óptica adaptativa para recolectar muchos más fotones y con mayor resolución. Esto permite observar exoplanetas o galaxias primitivas, viendo "con más claridad" y mayor profundidad los mismos fenómenos naturales que fascinaron a Galileo y a los griegos hace siglos.
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) los equipos de alta tecnología actuales permiten ver con más claridad lo que los griegos y Galileo observaron
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 31
+% ==========================================
+
+\subsection*{Enunciado}
+En la resolución de problemas de Física, el uso de un "modelo físico" (como considerar un automóvil como una partícula puntual) representa:
+\begin{enumerate}[label=\alph*)]
+    \item un error inaceptable que invalida el cálculo
+    \item una abstracción matemática que captura las características esenciales del fenómeno
+    \item una demostración de que la física clásica es inexacta
+    \item un dogma teórico sin aplicación práctica
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Abstracción y Modelado de Sistemas}
+La naturaleza es extremadamente compleja. Para estudiar un fenómeno, la física utiliza la \textbf{abstracción} (similar a simplificar las variables en el desarrollo de un algoritmo). 
+\begin{itemize}
+    \item \textbf{Opciones a y c:} Falsas. Simplificar no invalida el modelo, lo hace resoluble. No demuestra inexactitud, sino eficiencia analítica.
+    \item \textbf{Opción d:} Falsa. Los modelos son altamente prácticos para la ingeniería y la predicción.
+    \item \textbf{Opción b (Correcta):} Un modelo es una representación idealizada. Si queremos calcular el tiempo que tarda un auto en ir de una ciudad a otra, su forma aerodinámica o el giro de sus llantas no son variables esenciales para la cinemática básica; por ende, se le modela como un punto con masa $m$ para aplicar $x(t) = v t$.
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) una abstracción matemática que captura las características esenciales del fenómeno
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 32
+% ==========================================
+
+\subsection*{Enunciado}
+El análisis dimensional es una herramienta teórica que sirve principalmente para:
+\begin{enumerate}[label=\alph*)]
+    \item calcular el valor exacto numérico de una constante física
+    \item determinar el error porcentual de un instrumento de medición
+    \item verificar la homogeneidad y posible validez de una ecuación física
+    \item convertir una magnitud escalar en un vector
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Homogeneidad Dimensional}
+El análisis dimensional evalúa la consistencia de la naturaleza fundamental de las variables involucradas en una ecuación.
+\begin{itemize}
+    \item \textbf{Opción a:} Falsa. El análisis dimensional nos dice las unidades de una constante, pero jamás su cantidad numérica (por ejemplo, no puede deducir que $\pi \approx 3.1415$).
+    \item \textbf{Opciones b y d:} Falsas. El error depende de la instrumentación y los escalares no se vuelven vectores por análisis dimensional.
+    \item \textbf{Opción c (Correcta):} Permite comprobar que una ecuación tiene lógica estructural. Por ejemplo, en $x = v_0 t + \frac{1}{2} a t^2$, todos los términos deben tener dimensiones de Longitud $[L]$. Si un modelo arroja que se están sumando metros con segundos, el análisis dimensional detecta inmediatamente el error teórico.
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) verificar la homogeneidad y posible validez de una ecuación física
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 33
+% ==========================================
+
+\subsection*{Enunciado}
+Desde el punto de vista del marco teórico de la Física, ¿cuál es la diferencia conceptual primordial entre la rapidez y la velocidad?
+\begin{enumerate}[label=\alph*)]
+    \item la rapidez se mide en m/s y la velocidad en km/h
+    \item la rapidez es una magnitud escalar y la velocidad es una magnitud vectorial
+    \item la velocidad siempre es mayor que la rapidez
+    \item no existe diferencia, son sinónimos en la ciencia
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Estructura de Datos en Física: Escalares vs. Vectores}
+En el lenguaje físico, las magnitudes tienen diferentes niveles de información, al igual que los tipos de variables en un sistema estructurado.
+\begin{itemize}
+    \item \textbf{Opción a:} Falsa. Ambas comparten exactamente las mismas dimensiones de Longitud/Tiempo.
+    \item \textbf{Opciones c y d:} Falsas. No son sinónimos y la rapidez puede ser igual a la magnitud de la velocidad.
+    \item \textbf{Opción b (Correcta):} La \textbf{rapidez} es un escalar (solo tiene cantidad matemática y unidad, ej. $20 \, \text{m/s}$). La \textbf{velocidad} es un vector ($\vec{v}$); además de la magnitud, proporciona de forma indispensable una dirección y un sentido (ej. $20 \, \text{m/s}$ en dirección Norte), vital para predecir trayectorias en el espacio $R^3$.
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) la rapidez es una magnitud escalar y la velocidad es una magnitud vectorial
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 34
+% ==========================================
+
+\subsection*{Enunciado}
+De acuerdo al Sistema Internacional (SI), ¿cuál de las siguientes opciones contiene únicamente magnitudes fundamentales?
+\begin{enumerate}[label=\alph*)]
+    \item Fuerza, Masa, Tiempo
+    \item Longitud, Velocidad, Temperatura
+    \item Masa, Longitud, Tiempo
+    \item Energía, Corriente eléctrica, Masa
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Magnitudes Base vs. Magnitudes Derivadas}
+El conocimiento físico clasifica las magnitudes en "fundamentales" (axiomas de medición que no dependen de otras) y "derivadas" (construidas a partir de las fundamentales).
+\begin{itemize}
+    \item En la \textbf{opción a}, la Fuerza es derivada ($\text{N} = \text{kg}\cdot\text{m/s}^2$).
+    \item En la \textbf{opción b}, la Velocidad es derivada ($\text{m/s}$).
+    \item En la \textbf{opción d}, la Energía es derivada (Julios).
+    \item \textbf{Opción c (Correcta):} La Masa (kilogramo), la Longitud (metro) y el Tiempo (segundo) son la triada clásica de magnitudes fundamentales de la mecánica, sobre las cuales se construye todo el resto de ecuaciones.
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) Masa, Longitud, Tiempo
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 35
+% ==========================================
+
+\subsection*{Enunciado}
+La incertidumbre o margen de error en una medición de laboratorio:
+\begin{enumerate}[label=\alph*)]
+    \item indica siempre una falta de habilidad o negligencia del investigador
+    \item es una cualidad inherente e inevitable de todo proceso de medición
+    \item puede ser eliminada completamente si se usan instrumentos digitales
+    \item solo es relevante en las mediciones de la física cuántica
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Naturaleza de la Incertidumbre Experimental}
+La física experimental reconoce que el "valor verdadero" absoluto de una magnitud es un concepto abstracto inalcanzable de forma perfecta.
+\begin{itemize}
+    \item \textbf{Opciones a y c:} Falsas. La incertidumbre no es un "error" humano (equivocación), ni se elimina con tecnología. Todo instrumento, sin importar su nivel de avance, tiene una resolución limitada (cifras significativas) impuesta por su hardware.
+    \item \textbf{Opción d:} Falsa. Aunque en la cuántica es fundamental (Principio de Heisenberg), en la mecánica macroscópica también es ineludible.
+    \item \textbf{Opción b (Correcta):} La incertidumbre define el intervalo estadístico de confianza donde reside el valor real. Medir implica interaccionar con el sistema, y esa interacción, junto con la limitación del instrumento, hace que un margen de incertidumbre (ej. $L = 5.02 \pm 0.01 \, \text{m}$) sea intrínseco e inevitable.
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) es una cualidad inherente e inevitable de todo proceso de medición
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 36
+% ==========================================
+
+\subsection*{Enunciado}
+Si una nueva teoría científica contradice a una ley clásica (como la Relatividad ajustando las Leyes de Newton), esto demuestra que:
+\begin{enumerate}[label=\alph*)]
+    \item la física es una ciencia falsa y sin fundamentos estables
+    \item la ciencia es acumulativa y las leyes tienen rangos de validez o límites de aplicación
+    \item la física clásica debe eliminarse de todos los textos de estudio
+    \item las matemáticas utilizadas en el pasado estaban erradas
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. El Principio de Correspondencia}
+El desarrollo del conocimiento físico sigue reglas estrictas de evolución teórica (Principio de Correspondencia de Niels Bohr).
+\begin{itemize}
+    \item \textbf{Opciones a y c:} Falsas. Las leyes de Newton no "dejaron de funcionar"; siguen enviando satélites al espacio de forma perfecta. 
+    \item \textbf{Opción d:} Falsa. El cálculo diferencial de Newton y Leibniz sigue siendo matemáticamente irrefutable.
+    \item \textbf{Opción b (Correcta):} Las teorías físicas son aproximaciones a la realidad. Tienen un \textbf{rango de validez}. Las Leyes de Newton son extremadamente precisas a velocidades bajas ($v \ll c$) y campos gravitatorios débiles. La Relatividad no destruye la física clásica, sino que la expande y la engloba, demostrando que el conocimiento se refina y acumula en arquitecturas más robustas.
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) la ciencia es acumulativa y las leyes tienen rangos de validez
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 37
+% ==========================================
+
+\subsection*{Enunciado}
+La ecuación de estado de los gases ideales se define matemáticamente como $PV = nRT$. Si $P$ representa Presión, $V$ Volumen, $n$ la cantidad de materia, y $T$ la Temperatura termodinámica, ¿cuál es la dimensión correcta para la constante empírica $R$?
+\begin{enumerate}[label=\alph*)]
+    \item Energía dividida para (Cantidad de materia por Temperatura)
+    \item Fuerza multiplicada por Temperatura
+    \item Presión dividida para el Volumen
+    \item Adimensional
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Dimensional Aplicado}
+Evaluamos las dimensiones de los lados de la ecuación $PV = nRT$ para hallar las de la constante $R$.
+Sabemos que la Presión es Fuerza sobre Área ($[F]/[L]^2$) y el Volumen es Longitud al cubo ($[L]^3$).
+Multiplicar Presión por Volumen nos da la dimensión del trabajo o energía mecánica:
+$$ [P][V] = \frac{[F]}{[L]^2} \cdot [L]^3 = [F][L] = [\text{Trabajo}] = [\text{Energía}] $$
+
+Despejando analíticamente $R$ de la ecuación original:
+$$ R = \frac{PV}{nT} $$
+Sustituyendo las dimensiones identificadas ($n$ es la magnitud base cantidad de sustancia y $T$ temperatura termodinámica):
+$$ [R] = \frac{[\text{Energía}]}{[\text{Cantidad de materia}] \cdot [\text{Temperatura}]} $$
+En el SI, esto equivale a $\text{J} / (\text{mol} \cdot \text{K})$.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large a) Energía dividida para (Cantidad de materia por Temperatura)
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 38
+% ==========================================
+
+\subsection*{Enunciado}
+En la dinámica del conocimiento científico, el "mecanismo de revisión por pares" (peer review) garantiza fundamentalmente que:
+\begin{enumerate}[label=\alph*)]
+    \item las investigaciones sean aprobadas por el gobierno antes de publicarse
+    \item las conclusiones de un estudio sean evaluadas críticamente por otros expertos antes de aceptarse como válidas
+    \item los científicos reciban la misma cantidad de financiamiento económico
+    \item la física se mantenga aislada de otras ciencias
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Validación y Consenso Científico}
+La ciencia no es producto de una autoridad aislada, sino de un ecosistema crítico y colaborativo.
+\begin{itemize}
+    \item \textbf{Opción b (Correcta):} La revisión por pares es el filtro de calidad de la ciencia metodológica. Cuando un investigador formula una conclusión matemática o experimental, antes de que se integre al corpus teórico aceptado, debe ser analizada, reproducida y evaluada exhaustivamente por la comunidad científica de ese campo para identificar sesgos, errores algorítmicos experimentales o fallas lógicas. Es el núcleo de la objetividad científica.
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) las conclusiones [...] sean evaluadas críticamente por otros expertos
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 39
+% ==========================================
+
+\subsection*{Enunciado}
+La afirmación "Todo cuerpo persevera en su estado de reposo o movimiento uniforme y rectilíneo a no ser que sea obligado a cambiar su estado por fuerzas impresas sobre él" (Primera Ley de Newton) es un ejemplo de:
+\begin{enumerate}[label=\alph*)]
+    \item una hipótesis en proceso de validación
+    \item una tecnología de aplicación mecánica
+    \item un axioma o principio fundamental en el que se basa la dinámica clásica
+    \item una simple deducción subjetiva
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Estructura de las Teorías Físicas}
+\begin{itemize}
+    \item \textbf{Opciones a y d:} Falsas. No es subjetiva ni está en fase de prueba; ha sido corroborada por siglos de rigor analítico y experimental.
+    \item \textbf{Opción b:} Falsa. Como vimos, la tecnología es la aplicación material, mientras que esto es una declaración conceptual formal.
+    \item \textbf{Opción c (Correcta):} En física teórica, las Leyes de Newton funcionan como los \textbf{axiomas} primarios o sentencias lógicas base de la Mecánica Clásica. A partir de este principio fundamental de la inercia, se deriva y estructura deductivamente todo el resto del análisis de las fuerzas y el movimiento en los sistemas macrosópicos.
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) un axioma o principio fundamental en el que se basa la dinámica clásica
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 40
+% ==========================================
+
+\subsection*{Enunciado}
+¿Cuál es la diferencia metodológica crucial entre las Matemáticas Puras (ciencia formal) y la Física (ciencia natural empírica)?
+\begin{enumerate}[label=\alph*)]
+    \item la Matemática usa números y la Física solo descripciones cualitativas
+    \item la Física requiere que sus teoremas y modelos sean contrastados empíricamente contra la naturaleza para ser validados
+    \item la Física es más exacta y libre de errores que la Matemática
+    \item no existe diferencia metodológica alguna entre ambas
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Epistemología: Ciencias Formales vs. Empíricas}
+\begin{itemize}
+    \item \textbf{Opción a:} Falsa. La Física usa un lenguaje matemático riguroso.
+    \item \textbf{Opción c:} Falsa. La matemática pura es lógicamente exacta; la física trabaja con incertezas de medición del mundo real.
+    \item \textbf{Opción b (Correcta):} La matemática pura se valida a través de la coherencia lógica interna de sus teoremas a partir de axiomas abstractos, sin importar si representan algo real. La Física, en cambio, utiliza a la matemática como herramienta, pero su \textbf{criterio de verdad final reside en el mundo natural}. Si una ecuación física impecable no coincide con la observación empírica del universo, la ecuación (el modelo) es incorrecta y debe desecharse o modificarse.
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) la Física requiere que sus teoremas [...] sean contrastados empíricamente
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 41
+% ==========================================
+
+\subsection*{Enunciado}
+En la terminología científica formal, ¿cuál es la diferencia principal entre una "hipótesis" y una "teoría"?
+\begin{enumerate}[label=\alph*)]
+    \item una teoría es una suposición sin evidencia, mientras que la hipótesis ya ha sido probada
+    \item una hipótesis es una explicación provisional y testeable, mientras que una teoría es un marco explicativo ampliamente validado por múltiples experimentos
+    \item son sinónimos absolutos que se usan indistintamente en los artículos científicos
+    \item la hipótesis se formula con matemáticas y la teoría solo con palabras
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Epistemología y Definiciones Científicas}
+El lenguaje coloquial a menudo confunde estos términos ("tengo la teoría de que..."), pero en la ciencia tienen jerarquías muy estrictas:
+\begin{itemize}
+    \item \textbf{Opción a:} Falsa. Es exactamente lo contrario.
+    \item \textbf{Opciones c y d:} Falsas. Tienen significados distintos y ambas pueden usar formulaciones matemáticas.
+    \item \textbf{Opción b (Correcta):} La \textbf{hipótesis} es el punto de partida; una predicción educada que aún debe someterse al método científico. Cuando múltiples hipótesis relacionadas sobreviven a rigurosas pruebas empíricas durante años y logran explicar un fenómeno complejo de manera coherente, se consolidan en una \textbf{teoría científica} (ej. la Teoría de la Relatividad o la Teoría Cuántica de Campos).
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) una hipótesis es una explicación provisional, mientras que una teoría es un marco validado
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 42
+% ==========================================
+
+\subsection*{Enunciado}
+Un principio fundamental del método científico es la "reproducibilidad". Esto significa que:
+\begin{enumerate}[label=\alph*)]
+    \item un experimento debe generar exactamente los mismos números sin margen de error
+    \item un descubrimiento solo es válido si otros investigadores independientes pueden repetir el experimento y obtener resultados estadísticamente consistentes
+    \item el experimento debe poder realizarse en simulaciones por computadora sin necesidad de pruebas físicas
+    \item las teorías deben reproducir los mismos errores del pasado
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Validación Comunitaria de la Ciencia}
+La ciencia no confía en la autoridad de una sola persona, sino en la verificación independiente.
+\begin{itemize}
+    \item \textbf{Opción a:} Falsa. Como ya vimos, todo experimento físico tiene una incertidumbre inherente ($\Delta x$).
+    \item \textbf{Opciones c y d:} Falsas. La simulación es una herramienta teórica, pero la prueba física manda empíricamente.
+    \item \textbf{Opción b (Correcta):} Si un laboratorio en Ecuador mide la aceleración de la gravedad $g$ y concluye un hallazgo anómalo, este descubrimiento solo pasará a formar parte del conocimiento científico si laboratorios en Japón, Alemania o Canadá pueden \textbf{reproducir} las condiciones del experimento y confirmar que el fenómeno es real y no un error de calibración del equipo original.
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) un descubrimiento solo es válido si otros investigadores [...] obtienen resultados consistentes
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 43
+% ==========================================
+
+\subsection*{Enunciado}
+En la historia de la Física, se habla de "Leyes empíricas" y "Leyes teóricas". La Tercera Ley de Kepler del movimiento planetario ($T^2 \propto r^3$) fue inicialmente una ley empírica. Esto indica que:
+\begin{enumerate}[label=\alph*)]
+    \item fue deducida a partir de axiomas matemáticos abstractos sin observar el cielo
+    \item fue encontrada encontrando patrones en los datos de observación sistemática, antes de tener una explicación causal
+    \item fue un error histórico que la mecánica cuántica corrigió
+    \item fue revelada por las autoridades de la época
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Fenomenología vs. Dinámica}
+\begin{itemize}
+    \item \textbf{Opción b (Correcta):} Johannes Kepler formuló su tercera ley analizando décadas de datos astronómicos meticulosos recopilados por Tycho Brahe. Él notó que el cuadrado del período orbital ($T^2$) era proporcional al cubo del semieje mayor ($r^3$), pero \textit{no sabía por qué}. Esto es el \textbf{conocimiento empírico sistematizado}. 
+\end{itemize}
+Más tarde, Isaac Newton proporcionó la base teórica (causal) al deducir la misma ley matemáticamente usando la Ley de Gravitación Universal y la Segunda Ley de la Dinámica:
+$$ G \frac{M m}{r^2} = m \frac{4\pi^2 r}{T^2} \implies T^2 = \left( \frac{4\pi^2}{GM} \right) r^3 $$
+Esto demuestra cómo la observación empírica guía a la formulación teórica.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) fue encontrada encontrando patrones en los datos de observación [...] antes de tener explicación causal
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 44
+% ==========================================
+
+\subsection*{Enunciado}
+Cuando los físicos definen el concepto de "Sistema Físico" para resolver un problema de dinámica o termodinámica, se refieren a:
+\begin{enumerate}[label=\alph*)]
+    \item el conjunto total de galaxias del universo observable
+    \item una porción aislada o delimitada del universo que se escoge arbitrariamente para ser el objeto de estudio
+    \item exclusivamente a los sistemas que utilizan tecnología electrónica
+    \item el conjunto de unidades de medida (como el Sistema Internacional)
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Delimitación del Objeto de Estudio}
+Para aplicar las matemáticas a la realidad, el universo entero es inmanejable.
+\begin{itemize}
+    \item \textbf{Opción d:} Falsa. Ese es un sistema de unidades, no un sistema físico.
+    \item \textbf{Opciones a y c:} Falsas. La definición de sistema no se limita ni a lo electrónico ni a la totalidad cósmica.
+    \item \textbf{Opción b (Correcta):} Un \textbf{sistema físico} es una abstracción metodológica. Trazamos una frontera imaginaria (o real) y decimos: "Vamos a estudiar solo lo que está adentro". Por ejemplo, al analizar un gas en un cilindro con pistón, el gas es nuestro sistema, y todo lo demás es el "entorno". Esta delimitación nos permite aplicar el balance de energía:
+    $$ \Delta U_{\text{sistema}} = Q - W $$
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) una porción aislada o delimitada del universo que se escoge arbitrariamente para ser el objeto de estudio
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 45
+% ==========================================
+
+\subsection*{Enunciado}
+¿Cuál es la principal diferencia epistemológica entre una "Ley científica" y una "Teoría científica"?
+\begin{enumerate}[label=\alph*)]
+    \item una Ley describe \textit{qué} sucede bajo ciertas condiciones (usualmente con una ecuación matemática), mientras que la Teoría explica \textit{por qué} y \textit{cómo} sucede
+    \item una Teoría se convierte en Ley científica después de 100 años de comprobación empírica
+    \item la Teoría solo se usa en Física y la Ley en Química
+    \item las Leyes son verdades absolutas e inmutables y las Teorías son solo ideas pasajeras
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Naturaleza Explicativa vs. Descriptiva}
+Es un error común pensar que la "Teoría" es el paso inmaduro hacia la "Ley". Son herramientas analíticas diferentes:
+\begin{itemize}
+    \item \textbf{Opción a (Correcta):} Una \textbf{Ley} generaliza un cuerpo de observaciones. Describe un patrón predecible de la naturaleza, a menudo condensado en una fórmula. Por ejemplo, la Ley de Boyle para gases ($P_1 V_1 = P_2 V_2$) nos dice \textit{qué} le pasa a la presión si reducimos el volumen.
+    \item Una \textbf{Teoría} es un marco explicativo profundo. La Teoría Cinético-Molecular explica el \textit{porqué} de la Ley de Boyle (los átomos chocan más veces contra las paredes al haber menos espacio). La teoría engloba a la ley y le da sentido mecanicista.
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large a) una Ley describe \textit{qué} sucede [...] mientras que la Teoría explica \textit{por qué} y \textit{cómo} sucede
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 46
+% ==========================================
+
+\subsection*{Enunciado}
+El proceso de idealización es fundamental en la Física Clásica. ¿Cuál de los siguientes es un ejemplo clásico de idealización utilizado para formular las bases de la cinemática?
+\begin{enumerate}[label=\alph*)]
+    \item tomar en cuenta la variación de la gravedad con la altura para un objeto que cae 2 metros
+    \item estudiar el movimiento de un bloque asumiendo que el coeficiente de fricción del aire y la superficie son exactamente cero
+    \item registrar la temperatura exacta de cada molécula de un fluido
+    \item usar ecuaciones relativistas para describir un automóvil a 60 km/h
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Modelos Ideales y Condiciones de Contorno}
+La idealización busca eliminar el "ruido" físico para entender el comportamiento fundamental de las variables críticas.
+\begin{itemize}
+    \item \textbf{Opciones a, c y d:} Representan un exceso de complejidad innecesaria para un análisis básico o clásico, lo cual entorpece la comprensión del principio subyacente.
+    \item \textbf{Opción b (Correcta):} Ignorar el rozamiento (superficies lisas perfectas o caída libre en el vacío) es una \textbf{idealización}. Permite a los físicos aislar el efecto de fuerzas externas puras (como la tensión o el peso) aplicando $\sum F = ma$ sin ecuaciones de arrastre aerodinámico no lineales complejas, facilitando el aprendizaje y la predicción básica.
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) estudiar el movimiento de un bloque asumiendo que el coeficiente de fricción [...] son exactamente cero
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 47
+% ==========================================
+
+\subsection*{Enunciado}
+La frase "La ciencia normal se desarrolla dentro de un paradigma, hasta que las anomalías inician una revolución científica" es un concepto clave en la filosofía de la ciencia. En Física, un ejemplo histórico de un "cambio de paradigma" es:
+\begin{enumerate}[label=\alph*)]
+    \item la transición de usar unidades del sistema inglés al sistema métrico decimal
+    \item el paso del modelo geocéntrico (Ptolomeo) al modelo heliocéntrico (Copérnico)
+    \item la decisión de imprimir los libros de física a color
+    \item el cambio en el material con el que se fabrican los termómetros
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Las Revoluciones Científicas}
+El filósofo Thomas Kuhn introdujo la idea de que la ciencia no avanza solo acumulando datos, sino mediante rupturas drásticas llamadas "cambios de paradigma".
+\begin{itemize}
+    \item \textbf{Opciones a, c y d:} Son cambios de convención, tecnológicos o editoriales, pero no alteran la forma en la que entendemos las leyes fundamentales de la naturaleza.
+    \item \textbf{Opción b (Correcta):} Un \textbf{paradigma} es la visión del mundo imperante. Durante siglos, la física y la astronomía se basaron en que la Tierra era el centro estático del universo. Cuando Copérnico, Kepler y Galileo demostraron que la Tierra era un planeta más orbitando el Sol, se destruyó el marco teórico anterior y se tuvo que reescribir toda la física (dando paso a la inercia y la gravedad newtoniana). Esto es una auténtica revolución científica.
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) el paso del modelo geocéntrico (Ptolomeo) al modelo heliocéntrico (Copérnico)
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 48
+% ==========================================
+
+\subsection*{Enunciado}
+En el campo de la investigación física, ¿cómo se clasifica el estudio que busca descubrir el bosón de Higgs en un acelerador de partículas, sin tener una aplicación tecnológica inmediata prevista?
+\begin{enumerate}[label=\alph*)]
+    \item Investigación aplicada
+    \item Ingeniería de diseño
+    \item Investigación básica (o pura)
+    \item Pseudociencia
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Clasificación de la Investigación Científica}
+La comunidad científica categoriza los esfuerzos investigativos según su objetivo primario:
+\begin{itemize}
+    \item \textbf{Investigación Aplicada (Opción a):} Busca resolver problemas prácticos inmediatos (ej. crear un superconductor que funcione a temperatura ambiente).
+    \item \textbf{Opción d:} Falsa. El Gran Colisionador de Hadrones es el ápice del rigor metodológico y matemático empírico.
+    \item \textbf{Opción c (Correcta):} La \textbf{investigación básica o pura} está motivada por la curiosidad humana de expandir el conocimiento sobre las leyes fundamentales del universo. Buscar el bosón de Higgs (la partícula que da masa a las demás) sirve para completar el Modelo Estándar de la física de partículas. Aunque estas investigaciones básicas no tienen fines comerciales inmediatos, a la larga suelen generar tecnologías revolucionarias (como la World Wide Web, que se inventó en el CERN para compartir datos de estas investigaciones puras).
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) Investigación básica (o pura)
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 49
+% ==========================================
+
+\subsection*{Enunciado}
+Al realizar cálculos en cinemática o dinámica, expresar un resultado como "$v = 25.438291 \, \text{m/s}$" a partir de mediciones hechas con un cronómetro manual básico demuestra:
+\begin{enumerate}[label=\alph*)]
+    \item un profundo conocimiento de la precisión matemática
+    \item una ignorancia del concepto de cifras significativas y el límite de precisión del instrumento
+    \item que la física moderna no requiere aproximaciones
+    \item la superioridad de la calculadora sobre la mente humana
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Cifras Significativas y Propagación de Errores}
+El modelado de datos en ciencias experimentales exige coherencia entre la medición y el procesamiento matemático.
+\begin{itemize}
+    \item \textbf{Opción b (Correcta):} Matemáticamente, una calculadora puede arrojar infinitos decimales, pero \textbf{físicamente esto no tiene sentido}. Un cronómetro manual tiene un límite de precisión debido a los reflejos humanos (aprox. $\pm 0.1$ o $0.2$ segundos). Las \textbf{cifras significativas} de un resultado final no pueden implicar mayor precisión que el instrumento menos preciso utilizado para medir los datos. Escribir 6 decimales sugiere una certeza microscópica inexistente, demostrando una falla teórica en el tratamiento de los datos empíricos.
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) una ignorancia del concepto de cifras significativas y el límite de precisión del instrumento
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 50
+% ==========================================
+
+\subsection*{Enunciado}
+La frase de Lord Kelvin: "Cuando puedes medir aquello de lo que hablas, y expresarlo en números, sabes algo acerca de ello; pero cuando no puedes medirlo... tu conocimiento es de una calidad pobre y poco satisfactoria", enfatiza que la ciencia física es fundamentalmente:
+\begin{enumerate}[label=\alph*)]
+    \item descriptiva y literaria
+    \item puramente intuitiva
+    \item cualitativa y emocional
+    \item cuantitativa y medible
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. La Cuantificación del Conocimiento Natural}
+La consolidación de la física moderna reside en su capacidad de transformar ideas en datos concretos.
+\begin{itemize}
+    \item \textbf{Opciones a, b y c:} Describen enfoques válidos para las artes, la filosofía o las ciencias sociales cualitativas, pero no capturan la esencia metodológica de las ciencias duras (física).
+    \item \textbf{Opción d (Correcta):} La física es eminentemente \textbf{cuantitativa}. Para formular y validar modelos matemáticos rigurosos, requerimos convertir las propiedades del universo (distancia, fuerza, temperatura) en magnitudes medibles, estandarizadas y numéricas. Sin la capacidad de asignar un número (cuantificar) respaldado por un patrón de medida (ej. el metro o el segundo), la física se reduciría a meras conjeturas imposibles de predecir o aplicar tecnológicamente.
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large d) cuantitativa y medible
+\end{tcolorbox}
+
+\end{document}

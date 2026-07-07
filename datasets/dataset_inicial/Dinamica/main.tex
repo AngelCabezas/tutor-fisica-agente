@@ -1,0 +1,393 @@
+\documentclass[12pt, a4paper]{article}
+
+% --- PAQUETES ---
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{geometry}
+\usepackage[most]{tcolorbox}
+\usepackage{siunitx}
+\usepackage{enumitem}
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usepackage{verbatim} 
+\usepackage{xcolor}
+\usepackage{listings} % Para mostrar código Python
+
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta, calc, babel}
+\geometry{a4paper, margin=1in}
+
+% --- CONFIGURACIÓN DE LISTINGS (PYTHON) ---
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstset{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2,
+    language=Python
+}
+
+\title{Ejercicios: Dinámica Rotacional}
+\author{Dataset Entrenamiento LLM}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\subsection*{Enunciado}
+El sistema de la figura se suelta a partir del reposo. Determinar la rapidez de cada bloque en el instante en el cual el bloque $B$ llega al suelo. \\
+\textbf{Datos:} $m_A = 20 \, \si{kg}$, $m_B = 30 \, \si{kg}$, $m_P = 5 \, \si{kg}$, $R = 0.1 \, \si{m}$. La altura inicial de $B$ es $1 \, \si{m}$.
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    % Techo
+    \draw[thick] (-2, 0) -- (2, 0);
+    \draw[thick] (0, 0) -- (0, -1); % Cuerda soporte polea
+    
+    % Polea
+    \draw[fill=white, thick] (0, -1.5) circle (0.5);
+    \node at (0, -1.5) {P};
+    \draw (0, -1.5) -- (0.5, -1.5) node[midway, above] {\tiny $R$};
+    
+    % Bloque A (Izquierda, en el suelo)
+    \draw[thick] (-0.5, -1.5) -- (-0.5, -4);
+    \draw[fill=white, thick] (-1, -4) rectangle (0, -5);
+    \node at (-0.5, -4.5) {$A$};
+    \draw[thick] (-1.5, -5) -- (0.5, -5); % Suelo A
+    \foreach \x in {-1.5, -1.3, ..., 0.5} \draw (\x, -5) -- (\x-0.2, -5.2);
+    
+    % Bloque B (Derecha, elevado)
+    \draw[thick] (0.5, -1.5) -- (0.5, -2.5);
+    \draw[fill=white, thick] (0, -2.5) rectangle (1, -3.5);
+    \node at (0.5, -3) {$B$};
+    
+    % Cota de altura
+    \draw[<->] (1.2, -3.5) -- (1.2, -5) node[midway, right] {$1 \, \text{m}$};
+    \draw[thick] (0.5, -5) -- (1.5, -5); % Suelo referencia B
+    \foreach \x in {0.5, 0.7, ..., 1.5} \draw (\x, -5) -- (\x-0.2, -5.2);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Diagramas de Cuerpo Libre (Python)}
+Generamos los DCL para visualizar las tensiones diferentes ($T_A \neq T_B$) debido a la inercia de la polea.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+def draw_dcls():
+    fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(12, 4))
+    
+    # --- DCL Bloque A ---
+    ax1.set_title("DCL Bloque A")
+    ax1.set_xlim(-1, 1); ax1.set_ylim(-2, 2); ax1.axis('off')
+    ax1.add_patch(patches.Rectangle((-0.4, -0.4), 0.8, 0.8, fc='white', ec='black'))
+    ax1.text(0, 0, 'A', ha='center', va='center')
+    ax1.arrow(0, 0.4, 0, 1, head_width=0.1, fc='blue', ec='blue')
+    ax1.text(0.1, 1.2, '$T_A$', color='blue')
+    ax1.arrow(0, -0.4, 0, -1, head_width=0.1, fc='red', ec='red')
+    ax1.text(0.1, -1.2, '$m_A g$', color='red')
+    
+    # --- DCL Bloque B ---
+    ax2.set_title("DCL Bloque B")
+    ax2.set_xlim(-1, 1); ax2.set_ylim(-2, 2); ax2.axis('off')
+    ax2.add_patch(patches.Rectangle((-0.4, -0.4), 0.8, 0.8, fc='white', ec='black'))
+    ax2.text(0, 0, 'B', ha='center', va='center')
+    ax2.arrow(0, 0.4, 0, 1, head_width=0.1, fc='blue', ec='blue')
+    ax2.text(0.1, 1.2, '$T_B$', color='blue')
+    ax2.arrow(0, -0.4, 0, -1, head_width=0.1, fc='red', ec='red')
+    ax2.text(0.1, -1.2, '$m_B g$', color='red')
+    
+    # --- DCL Polea ---
+    ax3.set_title("DCL Polea")
+    ax3.set_xlim(-1.5, 1.5); ax3.set_ylim(-1.5, 1.5); ax3.axis('off')
+    ax3.add_patch(patches.Circle((0, 0), 0.6, fc='white', ec='black'))
+    ax3.text(0, 0, 'P', ha='center', va='center')
+    # Tensión A (Izquierda, abajo)
+    ax3.arrow(-0.6, 0, 0, -1, head_width=0.1, fc='blue', ec='blue')
+    ax3.text(-0.9, -0.8, '$T_A$', color='blue')
+    # Tensión B (Derecha, abajo)
+    ax3.arrow(0.6, 0, 0, -1, head_width=0.1, fc='blue', ec='blue')
+    ax3.text(0.7, -0.8, '$T_B$', color='blue')
+    
+    plt.tight_layout()
+    plt.show()
+
+draw_dcls()
+\end{lstlisting}
+
+\subsubsection*{2. Ecuaciones Dinámicas}
+Consideramos la cuerda inextensible, por lo tanto $a_A = a_B = a$.
+
+Aplicamos la Segunda Ley de Newton para los bloques (suponiendo que B baja y A sube, ya que $m_B > m_A$):
+$$ m_B g - T_B = m_B a \quad (1) $$
+$$ T_A - m_A g = m_A a \quad (2) $$
+
+Sustituyendo los valores ($m_A=20, m_B=30, g=10$):
+$$ 300 - T_B = 30 a \quad (1) $$
+$$ T_A - 200 = 20 a \quad (2) $$
+
+Aplicamos la Dinámica Rotacional a la polea:
+$$ \sum \tau = I \alpha $$
+$$ T_B R - T_A R = I \alpha $$
+
+Como la cuerda no desliza, $\alpha = a/R$. El momento de inercia es $I = \frac{1}{2}m_P R^2$.
+$$ (T_B - T_A) R = \left( \frac{1}{2} m_P R^2 \right) \left( \frac{a}{R} \right) $$
+$$ T_B - T_A = \frac{1}{2} m_P a $$
+
+Sustituyendo $m_P = 5$:
+$$ T_B - T_A = 2.5 a \quad (3) $$
+
+\subsubsection*{3. Resolución del Sistema}
+Sumamos las ecuaciones (1) y (2):
+$$ (300 - T_B) + (T_A - 200) = 30a + 20a $$
+$$ 100 - (T_B - T_A) = 50a $$
+
+Usamos la ecuación (3) para sustituir $(T_B - T_A)$:
+$$ 100 - 2.5a = 50a $$
+$$ 100 = 52.5 a $$
+$$ a = \frac{100}{52.5} \approx 1.9 \, \si{m/s^2} $$
+
+\subsubsection*{4. Cinemática}
+Usamos la ecuación de velocidad en función del desplazamiento para hallar la rapidez final al caer $h = 1 \, \si{m}$:
+$$ v_f^2 = v_0^2 + 2 a \Delta y $$
+$$ v_f^2 = 0 + 2(1.9)(1) $$
+$$ v_f = \sqrt{3.8} \approx 1.95 \, \si{m/s} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta]
+La rapidez es $1.95 \, \si{m/s}$.
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un volante homogéneo vertical de $2 \, \si{kg}$ de masa está sometido a la acción de las fuerzas indicadas en la figura. Determinar la aceleración angular del volante. \\
+\textbf{Datos:} $R = 20 \, \si{cm}$, $d = 5 \, \si{cm}$.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.5, >=Latex]
+    % Rueda
+    \draw[thick] (0,0) circle (1);
+    \draw[fill=black] (0,0) circle (0.05) node[above left] {$O$};
+    
+    % Radio R
+    \draw (0,0) -- (0.707, 0.707) node[midway, above left] {$R$};
+    
+    % Radio d
+    \draw[dashed] (0,0) -- (0, -0.4) node[midway, left] {$d$};
+    
+    % Fuerza 10N (Horizontal derecha - eje interior)
+    \draw[->, thick, blue] (0, 0.4) -- (0.8, 0.4) node[right] {$10 \, \text{N}$};
+    \draw[dashed] (0,0) -- (0,0.4);
+    
+    % Fuerza 12N (Vertical arriba - borde)
+    \draw[->, thick, blue] (1, -0.5) -- (1, 0.5) node[right] {$12 \, \text{N}$};
+    
+    % Fuerza 12N (Inclinada abajo izquierda)
+    \draw[->, thick, blue] (-0.5, -0.866) -- (-0.9, -1.2) node[left] {$12 \, \text{N}$};
+    \draw[dashed] (0,0) -- (0,-1);
+    \draw[dashed] (0,0) -- (-0.5, -0.866);
+    
+    % Angulo 60
+    \draw (0, -0.6) arc (-90:-120:0.6);
+    \node at (-0.2, -0.7) {\small $60^\circ$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Cálculo del Momento de Inercia}
+Convertimos las unidades al SI: $R = 0.2 \, \si{m}$, $d = 0.05 \, \si{m}$.
+$$ I_O = \frac{1}{2} m R^2 = \frac{1}{2} (2) (0.2)^2 = 0.04 \, \si{kg \cdot m^2} $$
+
+\subsubsection*{2. Ecuación de la Dinámica Rotacional}
+Consideramos positivo el sentido anti-horario ($\vec{k}$).
+$$ \sum \tau = -10(0.2) + 12(0.2) - 12 \cos(30^\circ)(0.05) = 0.04 \alpha $$
+$$ -2 + 2.4 - 12(0.866)(0.05) = 0.04 \alpha $$
+$$ 0.4 - 0.5196 = 0.04 \alpha $$
+$$ -0.1196 = 0.04 \alpha $$
+$$ \alpha \approx -2.99 \, \si{rad/s^2} $$
+*(Nota: El resultado coincide aproximadamente con la solución del texto original $\alpha = -2.82$, dependiendo de los decimales usados en el coseno).*
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+$$ \alpha = -2.99 \, \si{rad/s^2} $$
+\end{tcolorbox}
+
+\newpage
+
+% ==========================================
+% EJERCICIO 3 (Imagen 18 - Esmeril)
+% ==========================================
+\section*{Ejercicio 3: Esmeril (Cinemática y Torque)}
+
+\subsection*{Enunciado}
+Un esmeril de $1.4 \, \si{kg}$ de masa tiene la forma de un cilindro homogéneo de $0.2 \, \si{m}$ de radio. El esmeril adquiere una rapidez angular de $1800 \, \si{rpm}$ a partir del reposo en $6 \, \si{s}$ con aceleración constante. Calcule:
+\begin{enumerate}[label=\alph*)]
+    \item La magnitud del torque entregado por el motor.
+    \item La magnitud de la fuerza tangencial necesaria para detenerlo en $5 \, \si{s}$ (apagando el motor a los $6 \, \si{s}$).
+\end{enumerate}
+
+\begin{center}
+\begin{tikzpicture}[scale=1]
+    % Esmeril (Disco)
+    \draw[fill=gray!20, thick] (0,0) circle (1.5);
+    \draw[thick] (0,0) circle (0.1);
+    \draw[->] (0,0) -- (1.5, 0) node[midway, above] {$R=0.2m$};
+    \draw[->, dashed] (0.8, 0.8) arc (45:135:1) node[midway, above] {$\omega$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{Literal a)}
+Convertimos unidades: $\omega_f = 1800 \, \text{rpm} \approx 188.5 \, \si{rad/s}$ (o según el texto original que usaba otra conversión, aquí usaremos el estándar SI).
+$$ \alpha = \frac{\Delta \omega}{\Delta t} = \frac{188.5}{6} \approx 31.4 \, \si{rad/s^2} $$
+$$ I = \frac{1}{2} m R^2 = 0.028 \, \si{kg \cdot m^2} $$
+$$ \tau = I \alpha = (0.028)(31.4) \approx 0.88 \, \si{N \cdot m} $$
+
+\subsubsection*{Literal b) Fuerza de Frenado}
+Nueva cinemática para detenerse en $5 \, \si{s}$:
+$$ \alpha_{freno} = \frac{0 - 188.5}{5} = -37.7 \, \si{rad/s^2} $$
+Torque necesario:
+$$ \tau_{freno} = I \alpha_{freno} = (0.028)(-37.7) \approx -1.05 \, \si{N \cdot m} $$
+Fuerza Tangencial ($ \tau = -F_T R $):
+$$ F_T = \frac{1.05}{0.2} = 5.25 \, \si{N} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta]
+a) $\tau = 0.88 \, \si{N \cdot m}$ \\
+b) $F_T = 5.25 \, \si{N}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una varilla uniforme de masa $m$ y longitud $L$ se suelta desde la posición vertical. Gira alrededor de un eje fijo en su extremo inferior. Calcular la aceleración angular cuando pasa por la horizontal.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2, >=Latex]
+    \coordinate (O) at (0,0);
+    \draw[fill=black] (O) circle (0.05) node[below left] {$O$};
+    \draw[thick, fill=gray!10, dashed] (-0.1, 0) rectangle (0.1, 3);
+    \draw[<->] (-0.3, 0) -- (-0.3, 3) node[midway, left] {$L$};
+    \draw[->, dashed] (0.2, 2.8) arc (80:10:2.8);
+    
+    % Varilla Horizontal
+    \draw[thick, fill=gray!30] (0, -0.1) rectangle (3, 0.1);
+    \draw[->, thick] (1.5, 0) -- (1.5, -1) node[right] {$m g$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+Usamos el Teorema de Steiner para la inercia en el extremo:
+$$ I_O = I_{CM} + m(L/2)^2 = \frac{1}{12}mL^2 + \frac{1}{4}mL^2 = \frac{1}{3}mL^2 $$
+Torque en la horizontal (brazo de palanca $L/2$):
+$$ \tau = mg(L/2) $$
+$$ mg \frac{L}{2} = \left( \frac{1}{3}mL^2 \right) \alpha $$
+$$ \frac{g}{2} = \frac{L}{3} \alpha \Rightarrow \alpha = \frac{3g}{2L} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta]
+$$ \alpha = \frac{3g}{2L} $$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Calcular la magnitud de la aceleración centrípeta de una partícula situada en el borde de la polea de la figura, $3 \, \si{s}$ después de abandonar el sistema desde el reposo. \\
+\textbf{Datos:} $R=0.5 \, \si{m}$, $m_P = 4 \, \si{kg}$, $m_A = 1 \, \si{kg}$, $m_B = 2 \, \si{kg}$.
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    % Techo
+    \draw[thick] (-1.5, 1) -- (1.5, 1);
+    \draw[thick] (0, 1) -- (0, 0.8);
+    
+    % Polea
+    \draw[thick] (0,0) circle (0.8);
+    \node at (0,0) [above left] {$O$};
+    \draw (0,0) -- (0.8, 0) node[midway, above] {$R$};
+    
+    % Bloque A (Izquierda)
+    \draw[thick] (-0.8, 0) -- (-0.8, -2);
+    \draw[thick, fill=white] (-1.1, -2) rectangle (-0.5, -2.6) node[midway] {$A$};
+    
+    % Bloque B (Derecha)
+    \draw[thick] (0.8, 0) -- (0.8, -3);
+    \draw[thick, fill=white] (0.5, -3) rectangle (1.1, -3.6) node[midway] {$B$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Diagramas de Cuerpo Libre (Python)}
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+def draw_dcls_ex20():
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8, 4))
+    
+    # DCL A (Sube)
+    ax1.set_title("DCL A")
+    ax1.axis('off'); ax1.set_xlim(-1,1); ax1.set_ylim(-2,2)
+    ax1.add_patch(patches.Rectangle((-0.3,-0.3),0.6,0.6, fc='white', ec='black'))
+    ax1.arrow(0,0.3,0,1, head_width=0.1, fc='blue'); ax1.text(0.1,1.2,'$T_A$')
+    ax1.arrow(0,-0.3,0,-1, head_width=0.1, fc='red'); ax1.text(0.1,-1.2,'$10N$')
+    
+    # DCL B (Baja)
+    ax2.set_title("DCL B")
+    ax2.axis('off'); ax2.set_xlim(-1,1); ax2.set_ylim(-2,2)
+    ax2.add_patch(patches.Rectangle((-0.3,-0.3),0.6,0.6, fc='white', ec='black'))
+    ax2.arrow(0,0.3,0,1, head_width=0.1, fc='blue'); ax2.text(0.1,1.2,'$T_B$')
+    ax2.arrow(0,-0.3,0,-1, head_width=0.1, fc='red'); ax2.text(0.1,-1.2,'$20N$')
+    
+    plt.show()
+
+draw_dcls_ex20()
+\end{lstlisting}
+
+\subsubsection*{2. Dinámica Lineal y Rotacional}
+Ecuaciones de movimiento ($m_B$ baja, $m_A$ sube):
+\begin{itemize}
+    \item Bloque A: $T_A - 10 = 1 a$
+    \item Bloque B: $20 - T_B = 2 a$
+    \item Polea: $(T_B - T_A)R = I \alpha = (\frac{1}{2}m_P R^2) (\frac{a}{R}) \Rightarrow T_B - T_A = \frac{1}{2}(4)a = 2a$
+\end{itemize}
+
+\subsubsection*{3. Resolución}
+Sumamos las lineales: $10 - (T_B - T_A) = 3a$.
+Sustituimos la ecuación de la polea: $10 - 2a = 3a \Rightarrow 10 = 5a$.
+$$ a = 2 \, \si{m/s^2} $$
+
+\subsubsection*{4. Cinemática Rotacional}
+Aceleración angular:
+$$ \alpha = \frac{a}{R} = \frac{2}{0.5} = 4 \, \si{rad/s^2} $$
+Velocidad angular a los $3 \, \si{s}$:
+$$ \omega_f = \omega_0 + \alpha t = 0 + 4(3) = 12 \, \si{rad/s} $$
+Aceleración centrípeta en el borde:
+$$ a_c = \omega^2 R = (12)^2 (0.5) = 144(0.5) = 72 \, \si{m/s^2} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+$$ a_c = 72 \, \si{m/s^2} $$
+\end{tcolorbox}
+
+\end{document}

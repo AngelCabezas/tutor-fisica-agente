@@ -1,0 +1,2540 @@
+\documentclass[12pt, a4paper]{article}
+
+% --- PAQUETES ---
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{geometry}
+\usepackage[most]{tcolorbox}
+\usepackage{siunitx}
+\usepackage{enumitem}
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usepackage{verbatim} 
+\usepackage{xcolor}
+
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta, calc, babel}
+\geometry{a4paper, margin=1in}
+
+\title{Ejercicios Dinamica: rotacional}
+\author{Dataset Entrenamiento LLM}
+\date{\today}
+
+\begin{document}
+
+\subsubsection*{Enunciado}
+Un tablón homogéneo de $3 \, \si{m}$ de longitud se mantiene en equilibrio, en la posición indicada en la figura, mediante las cuerdas $A$ y $B$. El momento de inercia del tablón con respecto a uno de sus extremos es $I = \frac{1}{3} m L^2$. Calcule la aceleración angular inicial del tablón cuando se rompe la cuerda $A$.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2, >=Latex]
+    % Techo
+    \draw[ultra thick] (-0.5, 2.5) -- (4, 2.5);
+    \foreach \x in {-0.4, -0.1, ..., 3.9}
+        \draw (\x, 2.5) -- (\x+0.1, 2.7);
+
+    % Suelo de referencia (opcional para el ángulo)
+    \draw[thin, gray] (0, 0.5) -- (4, 0.5);
+
+    % Tablón (inclinado 30 grados)
+    \begin{scope}[rotate around={15:(0.5, 0.5)}]
+        \draw[fill=gray!20, thick] (0.5, 0.4) rectangle (3.5, 0.6);
+        \node at (2, 0.5) {Tablón};
+    \end{scope}
+
+    % Cuerdas
+    \draw[thick] (0.5, 0.65) -- (0.5, 2.5) node[midway, left] {$A$};
+    \draw[thick] (3.4, 1.4) -- (3.4, 2.5) node[midway, right] {$B$};
+
+    % Ángulo
+    \draw[dashed] (0.5, 0.5) -- (3.5, 0.5);
+    \draw (1.5, 0.5) arc (0:15:1);
+    \node at (1.8, 0.65) {\small $15^\circ$}; 
+\end{tikzpicture}
+\end{center}
+
+\subsubsection*{Solución}
+
+\paragraph{1. Análisis Físico}
+Cuando la cuerda $A$ se rompe, el tablón deja de estar en equilibrio traslacional y rotacional. El tablón comenzará a rotar instantáneamente alrededor del punto de sujeción de la cuerda $B$ (extremo derecho), que actúa como el eje de rotación fijo en ese instante inicial.
+
+\paragraph{2. Diagrama de Cuerpo Libre (Python)}
+Para visualizar el torque generado por el peso, es necesario identificar el centro de gravedad y el brazo de palanca.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def draw_torque_analysis():
+    fig, ax = plt.subplots(figsize=(6, 4))
+    ax.set_title("Analisis de Torque (Cuerda A rota)")
+    ax.set_xlim(-0.5, 4); ax.set_ylim(-1, 2)
+    ax.axis('off')
+
+    # Coordenadas del tablon inclinado
+    L = 3.0
+    theta = np.radians(15)
+    x0, y0 = 0.5, 0.5
+    xf, yf = x0 + L*np.cos(theta), y0 + L*np.sin(theta)
+    
+    # Dibujar tablon
+    ax.plot([x0, xf], [y0, yf], color='brown', lw=8, alpha=0.6)
+    
+    # Eje de rotacion (Punto B)
+    ax.plot(xf, yf, 'ko', markersize=8)
+    ax.text(xf, yf+0.2, 'Eje (B)', fontweight='bold')
+
+    # Centro de gravedad (m/2)
+    xc, yc = (x0 + xf)/2, (y0 + yf)/2
+    ax.plot(xc, yc, 'ro', markersize=5)
+    
+    # Fuerza Peso
+    ax.arrow(xc, yc, 0, -1, head_width=0.1, fc='red', ec='red')
+    ax.text(xc+0.1, yc-0.5, 'w = mg', color='red')
+    
+    # Brazo de palanca (distancia horizontal al eje)
+    ax.plot([xc, xf], [yc, yc], 'k--', alpha=0.3)
+    ax.plot([xf, xf], [yc, yf], 'k--', alpha=0.3)
+    ax.text((xc+xf)/2, yc-0.2, 'd = (L/2)cos(theta)', fontsize=9)
+
+    plt.show()
+
+draw_torque_analysis()
+\end{lstlisting}
+
+\paragraph{3. Aplicación de la Segunda Ley de Newton para la Rotación}
+Utilizamos la ecuación de torque fundamental:
+$$ \sum \tau_B = I_B \cdot \alpha $$
+
+Donde:
+\begin{itemize}
+    \item $\tau_B$: Torque producido por el peso con respecto al punto $B$.
+    \item $I_B$: Momento de inercia respecto al extremo ($I = \frac{1}{3} m L^2$).
+    \item $\alpha$: Aceleración angular.
+\end{itemize}
+
+El torque es producido por la componente perpendicular del peso o, de forma equivalente, por el peso multiplicado por su brazo de palanca horizontal respecto a $B$:
+$$ \tau_B = w \cdot \left( \frac{L}{2} \cos \theta \right) $$
+$$ m g \cdot \frac{L}{2} \cos \theta = \frac{1}{3} m L^2 \cdot \alpha $$
+
+\paragraph{4. Cálculo de la Aceleración Angular}
+Simplificamos la masa $m$ y una longitud $L$ de la ecuación:
+$$ g \cdot \frac{\cos \theta}{2} = \frac{1}{3} L \cdot \alpha $$
+$$ \alpha = \frac{3 g \cos \theta}{2 L} $$
+
+Sustituyendo los valores ($g = 10 \, \si{m/s^2}$, $L = 3 \, \si{m}$, $\theta = 15^\circ$):
+$$ \alpha = \frac{3(10) \cos(15^\circ)}{2(3)} $$
+$$ \alpha = \frac{30 \cdot 0.9659}{6} = 5 \cdot 0.9659 $$
+$$ \alpha \approx 4.83 \, \si{rad/s^2} $$
+
+*Nota: Según los datos de la imagen (donde el ángulo parece ser $30^\circ$ en la base):*
+Si $\theta = 30^\circ$:
+$$ \alpha = \frac{3(10) \cos(30^\circ)}{2(3)} = 5 \cdot \frac{\sqrt{3}}{2} \approx 4.33 \, \si{rad/s^2} $$
+
+En formato vectorial, como el tablón rotará en sentido antihorario respecto a $B$:
+$$ \vec{\alpha} = 4.33\vec{k} \, \si{rad/s^2} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{\alpha} = 4.33\vec{k} \, \si{rad/s^2}$
+\end{tcolorbox}
+
+\newpage
+
+\subsubsection*{Enunciado}
+Un tablón homogéneo de $3 \, \si{m}$ de longitud se mantiene en equilibrio mediante las cuerdas $A$ y $B$. El momento de inercia del tablón respecto a uno de sus extremos es $I = \frac{1}{3} m L^2$. Calcule la aceleración angular inicial del tablón cuando se rompe la cuerda $B$.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2, >=Latex]
+    \draw[ultra thick] (-0.5, 2.5) -- (4, 2.5);
+    \foreach \x in {-0.4, -0.1, ..., 3.9}
+        \draw (\x, 2.5) -- (\x+0.1, 2.7);
+
+    \begin{scope}[rotate around={15:(0.5, 0.5)}]
+        \draw[fill=gray!20, thick] (0.5, 0.4) rectangle (3.5, 0.6);
+    \end{scope}
+
+    \draw[thick] (0.5, 0.65) -- (0.5, 2.5) node[midway, left] {$A$};
+    \draw[thick] (3.4, 1.4) -- (3.4, 2.5) node[midway, right] {$B$};
+
+    \draw[dashed] (0.5, 0.5) -- (3.5, 0.5);
+    \draw (1.5, 0.5) arc (0:15:1);
+    \node at (1.8, 0.65) {\small $30^\circ$}; 
+\end{tikzpicture}
+\end{center}
+
+% --- SOLUCIÓN (ASSISTANT) ---
+\subsubsection*{Solución}
+
+\paragraph{1. Análisis Físico}
+Al romperse la cuerda $B$, el tablón comienza a caer rotando alrededor del extremo izquierdo (punto $A$), que permanece fijo instantáneamente. El peso del tablón generará un torque que causará una rotación en sentido horario.
+
+\paragraph{2. Segunda Ley de Newton para la Rotación}
+Establecemos el eje en el punto $A$. El torque es negativo (sentido horario):
+$$ \sum \tau_A = I_A \cdot \alpha $$
+
+El brazo de palanca del peso respecto a $A$ es la distancia horizontal desde $A$ hasta el centro de masa:
+$$ \tau_A = -w \cdot d = -mg \left( \frac{L}{2} \cos \theta \right) $$
+
+Igualamos con el momento de inercia:
+$$ -mg \frac{L}{2} \cos \theta = \frac{1}{3} m L^2 \alpha $$
+
+\paragraph{3. Cálculo y Dirección}
+Despejamos la aceleración angular:
+$$ \alpha = -\frac{3 g \cos \theta}{2 L} $$
+
+Utilizando los valores del problema ($g=10, L=3, \theta=30^\circ$):
+$$ \alpha = -\frac{3(10) \cos(30^\circ)}{2(3)} $$
+$$ \alpha = -5 \cdot \frac{\sqrt{3}}{2} \approx -4.33 \, \si{rad/s^2} $$
+
+La dirección es en el eje $-z$ (sentido horario), por lo tanto:
+$$ \vec{\alpha} = -4.33\vec{k} \, \si{rad/s^2} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{\alpha} = -4.33\vec{k} \, \si{rad/s^2}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+En el borde de una polea de $4 \, \si{kg}$ se enrolla una cuerda ligera. El otro extremo de la cuerda se une a un cuerpo de $2 \, \si{kg}$ y se abandona desde el reposo. Determine la tensión en la cuerda. Considere $g = 10 \, \si{m/s^2}$.
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[thick] (0, 0) circle (0.6);
+    \fill (0,0) circle (0.08);
+    \draw[thick] (0, 0.6) -- (0, 1.2);
+    \draw[thick] (-0.3, 1.2) -- (0.3, 1.2);
+    
+    \draw[thick] (-0.6, 0) -- (-0.6, -1.5);
+    \draw[thick, fill=white] (-1.1, -2.3) rectangle (-0.1, -1.5);
+    
+    \draw[->, dashed, gray] (0.8, 0.5) arc (45:-45:0.7);
+    \node[gray] at (1.4, 0) {$\omega_0 = 0$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Físico}
+El sistema está compuesto por dos cuerpos que interactúan entre sí. Por un lado, el bloque de masa $m$ realiza un movimiento de traslación rectilínea hacia abajo. Por otro lado, la polea de masa $M$ experimenta un movimiento de rotación pura alrededor de su eje fijo central. La cuerda transmite la misma tensión $T$ a ambos cuerpos y vincula sus movimientos, estableciendo que la aceleración lineal del bloque $a$ es igual a la aceleración tangencial del borde de la polea, mediante la relación cinemática $a = \alpha R$.
+
+\subsubsection*{2. Diagramas de Cuerpo Libre}
+Resulta pedagógicamente fundamental separar los cuerpos para analizar las causas de su movimiento individualmente. En el bloque evaluaremos las fuerzas netas, mientras que en la polea analizaremos el torque producido por la tensión respecto a su centro de rotación.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+def draw_dcl():
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8, 4))
+    
+    ax1.set_title("DCL Polea (Rotacion)")
+    ax1.set_xlim(-1.5, 1.5)
+    ax1.set_ylim(-1.5, 1.5)
+    ax1.axis('off')
+    
+    circle = patches.Circle((0, 0), 1, linewidth=1.5, edgecolor='black', facecolor='white')
+    ax1.add_patch(circle)
+    ax1.plot(0, 0, 'ko')
+    
+    ax1.arrow(-1, 0, 0, -0.8, head_width=0.1, fc='blue', ec='blue')
+    ax1.text(-1.2, -0.5, 'T', color='blue', fontsize=12)
+    ax1.arrow(0, 0, -1, 0, head_width=0.05, fc='black', ec='black', linestyle='--')
+    ax1.text(-0.5, 0.1, 'R', fontsize=12)
+    
+    ax2.set_title("DCL Bloque (Traslacion)")
+    ax2.set_xlim(-1.5, 1.5)
+    ax2.set_ylim(-1.5, 1.5)
+    ax2.axis('off')
+    
+    rect = patches.Rectangle((-0.4, -0.4), 0.8, 0.8, linewidth=1.5, edgecolor='black', facecolor='white')
+    ax2.add_patch(rect)
+    ax2.text(0, 0, 'm', ha='center', va='center', fontsize=12)
+    
+    ax2.arrow(0, 0.4, 0, 0.6, head_width=0.1, fc='blue', ec='blue')
+    ax2.text(0.1, 0.8, 'T', color='blue', fontsize=12)
+    ax2.arrow(0, -0.4, 0, -0.8, head_width=0.1, fc='red', ec='red')
+    ax2.text(0.1, -1.0, 'mg', color='red', fontsize=12)
+    
+    plt.tight_layout()
+    plt.show()
+
+draw_dcl()
+\end{lstlisting}
+
+\subsubsection*{3. Dinámica de Traslación (Bloque)}
+Aplicamos la Segunda Ley de Newton para el bloque en el eje vertical. Tomaremos como positivo el sentido hacia abajo, que coincide con la dirección del movimiento.
+$$\sum F_y = m a$$
+$$m g - T = m a$$
+
+Sustituimos la masa del bloque $m = 2 \, \si{kg}$ y la aceleración de la gravedad $g = 10 \, \si{m/s^2}$. El peso resulta ser $W = 20 \, \si{N}$.
+$$20 - T = 2 a \quad \text{(Ecuación 1)}$$
+
+\subsubsection*{4. Dinámica de Rotación (Polea)}
+Aplicamos la Segunda Ley de Newton para la rotación de la polea. El torque neto produce una aceleración angular $\alpha$.
+$$\sum \tau = I \alpha$$
+
+La única fuerza que genera torque respecto al centro es la tensión $T$, a una distancia igual al radio $R$.
+$$T R = I \alpha$$
+
+Considerando que la polea se modela como un disco sólido macizo, su momento de inercia es $I = \frac{1}{2} M R^2$. Reemplazamos esto junto con la restricción cinemática $\alpha = \frac{a}{R}$.
+$$T R = \left( \frac{1}{2} M R^2 \right) \left( \frac{a}{R} \right)$$
+
+Simplificamos el radio $R$ en ambos lados de la ecuación.
+$$T = \frac{1}{2} M a$$
+
+Sustituimos la masa de la polea $M = 4 \, \si{kg}$.
+$$T = \frac{1}{2} (4) a$$
+$$T = 2 a \quad \text{(Ecuación 2)}$$
+
+\subsubsection*{5. Resolución del Sistema}
+Las ecuaciones 1 y 2 forman un sistema de dos ecuaciones con dos incógnitas. Despejamos la aceleración $a$ de la Ecuación 2.
+$$a = \frac{T}{2}$$
+
+Sustituimos esta expresión en la Ecuación 1 para hallar la tensión.
+$$20 - T = 2 \left( \frac{T}{2} \right)$$
+$$20 - T = T$$
+$$20 = 2 T$$
+$$T = \frac{20}{2} = 10 \, \si{N}$$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $T = 10 \, \si{N}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+¿Con qué aceleración angular gira la polea de $2 \, \si{kg}$ y $25 \, \si{cm}$ de radio, si el bloque de $20 \, \si{kg}$ resbala hacia abajo del plano inclinado rugoso ($\mu = 0.4$) con aceleración constante? Exprese la respuesta en forma vectorial. Considere $g = 10 \, \si{m/s^2}$.
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[thick] (1,0) -- (-6,0);
+    \coordinate (O) at (0,0);
+    \draw[thick] (O) -- (-5, {5*tan(35)}) coordinate (P_center);
+    
+    \draw[dashed] (-1.2, 0) arc (180:145:1.2);
+    \node at (-1.7, 0.4) {$35^\circ$};
+    
+    \begin{scope}[rotate=145]
+        \draw[thick, fill=white] (2, 0) rectangle (3.5, 1);
+        \node at (2.75, 0.5) {$m$};
+        \draw[thick] (3.5, 0.5) -- (6.1, 0.5);
+        \draw[->, thick] (1.5, 1.2) -- (0.5, 1.2) node[midway, above] {$a$};
+    \end{scope}
+    
+    \begin{scope}[shift={(P_center)}, rotate=145]
+        \draw[thick, fill=gray!20] (0,0) circle (0.5);
+        \fill (0,0) circle (0.08);
+        \draw[thick] (0,0) -- (0, -0.6) -- (-0.6, -0.6);
+    \end{scope}
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Físico y Datos}
+El problema involucra un bloque que se traslada por un plano inclinado y una polea que rota. Ambos movimientos están acoplados mediante una cuerda ideal, por lo que la aceleración tangencial de la polea es igual a la aceleración lineal del bloque.
+
+Datos del sistema:
+\begin{itemize}
+    \item Polea: Masa $M = 2 \, \si{kg}$, Radio $R = 25 \, \si{cm} = 0.25 \, \si{m}$.
+    \item Bloque: Masa $m = 20 \, \si{kg}$.
+    \item Coeficientes y entorno: $\mu = 0.4$, $\theta = 35^\circ$, $g = 10 \, \si{m/s^2}$.
+\end{itemize}
+
+\subsubsection*{2. Diagrama de Cuerpo Libre}
+Utilizaremos un diagrama de cuerpo libre rotado para el bloque, donde el eje $X$ es paralelo al plano inclinado (positivo en la dirección del movimiento, hacia abajo) y el eje $Y$ es perpendicular a este.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+def draw_dcl():
+    fig, ax = plt.subplots(figsize=(6, 5))
+    ax.set_title("DCL Bloque (Ejes rotados)")
+    ax.set_xlim(-2, 3)
+    ax.set_ylim(-2, 3)
+    ax.axis('off')
+    
+    rect = patches.Rectangle((-1, -0.5), 2, 1, linewidth=1.5, edgecolor='black', facecolor='white')
+    ax.add_patch(rect)
+    ax.text(0, 0, 'm', ha='center', va='center', fontsize=12)
+    
+    ax.arrow(0, -0.5, 0, -1.2, head_width=0.1, fc='blue', ec='blue')
+    ax.text(0.1, -1.6, 'W_y', color='blue')
+    ax.arrow(0, 0, 1.2, -1.5, head_width=0.1, fc='gray', ec='gray', linestyle='--')
+    ax.text(1.3, -1.6, 'W', color='gray')
+    ax.arrow(0, 0, 1.2, 0, head_width=0.1, fc='blue', ec='blue')
+    ax.text(1.3, 0.1, 'W_x', color='blue')
+    
+    ax.arrow(0, 0.5, 0, 1.2, head_width=0.1, fc='black', ec='black')
+    ax.text(0.1, 1.6, 'N')
+    
+    ax.arrow(-1, -0.25, -0.8, 0, head_width=0.1, fc='red', ec='red')
+    ax.text(-1.8, -0.4, 'f_r', color='red')
+    ax.arrow(-1, 0.25, -0.8, 0, head_width=0.1, fc='black', ec='black')
+    ax.text(-1.8, 0.4, 'T')
+    
+    plt.tight_layout()
+    plt.show()
+
+draw_dcl()
+\end{lstlisting}
+
+\subsubsection*{3. Dinámica del Bloque (Traslación)}
+En el eje $Y$, el bloque está en equilibrio, por lo que determinamos la fuerza Normal ($N$):
+$$\sum F_y = 0$$
+$$N - W_y = 0 \Rightarrow N = mg \cos(35^\circ)$$
+$$N = 20(10) \cos(35^\circ) = 200(0.81915) \approx 163.83 \, \si{N}$$
+
+Con la Normal calculada, obtenemos la fuerza de rozamiento cinético ($f_r$):
+$$f_r = \mu N = 0.4 (163.83) \approx 65.532 \, \si{N}$$
+
+En el eje $X$, aplicamos la Segunda Ley de Newton considerando positivo el movimiento hacia abajo del plano:
+$$\sum F_x = m a_T$$
+$$W_x - f_r - T = m a_T$$
+$$mg \sin(35^\circ) - f_r - T = m a_T$$
+$$200 \sin(35^\circ) - 65.532 - T = 20 a_T$$
+$$200 (0.57357) - 65.532 - T = 20 a_T$$
+$$114.715 - 65.532 - T = 20 a_T$$
+$$49.183 - T = 20 a_T \quad \text{(Ecuación 1)}$$
+
+\subsubsection*{4. Dinámica de la Polea (Rotación)}
+Aplicamos la Segunda Ley de Newton para la rotación de la polea, modelada como un disco macizo ($I = \frac{1}{2} M R^2$).
+$$\sum \tau = I \alpha$$
+$$T R = \left( \frac{1}{2} M R^2 \right) \left( \frac{a_T}{R} \right)$$
+$$T = \frac{1}{2} M a_T$$
+$$T = \frac{1}{2} (2) a_T = a_T \quad \text{(Ecuación 2)}$$
+
+\subsubsection*{5. Resolución y Vectorización}
+Sustituimos la Ecuación 2 en la Ecuación 1 para encontrar la aceleración tangencial:
+$$49.183 - a_T = 20 a_T$$
+$$21 a_T = 49.183$$
+$$a_T = 2.342 \, \si{m/s^2}$$
+
+Calculamos la magnitud de la aceleración angular de la polea:
+$$\alpha = \frac{a_T}{R} = \frac{2.342}{0.25} = 9.368 \approx 9.37 \, \si{rad/s^2}$$
+
+Para expresar la respuesta en forma vectorial, observamos físicamente el sistema. Al descender el bloque, la polea se ve forzada a girar en sentido horario. De acuerdo con la convención de la regla de la mano derecha, un giro horario en el plano se representa con un vector perpendicular apuntando hacia el interior del plano, lo que corresponde a la dirección negativa del eje $Z$ (es decir, el vector unitario $-\vec{k}$).
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{\alpha} = -9.37 \vec{k} \, \si{rad/s^2}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Tres partículas $A$, $B$ y $C$ de $2 \, \si{kg}$, $3 \, \si{kg}$ y $4 \, \si{kg}$, respectivamente, se hallan unidas por tres varillas ligeras de $1 \, \si{m}$ de longitud, en un triángulo equilátero que descansa sobre una superficie horizontal lisa. ¿Cuál es el valor del torque que debe aplicarse al sistema para que gire con una aceleración angular de $5 \, \si{rad/s^2}$, alrededor de un eje perpendicular a la superficie y que pase por el centro de masa del sistema? (R: $14.44 \, \si{N\cdot m}$)
+
+\begin{center}
+\begin{tikzpicture}[scale=2.5, >=Latex]
+    \coordinate (A) at (0,0);
+    \coordinate (C) at (1,0);
+    \coordinate (B) at (0.5, {sqrt(3)/2});
+
+    \draw[thick] (A) -- (C) -- (B) -- cycle;
+
+    \fill[black] (A) circle (0.04) node[below left] {$A \, (2\,\si{kg})$};
+    \fill[black] (C) circle (0.04) node[below right] {$C \, (4\,\si{kg})$};
+    \fill[black] (B) circle (0.04) node[above] {$B \, (3\,\si{kg})$};
+    
+    \node at (0.5, -0.15) {$1 \, \si{m}$};
+    \node at (0.15, 0.5) {$1 \, \si{m}$};
+    \node at (0.85, 0.5) {$1 \, \si{m}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis del Eje de Rotación}
+El problema especifica que la rotación ocurre alrededor del Centro de Masa (CM) del sistema. Un error común es asumir que el eje pasa por el centroide geométrico del triángulo. Como las masas en los vértices son distintas, el centroide no coincide con el Centro de Masa. Es imperativo calcular las coordenadas exactas del CM y el momento de inercia respecto a este punto.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def plot_system():
+    fig, ax = plt.subplots(figsize=(6, 5))
+    
+    A = np.array([0, 0])
+    C = np.array([1, 0])
+    B = np.array([0.5, np.sqrt(3)/2])
+    
+    ax.plot([A[0], C[0], B[0], A[0]], [A[1], C[1], B[1], A[1]], 'k-', lw=1.5, zorder=1)
+    
+    ax.scatter(A[0], A[1], s=200, c='red', zorder=2, label='A (2 kg)')
+    ax.scatter(C[0], C[1], s=400, c='blue', zorder=2, label='C (4 kg)')
+    ax.scatter(B[0], B[1], s=300, c='green', zorder=2, label='B (3 kg)')
+    
+    ax.text(A[0]-0.05, A[1]-0.1, 'A')
+    ax.text(C[0]-0.05, C[1]-0.1, 'C')
+    ax.text(B[0]-0.02, B[1]+0.05, 'B')
+    
+    cg_x = 0.5
+    cg_y = np.sqrt(3)/6
+    ax.plot(cg_x, cg_y, 'kx', markersize=10, label='Centroide (Geométrico)')
+    
+    cm_x = 11/18
+    cm_y = np.sqrt(3)/6
+    ax.plot(cm_x, cm_y, 'ro', markersize=8, label='Centro de Masa (CM)')
+    
+    ax.set_aspect('equal')
+    ax.set_title("Desviacion del Centro de Masa respecto al Centroide")
+    ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.1), ncol=2)
+    plt.grid(True, linestyle='--', alpha=0.5)
+    
+    plt.tight_layout()
+    plt.show()
+
+plot_system()
+\end{lstlisting}
+
+\subsubsection*{2. Cálculo de Coordenadas del Centro de Masa}
+Establecemos un sistema de referencia con origen en la partícula $A$. Las coordenadas de las partículas son:
+\begin{itemize}
+    \item Partícula $A$: $m_A = 2 \, \si{kg}$, coordenadas $(0, 0)$.
+    \item Partícula $C$: $m_C = 4 \, \si{kg}$, coordenadas $(1, 0)$.
+    \item Partícula $B$: $m_B = 3 \, \si{kg}$. Al ser un triángulo equilátero de lado $L=1$, $x_B = L \cos(60^\circ) = 0.5$ y $y_B = L \sin(60^\circ) = \frac{\sqrt{3}}{2}$. Coordenadas $(0.5, \frac{\sqrt{3}}{2})$.
+\end{itemize}
+
+La masa total del sistema es $M = 2 + 4 + 3 = 9 \, \si{kg}$. Calculamos las coordenadas del Centro de Masa $(x_{cm}, y_{cm})$:
+$$x_{cm} = \frac{m_A x_A + m_B x_B + m_C x_C}{M}$$
+$$x_{cm} = \frac{2(0) + 3(0.5) + 4(1)}{9} = \frac{1.5 + 4}{9} = \frac{5.5}{9} = \frac{11}{18} \, \si{m}$$
+
+$$y_{cm} = \frac{m_A y_A + m_B y_B + m_C y_C}{M}$$
+$$y_{cm} = \frac{2(0) + 3\left(\frac{\sqrt{3}}{2}\right) + 4(0)}{9} = \frac{\frac{3\sqrt{3}}{2}}{9} = \frac{\sqrt{3}}{6} \, \si{m}$$
+
+\subsubsection*{3. Cálculo del Momento de Inercia ($I_{cm}$)}
+El momento de inercia es la suma del producto de cada masa por el cuadrado de su distancia al eje de rotación ($I = \sum m_i r_i^2$). Calculamos las distancias al cuadrado desde cada partícula hasta el CM usando el teorema de Pitágoras:
+
+Para $A$:
+$$r_A^2 = (0 - x_{cm})^2 + (0 - y_{cm})^2 = \left(-\frac{11}{18}\right)^2 + \left(-\frac{\sqrt{3}}{6}\right)^2 = \frac{121}{324} + \frac{3}{36}$$
+$$r_A^2 = \frac{121}{324} + \frac{27}{324} = \frac{148}{324} = \frac{37}{81} \, \si{m^2}$$
+
+Para $C$:
+$$r_C^2 = (1 - x_{cm})^2 + (0 - y_{cm})^2 = \left(1 - \frac{11}{18}\right)^2 + \left(-\frac{\sqrt{3}}{6}\right)^2 = \left(\frac{7}{18}\right)^2 + \frac{3}{36}$$
+$$r_C^2 = \frac{49}{324} + \frac{27}{324} = \frac{76}{324} = \frac{19}{81} \, \si{m^2}$$
+
+Para $B$:
+$$r_B^2 = (0.5 - x_{cm})^2 + \left(\frac{\sqrt{3}}{2} - y_{cm}\right)^2 = \left(\frac{9}{18} - \frac{11}{18}\right)^2 + \left(\frac{3\sqrt{3}}{6} - \frac{\sqrt{3}}{6}\right)^2$$
+$$r_B^2 = \left(-\frac{2}{18}\right)^2 + \left(\frac{2\sqrt{3}}{6}\right)^2 = \frac{4}{324} + \frac{12}{36} = \frac{4}{324} + \frac{108}{324} = \frac{112}{324} = \frac{28}{81} \, \si{m^2}$$
+
+Ahora, calculamos el momento de inercia total:
+$$I_{cm} = m_A r_A^2 + m_B r_B^2 + m_C r_C^2$$
+$$I_{cm} = 2\left(\frac{37}{81}\right) + 3\left(\frac{28}{81}\right) + 4\left(\frac{19}{81}\right)$$
+$$I_{cm} = \frac{74 + 84 + 76}{81} = \frac{234}{81} = \frac{26}{9} \, \si{kg\cdot m^2}$$
+
+\subsubsection*{4. Cálculo del Torque}
+Aplicamos la Segunda Ley de Newton para la rotación con la aceleración angular dada $\alpha = 5 \, \si{rad/s^2}$:
+$$\tau = I_{cm} \alpha$$
+$$\tau = \left(\frac{26}{9}\right) (5)$$
+$$\tau = \frac{130}{9} \approx 14.444 \, \si{N\cdot m}$$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\tau = 14.44 \, \si{N\cdot m}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+El sistema de la figura se abandona desde el reposo, en la posición indicada. Las masas de $A$ y $B$ son $4 \, \si{kg}$ y $6 \, \si{kg}$, respectivamente, la polea tiene una masa de $1.5 \, \si{kg}$ y un radio igual a $0.3 \, \si{m}$. Si el coeficiente de rozamiento entre el bloque y el plano es igual a $0.3$, determine:
+a) la tensión en la cuerda, a ambos lados de la polea.
+Considere $g = 10 \, \si{m/s^2}$.
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[thick] (-4, 0) -- (0, 0);
+    \draw[thick] (0, 0) -- (0, -3);
+    
+    \draw[thick, fill=white] (-2.5, 0) rectangle (-1.5, 0.8) node[midway] {$A$};
+    
+    \draw[thick, fill=gray!30] (0, 0.3) circle (0.3);
+    \fill (0, 0.3) circle (0.05);
+    
+    \draw[thick] (-1.5, 0.6) -- (0, 0.6);
+    \draw[thick] (0.3, 0.3) -- (0.3, -1.2);
+    
+    \draw[thick, fill=white] (-0.1, -1.2) rectangle (0.7, -2.2) node[midway] {$B$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Físico}
+El sistema experimenta un movimiento acoplado. El bloque $A$ se traslada horizontalmente con fricción, el bloque $B$ se traslada verticalmente hacia abajo, y la polea experimenta rotación pura. Debido a que la polea tiene masa e inercia rotacional, las tensiones a ambos lados de la cuerda no pueden ser iguales; la diferencia entre ellas es lo que proporciona el torque neto necesario para acelerar angularmente la polea.
+
+\subsubsection*{2. Diagramas de Cuerpo Libre}
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+def draw_dcls():
+    fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(12, 4))
+    
+    ax1.set_title("DCL Bloque A")
+    ax1.set_xlim(-1.5, 1.5)
+    ax1.set_ylim(-1.5, 1.5)
+    ax1.axis('off')
+    rectA = patches.Rectangle((-0.5, -0.5), 1, 1, linewidth=1.5, edgecolor='black', facecolor='white')
+    ax1.add_patch(rectA)
+    ax1.text(0, 0, 'A', ha='center', va='center', fontsize=12)
+    ax1.arrow(0, 0.5, 0, 0.6, head_width=0.1, fc='black', ec='black')
+    ax1.text(0.1, 1.2, 'N')
+    ax1.arrow(0, -0.5, 0, -0.6, head_width=0.1, fc='black', ec='black')
+    ax1.text(0.1, -1.2, 'W_A')
+    ax1.arrow(0.5, 0, 0.6, 0, head_width=0.1, fc='blue', ec='blue')
+    ax1.text(1.2, 0.1, 'T_A', color='blue')
+    ax1.arrow(-0.5, -0.4, -0.6, 0, head_width=0.1, fc='red', ec='red')
+    ax1.text(-1.3, -0.3, 'f_r', color='red')
+    
+    ax2.set_title("DCL Polea")
+    ax2.set_xlim(-1.5, 1.5)
+    ax2.set_ylim(-1.5, 1.5)
+    ax2.axis('off')
+    circle = patches.Circle((0, 0), 0.8, linewidth=1.5, edgecolor='black', facecolor='white')
+    ax2.add_patch(circle)
+    ax2.arrow(-0.8, 0.8, -0.5, 0, head_width=0.1, fc='blue', ec='blue')
+    ax2.text(-1.5, 0.9, 'T_A', color='blue')
+    ax2.arrow(0.8, 0, 0, -0.6, head_width=0.1, fc='blue', ec='blue')
+    ax2.text(0.9, -0.7, 'T_B', color='blue')
+    
+    ax3.set_title("DCL Bloque B")
+    ax3.set_xlim(-1.5, 1.5)
+    ax3.set_ylim(-1.5, 1.5)
+    ax3.axis('off')
+    rectB = patches.Rectangle((-0.5, -0.5), 1, 1, linewidth=1.5, edgecolor='black', facecolor='white')
+    ax3.add_patch(rectB)
+    ax3.text(0, 0, 'B', ha='center', va='center', fontsize=12)
+    ax3.arrow(0, 0.5, 0, 0.6, head_width=0.1, fc='blue', ec='blue')
+    ax3.text(0.1, 1.2, 'T_B', color='blue')
+    ax3.arrow(0, -0.5, 0, -0.8, head_width=0.1, fc='black', ec='black')
+    ax3.text(0.1, -1.4, 'W_B')
+    
+    plt.tight_layout()
+    plt.show()
+
+draw_dcls()
+\end{lstlisting}
+
+\subsubsection*{3. Dinámica del Bloque A}
+En el eje vertical, el bloque $A$ se encuentra en equilibrio:
+$$\sum F_y = 0 \implies N - W_A = 0$$
+$$N = m_A g = 4(10) = 40 \, \si{N}$$
+
+Calculamos la fuerza de rozamiento cinético:
+$$f_r = \mu N = 0.3(40) = 12 \, \si{N}$$
+
+Aplicamos la Segunda Ley de Newton en el eje horizontal (dirección del movimiento):
+$$\sum F_x = m_A a$$
+$$T_A - f_r = m_A a$$
+$$T_A - 12 = 4a$$
+$$T_A = 4a + 12 \quad \text{(Ecuación 1)}$$
+
+\subsubsection*{4. Dinámica del Bloque B}
+El bloque $B$ desciende, por lo tanto, el peso es mayor a la tensión $T_B$. Aplicamos la Segunda Ley de Newton en el eje vertical:
+$$\sum F_y = m_B a$$
+$$W_B - T_B = m_B a$$
+$$m_B g - T_B = m_B a$$
+$$6(10) - T_B = 6a$$
+$$60 - T_B = 6a$$
+$$T_B = 60 - 6a \quad \text{(Ecuación 2)}$$
+
+\subsubsection*{5. Dinámica de la Polea}
+Aplicamos la Segunda Ley de Newton para la rotación. El torque que produce $T_B$ acelera la polea en sentido horario, mientras que $T_A$ se opone. Consideramos la polea como un disco sólido macizo ($I = \frac{1}{2} m_P R^2$) y usamos la restricción cinemática $\alpha = \frac{a}{R}$.
+$$\sum \tau = I \alpha$$
+$$T_B R - T_A R = \left( \frac{1}{2} m_P R^2 \right) \left( \frac{a}{R} \right)$$
+$$R (T_B - T_A) = \frac{1}{2} m_P R a$$
+$$T_B - T_A = \frac{1}{2} m_P a$$
+
+Sustituimos la masa de la polea $m_P = 1.5 \, \si{kg}$:
+$$T_B - T_A = \frac{1}{2}(1.5)a$$
+$$T_B - T_A = 0.75a \quad \text{(Ecuación 3)}$$
+
+\subsubsection*{6. Resolución del Sistema}
+Sustituimos las Ecuaciones 1 y 2 en la Ecuación 3:
+$$(60 - 6a) - (4a + 12) = 0.75a$$
+$$60 - 6a - 4a - 12 = 0.75a$$
+$$48 - 10a = 0.75a$$
+$$48 = 10.75a$$
+$$a = \frac{48}{10.75} \approx 4.465 \, \si{m/s^2}$$
+
+Con la aceleración lineal del sistema, calculamos las tensiones reemplazando en las Ecuaciones 1 y 2:
+$$T_A = 4(4.465) + 12 = 17.86 + 12 = 29.86 \, \si{N}$$
+$$T_B = 60 - 6(4.465) = 60 - 26.79 = 33.21 \, \si{N}$$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering
+$T_A = 29.86 \, \si{N}$ \\
+$T_B = 33.21 \, \si{N}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+El sistema de la figura se abandona desde el reposo, en la posición indicada. Las masas de $A$ y $B$ son $4 \, \si{kg}$ y $6 \, \si{kg}$, respectivamente, la polea tiene una masa de $1.5 \, \si{kg}$ y un radio igual a $0.3 \, \si{m}$. Si el coeficiente de rozamiento entre el bloque y el plano es igual a $0.3$, determine:
+a) la tensión en la cuerda, a ambos lados de la polea.
+Considere $g = 10 \, \si{m/s^2}$.
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[thick] (-4, 0) -- (0, 0);
+    \draw[thick] (0, 0) -- (0, -3);
+    
+    \draw[thick, fill=white] (-2.5, 0) rectangle (-1.5, 0.8) node[midway] {$A$};
+    
+    \draw[thick, fill=gray!30] (0, 0.3) circle (0.3);
+    \fill (0, 0.3) circle (0.05);
+    
+    \draw[thick] (-1.5, 0.6) -- (0, 0.6);
+    \draw[thick] (0.3, 0.3) -- (0.3, -1.2);
+    
+    \draw[thick, fill=white] (-0.1, -1.2) rectangle (0.7, -2.2) node[midway] {$B$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Físico}
+El sistema experimenta un movimiento acoplado. El bloque $A$ se traslada horizontalmente con fricción, el bloque $B$ se traslada verticalmente hacia abajo, y la polea experimenta rotación pura. Debido a que la polea tiene masa e inercia rotacional, las tensiones a ambos lados de la cuerda no pueden ser iguales; la diferencia entre ellas es lo que proporciona el torque neto necesario para acelerar angularmente la polea.
+
+\subsubsection*{2. Diagramas de Cuerpo Libre}
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+def draw_dcls():
+    fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(12, 4))
+    
+    ax1.set_title("DCL Bloque A")
+    ax1.set_xlim(-1.5, 1.5)
+    ax1.set_ylim(-1.5, 1.5)
+    ax1.axis('off')
+    rectA = patches.Rectangle((-0.5, -0.5), 1, 1, linewidth=1.5, edgecolor='black', facecolor='white')
+    ax1.add_patch(rectA)
+    ax1.text(0, 0, 'A', ha='center', va='center', fontsize=12)
+    ax1.arrow(0, 0.5, 0, 0.6, head_width=0.1, fc='black', ec='black')
+    ax1.text(0.1, 1.2, 'N')
+    ax1.arrow(0, -0.5, 0, -0.6, head_width=0.1, fc='black', ec='black')
+    ax1.text(0.1, -1.2, 'W_A')
+    ax1.arrow(0.5, 0, 0.6, 0, head_width=0.1, fc='blue', ec='blue')
+    ax1.text(1.2, 0.1, 'T_A', color='blue')
+    ax1.arrow(-0.5, -0.4, -0.6, 0, head_width=0.1, fc='red', ec='red')
+    ax1.text(-1.3, -0.3, 'f_r', color='red')
+    
+    ax2.set_title("DCL Polea")
+    ax2.set_xlim(-1.5, 1.5)
+    ax2.set_ylim(-1.5, 1.5)
+    ax2.axis('off')
+    circle = patches.Circle((0, 0), 0.8, linewidth=1.5, edgecolor='black', facecolor='white')
+    ax2.add_patch(circle)
+    ax2.arrow(-0.8, 0.8, -0.5, 0, head_width=0.1, fc='blue', ec='blue')
+    ax2.text(-1.5, 0.9, 'T_A', color='blue')
+    ax2.arrow(0.8, 0, 0, -0.6, head_width=0.1, fc='blue', ec='blue')
+    ax2.text(0.9, -0.7, 'T_B', color='blue')
+    
+    ax3.set_title("DCL Bloque B")
+    ax3.set_xlim(-1.5, 1.5)
+    ax3.set_ylim(-1.5, 1.5)
+    ax3.axis('off')
+    rectB = patches.Rectangle((-0.5, -0.5), 1, 1, linewidth=1.5, edgecolor='black', facecolor='white')
+    ax3.add_patch(rectB)
+    ax3.text(0, 0, 'B', ha='center', va='center', fontsize=12)
+    ax3.arrow(0, 0.5, 0, 0.6, head_width=0.1, fc='blue', ec='blue')
+    ax3.text(0.1, 1.2, 'T_B', color='blue')
+    ax3.arrow(0, -0.5, 0, -0.8, head_width=0.1, fc='black', ec='black')
+    ax3.text(0.1, -1.4, 'W_B')
+    
+    plt.tight_layout()
+    plt.show()
+
+draw_dcls()
+\end{lstlisting}
+
+\subsubsection*{3. Dinámica del Bloque A}
+En el eje vertical, el bloque $A$ se encuentra en equilibrio:
+$$\sum F_y = 0 \implies N - W_A = 0$$
+$$N = m_A g = 4(10) = 40 \, \si{N}$$
+
+Calculamos la fuerza de rozamiento cinético:
+$$f_r = \mu N = 0.3(40) = 12 \, \si{N}$$
+
+Aplicamos la Segunda Ley de Newton en el eje horizontal (dirección del movimiento):
+$$\sum F_x = m_A a$$
+$$T_A - f_r = m_A a$$
+$$T_A - 12 = 4a$$
+$$T_A = 4a + 12 \quad \text{(Ecuación 1)}$$
+
+\subsubsection*{4. Dinámica del Bloque B}
+El bloque $B$ desciende, por lo tanto, el peso es mayor a la tensión $T_B$. Aplicamos la Segunda Ley de Newton en el eje vertical:
+$$\sum F_y = m_B a$$
+$$W_B - T_B = m_B a$$
+$$m_B g - T_B = m_B a$$
+$$6(10) - T_B = 6a$$
+$$60 - T_B = 6a$$
+$$T_B = 60 - 6a \quad \text{(Ecuación 2)}$$
+
+\subsubsection*{5. Dinámica de la Polea}
+Aplicamos la Segunda Ley de Newton para la rotación. El torque que produce $T_B$ acelera la polea en sentido horario, mientras que $T_A$ se opone. Consideramos la polea como un disco sólido macizo ($I = \frac{1}{2} m_P R^2$) y usamos la restricción cinemática $\alpha = \frac{a}{R}$.
+$$\sum \tau = I \alpha$$
+$$T_B R - T_A R = \left( \frac{1}{2} m_P R^2 \right) \left( \frac{a}{R} \right)$$
+$$R (T_B - T_A) = \frac{1}{2} m_P R a$$
+$$T_B - T_A = \frac{1}{2} m_P a$$
+
+Sustituimos la masa de la polea $m_P = 1.5 \, \si{kg}$:
+$$T_B - T_A = \frac{1}{2}(1.5)a$$
+$$T_B - T_A = 0.75a \quad \text{(Ecuación 3)}$$
+
+\subsubsection*{6. Resolución del Sistema}
+Sustituimos las Ecuaciones 1 y 2 en la Ecuación 3:
+$$(60 - 6a) - (4a + 12) = 0.75a$$
+$$60 - 6a - 4a - 12 = 0.75a$$
+$$48 - 10a = 0.75a$$
+$$48 = 10.75a$$
+$$a = \frac{48}{10.75} \approx 4.465 \, \si{m/s^2}$$
+
+Con la aceleración lineal del sistema, calculamos las tensiones reemplazando en las Ecuaciones 1 y 2:
+$$T_A = 4(4.465) + 12 = 17.86 + 12 = 29.86 \, \si{N}$$
+$$T_B = 60 - 6(4.465) = 60 - 26.79 = 33.21 \, \si{N}$$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering
+$T_A = 29.86 \, \si{N}$ \\
+$T_B = 33.21 \, \si{N}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Sobre las superficies rugosas ($\mu = 0.1$) e inclinadas $60^\circ$ se hallan los cuerpos $m_1$ de $1 \, \si{kg}$ y $m_2$ de $4 \, \si{kg}$. La polea tiene una masa de $4 \, \si{kg}$ y un radio de $0.5 \, \si{m}$. Determine la aceleración del sistema. Considere $g = 10 \, \si{m/s^2}$.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2, >=Latex]
+    \draw[thick] (-3,0) -- (3,0);
+    \draw[thick] (-2.5,0) -- (0,1.5) -- (2.5,0);
+    
+    \draw ( -2.2,0) arc (0:31:0.3);
+    \node at (-2, 0.2) {\footnotesize $60^\circ$};
+    \draw ( 2.2,0) arc (180:149:0.3);
+    \node at (2, 0.2) {\footnotesize $60^\circ$};
+    
+    \begin{scope}[rotate=31]
+        \draw[thick, fill=white] (-2, 0) rectangle (-1.2, 0.6) node[midway] {$m_1$};
+        \draw[thick] (-1.2, 0.3) -- (0, 0.3);
+    \end{scope}
+    
+    \begin{scope}[rotate=-31]
+        \draw[thick, fill=white] (1.2, 0) rectangle (2, 0.6) node[midway] {$m_2$};
+        \draw[thick] (1.2, 0.3) -- (0, 0.3);
+    \end{scope}
+
+    \draw[thick, fill=gray!20] (0, 1.7) circle (0.25);
+    \fill (0, 1.7) circle (0.04);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Físico}
+Dado que $m_2 > m_1$ y ambos están en el mismo ángulo de inclinación, el sistema tenderá a moverse hacia la derecha ($m_2$ baja, $m_1$ sube). La fricción en ambos bloques se opondrá a este movimiento. La polea, al tener masa, requiere un torque neto, por lo que las tensiones $T_1$ y $T_2$ serán distintas.
+
+\subsubsection*{2. Diagramas de Cuerpo Libre (Python)}
+Es vital visualizar la descomposición del peso en los ejes normal ($mg\cos\theta$) y tangencial ($mg\sin\theta$) para cada bloque.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+def draw_physics_dcl():
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 5))
+    
+    ax1.set_title("DCL Bloque m_1")
+    ax1.set_xlim(-2, 2)
+    ax1.set_ylim(-2, 2)
+    ax1.axis('off')
+    ax1.add_patch(patches.Rectangle((-0.5, -0.3), 1, 0.6, angle=0, color='white', ec='black'))
+    ax1.arrow(0, 0.3, 0, 1, head_width=0.1, fc='black')
+    ax1.text(0.1, 1.3, 'N_1')
+    ax1.arrow(0.5, 0, 1, 0, head_width=0.1, fc='blue')
+    ax1.text(1.2, 0.2, 'T_1', color='blue')
+    ax1.arrow(-0.5, 0, -0.8, 0, head_width=0.1, fc='red')
+    ax1.text(-1.4, 0.2, 'f_{r1} + W_{1x}', color='red')
+    
+    ax2.set_title("DCL Bloque m_2")
+    ax2.set_xlim(-2, 2)
+    ax2.set_ylim(-2, 2)
+    ax2.axis('off')
+    ax2.add_patch(patches.Rectangle((-0.5, -0.3), 1, 0.6, angle=0, color='white', ec='black'))
+    ax2.arrow(0, 0.3, 0, 1, head_width=0.1, fc='black')
+    ax2.text(0.1, 1.3, 'N_2')
+    ax2.arrow(-0.5, 0, -1, 0, head_width=0.1, fc='blue')
+    ax2.text(-1.2, 0.2, 'T_2', color='blue')
+    ax2.arrow(0.5, 0, 1, 0, head_width=0.1, fc='green')
+    ax2.text(1.2, 0.2, 'W_{2x}', color='green')
+    ax2.arrow(0.5, -0.2, -0.6, 0, head_width=0.1, fc='red')
+    ax2.text(0.6, -0.5, 'f_{r2}', color='red')
+
+    plt.show()
+
+draw_physics_dcl()
+\end{lstlisting}
+
+\subsubsection*{3. Ecuaciones del Movimiento}
+
+\textbf{Bloque 1 ($m_1$):}
+Eje normal: $N_1 = m_1 g \cos(60^\circ) = 1(10)(0.5) = 5 \, \si{N}$.
+Fricción: $f_{r1} = \mu N_1 = 0.1(5) = 0.5 \, \si{N}$.
+Eje tangencial (subiendo):
+$$\sum F_x = m_1 a \implies T_1 - m_1 g \sin(60^\circ) - f_{r1} = m_1 a$$
+$$T_1 - 8.66 - 0.5 = 1a \implies T_1 = a + 9.16$$
+
+\textbf{Bloque 2 ($m_2$):}
+Eje normal: $N_2 = m_2 g \cos(60^\circ) = 4(10)(0.5) = 20 \, \si{N}$.
+Fricción: $f_{r2} = \mu N_2 = 0.1(20) = 2 \, \si{N}$.
+Eje tangencial (bajando):
+$$\sum F_x = m_2 a \implies m_2 g \sin(60^\circ) - T_2 - f_{r2} = m_2 a$$
+$$34.64 - T_2 - 2 = 4a \implies T_2 = 32.64 - 4a$$
+
+\textbf{Polea (Rotación):}
+Usamos $\sum \tau = I \alpha$ con $I = \frac{1}{2} M R^2$ y $\alpha = a/R$.
+$$R(T_2 - T_1) = \left(\frac{1}{2} M R^2\right) \frac{a}{R} \implies T_2 - T_1 = \frac{1}{2} M a$$
+Como $M = 4 \, \si{kg}$:
+$$T_2 - T_1 = 2a$$
+
+\subsubsection*{4. Resolución}
+Sustituimos las expresiones de las tensiones en la ecuación de la polea:
+$$(32.64 - 4a) - (a + 9.16) = 2a$$
+$$32.64 - 4a - a - 9.16 = 2a$$
+$$23.48 - 5a = 2a$$
+$$23.48 = 7a \implies a = \frac{23.48}{7} \approx 3.35 \, \si{m/s^2}$$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $a = 3.35 \, \si{m/s^2}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Dos masas, de $6 \, \si{kg}$ y $3 \, \si{kg}$, están unidas entre sí por una cuerda que está enrollada a una polea de $0.3 \, \si{m}$ de radio (máquina de Atwood). Cuando $t = 0 \, \si{s}$, la masa de $6 \, \si{kg}$ se está moviendo hacia arriba con una rapidez de $3 \, \si{m/s}$ y alcanza una altura máxima de $2 \, \si{m}$, respecto a su nivel inicial. Determine el momento de inercia de la polea. Considere $g = 10 \, \si{m/s^2}$.
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[thick] (0, 0) circle (0.6);
+    \fill (0,0) circle (0.08);
+    \draw[thick] (0, 0.6) -- (0, 1.2);
+    \draw[thick] (-0.3, 1.2) -- (0.3, 1.2);
+    
+    \draw[thick] (-0.6, 0) -- (-0.6, -2);
+    \draw[thick, fill=white] (-1.1, -2.8) rectangle (-0.1, -2) node[midway] {$6\,\si{kg}$};
+    
+    \draw[thick] (0.6, 0) -- (0.6, -1);
+    \draw[thick, fill=white] (0.1, -1.8) rectangle (1.1, -1) node[midway] {$3\,\si{kg}$};
+    
+    \draw[->, thick, blue] (-1.4, -2.4) -- (-1.4, -1.2) node[above] {$v_0 = 3\,\si{m/s}$};
+    
+    \draw[->, dashed, gray] (0.8, 0.5) arc (45:-45:0.7);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Cinemático}
+Definimos un sistema de referencia positivo hacia arriba para la masa de $6 \, \si{kg}$ (Bloque A). El bloque comienza subiendo, pero la gravedad neta del sistema actúa en contra, por lo que desacelera hasta detenerse en su altura máxima.
+$$v_0 = 3 \, \si{m/s}$$
+$$v_f = 0 \, \si{m/s}$$
+$$\Delta y = 2 \, \si{m}$$
+
+Aplicamos la ecuación cinemática para hallar su aceleración ($a_A$):
+$$v_f^2 = v_0^2 + 2 a_A \Delta y$$
+$$0 = (3)^2 + 2 a_A (2)$$
+$$0 = 9 + 4 a_A$$
+$$a_A = -2.25 \, \si{m/s^2}$$
+
+El signo negativo indica que el vector aceleración del Bloque A apunta hacia abajo. Debido a que están unidos por la cuerda, el Bloque B ($3 \, \si{kg}$) tiene una aceleración de la misma magnitud pero apuntando hacia arriba ($a_B = +2.25 \, \si{m/s^2}$). La aceleración angular de la polea ($\alpha$) tendrá sentido antihorario.
+
+\subsubsection*{2. Diagramas de Cuerpo Libre (Python)}
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+def draw_dcls():
+    fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(10, 4))
+    
+    ax1.set_title("DCL Bloque A (6 kg)")
+    ax1.set_xlim(-1, 1); ax1.set_ylim(-1.5, 1.5); ax1.axis('off')
+    ax1.add_patch(patches.Rectangle((-0.4, -0.4), 0.8, 0.8, fill=False, lw=1.5))
+    ax1.text(0, 0, 'A', ha='center', va='center', fontsize=12)
+    ax1.arrow(0, 0.4, 0, 0.6, head_width=0.1, fc='blue', ec='blue')
+    ax1.text(0.1, 1.1, 'T_A', color='blue')
+    ax1.arrow(0, -0.4, 0, -0.8, head_width=0.1, fc='red', ec='red')
+    ax1.text(0.1, -1.3, 'W_A = 60N', color='red')
+    ax1.arrow(-0.7, 0.2, 0, -0.5, head_width=0.1, fc='black', ec='black')
+    ax1.text(-0.9, -0.5, 'a')
+
+    ax2.set_title("DCL Polea")
+    ax2.set_xlim(-1.5, 1.5); ax2.set_ylim(-1.5, 1.5); ax2.axis('off')
+    ax2.add_patch(patches.Circle((0, 0), 0.8, fill=False, lw=1.5))
+    ax2.plot(0, 0, 'ko')
+    ax2.arrow(-0.8, 0, 0, -0.8, head_width=0.1, fc='blue', ec='blue')
+    ax2.text(-1.2, -0.9, 'T_A', color='blue')
+    ax2.arrow(0.8, 0, 0, -0.6, head_width=0.1, fc='blue', ec='blue')
+    ax2.text(0.9, -0.7, 'T_B', color='blue')
+    ax2.arrow(0, 0, -0.8, 0, head_width=0.05, linestyle='--')
+    ax2.text(-0.4, 0.1, 'R')
+
+    ax3.set_title("DCL Bloque B (3 kg)")
+    ax3.set_xlim(-1, 1); ax3.set_ylim(-1.5, 1.5); ax3.axis('off')
+    ax3.add_patch(patches.Rectangle((-0.4, -0.4), 0.8, 0.8, fill=False, lw=1.5))
+    ax3.text(0, 0, 'B', ha='center', va='center', fontsize=12)
+    ax3.arrow(0, 0.4, 0, 0.6, head_width=0.1, fc='blue', ec='blue')
+    ax3.text(0.1, 1.1, 'T_B', color='blue')
+    ax3.arrow(0, -0.4, 0, -0.6, head_width=0.1, fc='red', ec='red')
+    ax3.text(0.1, -1.1, 'W_B = 30N', color='red')
+    ax3.arrow(-0.7, -0.2, 0, 0.5, head_width=0.1, fc='black', ec='black')
+    ax3.text(-0.9, 0.4, 'a')
+
+    plt.tight_layout()
+    plt.show()
+
+draw_dcls()
+\end{lstlisting}
+
+\subsubsection*{3. Dinámica de Traslación (Tensiones)}
+Calculamos las tensiones analizando cada bloque por separado. Aplicaremos la Segunda Ley de Newton, tomando como positiva la dirección de la aceleración para cada bloque.
+
+Para el Bloque A ($a$ hacia abajo):
+$$\sum F_y = m_A a$$
+$$W_A - T_A = m_A a$$
+$$m_A g - T_A = m_A a$$
+$$60 - T_A = 6(2.25)$$
+$$60 - T_A = 13.5$$
+$$T_A = 60 - 13.5 = 46.5 \, \si{N}$$
+
+Para el Bloque B ($a$ hacia arriba):
+$$\sum F_y = m_B a$$
+$$T_B - W_B = m_B a$$
+$$T_B - m_B g = m_B a$$
+$$T_B - 30 = 3(2.25)$$
+$$T_B - 30 = 6.75$$
+$$T_B = 36.75 \, \si{N}$$
+
+\subsubsection*{4. Dinámica de Rotación (Momento de Inercia)}
+Analizamos la polea. La aceleración angular $\alpha$ es consistente con el movimiento (antihoraria, producida por $T_A > T_B$):
+$$\alpha = \frac{a}{R} = \frac{2.25}{0.3} = 7.5 \, \si{rad/s^2}$$
+
+Aplicamos la Segunda Ley de Newton para la rotación:
+$$\sum \tau = I \alpha$$
+$$T_A R - T_B R = I \alpha$$
+$$R(T_A - T_B) = I \alpha$$
+$$I = \frac{R(T_A - T_B)}{\alpha}$$
+$$I = \frac{0.3 (46.5 - 36.75)}{7.5}$$
+$$I = \frac{0.3 (9.75)}{7.5}$$
+$$I = \frac{2.925}{7.5}$$
+$$I = 0.39 \, \si{kg\cdot m^2}$$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $I = 0.39 \, \si{kg\cdot m^2}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Dos masas, de $6 \, \si{kg}$ y $3 \, \si{kg}$, están unidas entre sí por una cuerda que está enrollada a una polea de $0.3 \, \si{m}$ de radio (máquina de Atwood). Cuando $t = 0 \, \si{s}$, la masa de $6 \, \si{kg}$ se está moviendo hacia arriba con una rapidez de $3 \, \si{m/s}$ y alcanza una altura máxima de $2 \, \si{m}$, respecto a su nivel inicial. Determine la tensión de la cuerda que sostiene al cuerpo de $3 \, \si{kg}$, en el instante en que el sistema se detiene momentáneamente. Considere $g = 10 \, \si{m/s^2}$.
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[thick] (0, 0) circle (0.6);
+    \fill (0,0) circle (0.08);
+    \draw[thick] (0, 0.6) -- (0, 1.2);
+    \draw[thick] (-0.3, 1.2) -- (0.3, 1.2);
+    
+    \draw[thick] (-0.6, 0) -- (-0.6, -2);
+    \draw[thick, fill=white] (-1.1, -2.8) rectangle (-0.1, -2) node[midway] {$6\,\si{kg}$};
+    
+    \draw[thick] (0.6, 0) -- (0.6, -1);
+    \draw[thick, fill=white] (0.1, -1.8) rectangle (1.1, -1) node[midway] {$3\,\si{kg}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Físico}
+Es un error común pensar que si el sistema se detiene momentáneamente ($v = 0$), las tensiones se igualan a los pesos. La tensión depende estrictamente de la aceleración del sistema, no de su velocidad. En el instante en que la masa alcanza su altura máxima, la velocidad es cero, pero las fuerzas gravitacionales que actúan sobre las masas no han cambiado. Por lo tanto, el sistema mantiene la misma aceleración constante que tenía mientras se movía.
+
+\subsubsection*{2. Cálculo de la Aceleración}
+Como vimos en el análisis cinemático del sistema, la aceleración de las masas se mantiene constante debido a las fuerzas constantes involucradas.
+Tomando como positivo el movimiento natural del sistema (la masa mayor obligará al sistema a acelerar hacia su lado):
+El bloque de $6 \, \si{kg}$ tiene una aceleración de $2.25 \, \si{m/s^2}$ dirigida hacia abajo.
+El bloque de $3 \, \si{kg}$ (Bloque B) tiene una aceleración de $2.25 \, \si{m/s^2}$ dirigida hacia arriba.
+
+\subsubsection*{3. Cálculo de la Tensión ($T_B$)}
+Aplicamos la Segunda Ley de Newton para el bloque de $3 \, \si{kg}$, considerando positiva la dirección hacia arriba (la dirección de su aceleración):
+$$\sum F_y = m_B a$$
+$$T_B - W_B = m_B a$$
+$$T_B - m_B g = m_B a$$
+
+Sustituimos los valores ($m_B = 3 \, \si{kg}$, $g = 10 \, \si{m/s^2}$, $a = 2.25 \, \si{m/s^2}$):
+$$T_B - 3(10) = 3(2.25)$$
+$$T_B - 30 = 6.75$$
+$$T_B = 30 + 6.75$$
+$$T_B = 36.75 \, \si{N}$$
+
+Esta tensión es idéntica a la que experimenta la cuerda mientras el sistema está en movimiento.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $T_B = 36.75 \, \si{N}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un disco homogéneo de $5 \, \si{kg}$ y $30 \, \si{cm}$ de radio es acelerado desde el reposo hasta una rapidez angular de $600 \, \si{rpm}$, en $5 \, \si{s}$. Determine la fuerza tangencial aplicada sobre el disco.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.5, >=Latex]
+    \draw[thick] (0,0) circle (1);
+    \fill (0,0) circle (0.04);
+    \draw[dashed] (0,0) -- (-1,0) node[midway, above] {$R$};
+    \draw[->, thick, blue] (-1,0) -- (-1,-1.5) node[right] {$F_t$};
+    \draw[->, dashed, gray] (0.3, 0.8) arc (60:120:0.6);
+    \node[gray] at (0, 1.1) {$\alpha$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+\subsubsection*{1. Análisis Cinemático y Conversión de Unidades}
+El disco parte del reposo, por lo que su velocidad angular inicial es nula ($\omega_0 = 0$).
+Convertimos la velocidad angular final ($\omega_f$) de revoluciones por minuto (\si{rpm}) a radianes por segundo (\si{rad/s}):
+$$\omega_f = 600 \, \frac{\text{rev}}{\text{min}} \times \frac{2\pi \, \si{rad}}{1 \, \text{rev}} \times \frac{1 \, \text{min}}{60 \, \si{s}}$$
+$$\omega_f = 600 \times \frac{2\pi}{60} = 20\pi \, \si{rad/s}$$
+
+Calculamos la aceleración angular constante ($\alpha$) utilizando la ecuación de cinemática rotacional:
+$$\omega_f = \omega_0 + \alpha t$$
+$$20\pi = 0 + \alpha (5)$$
+$$\alpha = \frac{20\pi}{5} = 4\pi \, \si{rad/s^2}$$
+
+\subsubsection*{2. Diagrama de Cuerpo Libre y Torque (Python)}
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+def plot_disk_torque():
+    fig, ax = plt.subplots(figsize=(5, 5))
+    ax.set_xlim(-1.5, 1.5)
+    ax.set_ylim(-1.5, 1.5)
+    ax.axis('off')
+    
+    disk = patches.Circle((0, 0), 1, fill=True, color='lightgray', ec='black', lw=1.5)
+    ax.add_patch(disk)
+    ax.plot(0, 0, 'ko')
+    
+    ax.arrow(0, 0, -1, 0, head_width=0.05, fc='black', linestyle='--')
+    ax.text(-0.5, 0.1, 'R = 0.3 m')
+    
+    ax.arrow(-1, 0, 0, -0.8, head_width=0.1, fc='blue', ec='blue')
+    ax.text(-0.9, -0.5, 'F_t', color='blue', fontsize=12)
+    
+    ax.arrow(-0.3, 0.3, 0.6, 0, head_width=0.08, shape='full', ec='red', fc='red')
+    ax.text(0.4, 0.3, 'a_t', color='red')
+
+    plt.tight_layout()
+    plt.show()
+
+plot_disk_torque()
+\end{lstlisting}
+
+\subsubsection*{3. Dinámica Rotacional}
+El disco homogéneo tiene un momento de inercia ($I$) respecto a su centro de masa dado por:
+$$I = \frac{1}{2} m R^2$$
+$$I = \frac{1}{2} (5) (0.3)^2 = 2.5 (0.09) = 0.225 \, \si{kg\cdot m^2}$$
+
+Aplicamos la Segunda Ley de Newton para la rotación. El torque neto ($\tau$) es producido únicamente por la fuerza tangencial ($F_t$) aplicada a una distancia $R$ del centro de giro:
+$$\sum \tau = I \alpha$$
+$$F_t R = I \alpha$$
+$$F_t (0.3) = (0.225)(4\pi)$$
+$$0.3 F_t = 0.9\pi$$
+$$F_t = \frac{0.9\pi}{0.3} = 3\pi \, \si{N}$$
+
+\subsubsection*{4. Cálculo Final}
+Evaluamos el valor numérico de la fuerza:
+$$F_t = 3 (3.14159) \approx 9.424 \, \si{N}$$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $F_t = 9.42 \, \si{N}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un disco homogéneo de $5 \, \si{kg}$ y $30 \, \si{cm}$ de radio es acelerado desde el reposo hasta una rapidez angular de $600 \, \si{rpm}$ en $5 \, \si{s}$. Determine la variación de la cantidad de movimiento angular (momento angular) que sufre el disco en los tres primeros segundos.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.5, >=Latex]
+    \draw[thick] (0,0) circle (1);
+    \fill (0,0) circle (0.04);
+    \draw[dashed] (0,0) -- (-1,0) node[midway, above] {$R$};
+    \draw[->, thick, blue] (-1,0) -- (-1,-1.5) node[right] {$F_t$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis de Parámetros Previos}
+A partir de las condiciones del movimiento, calculamos la aceleración angular ($\alpha$) y el momento de inercia ($I$).
+La velocidad angular final en $\si{rad/s}$ a los $5 \, \si{s}$ es:
+$$\omega_f = 600 \times \frac{2\pi}{60} = 20\pi \, \si{rad/s}$$
+La aceleración angular constante es:
+$$\alpha = \frac{\Delta \omega}{\Delta t} = \frac{20\pi}{5} = 4\pi \, \si{rad/s^2}$$
+El momento de inercia de un disco homogéneo es:
+$$I = \frac{1}{2} m R^2 = \frac{1}{2} (5) (0.3)^2 = 0.225 \, \si{kg\cdot m^2}$$
+
+\subsubsection*{2. Evolución Temporal de la Rapidez Angular (Python)}
+Visualizamos cómo se incrementa la rapidez angular en función del tiempo para determinar su estado a los $3 \, \si{s}$.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def plot_kinematics():
+    t = np.linspace(0, 5, 100)
+    alpha = 4 * np.pi
+    omega = alpha * t
+    
+    fig, ax = plt.subplots(figsize=(6, 4))
+    ax.plot(t, omega, 'b-', lw=2)
+    
+    t_target = 3
+    omega_target = alpha * t_target
+    ax.plot([t_target, t_target], [0, omega_target], 'r--')
+    ax.plot([0, t_target], [omega_target, omega_target], 'r--')
+    ax.plot(t_target, omega_target, 'ro')
+    
+    ax.set_xlim(0, 5.5)
+    ax.set_ylim(0, 25*np.pi)
+    ax.set_xlabel('Tiempo (s)')
+    ax.set_ylabel('Rapidez Angular (rad/s)')
+    ax.set_title('Evolucion de la Rapidez Angular')
+    ax.grid(True, alpha=0.3)
+    
+    plt.tight_layout()
+    plt.show()
+
+plot_kinematics()
+\end{lstlisting}
+
+\subsubsection*{3. Cinemática a los 3 segundos}
+Calculamos la rapidez angular del disco en el instante $t = 3 \, \si{s}$:
+$$\omega(3) = \omega_0 + \alpha t$$
+$$\omega(3) = 0 + (4\pi)(3)$$
+$$\omega(3) = 12\pi \, \si{rad/s}$$
+
+\subsubsection*{4. Variación de la Cantidad de Movimiento Angular ($\Delta L$)}
+La cantidad de movimiento angular (o momento angular) se define como $L = I \omega$.
+Como el disco parte del reposo, su momento angular inicial es nulo ($L_0 = 0$).
+
+El momento angular a los $3 \, \si{s}$ es:
+$$L_f = I \omega(3)$$
+$$L_f = (0.225) (12\pi)$$
+$$L_f = 2.7\pi \, \si{kg\cdot m^2/s}$$
+
+La variación de la cantidad de movimiento angular es:
+$$\Delta L = L_f - L_0$$
+$$\Delta L = 2.7\pi - 0 = 2.7\pi \, \si{kg\cdot m^2/s}$$
+
+Evaluamos el valor numérico:
+$$\Delta L = 2.7 (3.14159) \approx 8.482 \, \si{kg\cdot m^2/s}$$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\Delta L = 8.48 \, \si{kg\cdot m^2/s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+El cabezal móvil de un torno puede ser considerado como un cilindro homogéneo de $30 \, \si{kg}$ y $0.3 \, \si{m}$ de radio. Si el cabezal está girando a $500 \, \si{rpm}$ cuando se lo desconecta y gira $45$ vueltas adicionales hasta detenerse y que $I_C = \frac{1}{2} M R^2$, determine el torque, producido por la fricción, que detiene al cabezal.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2, >=Latex]
+    \draw[thick, fill=gray!10] (0,0) ellipse (0.6 and 1.5);
+    \draw[thick] (0,1.5) -- (4,1.5);
+    \draw[thick] (0,-1.5) -- (4,-1.5);
+    \draw[thick] (4,-1.5) arc (-90:90:0.6 and 1.5);
+    \draw[dashed] (4,-1.5) arc (270:90:0.6 and 1.5);
+    
+    \fill (0,0) circle (0.05);
+    \draw[dashed] (0,0) -- (0,1.5) node[midway, right] {$R$};
+    
+    \draw[->, thick, blue] (-0.8, 0) arc (180:90:0.8 and 1.7);
+    \node[blue] at (-0.8, 1) {$\omega_0$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Conversión de Unidades}
+La velocidad angular inicial ($\omega_0$) debe estar en radianes por segundo (\si{rad/s}):
+$$\omega_0 = 500 \, \frac{\text{rev}}{\text{min}} \times \frac{2\pi \, \si{rad}}{1 \, \text{rev}} \times \frac{1 \, \text{min}}{60 \, \si{s}}$$
+$$\omega_0 = \frac{1000\pi}{60} = \frac{50\pi}{3} \, \si{rad/s}$$
+
+El desplazamiento angular ($\Delta \theta$) debe estar en radianes. Sabiendo que da $45$ vueltas hasta detenerse:
+$$\Delta \theta = 45 \, \text{rev} \times \frac{2\pi \, \si{rad}}{1 \, \text{rev}} = 90\pi \, \si{rad}$$
+La velocidad angular final es nula ($\omega_f = 0$) porque se detiene.
+
+\subsubsection*{2. Análisis Cinemático}
+Utilizamos la ecuación de cinemática rotacional independiente del tiempo para calcular la aceleración angular constante ($\alpha$) producida por la fricción:
+$$\omega_f^2 = \omega_0^2 + 2 \alpha \Delta \theta$$
+$$0 = \left(\frac{50\pi}{3}\right)^2 + 2 \alpha (90\pi)$$
+$$0 = \frac{2500\pi^2}{9} + 180\pi \alpha$$
+$$-180\pi \alpha = \frac{2500\pi^2}{9}$$
+$$\alpha = -\frac{2500\pi^2}{9 \times 180\pi} = -\frac{250\pi}{162} = -\frac{125\pi}{81} \, \si{rad/s^2}$$
+
+\subsubsection*{3. Dinámica Rotacional}
+Calculamos el momento de inercia ($I$) del cilindro homogéneo:
+$$I = \frac{1}{2} M R^2$$
+$$I = \frac{1}{2} (30) (0.3)^2 = 15(0.09) = 1.35 \, \si{kg\cdot m^2}$$
+
+Aplicamos la Segunda Ley de Newton para la rotación. La única fuerza que realiza torque es la fricción en los rodamientos del eje. Calculamos la magnitud de este torque ($\tau_f$):
+$$\sum \tau = I |\alpha|$$
+$$\tau_f = (1.35) \left( \frac{125\pi}{81} \right)$$
+$$\tau_f = \left( \frac{135}{100} \right) \left( \frac{125\pi}{81} \right) = \left( \frac{27}{20} \right) \left( \frac{125\pi}{81} \right)$$
+$$\tau_f = \frac{1}{20} \times \frac{125\pi}{3} = \frac{25\pi}{12} \, \si{N\cdot m}$$
+
+Evaluando numéricamente:
+$$\tau_f = \frac{25(3.14159)}{12} \approx 6.545 \, \si{N\cdot m}$$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\tau_f = 6.55 \, \si{N\cdot m}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+El cabezal móvil de un torno puede ser considerado como un cilindro homogéneo de $30 \, \si{kg}$ y $0.3 \, \si{m}$ de radio. Si el cabezal está girando a $500 \, \si{rpm}$ cuando se lo desconecta y se desea que el cabezal se detenga en $5$ vueltas, ¿qué fuerza tangencial adicional habría que aplicar sabiendo que existe un torque por fricción actuando sobre él? Considere $I_C = \frac{1}{2} M R^2$.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2, >=Latex]
+    \draw[thick, fill=gray!10] (0,0) circle (1.5);
+    \fill (0,0) circle (0.05);
+    
+    \draw[dashed] (0,0) -- (1.5,0) node[midway, below] {$R$};
+    
+    \draw[->, thick, red] (1.5,0) -- (1.5,-1.5) node[right] {$F_{adicional}$};
+    
+    \draw[->, thick, blue] (-1.2, 0) arc (180:90:1.2);
+    \node[blue] at (-1.2, 1) {$\omega_0$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Nuevo Análisis Cinemático}
+Ahora requerimos que el torno se detenga en un número mucho menor de vueltas. La velocidad inicial sigue siendo $\omega_0 = \frac{50\pi}{3} \, \si{rad/s}$ y la final es $\omega_f = 0$.
+El nuevo desplazamiento angular es:
+$$\Delta \theta_2 = 5 \, \text{rev} \times \frac{2\pi \, \si{rad}}{1 \, \text{rev}} = 10\pi \, \si{rad}$$
+
+Calculamos la nueva aceleración angular total requerida ($\alpha_{total}$):
+$$\omega_f^2 = \omega_0^2 + 2 \alpha_{total} \Delta \theta_2$$
+$$0 = \left(\frac{50\pi}{3}\right)^2 + 2 \alpha_{total} (10\pi)$$
+$$0 = \frac{2500\pi^2}{9} + 20\pi \alpha_{total}$$
+$$-20\pi \alpha_{total} = \frac{2500\pi^2}{9}$$
+$$\alpha_{total} = -\frac{2500\pi^2}{9 \times 20\pi} = -\frac{125\pi}{9} \, \si{rad/s^2}$$
+
+\subsubsection*{2. Torque Total Requerido}
+Utilizando el momento de inercia calculado previamente ($I = 1.35 \, \si{kg\cdot m^2}$), determinamos la magnitud del torque total necesario para lograr esta nueva desaceleración:
+$$\tau_{total} = I |\alpha_{total}|$$
+$$\tau_{total} = (1.35) \left( \frac{125\pi}{9} \right) = \left( \frac{27}{20} \right) \left( \frac{125\pi}{9} \right)$$
+$$\tau_{total} = \frac{3}{20} \times 125\pi = \frac{75\pi}{4} \, \si{N\cdot m}$$
+
+\subsubsection*{3. Cálculo de la Fuerza Tangencial Adicional}
+El torque total que frena el cilindro es la suma del torque natural producido por la fricción de la máquina ($\tau_f$) y el torque adicional proporcionado por una fuerza tangencial externa ($\tau_{adicional}$).
+$$\tau_{total} = \tau_f + \tau_{adicional}$$
+
+Sustituimos el valor del torque de fricción hallado en el literal anterior ($\tau_f = \frac{25\pi}{12} \, \si{N\cdot m}$):
+$$\frac{75\pi}{4} = \frac{25\pi}{12} + \tau_{adicional}$$
+$$\tau_{adicional} = \frac{75\pi}{4} - \frac{25\pi}{12} = \frac{225\pi - 25\pi}{12} = \frac{200\pi}{12} = \frac{50\pi}{3} \, \si{N\cdot m}$$
+
+El torque adicional es generado por una fuerza $F$ aplicada perpendicularmente al radio $R = 0.3 \, \si{m}$:
+$$\tau_{adicional} = F \times R$$
+$$\frac{50\pi}{3} = F (0.3)$$
+$$F = \frac{\frac{50\pi}{3}}{0.3} = \frac{50\pi}{3 \times 0.3} = \frac{50\pi}{0.9} = \frac{500\pi}{9} \, \si{N}$$
+
+Evaluando numéricamente:
+$$F = \frac{500(3.14159)}{9} \approx 174.533 \, \si{N}$$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $F = 174.53 \, \si{N}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+La barra homogénea de $4 \, \si{m}$ y $6 \, \si{kg}$ se encuentra en equilibrio, como se indica en la figura. Si se corta la cuerda, la aceleración inicial de la barra es de $4.33 \, \si{rad/s^2}$. Determine la aceleración angular de la barra, en el instante en que forma un ángulo de $60^\circ$ con la horizontal. Considere $g = 10 \, \si{m/s^2}$.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.5, >=Latex]
+    \draw[thick] (0, 0) rectangle (4, -0.2);
+    
+    \draw[thick] (0.6, 0.2) -- (1.0, 0.2);
+    \draw[thick] (0.7, 0.2) -- (0.8, 0) -- (0.9, 0.2);
+    \fill (0.8, 0) circle (0.05) node[right, yshift=2mm] {$A$};
+    
+    \draw[thick] (3.6, 0.5) -- (4.4, 0.5);
+    \draw[thick] (4, 0.5) -- (4, 0);
+    
+    \draw[<->] (0, -0.5) -- (0.8, -0.5) node[midway, below] {$0.8 \, \si{m}$};
+    \draw (0, -0.2) -- (0, -0.7);
+    \draw (0.8, 0) -- (0.8, -0.7);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Físico y Geométrico}
+La barra es homogénea, por lo que su centro de masa (CM) se ubica exactamente en su punto medio. Como la longitud total es $L = 4 \, \si{m}$, el CM está a $2 \, \si{m}$ de cualquiera de sus extremos.
+El pivote $A$ se encuentra a $0.8 \, \si{m}$ del extremo izquierdo. 
+Por lo tanto, la distancia $r$ desde el pivote $A$ hasta el centro de masa de la barra es:
+$$r = 2.0 \, \si{m} - 0.8 \, \si{m} = 1.2 \, \si{m}$$
+
+Esta distancia $r$ es el brazo de palanca fundamental para calcular el torque producido por el peso de la barra.
+
+\subsubsection*{2. Momento de Inercia de la Barra}
+Es una excelente práctica pedagógica calcular el momento de inercia teóricamente y comprobarlo con el dato de la aceleración inicial. Aplicamos el Teorema de los Ejes Paralelos (Teorema de Steiner). El momento de inercia respecto al pivote $A$ ($I_A$) es:
+$$I_A = I_{CM} + m r^2$$
+$$I_A = \frac{1}{12} m L^2 + m r^2$$
+$$I_A = \frac{1}{12}(6)(4)^2 + 6(1.2)^2$$
+$$I_A = \frac{1}{2}(16) + 6(1.44)$$
+$$I_A = 8 + 8.64 = 16.64 \, \si{kg\cdot m^2}$$
+
+Si comprobamos con el instante inicial (barra horizontal), el torque es $\tau_0 = mg r = 6(10)(1.2) = 72 \, \si{N\cdot m}$.
+La aceleración inicial dada es $\alpha_0 = \frac{\tau_0}{I_A} = \frac{72}{16.64} \approx 4.327 \approx 4.33 \, \si{rad/s^2}$. El cálculo teórico es consistente con el enunciado.
+
+\subsubsection*{3. Diagrama de Cuerpo Libre a $60^\circ$ (Python)}
+Visualizar la componente del peso que produce torque cuando la barra está inclinada es esencial para evitar errores trigonométricos.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+import matplotlib.patches as patches
+
+def draw_rotated_rod():
+    fig, ax = plt.subplots(figsize=(6, 6))
+    ax.set_title("Diagrama de la barra a 60 grados")
+    ax.set_xlim(-0.5, 3)
+    ax.set_ylim(-2.5, 0.5)
+    ax.axis('off')
+
+    theta = np.radians(60)
+    L_show = 2.5
+    r = 1.5
+
+    x_cm = r * np.cos(-theta)
+    y_cm = r * np.sin(-theta)
+    x_end = L_show * np.cos(-theta)
+    y_end = L_show * np.sin(-theta)
+
+    ax.plot([0, x_end], [0, y_end], lw=6, color='gray')
+    ax.plot(0, 0, '^', markersize=15, color='black')
+    ax.text(-0.2, 0.1, 'A', fontsize=12)
+
+    ax.plot([0, 2], [0, 0], 'k--')
+    ax.plot(x_cm, y_cm, 'ro', markersize=8)
+
+    ax.arrow(x_cm, y_cm, 0, -0.8, head_width=0.08, fc='red', ec='red')
+    ax.text(x_cm + 0.1, y_cm - 0.5, 'W = mg', color='red', fontsize=12)
+
+    angle_perp = -theta - np.pi/2
+    len_perp = 0.8 * np.cos(theta)
+    ax.arrow(x_cm, y_cm, len_perp * np.cos(angle_perp), len_perp * np.sin(angle_perp), head_width=0.08, fc='blue', ec='blue')
+    ax.text(x_cm - 0.7, y_cm - 0.4, 'mg cos(60^\circ)', color='blue', fontsize=12)
+
+    arc = patches.Arc((0,0), 1, 1, angle=0, theta1=-60, theta2=0, color='black')
+    ax.add_patch(arc)
+    ax.text(0.6, -0.2, '60^\circ', fontsize=12)
+
+    plt.tight_layout()
+    plt.show()
+
+draw_rotated_rod()
+\end{lstlisting}
+
+\subsubsection*{4. Cálculo de la Aceleración Angular a $60^\circ$}
+Cuando la barra forma un ángulo de $60^\circ$ con la horizontal, el brazo de palanca efectivo para el peso disminuye. La componente del peso que es perpendicular a la barra y, por tanto, produce torque, es $mg \cos(60^\circ)$.
+
+Calculamos el nuevo torque ($\tau_{60}$):
+$$\tau_{60} = m g r \cos(60^\circ)$$
+$$\tau_{60} = (6)(10)(1.2)(0.5)$$
+$$\tau_{60} = 72(0.5) = 36 \, \si{N\cdot m}$$
+
+Aplicamos la Segunda Ley de Newton para la rotación con este nuevo torque y el momento de inercia previamente calculado:
+$$\sum \tau = I_A \alpha_{60}$$
+$$36 = 16.64 \alpha_{60}$$
+$$\alpha_{60} = \frac{36}{16.64}$$
+$$\alpha_{60} \approx 2.163 \, \si{rad/s^2}$$
+
+Nota: La ligera diferencia con la respuesta del libro ($2.17$) se debe a un posible arrastre de decimales en el cálculo de la inercia a partir de la aceleración inicial redondeada ($I = 72 / 4.33 = 16.628$). Tomando el valor físico estricto de la geometría, el resultado preciso es $2.16 \, \si{rad/s^2}$.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\alpha = 2.16 \, \si{rad/s^2}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un recipiente de $2 \, \si{kg}$ baja a un pozo de agua, sujeto a una cuerda enrollada a una polea de $4 \, \si{kg}$ y $0.5 \, \si{m}$ de radio. El recipiente parte del reposo y desciende con aceleración constante durante $1.6 \, \si{s}$, hasta llegar a la superficie del agua. Determine la magnitud de la aceleración angular de la polea. Considere $I_P = \frac{1}{2} M R^2$ y $g = 10 \, \si{m/s^2}$.
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[thick] (0, 0) circle (0.5);
+    \fill (0,0) circle (0.08);
+    
+    \draw[thick] (-0.5, 0) -- (-0.5, -2);
+    
+    \draw[thick] (-1, -2) -- (0, -2) -- (-0.2, -3) -- (-0.8, -3) -- cycle;
+    \draw[thick] (-0.5, -2) arc (180:0:0.0); 
+    
+    \draw[->, dashed, gray] (0.7, 0.4) arc (45:-45:0.6);
+    \node[gray] at (1.2, 0) {$\alpha$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Físico y Diagramas de Cuerpo Libre}
+El sistema vincula la traslación del recipiente con la rotación de la polea a través de la cuerda. La tensión ejerce una fuerza hacia arriba sobre el recipiente y un torque sobre la polea. Generamos los diagramas para visualizar estas interacciones.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+def draw_dcls():
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8, 4))
+    
+    ax1.set_title("DCL Polea")
+    ax1.set_xlim(-1.2, 1.2)
+    ax1.set_ylim(-1.2, 1.2)
+    ax1.axis('off')
+    ax1.add_patch(patches.Circle((0, 0), 0.8, fill=False, lw=1.5))
+    ax1.plot(0, 0, 'ko')
+    ax1.arrow(-0.8, 0, 0, -0.6, head_width=0.1, fc='blue', ec='blue')
+    ax1.text(-1.2, -0.4, 'T', color='blue', fontsize=12)
+    ax1.arrow(0, 0, -0.8, 0, head_width=0.05, linestyle='--')
+    ax1.text(-0.4, 0.1, 'R')
+
+    ax2.set_title("DCL Recipiente")
+    ax2.set_xlim(-1, 1)
+    ax2.set_ylim(-1.5, 1.5)
+    ax2.axis('off')
+    ax2.add_patch(patches.Rectangle((-0.4, -0.4), 0.8, 0.8, fill=False, lw=1.5))
+    ax2.text(0, 0, 'm', ha='center', va='center', fontsize=12)
+    ax2.arrow(0, 0.4, 0, 0.5, head_width=0.1, fc='blue', ec='blue')
+    ax2.text(0.1, 0.8, 'T', color='blue')
+    ax2.arrow(0, -0.4, 0, -0.7, head_width=0.1, fc='red', ec='red')
+    ax2.text(0.1, -1.0, 'W', color='red')
+    
+    plt.tight_layout()
+    plt.show()
+
+draw_dcls()
+\end{lstlisting}
+
+\subsubsection*{2. Ecuación de Traslación (Recipiente)}
+Aplicamos la Segunda Ley de Newton en el eje vertical, tomando como positivo el sentido del movimiento (hacia abajo).
+$$\sum F_y = m a$$
+$$W - T = m a$$
+$$m g - T = m a$$
+Sustituyendo los datos ($m = 2 \, \si{kg}$, $g = 10 \, \si{m/s^2}$):
+$$20 - T = 2 a \quad \text{(Ecuación 1)}$$
+
+\subsubsection*{3. Ecuación de Rotación (Polea)}
+Calculamos el momento de inercia de la polea ($M = 4 \, \si{kg}$, $R = 0.5 \, \si{m}$):
+$$I = \frac{1}{2} M R^2$$
+$$I = \frac{1}{2} (4) (0.5)^2 = 2 (0.25) = 0.5 \, \si{kg\cdot m^2}$$
+
+Aplicamos la Segunda Ley de Newton para la rotación:
+$$\sum \tau = I \alpha$$
+$$T R = I \alpha$$
+$$T (0.5) = 0.5 \alpha$$
+$$T = \alpha \quad \text{(Ecuación 2)}$$
+
+Adicionalmente, recordamos la restricción cinemática que relaciona la aceleración lineal y angular:
+$$a = \alpha R$$
+$$a = 0.5 \alpha \quad \text{(Ecuación 3)}$$
+
+\subsubsection*{4. Resolución del Sistema}
+Sustituimos la Ecuación 2 y la Ecuación 3 en la Ecuación 1:
+$$20 - \alpha = 2 (0.5 \alpha)$$
+$$20 - \alpha = \alpha$$
+$$20 = 2 \alpha$$
+$$\alpha = 10 \, \si{rad/s^2}$$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\alpha = 10 \, \si{rad/s^2}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un recipiente de $2 \, \si{kg}$ baja a un pozo de agua, sujeto a una cuerda enrollada a una polea de $4 \, \si{kg}$ y $0.5 \, \si{m}$ de radio. El recipiente parte del reposo y desciende con aceleración constante durante $1.6 \, \si{s}$, hasta llegar a la superficie del agua. Determine la profundidad a la que se encuentra el nivel del agua.
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[thick] (0, 0) circle (0.5);
+    \fill (0,0) circle (0.08);
+    
+    \draw[thick] (-0.5, 0) -- (-0.5, -2);
+    
+    \draw[thick] (-1, -2) -- (0, -2) -- (-0.2, -3) -- (-0.8, -3) -- cycle;
+    
+    \draw[thick, cyan, dashed] (-2, -4.5) -- (1, -4.5);
+    \node[cyan] at (1.5, -4.5) {Agua};
+    
+    \draw[<->] (-1.5, -2) -- (-1.5, -4.5) node[midway, left] {$\Delta y$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Cálculo de la Aceleración Lineal}
+Conociendo la aceleración angular calculada previamente ($\alpha = 10 \, \si{rad/s^2}$) y el radio de la polea ($R = 0.5 \, \si{m}$), determinamos la aceleración lineal del recipiente mediante la relación cinemática:
+$$a = \alpha R$$
+$$a = (10) (0.5)$$
+$$a = 5 \, \si{m/s^2}$$
+
+\subsubsection*{2. Cinemática del Desplazamiento}
+El recipiente experimenta un Movimiento Rectilíneo Uniformemente Variado (MRUV). Los datos cinemáticos son:
+\begin{itemize}
+    \item Velocidad inicial: $v_0 = 0 \, \si{m/s}$ (parte del reposo).
+    \item Tiempo de descenso: $t = 1.6 \, \si{s}$.
+    \item Aceleración: $a = 5 \, \si{m/s^2}$.
+\end{itemize}
+
+Aplicamos la ecuación de posición para calcular la profundidad ($\Delta y$):
+$$\Delta y = v_0 t + \frac{1}{2} a t^2$$
+$$\Delta y = 0 + \frac{1}{2} (5) (1.6)^2$$
+$$\Delta y = 2.5 (2.56)$$
+$$\Delta y = 6.4 \, \si{m}$$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\Delta y = 6.4 \, \si{m}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Dos masas, $A$ y $B$, de $4 \, \si{kg}$ y $2 \, \si{kg}$ respectivamente, están unidas por una varilla ligera de $1.5 \, \si{m}$ de longitud. El conjunto está en reposo sobre una superficie horizontal lisa. Sobre la masa $B$ se aplica una fuerza, paralela a la superficie y perpendicular a la varilla, de $500 \, \si{N}$, durante $0.8 \, \si{s}$. Determine la rapidez angular con la que girará el sistema luego del impulso aplicado.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.5, >=Latex]
+    \draw[thick, fill=white] (0, 0) rectangle (1.2, 0.8) node[midway] {$A$};
+    
+    \draw[thick] (1.2, 0.4) -- (3.0, 0.4);
+    
+    \draw[thick, fill=white] (3.0, 0.1) rectangle (3.8, 0.7) node[midway] {$B$};
+    
+    \draw[thick] (-0.5, 0) -- (4.5, 0);
+    
+    \draw[->, thick, gray] (0.6, 0) -- (0.6, -0.6) node[below] {$40 \, \si{N}$};
+    \draw[->, thick, gray] (3.4, 0) -- (3.4, -0.6) node[below] {$20 \, \si{N}$};
+    
+    \fill (1.8, 0.4) circle (0.04) node[above] {\small $CM$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis del Sistema Físico}
+El conjunto se encuentra sobre una superficie horizontal lisa y no está sujeto a ningún pivote fijo. Según las leyes de la mecánica para un cuerpo rígido libre, cualquier fuerza neta aplicada provocará una traslación de su Centro de Masa y una rotación alrededor de dicho Centro de Masa. Para hallar la rapidez angular, debemos aislar el movimiento rotacional estudiando los momentos de inercia y torques respecto al CM.
+
+\subsubsection*{2. Ubicación del Centro de Masa (CM)}
+Establecemos un sistema de referencia unidimensional con origen en el centro de la masa $A$ ($x_A = 0$). La masa $B$ se encuentra a una distancia igual a la longitud de la varilla ($x_B = 1.5 \, \si{m}$).
+
+$$x_{cm} = \frac{m_A x_A + m_B x_B}{m_A + m_B}$$
+$$x_{cm} = \frac{4(0) + 2(1.5)}{4 + 2}$$
+$$x_{cm} = \frac{3}{6} = 0.5 \, \si{m}$$
+
+El Centro de Masa se encuentra a $0.5 \, \si{m}$ de la masa $A$ y a $1.0 \, \si{m}$ de la masa $B$.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+def draw_system_cm():
+    fig, ax = plt.subplots(figsize=(8, 3))
+    ax.set_xlim(-0.5, 2.0)
+    ax.set_ylim(-0.5, 1.0)
+    ax.axis('off')
+    
+    ax.plot([0, 1.5], [0, 0], color='black', lw=2)
+    
+    ax.add_patch(patches.Rectangle((-0.15, -0.15), 0.3, 0.3, fc='white', ec='black', lw=1.5))
+    ax.text(0, 0, 'A\n4kg', ha='center', va='center')
+    
+    ax.add_patch(patches.Rectangle((1.35, -0.15), 0.3, 0.3, fc='white', ec='black', lw=1.5))
+    ax.text(1.5, 0, 'B\n2kg', ha='center', va='center')
+    
+    ax.plot(0.5, 0, 'ro', markersize=8)
+    ax.text(0.5, -0.2, 'CM', color='red', ha='center', weight='bold')
+    
+    ax.annotate('', xy=(0, 0.3), xytext=(0.5, 0.3), arrowprops=dict(arrowstyle='<->'))
+    ax.text(0.25, 0.35, '0.5 m', ha='center')
+    
+    ax.annotate('', xy=(0.5, 0.3), xytext=(1.5, 0.3), arrowprops=dict(arrowstyle='<->'))
+    ax.text(1.0, 0.35, '1.0 m', ha='center')
+    
+    ax.arrow(1.5, 0.15, 0, 0.5, head_width=0.05, fc='blue', ec='blue')
+    ax.text(1.55, 0.4, 'F = 500 N', color='blue')
+    
+    plt.tight_layout()
+    plt.show()
+
+draw_system_cm()
+\end{lstlisting}
+
+\subsubsection*{3. Momento de Inercia del Sistema}
+Calculamos el momento de inercia total respecto al Centro de Masa. Asumimos que la masa de la varilla es despreciable.
+$$I_{cm} = m_A (r_A)^2 + m_B (r_B)^2$$
+$$I_{cm} = 4 (0.5)^2 + 2 (1.0)^2$$
+$$I_{cm} = 4 (0.25) + 2 (1)$$
+$$I_{cm} = 1 + 2 = 3 \, \si{kg\cdot m^2}$$
+
+\subsubsection*{4. Dinámica y Cinemática Rotacional}
+La fuerza genera un torque constante respecto al CM durante todo el intervalo de tiempo.
+$$\tau = F r_B$$
+$$\tau = 500(1.0) = 500 \, \si{N\cdot m}$$
+
+Aplicamos la Segunda Ley de Newton para la rotación:
+$$\sum \tau = I_{cm} \alpha$$
+$$500 = 3 \alpha$$
+$$\alpha = \frac{500}{3} \approx 166.67 \, \si{rad/s^2}$$
+
+El sistema parte del reposo ($\omega_0 = 0$), por lo que la rapidez angular final tras $0.8 \, \si{s}$ es:
+$$\omega_f = \omega_0 + \alpha t$$
+$$\omega_f = 0 + \left( \frac{500}{3} \right) (0.8)$$
+$$\omega_f = \frac{400}{3} \approx 133.33 \, \si{rad/s}$$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\omega_f = 133.33 \, \si{rad/s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+En la figura se representa un mecanismo simple para sacar agua de un pozo. El cilindro $C$, de $20 \, \si{kg}$ y $25 \, \si{cm}$ de radio, rota alrededor de su eje longitudinal horizontal, que pasa por $O$. La palanca $P$, ajustada al cilindro, tiene una longitud de $0.8 \, \si{m}$ y una masa despreciable. Determine el valor de la fuerza $F$, siempre perpendicular a la palanca, que debe aplicarse en el extremo de ésta para que el balde con $12 \, \si{kg}$ de agua suba con velocidad constante. Considere $g = 10 \, \si{m/s^2}$.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.5, >=Latex]
+    \draw[thick] (0,0) circle (0.5);
+    \fill (0,0) circle (0.05) node[below left] {$O$};
+    \node at (-0.3, 0.3) {$C$};
+    
+    \draw[thick, double, double distance=2pt] (0,0) -- (2, 0.7) node[midway, above left] {$P$};
+    \fill (2, 0.7) circle (0.05);
+    
+    \draw[->, thick] (2, 0.7) -- (2.3, 0) node[right] {$F$};
+    
+    \draw[thick] (-0.5, 0) -- (-0.5, -1.5);
+    
+    \draw[thick] (-0.7, -1.5) -- (-0.3, -1.5) -- (-0.4, -2.2) -- (-0.6, -2.2) -- cycle;
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Físico del Sistema}
+Para que el balde suba con velocidad constante, la aceleración lineal del balde debe ser cero ($a = 0$). Como el balde y el cilindro están vinculados por una cuerda inextensible, la aceleración angular del cilindro también debe ser nula ($\alpha = 0$). El sistema completo se encuentra en equilibrio dinámico.
+
+\subsubsection*{2. Diagramas de Cuerpo Libre (Python)}
+Separamos el sistema en dos partes: el balde (traslación) y el conjunto cilindro-palanca (rotación).
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+import numpy as np
+
+def draw_dcls():
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(9, 4))
+    
+    ax1.set_title("DCL Balde")
+    ax1.set_xlim(-1, 1)
+    ax1.set_ylim(-1.5, 1.5)
+    ax1.axis('off')
+    ax1.add_patch(patches.Rectangle((-0.4, -0.4), 0.8, 0.8, fill=False, lw=1.5))
+    ax1.text(0, 0, 'm\n12kg', ha='center', va='center')
+    ax1.arrow(0, 0.4, 0, 0.6, head_width=0.1, fc='blue', ec='blue')
+    ax1.text(0.1, 1.1, 'T', color='blue')
+    ax1.arrow(0, -0.4, 0, -0.6, head_width=0.1, fc='red', ec='red')
+    ax1.text(0.1, -1.1, 'W = mg', color='red')
+    
+    ax2.set_title("DCL Cilindro y Palanca")
+    ax2.set_xlim(-1.5, 2.5)
+    ax2.set_ylim(-1.5, 1.5)
+    ax2.axis('off')
+    ax2.add_patch(patches.Circle((0, 0), 0.5, fill=False, lw=1.5))
+    ax2.plot(0, 0, 'ko')
+    ax2.plot([0, 2], [0, 0.7], 'k-', lw=3)
+    
+    ax2.arrow(-0.5, 0, 0, -0.8, head_width=0.1, fc='blue', ec='blue')
+    ax2.text(-0.8, -0.9, 'T', color='blue')
+    
+    angle = np.arctan(0.7/2)
+    dx = 0.8 * np.sin(angle)
+    dy = -0.8 * np.cos(angle)
+    ax2.arrow(2, 0.7, dx, dy, head_width=0.1, fc='green', ec='green')
+    ax2.text(2.3, 0.2, 'F', color='green')
+    
+    plt.tight_layout()
+    plt.show()
+
+draw_dcls()
+\end{lstlisting}
+
+\subsubsection*{3. Equilibrio de Traslación (Balde)}
+Aplicamos la Primera Ley de Newton en el eje vertical para el balde:
+$$\sum F_y = 0$$
+$$T - mg = 0$$
+$$T = mg = 12(10) = 120 \, \si{N}$$
+
+La cuerda ejerce una tensión de $120 \, \si{N}$ en el borde del cilindro.
+
+\subsubsection*{4. Equilibrio de Rotación (Cilindro-Palanca)}
+Aplicamos la Primera Ley de Newton para la rotación alrededor del eje $O$. El torque que tiende a hacer girar el sistema en sentido horario (debido a la fuerza $F$) debe equilibrar exactamente al torque en sentido antihorario (debido a la tensión $T$).
+
+$$\sum \tau_O = 0$$
+$$\tau_F - \tau_T = 0$$
+$$F \cdot L - T \cdot R = 0$$
+
+Donde $L = 0.8 \, \si{m}$ es el brazo de palanca de la fuerza $F$, y $R = 0.25 \, \si{m}$ es el brazo de palanca de la tensión. Despejamos $F$:
+$$F (0.8) = T (0.25)$$
+$$F (0.8) = 120 (0.25)$$
+$$0.8 F = 30$$
+$$F = \frac{30}{0.8} = 37.5 \, \si{N}$$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $F = 37.5 \, \si{N}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+En la figura se representa un mecanismo simple para sacar agua de un pozo. El cilindro $C$, de $20 \, \si{kg}$ y $25 \, \si{cm}$ de radio, rota alrededor de su eje longitudinal horizontal, que pasa por $O$. La palanca $P$, ajustada al cilindro, tiene una longitud de $0.8 \, \si{m}$ y una masa despreciable. Determine el valor de la fuerza $F$, siempre perpendicular a la palanca, que debe aplicarse en el extremo de ésta para que el balde con $12 \, \si{kg}$ de agua suba con una aceleración constante de $0.5 \, \si{m/s^2}$. Considere $I_C = \frac{1}{2} M R^2$ y $g = 10 \, \si{m/s^2}$.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.5, >=Latex]
+    \draw[thick] (0,0) circle (0.5);
+    \fill (0,0) circle (0.05) node[below left] {$O$};
+    \node at (-0.3, 0.3) {$C$};
+    
+    \draw[thick, double, double distance=2pt] (0,0) -- (2, 0.7) node[midway, above left] {$P$};
+    \fill (2, 0.7) circle (0.05);
+    
+    \draw[->, thick] (2, 0.7) -- (2.3, 0) node[right] {$F$};
+    
+    \draw[thick] (-0.5, 0) -- (-0.5, -1.5);
+    
+    \draw[thick] (-0.7, -1.5) -- (-0.3, -1.5) -- (-0.4, -2.2) -- (-0.6, -2.2) -- cycle;
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Dinámico y Cinemático}
+Dado que el balde debe subir con una aceleración constante $a = 0.5 \, \si{m/s^2}$, el sistema no está en equilibrio. El torque producido por $F$ debe superar al torque de la tensión para poder acelerar el momento de inercia del cilindro.
+
+Relación cinemática entre aceleración lineal y angular:
+$$\alpha = \frac{a}{R} = \frac{0.5}{0.25} = 2 \, \si{rad/s^2}$$
+
+\subsubsection*{2. Dinámica de Traslación (Balde)}
+Aplicamos la Segunda Ley de Newton para el balde, tomando como positiva la dirección del movimiento (hacia arriba):
+$$\sum F_y = m a$$
+$$T - mg = m a$$
+$$T = m(g + a)$$
+$$T = 12(10 + 0.5) = 12(10.5) = 126 \, \si{N}$$
+
+La tensión requerida en la cuerda es mayor al peso, ya que necesita acelerar la masa hacia arriba.
+
+\subsubsection*{3. Dinámica de Rotación (Cilindro)}
+Calculamos el momento de inercia del cilindro ($M = 20 \, \si{kg}$, $R = 0.25 \, \si{m}$):
+$$I_C = \frac{1}{2} M R^2$$
+$$I_C = \frac{1}{2} (20) (0.25)^2 = 10 (0.0625) = 0.625 \, \si{kg\cdot m^2}$$
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+import numpy as np
+
+def draw_rotational_dynamics():
+    fig, ax = plt.subplots(figsize=(6, 4))
+    ax.set_title("Torques sobre el Sistema")
+    ax.set_xlim(-1.5, 2.5)
+    ax.set_ylim(-1.5, 1.5)
+    ax.axis('off')
+    
+    ax.add_patch(patches.Circle((0, 0), 0.5, fill=False, lw=1.5))
+    ax.plot(0, 0, 'ko')
+    ax.plot([0, 2], [0, 0.7], 'k-', lw=3)
+    
+    ax.arrow(-0.5, 0, 0, -0.6, head_width=0.1, fc='blue', ec='blue')
+    ax.text(-0.8, -0.7, 'T=126N', color='blue')
+    
+    angle = np.arctan(0.7/2)
+    dx = 0.6 * np.sin(angle)
+    dy = -0.6 * np.cos(angle)
+    ax.arrow(2, 0.7, dx, dy, head_width=0.1, fc='green', ec='green')
+    ax.text(2.3, 0.2, 'F', color='green')
+    
+    ax.add_patch(patches.Arc((0, 0), 1.5, 1.5, theta1=0, theta2=180, color='red', linestyle='dashed'))
+    ax.text(0, 0.9, r'$\alpha = 2 \, rad/s^2$', color='red', ha='center')
+
+    plt.tight_layout()
+    plt.show()
+
+draw_rotational_dynamics()
+\end{lstlisting}
+
+Aplicamos la Segunda Ley de Newton para la rotación alrededor de $O$, considerando positivo el sentido de giro (horario):
+$$\sum \tau_O = I_C \alpha$$
+$$\tau_F - \tau_T = I_C \alpha$$
+$$F \cdot L - T \cdot R = I_C \alpha$$
+
+Sustituimos todos los valores calculados:
+$$F (0.8) - 126 (0.25) = (0.625)(2)$$
+$$0.8 F - 31.5 = 1.25$$
+$$0.8 F = 1.25 + 31.5$$
+$$0.8 F = 32.75$$
+$$F = \frac{32.75}{0.8}$$
+$$F = 40.9375 \, \si{N}$$
+
+Redondeando a una cifra decimal coherente con los datos proporcionados, obtenemos $40.9 \, \si{N}$.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $F = 40.9 \, \si{N}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una persona empuja un carrusel, con una fuerza tangencial de $500 \, \si{N}$ durante $10 \, \si{s}$. Sobre el carrusel, de $1.5 \, \si{m}$ de diámetro y $25 \, \si{kg}$, inicialmente en reposo, se hallan tres niños de $20$, $25$ y $30 \, \si{kg}$, sentados en el borde. Segundos después de que la persona aplicó la fuerza, los niños se mueven radialmente hacia el centro del carrusel, que puede ser considerado como un disco horizontal. Despreciando cualquier fuerza resistiva, halle el valor de la rapidez angular del conjunto, cuando los niños están en el centro del carrusel.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.5, >=Latex]
+    \draw[thick, fill=gray!20] (0,0) circle (1.5);
+    \fill (0,0) circle (0.05);
+    
+    \draw[dashed] (0,0) -- (1.5,0) node[midway, below] {$R = 0.75\,\si{m}$};
+    
+    \fill[red] (1.5,0) circle (0.1) node[right] {$m_1 = 20\,\si{kg}$};
+    \fill[blue] (-0.75, 1.299) circle (0.1) node[above left] {$m_2 = 25\,\si{kg}$};
+    \fill[green!50!black] (-0.75, -1.299) circle (0.1) node[below left] {$m_3 = 30\,\si{kg}$};
+    
+    \draw[->, thick, orange, line width=1.5pt] (1.5, -0.8) -- (1.5, 0.8) node[right] {$F = 500\,\si{N}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Parámetros del Sistema}
+El carrusel se modela como un disco sólido. Su radio es la mitad del diámetro: $R = 0.75 \, \si{m}$.
+Masa del carrusel: $M = 25 \, \si{kg}$.
+Masa total de los niños: $m_{total} = 20 + 25 + 30 = 75 \, \si{kg}$.
+
+\subsubsection*{2. Fase 1: Aplicación del Impulso Angular}
+La fuerza tangencial constante genera un torque respecto al centro del carrusel durante $10 \, \si{s}$, aumentando el momento angular del sistema desde cero.
+$$\tau = F \cdot R$$
+$$\tau = 500(0.75) = 375 \, \si{N\cdot m}$$
+
+El momento angular ($L_1$) adquirido por el sistema una vez que termina el empuje se obtiene mediante el impulso angular ($\Delta L = \tau \Delta t$):
+$$L_1 - L_0 = \tau \Delta t$$
+$$L_1 - 0 = 375(10)$$
+$$L_1 = 3750 \, \si{kg\cdot m^2/s}$$
+
+Para propósitos pedagógicos, podemos verificar que esto equivale a calcular el momento de inercia inicial y la velocidad angular. 
+El momento de inercia inicial ($I_0$) considera al disco y a los tres niños ubicados en el borde ($r = R$):
+$$I_0 = I_{disco} + I_{ni\tilde{n}os}$$
+$$I_0 = \frac{1}{2} M R^2 + m_{total} R^2$$
+$$I_0 = \frac{1}{2}(25)(0.75)^2 + 75(0.75)^2$$
+$$I_0 = 12.5(0.5625) + 75(0.5625)$$
+$$I_0 = 7.03125 + 42.1875 = 49.21875 \, \si{kg\cdot m^2}$$
+La velocidad angular en este instante sería $\omega_1 = \frac{L_1}{I_0} = \frac{3750}{49.21875} \approx 76.19 \, \si{rad/s}$.
+
+\subsubsection*{3. Visualización de los Estados de Inercia (Python)}
+El siguiente diagrama ilustra por qué la velocidad angular cambiará drásticamente. Al acercarse al centro, la masa de los niños deja de contribuir al momento de inercia.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+def draw_states():
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8, 4))
+    
+    ax1.set_title("Estado 1: Ninos en el borde\n(Inercia Maxima)")
+    ax1.set_xlim(-1.2, 1.2)
+    ax1.set_ylim(-1.2, 1.2)
+    ax1.axis('off')
+    ax1.add_patch(patches.Circle((0, 0), 1, fill=True, color='lightgray', ec='black'))
+    ax1.plot(1, 0, 'ro', markersize=10)
+    ax1.plot(-0.5, 0.866, 'bo', markersize=10)
+    ax1.plot(-0.5, -0.866, 'go', markersize=10)
+    ax1.plot(0, 0, 'k.', markersize=5)
+    
+    ax2.set_title("Estado 2: Ninos en el centro\n(Inercia Minima)")
+    ax2.set_xlim(-1.2, 1.2)
+    ax2.set_ylim(-1.2, 1.2)
+    ax2.axis('off')
+    ax2.add_patch(patches.Circle((0, 0), 1, fill=True, color='lightgray', ec='black'))
+    ax2.plot(0.05, 0.05, 'ro', markersize=10)
+    ax2.plot(-0.05, 0.05, 'bo', markersize=10)
+    ax2.plot(0, -0.05, 'go', markersize=10)
+    ax2.plot(0, 0, 'k.', markersize=5)
+    
+    plt.tight_layout()
+    plt.show()
+
+draw_states()
+\end{lstlisting}
+
+\subsubsection*{4. Fase 2: Conservación del Momento Angular}
+Cuando los niños se mueven hacia el centro, lo hacen mediante fuerzas internas (radiales). Estas fuerzas no ejercen torque respecto al eje de rotación, por lo que el momento angular se conserva ($L_1 = L_2$).
+
+Un error conceptual muy común es sumar la masa de los niños a la masa del disco para calcular la inercia final, como si formaran un nuevo disco más pesado. Esto es incorrecto. Los niños ahora están en el centro (radio $r = 0$), por lo que su contribución al momento de inercia es $m_{total}(0)^2 = 0$. 
+El momento de inercia final ($I_f$) es exclusivamente el del carrusel vacío:
+$$I_f = \frac{1}{2} M R^2$$
+$$I_f = \frac{1}{2}(25)(0.75)^2 = 7.03125 \, \si{kg\cdot m^2}$$
+
+Igualamos el momento angular inicial y final:
+$$L_1 = I_f \omega_f$$
+$$3750 = (7.03125) \omega_f$$
+$$\omega_f = \frac{3750}{7.03125}$$
+$$\omega_f = 533.333... \, \si{rad/s}$$
+
+Al concentrar la masa en el eje de rotación, el sistema experimenta un incremento masivo en su velocidad angular para conservar el momento angular adquirido previamente.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\omega_f = 533.33 \, \si{rad/s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un disco $A$, de $6 \, \si{kg}$, que gira libremente a $400 \, \si{rpm}$ se acopla con un disco $B$, de $3 \, \si{kg}$, que gira libremente a $60 \, \si{rad/s}$ en dirección opuesta a la del disco $A$. El radio de $A$ es $0.4 \, \si{m}$ y el de $B$ es $0.2 \, \si{m}$. Determine la rapidez angular de los discos después del acople.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2, >=Latex]
+    \draw[thick, fill=blue!10] (-2, 0) ellipse (1.2 and 0.4);
+    \draw[thick] (-2, 0) -- (-2, 1.5);
+    \fill (-2, 0) circle (0.05) node[below left] {$A$};
+    \draw[->, thick, blue] (-1.2, 0.5) arc (0:180:0.8 and 0.2);
+    \node[blue] at (-2, 0.9) {$\omega_A$};
+    \draw[dashed] (-2,0) -- (-0.8,0) node[midway, below] {$R_A$};
+
+    \draw[thick, fill=red!10] (2, 0) ellipse (0.8 and 0.25);
+    \draw[thick] (2, 0) -- (2, 1.5);
+    \fill (2, 0) circle (0.05) node[below right] {$B$};
+    \draw[->, thick, red] (1.5, 0.5) arc (180:360:0.5 and 0.15);
+    \node[red] at (2, 0.8) {$\omega_B$};
+    \draw[dashed] (2,0) -- (2.8,0) node[midway, below] {$R_B$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Conversión de Unidades y Asignación de Signos}
+Primero, estandarizamos la velocidad angular del disco $A$ de revoluciones por minuto (\si{rpm}) a radianes por segundo (\si{rad/s}):
+$$\omega_{A0} = 400 \, \frac{\text{rev}}{\text{min}} \times \frac{2\pi \, \si{rad}}{1 \, \text{rev}} \times \frac{1 \, \text{min}}{60 \, \si{s}}$$
+$$\omega_{A0} = \frac{800\pi}{60} = \frac{40\pi}{3} \approx 41.89 \, \si{rad/s}$$
+
+Como el disco $B$ gira en dirección opuesta, le asignamos un signo negativo a su velocidad angular para respetar el carácter vectorial del momento angular:
+$$\omega_{B0} = -60 \, \si{rad/s}$$
+
+\subsubsection*{2. Cálculo de los Momentos de Inercia}
+Ambos cuerpos son discos homogéneos que rotan sobre su eje central, por lo que utilizamos la fórmula $I = \frac{1}{2} m R^2$.
+
+Para el disco $A$:
+$$I_A = \frac{1}{2} m_A R_A^2 = \frac{1}{2} (6) (0.4)^2 = 3 (0.16) = 0.48 \, \si{kg\cdot m^2}$$
+
+Para el disco $B$:
+$$I_B = \frac{1}{2} m_B R_B^2 = \frac{1}{2} (3) (0.2)^2 = 1.5 (0.04) = 0.06 \, \si{kg\cdot m^2}$$
+
+\subsubsection*{3. Conservación del Momento Angular (Python)}
+Al acoplarse, las únicas fuerzas que actúan entre los discos son fuerzas internas de fricción. Como no hay torques externos netos actuando sobre el sistema, el momento angular total se conserva ($L_{inicial} = L_{final}$).
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def plot_angular_momentum():
+    omega_A = 40 * np.pi / 3
+    omega_B = -60
+    I_A = 0.48
+    I_B = 0.06
+    
+    L_A = I_A * omega_A
+    L_B = I_B * omega_B
+    L_total = L_A + L_B
+    
+    labels = ['L_A (Inicial)', 'L_B (Inicial)', 'L_Total (Final)']
+    values = [L_A, L_B, L_total]
+    colors = ['blue', 'red', 'purple']
+    
+    fig, ax = plt.subplots(figsize=(7, 4))
+    bars = ax.bar(labels, values, color=colors, alpha=0.7)
+    
+    ax.axhline(0, color='black', linewidth=1.2)
+    ax.set_ylabel('Momento Angular (kg m^2/s)')
+    ax.set_title('Conservacion del Momento Angular en el Acople')
+    
+    for bar in bars:
+        height = bar.get_height()
+        va = 'bottom' if height > 0 else 'top'
+        offset = 0.5 if height > 0 else -0.5
+        ax.text(bar.get_x() + bar.get_width()/2., height + offset,
+                f'{height:.2f}', ha='center', va=va, fontweight='bold')
+                
+    plt.tight_layout()
+    plt.show()
+
+plot_angular_momentum()
+\end{lstlisting}
+
+\subsubsection*{4. Resolución de la Rapidez Angular Final}
+El momento angular inicial del sistema es la suma algebraica de los momentos angulares de cada disco:
+$$L_0 = L_A + L_B = I_A \omega_{A0} + I_B \omega_{B0}$$
+$$L_0 = (0.48)\left(\frac{40\pi}{3}\right) + (0.06)(-60)$$
+$$L_0 = 6.4\pi - 3.6 \, \si{kg\cdot m^2/s}$$
+
+Después del acople, ambos discos giran juntos como un solo cuerpo rígido con una misma rapidez angular $\omega_f$. El momento de inercia final es la suma de los momentos de inercia individuales:
+$$L_f = (I_A + I_B) \omega_f$$
+$$L_f = (0.48 + 0.06) \omega_f = 0.54 \omega_f$$
+
+Aplicamos el principio de conservación ($L_0 = L_f$):
+$$6.4\pi - 3.6 = 0.54 \omega_f$$
+$$\omega_f = \frac{6.4\pi - 3.6}{0.54}$$
+
+Sustituyendo el valor de $\pi \approx 3.14159$:
+$$\omega_f = \frac{20.106 - 3.6}{0.54} = \frac{16.506}{0.54}$$
+$$\omega_f \approx 30.567 \, \si{rad/s}$$
+
+El resultado positivo indica que el conjunto gira en la misma dirección inicial que tenía el disco $A$, ya que su momento angular era dominante.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\omega_f = 30.57 \, \si{rad/s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un hombre de $60 \, \si{kg}$ se encuentra en reposo, a $5 \, \si{m}$ del centro de una plataforma circular homogénea, de $10 \, \si{m}$ de radio y $100 \, \si{kg}$ de masa, la cual puede girar libremente alrededor de su eje central. El hombre empieza a caminar, manteniendo una rapidez de $4 \, \si{m/s}$, respecto a la plataforma y conservando su distancia respecto al centro de ésta. ¿Cuál es la rapidez angular de la plataforma?
+
+\begin{center}
+\begin{tikzpicture}[scale=0.4, >=Latex]
+    \draw[thick, fill=blue!5] (0,0) circle (10);
+    \draw[dashed] (0,0) circle (5);
+    \fill (0,0) circle (0.15);
+    
+    \draw[->, thick] (0,0) -- (0,-10) node[midway, right] {$10 \, \si{m}$};
+    \draw[->, thick] (0,0) -- (-4.33, 2.5) node[midway, above left] {$5 \, \si{m}$};
+    
+    \fill[red] (-4.33, 2.5) circle (0.2) node[above left, text=black] {Hombre};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Conceptual y Relatividad del Movimiento}
+El sistema está compuesto por la plataforma y el hombre. Inicialmente, ambos están en reposo, por lo que el momento angular total del sistema es cero. Al no existir torques externos netos (la plataforma gira libremente), el momento angular total se conserva y debe permanecer en cero.
+
+El aspecto más crítico de este problema es comprender que la rapidez del hombre ($4 \, \si{m/s}$) es relativa a la plataforma. Para aplicar la conservación del momento angular en un marco de referencia inercial (el suelo), debemos encontrar la velocidad angular absoluta del hombre.
+
+Sea $\omega_p$ la velocidad angular de la plataforma respecto al suelo.
+Sea $\omega_{rel}$ la velocidad angular del hombre respecto a la plataforma.
+La velocidad angular absoluta del hombre respecto al suelo ($\omega_h$) es la suma vectorial de ambas:
+$$\omega_h = \omega_p + \omega_{rel}$$
+
+\subsubsection*{2. Visualización Cinématica (Python)}
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+def draw_relative_kinematics():
+    fig, ax = plt.subplots(figsize=(6, 6))
+    ax.set_xlim(-12, 12)
+    ax.set_ylim(-12, 12)
+    ax.axis('off')
+
+    platform = patches.Circle((0, 0), 10, fill=True, color='lightblue', ec='black', alpha=0.3)
+    ax.add_patch(platform)
+
+    path = patches.Circle((0, 0), 5, fill=False, ec='gray', linestyle='--')
+    ax.add_patch(path)
+
+    ax.plot(0, 0, 'ko')
+    ax.plot(0, 5, 'ro', markersize=8)
+
+    ax.arrow(0, 5, 4, 0, head_width=0.6, fc='green', ec='green')
+    ax.text(4.5, 5.5, 'v_{rel} (Hombre respecto a plataforma)', color='green')
+
+    ax.arrow(0, 5, -2, 0, head_width=0.6, fc='red', ec='red')
+    ax.text(-7, 4.5, 'v_p (Arrastre de plataforma)', color='red')
+
+    ax.arrow(0, 5, 2, 0, head_width=0.6, fc='blue', ec='blue')
+    ax.text(2.5, 3.5, 'v_{abs} (Hombre respecto al suelo)', color='blue')
+
+    plt.tight_layout()
+    plt.show()
+
+draw_relative_kinematics()
+\end{lstlisting}
+
+\subsubsection*{3. Cálculo de Parámetros}
+Determinamos la velocidad angular relativa del hombre:
+$$\omega_{rel} = \frac{v_{rel}}{r} = \frac{4}{5} = 0.8 \, \si{rad/s}$$
+
+Calculamos los momentos de inercia respecto al centro de rotación.
+Para la plataforma (disco homogéneo):
+$$I_p = \frac{1}{2} M R^2$$
+$$I_p = \frac{1}{2} (100) (10)^2 = 50(100) = 5000 \, \si{kg\cdot m^2}$$
+
+Para el hombre (tratado como partícula puntual a distancia $r=5 \, \si{m}$):
+$$I_h = m r^2$$
+$$I_h = (60) (5)^2 = 60(25) = 1500 \, \si{kg\cdot m^2}$$
+
+\subsubsection*{4. Conservación del Momento Angular}
+Planteamos la ecuación de conservación del momento angular respecto al suelo:
+$$L_{inicial} = L_{final}$$
+$$0 = I_p \omega_p + I_h \omega_h$$
+
+Sustituimos la relación de velocidades angulares relativas ($\omega_h = \omega_p + \omega_{rel}$):
+$$0 = I_p \omega_p + I_h (\omega_p + \omega_{rel})$$
+
+Reemplazamos con los valores numéricos obtenidos:
+$$0 = 5000 \omega_p + 1500 (\omega_p + 0.8)$$
+$$0 = 5000 \omega_p + 1500 \omega_p + 1200$$
+$$0 = 6500 \omega_p + 1200$$
+$$-1200 = 6500 \omega_p$$
+$$\omega_p = -\frac{1200}{6500} = -\frac{12}{65}$$
+$$\omega_p \approx -0.1846 \, \si{rad/s}$$
+
+El signo negativo indica que la plataforma gira en sentido opuesto a la dirección en la que camina el hombre, lo cual es físicamente coherente por la conservación del momento. La rapidez angular (magnitud) es el valor absoluto.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $|\omega_p| \approx 0.185 \, \si{rad/s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un disco, de $11 \, \si{g}$ y $15 \, \si{cm}$ de radio, se deja caer sobre el plato de un tocadiscos que está girando a $30 \, \si{rpm}$. La inercia rotacional del plato es de $0.02 \, \si{kg\cdot m^2}$. Determine la velocidad del plato inmediatamente después de que cae el disco.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2, >=Latex]
+    \draw[thick, fill=gray!20] (0, 0) ellipse (2 and 0.5);
+    \draw[thick] (0, 0) -- (0, -0.5);
+    \fill (0,0) circle (0.05);
+    \node at (-2.5, 0) {Plato};
+    
+    \draw[->, thick, blue] (-1.5, 0.5) arc (180:360:1.5 and 0.4);
+    \node[blue] at (0, 0.3) {$\omega_0 = 30 \, \si{rpm}$};
+    
+    \draw[thick, fill=red!20] (0, 1.5) ellipse (1.2 and 0.3);
+    \fill (0, 1.5) circle (0.05);
+    \node at (1.6, 1.5) {Disco};
+    \draw[->, thick, red] (0, 1.2) -- (0, 0.5);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Conversión de Unidades y Datos Iniciales}
+Identificamos los datos del disco que cae y los convertimos a unidades del Sistema Internacional:
+$$m = 11 \, \si{g} = 0.011 \, \si{kg}$$
+$$R = 15 \, \si{cm} = 0.15 \, \si{m}$$
+
+El plato del tocadiscos tiene un momento de inercia propio:
+$$I_p = 0.02 \, \si{kg\cdot m^2}$$
+Su velocidad angular inicial es:
+$$\omega_0 = 30 \, \si{rpm}$$
+
+\subsubsection*{2. Momento de Inercia del Disco}
+El disco que se deja caer se modela como un cilindro homogéneo. Calculamos su momento de inercia ($I_d$) respecto a su centro:
+$$I_d = \frac{1}{2} m R^2$$
+$$I_d = \frac{1}{2} (0.011) (0.15)^2$$
+$$I_d = \frac{1}{2} (0.011) (0.0225)$$
+$$I_d = 0.00012375 \, \si{kg\cdot m^2}$$
+
+\subsubsection*{3. Conservación del Momento Angular (Python)}
+Al dejar caer el disco sobre el plato, no intervienen torques externos netos en el eje de rotación. Las fuerzas de fricción que obligan al disco a girar junto con el plato son fuerzas internas del sistema. Por lo tanto, el momento angular se conserva.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+def plot_inertia_change():
+    I_p = 0.02
+    I_d = 0.00012375
+    I_total = I_p + I_d
+    
+    labels = ['I_inicial (Solo Plato)', 'I_final (Plato + Disco)']
+    values = [I_p, I_total]
+    
+    fig, ax = plt.subplots(figsize=(6, 4))
+    ax.bar(labels, values, color=['blue', 'purple'], alpha=0.7)
+    
+    ax.set_ylabel('Momento de Inercia (kg m^2)')
+    ax.set_title('Incremento de Inercia tras el Acople')
+    ax.set_ylim(0, 0.025)
+    
+    plt.tight_layout()
+    plt.show()
+
+plot_inertia_change()
+\end{lstlisting}
+
+\subsubsection*{4. Cálculo de la Velocidad Final}
+Planteamos la ecuación de conservación del momento angular:
+$$L_{inicial} = L_{final}$$
+$$I_p \omega_0 = (I_p + I_d) \omega_f$$
+
+Despejamos la velocidad angular final ($\omega_f$). Como es una relación de momentos de inercia, podemos mantener la velocidad en $\si{rpm}$:
+$$\omega_f = \frac{I_p}{I_p + I_d} \omega_0$$
+$$\omega_f = \frac{0.02}{0.02 + 0.00012375} (30)$$
+$$\omega_f = \frac{0.02}{0.02012375} (30)$$
+$$\omega_f \approx (0.99385) (30)$$
+$$\omega_f \approx 29.8155 \, \si{rpm}$$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\omega_f = 29.82 \, \si{rpm}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un disco, de $11 \, \si{g}$ y $15 \, \si{cm}$ de radio, se deja caer sobre el plato de un tocadiscos que está girando a $30 \, \si{rpm}$. La inercia rotacional del plato es de $0.02 \, \si{kg\cdot m^2}$. Debido al acople, la velocidad del sistema disminuye. Determine el torque que debe hacer el motor eléctrico del tocadiscos para volver a girar a $30 \, \si{rpm}$, en un tiempo de $1.5 \, \si{s}$.
+
+\subsection*{Solución}
+
+\subsubsection*{1. Parámetros Iniciales del Sistema Acoplado}
+Tras la caída del disco, el sistema está compuesto por el plato y el disco girando juntos.
+El momento de inercia total es:
+$$I_{total} = I_p + I_d = 0.02 + 0.00012375 = 0.02012375 \, \si{kg\cdot m^2}$$
+
+La velocidad angular actual del sistema (calculada por conservación del momento angular) es:
+$$\omega_i = 29.8155 \, \si{rpm}$$
+
+El motor debe llevar esta velocidad nuevamente a la velocidad nominal:
+$$\omega_f = 30 \, \si{rpm}$$
+
+\subsubsection*{2. Análisis Cinemático y Conversión}
+Calculamos el incremento de velocidad angular requerido ($\Delta \omega$):
+$$\Delta \omega = \omega_f - \omega_i$$
+$$\Delta \omega = 30 - 29.8155 = 0.1845 \, \si{rpm}$$
+
+Para operar dinámicamente, es estrictamente necesario convertir esta variación a radianes por segundo (\si{rad/s}):
+$$\Delta \omega = 0.1845 \, \frac{\text{rev}}{\text{min}} \times \frac{2\pi \, \si{rad}}{1 \, \text{rev}} \times \frac{1 \, \text{min}}{60 \, \si{s}}$$
+$$\Delta \omega = \frac{0.1845 \times 2\pi}{60} \approx 0.01932 \, \si{rad/s}$$
+
+Calculamos la aceleración angular ($\alpha$) requerida para lograr este cambio en un tiempo $\Delta t = 1.5 \, \si{s}$:
+$$\alpha = \frac{\Delta \omega}{\Delta t}$$
+$$\alpha = \frac{0.01932}{1.5}$$
+$$\alpha \approx 0.01288 \, \si{rad/s^2}$$
+
+\subsubsection*{3. Cálculo del Torque del Motor}
+Aplicamos la Segunda Ley de Newton para la rotación. El motor debe ejercer un torque neto ($\tau$) capaz de acelerar la inercia total del sistema acoplado:
+$$\sum \tau = I_{total} \alpha$$
+$$\tau = (0.02012375) (0.01288)$$
+$$\tau \approx 0.00025919 \, \si{N\cdot m}$$
+
+Expresando el resultado en notación científica para mayor claridad técnica:
+$$\tau = 2.59 \times 10^{-4} \, \si{N\cdot m}$$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\tau = 2.59 \times 10^{-4} \, \si{N\cdot m}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un estudiante está sentado en un taburete en rotación, mientras sostiene en sus manos dos masas de $3 \, \si{kg}$ cada una. Cuando sus brazos están extendidos horizontalmente, las masas están a $1 \, \si{m}$ del eje de rotación y el sistema gira con una rapidez angular de $0.75 \, \si{rad/s}$. El momento de inercia del estudiante y el taburete es de $3 \, \si{kg\cdot m^2}$. Cuando el estudiante retrae sus brazos, entonces, las masas se encuentran horizontalmente a $0.3 \, \si{m}$ del eje de rotación. Determine la nueva rapidez angular del sistema.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2, >=Latex]
+    \draw[thick] (-0.3, -1.5) rectangle (0.3, -0.5);
+    \draw[thick] (-0.2, -1.5) -- (-0.2, -2.5);
+    \draw[thick] (0.2, -1.5) -- (0.2, -2.5);
+    \draw[thick] (-0.4, -2) -- (0.4, -2);
+    
+    \draw[thick] (0, -0.5) -- (0, 0.5);
+    \draw[thick] (0, 0.8) circle (0.3);
+    
+    \draw[thick] (-1.5, 0.2) -- (1.5, 0.2);
+    \draw[thick] (-1.5, 0.2) -- (-1.5, -0.3);
+    \draw[thick] (1.5, 0.2) -- (1.5, -0.3);
+    
+    \fill[gray!50] (-1.5, 0.2) circle (0.15);
+    \fill[gray!50] (1.5, 0.2) circle (0.15);
+    
+    \node at (-1.8, 0.5) {$3 \, \si{kg}$};
+    \node at (1.8, 0.5) {$3 \, \si{kg}$};
+    
+    \draw[<->, dashed] (0, 0.3) -- (1.5, 0.3) node[midway, above] {$1 \, \si{m}$};
+    \draw[<->, dashed] (0, 0.3) -- (-1.5, 0.3) node[midway, above] {$1 \, \si{m}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Físico del Sistema}
+El sistema está conformado por el estudiante, el taburete y las dos masas. Al retraer los brazos, las únicas fuerzas que actúan son fuerzas internas radiales que no ejercen torque respecto al eje vertical de rotación. Al no haber un torque externo neto ($\sum \tau_{ext} = 0$), el momento angular del sistema se conserva de manera estricta ($L_0 = L_f$).
+
+\subsubsection*{2. Visualización de los Estados de Inercia (Python)}
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def plot_inertia():
+    labels = ['Brazos Extendidos', 'Brazos Retraidos']
+    
+    I_estudiante = np.array([3.0, 3.0])
+    I_masas = np.array([6.0, 0.54])
+    
+    fig, ax = plt.subplots(figsize=(6, 5))
+    
+    ax.bar(labels, I_estudiante, label='Estudiante + Taburete', color='blue', alpha=0.6)
+    ax.bar(labels, I_masas, bottom=I_estudiante, label='Masas', color='red', alpha=0.6)
+    
+    ax.set_ylabel('Momento de Inercia (kg m^2)')
+    ax.set_title('Comparacion del Momento de Inercia Total')
+    ax.legend()
+    
+    for i in range(len(labels)):
+        total = I_estudiante[i] + I_masas[i]
+        ax.text(i, total + 0.2, f'{total:.2f}', ha='center', fontweight='bold')
+        
+    plt.tight_layout()
+    plt.show()
+
+plot_inertia()
+\end{lstlisting}
+
+\subsubsection*{3. Cálculo del Momento de Inercia Inicial}
+En el estado inicial, las dos masas ($m = 3 \, \si{kg}$) se encuentran a una distancia $r_0 = 1 \, \si{m}$ del eje de rotación. Tratando a las masas como partículas puntuales, calculamos el momento de inercia total inicial ($I_0$):
+$$I_0 = I_{estudiante} + I_{masas}$$
+$$I_0 = I_{estudiante} + 2 (m \cdot r_0^2)$$
+$$I_0 = 3 + 2 (3 \cdot 1^2)$$
+$$I_0 = 3 + 2 (3) = 3 + 6$$
+$$I_0 = 9 \, \si{kg\cdot m^2}$$
+
+\subsubsection*{4. Cálculo del Momento de Inercia Final}
+En el estado final, el estudiante retrae los brazos, acercando las masas a una distancia $r_f = 0.3 \, \si{m}$ del eje de rotación. La inercia del estudiante y el taburete permanece constante. Calculamos el nuevo momento de inercia total ($I_f$):
+$$I_f = I_{estudiante} + 2 (m \cdot r_f^2)$$
+$$I_f = 3 + 2 (3 \cdot 0.3^2)$$
+$$I_f = 3 + 2 (3 \cdot 0.09)$$
+$$I_f = 3 + 2 (0.27)$$
+$$I_f = 3 + 0.54$$
+$$I_f = 3.54 \, \si{kg\cdot m^2}$$
+
+\subsubsection*{5. Conservación del Momento Angular}
+Aplicamos el principio de conservación del momento angular para encontrar la rapidez angular final ($\omega_f$):
+$$L_0 = L_f$$
+$$I_0 \omega_0 = I_f \omega_f$$
+
+Sustituimos los valores conocidos ($\omega_0 = 0.75 \, \si{rad/s}$):
+$$9 (0.75) = 3.54 \omega_f$$
+$$6.75 = 3.54 \omega_f$$
+$$\omega_f = \frac{6.75}{3.54}$$
+$$\omega_f \approx 1.9067 \, \si{rad/s}$$
+
+Redondeando a dos decimales, obtenemos el resultado solicitado.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\omega_f = 1.91 \, \si{rad/s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Cuando un avión tiene una rapidez de $40 \, \si{m/s}$, hace las maniobras necesarias para aterrizar. Las ruedas del avión tienen un radio de $1.5 \, \si{m}$ y una inercia rotacional de $150 \, \si{kg\cdot m^2}$. Cuando las ruedas entran en contacto con la pista, comienzan a girar por efecto de la fricción y alcanzan la rapidez angular de rodamiento, sin deslizar, en $0.5 \, \si{s}$. Si cada rueda soporta un peso de $15\,000 \, \si{N}$, determine el coeficiente de rozamiento cinético entre las ruedas y la pista.
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[thick] (-3, 0) -- (3, 0);
+    \draw[thick, fill=gray!20] (0, 1.5) circle (1.5);
+    \fill (0, 1.5) circle (0.08);
+    
+    \draw[->, thick, blue] (0, 1.5) -- (2, 1.5) node[above] {$v = 40 \, \si{m/s}$};
+    \draw[->, dashed, gray] (1.8, 1.5) arc (0:-60:1.8);
+    \node[gray] at (1.5, 0.5) {$\omega$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Cinemático de la Rueda}
+Cuando la rueda toca la pista, su velocidad de traslación es $v = 40 \, \si{m/s}$ y su velocidad angular inicial es nula ($\omega_0 = 0$). La fricción hace que la rueda comience a girar hasta alcanzar la condición de rodadura pura (sin deslizar). En este punto, la velocidad angular final ($\omega_f$) se relaciona con la velocidad de traslación mediante:
+$$\omega_f = \frac{v}{R}$$
+$$\omega_f = \frac{40}{1.5} = \frac{80}{3} \approx 26.67 \, \si{rad/s}$$
+
+Calculamos la aceleración angular constante ($\alpha$) experimentada durante el intervalo de tiempo $t = 0.5 \, \si{s}$:
+$$\alpha = \frac{\omega_f - \omega_0}{t}$$
+$$\alpha = \frac{\frac{80}{3} - 0}{0.5}$$
+$$\alpha = \frac{80}{3 \times 0.5} = \frac{160}{3} \approx 53.33 \, \si{rad/s^2}$$
+
+\subsubsection*{2. Diagrama de Cuerpo Libre (Python)}
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+def draw_wheel_dcl():
+    fig, ax = plt.subplots(figsize=(5, 5))
+    ax.set_xlim(-2, 2)
+    ax.set_ylim(-0.5, 3.5)
+    ax.axis('off')
+    
+    wheel = patches.Circle((0, 1.5), 1.5, fill=False, lw=2)
+    ax.add_patch(wheel)
+    ax.plot([-2, 2], [0, 0], 'k-', lw=2)
+    ax.plot(0, 1.5, 'ko')
+    
+    ax.arrow(0, 1.5, 0, 1.2, head_width=0.1, fc='black', ec='black')
+    ax.text(0.1, 2.8, 'N = 15000 N')
+    
+    ax.arrow(0, 1.5, 0, -1.2, head_width=0.1, fc='black', ec='black')
+    ax.text(0.1, 0.2, 'W = 15000 N')
+    
+    ax.arrow(0, 0, -1.0, 0, head_width=0.1, fc='red', ec='red')
+    ax.text(-0.8, 0.2, 'f_k', color='red', fontsize=12)
+    
+    plt.tight_layout()
+    plt.show()
+
+draw_wheel_dcl()
+\end{lstlisting}
+
+\subsubsection*{3. Dinámica de Rotación}
+La única fuerza que ejerce torque respecto al centro de masa de la rueda es la fuerza de rozamiento cinético ($f_k$), aplicada a una distancia $R$ del centro.
+Aplicamos la Segunda Ley de Newton para la rotación:
+$$\sum \tau = I \alpha$$
+$$f_k R = I \alpha$$
+
+Despejamos la fuerza de rozamiento cinético:
+$$f_k = \frac{I \alpha}{R}$$
+$$f_k = \frac{150 \left(\frac{160}{3}\right)}{1.5}$$
+$$f_k = \frac{50 (160)}{1.5}$$
+$$f_k = \frac{8000}{1.5} = \frac{16000}{3} \approx 5333.33 \, \si{N}$$
+
+\subsubsection*{4. Cálculo del Coeficiente de Rozamiento}
+Sabemos que la fuerza normal ($N$) es igual al peso que soporta la rueda, es decir, $N = 15\,000 \, \si{N}$.
+La magnitud de la fuerza de rozamiento cinético se relaciona con la fuerza normal mediante el coeficiente de rozamiento cinético ($\mu_k$):
+$$f_k = \mu_k N$$
+$$\mu_k = \frac{f_k}{N}$$
+
+Sustituimos los valores calculados:
+$$\mu_k = \frac{\frac{16000}{3}}{15000}$$
+$$\mu_k = \frac{16000}{45000} = \frac{16}{45}$$
+$$\mu_k \approx 0.3556$$
+
+Redondeando a dos decimales, obtenemos el resultado buscado.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\mu_k = 0.36$
+\end{tcolorbox}
+
+\end{document}

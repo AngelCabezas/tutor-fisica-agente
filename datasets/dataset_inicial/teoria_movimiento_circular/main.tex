@@ -1,0 +1,1240 @@
+\documentclass[12pt, a4paper]{article}
+
+% --- PAQUETES ---
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{geometry}
+\usepackage[most]{tcolorbox}
+\usepackage{siunitx}
+\usepackage{enumitem}
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usepackage{verbatim} 
+\usepackage{xcolor}
+
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta, calc, babel}
+\geometry{a4paper, margin=1in}
+
+\title{Ejercicios Teóricos: Cinemática (Movimiento Circular)}
+\author{Dataset Entrenamiento LLM}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\subsection*{Enunciado}
+El eje de rotación del péndulo cónico de la figura es:
+
+\begin{center}
+\begin{tikzpicture}[scale=1]
+    % Techo
+    \draw[thick] (-1, 3) -- (1, 3);
+    \fill[pattern=north east lines] (-1, 3) rectangle (1, 3.2);
+    
+    % Eje E1 (Cuerda)
+    \draw[thick] (0, 3) -- (1, 0);
+    \node[right] at (0.5, 1.5) {$E_1$};
+    
+    % Eje E4 (Vertical)
+    \draw[dashed, thick] (0, 3.5) -- (0, -0.5);
+    \node[right] at (0, 1.5) {$E_4$};
+    
+    % Eje E2 (Tangencial/Diagonal)
+    \draw[dashed, thick] (1, 0) -- (-0.5, 2);
+    \node[left] at (-0.2, 1.5) {$E_2$};
+    
+    % Eje E3 (Radial)
+    \draw[dashed, thick] (0, 0) -- (2, 0);
+    \node[below] at (1.5, 0) {$E_3$};
+    
+    % Masa y trayectoria
+    \draw[thick, dashed] (0,0) ellipse (1.5cm y 0.4cm);
+    \filldraw[fill=gray!30, draw=black, thick] (1,0) circle (0.15cm);
+\end{tikzpicture}
+\end{center}
+
+\begin{enumerate}[label=\alph*)]
+    \item $E_1$
+    \item $E_2$
+    \item $E_3$
+    \item $E_4$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Geometría del Movimiento Rotacional}
+Un péndulo cónico se caracteriza porque su masa traza una circunferencia perfecta en un plano estrictamente horizontal. 
+Por definición geométrica y física, el \textbf{eje de rotación} de cualquier movimiento circular es la línea recta imaginaria que pasa exactamente por el centro geométrico de la circunferencia trazada y que es perpendicular al plano de dicha circunferencia.
+En la figura:
+\begin{itemize}
+    \item $E_1$ es la generatriz del cono (la cuerda).
+    \item $E_3$ es la línea radial (el radio de la trayectoria).
+    \item $E_2$ es una línea arbitraria que cruza la masa.
+    \item $E_4$ es la línea vertical que atraviesa el centro exacto de la circunferencia horizontal proyectada. Este es el eje sobre el cual todo el sistema está rotando.
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large d) $E_4$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+En el MCUV de una partícula permanece constante la magnitud de su:
+\begin{enumerate}[label=\alph*)]
+    \item aceleración total
+    \item aceleración centrípeta
+    \item aceleración tangencial
+    \item aceleración tangencial y normal
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Descomposición de la Aceleración en MCUV}
+En el Movimiento Circular Uniformemente Variado (MCUV), la partícula viaja por una curva aumentando o disminuyendo su rapidez a un ritmo constante. 
+Analizamos las magnitudes de sus componentes intrínsecas:
+\begin{itemize}
+    \item \textbf{Aceleración Tangencial ($a_T$):} Es la responsable de que la rapidez aumente o disminuya. Se calcula como $a_T = \alpha R$. Dado que en el MCUV la aceleración angular ($\alpha$) es constante por definición, y el radio ($R$) del círculo no cambia, la \textbf{magnitud de la aceleración tangencial permanece rígidamente constante}.
+    \item \textbf{Aceleración Normal o Centrípeta ($a_C$):} Se encarga de curvar la trayectoria. Se calcula como $a_C = \frac{v^2}{R}$. Como en el MCUV la rapidez ($v$) está cambiando continuamente, el numerador de esta fracción cambia, obligando a que la magnitud de la aceleración centrípeta sea \textbf{variable}.
+\end{itemize}
+Al sumar vectorialmente una componente constante y una variable, la aceleración total también resulta variable. 
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) aceleración tangencial
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Para una partícula cuya aceleración en todo instante de su movimiento es perpendicular a su velocidad, el movimiento de su vector posición es:
+\begin{enumerate}[label=\alph*)]
+    \item MCU
+    \item MCUV acelerado
+    \item MCUV retardado
+    \item MCUV
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Condición de Ortogonalidad Vectorial}
+Sabemos que la aceleración total se descompone en $\vec{a} = \vec{a}_T + \vec{a}_N$.
+Matemáticamente, la componente tangencial de la aceleración ($a_T$) es la proyección del vector aceleración total sobre la línea de acción del vector velocidad. Esto se calcula mediante el producto punto:
+$$ a_T = \frac{\vec{a} \cdot \vec{v}}{|\vec{v}|} $$
+El enunciado establece la condición estricta de que la aceleración total es "en todo instante perpendicular a su velocidad" ($\vec{a} \perp \vec{v}$). 
+El producto punto de dos vectores perpendiculares (cuyo ángulo es $90^\circ$) es exactamente cero. Por lo tanto:
+$$ a_T = 0 $$
+Si la aceleración tangencial es cero, significa que la magnitud de la velocidad (la rapidez) no puede aumentar ni disminuir. Se mantiene perfectamente constante a lo largo de la curva. Esta es la firma analítica inconfundible del \textbf{Movimiento Circular Uniforme (MCU)}.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large a) MCU
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+En el modelo MCU se tiene la componente tangencial de la aceleración de la partícula igual a cero y la componente normal o centrípeta:
+\begin{enumerate}[label=\alph*)]
+    \item constante diferente de cero
+    \item cero
+    \item variable en módulo
+    \item variable en dirección
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Naturaleza Vectorial de la Aceleración Centrípeta}
+En el Movimiento Circular Uniforme (MCU), la partícula recorre un círculo con rapidez constante ($v = \text{cte}$).
+La magnitud (o módulo) de la aceleración centrípeta es:
+$$ a_C = \frac{v^2}{R} $$
+Como ni $v$ ni $R$ cambian, \textbf{su módulo es constante}. (Esto descarta la opción c).
+
+Sin embargo, recordemos que la aceleración es un \textbf{vector}. Para que un vector se considere "constante" (opción a), debe mantener inalterables tanto su magnitud como su \textbf{dirección} en el espacio.
+La aceleración centrípeta, por definición geométrica, siempre apunta desde la posición de la partícula hacia el centro del círculo. A medida que la partícula gira recorriendo el perímetro, la "flecha" de la aceleración centrípeta tiene que ir \textbf{rotando continuamente} como las manecillas de un reloj para seguir apuntando al centro.
+Al cambiar su orientación espacial a cada milímetro de avance, el vector sufre un cambio incesante, lo que lo hace estrictamente \textbf{variable en dirección}.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large d) variable en dirección
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Para un auto que toma un redondel con rapidez constante es correcto afirmar que:
+\begin{enumerate}[label=\alph*)]
+    \item el auto no acelera
+    \item su velocidad angular es cero
+    \item su eje de rotación es vertical
+    \item su plano de rotación es horizontal
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Refutación del Mito de la Curva sin Aceleración}
+\textit{Nota del Tutor: El estudiante resaltó la opción 'a'. Creer que "rapidez constante" es sinónimo de "no hay aceleración" es el error conceptual más extendido en física básica. Demostraremos por qué la opción 'a' es rotundamente falsa y hallaremos la correcta.}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig, ax = plt.subplots(figsize=(5, 5))
+ax.spines['left'].set_position('center')
+ax.spines['bottom'].set_position('center')
+ax.spines['right'].set_color('none')
+ax.spines['top'].set_color('none')
+
+theta = np.linspace(0, 2*np.pi, 100)
+ax.plot(np.cos(theta), np.sin(theta), 'k--')
+
+ax.arrow(1, 0, 0, 0.5, head_width=0.08, color='blue')
+ax.text(1.1, 0.5, r'$\vec{v}_1$', color='blue', fontsize=12)
+
+ax.arrow(0, 1, -0.5, 0, head_width=0.08, color='blue')
+ax.text(-0.5, 1.1, r'$\vec{v}_2$', color='blue', fontsize=12)
+
+ax.arrow(1, 0, -0.4, 0, head_width=0.08, color='red')
+ax.text(0.4, -0.2, r'$\vec{a}_C$', color='red', fontsize=12)
+
+ax.arrow(0, 1, 0, -0.4, head_width=0.08, color='red')
+ax.text(0.1, 0.6, r'$\vec{a}_C$', color='red', fontsize=12)
+
+ax.set_xlim(-1.5, 1.5)
+ax.set_ylim(-1.5, 1.5)
+ax.set_aspect('equal')
+ax.axis('off')
+plt.show()
+\end{verbatim}
+
+\begin{itemize}
+    \item \textbf{Opción a (Falsa):} La Primera Ley de Newton dicta que un objeto sin aceleración viajará en una línea recta infinita. Para obligar a un auto de 1 tonelada a doblar y trazar un círculo (redondel), los neumáticos deben aplicar una fuerza inmensa de fricción hacia el centro de la curva. Esa fuerza genera una \textbf{aceleración centrípeta}. Cambiar de dirección ES acelerar, aunque el velocímetro no se mueva.
+    \item \textbf{Opción b (Falsa):} Si está dando vueltas a un redondel, está barriendo ángulos con el tiempo. Por tanto, posee una velocidad angular $\omega \neq 0$.
+    \item \textbf{Opciones c y d (Verdaderas):} Un redondel de tráfico está construido sobre el suelo terrestre, que a escala local se considera un plano bidimensional horizontal. Esto hace que su \textbf{plano de rotación sea horizontal} (opción d). Geométricamente, el eje de rotación es la línea ortogonal a este plano. Al ser ortogonal a un plano horizontal, el \textbf{eje de rotación es estrictamente vertical} (opción c).
+\end{itemize}
+Dado que el problema suele plantearse en el contexto del marco de referencia 3D del MCU, las propiedades descriptivas de la geometría del redondel ('c' y 'd') son las únicas físicamente correctas. (Normalmente los solucionarios aceptan cualquiera de estas dos descripciones gemelas).
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) su eje de rotación es vertical (ó d. su plano es horizontal)
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una partícula se mueve con MCUVR en el plano $xy$ inicialmente en sentido antihorario con $a_T = 1\,\si{m/s^2}$, si al llegar al punto $A$ invierte su movimiento, en ese instante su aceleración en $\si{m/s^2}$ es:
+
+\begin{center}
+\begin{tikzpicture}[scale=0.6, >=Latex]
+    \draw[->] (-5,0) -- (5,0) node[right] {$x \, (\si{m})$};
+    \draw[->] (0,-5) -- (0,5) node[above] {$y \, (\si{m})$};
+    
+    \draw[thick] (0,0) circle (4.24cm); % Radio approx 5 (sqrt(16+9))
+    
+    \draw[dashed] (-3.39, 2.54) -- (0, 2.54) node[right] {3};
+    \draw[dashed] (-3.39, 2.54) -- (-3.39, 0) node[below] {-4};
+    
+    \draw[->, thick] (0,0) -- (-3.39, 2.54);
+    \node[above left] at (-3.39, 2.54) {$A$};
+\end{tikzpicture}
+\end{center}
+
+\begin{enumerate}[label=\alph*)]
+    \item $-0.8\hat{i} - 0.6\hat{j}$
+    \item $-0.6\hat{i} - 0.8\hat{j}$
+    \item $-0.0\hat{i} - 0.0\hat{j}$
+    \item $0.6\hat{i} + 0.8\hat{j}$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis de Vectores en el Punto de Retorno}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig, ax = plt.subplots(figsize=(5, 5))
+ax.spines['left'].set_position('zero')
+ax.spines['bottom'].set_position('zero')
+ax.spines['right'].set_color('none')
+ax.spines['top'].set_color('none')
+
+circle = plt.Circle((0, 0), 5, fill=False, color='black', lw=2)
+ax.add_patch(circle)
+
+ax.plot(-4, 3, 'ko')
+ax.text(-4.8, 3.2, 'A (-4, 3)', fontsize=12)
+
+ax.arrow(0, 0, -3.8, 2.85, head_width=0.2, color='gray')
+ax.text(-2, 1, r'$\vec{r}$', color='gray', fontsize=12)
+
+ax.arrow(-4, 3, -1.2, -1.6, head_width=0.3, color='blue')
+ax.text(-5.5, 1.2, r'$\vec{v}$ (Antihorario)', color='blue', fontsize=10)
+
+ax.arrow(-4, 3, 1.2, 1.6, head_width=0.3, color='red')
+ax.text(-2.5, 4.5, r'$\vec{a}_T$ (Horario)', color='red', fontsize=10)
+
+ax.set_xlim(-6, 6)
+ax.set_ylim(-6, 6)
+ax.set_aspect('equal')
+plt.show()
+\end{verbatim}
+
+\textit{Nota del Tutor: El estudiante planteó el problema maravillosamente utilizando el producto cruz $\vec{a}_T = \vec{\alpha} \times \vec{r}$, pero cometió un error de signo al definir $\vec{\alpha}$. Resolvamos el problema paso a paso para identificar el fallo.}
+
+\textbf{Paso 1: La Aceleración Total en el instante de inversión}
+El problema indica que la partícula "invierte su movimiento" en el punto $A$. Esto significa que la partícula se frena hasta detenerse momentáneamente para empezar a girar al revés. En ese instante exacto, su velocidad es nula ($v = 0$).
+Sabiendo que la aceleración normal es $a_C = v^2/R$, al ser $v=0$, la aceleración normal desaparece ($a_C = 0$). Por lo tanto, toda la aceleración de la partícula es netamente tangencial:
+$$ \vec{a} = \vec{a}_T $$
+
+\textbf{Paso 2: Vectores de Posición y Aceleración Angular}
+Del gráfico extraemos el vector posición en $A$: $\vec{r} = -4\hat{i} + 3\hat{j} \,\si{m}$.
+Su magnitud (el radio) es $R = \sqrt{(-4)^2 + 3^2} = 5\,\si{m}$.
+Calculamos la magnitud de la aceleración angular $\alpha$:
+$$ a_T = \alpha \cdot R \implies 1 = \alpha (5) \implies \alpha = 0.2\,\si{rad/s^2} $$
+
+Ahora definimos la \textbf{dirección} de $\vec{\alpha}$, y aquí yace el error. 
+El enunciado dice que inicialmente gira en \textbf{sentido antihorario} (la velocidad angular $\vec{\omega}$ es positiva $+\hat{k}$). 
+Sin embargo, el movimiento es \textbf{MCUVR (Retardado)}, lo que significa que la partícula está frenando. Para que un cuerpo frene, su aceleración angular debe actuar en \textbf{sentido opuesto} a su velocidad angular. 
+Por lo tanto, $\vec{\alpha}$ debe apuntar en sentido horario (negativo).
+$$ \vec{\alpha} = -0.2\hat{k} \,\si{rad/s^2} $$
+
+\textbf{Paso 3: Producto Cruz}
+Aplicamos la fórmula vectorial $\vec{a}_T = \vec{\alpha} \times \vec{r}$:
+$$ \vec{a}_T = (-0.2\hat{k}) \times (-4\hat{i} + 3\hat{j}) $$
+$$ \vec{a}_T = -0.2 \left[ (-4)(\hat{k} \times \hat{i}) + (3)(\hat{k} \times \hat{j}) \right] $$
+Sabiendo que $\hat{k} \times \hat{i} = \hat{j}$ y $\hat{k} \times \hat{j} = -\hat{i}$:
+$$ \vec{a}_T = -0.2 \left[ -4\hat{j} - 3\hat{i} \right] $$
+$$ \vec{a}_T = 0.8\hat{j} + 0.6\hat{i} $$
+Ordenando los vectores:
+$$ \vec{a}_T = 0.6\hat{i} + 0.8\hat{j} \,\si{m/s^2} $$
+
+El estudiante marcó la opción 'b' al omitir el signo negativo de $\vec{\alpha}$. La respuesta correcta es la 'd'.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large d) $0.6\hat{i} + 0.8\hat{j}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Para el disco de la figura, que acelera angularmente de manera uniforme y a partir del reposo, es correcto afirmar que:
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    \draw[thick] (0,0) circle (2cm);
+    \filldraw (0,0) circle (1.5pt);
+    
+    % Partícula A
+    \draw[->, thick] (0,0) -- (-1.414, 1.414);
+    \node[above left] at (-1.414, 1.414) {$A$};
+    
+    % Partícula B
+    \draw[->, thick] (0,0) -- (1, 0.5);
+    \node[above right] at (1, 0.5) {$B$};
+\end{tikzpicture}
+\end{center}
+
+\begin{enumerate}[label=\alph*)]
+    \item la partícula $A$ tiene mayor aceleración que la $B$
+    \item la partícula $B$ tiene mayor aceleración que la $A$
+    \item las dos partículas tienen la misma aceleración
+    \item las dos partículas tienen la misma velocidad
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Proporcionalidad de Componentes Aceleradas con el Radio}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(5, 5))
+ax.spines['left'].set_position('center')
+ax.spines['bottom'].set_position('center')
+ax.spines['right'].set_color('none')
+ax.spines['top'].set_color('none')
+
+circle = plt.Circle((0, 0), 4, fill=False, color='black', lw=2)
+ax.add_patch(circle)
+
+ax.plot(4, 0, 'ko')
+ax.text(4.2, 0.2, 'A', fontsize=12)
+ax.arrow(4, 0, 0, 1.5, head_width=0.2, color='red')
+ax.arrow(4, 0, -1.5, 0, head_width=0.2, color='blue')
+
+ax.plot(2, 2, 'ko')
+ax.text(2.2, 2.2, 'B', fontsize=12)
+ax.arrow(2, 2, -0.75, 0.75, head_width=0.2, color='red')
+ax.arrow(2, 2, -0.75, -0.75, head_width=0.2, color='blue')
+
+ax.set_xlim(-5, 5)
+ax.set_ylim(-5, 5)
+ax.set_aspect('equal')
+ax.axis('off')
+plt.show()
+\end{verbatim}
+
+Dado que ambas partículas forman parte del mismo disco rígido, comparten idénticamente las mismas variables angulares en todo momento: misma velocidad angular ($\omega$) y misma aceleración angular ($\alpha$).
+
+Para comparar sus aceleraciones lineales totales ($a = \sqrt{a_T^2 + a_C^2}$), desglosamos sus componentes utilizando las ecuaciones puente:
+\begin{itemize}
+    \item \textbf{Aceleración Tangencial ($a_T = \alpha R$):} Como $\alpha$ es igual para ambas, el valor de $a_T$ será mayor para la partícula que esté más lejos del centro. Observando la gráfica, el radio de A es mayor que el radio de B ($R_A > R_B$). Por ende, $a_{TA} > a_{TB}$.
+    \item \textbf{Aceleración Centrípeta ($a_C = \omega^2 R$):} Al igual que en el caso anterior, $\omega$ es idéntica, por lo que el radio vuelve a ser el factor determinante. Como $R_A > R_B$, se cumple que $a_{CA} > a_{CB}$.
+\end{itemize}
+Si las dos componentes perpendiculares de la partícula A son matemáticamente más grandes que las de la partícula B, la magnitud resultante de su aceleración total será indiscutiblemente mayor. 
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large a) la partícula $A$ tiene mayor aceleración que la $B$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+La gráfica describe la velocidad angular de una polea. Es correcto afirmar que:
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    \draw[->] (-0.5,0) -- (5,0) node[right] {$t$};
+    \draw[->] (0,-0.5) -- (0,4) node[above] {$\omega_z$};
+    
+    \draw[thick] (0,0) -- (3,3) -- (5,3);
+    
+    \draw[dashed] (0,3) node[left] {$\omega_1$} -- (3,3);
+    \draw[dashed] (3,0) node[below] {$t_1$} -- (3,3);
+    
+    \node[below left] at (0,0) {$0$};
+\end{tikzpicture}
+\end{center}
+
+\begin{enumerate}[label=\alph*)]
+    \item de $0$ a $t_1$, el movimiento es MCUV, antihorario
+    \item de $t_1$ en adelante el movimiento es MCUV, horario
+    \item de $0$ a $t_1$, el movimiento es MCUV retardado
+    \item de $t_1$ en adelante el movimiento es MCU, horario
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Lectura de Signos en la Gráfica Angular}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(5, 3))
+ax.spines['left'].set_position('zero')
+ax.spines['bottom'].set_position('zero')
+ax.spines['right'].set_color('none')
+ax.spines['top'].set_color('none')
+
+ax.plot([0, 3, 6], [0, 4, 4], 'b-', lw=2)
+ax.plot([0, 3], [0, 4], 'r--', lw=2)
+
+ax.text(1, 2.5, r'$\alpha > 0$', color='red', fontsize=12)
+ax.text(4.5, 4.5, r'$\alpha = 0$', color='blue', fontsize=12)
+
+ax.set_xticks([3])
+ax.set_xticklabels(['$t_1$'])
+ax.set_yticks([4])
+ax.set_yticklabels(['$\omega_1$'])
+ax.set_xlim(-0.5, 7)
+ax.set_ylim(-0.5, 6)
+plt.tight_layout()
+plt.show()
+\end{verbatim}
+
+La gráfica nos presenta el comportamiento de la velocidad angular ($\omega_z$) en función del tiempo. 
+En el intervalo de $0$ a $t_1$:
+\begin{itemize}
+    \item \textbf{Sentido de rotación:} La gráfica se desarrolla completamente en el semi-eje positivo de las $Y$ ($\omega_z > 0$). Por convención de la mano derecha en física, una velocidad angular positiva implica una rotación en sentido \textbf{antihorario}.
+    \item \textbf{Aceleración:} La línea es una recta inclinada hacia arriba, por lo que su pendiente es constante y positiva. Como la aceleración angular es la pendiente del gráfico $\omega-t$ ($\alpha = d\omega/dt$), sabemos que la polea tiene una aceleración constante positiva ($\alpha > 0$).
+\end{itemize}
+Al tener $\omega$ y $\alpha$ el mismo signo (ambos positivos), la magnitud de la velocidad (rapidez angular) está aumentando. Se trata por definición de un Movimiento Circular Uniformemente Variado (\textbf{MCUV}) de tipo acelerado. 
+
+*(Descarte: de $t_1$ en adelante, $\omega$ es constante y positiva, por lo que es un MCU antihorario. Ninguna otra opción calza).*
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large a) de $0$ a $t_1$, el movimiento es MCUV, antihorario
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Para un disco de corte verticalmente dispuesto, se tiene la gráfica $\theta_x - t$. Es correcto afirmar que el movimiento es:
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    \draw[->] (-0.5,0) -- (6,0) node[right] {$t$};
+    \draw[->] (0,-0.5) -- (0,4) node[above] {$\theta_x$};
+    
+    % Parábola concava hacia arriba
+    \draw[thick] (0,0) parabola (3,3);
+    \draw[thick] (3,3) -- (5,0);
+    
+    \draw[dashed] (0,3) node[left] {$\theta_1$} -- (3,3);
+    \draw[dashed] (3,0) node[below] {$t_1$} -- (3,3);
+    \node[below] at (5,0) {$t_2$};
+    
+    \node[below left] at (0,0) {$0$};
+    
+    \node[rotate=45] at (1.5, 2.2) {\footnotesize parábola};
+\end{tikzpicture}
+\end{center}
+
+\begin{enumerate}[label=\alph*)]
+    \item de $0$ a $t_1$ MCUV acelerado
+    \item de $0$ a $t_1$ MCUV retardado
+    \item de $t_1$ a $t_2$ MCUV acelerado
+    \item de $t_1$ a $t_2$ MCUV retardado
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Geométrico de la Parábola Angular}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig, ax = plt.subplots(figsize=(5, 3))
+ax.spines['left'].set_position('zero')
+ax.spines['bottom'].set_position('zero')
+ax.spines['right'].set_color('none')
+ax.spines['top'].set_color('none')
+
+t = np.linspace(0, 3, 50)
+y = (1/3) * t**2
+ax.plot(t, y, 'b-', lw=2)
+
+ax.plot([1, 2], [(1/3)*1**2, (1/3)*2**2], 'ko')
+
+m1 = (2/3)*1
+b1 = (1/3)*1**2 - m1*1
+ax.plot([0.2, 1.8], [m1*0.2+b1, m1*1.8+b1], 'r--')
+
+m2 = (2/3)*2
+b2 = (1/3)*2**2 - m2*2
+ax.plot([1.2, 2.8], [m2*1.2+b2, m2*2.8+b2], 'r--')
+
+ax.text(0.5, 2.5, 'Pendientes\ncrecientes ($\\omega$ aumenta)', color='red', fontsize=10)
+
+ax.set_xticks([3])
+ax.set_xticklabels(['$t_1$'])
+ax.set_yticks([])
+ax.set_xlim(-0.5, 4)
+ax.set_ylim(-0.5, 3.5)
+plt.tight_layout()
+plt.show()
+\end{verbatim}
+
+En una gráfica de posición angular vs tiempo ($\theta - t$), la derivada instantánea (es decir, la pendiente de la recta tangente a la curva) representa la \textbf{velocidad angular ($\omega$)}.
+\begin{itemize}
+    \item El tramo de $0$ a $t_1$ está etiquetado explícitamente como una parábola, la cual visualmente es cóncava hacia arriba (como una "U" que inicia en su vértice). 
+    \item Si trazamos tangentes desde $t=0$, notamos que la pendiente inicia en cero (curva plana) y se va haciendo cada vez más inclinada positivamente a medida que nos acercamos a $t_1$.
+    \item Como la pendiente (la magnitud de la velocidad angular $\omega$) está aumentando progresivamente desde el reposo relativo, el disco está girando cada vez más rápido.
+\end{itemize}
+Un aumento progresivo y parabólico de la rapidez angular es la definición analítica de un Movimiento Circular Uniformemente Variado de tipo \textbf{acelerado}.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large a) de $0$ a $t_1$ MCUV acelerado
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Para la rueda de $R = 0.5\,\si{m}$ de la figura que gira sin deslizar por el plano inclinado $2\,\si{m}$ hacia abajo, el número de revoluciones de la rueda es:
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    % Plano inclinado
+    \draw[thick] (0,3) -- (6,-1);
+    
+    % Rueda
+    \draw[thick] (2, 2.66) circle (1cm);
+    \filldraw (2, 2.66) circle (1.5pt);
+    \draw[->, thick] (2, 2.66) -- (3, 2.66);
+    \node[above] at (2.5, 2.66) {$O$};
+\end{tikzpicture}
+\end{center}
+
+\begin{enumerate}[label=\alph*)]
+    \item $2/\pi$
+    \item $\pi$
+    \item $2\pi$
+    \item $4\pi$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Cinemática de Rodadura Pura (Sin Deslizamiento)}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig, ax = plt.subplots(figsize=(6, 3))
+
+ax.plot([0, 5], [0, 0], 'k-', lw=2)
+
+circle1 = plt.Circle((1, 1), 1, fill=False, color='blue', lw=2)
+circle2 = plt.Circle((4, 1), 1, fill=False, color='blue', lw=2, alpha=0.5)
+ax.add_patch(circle1)
+ax.add_patch(circle2)
+
+ax.plot(1, 1, 'k.')
+ax.plot(4, 1, 'k.')
+
+ax.arrow(1, 1, 0, -1, head_width=0.1, color='red')
+ax.arrow(4, 1, 0.7, -0.7, head_width=0.1, color='red')
+
+ax.plot([1, 4], [0, 0], 'g-', lw=4)
+ax.text(2.5, -0.3, r'$d = \Delta \theta \cdot R$', color='green', fontsize=12, ha='center')
+
+ax.set_xlim(-0.5, 6)
+ax.set_ylim(-0.5, 2.5)
+ax.axis('off')
+plt.show()
+\end{verbatim}
+
+\textit{Nota del Tutor: El estudiante resolvió impecablemente el problema dejando constancia de la ecuación fundamental $\Delta r = \Delta \theta \cdot R$. Detallaremos sus pasos.}
+
+Cuando una rueda gira sin resbalar o deslizar sobre una superficie, la distancia lineal recta ($d$) que avanza el centro de la rueda es exactamente igual a la longitud del arco de la circunferencia ($\Delta s$) que se ha "desenrollado" sobre el piso. 
+La fórmula que relaciona el desplazamiento lineal con el desplazamiento angular en radianes es:
+$$ d = \Delta \theta \cdot R $$
+Despejamos el desplazamiento angular $\Delta \theta$:
+$$ \Delta \theta = \frac{d}{R} $$
+Sustituyendo los datos del problema ($d = 2\,\si{m}$ y $R = 0.5\,\si{m}$):
+$$ \Delta \theta = \frac{2}{0.5} = 4\,\text{radianes} $$
+El problema solicita la respuesta en \textbf{número de revoluciones} (vueltas). Sabiendo que $1$ revolución equivale a $2\pi$ radianes de giro completo, aplicamos una simple regla de conversión:
+$$ \text{Revoluciones} = \frac{\Delta \theta}{2\pi} = \frac{4}{2\pi} = \frac{2}{\pi}\,\text{rev} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large a) $2/\pi$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Para un hámster que hace girar una rueda a partir del reposo, es correcto afirmar que:
+\begin{enumerate}[label=\alph*)]
+    \item su desplazamiento es el ángulo girado por el tiempo empleado
+    \item su distancia recorrida es casi nula ya que no ha cambiado de posición
+    \item su aceleración tangencial es diferente de cero porque cambió su rapidez
+    \item su aceleración normal es constante porque no cambió su rapidez
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Condiciones Iniciales y Dinámica}
+El enunciado establece una condición clave: el hámster inicia \textbf{"a partir del reposo"}. Esto significa que la rapidez inicial de la rueda es cero ($v_0 = 0$). 
+Para que la rueda logre empezar a girar, el hámster debe aplicar una fuerza que cambie su estado de reposo a movimiento, es decir, \textbf{debe incrementar su rapidez}.
+
+Analizamos las opciones bajo esta premisa:
+\begin{itemize}
+    \item \textbf{Opción a:} Dimensionalmente incorrecta. El desplazamiento angular es $\Delta\theta = \omega t$, pero la opción confunde conceptos lineales y angulares.
+    \item \textbf{Opción b:} Falsa. La distancia recorrida es la longitud total del arco trazado por sus patas sobre la rueda; al girar continuamente, esta distancia se acumula y crece.
+    \item \textbf{Opción d:} Falsa. Si la rapidez ($v$) está cambiando al arrancar, la aceleración normal ($a_N = v^2/R$) no puede ser constante, ya que depende directamente de $v$.
+    \item \textbf{Opción c (Correcta):} La aceleración tangencial ($a_T$) es la única responsable física de cambiar la magnitud de la velocidad (rapidez). Como la rapidez pasó de cero a un valor positivo, es innegable que existe una aceleración tangencial actuando sobre el sistema ($a_T \neq 0$).
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) su aceleración tangencial es diferente de cero porque cambió su rapidez
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Según la historia de David y Goliat. Si la honda de David giraba a razón de $100\text{ rpm}$ al lanzar su piedra, es correcto afirmar que:
+\begin{enumerate}[label=\alph*)]
+    \item la rapidez con la que salió la piedra fue de $9\,\si{m/s}$ si el radio = $0.8\,\si{m}$
+    \item la aceleración angular de la honda fue $0.667\,\si{rad/s^2}$ si $\Delta\theta = 10\pi\,\si{rad}$
+    \item la velocidad de salida de la piedra fue de $10.47\hat{j}\,\si{m/s}$ si el radio = $1\,\si{m}$
+    \item la aceleración angular de la honda fue $0.167\,\si{rad/s^2}$ si $\Delta\theta = 10\pi\,\si{rad}$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Conversión a Unidades del SI y Cálculo de Velocidad}
+Primero, estandarizamos la velocidad angular de revoluciones por minuto ($\text{rpm}$) a radianes por segundo ($\si{rad/s}$):
+$$ \omega = 100 \left( \frac{2\pi\,\si{rad}}{60\,\si{s}} \right) = \frac{200\pi}{60} = \frac{10\pi}{3} \approx 10.47\,\si{rad/s} $$
+
+Verificamos la rapidez tangencial de salida utilizando la relación $v = \omega R$:
+\begin{itemize}
+    \item \textbf{Si el radio es $0.8\,\si{m}$ (Opción a):} $v = (10.47)(0.8) \approx 8.37\,\si{m/s}$. El valor no coincide con $9\,\si{m/s}$.
+    \item \textbf{Si el radio es $1\,\si{m}$ (Opción c):} $v = (10.47)(1) = 10.47\,\si{m/s}$. La magnitud matemática es perfecta. 
+\end{itemize}
+\textit{Nota: La opción 'c' la expresa como un vector ($10.47\hat{j}$). En problemas estandarizados de física básica, si el impacto se diseña horizontalmente, se asume que la piedra se libera justo cuando el vector velocidad apunta en el eje $Y$ puro. Dado que es la única opción matemáticamente coherente en magnitud, se valida la convención direccional.}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) la velocidad de salida de la piedra fue de $10.47\hat{j}\,\si{m/s}$ si el radio = $1\,\si{m}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Sobre un disco horizontal que gira con velocidad angular constante, alrededor de un eje vertical que pasa por su centro, se colocan 2 monedas idénticas a distancias $d_1$ y $d_2$ del centro, respectivamente. Si $d_1 < d_2$, entonces:
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    \draw[thick] (0,0) circle (2.5cm);
+    \filldraw (0,0) circle (1.5pt);
+    \node[below] at (0,0) {$O$};
+    
+    % Moneda 1
+    \draw[->, thick] (0,0) -- (1.5, -1);
+    \node[above] at (0.75, -0.5) {$d_1$};
+    \draw[thick, fill=gray!20] (1.5, -1) circle (0.2cm);
+    
+    % Moneda 2
+    \draw[->, thick] (0,0) -- (0, 2);
+    \node[right] at (0, 1) {$d_2$};
+    \draw[thick, fill=gray!20] (0, 2) circle (0.2cm);
+\end{tikzpicture}
+\end{center}
+
+\begin{enumerate}[label=\alph*)]
+    \item $a_{N_1} < a_{N_2}$
+    \item $a_{N_1} = a_{N_2}$
+    \item $a_{N_1} > a_{N_2}$
+    \item $v_1 = v_2$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Dependencia Radial en la Aceleración Centrípeta}
+Dado que ambas monedas están apoyadas sobre el mismo disco rígido, tienen la obligación de barrer exactamente el mismo ángulo en el mismo intervalo de tiempo. Por lo tanto, \textbf{comparten idéntica velocidad angular} ($\omega_1 = \omega_2 = \omega$).
+
+La ecuación de la aceleración normal (centrípeta) en función de la velocidad angular es:
+$$ a_N = \omega^2 R $$
+Al ser $\omega$ una constante para ambas monedas, la aceleración normal se vuelve directamente proporcional a la distancia al centro de rotación ($a_N \propto R$).
+El enunciado establece que $d_1 < d_2$.
+Sustituyendo esta desigualdad en nuestra relación proporcional, obtenemos irrefutablemente que:
+$$ \omega^2 d_1 < \omega^2 d_2 \implies a_{N_1} < a_{N_2} $$
+
+*(La rapidez tangencial $v = \omega R$ también es mayor para la moneda más alejada, por lo que la opción d es falsa).*
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large a) $a_{N_1} < a_{N_2}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un disco se hace girar alrededor de un eje que pasa por $B$ a la mitad de su radio $R = 40\,\si{cm}$, a razón de $36\text{ rpm}$ (fig.), es correcto afirmar que:
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    \draw[thick] (0,0) circle (2.5cm);
+    \filldraw (0,0) circle (1.5pt);
+    \node[below] at (0,-0.1) {$O$};
+    
+    % Eje en B
+    \filldraw (0,1.25) circle (1.5pt);
+    \node[right] at (0.1,1.25) {$B$};
+    
+    % Rotación
+    \draw[->, thick] (-0.5, 2.8) arc (120:60:1cm);
+\end{tikzpicture}
+\end{center}
+
+\begin{enumerate}[label=\alph*)]
+    \item la rapidez del centro $O$ del disco es cero
+    \item la rapidez del centro $O$ del disco es $7.5\,\si{m/s}$
+    \item la aceleración normal de $O$ es $2.84\,\si{m/s^2}$
+    \item la aceleración normal de $O$ es $0\,\si{m/s^2}$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Desplazamiento del Eje de Rotación}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(4, 4))
+circle = plt.Circle((0, 0), 0.4, fill=False, color='black', lw=2)
+ax.add_patch(circle)
+
+ax.plot(0, 0, 'ko')
+ax.text(-0.06, -0.06, 'O', fontsize=12)
+
+ax.plot(0, 0.2, 'rx')
+ax.text(0.04, 0.2, 'B (Eje)', color='red', fontsize=12)
+
+ax.arrow(0, 0, 0, 0.1, head_width=0.02, color='blue')
+ax.text(0.02, 0.05, 'a_N', color='blue', fontsize=12)
+
+ax.plot([0, 0], [0, 0.2], 'g--', lw=1.5)
+ax.text(-0.1, 0.1, 'r=0.2m', color='green')
+
+ax.set_xlim(-0.5, 0.5)
+ax.set_ylim(-0.5, 0.5)
+ax.axis('off')
+plt.show()
+\end{verbatim}
+
+La "trampa" del problema radica en que el disco \textbf{no gira sobre su centro geométrico $O$}, sino sobre un eje excéntrico ubicado en $B$. Por lo tanto, para la física del movimiento, $B$ es el origen del sistema de coordenadas polares y $O$ es simplemente un punto más que está trazando órbitas alrededor de $B$.
+
+1. \textbf{Distancia de giro:} La distancia desde el eje $B$ hasta el punto $O$ es la mitad del radio total del disco.
+$$ r_O = \frac{40\,\si{cm}}{2} = 20\,\si{cm} = 0.2\,\si{m} $$
+2. \textbf{Velocidad Angular:}
+$$ \omega = 36 \left( \frac{2\pi}{60} \right) = 1.2\pi \approx 3.77\,\si{rad/s} $$
+3. \textbf{Cálculo de la Aceleración Normal en $O$:}
+$$ a_N = \omega^2 r_O $$
+$$ a_N = (1.2\pi)^2 (0.2) = (1.44\pi^2)(0.2) = 0.288\pi^2 $$
+Asumiendo $\pi^2 \approx 9.87$:
+$$ a_N = 0.288 (9.87) \approx 2.84\,\si{m/s^2} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) la aceleración normal de $O$ es $2.84\,\si{m/s^2}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Dos autos $A$ y $B$ viajan sobre un redondel horizontal de $30\,\si{m}$ de radio (fig.), considerando a los autos como partículas y que se trasladan en sentidos contrarios con $v_{A_0} = v_{B_0} = 15\,\si{m/s}$, luego de $\pi\,\si{s}$, es correcto afirmar que:
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    \draw[thick] (0,0) circle (2.5cm);
+    \draw[dashed] (0,-2.5) -- (0,2.5);
+    \draw[dashed] (-2.5,0) -- (2.5,0);
+    
+    % Auto A
+    \filldraw (-2.5,0) circle (2pt);
+    \node[left] at (-2.6,0) {$A$};
+    \draw[->, thick] (-2.5,0) -- (-2.5, 1.2);
+    
+    % Auto B
+    \filldraw (0,-2.5) circle (2pt);
+    \node[below] at (0,-2.6) {$B$};
+    \draw[->, thick] (0,-2.5) -- (1.2, -2.5);
+    
+    \node[below right] at (0,0) {$O$};
+    \draw[->] (0,0) -- (1.76, 1.76) node[midway, above left] {$R$};
+\end{tikzpicture}
+\end{center}
+
+\begin{enumerate}[label=\alph*)]
+    \item los autos se encuentran más alejados que al inicio
+    \item la trayectoria de $A$ vista por $B$ es una circunferencia
+    \item la velocidad de $A$ medida por $B$ es $15\hat{i} - 15\hat{j} \,\si{m/s}$
+    \item la velocidad de $B$ medida por $A$ es $-15\hat{i} - 15\hat{j} \,\si{m/s}$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Refutación de Error de Signos en Velocidad Relativa}
+\textit{Nota de Tutor: El estudiante eligió la opción 'd'. Vamos a demostrar matemáticamente con el álgebra de vectores relativos por qué incurrió en un error de signos y hallaremos la opción correcta.}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig, ax = plt.subplots(figsize=(6, 6))
+circle = plt.Circle((0, 0), 30, fill=False, color='black', lw=2, linestyle='--')
+ax.add_patch(circle)
+
+ax.plot(-30, 0, 'ko', alpha=0.3)
+ax.arrow(-30, 0, 0, 10, head_width=2, color='gray', alpha=0.5)
+ax.plot(0, -30, 'ko', alpha=0.3)
+ax.arrow(0, -30, 10, 0, head_width=2, color='gray', alpha=0.5)
+
+ax.plot(0, 30, 'bo')
+ax.arrow(0, 30, 15, 0, head_width=2, color='blue')
+ax.text(0, 33, 'A (t=\pi)', color='blue', fontsize=12)
+
+ax.plot(30, 0, 'ro')
+ax.arrow(30, 0, 0, 15, head_width=2, color='red')
+ax.text(32, 0, 'B (t=\pi)', color='red', fontsize=12)
+
+ax.set_xlim(-40, 50)
+ax.set_ylim(-40, 50)
+ax.spines['left'].set_position('zero')
+ax.spines['bottom'].set_position('zero')
+ax.spines['right'].set_color('none')
+ax.spines['top'].set_color('none')
+ax.set_aspect('equal')
+plt.show()
+\end{verbatim}
+
+\textbf{1. Posiciones Finales:}
+Ambos autos tienen $\omega = v/R = 15/30 = 0.5\,\si{rad/s}$.
+En el tiempo $t = \pi\,\si{s}$, ambos barren un ángulo de:
+$$ \Delta\theta = \omega t = (0.5)(\pi) = \frac{\pi}{2}\,\si{rad} \quad (90^\circ) $$
+Analizando las flechas iniciales del diagrama:
+\begin{itemize}
+    \item \textbf{Auto A:} Arranca a la izquierda $(-30,0)$ apuntando hacia arriba. Gira $90^\circ$ en sentido horario. Llega a la cima del círculo $(0,30)$. Su velocidad tangente allí apunta totalmente hacia la derecha: $\vec{v}_A = 15\hat{i}\,\si{m/s}$.
+    \item \textbf{Auto B:} Arranca abajo $(0,-30)$ apuntando a la derecha. Gira $90^\circ$ en sentido antihorario. Llega al extremo derecho del círculo $(30,0)$. Su velocidad tangente allí apunta totalmente hacia arriba: $\vec{v}_B = 15\hat{j}\,\si{m/s}$.
+\end{itemize}
+
+\textbf{2. Velocidades Relativas:}
+La "velocidad de B medida por A" (Opción d) se calcula como:
+$$ \vec{v}_{B/A} = \vec{v}_B - \vec{v}_A = (15\hat{j}) - (15\hat{i}) = -15\hat{i} + 15\hat{j} $$
+Esta NO coincide con el vector de la opción d ($-15\hat{i} - 15\hat{j}$). El estudiante falló en el signo del eje Y.
+
+Evaluemos la "velocidad de A medida por B" (Opción c):
+$$ \vec{v}_{A/B} = \vec{v}_A - \vec{v}_B = (15\hat{i}) - (15\hat{j}) = 15\hat{i} - 15\hat{j} $$
+Este resultado empata de forma idéntica con el vector propuesto en la opción 'c'.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) la velocidad de $A$ medida por $B$ es $15\hat{i} - 15\hat{j} \,\si{m/s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Dos insectos, $A$ y $B$, se encuentran parados sobre un disco de vinilo que gira con Movimiento Circular Uniforme (MCU). El insecto $A$ está ubicado exactamente a la mitad del radio del disco ($R/2$), mientras que el insecto $B$ está en el borde extremo ($R$). Al comparar sus velocidades angulares ($\omega$) y sus rapideces tangenciales ($v$), es correcto afirmar que:
+\begin{enumerate}[label=\alph*)]
+    \item $v_A = v_B$ y $\omega_A = \omega_B$
+    \item $v_A < v_B$ y $\omega_A = \omega_B$
+    \item $v_A > v_B$ y $\omega_A < \omega_B$
+    \item $v_A = v_B$ y $\omega_A > \omega_B$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Cuerpos Rígidos en Rotación}
+Dado que ambos insectos están sobre el mismo disco (un cuerpo rígido), el disco completo da una vuelta en el mismo intervalo de tiempo. Por lo tanto, ambos insectos barren exactamente el mismo ángulo por segundo. Esto garantiza que sus velocidades angulares son idénticas:
+$$ \omega_A = \omega_B = \omega $$
+
+Sin embargo, la rapidez tangencial (la distancia lineal recorrida por segundo) depende de qué tan lejos estén del centro, según la fórmula $v = \omega R$.
+\begin{itemize}
+    \item Para el insecto A: $v_A = \omega \left(\frac{R}{2}\right)$
+    \item Para el insecto B: $v_B = \omega (R)$
+\end{itemize}
+Es evidente matemáticamente que $v_A$ es la mitad de $v_B$. El insecto en el borde debe viajar mucho más rápido para completar su enorme círculo en el mismo tiempo que el insecto cercano al centro.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) $v_A < v_B$ y $\omega_A = \omega_B$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una partícula describe un Movimiento Circular Uniformemente Variado (MCUV) de tipo \textbf{retardado} (está frenando). El ángulo espacial $\theta$ que se forma entre el vector velocidad instantánea ($\vec{v}$) y el vector aceleración total ($\vec{a}$) es necesariamente:
+\begin{enumerate}[label=\alph*)]
+    \item Exactamente $90^\circ$
+    \item Agudo ($0^\circ < \theta < 90^\circ$)
+    \item Obtuso ($90^\circ < \theta < 180^\circ$)
+    \item Exactamente $180^\circ$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis del Ángulo de Aceleración Total}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(5, 5))
+circle = plt.Circle((0,0), 2, fill=False, color='black', lw=2)
+ax.add_patch(circle)
+
+ax.plot(0, 2, 'ko')
+ax.arrow(0, 2, -1.5, 0, head_width=0.15, color='blue')
+ax.arrow(0, 2, 0, -1.5, head_width=0.15, color='red')
+ax.arrow(0, 2, 1, 0, head_width=0.15, color='green')
+ax.arrow(0, 2, 1, -1.5, head_width=0.15, color='purple')
+
+ax.text(-1.5, 2.2, r'$\vec{v}$', color='blue', fontsize=12)
+ax.text(0.1, 0.5, r'$\vec{a}_N$', color='red', fontsize=12)
+ax.text(1.1, 2.2, r'$\vec{a}_T$', color='green', fontsize=12)
+ax.text(1.1, 0.5, r'$\vec{a}_{total}$', color='purple', fontsize=12)
+
+import matplotlib.patches as patches
+arc = patches.Arc((0,2), 0.8, 0.8, angle=0, theta1=180, theta2=303.69, color='orange', lw=2)
+ax.add_patch(arc)
+ax.text(-0.5, 1.3, r'$\theta > 90^\circ$', color='orange')
+
+ax.set_xlim(-2.5, 2.5)
+ax.set_ylim(-0.5, 3)
+ax.axis('off')
+plt.show()
+\end{verbatim}
+
+La aceleración total es la suma vectorial de la componente normal y tangencial ($\vec{a} = \vec{a}_N + \vec{a}_T$).
+\begin{itemize}
+    \item $\vec{a}_N$ siempre apunta al centro (perpendicular a $\vec{v}$, formando $90^\circ$).
+    \item $\vec{a}_T$ es colineal a $\vec{v}$. Como el movimiento es \textbf{retardado}, $\vec{a}_T$ debe oponerse a la velocidad para lograr frenarla. Esto significa que $\vec{a}_T$ apunta en sentido estrictamente contrario a $\vec{v}$.
+\end{itemize}
+Al sumar un vector que apunta "hacia el centro" con un vector que apunta "hacia atrás", el vector resultante ($\vec{a}_{total}$) se inclina hacia el interior de la curva pero arrastrado hacia la retaguardia de la partícula. Geométricamente, el ángulo desde la punta de la velocidad hasta este vector resultante siempre será mayor a $90^\circ$ pero menor a $180^\circ$.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) Obtuso ($90^\circ < \theta < 180^\circ$)
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Dos poleas están conectadas por una banda de transmisión que no resbala. La Polea 1 tiene un radio $R$ y la Polea 2 tiene un radio $3R$. Si la Polea 1 gira con una velocidad angular constante $\omega$, la velocidad angular de la Polea 2 es:
+\begin{enumerate}[label=\alph*)]
+    \item $\omega$
+    \item $3\omega$
+    \item $\omega / 3$
+    \item $9\omega$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Transmisión de Movimiento por Correas}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(6, 3))
+circle1 = plt.Circle((0,0), 1, fill=False, color='blue', lw=2)
+circle2 = plt.Circle((4,0), 3, fill=False, color='red', lw=2)
+ax.add_patch(circle1)
+ax.add_patch(circle2)
+
+ax.plot(0, 0, 'k.')
+ax.plot(4, 0, 'k.')
+ax.plot([0, 4], [1, 3], 'k--', lw=1.5)
+ax.plot([0, 4], [-1, -3], 'k--', lw=1.5)
+
+ax.arrow(0, 0, 0.5, 0.866, head_width=0.1, color='blue')
+ax.arrow(4, 0, 1.5, 2.598, head_width=0.1, color='red')
+ax.text(0, -1.5, 'R', color='blue')
+ax.text(4, -3.5, '3R', color='red')
+
+ax.set_xlim(-1.5, 7.5)
+ax.set_ylim(-3.5, 3.5)
+ax.axis('off')
+plt.show()
+\end{verbatim}
+
+Cuando dos poleas están conectadas por una correa o banda, todos los puntos de la correa deben moverse a la misma rapidez tangencial ($v$) para que no se rompa ni se afloje. Por lo tanto, las rapideces tangenciales en los bordes de ambas poleas son idénticas:
+$$ v_1 = v_2 $$
+Sustituimos la definición de rapidez tangencial ($v = \omega r$):
+$$ \omega_1 R_1 = \omega_2 R_2 $$
+El problema indica que $\omega_1 = \omega$, $R_1 = R$, y $R_2 = 3R$. Despejamos $\omega_2$:
+$$ \omega (R) = \omega_2 (3R) $$
+$$ \omega_2 = \frac{\omega R}{3R} = \frac{\omega}{3} $$
+La polea más grande debe girar mucho más lento (a un tercio de la velocidad angular) para compensar su gran perímetro y mantener la misma velocidad lineal en la banda.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) $\omega / 3$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+En un Movimiento Circular Uniforme (MCU), si se manipula experimentalmente el sistema para duplicar la rapidez tangencial de la partícula ($v_{nueva} = 2v$) manteniendo el radio $R$ estrictamente constante, la nueva magnitud de la aceleración centrípeta será:
+\begin{enumerate}[label=\alph*)]
+    \item El doble de la original
+    \item La mitad de la original
+    \item Cuatro veces la original
+    \item Igual a la original
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Proporcionalidad Cuadrática en Fuerzas Centrales}
+La aceleración centrípeta ($a_c$) se define algebraicamente en función de la rapidez lineal como:
+$$ a_c = \frac{v^2}{R} $$
+Al duplicar la rapidez tangencial, sustituimos $v_{nueva} = 2v$ en la ecuación:
+$$ a_{c(\text{nueva})} = \frac{(2v)^2}{R} $$
+Al elevar al cuadrado, el factor multiplicador $2$ se convierte en un $4$:
+$$ a_{c(\text{nueva})} = \frac{4v^2}{R} = 4 \left( \frac{v^2}{R} \right) $$
+$$ a_{c(\text{nueva})} = 4 \cdot a_c $$
+La aceleración centrípeta es directamente proporcional al cuadrado de la rapidez. Si intentas tomar una misma curva al doble de velocidad, requerirás cuatro veces más adherencia en los neumáticos para no derrapar.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) Cuatro veces la original
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una partícula se mueve en el plano $XY$. Su vector velocidad angular en cierto instante es $\vec{\omega} = -4\hat{k} \, \si{rad/s}$ y su vector aceleración angular es $\vec{\alpha} = 2\hat{k} \, \si{rad/s^2}$. Es correcto clasificar el estado dinámico de este movimiento como:
+\begin{enumerate}[label=\alph*)]
+    \item MCU en sentido antihorario
+    \item MCUV acelerado en sentido horario
+    \item MCUV retardado en sentido horario
+    \item MCUV retardado en sentido antihorario
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Algebra de Vectores Axiales}
+Analizamos los dos vectores dados (que, por regla de la mano derecha, yacen sobre el eje Z, representados por $\hat{k}$):
+\begin{itemize}
+    \item \textbf{Sentido de rotación:} Dictado exclusivamente por el vector $\vec{\omega}$. Al ser negativo ($-4\hat{k}$), el giro se realiza en el sentido de las manecillas del reloj (\textbf{horario}).
+    \item \textbf{Aceleración o Retardo:} Comparando los signos de $\vec{\omega}$ y $\vec{\alpha}$. La velocidad angular es negativa, pero la aceleración angular es positiva ($+2\hat{k}$). Al tener \textbf{signos opuestos}, la aceleración angular está combatiendo la rotación actual, restándole magnitud a la rapidez de giro. Por lo tanto, el movimiento es \textbf{retardado} (frenado).
+\end{itemize}
+Al existir una aceleración angular distinta de cero, sabemos ineludiblemente que es un Movimiento Circular Uniformemente Variado (MCUV).
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) MCUV retardado en sentido horario
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una partícula recorre exactamente una media vuelta (un semicírculo perfecto de radio $R$) en un tiempo $\Delta t$. La razón matemática (el cociente) entre su Rapidez Media y la magnitud de su Velocidad Media en ese intervalo es:
+\begin{enumerate}[label=\alph*)]
+    \item $\pi / 2$
+    \item $2 / \pi$
+    \item $1$
+    \item $\pi$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Distancia de Arco vs Desplazamiento Vectorial}
+Debemos estructurar ambas definiciones físicas de "velocidad promedio":
+
+\textbf{1. Rapidez Media ($v_m$):}
+Utiliza la distancia escalar recorrida por la curva. El perímetro total de un círculo es $2\pi R$. Al recorrer media vuelta, la distancia es la mitad: $d = \pi R$.
+$$ v_m = \frac{d}{\Delta t} = \frac{\pi R}{\Delta t} $$
+
+\textbf{2. Magnitud de la Velocidad Media ($|\vec{v}_m|$):}
+Utiliza el vector desplazamiento de línea recta. Desde un extremo del círculo hasta el extremo opuesto, la línea recta atraviesa el centro, correspondiendo al diámetro: $|\Delta \vec{r}| = 2R$.
+$$ |\vec{v}_m| = \frac{|\Delta \vec{r}|}{\Delta t} = \frac{2R}{\Delta t} $$
+
+\textbf{3. Razón (Cociente):}
+Se nos pide dividir la Rapidez Media entre la Velocidad Media:
+$$ \text{Razón} = \frac{v_m}{|\vec{v}_m|} = \frac{ \frac{\pi R}{\Delta t} }{ \frac{2R}{\Delta t} } $$
+Se cancelan $\Delta t$ y $R$:
+$$ \text{Razón} = \frac{\pi}{2} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large a) $\pi / 2$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+En un Movimiento Circular Uniforme (MCU) estricto, la \textbf{derivada con respecto al tiempo} del vector aceleración centrípeta ($\frac{d\vec{a}_c}{dt}$) es matemáticamente:
+\begin{enumerate}[label=\alph*)]
+    \item El vector nulo, porque la aceleración centrípeta es constante
+    \item Un vector de magnitud constante que no es nulo
+    \item Un escalar igual a cero
+    \item Igual a la aceleración tangencial
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. El Concepto de Sobretirón (Jerk) Vectorial}
+En un MCU, la magnitud de la aceleración centrípeta ($|\vec{a}_c| = v^2/R$) es un escalar fijo. Si deriváramos la \textit{magnitud}, el resultado sería cero.
+
+Sin embargo, la pregunta requiere derivar el \textbf{vector} $\vec{a}_c$. 
+Como hemos demostrado antes, el vector $\vec{a}_c$ está forzado a cambiar de dirección constantemente en el espacio para seguir apuntando hacia el centro a medida que la partícula gira.
+En cálculo vectorial, la derivada de un vector solo es nula si este no cambia ni su longitud ni su dirección. Puesto que $\vec{a}_c$ rota continuamente, tiene una tasa de cambio innegable ($\frac{d\vec{a}_c}{dt} \neq \vec{0}$). Esta derivada del vector aceleración se conoce en física avanzada como el vector "Jerk" o tirón cinemático, y en un MCU es un vector de magnitud constante que rota persiguiendo a la aceleración.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) Un vector de magnitud constante que no es nulo
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Si definimos el vector posición $\vec{r}(t)$ de una partícula desde el centro geométrico de su trayectoria circular, el producto punto (producto escalar) entre dicho vector posición y el vector velocidad instantánea $\vec{v}(t)$ arroja siempre como resultado:
+\begin{enumerate}[label=\alph*)]
+    \item $R^2 \omega$
+    \item Un vector normal al plano de rotación
+    \item $0$
+    \item $v^2 / R$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Propiedad de Ortogonalidad en Trayectorias Circulares}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(5, 5))
+circle = plt.Circle((0,0), 3, fill=False, color='black', lw=1, linestyle='--')
+ax.add_patch(circle)
+
+ax.arrow(0, 0, 2.12, 2.12, head_width=0.2, color='gray')
+ax.arrow(2.12, 2.12, -1.5, 1.5, head_width=0.2, color='blue')
+
+ax.text(1, 0.8, r'$\vec{r}$', color='gray', fontsize=12)
+ax.text(0.5, 3.5, r'$\vec{v}$', color='blue', fontsize=12)
+
+ax.plot([2.12, 1.9, 2.12], [2.12, 2.34, 2.56], 'g-', lw=1.5)
+ax.plot(0, 0, 'ko')
+
+ax.set_xlim(-3.5, 3.5)
+ax.set_ylim(-1, 4.5)
+ax.axis('off')
+plt.show()
+\end{verbatim}
+
+Geométricamente, el vector posición $\vec{r}$ trazado desde el centro de un círculo corresponde al radio de la circunferencia.
+Por definición euclidiana, la línea tangente a cualquier punto de una circunferencia forma un ángulo exacto de $90^\circ$ con el radio que interseca ese mismo punto.
+Como el vector velocidad instantánea $\vec{v}$ es siempre colineal a esta línea tangente, concluimos que el vector posición y el vector velocidad son \textbf{mutuamente perpendiculares} en absolutamente todo instante del tiempo.
+
+En álgebra lineal, el producto escalar (o producto punto) entre dos vectores ortogonales ($\theta = 90^\circ$) se define como:
+$$ \vec{r} \cdot \vec{v} = |\vec{r}| |\vec{v}| \cos(90^\circ) = |\vec{r}| |\vec{v}| (0) = 0 $$
+*(Nota: La opción 'b' describe el comportamiento del producto cruz $\vec{r} \times \vec{v}$, no del producto punto).*
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) $0$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una partícula de radio $R$ empieza a moverse desde el reposo en una trayectoria circular sometida a una aceleración angular constante $\alpha$. El tiempo algebraico exacto que le tomará para que la magnitud de su aceleración centrípeta se iguale a la magnitud de su aceleración tangencial ($a_c = a_T$) es:
+\begin{enumerate}[label=\alph*)]
+    \item $t = \frac{1}{\sqrt{\alpha}}$
+    \item $t = \alpha$
+    \item $t = \sqrt{\alpha}$
+    \item Nunca se igualarán, porque una es variable y la otra es constante
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Igualación de Componentes Intrínsecas en MCUV}
+Planteamos las ecuaciones matemáticas para las magnitudes de ambas aceleraciones en función del tiempo:
+\begin{itemize}
+    \item \textbf{Aceleración Tangencial:} Al ser la aceleración angular constante, $a_T = \alpha R$.
+    \item \textbf{Aceleración Centrípeta:} $a_c = \omega^2 R$. Sabiendo que partió del reposo ($\omega_0 = 0$), su velocidad angular en cualquier instante es $\omega = \alpha t$. Sustituyendo en la ecuación centrípeta obtenemos: $a_c = (\alpha t)^2 R = \alpha^2 t^2 R$.
+\end{itemize}
+
+El problema nos pide hallar el tiempo $t$ en el cual ambas componentes son iguales ($a_c = a_T$):
+$$ \alpha^2 t^2 R = \alpha R $$
+Como el radio $R$ y la aceleración angular $\alpha$ son distintos de cero, podemos simplificar la ecuación dividiendo ambos lados por el factor común $(\alpha R)$:
+$$ \alpha t^2 = 1 $$
+Despejamos el tiempo al cuadrado:
+$$ t^2 = \frac{1}{\alpha} $$
+Extrayendo la raíz cuadrada (tomando el tiempo positivo):
+$$ t = \frac{1}{\sqrt{\alpha}} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large a) $t = \frac{1}{\sqrt{\alpha}}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+De los siguientes pares de variables físicas en un Movimiento Circular Uniforme (MCU), indique el par en el que \textbf{ambos} elementos son constantes en magnitud y en dirección (vectores estrictamente invariables):
+\begin{enumerate}[label=\alph*)]
+    \item Velocidad lineal ($\vec{v}$) y Aceleración centrípeta ($\vec{a}_c$)
+    \item Velocidad angular ($\vec{\omega}$) y Aceleración angular ($\vec{\alpha}$)
+    \item Posición angular ($\theta$) y Velocidad tangencial ($\vec{v}$)
+    \item Posición radial ($\vec{r}$) y Aceleración total ($\vec{a}$)
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Criterios de Invariabilidad Vectorial en MCU}
+Analizamos cada opción teniendo en cuenta que el MCU describe curvas cerradas a un ritmo sostenido:
+\begin{itemize}
+    \item \textbf{Opción a:} Falsa. Tanto la velocidad lineal como la aceleración centrípeta rotan en el plano. Cambian de dirección continuamente, por lo que no son vectores constantes.
+    \item \textbf{Opción c:} Falsa. La posición angular ($\theta$) cambia a medida que barre ángulos (es una función creciente $\theta = \omega t$).
+    \item \textbf{Opción d:} Falsa. La posición radial rota junto con la partícula.
+    \item \textbf{Opción b (Correcta):} En un MCU puro, el plano de rotación nunca se inclina y el giro nunca se detiene ni acelera. Aplicando la regla de la mano derecha, el vector velocidad angular ($\vec{\omega}$) es perpendicular al plano y \textbf{mantiene su dirección y magnitud congeladas} a lo largo del eje Z. Adicionalmente, al no existir variaciones en el giro, la aceleración angular ($\vec{\alpha}$) es rígidamente el \textbf{vector nulo} ($\vec{0}$), el cual por axioma matemático es un vector constante.
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) Velocidad angular ($\vec{\omega}$) y Aceleración angular ($\vec{\alpha}$)
+\end{tcolorbox}
+
+\end{document}

@@ -1,0 +1,1526 @@
+\documentclass[12pt, a4paper]{article}
+
+% --- PAQUETES ---
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{geometry}
+\usepackage[most]{tcolorbox}
+\usepackage{siunitx}
+\usepackage{enumitem}
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usepackage{verbatim} 
+\usepackage{xcolor}
+
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta, calc, babel}
+\geometry{a4paper, margin=1in}
+
+% --- CONFIGURACIÓN DE LISTINGS (PYTHON) ---
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstset{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2,
+    language=Python
+}
+
+\title{Ejercicios Teóricos: Cinemática (Velocidad)}
+\author{Dataset Entrenamiento LLM}
+\date{\today}
+
+\begin{document}
+
+\subsection*{Enunciado}
+En una trayectoria curva, el vector velocidad media:
+\begin{enumerate}[label=\alph*)]
+    \item es tangente a la trayectoria
+    \item está dirigido hacia el centro de la curva
+    \item siempre tiene igual dirección que el vector posición
+    \item es paralelo al vector desplazamiento
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Definición Analítica de Velocidad Media}
+Para resolver esto sin ambigüedades, recurrimos a la ecuación fundamental de la cinemática para la velocidad media ($\vec{v}_m$):
+$$ \vec{v}_m = \frac{\Delta \vec{r}}{\Delta t} $$
+Donde $\Delta \vec{r}$ es el vector desplazamiento y $\Delta t$ es el intervalo de tiempo.
+
+Dado que el tiempo ($\Delta t$) fluye hacia adelante, siempre es un escalar positivo ($\Delta t > 0$). 
+En el álgebra vectorial, cuando multiplicamos o dividimos un vector ($\Delta \vec{r}$) por un escalar estrictamente positivo ($1/\Delta t$), el vector resultante ($\vec{v}_m$) altera su magnitud (y sus unidades, pasando a m/s), pero **mantiene matemáticamente la misma dirección y el mismo sentido**. 
+
+Por lo tanto, sin importar si la trayectoria es curva, recta o en zigzag, el vector velocidad media y el vector desplazamiento apuntan exactamente hacia el mismo lado; es decir, son **paralelos**.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large d) es paralelo al vector desplazamiento
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Si la velocidad media $\vec{v}_m$ de una partícula es cero, en el intervalo considerado la partícula:
+\begin{enumerate}[label=\alph*)]
+    \item se desplazó con velocidad constante
+    \item volvió al punto inicial
+    \item estuvo necesariamente en reposo
+    \item no tuvo aceleración
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Despeje del Vector Desplazamiento}
+Partimos nuevamente de la definición matemática:
+$$ \vec{v}_m = \frac{\Delta \vec{r}}{\Delta t} = \frac{\vec{r}_f - \vec{r}_0}{\Delta t} $$
+El problema nos impone la condición de que la velocidad media es el vector nulo ($\vec{v}_m = \vec{0}$):
+$$ \frac{\vec{r}_f - \vec{r}_0}{\Delta t} = 0 $$
+Multiplicamos ambos lados por $\Delta t$:
+$$ \vec{r}_f - \vec{r}_0 = 0 $$
+$$ \vec{r}_f = \vec{r}_0 $$
+Esta ecuación nos indica que la posición final es exactamente igual a la posición inicial. 
+\begin{itemize}
+    \item \textbf{Opción c:} Falsa. No estuvo "necesariamente" en reposo. Pudo haber viajado miles de kilómetros y simplemente regresar exactamente al mismo lugar en ese intervalo de tiempo (como un auto dando una vuelta completa a una pista de carreras).
+    \item \textbf{Opción b (Correcta):} La condición $\vec{r}_f = \vec{r}_0$ significa, en términos físicos, que la partícula volvió a su punto de partida original (o nunca salió de él).
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) volvió al punto inicial
+\end{tcolorbox}
+
+\newpage
+
+
+\subsection*{Enunciado}
+La pendiente de la recta tangente a la trayectoria, en un instante:
+\begin{enumerate}[label=\alph*)]
+    \item es igual a la rapidez
+    \item es igual a la velocidad
+    \item es igual a la posición
+    \item no tiene significado físico
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Corrección Semántica de la Cinemática}
+\textit{Nota del Tutor Analítico: Este es un error clásico en textos introductorios. Analizaremos qué es geométricamente la trayectoria y qué es la gráfica temporal para encontrar la respuesta esperada.}
+
+\begin{itemize}
+    \item \textbf{La realidad matemática:} La "trayectoria" es el camino físico en el espacio ($y$ vs. $x$). La pendiente de su recta tangente es $dy/dx$, lo cual nos da la \textit{dirección} del vector velocidad ($\tan \theta = v_y/v_x$), pero \textbf{no} su magnitud (m/s). 
+    \item \textbf{El contexto del problema:} En cinemática básica, es muy común que los autores confundan la palabra "trayectoria" con la \textbf{"Gráfica de Posición contra Tiempo ($x$ vs. $t$)"}.
+\end{itemize}
+
+Si asumimos que el problema se refiere a la \textbf{gráfica posición-tiempo}, el análisis es el siguiente:
+La pendiente ($m$) de una curva matemática se define como la derivada. En un gráfico de posición ($x$) respecto al tiempo ($t$), la pendiente de la recta tangente en un punto específico es:
+$$ m = \frac{dx}{dt} $$
+Por definición, la derivada temporal de la posición es el vector **Velocidad Instantánea**:
+$$ \vec{v} = \frac{d\vec{r}}{dt} $$
+(Nota: Si la pendiente fuera del gráfico de \textit{distancia recorrida} contra el tiempo, sería igual a la \textit{rapidez}, pero aquí se asume implícitamente un gráfico de posiciones vectoriales).
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) es igual a la velocidad
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+En un movimiento curvilíneo, la dirección de la velocidad media:
+\begin{enumerate}[label=\alph*)]
+    \item coincide con la dirección del desplazamiento
+    \item es perpendicular a la dirección de la velocidad
+    \item indica la dirección del movimiento
+    \item no tiene significado físico
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Dirección de Variables Cinemáticas}
+Este ejercicio evalúa el mismo concepto fundamental demostrado en el Ejercicio 1, pero desde una perspectiva teórica directa.
+Como la relación matemática es:
+$$ \vec{v}_m = \frac{1}{\Delta t} \Delta \vec{r} $$
+Donde $\Delta \vec{r}$ es el vector desplazamiento. 
+Puesto que $1/\Delta t$ es un escalar puramente positivo, la operación vectorial dictamina que el vector resultante $\vec{v}_m$ se formará sobre la misma línea de acción y apuntando exactamente hacia el mismo lado que $\Delta \vec{r}$.
+Por tanto, la dirección de la velocidad media \textbf{coincide absolutamente} con la dirección del vector desplazamiento, sin importar si la forma del movimiento real (trayectoria) describió una parábola, una elipse o cualquier otra curva entre los dos puntos evaluados.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large a) coincide con la dirección del desplazamiento
+\end{tcolorbox}
+
+\newpage
+
+
+\subsection*{Enunciado}
+Si al estudiar el movimiento de una partícula se encuentra que en el instante $10\,\si{s}$, la velocidad, $\vec{v}_{10s} = 20 \hat{i} \,\si{m/s}$, a $t = 20\,\si{s}$, $\vec{v}_{20s} = 20 \hat{i} \,\si{m/s}$ y a $t = 30\,\si{s}$, $\vec{v}_{30s} = 20 \hat{i} \,\si{m/s}$:
+\begin{enumerate}[label=\alph*)]
+    \item es correcto asegurar que la velocidad de la partícula es constante
+    \item el movimiento de la partícula puede ser circular
+    \item la posición de la partícula no cambia
+    \item el desplazamiento de la partícula es constante
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Muestreo Discreto vs. Función Continua}
+Este es un problema clásico de razonamiento crítico. Tenemos datos de la velocidad de la partícula \textbf{únicamente en tres instantes precisos} (muestreo discreto), no tenemos la función continua $\vec{v}(t)$.
+
+\begin{itemize}
+    \item \textbf{Opción a:} Falsa. Como solo conocemos la velocidad cada 10 segundos, no podemos \textit{asegurar} qué ocurrió en el medio (por ejemplo, a los $15\,\si{s}$ la partícula pudo haber frenado o girado).
+    \item \textbf{Opción c y d:} Falsas. Dado que existe una velocidad ($\vec{v} \neq \vec{0}$), la partícula se está moviendo; por tanto, su posición cambia y su desplazamiento aumenta constantemente.
+    \item \textbf{Opción b (Correcta):} Afirma que el movimiento \textbf{puede} ser circular. ¿Es esto físicamente posible? Sí. Si la partícula describe un Movimiento Circular Uniforme (MCU) cuyo \textbf{período} sea exactamente $T = 10\,\si{s}$, la partícula completará una vuelta entera cada 10 segundos. 
+\end{itemize}
+
+Si observamos a la partícula exactamente en los instantes $t=10, 20, 30\,\si{s}$, la encontraremos pasando exactamente por el mismo punto de la circunferencia, donde su vector velocidad tangencial apuntará en la misma dirección ($20 \hat{i}$).
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def draw_periodic_motion():
+    fig, ax = plt.subplots(figsize=(6, 4))
+    ax.set_title("Muestreo en Movimiento Circular (Período T = 10 s)")
+    
+    # Trayectoria Circular
+    circle = plt.Circle((0, -1), 1, fill=False, color='gray', linestyle='--')
+    ax.add_patch(circle)
+    
+    # Posición en t = 10, 20, 30 (Punto superior del círculo)
+    ax.plot(0, 0, 'ko', markersize=8) 
+    
+    # Vector Velocidad en esos instantes
+    ax.arrow(0, 0, 1.5, 0, head_width=0.15, color='red', length_includes_head=True)
+    ax.text(1.6, 0, r'$\vec{v} = 20\hat{i}$', color='red', va='center', fontsize=12)
+    
+    # Etiqueta de tiempo
+    ax.text(0, 0.3, "$t = 10\,\mathrm{s}, 20\,\mathrm{s}, 30\,\mathrm{s}...$", ha='center', fontsize=10)
+    
+    # Indicador de giro
+    arc = plt.matplotlib.patches.Arc((0, -1), 2.5, 2.5, angle=0, theta1=45, theta2=135, color='blue', linestyle=':')
+    ax.add_patch(arc)
+    ax.arrow(-0.88, -0.12, -0.1, -0.1, head_width=0.08, color='blue') # Punta de flecha giro
+
+    ax.set_xlim(-2, 3); ax.set_ylim(-2.5, 1); ax.axis('off')
+    plt.tight_layout()
+    plt.show()
+
+draw_periodic_motion()
+\end{lstlisting}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) el movimiento de la partícula puede ser circular
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Seleccione la aseveración \textbf{incorrecta}. Es posible que una partícula:
+\begin{enumerate}[label=\alph*)]
+    \item describa una trayectoria curvilínea con rapidez constante
+    \item tenga una rapidez constante, pero se mueva con una velocidad variable
+    \item tenga una velocidad constante y una rapidez variable a la vez
+    \item se desplace con rapidez media igual a la rapidez instantánea
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Magnitud vs. Vector Directriz}
+Debemos recordar la jerarquía matemática entre estos conceptos:
+La \textbf{velocidad} ($\vec{v}$) es un vector: tiene magnitud y dirección.
+La \textbf{rapidez} ($v$) es un escalar: es estrictamente la magnitud (módulo) del vector velocidad ($v = |\vec{v}|$).
+
+Analicemos las posibilidades para encontrar la opción falsa (incorrecta):
+\begin{itemize}
+    \item \textbf{Opción a:} Físicamente posible (Ej. Movimiento Circular Uniforme).
+    \item \textbf{Opción b:} Físicamente posible. Si un auto toma una curva a $60\,\si{km/h}$ sostenidos, su rapidez es constante ($|\vec{v}| = 60$), pero como su dirección cambia, el vector velocidad $\vec{v}$ está variando.
+    \item \textbf{Opción d:} Físicamente posible. En un movimiento rectilíneo uniforme (MRU), la rapidez nunca cambia, por lo que el promedio siempre es igual al instante actual.
+    \item \textbf{Opción c (Incorrecta y por tanto la respuesta):} Si el vector velocidad es \textbf{constante} ($\vec{v} = \text{cte}$), esto implica obligatoriamente que ninguna de sus propiedades puede cambiar (ni su dirección, ni su magnitud). Por álgebra básica, si el vector no cambia, su magnitud $|\vec{v}|$ tampoco puede cambiar. \textbf{Es un absurdo matemático} afirmar que un vector se mantiene constante mientras su módulo varía.
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) tenga una velocidad constante y una rapidez variable a la vez
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Si la velocidad de una partícula $A$, con respecto a una partícula $B$, es cero, significa que:
+\begin{enumerate}[label=\alph*)]
+    \item la partícula $A$ está necesariamente en reposo respecto a tierra
+    \item la partícula $B$ está necesariamente en reposo respecto a tierra
+    \item la partícula $B$ está necesariamente en reposo respecto a la partícula $A$
+    \item la partícula $A$ está necesariamente en el origen del sistema de referencia
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Transformaciones de Velocidad Relativa de Galileo}
+Definimos matemáticamente la velocidad relativa de $A$ observada desde $B$ ($\vec{v}_{A/B}$) usando los vectores de velocidad de cada partícula respecto a un marco inercial común (como la Tierra):
+$$ \vec{v}_{A/B} = \vec{v}_A - \vec{v}_B $$
+
+El problema establece la condición de que esta velocidad relativa es nula:
+$$ \vec{v}_{A/B} = \vec{0} $$
+$$ \vec{v}_A - \vec{v}_B = \vec{0} $$
+$$ \vec{v}_A = \vec{v}_B $$
+Esto significa que ambas partículas se mueven exactamente a la misma velocidad y en la misma dirección con respecto a la Tierra. (Esto descarta las opciones \textit{a} y \textit{b}, ya que ambas podrían estar moviéndose a $100\,\si{km/h}$ juntas, como dos pasajeros sentados en el mismo tren).
+
+Ahora, analicemos la situación desde el punto de vista del observador $A$. ¿A qué velocidad percibe $A$ que se mueve $B$?
+$$ \vec{v}_{B/A} = \vec{v}_B - \vec{v}_A $$
+Sustituyendo nuestra conclusión anterior ($\vec{v}_A = \vec{v}_B$):
+$$ \vec{v}_{B/A} = \vec{v}_B - \vec{v}_B = \vec{0} $$
+Si la velocidad de $B$ respecto a $A$ es cero, se concluye formalmente que $B$ no cambia de posición desde la perspectiva de $A$, es decir, \textbf{está en reposo} respecto a $A$.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) la partícula $B$ está necesariamente en reposo respecto a la partícula $A$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Si una persona, que desea cruzar nadando un río cuyas aguas fluyen con una rapidez $v_r$, parte del punto A:
+\begin{enumerate}[label=\alph*)]
+    \item puede llegar a un punto B situado justo al frente de A
+    \item no puede llegar a un punto B situado justo al frente de A
+    \item siempre llegará a un punto B situado aguas arriba de A
+    \item siempre llegará a un punto B situado aguas abajo de A
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Corrección: Análisis de Velocidades Relativas}
+\textit{Nota de Tutor: La opción 'b' resaltada asume equivocadamente que el río siempre arrastrará al nadador. Esto solo es cierto si el nadador apunta directamente al frente. Veremos que sí es posible cruzar en línea recta si se compensa la corriente.}
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+def draw_river_crossing():
+    fig, ax = plt.subplots(figsize=(6, 4))
+    ax.set_title("Cruce de Río: Compensación de Corriente")
+    ax.set_xlim(-1, 5); ax.set_ylim(-1, 4); ax.axis('off')
+    
+    # Orillas del río
+    ax.axhline(0, color='blue', lw=2)
+    ax.axhline(3, color='blue', lw=2)
+    ax.text(4, -0.4, "Orilla Origen", color='blue')
+    ax.text(4, 3.2, "Orilla Destino", color='blue')
+    
+    # Puntos A y B
+    ax.plot(2, 0, 'ko'); ax.text(2, -0.4, "A", fontsize=12, ha='center')
+    ax.plot(2, 3, 'ko'); ax.text(2, 3.2, "B", fontsize=12, ha='center')
+    ax.plot([2, 2], [0, 3], 'k--', alpha=0.5) # Línea recta A-B
+    
+    # Vectores
+    # Velocidad del río (Hacia la derecha)
+    ax.arrow(2, 3, 1.5, 0, head_width=0.15, color='cyan', length_includes_head=True)
+    ax.text(2.8, 3.2, r'$\vec{v}_r$', color='cyan', fontsize=12)
+    
+    # Velocidad del nadador respecto al agua (Apuntando diagonal aguas arriba)
+    ax.arrow(2, 0, -1.5, 3, head_width=0.15, color='red', length_includes_head=True)
+    ax.text(0.8, 1.5, r'$\vec{v}_{n/r}$', color='red', fontsize=12)
+    
+    # Velocidad resultante respecto a tierra (Línea recta A-B)
+    ax.arrow(2, 0, 0, 3, head_width=0.15, color='green', length_includes_head=True)
+    ax.text(2.1, 1.5, r'$\vec{v}_{n/t}$', color='green', fontsize=12)
+
+    plt.show()
+
+draw_river_crossing()
+\end{lstlisting}
+
+Definimos la velocidad resultante del nadador respecto a la tierra ($\vec{v}_{n/t}$) como la suma vectorial de su velocidad de nado respecto al río ($\vec{v}_{n/r}$) y la velocidad de la corriente ($\vec{v}_r$):
+$$ \vec{v}_{n/t} = \vec{v}_{n/r} + \vec{v}_r $$
+Para llegar exactamente al punto $B$ (justo al frente), la velocidad resultante $\vec{v}_{n/t}$ debe apuntar estrictamente perpendicular a las orillas. 
+Si el nadador nada en diagonal "aguas arriba", la componente horizontal de su nado puede cancelar exactamente la velocidad del río. Esto es matemáticamente posible si su rapidez de nado es mayor que la del río ($|\vec{v}_{n/r}| > |\vec{v}_r|$). 
+Como el problema establece una posibilidad y no restringe la rapidez del nadador, afirmar categóricamente que "no puede" es falso. La opción correcta es que "puede" lograrlo bajo las condiciones adecuadas.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large a) puede llegar a un punto B situado justo al frente de A
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Sobre un sube y baja, un niño A sube con una velocidad $+\vec{j} \,\si{m/s}$. La velocidad de A vista por otro niño B, que se encuentra en el otro extremo, en ese instante es:
+\begin{enumerate}[label=\alph*)]
+    \item $-2\vec{j} \,\si{m/s}$
+    \item $-\vec{j} \,\si{m/s}$
+    \item $+\vec{j} \,\si{m/s}$
+    \item $+2\vec{j} \,\si{m/s}$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Dinámica de un Cuerpo Rígido y Velocidad Relativa}
+Un "sube y baja" pivota sobre su centro de masa. Por la restricción geométrica de un cuerpo rígido, si un extremo (Niño A) sube con una velocidad $\vec{v}_A = +\vec{j} \,\si{m/s}$, el extremo opuesto (Niño B) debe obligatoriamente bajar con la misma rapidez:
+$$ \vec{v}_B = -\vec{j} \,\si{m/s} $$
+
+El problema nos pide calcular "La velocidad de A vista por B", que en notación relativa se expresa como $\vec{v}_{A/B}$. La ecuación de transformación de Galileo es:
+$$ \vec{v}_{A/B} = \vec{v}_A - \vec{v}_B $$
+Sustituyendo los vectores que determinamos:
+$$ \vec{v}_{A/B} = (+\vec{j}) - (-\vec{j}) $$
+$$ \vec{v}_{A/B} = \vec{j} + \vec{j} = +2\vec{j} \,\si{m/s} $$
+Físicamente, esto significa que como B está bajando, él percibe que A se aleja hacia arriba al doble de rápido.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large d) $+2\vec{j} \,\si{m/s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un observador A se mueve con velocidad constante respecto a otro observador B, en movimiento con menor rapidez que A. Cuando A y B observan el movimiento de una partícula C, concluyen que la rapidez de C respecto de A:
+\begin{enumerate}[label=\alph*)]
+    \item es mayor que la de C respecto de B
+    \item es igual que la de C respecto de B
+    \item es menor que la de C respecto de B
+    \item no se puede comparar con la de C respecto de B
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Refutación del Razonamiento Estudiantil}
+\textit{Nota de Tutor: El estudiante marcó la opción 'a' guiado por las notas manuscritas donde intentó aplicar desigualdades escalares a vectores. Ese es un error algebraico severo que demostraremos con contraejemplos.}
+
+Las velocidades relativas están dadas por:
+$$ \vec{v}_{C/A} = \vec{v}_C - \vec{v}_A $$
+$$ \vec{v}_{C/B} = \vec{v}_C - \vec{v}_B $$
+Sabemos que $|\vec{v}_A| > |\vec{v}_B|$. Para demostrar que **es imposible determinar una relación universal**, evaluemos dos casos unidimensionales distintos donde C se mueve en diferentes direcciones:
+
+\textbf{Caso 1 (C se mueve en la misma dirección):}
+Supongamos $\vec{v}_A = 10\hat{i}$, $\vec{v}_B = 5\hat{i}$. (Se cumple $|\vec{v}_A| > |\vec{v}_B|$).
+Sea la velocidad de la partícula $\vec{v}_C = 20\hat{i}$.
+\begin{itemize}
+    \item Velocidad de C respecto a A: $\vec{v}_{C/A} = 20\hat{i} - 10\hat{i} = 10\hat{i} \implies \text{Rapidez} = 10$
+    \item Velocidad de C respecto a B: $\vec{v}_{C/B} = 20\hat{i} - 5\hat{i} = 15\hat{i} \implies \text{Rapidez} = 15$
+\end{itemize}
+En este caso, la rapidez de C respecto a A ($10$) es \textbf{menor} que respecto a B ($15$).
+
+\textbf{Caso 2 (C se mueve en dirección contraria):}
+Mismos observadores: $\vec{v}_A = 10\hat{i}$, $\vec{v}_B = 5\hat{i}$.
+Pero ahora la partícula viaja en reversa: $\vec{v}_C = -20\hat{i}$.
+\begin{itemize}
+    \item Velocidad de C respecto a A: $\vec{v}_{C/A} = -20\hat{i} - 10\hat{i} = -30\hat{i} \implies \text{Rapidez} = 30$
+    \item Velocidad de C respecto a B: $\vec{v}_{C/B} = -20\hat{i} - 5\hat{i} = -25\hat{i} \implies \text{Rapidez} = 25$
+\end{itemize}
+En este caso, la rapidez de C respecto a A ($30$) es \textbf{mayor} que respecto a B ($25$).
+
+\textbf{Conclusión:} Como la respuesta cambia radicalmente dependiendo exclusivamente de la dirección y magnitud del vector $\vec{v}_C$ (el cual es desconocido), es matemáticamente \textbf{imposible comparar} estas magnitudes relativas a priori.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large d) no se puede comparar con la de C respecto de B
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Las velocidades media e instantánea de una partícula necesariamente son iguales para cualquier intervalo de tiempo cuando:
+\begin{enumerate}[label=\alph*)]
+    \item su trayectoria es recta
+    \item su trayectoria es curva
+    \item retorna a su posición inicial
+    \item pasa por el origen del sistema de referencia
+    \item su velocidad es constante
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Igualdad Analítica de Velocidades}
+La \textbf{velocidad media} se define en un intervalo de tiempo macroscópico:
+$$ \vec{v}_m = \frac{\Delta \vec{r}}{\Delta t} = \frac{\vec{r}_f - \vec{r}_0}{t - t_0} $$
+La \textbf{velocidad instantánea} se define en un límite infinitesimal (la derivada):
+$$ \vec{v} = \frac{d\vec{r}}{dt} $$
+
+Para que el promedio en \textit{cualquier} intervalo ($\vec{v}_m$) sea exactamente igual al valor en \textit{cualquier} instante ($\vec{v}$), la función de la posición $\vec{r}(t)$ debe ser estrictamente una función lineal del tiempo, cuya derivada sea una constante. 
+Físicamente, esto ocurre única y exclusivamente en el Movimiento Rectilíneo Uniforme (MRU), donde no existe aceleración alguna. 
+Si la trayectoria es recta (opción a) pero la partícula acelera o frena, la velocidad instantánea cambiará segundo a segundo, por lo que no será igual a la velocidad media global del viaje. Por ende, la condición necesaria y suficiente es que la velocidad no varíe en absoluto.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large e) su velocidad es constante
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una partícula se mueve durante $20\,\si{s}$, de tal manera que su velocidad media es $60\hat{i} + 80\hat{j} \,\si{m/s}$, entonces necesariamente:
+\begin{enumerate}[label=\alph*)]
+    \item su trayectoria es recta
+    \item su trayectoria es curva
+    \item la dirección del su desplazamiento es $0.6\hat{i} + 0.8\hat{j}$
+    \item la dirección de la su posición es $0.6\hat{i} + 0.8\hat{j}$
+    \item su velocidad instantánea es $60\hat{i} + 80\hat{j} \,\si{m/s}$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Cálculo de Vectores Directores (Unitarios)}
+Sabemos por definición que la velocidad media es un vector colineal y paralelo al vector desplazamiento:
+$$ \vec{v}_m = \frac{\Delta \vec{r}}{\Delta t} \implies \Delta \vec{r} = \vec{v}_m \Delta t $$
+
+Calculamos el vector desplazamiento para el intervalo $\Delta t = 20\,\si{s}$:
+$$ \Delta \vec{r} = (60\hat{i} + 80\hat{j})(20) = 1200\hat{i} + 1600\hat{j} \,\si{m} $$
+
+La \textbf{dirección} de cualquier vector en física se define matemáticamente mediante su \textbf{vector unitario} ($\hat{u}$). Para hallar la dirección del desplazamiento, calculamos su magnitud y dividimos el vector para dicha magnitud:
+$$ |\Delta \vec{r}| = \sqrt{1200^2 + 1600^2} = \sqrt{1440000 + 2560000} = \sqrt{4000000} = 2000\,\si{m} $$
+
+Ahora, encontramos el vector unitario del desplazamiento ($\hat{u}_{\Delta r}$):
+$$ \hat{u}_{\Delta r} = \frac{\Delta \vec{r}}{|\Delta \vec{r}|} = \frac{1200\hat{i} + 1600\hat{j}}{2000} $$
+$$ \hat{u}_{\Delta r} = \left(\frac{1200}{2000}\right)\hat{i} + \left(\frac{1600}{2000}\right)\hat{j} $$
+$$ \hat{u}_{\Delta r} = 0.6\hat{i} + 0.8\hat{j} $$
+
+\textit{Nota: Nótese que si calculábamos el unitario directamente de la velocidad media ($\vec{v}_m$), obteníamos exactamente la misma dirección, ya que ambos vectores son paralelos.}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) la dirección del su desplazamiento es $0.6\hat{i} + 0.8\hat{j}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una partícula se mueve de tal manera que se registra las siguientes velocidades: $\vec{v}_0 = -20\hat{i}\,\si{m/s}$, $\vec{v}_1 = -20\hat{i}\,\si{m/s}$, $\vec{v}_2 = -20\hat{i}\,\si{m/s}$ y $\vec{v}_3 = -20\hat{i}\,\si{m/s}$, a los instantes $t_0 = 0\,\si{s}$, $t_1 = 10\,\si{s}$, $t_2 = 20\,\si{s}$ y $t_3 = 30\,\si{s}$, respectivamente. Es correcto afirmar que la partícula:
+\begin{enumerate}[label=\alph*)]
+    \item se mueve con velocidad constante
+    \item se mueve con rapidez constante
+    \item tiene una trayectoria rectilínea
+    \item puede tener una trayectoria circular
+    \item tiene una velocidad media igual a $-20\hat{i}\,\si{m/s}$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Refutación de las Falsas Asunciones (Muestreo Discreto)}
+\textit{Nota de Tutor: El estudiante resaltó las opciones 'a' y 'e', cayendo en una trampa común. Analicemos por qué son falsas.}
+
+\begin{itemize}
+    \item \textbf{Opciones a, b y c:} Son falsas. El enunciado nos da un \textbf{muestreo discreto} (solo sabemos qué ocurre cada 10 segundos). Es imposible \textit{asegurar} que entre el segundo 1 y el segundo 9 la partícula no haya frenado, acelerado o dado una vuelta. No podemos confirmar que sea constante ni rectilínea en los espacios vacíos de información.
+    \item \textbf{Opción e (Marcada por error):} Falsa. La velocidad media se define como el desplazamiento total sobre el tiempo total ($\Delta \vec{r}/\Delta t$). Como desconocemos la trayectoria real entre los intervalos, no podemos conocer el desplazamiento. Si la partícula dio vueltas y terminó cerca de su origen, su velocidad media podría ser $\vec{0}$.
+    \item \textbf{Opción d (Correcta):} Afirma que \textbf{puede} ser circular (es una posibilidad, no una certeza). Si la partícula estuviera en un Movimiento Circular Uniforme (MCU) en sentido antihorario, y su \textbf{período} fuera de $10\,\si{s}$, cada 10 segundos pasaría exactamente por el punto más alto de la trayectoria, donde su vector velocidad tangencial apuntaría siempre hacia la izquierda (dirección $-\hat{i}$).
+\end{itemize}
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def draw_discrete_circular():
+    fig, ax = plt.subplots(figsize=(6, 4))
+    ax.set_title("Trayectoria Circular Posible (Período T = 10 s)")
+    
+    # Circunferencia
+    circle = plt.Circle((0, -1), 1, fill=False, color='gray', linestyle='--')
+    ax.add_patch(circle)
+    
+    # Posición en t = 0, 10, 20, 30s (Punto Superior)
+    ax.plot(0, 0, 'ko', markersize=8) 
+    
+    # Vector Velocidad en esos instantes (Hacia la izquierda)
+    ax.arrow(0, 0, -1.5, 0, head_width=0.15, color='red', length_includes_head=True)
+    ax.text(-1.8, 0.2, r'$\vec{v} = -20\hat{i}$', color='red', va='center', fontsize=12)
+    
+    # Etiquetas
+    ax.text(0, 0.4, "$t = 0, 10, 20, 30\,\mathrm{s}$", ha='center', fontsize=10)
+    
+    ax.set_xlim(-3, 2); ax.set_ylim(-2.5, 1); ax.axis('off')
+    plt.tight_layout()
+    plt.show()
+
+draw_discrete_circular()
+\end{lstlisting}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large d) puede tener una trayectoria circular
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+De los siguientes enunciados, señale la afirmación correcta:
+\begin{enumerate}[label=\alph*)]
+    \item siempre que la aceleración es constante, la trayectoria es rectilínea
+    \item siempre que la aceleración es variable, la trayectoria es curvilínea
+    \item si el ángulo formado entre la velocidad y la aceleración es obtuso, el movimiento de la partícula es uniforme
+    \item si el ángulo formado entre la velocidad y la aceleración es agudo, el movimiento de la partícula es retardado
+    \item si el ángulo formado entre la velocidad y la aceleración es obtuso, el movimiento de la partícula es retardado
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Relación Vectorial Velocidad-Aceleración}
+El tipo de movimiento depende de la proyección del vector aceleración ($\vec{a}$) sobre la dirección del vector velocidad ($\vec{v}$). Esta proyección es la \textbf{aceleración tangencial} ($a_T$).
+
+\begin{itemize}
+    \item \textbf{Opción a:} Falsa. En el tiro parabólico, la aceleración es la gravedad (constante), pero la trayectoria es una parábola.
+    \item \textbf{Opción b:} Falsa. Una partícula en línea recta puede tener aceleración variable (ej. un auto frenando bruscamente de a tirones).
+    \item \textbf{Opciones c y d:} Falsas por definiciones trigonométricas.
+    \item \textbf{Opción e (Correcta):} Matemáticamente, el producto punto entre ambos vectores es $\vec{v} \cdot \vec{a} = |\vec{v}||\vec{a}|\cos\theta$. Si el ángulo $\theta$ es obtuso ($90^\circ < \theta \le 180^\circ$), el coseno es \textbf{negativo}. Esto significa que la componente tangencial de la aceleración apunta en dirección opuesta a la velocidad. Físicamente, esta "oposición" frena a la partícula, disminuyendo su rapidez, lo que define a un movimiento \textbf{retardado} (o desacelerado).
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large e) si el ángulo formado entre la velocidad y la aceleración es obtuso, el movimiento de la partícula es retardado
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+La figura muestra cuatro trayectorias que podría tomar una partícula que se desplaza con rapidez constante $v$. Clasifíquelas de manera descendente de acuerdo con la magnitud de la aceleración que experimentaría:
+
+\begin{center}
+\begin{tikzpicture}[scale=1.5, >=Latex]
+    % Líneas de referencia
+    \draw[dashed, gray] (2, 0) -- (2, -1.5);
+    \draw[dashed, gray] (2.5, 0) -- (2.5, -1.5);
+    
+    % Trayectoria 1 (Radio grande superior)
+    \draw[thick] (-0.5, 0) -- (1.5, 0) arc (90:0:1);
+    \node at (-0.7, 0) {1};
+    
+    % Trayectoria 2 (Radio pequeño superior)
+    \draw[thick] (-0.5, -0.5) -- (1.5, -0.5) arc (90:0:0.5);
+    \node at (-0.7, -0.5) {2};
+    
+    % Trayectoria 3 (Semicírculo grande inferior)
+    \draw[thick] (0, -1.5) arc (180:0:1.25);
+    \node at (-0.2, -1.5) {3};
+    
+    % Trayectoria 4 (Semicírculo pequeño inferior)
+    \draw[thick] (1.5, -1.5) arc (180:0:0.5);
+    \node at (1.3, -1.5) {4};
+\end{tikzpicture}
+\end{center}
+
+\begin{enumerate}[label=\alph*)]
+    \item $a_2 > a_4 > a_1 > a_3$
+    \item $a_3 > a_4 > a_1 > a_2$
+    \item $a_1 > a_4 > a_2 > a_3$
+    \item $a_2 > a_3 > a_1 > a_4$
+    \item $a_2 > a_3 > a_4 > a_1$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Aceleración Normal (Centrípeta)}
+Dado que el problema indica que la partícula se desplaza con \textbf{rapidez constante} ($|\vec{v}| = \text{cte}$), sabemos que no existe aceleración tangencial ($a_T = 0$). Toda la aceleración que experimenta la partícula se debe exclusivamente al cambio de dirección en las curvas, lo cual se conoce como \textbf{aceleración normal o centrípeta} ($a_N$).
+
+La magnitud de la aceleración normal está dada por la ecuación:
+$$ a_N = \frac{v^2}{R} $$
+Donde $v$ es la rapidez constante y $R$ es el radio de curvatura.
+Como $v$ es igual para todas las trayectorias, la aceleración es \textbf{inversamente proporcional al radio}. Esto significa que a menor radio (curva más cerrada), mayor será la aceleración que experimente la partícula.
+
+Ordenando visualmente los radios de curvatura de menor a mayor:
+$$ R_2 < R_4 < R_1 < R_3 $$
+Por ende, el orden descendente de las aceleraciones (de mayor a menor) es exactamente el opuesto:
+$$ a_2 > a_4 > a_1 > a_3 $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large a) $a_2 > a_4 > a_1 > a_3$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un satélite artificial órbita alrededor de la Tierra a lo largo de una circunferencia con rapidez constante. Entonces su:
+\begin{enumerate}[label=\alph*)]
+    \item velocidad es constante
+    \item aceleración es constante
+    \item aceleración es variable en magnitud y constante en dirección
+    \item aceleración es variable en dirección y constante en magnitud
+    \item aceleración es nula
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Corrección de Conceptos: MCU y Aceleración}
+\textit{Nota del Tutor: El estudiante seleccionó la opción 'e' ("aceleración es nula") justificando que como la rapidez no varía, no hay aceleración. ¡Cuidado! Esta es una de las mayores falacias de la cinemática. Demostraremos por qué es falso.}
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def draw_satellite_orbit():
+    fig, ax = plt.subplots(figsize=(5, 5))
+    ax.set_title("Vectores en el Movimiento Circular (Satélite)")
+    ax.set_xlim(-1.5, 1.5); ax.set_ylim(-1.5, 1.5); ax.axis('off')
+    
+    # Tierra (Centro) y Órbita
+    ax.plot(0, 0, 'bo', markersize=15); ax.text(0, -0.2, "Tierra", ha='center', fontsize=8)
+    circle = plt.Circle((0, 0), 1, fill=False, color='gray', linestyle='--')
+    ax.add_patch(circle)
+    
+    # Posición 1 (Derecha)
+    ax.plot(1, 0, 'ko')
+    ax.arrow(1, 0, 0, 0.6, head_width=0.08, color='red') # Velocidad (tangente)
+    ax.text(1.1, 0.4, r'$\vec{v}_1$', color='red')
+    ax.arrow(1, 0, -0.4, 0, head_width=0.08, color='green') # Aceleracion (al centro)
+    ax.text(0.5, 0.1, r'$\vec{a}_c$', color='green')
+
+    # Posición 2 (Arriba)
+    ax.plot(0, 1, 'ko')
+    ax.arrow(0, 1, -0.6, 0, head_width=0.08, color='red') # Velocidad
+    ax.text(-0.4, 1.1, r'$\vec{v}_2$', color='red')
+    ax.arrow(0, 1, 0, -0.4, head_width=0.08, color='green') # Aceleracion
+    ax.text(0.1, 0.6, r'$\vec{a}_c$', color='green')
+
+    plt.show()
+
+draw_satellite_orbit()
+\end{lstlisting}
+
+En un Movimiento Circular Uniforme (MCU), la **rapidez** (escalar) es constante, pero la **velocidad** (vector) está cambiando continuamente de dirección para mantener la trayectoria circular. 
+Según la Segunda Ley de Newton, todo cambio de velocidad (incluso si es solo un cambio de dirección) requiere una fuerza, y por ende, una **aceleración**.
+
+Esta es la aceleración centrípeta ($\vec{a}_c$), calculada como $a_c = v^2/R$.
+\begin{itemize}
+    \item Su \textbf{magnitud} ($v^2/R$) se mantiene rígidamente constante, porque $v$ y $R$ no cambian.
+    \item Su \textbf{dirección} es radial y apunta siempre hacia el centro de la Tierra. A medida que el satélite se mueve por la órbita, el vector "hacia el centro" va rotando, por lo que su dirección \textbf{varía de forma continua} en el espacio.
+\end{itemize}
+Por tanto, la aceleración NO es nula. Es variable en dirección, pero constante en magnitud.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large d) aceleración es variable en dirección y constante en magnitud
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Si la dirección de la aceleración tangencial de una partícula apunta a favor de su velocidad, entonces necesariamente su rapidez:
+\begin{enumerate}[label=\alph*)]
+    \item aumenta
+    \item disminuye
+    \item aumenta y luego disminuye
+    \item disminuye y luego aumenta
+    \item no se puede determinar
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Aceleración Tangencial y Rapidez}
+La aceleración total de una partícula ($\vec{a}$) se puede descomponer en dos vectores ortogonales:
+$$ \vec{a} = \vec{a}_T + \vec{a}_N $$
+\begin{itemize}
+    \item La aceleración normal ($\vec{a}_N$) se encarga exclusivamente de curvar la trayectoria (cambiar la dirección).
+    \item La aceleración tangencial ($\vec{a}_T$) descansa exactamente sobre la misma línea de acción que el vector velocidad ($\vec{v}$) y es la única responsable de cambiar la \textbf{rapidez} escalar ($v$). Su relación es $a_T = dv/dt$.
+\end{itemize}
+
+Si $\vec{a}_T$ apunta "a favor" de $\vec{v}$ (es decir, son paralelos y forman un ángulo de $0^\circ$), el producto escalar es positivo. Físicamente, la aceleración está "empujando" a la partícula en el mismo sentido en el que ya se está moviendo, lo que por definición causa que su rapidez escalar incremente de forma continua.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large a) aumenta
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+De los siguientes enunciados, señale la afirmación correcta:
+\begin{enumerate}[label=\alph*)]
+    \item si $|\vec{a}_T|$ es constante y diferente de cero, el movimiento es uniforme
+    \item si $|\vec{a}_T|$ es constante y diferente de cero, el movimiento es uniformemente variado
+    \item si $|\vec{a}_T|$ aumenta, el movimiento es acelerado
+    \item si $|\vec{a}_T|$ disminuye, el movimiento es retardado
+    \item si $|\vec{a}_T|$ es cero, el movimiento es variable
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Clasificación Cinemática de los Movimientos}
+Analizamos el rol de la magnitud de la aceleración tangencial $|\vec{a}_T| = |dv/dt|$:
+\begin{itemize}
+    \item \textbf{Opción a:} Falsa. "Uniforme" requiere que la rapidez no cambie en absoluto ($a_T = 0$).
+    \item \textbf{Opciones c y d:} Falsas. Que la partícula esté acelerando o frenando depende de si $\vec{a}_T$ está a favor o en contra de la velocidad, \textbf{no} de si el valor de $|\vec{a}_T|$ en sí está subiendo o bajando. (Por ejemplo, si freno de golpe y voy soltando el pedal, mi desaceleración disminuye, pero mi movimiento sigue siendo retardado).
+    \item \textbf{Opción e:} Falsa. Si es cero, la rapidez es constante.
+    \item \textbf{Opción b (Correcta):} Si $|\vec{a}_T|$ es un valor constante ($a_T = \text{cte} \neq 0$), significa que la rapidez aumenta o disminuye exactamente en la misma proporción en cada unidad de tiempo (ej. la gravedad, que suma $9.8\,\si{m/s}$ cada segundo). Esto constituye la definición teórica formal de un Movimiento \textbf{Uniformemente Variado} (MRUV o MCUV dependiendo de la trayectoria).
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) si $|\vec{a}_T|$ es constante y diferente de cero, el movimiento es uniformemente variado
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una partícula se mueve con rapidez constante $v$ a lo largo de la trayectoria de la figura. Entonces, es correcto afirmar que la:
+
+\begin{center}
+\begin{tikzpicture}[scale=1.5, >=Latex]
+    % Punto A y segmento recto
+    \filldraw (0,0) circle (1pt) node[below] {$A$};
+    \draw[thick] (0,0) -- (1.5,0);
+    
+    % Vector velocidad inicial
+    \draw[->, thick, black] (0.2,0) -- (1.2,0) node[above] {$v$};
+    
+    % Curva hacia arriba
+    \draw[thick] (1.5,0) to[out=0, in=250] (2.5, 1);
+    
+    % Punto B y vector velocidad final
+    \filldraw (2.5,1) circle (1pt) node[right] {$B$};
+    \draw[->, thick, black] (2.5,1) -- (2.7, 1.8) node[right] {$v$};
+\end{tikzpicture}
+\end{center}
+
+\begin{enumerate}[label=\alph*)]
+    \item $\vec{a}_T$ y $\vec{a}_N$ son constantes
+    \item $\vec{a}_T$ es variable y $\vec{a}_N$ es constante
+    \item $\vec{a}_T$ y $\vec{a}_N$ son variables
+    \item $\vec{a}_T$ es variable y $\vec{a}_N$ es nula
+    \item $\vec{a}_T$ es nula y $\vec{a}_N$ es variable
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis de las Componentes Intrínsecas de la Aceleración}
+Evaluemos matemáticamente cada componente de la aceleración total del sistema:
+
+\textbf{1. Aceleración Tangencial ($\vec{a}_T$):}
+Sabemos que la componente tangencial es la derivada temporal de la rapidez ($a_T = dv/dt$). 
+El enunciado establece explícitamente que la partícula se mueve con \textbf{rapidez constante $v$}. La derivada de una constante es cero. Por lo tanto, en todo momento a lo largo del viaje, $\vec{a}_T = \vec{0}$ (es estrictamente nula).
+
+\textbf{2. Aceleración Normal o Centrípeta ($\vec{a}_N$):}
+La magnitud de la aceleración normal está dada por $a_N = v^2/R$, donde $R$ es el radio de curvatura.
+Observando la figura geométrica de la trayectoria:
+\begin{itemize}
+    \item Desde $A$ hasta el inicio de la curva, el camino es una línea recta. En una recta, el radio de curvatura tiende al infinito ($R \to \infty$), por lo que $a_N = v^2/\infty = 0$.
+    \item A medida que entra en la curva hacia $B$, el radio $R$ toma valores finitos. Por lo tanto, $a_N$ adquiere un valor numérico mayor que cero. Además, el vector $\vec{a}_N$ va cambiando constantemente de dirección espacial apuntando siempre hacia el centro instantáneo de curvatura.
+\end{itemize}
+Como $a_N$ pasó de ser cero a tener un valor positivo, y su dirección está en continuo cambio, se concluye formalmente que $\vec{a}_N$ es \textbf{variable}.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large e) $\vec{a}_T$ es nula y $\vec{a}_N$ es variable
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+En un partido de fútbol dos jugadores A y B se mueven con velocidades constantes respecto a tierra de $2\hat{i}$ y $4\hat{i}\,\si{m/s}$, respectivamente. Si el jugador B observa que el balón se acerca con una velocidad de $-10\hat{i}\,\si{m/s}$, entonces la velocidad del balón respecto al jugador A es:
+\begin{enumerate}[label=\alph*)]
+    \item $-10\hat{i}\,\si{m/s}$
+    \item $-8\hat{i}\,\si{m/s}$
+    \item $-6\hat{i}\,\si{m/s}$
+    \item $4\hat{i}\,\si{m/s}$
+    \item $10\hat{i}\,\si{m/s}$
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Transformaciones Vectoriales de Velocidad Relativa}
+Este problema requiere aplicar el principio de relatividad de Galileo paso a paso. Recopilamos los vectores de velocidad con respecto a la Tierra (marco de referencia inercial estacionario):
+$$ \vec{v}_A = 2\hat{i} \,\si{m/s} $$
+$$ \vec{v}_B = 4\hat{i} \,\si{m/s} $$
+
+El problema nos da una velocidad relativa: el balón visto por el jugador B. En notación física esto es:
+$$ \vec{v}_{\text{balón}/B} = -10\hat{i} \,\si{m/s} $$
+
+Por definición, la ecuación de velocidad relativa es:
+$$ \vec{v}_{\text{balón}/B} = \vec{v}_{\text{balón}} - \vec{v}_B $$
+
+\textbf{Paso 1: Hallar la velocidad absoluta del balón respecto a tierra.}
+Despejamos $\vec{v}_{\text{balón}}$ de la ecuación anterior:
+$$ \vec{v}_{\text{balón}} = \vec{v}_{\text{balón}/B} + \vec{v}_B $$
+Sustituyendo los datos:
+$$ \vec{v}_{\text{balón}} = (-10\hat{i}) + (4\hat{i}) = -6\hat{i} \,\si{m/s} $$
+(Esto significa que, para un espectador en las gradas, la pelota viaja a $6\,\si{m/s}$ hacia la izquierda).
+
+\textbf{Paso 2: Calcular la velocidad del balón observada por A.}
+Ahora aplicamos la definición de velocidad relativa, pero esta vez desde el marco de referencia del jugador A:
+$$ \vec{v}_{\text{balón}/A} = \vec{v}_{\text{balón}} - \vec{v}_A $$
+Sustituimos el vector absoluto del balón recién calculado y el vector del jugador A:
+$$ \vec{v}_{\text{balón}/A} = (-6\hat{i}) - (2\hat{i}) $$
+$$ \vec{v}_{\text{balón}/A} = -8\hat{i} \,\si{m/s} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) $-8\hat{i}\,\si{m/s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+De las siguientes afirmaciones, escoja la correcta:
+\begin{enumerate}[label=\alph*)]
+    \item Se debe usar una magnitud escalar para indicar la posición de una partícula.
+    \item La trayectoria de una partícula se representa con una cantidad vectorial.
+    \item La velocidad de una partícula es una cantidad escalar.
+    \item La rapidez de una partícula es una cantidad escalar.
+    \item El vector desplazamiento tiene igual dirección que el vector posición.
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Clasificación de Magnitudes Cinemáticas}
+Para identificar la opción correcta, debemos clasificar rigurosamente cada concepto físico en su naturaleza matemática (escalar o vectorial):
+\begin{itemize}
+    \item \textbf{Opción a:} Falsa. La \textbf{posición} ($\vec{r}$) es estrictamente un vector, ya que requiere coordenadas espaciales ($x, y, z$) desde un origen para estar definida.
+    \item \textbf{Opción b:} Falsa. La \textbf{trayectoria} es el lugar geométrico o conjunto de puntos por donde pasa la partícula; es una curva, no un vector.
+    \item \textbf{Opción c:} Falsa. La \textbf{velocidad} ($\vec{v}$) es un vector; requiere magnitud y dirección espacial.
+    \item \textbf{Opción e:} Falsa. El \textbf{desplazamiento} ($\Delta \vec{r} = \vec{r}_f - \vec{r}_0$) es la resta de dos vectores de posición. Su dirección depende de hacia dónde se movió la partícula, lo cual rara vez coincide con la dirección que apunta el vector posición desde el origen.
+    \item \textbf{Opción d (Correcta):} La \textbf{rapidez} ($v$) se define como el módulo o magnitud absoluta de la velocidad ($v = |\vec{v}|$). Al ser solo una magnitud (un número y una unidad, sin dirección), es por definición una cantidad \textbf{escalar}.
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large d) La rapidez de una partícula es una cantidad escalar.
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un auto de carreras completa 3 vueltas en una pista circular de $300$ metros de radio, en un intervalo de tiempo de $1$ minuto. Entonces la velocidad media es \_\_\_\_\_\_\_, y la rapidez media es \_\_\_\_\_\_\_.
+\begin{enumerate}[label=\alph*)]
+    \item nula -- $10 \,\si{m/s}$
+    \item $10\hat{i} \,\si{m/s}$ -- $30\pi \,\si{m/s}$
+    \item nula -- $30\pi \,\si{m/s}$
+    \item cero -- $5\pi \,\si{m/s}$
+    \item $10\pi \,\si{m/s}$ -- cero
+\end{enumerate}
+
+\subsection*{Solución}
+
+\textbf{Cálculo de la Velocidad Media:}
+La velocidad media es una cantidad vectorial dependiente únicamente del vector desplazamiento:
+$$ \vec{v}_m = \frac{\Delta \vec{r}}{\Delta t} = \frac{\vec{r}_f - \vec{r}_0}{\Delta t} $$
+Dado que el auto completó exactamente 3 vueltas cerradas, retornó al mismo punto del cual partió. Esto significa que la posición final es igual a la inicial ($\vec{r}_f = \vec{r}_0$). Por tanto, el desplazamiento es cero ($\Delta \vec{r} = \vec{0}$) y la velocidad media es \textbf{nula}.
+
+\textbf{Cálculo de la Rapidez Media:}
+La rapidez media es una cantidad escalar que depende de la distancia total recorrida sobre la trayectoria real:
+$$ \text{Rapidez} = \frac{\text{Distancia Total}}{\text{Tiempo Total}} $$
+La longitud (perímetro) de una vuelta completa a la pista circular es $L = 2\pi R$.
+Sustituyendo el radio $R = 300\,\si{m}$:
+$$ L = 2\pi (300) = 600\pi\,\si{m} $$
+Al completar 3 vueltas, la distancia total recorrida es:
+$$ d = 3 \times 600\pi = 1800\pi\,\si{m} $$
+El intervalo de tiempo total es $1\,\text{minuto}$, que equivale a $60\,\si{s}$.
+Calculamos la rapidez:
+$$ \text{Rapidez} = \frac{1800\pi}{60} = 30\pi\,\si{m/s} $$
+
+La combinación correcta es velocidad media nula y rapidez media $30\pi\,\si{m/s}$.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) nula -- $30\pi \,\si{m/s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Para una partícula que se mueve a lo largo de una trayectoria cualquiera en un intervalo de tiempo $\Delta t$, la magnitud de su velocidad media ($|\vec{v}_m|$) en comparación con su rapidez media ($v_m$) cumple siempre la siguiente relación matemática:
+\begin{enumerate}[label=\alph*)]
+    \item $|\vec{v}_m| > v_m$
+    \item $|\vec{v}_m| < v_m$
+    \item $|\vec{v}_m| \ge v_m$
+    \item $|\vec{v}_m| \le v_m$
+    \item $|\vec{v}_m| = v_m$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Desplazamiento vs. Distancia Recorrida}
+Recordemos las definiciones formales:
+\begin{itemize}
+    \item La \textbf{magnitud de la velocidad media} depende de la magnitud del desplazamiento: $|\vec{v}_m| = \frac{|\Delta \vec{r}|}{\Delta t}$
+    \item La \textbf{rapidez media} depende de la distancia total recorrida sobre la curva: $v_m = \frac{d}{\Delta t}$
+\end{itemize}
+
+Por geometría básica, la distancia más corta entre dos puntos es la línea recta (el módulo del desplazamiento $|\Delta \vec{r}|$). Cualquier otra trayectoria curva será más larga que esa recta. Por lo tanto, se cumple invariablemente que $|\Delta \vec{r}| \le d$. 
+Al dividir ambos términos por el mismo escalar de tiempo positivo $\Delta t$, la desigualdad se mantiene:
+$$ \frac{|\Delta \vec{r}|}{\Delta t} \le \frac{d}{\Delta t} $$
+$$ |\vec{v}_m| \le v_m $$
+(Solo son exactamente iguales si la partícula viaja en línea recta y sin retroceder nunca).
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large d) $|\vec{v}_m| \le v_m$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+El área bajo la curva en un gráfico de "Velocidad versus Tiempo" ($v_x$ vs $t$) entre dos instantes $t_1$ y $t_2$ representa físicamente:
+\begin{enumerate}[label=\alph*)]
+    \item La aceleración media en ese intervalo
+    \item El desplazamiento realizado por la partícula en ese intervalo
+    \item La posición final de la partícula
+    \item La velocidad media de la partícula
+    \item El cambio en la aceleración
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Integración en la Cinemática}
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def draw_integral_kinematics():
+    fig, ax = plt.subplots(figsize=(6, 4))
+    ax.set_title("Área bajo la curva $v_x$ vs $t$")
+    
+    # Ejes
+    ax.spines['left'].set_position('zero')
+    ax.spines['bottom'].set_position('zero')
+    ax.spines['right'].set_color('none')
+    ax.spines['top'].set_color('none')
+    ax.set_xlabel('$t$ (s)', loc='right')
+    ax.set_ylabel('$v_x$ (m/s)', loc='top')
+    
+    # Curva de velocidad (Parábola ilustrativa)
+    t = np.linspace(0, 5, 100)
+    v = -0.5 * (t - 2.5)**2 + 4
+    ax.plot(t, v, 'b-', lw=2)
+    
+    # Sombreado del área (Integral)
+    t_fill = np.linspace(1, 4, 50)
+    v_fill = -0.5 * (t_fill - 2.5)**2 + 4
+    ax.fill_between(t_fill, 0, v_fill, color='lightblue', alpha=0.5)
+    
+    # Etiquetas
+    ax.text(2.5, 1.5, r"$\int_{t_1}^{t_2} v_x dt = \Delta x$", fontsize=12, ha='center')
+    ax.plot([1, 1], [0, -0.5*(1-2.5)**2+4], 'k--'); ax.text(1, -0.4, "$t_1$")
+    ax.plot([4, 4], [0, -0.5*(4-2.5)**2+4], 'k--'); ax.text(4, -0.4, "$t_2$")
+
+    ax.set_xlim(-0.5, 6); ax.set_ylim(-1, 5)
+    plt.tight_layout()
+    plt.show()
+
+draw_integral_kinematics()
+\end{lstlisting}
+
+Sabemos que la velocidad instantánea es la derivada de la posición con respecto al tiempo:
+$$ v_x = \frac{dx}{dt} $$
+Si reordenamos la ecuación separando los diferenciales:
+$$ dx = v_x \, dt $$
+Aplicamos la integral definida a ambos lados desde el instante $t_1$ hasta $t_2$:
+$$ \int_{x_1}^{x_2} dx = \int_{t_1}^{t_2} v_x \, dt $$
+$$ x_2 - x_1 = \int_{t_1}^{t_2} v_x \, dt $$
+$$ \Delta x = \int_{t_1}^{t_2} v_x \, dt $$
+En el cálculo, la integral definida geométricamente representa el área bajo la curva. Por lo tanto, el área bajo la curva velocidad-tiempo corresponde al \textbf{desplazamiento} ($\Delta x$). (Ojo: NO es la posición final, es cuánto cambió la posición).
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) El desplazamiento realizado por la partícula en ese intervalo
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+La pendiente de la recta tangente en un gráfico de "Velocidad versus Tiempo" ($v_x$ vs $t$) representa físicamente:
+\begin{enumerate}[label=\alph*)]
+    \item La velocidad instantánea
+    \item La rapidez media
+    \item La aceleración media
+    \item La aceleración instantánea
+    \item El desplazamiento instantáneo
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Derivación en la Cinemática}
+En matemáticas, la pendiente ($m$) de la recta tangente a una curva en un punto específico representa la \textbf{derivada} de la función en ese punto.
+Si la gráfica tiene la velocidad ($v_x$) en el eje de las ordenadas y el tiempo ($t$) en el eje de las abscisas, la pendiente es:
+$$ m = \frac{dv_x}{dt} $$
+Por definición física, la tasa de cambio de la velocidad en un instante infinitamente pequeño (su derivada con respecto al tiempo) es la \textbf{aceleración instantánea} ($a_x$).
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large d) La aceleración instantánea
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una partícula se lanza verticalmente hacia arriba. Justo en el instante en que alcanza su altura máxima, es correcto afirmar que:
+\begin{enumerate}[label=\alph*)]
+    \item Su velocidad es cero y su aceleración es cero
+    \item Su velocidad es cero y su aceleración es diferente de cero
+    \item Su rapidez es máxima y su aceleración es constante
+    \item El vector velocidad cambia de signo, por lo que la aceleración se vuelve positiva
+    \item Está en estado de equilibrio mecánico
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Puntos de Inflexión Cinemática}
+Cuando un objeto sube, su velocidad apunta hacia arriba. Cuando baja, su velocidad apunta hacia abajo. Para que un vector pase de apuntar en una dirección ($+y$) a la opuesta ($-y$) de forma continua, debe obligatoriamente pasar por el cero. Por lo tanto, en la altura máxima, \textbf{su velocidad instantánea es cero} ($v_y = 0$).
+
+Sin embargo, \textbf{la aceleración nunca se detiene}. La gravedad terrestre está actuando constantemente sobre la partícula durante todo el vuelo, halándola hacia el centro de la Tierra. Si la aceleración también fuera cero en el punto más alto, la partícula se quedaría flotando en equilibrio en el aire indefinidamente. 
+Como no se queda flotando, es evidente que la aceleración de la gravedad ($g \approx 9.8\,\si{m/s^2}$ hacia abajo) sigue operando incluso cuando la velocidad es momentáneamente cero.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) Su velocidad es cero y su aceleración es diferente de cero
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Si un objeto se mueve en línea recta unidimensional, su velocidad instantánea se define matemáticamente como el límite:
+\begin{enumerate}[label=\alph*)]
+    \item $\lim_{\Delta t \to 0} \frac{\Delta x}{\Delta t}$
+    \item $\lim_{\Delta x \to 0} \frac{\Delta t}{\Delta x}$
+    \item $\lim_{\Delta t \to \infty} \frac{\Delta x}{\Delta t}$
+    \item $\lim_{\Delta t \to 0} \frac{d}{\Delta t}$
+    \item $\lim_{\Delta x \to \infty} \frac{\Delta x}{\Delta t}$
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. El Concepto de Límite en la Velocidad}
+La velocidad media nos da un promedio macroscópico: $v_{mx} = \frac{\Delta x}{\Delta t}$. 
+Para conocer la velocidad en un "instante" preciso, debemos "encoger" nuestro cronómetro para que el intervalo de medición sea casi nulo. 
+En el cálculo diferencial, esto se logra tomando el límite matemático cuando el intervalo de tiempo $\Delta t$ tiende a cero. 
+$$ v_x = \lim_{\Delta t \to 0} \frac{\Delta x}{\Delta t} \equiv \frac{dx}{dt} $$
+\begin{itemize}
+    \item \textbf{Opción d:} Falsa. Utiliza $d$ (distancia escalar), por lo que sería la definición de la \textit{rapidez} instantánea, no de la velocidad.
+    \item \textbf{Opción a (Correcta):} Utiliza $\Delta x$ (desplazamiento), formando la definición correcta de la derivada de la posición.
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large a) $\lim_{\Delta t \to 0} \frac{\Delta x}{\Delta t}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+La velocidad de un cuerpo en movimiento depende fundamentalmente de:
+\begin{enumerate}[label=\alph*)]
+    \item La masa del cuerpo
+    \item Las fuerzas internas del cuerpo
+    \item El sistema de referencia inercial elegido por el observador
+    \item La forma geométrica del cuerpo
+    \item Exclusivamente de la aceleración constante de la gravedad
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. La Naturaleza Relativa del Movimiento}
+Una de las conclusiones más profundas de la física clásica (Relatividad de Galileo) es que el "reposo absoluto" no existe. 
+Para poder medir si algo tiene velocidad, necesitamos un punto de partida para trazar nuestro vector posición ($\vec{r}$). Este punto es el origen de un **Sistema de Referencia**.
+
+Si tú estás sentado leyendo un libro en un avión que viaja a $900\,\si{km/h}$:
+\begin{itemize}
+    \item Para el pasajero de al lado (su sistema de referencia es el avión), tu velocidad es \textbf{cero}.
+    \item Para una persona en tierra firme (su sistema de referencia es la Tierra), tu velocidad es \textbf{$900\,\si{km/h}$}.
+    \item Para un astronauta en la Luna, tu velocidad incluye además la rotación de la Tierra.
+\end{itemize}
+Por lo tanto, la velocidad no es una propiedad intrínseca del cuerpo (como la masa), sino una \textbf{magnitud relativa} que depende por completo del observador y su marco de referencia.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) El sistema de referencia inercial elegido por el observador
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+En un movimiento curvilíneo, ¿es posible que el vector "cambio de velocidad" ($\Delta \vec{v}$) sea distinto de cero incluso si la rapidez de la partícula permanece estrictamente constante?
+\begin{enumerate}[label=\alph*)]
+    \item Sí, porque la dirección de la velocidad cambia continuamente
+    \item Sí, porque la masa de la partícula cambia en las curvas
+    \item No, si la rapidez es constante $\Delta \vec{v}$ tiene que ser cero
+    \item No, el movimiento curvilíneo exige variación en la rapidez
+    \item Solo si el radio de la curva aumenta
+\end{enumerate}
+
+% --- SOLUCIÓN ---
+\subsection*{Solución}
+
+\subsubsection*{1. Variación Vectorial vs. Escalar}
+El "cambio de velocidad" se define como la resta de dos vectores en distintos instantes:
+$$ \Delta \vec{v} = \vec{v}_f - \vec{v}_0 $$
+Si la rapidez es constante ($|\vec{v}_f| = |\vec{v}_0| = v$), la longitud de la flecha del vector no cambia. 
+Sin embargo, en cualquier trayectoria curva, el vector velocidad (que siempre es tangente a la trayectoria) \textbf{está obligado a apuntar en diferentes direcciones} en el espacio a medida que avanza.
+
+Dado que dos vectores solo son iguales si tienen la misma magnitud \textit{y} la misma dirección, si la dirección cambia, los vectores ya no son iguales ($\vec{v}_f \neq \vec{v}_0$). Al restarlos, el resultado matemático nunca será el vector nulo ($\Delta \vec{v} \neq \vec{0}$). Este cambio vectorial es precisamente lo que origina la aceleración centrípeta.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large a) Sí, porque la dirección de la velocidad cambia continuamente
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Al analizar matemáticamente la derivada de la posición con respecto al tiempo, se encuentra que la expresión $\frac{d}{dt} |\vec{r}|$ y la expresión $\left|\frac{d\vec{r}}{dt}\right|$ representan físicamente:
+\begin{enumerate}[label=\alph*)]
+    \item Cantidades que siempre son exactamente iguales
+    \item La primera es el vector velocidad y la segunda su magnitud
+    \item La primera es la tasa de cambio de la distancia radial al origen, la segunda es la rapidez
+    \item La primera es la rapidez y la segunda es la velocidad instantánea
+    \item Ambas representan la aceleración centrípeta
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Diferencial Vectorial}
+A simple vista parecen iguales, pero la notación altera profundamente el orden de las operaciones.
+\begin{itemize}
+    \item \textbf{Segunda expresión $\left|\frac{d\vec{r}}{dt}\right|$:} Primero se deriva el vector (obteniendo la velocidad $\vec{v}$) y luego se le saca el módulo. Esto es la magnitud de la velocidad, que por definición es la \textbf{rapidez} ($v = |\vec{v}|$).
+    \item \textbf{Primera expresión $\frac{d}{dt} |\vec{r}|$:} Primero se saca la magnitud del vector posición (que es la distancia escalar $r$ desde la partícula hasta el origen de coordenadas) y luego se deriva. Esto mide qué tan rápido "se aleja" o "se acerca" la partícula del origen, conocida como velocidad radial.
+\end{itemize}
+
+Para demostrar que no son iguales, imaginemos un satélite en una órbita circular perfecta. 
+1. Como la trayectoria es una circunferencia perfecta respecto al origen, su distancia al origen nunca cambia ($|\vec{r}| = \text{cte}$). Por ende, su derivada $\frac{d}{dt} |\vec{r}| = 0$.
+2. Sin embargo, el satélite se mueve súper rápido a través de la órbita, por lo que su rapidez es enorme ($\left|\frac{d\vec{r}}{dt}\right| \gg 0$).
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) La primera es la tasa de cambio de la distancia radial al origen, la segunda es la rapidez
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un proyectil se dispara desde el suelo formando una trayectoria parabólica clásica. En el punto de máxima altura, la velocidad del proyectil:
+\begin{enumerate}[label=\alph*)]
+    \item Es el vector nulo $\vec{0}$
+    \item Es igual a la componente vertical inicial $v_{0y}$
+    \item Es completamente perpendicular a su aceleración
+    \item Es completamente paralela a su aceleración
+    \item Tiene la misma magnitud que la velocidad de disparo
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Componentes Independientes en Proyectiles}
+En el tiro parabólico (despreciando la resistencia del aire), analizamos los ejes independientemente:
+\begin{itemize}
+    \item El eje vertical ($y$) está sujeto a la gravedad ($a_y = -g$). En el punto de máxima altura, la partícula deja de subir y empieza a bajar, por lo que \textbf{su componente de velocidad vertical se vuelve cero} ($v_y = 0$).
+    \item El eje horizontal ($x$) no tiene aceleración ($a_x = 0$). Por el principio de inercia, su velocidad horizontal es \textbf{constante en todo momento} ($v_x = v_{0x}$).
+\end{itemize}
+
+Por lo tanto, en la altura máxima, el vector velocidad es $\vec{v} = v_{0x}\hat{i} + 0\hat{j}$. Es decir, la velocidad apunta netamente de manera horizontal.
+Sabemos que la aceleración ($\vec{a} = -g\hat{j}$) apunta netamente hacia abajo. 
+Dado que el eje $X$ y el eje $Y$ son ortogonales, la velocidad horizontal y la aceleración vertical forman un ángulo de $90^\circ$. En ese instante preciso, velocidad y aceleración son mutuamente \textbf{perpendiculares}.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) Es completamente perpendicular a su aceleración
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+En una gráfica de Posición versus Tiempo ($x$ vs $t$) para una partícula que se mueve a lo largo del eje x, se observa que la curva es una parábola cóncava hacia arriba (con forma de "U"). Esta geometría indica físicamente que:
+\begin{enumerate}[label=\alph*)]
+    \item La velocidad de la partícula es constante y positiva
+    \item La velocidad de la partícula está disminuyendo
+    \item La aceleración de la partícula es constante y positiva
+    \item La partícula está obligatoriamente en reposo
+    \item La aceleración de la partícula es constante y negativa
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Interpretación Geométrica de la Derivada}
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def draw_xt_concave():
+    fig, ax = plt.subplots(figsize=(6, 4))
+    ax.set_title("Posición vs Tiempo: Concavidad")
+    
+    # Ejes
+    ax.spines['left'].set_position('zero')
+    ax.spines['bottom'].set_position('zero')
+    ax.spines['right'].set_color('none')
+    ax.spines['top'].set_color('none')
+    ax.set_xlabel('$t$', loc='right')
+    ax.set_ylabel('$x$', loc='top')
+    
+    # Curva x = t^2
+    t = np.linspace(0, 3, 100)
+    x = t**2
+    ax.plot(t, x, 'b-', lw=2)
+    
+    # Tangentes (Velocidades)
+    t_points = [0.5, 1.5, 2.5]
+    for pt in t_points:
+        slope = 2 * pt
+        intercept = pt**2 - slope * pt
+        t_tan = np.linspace(pt - 0.4, pt + 0.4, 10)
+        x_tan = slope * t_tan + intercept
+        ax.plot(t_tan, x_tan, 'r--')
+        ax.plot(pt, pt**2, 'ko')
+    
+    ax.text(1, 4, r"Pendientes ($v_x$) aumentan", color='red', fontsize=11)
+    
+    ax.set_xlim(-0.2, 3.5); ax.set_ylim(-0.5, 10)
+    plt.tight_layout()
+    plt.show()
+
+draw_xt_concave()
+\end{lstlisting}
+
+Sabemos que la pendiente de la recta tangente a la curva $x(t)$ representa la \textbf{velocidad instantánea} ($v_x = dx/dt$).
+En una curva cóncava hacia arriba (como $x = t^2$), las rectas tangentes se van volviendo cada vez más inclinadas a medida que pasa el tiempo. Esto significa matemáticamente que la pendiente (la velocidad) se está haciendo cada vez más grande de forma algebraica (aumenta).
+Si la velocidad aumenta constantemente, significa que la tasa de cambio de la velocidad ($dv_x/dt$) es un valor \textbf{positivo}. La derivada de la velocidad es la aceleración ($a_x$). Por lo tanto, una concavidad hacia arriba es la firma gráfica inconfundible de una \textbf{aceleración positiva}.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) La aceleración de la partícula es constante y positiva
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+El área bajo la curva en un gráfico de Aceleración versus Tiempo ($a_x$ vs $t$), evaluada entre los instantes $t_1$ y $t_2$, representa dimensional y físicamente:
+\begin{enumerate}[label=\alph*)]
+    \item La posición final de la partícula
+    \item El desplazamiento total ($\Delta x$)
+    \item La velocidad instantánea final ($v_{xf}$)
+    \item El cambio en la velocidad ($\Delta v_x$)
+    \item El cambio en la posición respecto al cuadrado del tiempo
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Teorema Fundamental del Cálculo en Cinemática}
+Partimos de la definición diferencial de la aceleración instantánea rectilínea:
+$$ a_x = \frac{dv_x}{dt} $$
+Separamos las variables para preparar la integración:
+$$ dv_x = a_x \, dt $$
+Integramos ambos lados de la ecuación utilizando los límites correspondientes (desde el tiempo inicial $t_1$ hasta el tiempo final $t_2$, lo que equivale a integrar desde la velocidad $v_{x1}$ hasta $v_{x2}$):
+$$ \int_{v_{x1}}^{v_{x2}} dv_x = \int_{t_1}^{t_2} a_x \, dt $$
+Al resolver la integral del lado izquierdo, obtenemos:
+$$ v_{x2} - v_{x1} = \int_{t_1}^{t_2} a_x \, dt $$
+$$ \Delta v_x = \int_{t_1}^{t_2} a_x \, dt $$
+La integral de una función en un intervalo es exactamente el cálculo del área bajo su gráfica. Por tanto, esta área representa el \textbf{cambio neto} en la velocidad de la partícula, no su velocidad final absoluta (a menos que haya partido del reposo, en cuyo caso $v_{x1} = 0$).
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large d) El cambio en la velocidad ($\Delta v_x$)
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un automóvil viaja en línea recta desde la ciudad A hasta la ciudad B con una rapidez constante de $60\,\si{km/h}$. Inmediatamente regresa por la misma carretera desde B hasta A con una rapidez constante de $40\,\si{km/h}$. La rapidez media del automóvil para todo el viaje de ida y vuelta es:
+\begin{enumerate}[label=\alph*)]
+    \item $50\,\si{km/h}$
+    \item $0\,\si{km/h}$
+    \item $48\,\si{km/h}$
+    \item $100\,\si{km/h}$
+    \item $20\,\si{km/h}$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Trampa Conceptual: Media Aritmética vs Armónica}
+\textit{Nota del Tutor: Este es uno de los errores más comunes en cinemática. La intuición nos dice erróneamente que promediemos las rapideces $(60+40)/2 = 50$. Demostraremos por qué esto es incorrecto.}
+
+La \textbf{rapidez media} ($v_m$) exige usar la definición estricta:
+$$ v_m = \frac{\text{Distancia Total}}{\text{Tiempo Total}} $$
+
+Sea $D$ la distancia entre las ciudades A y B. 
+\begin{itemize}
+    \item La distancia del viaje de ida es $D$, y la del viaje de vuelta también es $D$.
+    \item \textbf{Distancia Total:} $d_{total} = D + D = 2D$.
+\end{itemize}
+
+Ahora, calculemos los tiempos individuales utilizando $t = d/v$:
+\begin{itemize}
+    \item Tiempo de ida: $t_1 = \frac{D}{60}$
+    \item Tiempo de vuelta: $t_2 = \frac{D}{40}$
+    \item \textbf{Tiempo Total:} $t_{total} = \frac{D}{60} + \frac{D}{40}$
+\end{itemize}
+
+Sustituimos en la ecuación original de rapidez media:
+$$ v_m = \frac{2D}{\frac{D}{60} + \frac{D}{40}} $$
+Extraemos factor común $D$ en el denominador y simplificamos con el numerador:
+$$ v_m = \frac{2D}{D \left(\frac{1}{60} + \frac{1}{40}\right)} = \frac{2}{\frac{2 + 3}{120}} = \frac{2}{\frac{5}{120}} $$
+$$ v_m = \frac{240}{5} = 48\,\si{km/h} $$
+El resultado es la \textbf{media armónica} de las rapideces, no la media aritmética. Como el auto pasa \textit{más tiempo} conduciendo a $40\,\si{km/h}$ que a $60\,\si{km/h}$, el promedio real se inclina hacia el valor más bajo.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) $48\,\si{km/h}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+El vector de posición de una partícula en función del tiempo está dado por $\vec{r}(t) = (3t^2)\hat{i} + (5t)\hat{j}$, donde $\vec{r}$ está en metros y $t$ en segundos. ¿Cuál es el vector velocidad instantánea de la partícula evaluado en el instante $t = 2\,\si{s}$?
+\begin{enumerate}[label=\alph*)]
+    \item $12\hat{i} + 5\hat{j} \,\si{m/s}$
+    \item $6\hat{i} + 5\hat{j} \,\si{m/s}$
+    \item $12\hat{i} + 10\hat{j} \,\si{m/s}$
+    \item $3\hat{i} + 5\hat{j} \,\si{m/s}$
+    \item $6\hat{i} \,\si{m/s}$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Derivación de Funciones Vectoriales}
+Para encontrar la velocidad instantánea, aplicamos el operador derivada respecto al tiempo a todo el vector de posición:
+$$ \vec{v}(t) = \frac{d\vec{r}}{dt} = \frac{d}{dt} \left[ (3t^2)\hat{i} + (5t)\hat{j} \right] $$
+
+Dado que los vectores unitarios cartesianos ($\hat{i}$ y $\hat{j}$) son constantes en magnitud y dirección, la derivada se distribuye linealmente sobre las funciones escalares que los acompañan:
+$$ \vec{v}(t) = \left( \frac{d}{dt}(3t^2) \right) \hat{i} + \left( \frac{d}{dt}(5t) \right) \hat{j} $$
+Aplicando las reglas básicas de derivación polinómica:
+$$ \vec{v}(t) = (6t)\hat{i} + (5)\hat{j} \,\si{m/s} $$
+Esta es la ecuación general de la velocidad para cualquier instante de tiempo. Para hallar la velocidad en $t = 2\,\si{s}$, evaluamos la función:
+$$ \vec{v}(2) = (6 \cdot 2)\hat{i} + 5\hat{j} $$
+$$ \vec{v}(2) = 12\hat{i} + 5\hat{j} \,\si{m/s} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large a) $12\hat{i} + 5\hat{j} \,\si{m/s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Dos trenes, A y B, viajan sobre vías paralelas rectilíneas. El tren A viaja hacia el Norte a $100\,\si{km/h}$ y el tren B viaja hacia el Sur a $100\,\si{km/h}$. La velocidad del tren A vista por un pasajero sentado en el tren B es:
+\begin{enumerate}[label=\alph*)]
+    \item $0\,\si{km/h}$
+    \item $100\,\si{km/h}$ hacia el Norte
+    \item $200\,\si{km/h}$ hacia el Norte
+    \item $200\,\si{km/h}$ hacia el Sur
+    \item $100\,\si{km/h}$ hacia el Sur
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Relatividad Galileana en 1D}
+Establecemos un sistema de referencia espacial: definimos que el Norte es la dirección positiva del eje $Y$ ($+\hat{j}$) y el Sur es la dirección negativa ($-\hat{j}$).
+Escribimos las velocidades absolutas (respecto a la tierra):
+$$ \vec{v}_A = 100\hat{j} \,\si{km/h} $$
+$$ \vec{v}_B = -100\hat{j} \,\si{km/h} $$
+
+El problema nos pide la "velocidad de A vista por B", lo cual denotamos matemáticamente como $\vec{v}_{A/B}$.
+La ecuación de transformación relativa es:
+$$ \vec{v}_{A/B} = \vec{v}_A - \vec{v}_B $$
+Sustituyendo los vectores:
+$$ \vec{v}_{A/B} = (100\hat{j}) - (-100\hat{j}) $$
+$$ \vec{v}_{A/B} = 100\hat{j} + 100\hat{j} $$
+$$ \vec{v}_{A/B} = 200\hat{j} \,\si{km/h} $$
+El signo positivo ($+$) del resultado indica que la dirección del vector relativo es hacia el Norte. Físicamente tiene total sentido: para el pasajero del tren B (que siente que está quieto y ve al mundo moverse hacia el Norte), el tren A se acerca a una velocidad vertiginosa igual a la suma de sus rapideces.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) $200\,\si{km/h}$ hacia el Norte
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una partícula se desplaza por una pista circular plana de radio $R$. Si la partícula parte del punto más a la izquierda y completa exactamente media vuelta ($\pi$ radianes) hasta el punto más a la derecha, la relación o cociente entre la magnitud de su desplazamiento ($|\Delta \vec{r}|$) y la distancia recorrida ($d$) es:
+\begin{enumerate}[label=\alph*)]
+    \item $\frac{\pi}{2}$
+    \item $1$
+    \item $\frac{2}{\pi}$
+    \item $\pi$
+    \item $0$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Geométrico de la Trayectoria Circular}
+Debemos calcular ambos valores independientemente para una media vuelta exacta (semicircunferencia).
+
+\textbf{1. Magnitud del Desplazamiento ($|\Delta \vec{r}|$):}
+El desplazamiento es el vector línea recta que une el punto de partida (extremo izquierdo) con el punto de llegada (extremo derecho). Esta línea cruza exactamente por el centro del círculo, por lo tanto, corresponde al \textbf{diámetro} de la circunferencia.
+$$ |\Delta \vec{r}| = 2R $$
+
+\textbf{2. Distancia Recorrida ($d$):}
+La distancia es la longitud escalar de la curva física (el arco de la pista). El perímetro de una circunferencia completa es $2\pi R$. Como la partícula completó solo media vuelta, la distancia es la mitad del perímetro:
+$$ d = \frac{2\pi R}{2} = \pi R $$
+
+\textbf{3. Cálculo del Cociente:}
+Se nos pide la relación entre el desplazamiento y la distancia:
+$$ \text{Cociente} = \frac{|\Delta \vec{r}|}{d} = \frac{2R}{\pi R} $$
+Simplificando la variable $R$ (asumiendo $R \neq 0$):
+$$ \text{Cociente} = \frac{2}{\pi} $$
+Dado que $\pi \approx 3.14$, la fracción $2/3.14$ es menor a $1$. Esto verifica teóricamente el axioma físico de que el desplazamiento siempre es menor (o igual) a la distancia recorrida.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) $\frac{2}{\pi}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+De las siguientes afirmaciones relacionadas con la cinemática vectorial, elija la aseveración \textbf{falsa}:
+\begin{enumerate}[label=\alph*)]
+    \item Si el vector velocidad es constante, entonces el vector aceleración es estrictamente cero.
+    \item Es posible que una partícula tenga velocidad nula en un instante y, sin embargo, su aceleración sea distinta de cero.
+    \item Si el vector posición es cero en un instante, su velocidad necesariamente debe ser cero.
+    \item En el movimiento curvilíneo, la aceleración nunca puede ser cero.
+    \item La rapidez es la magnitud geométrica del vector velocidad instantánea.
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Comprobación Deductiva de Afirmaciones}
+Analizamos cada afirmación basándonos en las reglas del cálculo diferencial:
+\begin{itemize}
+    \item \textbf{Opción a:} Verdadera. Si $\vec{v}(t) = \vec{C}$ (vector constante), su derivada temporal $\vec{a} = d\vec{C}/dt$ es indiscutiblemente $\vec{0}$.
+    \item \textbf{Opción b:} Verdadera. Visto en un ejercicio anterior (altura máxima de un proyectil: la velocidad se anula momentáneamente, pero la gravedad de $9.8\,\si{m/s^2}$ sigue actuando).
+    \item \textbf{Opción d:} Verdadera. El simple hecho de girar implica un cambio continuo en la dirección del vector velocidad, lo que exige por definición la existencia de una aceleración centrípeta.
+    \item \textbf{Opción e:} Verdadera. Por definición escalar, rapidez $v = |\vec{v}|$.
+    \item \textbf{Opción c (Falsa y por tanto la respuesta):} El "vector posición es cero" ($\vec{r} = \vec{0}$) simplemente significa que la partícula está pasando justo por el origen $(0,0,0)$ de nuestro sistema de coordenadas en ese momento. Puede pasar por ese origen "volando" a miles de kilómetros por hora (es decir, con una enorme velocidad). La posición no restringe la velocidad instantánea.
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) Si el vector posición es cero en un instante, su velocidad necesariamente debe ser cero.
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un barco navega en línea recta con velocidad constante. Un marinero en la parte superior del mástil deja caer libremente una moneda de manera vertical. Para un observador estacionario en la costa, la trayectoria geométrica que describe la moneda mientras cae es:
+\begin{enumerate}[label=\alph*)]
+    \item Una línea recta vertical hacia abajo
+    \item Una línea recta diagonal
+    \item Una parábola
+    \item Una circunferencia
+    \item Un movimiento errático e impredecible
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Principio de Relatividad e Independencia de Movimientos}
+\textit{Nota: Este famoso experimento mental fue planteado por Galileo Galilei para probar la existencia de la inercia a la Inquisición, mucho antes que Newton.}
+
+Analicemos las condiciones iniciales de la moneda en el momento exacto que es soltada:
+\begin{itemize}
+    \item \textbf{Para el marinero (en el barco):} Su mano, el barco y la moneda comparten el marco de referencia. Desde su perspectiva, la moneda partió del reposo ($v_x = 0, v_y = 0$). Por tanto, él la ve caer en línea recta vertical hacia sus pies.
+    \item \textbf{Para el observador en la costa:} Su marco de referencia es la Tierra. Antes de que la moneda se soltara, estaba viajando horizontalmente junto con el barco a una velocidad $\vec{v}_{barco}$. Por la "Ley de la Inercia", al soltar la moneda, esta retiene su velocidad horizontal inicial ($v_{0x} = |\vec{v}_{barco}|$). Simultáneamente, comienza a acelerar hacia abajo por efecto de la gravedad ($v_{0y} = 0, a_y = -g$).
+\end{itemize}
+
+La combinación de un movimiento horizontal uniforme (velocidad constante $x(t) \propto t$) y un movimiento vertical uniformemente acelerado (caída libre $y(t) \propto t^2$) conforma un sistema de ecuaciones paramétricas cuya eliminación de la variable temporal $t$ da como resultado una ecuación cuadrática del tipo $y = k x^2$. Esta es la firma matemática exacta de una \textbf{parábola}.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) Una parábola
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+En la formulación del límite diferencial para obtener la velocidad instantánea a partir de la ecuación de la posición ($v = \lim_{\Delta t \to 0} \frac{\Delta x}{\Delta t}$), la condición rigurosa de que el incremento de tiempo "$\Delta t \to 0$" resuelve teóricamente:
+\begin{enumerate}[label=\alph*)]
+    \item La necesidad de utilizar cronómetros atómicos
+    \item El hecho de que la gravedad puede considerarse constante a bajas altitudes
+    \item La aparente contradicción matemática de intentar dividir para exactamente cero
+    \item La conversión de unidades de metros a kilómetros
+    \item La incapacidad de medir la posición exacta de una partícula a alta velocidad
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Fundamentos Epistemológicos del Cálculo Diferencial}
+Este problema aborda el corazón de por qué Isaac Newton y Gottfried Leibniz tuvieron que inventar el Cálculo Diferencial para hacer avanzar la física.
+
+Antes del cálculo diferencial, el concepto de "velocidad en un instante" era paradójico (recordemos la paradoja de la flecha de Zenón de Elea). 
+La velocidad exige el transcurso de tiempo para poder definirse ("espacio recorrido dividido para el tiempo"). Pero un "instante" es, por definición geométrica, un punto congelado en el tiempo cuya duración es exactamente cero ($\Delta t = 0$). 
+Si intentamos calcular la velocidad dividiendo el pequeño desplazamiento para el tiempo congelado, estaríamos evaluando la operación $\Delta x / 0$. En matemáticas algebraicas formales, **la división para cero es una indeterminación o una operación no definida**.
+
+El concepto de límite ($\lim_{\Delta t \to 0}$) fue la herramienta brillante que resolvió este estancamiento. En lugar de evaluar la fracción en exactamente cero, el límite nos permite estudiar el comportamiento matemático de la fracción a medida que $\Delta t$ se aproxima infinitesimalmente a cero sin llegar nunca a tocarlo, sorteando así la contradicción analítica.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) La aparente contradicción matemática de intentar dividir para exactamente cero
+\end{tcolorbox}
+
+\end{document}

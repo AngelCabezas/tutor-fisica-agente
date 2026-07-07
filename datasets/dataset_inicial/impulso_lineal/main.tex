@@ -1,0 +1,2076 @@
+\documentclass[12pt, a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{geometry}
+\usepackage[most]{tcolorbox}
+\usepackage{siunitx}
+\usepackage{enumitem}
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usepackage{verbatim} 
+\usepackage{xcolor}
+\usepackage{listings}
+
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta, calc, babel}
+\geometry{a4paper, margin=1in}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstset{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2,
+    language=Python
+}
+
+\begin{document}
+
+\subsection*{Enunciado}
+Un carrito de $10 \, \si{kg}$ se desplaza por una pista horizontal lisa con una velocidad constante de $5 \vec{i} \, \si{m/s}$. Se deja caer un bloque de $4 \, \si{kg}$ sobre el carrito. Determine: La cantidad de movimiento lineal del sistema carro-bloque, luego de caer el bloque.
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[thick] (-2, 0) -- (6, 0);
+    
+    \draw[thick, fill=blue!10] (0, 0.2) rectangle (2.5, 1.2) node[midway] {$m_1$};
+    \draw[thick, fill=gray!80] (0.5, 0.2) circle (0.2);
+    \draw[thick, fill=gray!80] (2.0, 0.2) circle (0.2);
+    
+    \draw[->, thick, blue, line width=1.2pt] (2.7, 0.7) -- (4, 0.7) node[midway, above] {$\vec{v}_0$};
+    
+    \draw[thick, fill=red!10] (0.75, 2.5) rectangle (1.75, 3.5) node[midway] {$m_2$};
+    \draw[->, thick, red, line width=1.2pt] (1.25, 2.3) -- (1.25, 1.4);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Físico}
+El sistema de estudio está conformado por el carrito de masa $m_1$ y el bloque de masa $m_2$. La pista por la que se desplaza el carrito es lisa, lo que implica que no hay fricción. Al no existir fuerzas externas netas en la dirección horizontal (eje x), se cumple el principio de conservación de la cantidad de movimiento lineal en dicho eje.
+
+La cantidad de movimiento lineal inicial del sistema debe ser exactamente igual a la cantidad de movimiento lineal final.
+\[ \vec{p}_0 = \vec{p}_f \]
+
+\subsubsection*{2. Representación Gráfica}
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+fig, ax = plt.subplots(figsize=(6, 3))
+ax.set_xlim(-1, 5)
+ax.set_ylim(-0.5, 3.5)
+ax.axis('off')
+
+ax.plot([-1, 5], [0, 0], color='black', linewidth=2)
+
+rect_cart = patches.Rectangle((0, 0.2), 2, 0.8, linewidth=1.5, edgecolor='black', facecolor='lightblue')
+ax.add_patch(rect_cart)
+ax.text(1, 0.6, '$m_1$', ha='center', va='center', fontsize=12)
+
+circle1 = patches.Circle((0.5, 0.2), 0.2, color='gray')
+circle2 = patches.Circle((1.5, 0.2), 0.2, color='gray')
+ax.add_patch(circle1)
+ax.add_patch(circle2)
+
+ax.arrow(2.2, 0.6, 1, 0, head_width=0.1, head_length=0.2, fc='blue', ec='blue')
+ax.text(2.7, 0.8, r'$\vec{v}_0$', color='blue', fontsize=12)
+
+rect_block = patches.Rectangle((0.6, 2.0), 0.8, 0.8, linewidth=1.5, edgecolor='black', facecolor='lightcoral')
+ax.add_patch(rect_block)
+ax.text(1, 2.4, '$m_2$', ha='center', va='center', fontsize=12)
+
+ax.arrow(1, 1.9, 0, -0.6, head_width=0.1, head_length=0.15, fc='red', ec='red')
+
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{3. Cálculo de la Cantidad de Movimiento}
+En el instante inicial (antes de que el bloque caiga), la masa $m_1$ se desplaza en el eje horizontal, mientras que la masa $m_2$ se deja caer de forma vertical, por lo tanto, su velocidad horizontal es nula.
+
+La cantidad de movimiento lineal inicial $\vec{p}_0$ se calcula sumando la cantidad de movimiento de cada elemento:
+\[ \vec{p}_0 = m_1 \vec{v}_1 + m_2 \vec{v}_2 \]
+
+Reemplazando los datos correspondientes ($m_1 = 10 \, \si{kg}$, $\vec{v}_1 = 5 \vec{i} \, \si{m/s}$, $m_2 = 4 \, \si{kg}$, $\vec{v}_2 = 0 \, \si{m/s}$):
+\[ \vec{p}_0 = (10)(5 \vec{i}) + (4)(0) \]
+\[ \vec{p}_0 = 50 \vec{i} \, \si{kg\cdot m/s} \]
+
+Por el principio de conservación de momento lineal, la cantidad de movimiento después de que cae el bloque ($\vec{p}_f$) es igual al momento inicial:
+\[ \vec{p}_f = \vec{p}_0 = 50 \vec{i} \, \si{kg\cdot m/s} \]
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{p}_f = 50 \vec{i} \, \si{kg\cdot m/s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un carrito de $10 \, \si{kg}$ se desplaza por una pista horizontal lisa con una velocidad constante de $5 \vec{i} \, \si{m/s}$. Se deja caer un bloque de $4 \, \si{kg}$ sobre el carrito. Determine: La velocidad del sistema carro-bloque, inmediatamente luego de caer el bloque.
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[thick] (-2, 0) -- (6, 0);
+    
+    \draw[thick, fill=blue!10] (0, 0.2) rectangle (2.5, 1.2) node[midway] {$m_1$};
+    \draw[thick, fill=gray!80] (0.5, 0.2) circle (0.2);
+    \draw[thick, fill=gray!80] (2.0, 0.2) circle (0.2);
+    
+    \draw[->, thick, blue, line width=1.2pt] (2.7, 0.7) -- (4, 0.7) node[midway, above] {$\vec{v}_0$};
+    
+    \draw[thick, fill=red!10] (0.75, 2.5) rectangle (1.75, 3.5) node[midway] {$m_2$};
+    \draw[->, thick, red, line width=1.2pt] (1.25, 2.3) -- (1.25, 1.4);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Interpretación Física del Choque}
+El fenómeno presentado se clasifica como un choque inelástico perfecto. Una vez que el bloque cae sobre el carrito, ambos interactúan y pasan a moverse juntos. A partir de ese momento, el sistema se puede tratar como un único cuerpo cuya masa total es la suma de las masas individuales ($m_1 + m_2$) y que se desplaza con una velocidad común $\vec{v}_f$.
+
+\subsubsection*{2. Representación Gráfica}
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+fig, ax = plt.subplots(figsize=(6, 3))
+ax.set_xlim(-1, 5)
+ax.set_ylim(-0.5, 3.5)
+ax.axis('off')
+
+ax.plot([-1, 5], [0, 0], color='black', linewidth=2)
+
+rect_cart = patches.Rectangle((0, 0.2), 2, 0.8, linewidth=1.5, edgecolor='black', facecolor='lightblue')
+ax.add_patch(rect_cart)
+ax.text(1, 0.6, '$m_1$', ha='center', va='center', fontsize=12)
+
+circle1 = patches.Circle((0.5, 0.2), 0.2, color='gray')
+circle2 = patches.Circle((1.5, 0.2), 0.2, color='gray')
+ax.add_patch(circle1)
+ax.add_patch(circle2)
+
+rect_block = patches.Rectangle((0.6, 1.0), 0.8, 0.8, linewidth=1.5, edgecolor='black', facecolor='lightcoral')
+ax.add_patch(rect_block)
+ax.text(1, 1.4, '$m_2$', ha='center', va='center', fontsize=12)
+
+ax.arrow(2.2, 0.6, 1.2, 0, head_width=0.1, head_length=0.2, fc='purple', ec='purple')
+ax.text(2.8, 0.8, r'$\vec{v}_f$', color='purple', fontsize=12)
+
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{3. Planteamiento y Despeje de la Ecuación}
+Tal como se estableció en el literal anterior, la cantidad de movimiento lineal se conserva:
+\[ \vec{p}_0 = \vec{p}_f \]
+
+Para el estado final, la cantidad de movimiento corresponde al conjunto de ambas masas moviéndose con la misma velocidad:
+\[ \vec{p}_f = (m_1 + m_2) \vec{v}_f \]
+
+Sustituimos la cantidad de movimiento inicial que ya conocemos ($50 \vec{i}$) y los valores de las masas del carrito y del bloque:
+\[ 50 \vec{i} = (10 + 4) \vec{v}_f \]
+\[ 50 \vec{i} = 14 \vec{v}_f \]
+
+Despejamos la velocidad final $\vec{v}_f$:
+\[ \vec{v}_f = \frac{50}{14} \vec{i} \]
+
+Efectuando la división, obtenemos el valor final de la velocidad del conjunto:
+\[ \vec{v}_f \approx 3.57 \vec{i} \, \si{m/s} \]
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{v}_f = 3.57 \vec{i} \, \si{m/s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una masa inicialmente en reposo sobre el plano $xy$ explota en tres partes. Un fragmento de $3 \, \si{g}$ se mueve a lo largo del eje $y$ positivo a $40 \, \si{m/s}$. Otro fragmento de $2 \, \si{g}$ se mueve en la dirección negativa del eje $x$ a $30 \, \si{m/s}$. Determine la cantidad de movimiento lineal del tercer fragmento.
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[dashed, gray] (-3, 0) -- (3, 0) node[right] {$x$};
+    \draw[dashed, gray] (0, -2.5) -- (0, 3) node[above] {$y$};
+    
+    \draw[thick, fill=gray!30, dashed] (0, 0) circle (0.4);
+    
+    \draw[->, thick, blue, line width=1.2pt] (0, 0.5) -- (0, 2.5) node[right] {$m_1, \vec{v}_1$};
+    \draw[thick, fill=gray!80] (0, 2.5) circle (0.15);
+    
+    \draw[->, thick, red, line width=1.2pt] (-0.5, 0) -- (-2.5, 0) node[above] {$m_2, \vec{v}_2$};
+    \draw[thick, fill=gray!80] (-2.5, 0) circle (0.12);
+    
+    \draw[->, thick, green!60!black, line width=1.2pt] (0.35, -0.35) -- (1.5, -1.5) node[right] {$m_3, \vec{v}_3$};
+    \draw[thick, fill=gray!80] (1.5, -1.5) circle (0.2);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Físico del Problema}
+El fenómeno descrito es una explosión. Durante una explosión, las fuerzas que separan a los fragmentos son fuerzas internas del sistema. Dado que no existen fuerzas externas netas actuando sobre la masa en el plano horizontal (el impulso externo es nulo, $\vec{I}_{ext} = 0$), la cantidad de movimiento lineal total del sistema se conserva de forma vectorial.
+\[ \vec{P}_0 = \vec{P}_f \]
+Como la masa estaba inicialmente en reposo, la cantidad de movimiento inicial es cero ($\vec{P}_0 = 0$). Por lo tanto, la suma vectorial de las cantidades de movimiento de los tres fragmentos después de la explosión debe ser cero para mantener el equilibrio.
+
+\subsubsection*{2. Conversión de Unidades}
+Para trabajar en el Sistema Internacional (SI), debemos expresar las masas en kilogramos (\si{kg}):
+\begin{align*}
+    m_1 &= 3 \, \si{g} = 0.003 \, \si{kg} \\
+    m_2 &= 2 \, \si{g} = 0.002 \, \si{kg}
+\end{align*}
+
+\subsubsection*{3. Planteamiento de Ecuaciones}
+La cantidad de movimiento de un fragmento está dada por $\vec{p} = m\vec{v}$. Analicemos los vectores de los fragmentos conocidos:
+
+\textbf{Fragmento 1:} Se mueve en el eje $y$ positivo ($\vec{j}$).
+\[ \vec{p}_1 = m_1 \vec{v}_1 = (0.003 \, \si{kg}) (40 \vec{j} \, \si{m/s}) = 0.12 \vec{j} \, \si{kg\cdot m/s} \]
+
+\textbf{Fragmento 2:} Se mueve en el eje $x$ negativo ($-\vec{i}$).
+\[ \vec{p}_2 = m_2 \vec{v}_2 = (0.002 \, \si{kg}) (-30 \vec{i} \, \si{m/s}) = -0.06 \vec{i} \, \si{kg\cdot m/s} \]
+
+\subsubsection*{4. Representación Vectorial (Python)}
+Visualizar los vectores de cantidad de movimiento es útil para entender por qué el tercer fragmento debe moverse hacia el cuarto cuadrante. Para que la suma sea cero, $\vec{p}_3$ debe contrarrestar tanto a $\vec{p}_1$ como a $\vec{p}_2$.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(5, 5))
+ax.set_xlim(-0.1, 0.1)
+ax.set_ylim(-0.15, 0.15)
+
+ax.axhline(0, color='gray', linestyle='--', linewidth=1)
+ax.axvline(0, color='gray', linestyle='--', linewidth=1)
+
+ax.quiver(0, 0, 0, 0.12, angles='xy', scale_units='xy', scale=1, color='blue')
+ax.text(0.01, 0.12, r'$\vec{p}_1$', color='blue', fontsize=12)
+
+ax.quiver(0, 0, -0.06, 0, angles='xy', scale_units='xy', scale=1, color='red')
+ax.text(-0.06, 0.01, r'$\vec{p}_2$', color='red', fontsize=12)
+
+ax.quiver(0, 0, 0.06, -0.12, angles='xy', scale_units='xy', scale=1, color='green')
+ax.text(0.06, -0.13, r'$\vec{p}_3$', color='green', fontsize=12)
+
+ax.grid(True, linestyle=':', alpha=0.6)
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{5. Resolución Matemática}
+Aplicamos la conservación de la cantidad de movimiento:
+\[ \vec{P}_0 = \vec{p}_1 + \vec{p}_2 + \vec{p}_3 \]
+\[ 0 = \vec{p}_1 + \vec{p}_2 + \vec{p}_3 \]
+
+Reemplazamos los valores obtenidos:
+\[ 0 = (0.12 \vec{j}) + (-0.06 \vec{i}) + \vec{p}_3 \]
+
+Despejamos la cantidad de movimiento del tercer fragmento ($\vec{p}_3$), pasando los términos al otro lado de la igualdad con signos opuestos:
+\[ \vec{p}_3 = 0.06 \vec{i} - 0.12 \vec{j} \]
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{p}_3 = 0.06 \vec{i} - 0.12 \vec{j} \, \si{kg\cdot m/s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una pelota de tenis de $80 \, \si{g}$ avanza horizontalmente hacia una raqueta, con una rapidez de $3 \, \si{m/s}$. Después del golpe, la pelota regresa horizontalmente con una rapidez de $4 \, \si{m/s}$. Determine la magnitud del impulso ejercido por la raqueta sobre la pelota.
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[thick, fill=blue!10] (2.5, 0) ellipse (0.4 and 0.8);
+    \draw[thick] (2.6, -0.7) -- (3, -1.8) -- (2.8, -1.9) -- (2.4, -0.7);
+    
+    \draw[thick, fill=yellow!40] (1.8, 0.1) circle (0.2);
+    \draw[dashed, gray] (0, 0.1) circle (0.2);
+    
+    \draw[->, thick, blue, line width=1pt] (0.3, 0.1) -- (1.4, 0.1) node[midway, above] {$\vec{v}_0$};
+    
+    \draw[->, thick, red, line width=1pt] (1.5, 0.5) -- (0, 0.5) node[midway, above] {$\vec{F}_{R/P}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Identificación de Datos y Sistema de Referencia}
+Para resolver problemas de cantidad de movimiento e impulso, es fundamental establecer un sistema de referencia, ya que la velocidad es una magnitud vectorial. Asignaremos la dirección hacia la derecha como positiva ($+\vec{i}$) y hacia la izquierda como negativa ($-\vec{i}$).
+
+\begin{itemize}
+    \item Masa de la pelota: $m = 80 \, \si{g} = 0.08 \, \si{kg}$
+    \item Velocidad inicial (hacia la raqueta): $\vec{v}_0 = 3 \vec{i} \, \si{m/s}$
+    \item Velocidad final (regresa): $\vec{v}_f = -4 \vec{i} \, \si{m/s}$
+\end{itemize}
+El cambio de signo en $\vec{v}_f$ es la clave del ejercicio, pues representa el rebote de la pelota en sentido contrario.
+
+\subsubsection*{2. Análisis Físico: Teorema del Impulso y la Cantidad de Movimiento}
+El impulso ($\vec{I}$) ejercido por una fuerza neta durante un intervalo de tiempo es igual al cambio en la cantidad de movimiento ($\Delta\vec{p}$) del objeto. 
+\[ \vec{I} = \Delta\vec{p} \]
+\[ \vec{I} = \vec{p}_f - \vec{p}_0 \]
+Recordando que $\vec{p} = m\vec{v}$, podemos reescribir la ecuación factorizando la masa:
+\[ \vec{I} = m\vec{v}_f - m\vec{v}_0 \]
+\[ \vec{I} = m(\vec{v}_f - \vec{v}_0) \]
+
+\subsubsection*{3. Representación Gráfica de los Vectores (Python)}
+La visualización de los vectores de velocidad inicial, final y su variación ($\Delta\vec{v}$) resulta muy pedagógica para comprender por qué el impulso total es mayor que si la pelota simplemente se hubiera detenido.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(7, 3.5))
+ax.set_xlim(-5, 4)
+ax.set_ylim(-1, 2)
+ax.axhline(0, color='black', linewidth=1)
+ax.axvline(0, color='gray', linestyle='--', linewidth=0.5)
+
+ax.quiver(0, 0.5, 3, 0, angles='xy', scale_units='xy', scale=1, color='blue', width=0.01)
+ax.text(1.5, 0.65, r'$\vec{v}_0 = 3 \vec{i}$', color='blue', fontsize=12, ha='center')
+
+ax.quiver(0, -0.5, -4, 0, angles='xy', scale_units='xy', scale=1, color='red', width=0.01)
+ax.text(-2, -0.35, r'$\vec{v}_f = -4 \vec{i}$', color='red', fontsize=12, ha='center')
+
+ax.quiver(3, 1.5, -7, 0, angles='xy', scale_units='xy', scale=1, color='purple', width=0.01)
+ax.text(-0.5, 1.65, r'$\Delta\vec{v} = \vec{v}_f - \vec{v}_0 = -7 \vec{i}$', color='purple', fontsize=12, ha='center')
+
+ax.axis('off')
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{4. Cálculo del Impulso}
+Sustituimos los valores en la ecuación vectorial deducida:
+\[ \vec{I} = 0.08 \, \si{kg} \cdot (-4 \vec{i} - 3 \vec{i}) \, \si{m/s} \]
+\[ \vec{I} = 0.08 (-7 \vec{i}) \, \si{kg\cdot m/s} \]
+\[ \vec{I} = -0.56 \vec{i} \, \si{N\cdot s} \]
+El signo negativo indica que el impulso ejercido por la raqueta tiene dirección hacia la izquierda, lo cual es coherente con la fuerza necesaria para hacer rebotar la pelota.
+
+\subsubsection*{5. Magnitud del Impulso}
+El ejercicio solicita únicamente la magnitud del impulso, por lo que tomamos el valor absoluto del vector calculado:
+\[ |\vec{I}| = |-0.56 \vec{i}| \]
+\[ |\vec{I}| = 0.56 \, \si{N\cdot s} \]
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $|\vec{I}| = 0.56 \, \si{N\cdot s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una pelota de $0.25 \, \si{kg}$ se suelta desde una altura de $2.45 \, \si{m}$ sobre el piso y rebota hasta una altura de $1.8 \, \si{m}$. Si el tiempo de contacto de la pelota con el suelo es de $0.15 \, \si{s}$, determine el valor medio de la fuerza de contacto que ejerce el piso sobre la pelota. (Considere $g = 10 \, \si{m/s^2}$).
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[thick] (-3, 0) -- (4, 0) node[right] {Suelo};
+    
+    \draw[dashed, gray] (-1.5, 0) -- (-1.5, 3);
+    \draw[dashed, gray] (2.5, 0) -- (2.5, 2.5);
+
+    \draw[thick, fill=blue!10] (-1.5, 2.45) circle (0.2);
+    \node at (-1.5, 2.8) {$v_0 = 0$};
+    \draw[->, thick, blue] (-1.5, 2.1) -- (-1.5, 1.1);
+    \draw[<->] (-2.2, 0) -- (-2.2, 2.45) node[midway, left] {$h_1 = 2.45 \, \si{m}$};
+
+    \draw[thick, fill=gray!30] (0.5, 0.2) circle (0.2);
+    \node at (0.5, -0.4) {Impacto};
+    \draw[->, thick, black] (0.5, 0.2) -- (0.5, 1.2) node[right] {$\vec{F}_{contacto}$};
+
+    \draw[thick, fill=red!10] (2.5, 1.8) circle (0.2);
+    \node at (2.5, 2.2) {$v_f = 0$};
+    \draw[->, thick, red] (2.5, 0.6) -- (2.5, 1.4);
+    \draw[<->] (3.2, 0) -- (3.2, 1.8) node[midway, right] {$h_2 = 1.8 \, \si{m}$};
+
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis del Movimiento de Caída}
+Para determinar la fuerza durante el impacto, primero necesitamos conocer la velocidad con la que la pelota llega al suelo ($\vec{v}_1$). Utilizamos las ecuaciones de cinemática para caída libre, asumiendo la dirección hacia arriba como positiva ($+\vec{j}$).
+\[ v_1^2 = v_0^2 - 2g \Delta y \]
+Como se suelta desde el reposo, $v_0 = 0$, y el desplazamiento es $\Delta y = -2.45 \, \si{m}$:
+\[ v_1^2 = 0 - 2(10)(-2.45) \]
+\[ v_1^2 = 49 \implies v_1 = 7 \, \si{m/s} \]
+Vectorialmente, como la pelota se mueve hacia abajo:
+\[ \vec{v}_1 = -7 \vec{j} \, \si{m/s} \]
+
+\subsubsection*{2. Análisis del Movimiento de Rebote}
+De manera análoga, calculamos la velocidad con la que la pelota sale del suelo ($\vec{v}_2$) para alcanzar la altura máxima de $1.8 \, \si{m}$. En la altura máxima, su velocidad es cero.
+\[ v_f^2 = v_2^2 - 2g \Delta y \]
+\[ 0 = v_2^2 - 2(10)(1.8) \]
+\[ 0 = v_2^2 - 36 \implies v_2 = 6 \, \si{m/s} \]
+Vectorialmente, como la pelota se mueve hacia arriba después de rebotar:
+\[ \vec{v}_2 = 6 \vec{j} \, \si{m/s} \]
+
+\subsubsection*{3. Representación Vectorial (Python)}
+El cambio en la velocidad ($\Delta\vec{v}$) es crucial para entender el cambio en la cantidad de movimiento. Al tratarse de vectores con sentidos opuestos, la magnitud de la variación es la suma de sus módulos.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(4, 5))
+ax.set_xlim(-2, 2)
+ax.set_ylim(-8, 8)
+ax.axhline(0, color='black', linewidth=1)
+ax.axvline(0, color='gray', linestyle='--', linewidth=0.5)
+
+ax.quiver(0, 0, 0, -7, angles='xy', scale_units='xy', scale=1, color='blue', width=0.015)
+ax.text(0.2, -3.5, r'$\vec{v}_1 = -7 \vec{j}$', color='blue', fontsize=12)
+
+ax.quiver(0, 0, 0, 6, angles='xy', scale_units='xy', scale=1, color='red', width=0.015)
+ax.text(0.2, 3, r'$\vec{v}_2 = 6 \vec{j}$', color='red', fontsize=12)
+
+ax.quiver(-1, -7, 0, 13, angles='xy', scale_units='xy', scale=1, color='purple', width=0.015)
+ax.text(-1.8, 0, r'$\Delta\vec{v} = 13 \vec{j}$', color='purple', fontsize=12)
+
+ax.axis('off')
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{4. Teorema del Impulso y Cantidad de Movimiento}
+La fuerza media neta ($\vec{F}_{neta}$) multiplicada por el intervalo de tiempo ($\Delta t$) es igual a la variación de la cantidad de movimiento ($\Delta\vec{p}$).
+\[ \vec{F}_{neta} \Delta t = \Delta\vec{p} \]
+\[ \vec{F}_{neta} \Delta t = m(\vec{v}_2 - \vec{v}_1) \]
+Sustituimos los valores:
+\[ \vec{F}_{neta} (0.15) = 0.25 (6 \vec{j} - (-7 \vec{j})) \]
+\[ \vec{F}_{neta} (0.15) = 0.25 (13 \vec{j}) \]
+\[ \vec{F}_{neta} = \frac{3.25}{0.15} \vec{j} \]
+\[ \vec{F}_{neta} \approx 21.67 \vec{j} \, \si{N} \]
+
+\textit{Nota Pedagógica:} Estrictamente, la fuerza neta es la suma de la fuerza de contacto (hacia arriba) y el peso (hacia abajo): $\vec{F}_{neta} = \vec{F}_{contacto} + m\vec{g}$. Sin embargo, en problemas introductorios donde la fuerza impulsiva es muy grande o se busca simplificar el modelo (como lo indica la respuesta sugerida del texto), se aproxima la fuerza neta media directamente como la fuerza de contacto ejercida por el piso, despreciando el impulso del peso durante los escasos $0.15 \, \si{s}$.
+
+Por lo tanto, la magnitud de la fuerza media de contacto es:
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $F_{contacto} \approx 21.67 \, \si{N}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Con una escopeta de cacería, de $2 \, \si{kg}$, se dispara una bala de $5 \, \si{g}$, que sale con una velocidad de $500 \vec{i} \, \si{m/s}$. Si la escopeta retrocede libremente hasta golpear el hombro del cazador, determine la velocidad inicial de retroceso del arma.
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[thick, fill=gray!20] (0,0) -- (1,0) -- (1.5, 0.3) -- (4, 0.3) -- (4, 0.7) -- (1.5, 0.7) -- (1, 1) -- (0, 1) -- cycle;
+    \draw[thick] (1.5, 0.3) -- (1.5, 0.1) -- (1.8, 0.1) -- (1.8, 0.3);
+    \node at (2, 0.5) {$m_E$};
+
+    \draw[thick, fill=yellow!40] (4.5, 0.4) rectangle (5, 0.6);
+    \node at (4.75, 0.9) {$m_B$};
+
+    \draw[->, thick, red, line width=1.2pt] (5.2, 0.5) -- (6.5, 0.5) node[midway, above] {$\vec{v}_B$};
+    
+    \draw[<-, thick, blue, line width=1.2pt] (-1.5, 0.5) -- (-0.2, 0.5) node[midway, above] {$\vec{v}_E$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Conversión de Unidades e Identificación de Datos}
+Para mantener la coherencia dimensional en el Sistema Internacional, la masa de la bala debe expresarse en kilogramos:
+\begin{itemize}
+    \item Masa de la escopeta: $m_E = 2 \, \si{kg}$
+    \item Masa de la bala: $m_B = 5 \, \si{g} = 0.005 \, \si{kg}$
+    \item Velocidad de la bala: $\vec{v}_B = 500 \vec{i} \, \si{m/s}$
+\end{itemize}
+
+\subsubsection*{2. Principio de Conservación de la Cantidad de Movimiento}
+Durante el disparo, las fuerzas que expulsan la bala y empujan la escopeta hacia atrás son fuerzas internas producidas por la explosión de la pólvora. Al no existir fuerzas externas netas en el eje horizontal durante ese breve instante, la cantidad de movimiento lineal del sistema (escopeta + bala) se conserva.
+\[ \vec{P}_{inicial} = \vec{P}_{final} \]
+
+Antes de jalar el gatillo, tanto la escopeta como la bala se encuentran en reposo, por lo que la cantidad de movimiento inicial es cero:
+\[ 0 = \vec{P}_{final} \]
+\[ 0 = \vec{p}_B + \vec{p}_E \]
+\[ 0 = m_B \vec{v}_B + m_E \vec{v}_E \]
+
+\subsubsection*{3. Representación Gráfica de los Momentos (Python)}
+Para que la suma de la cantidad de movimiento del sistema sea igual a cero tras la explosión, el vector de momento de la bala ($\vec{p}_B$) debe ser exactamente igual en magnitud y opuesto en dirección al vector de momento de la escopeta ($\vec{p}_E$).
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(6, 2.5))
+ax.set_xlim(-3, 3)
+ax.set_ylim(-1, 1)
+ax.axhline(0, color='black', linewidth=1)
+ax.axvline(0, color='gray', linestyle='--', linewidth=0.5)
+
+ax.quiver(0, 0, 2.5, 0, angles='xy', scale_units='xy', scale=1, color='red', width=0.015)
+ax.text(1.25, 0.2, r'$\vec{p}_B$', color='red', fontsize=14, ha='center')
+
+ax.quiver(0, 0, -2.5, 0, angles='xy', scale_units='xy', scale=1, color='blue', width=0.015)
+ax.text(-1.25, 0.2, r'$\vec{p}_E$', color='blue', fontsize=14, ha='center')
+
+ax.axis('off')
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{4. Resolución de la Ecuación}
+A partir de la ecuación de conservación, despejamos la velocidad de retroceso de la escopeta ($\vec{v}_E$):
+\[ m_E \vec{v}_E = - m_B \vec{v}_B \]
+\[ \vec{v}_E = - \frac{m_B \vec{v}_B}{m_E} \]
+
+Reemplazamos con los valores numéricos obtenidos:
+\[ \vec{v}_E = - \frac{(0.005 \, \si{kg}) (500 \vec{i} \, \si{m/s})}{2 \, \si{kg}} \]
+\[ \vec{v}_E = - \frac{2.5 \vec{i}}{2} \, \si{m/s} \]
+\[ \vec{v}_E = -1.25 \vec{i} \, \si{m/s} \]
+
+El signo negativo indica que el arma retrocede en dirección opuesta al movimiento de la bala.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{v}_E = -1.25 \vec{i} \, \si{m/s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Para un cohete que se encuentra en el espacio, el $60\%$ de su masa corresponde al combustible. El combustible es expulsado en forma de gases con una rapidez media de $1000 \, \si{m/s}$. Determine la rapidez final de escape del cohete, cuando todo el combustible se ha consumido.
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    % Cuerpo del cohete
+    \draw[thick, fill=gray!10] (-0.6, 0) -- (-0.6, 2) .. controls (-0.6, 2.8) and (0, 3.5) .. (0, 3.5) .. controls (0, 3.5) and (0.6, 2.8) .. (0.6, 2) -- (0.6, 0) -- cycle;
+    
+    % Aletas
+    \draw[thick, fill=gray!30] (-0.6, 0.5) -- (-1.2, 0) -- (-1.2, -0.5) -- (-0.6, 0) -- cycle;
+    \draw[thick, fill=gray!30] (0.6, 0.5) -- (1.2, 0) -- (1.2, -0.5) -- (0.6, 0) -- cycle;
+    
+    % Ventana
+    \draw[thick, fill=cyan!10] (0, 2) circle (0.25);
+    
+    % Gases de escape
+    \draw[thick, fill=orange!20] (-0.4, 0) .. controls (-0.6, -0.6) and (-0.3, -1.2) .. (-0.5, -1.8) .. controls (0, -1.4) and (0.3, -1.8) .. (0.5, -1.8) .. controls (0.3, -1.2) and (0.6, -0.6) .. (0.4, 0) -- cycle;
+
+    % Vectores de velocidad
+    \draw[->, thick, blue, line width=1.2pt] (1.6, 1) -- (1.6, 2.5) node[right] {$\vec{v}_c$};
+    \draw[->, thick, red, line width=1.2pt] (-1.6, -0.5) -- (-1.6, -2) node[left] {$\vec{v}_g$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Identificación de Datos y Sistema de Referencia}
+Asumiremos un marco de referencia estacionario respecto a la posición inicial del cohete (es decir, el cohete parte del reposo, $v_0 = 0$). Definiremos la dirección de avance del cohete como el eje $y$ positivo ($+\vec{j}$) y la dirección de expulsión de los gases como el eje $y$ negativo ($-\vec{j}$).
+
+Sea $M$ la masa total inicial del cohete (cohete vacío + combustible). Las proporciones de masa son:
+\begin{itemize}
+    \item Masa del combustible expulsado ($m_g$): $60\%$ de $M \Rightarrow m_g = 0.6 M$
+    \item Masa final del cohete vacío ($m_c$): $40\%$ de $M \Rightarrow m_c = 0.4 M$
+    \item Velocidad media de los gases ($v_g$): $-1000 \vec{j} \, \si{m/s}$
+\end{itemize}
+
+\subsubsection*{2. Principio de Conservación de la Cantidad de Movimiento}
+Dado que el cohete se encuentra en el espacio, asumimos que no hay fuerzas externas netas actuando sobre él ($\sum \vec{F}_{ext} = 0$). Aunque la expulsión de gases es un proceso continuo, el problema nos permite modelarlo utilizando la \textit{rapidez media} para aplicar la conservación de la cantidad de movimiento entre el estado inicial y el estado final.
+\[ \vec{P}_{inicial} = \vec{P}_{final} \]
+
+Como el sistema parte del reposo, su cantidad de movimiento inicial es cero:
+\[ 0 = \vec{p}_c + \vec{p}_g \]
+\[ 0 = m_c \vec{v}_c + m_g \vec{v}_g \]
+
+\subsubsection*{3. Representación Gráfica (Python)}
+Físicamente, esto significa que el impulso hacia adelante adquirido por el cohete se equilibra exactamente con el impulso hacia atrás que se llevan los gases. Sus cantidades de movimiento son vectores de igual magnitud y sentidos opuestos.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(4, 5))
+ax.set_xlim(-2, 2)
+ax.set_ylim(-3, 3)
+ax.axhline(0, color='black', linewidth=1)
+ax.axvline(0, color='gray', linestyle='--', linewidth=0.5)
+
+ax.quiver(0, 0, 0, 2, angles='xy', scale_units='xy', scale=1, color='blue', width=0.015)
+ax.text(0.2, 1, r'$\vec{p}_c = m_c \vec{v}_c$', color='blue', fontsize=12)
+
+ax.quiver(0, 0, 0, -2, angles='xy', scale_units='xy', scale=1, color='red', width=0.015)
+ax.text(0.2, -1, r'$\vec{p}_g = m_g \vec{v}_g$', color='red', fontsize=12)
+
+ax.axis('off')
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{4. Resolución Matemática}
+Sustituimos las expresiones de masa y velocidad en la ecuación de conservación:
+\[ 0 = (0.4 M) \vec{v}_c + (0.6 M) (-1000 \vec{j}) \]
+
+Notamos que la masa total $M$ es un factor común en ambos términos. Como $M \neq 0$, podemos dividir toda la ecuación por $M$ para simplificarla. Esto nos demuestra que la velocidad final del cohete depende de las proporciones de las masas, no del peso total de la nave:
+\[ 0 = 0.4 \vec{v}_c - 600 \vec{j} \]
+
+Despejamos la velocidad final del cohete ($\vec{v}_c$):
+\[ 0.4 \vec{v}_c = 600 \vec{j} \]
+\[ \vec{v}_c = \frac{600}{0.4} \vec{j} \]
+\[ \vec{v}_c = 1500 \vec{j} \, \si{m/s} \]
+
+Dado que el problema solicita la rapidez (una magnitud escalar), extraemos el módulo de nuestro vector:
+\[ |\vec{v}_c| = 1500 \, \si{m/s} \]
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $v_c = 1500 \, \si{m/s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+El cañón de un barco acorazado, que descansa sobre un piso horizontal rugoso, dispara horizontalmente una bala de $10 \, \si{kg}$, con una rapidez de salida de $250 \, \si{m/s}$. El cañón pesa $5000 \, \si{kg}$. Si el coeficiente de rozamiento entre el cañón y el piso es $0.5$, determine la distancia de retroceso del cañón, luego del disparo. (Considere $g = 10 \, \si{m/s^2}$).
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \fill[pattern=north east lines, pattern color=gray!50] (-3, -0.3) rectangle (4, 0);
+    \draw[thick] (-3, 0) -- (4, 0);
+
+    \draw[thick, fill=gray!30] (-1.5, 0.3) rectangle (0.5, 1.2);
+    \draw[thick, fill=gray!50] (0.5, 0.5) rectangle (1.2, 1.0);
+    \draw[thick, fill=black!70] (-1.0, 0.15) circle (0.15);
+    \draw[thick, fill=black!70] (0.0, 0.15) circle (0.15);
+
+    \draw[thick, fill=yellow!50] (2.0, 0.6) rectangle (2.4, 0.9);
+
+    \draw[->, thick, red, line width=1.2pt] (2.6, 0.75) -- (3.8, 0.75) node[above] {$\vec{v}_B$};
+    \draw[<-, thick, blue, line width=1.2pt] (-2.5, 0.75) -- (-1.7, 0.75) node[above] {$\vec{v}_C$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Conservación de la Cantidad de Movimiento (El Disparo)}
+El evento se divide en dos etapas. La primera es el disparo. Durante la explosión, las fuerzas internas son inmensamente mayores que cualquier fuerza externa (como el rozamiento). Por tanto, asumimos que el sistema está aislado durante ese brevísimo instante y la cantidad de movimiento lineal se conserva en el eje horizontal.
+\[ \vec{P}_{inicial} = \vec{P}_{final} \]
+
+Antes del disparo, el sistema está en reposo ($v_0 = 0$). Después del disparo, la bala sale hacia adelante ($+\vec{i}$) y el cañón retrocede ($-\vec{i}$).
+\[ 0 = m_B \vec{v}_B + m_C \vec{v}_C \]
+\[ 0 = (10)(250 \vec{i}) + (5000) \vec{v}_C \]
+\[ 0 = 2500 \vec{i} + 5000 \vec{v}_C \]
+
+Despejamos la velocidad de retroceso del cañón ($\vec{v}_C$):
+\[ 5000 \vec{v}_C = -2500 \vec{i} \]
+\[ \vec{v}_C = -0.5 \vec{i} \, \si{m/s} \]
+El cañón inicia su movimiento de retroceso con una rapidez de $0.5 \, \si{m/s}$ hacia la izquierda.
+
+\subsubsection*{2. Análisis Dinámico (El Retroceso)}
+La segunda etapa inicia justo después del disparo. El cañón se mueve hacia la izquierda sobre una superficie rugosa. La única fuerza horizontal que actúa sobre él es la fuerza de rozamiento cinético, la cual se opone al movimiento (apunta hacia la derecha).
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(5, 4))
+ax.set_xlim(-3, 3)
+ax.set_ylim(-3, 3)
+ax.axhline(0, color='black', linewidth=1.5)
+ax.axvline(0, color='gray', linestyle='--', linewidth=0.5)
+
+ax.add_patch(plt.Rectangle((-1, 0), 2, 1.2, fill=True, color='lightgray', ec='black', lw=1.5))
+
+ax.quiver(0, 1.2, 0, 1.5, angles='xy', scale_units='xy', scale=1, color='blue', width=0.015)
+ax.text(0.2, 2.2, r'$\vec{N}$', color='blue', fontsize=14)
+
+ax.quiver(0, 0, 0, -2, angles='xy', scale_units='xy', scale=1, color='green', width=0.015)
+ax.text(0.2, -1.5, r'$\vec{W} = m_C \vec{g}$', color='green', fontsize=14)
+
+ax.quiver(1, 0, 1.5, 0, angles='xy', scale_units='xy', scale=1, color='red', width=0.015)
+ax.text(1.8, 0.2, r'$\vec{f}_r$', color='red', fontsize=14)
+
+ax.quiver(-1, 0.6, -1.5, 0, angles='xy', scale_units='xy', scale=1, color='purple', width=0.01, linestyle='dashed')
+ax.text(-2.2, 0.8, r'$\vec{v}_C$', color='purple', fontsize=14)
+
+ax.axis('off')
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+Aplicamos la Segunda Ley de Newton para encontrar la aceleración de frenado.
+En el eje vertical (equilibrio):
+\[ \sum F_y = 0 \implies N - W = 0 \implies N = m_C g \]
+\[ N = (5000)(10) = 50000 \, \si{N} \]
+
+En el eje horizontal (dirección del movimiento):
+\[ \sum F_x = m_C a \]
+La fuerza de rozamiento es $f_r = \mu_k N$. Dado que el movimiento es hacia la izquierda (negativo), la fuerza de rozamiento apunta hacia la derecha (positiva).
+\[ f_r = m_C a \]
+\[ \mu_k N = m_C a \]
+\[ (0.5)(50000) = 5000 a \]
+\[ 25000 = 5000 a \implies a = 5 \, \si{m/s^2} \]
+Vectorialmente, la aceleración es $\vec{a} = 5 \vec{i} \, \si{m/s^2}$ (aceleración positiva que frena la velocidad negativa).
+
+\subsubsection*{3. Análisis Cinemático (Distancia de Parada)}
+Conocemos la velocidad inicial del retroceso ($v_0 = -0.5 \, \si{m/s}$), la aceleración ($a = 5 \, \si{m/s^2}$) y la velocidad final ($v_f = 0$ al detenerse). Usamos la ecuación cinemática independiente del tiempo:
+\[ v_f^2 = v_0^2 + 2a \Delta x \]
+\[ 0 = (-0.5)^2 + 2(5) \Delta x \]
+\[ 0 = 0.25 + 10 \Delta x \]
+\[ -0.25 = 10 \Delta x \implies \Delta x = -0.025 \, \si{m} \]
+El desplazamiento vectorial es $\Delta \vec{x} = -0.025 \vec{i} \, \si{m}$. La distancia, siendo el módulo del desplazamiento, es $0.025 \, \si{m}$.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $d = 0.025 \, \si{m}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Dos astronautas, $A$ y $B$, de $75 \, \si{kg}$ y $80 \, \si{kg}$, respectivamente, flotan en reposo en el espacio, separados una distancia de $100 \, \si{m}$ entre sí. $A$ lanza un objeto de $5 \, \si{kg}$ con una rapidez de $15 \, \si{m/s}$, directamente hacia $B$. Calcule la distancia que separa a los astronautas luego de $10 \, \si{s}$ de que $A$ lanzara el objeto.
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    % Distancia inicial
+    \draw[<->, dashed, gray] (0, -1.5) -- (6, -1.5) node[midway, fill=white] {$d = 100 \, \si{m}$};
+    
+    % Astronauta A (Izquierda)
+    \draw[thick, fill=blue!10] (-0.3, 0) rectangle (0.3, 1.2) node[midway, yshift=-0.8cm] {$A$};
+    \draw[thick, fill=blue!20] (0, 1.4) circle (0.25);
+    \draw[<-, thick, blue, line width=1pt] (-1.2, 0.6) -- (-0.4, 0.6) node[midway, above] {$\vec{v}_A$};
+    
+    % Objeto
+    \draw[thick, fill=gray!40] (1.2, 0.6) circle (0.15) node[above, yshift=0.1cm] {$m_p$};
+    \draw[->, thick, black, line width=1pt] (1.4, 0.6) -- (2.4, 0.6) node[midway, above] {$\vec{v}_p$};
+    
+    % Astronauta B (Derecha)
+    \draw[thick, fill=red!10] (5.7, 0) rectangle (6.3, 1.2) node[midway, yshift=-0.8cm] {$B$};
+    \draw[thick, fill=red!20] (6, 1.4) circle (0.25);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Físico y Secuencia de Eventos}
+El problema involucra la conservación de la cantidad de movimiento lineal en un sistema aislado libre de fuerzas externas (el espacio). Definiremos un sistema de referencia unidimensional (eje $x$) donde la posición inicial del astronauta $A$ es el origen ($x_{A0} = 0$) y la posición inicial de $B$ es $x_{B0} = 100 \, \si{m}$. El vector unitario $+\vec{i}$ apunta de $A$ hacia $B$.
+
+El fenómeno se divide cronológicamente en tres fases:
+\begin{enumerate}
+    \item \textbf{El Lanzamiento:} $A$ expulsa el objeto, lo que le genera una velocidad de retroceso por conservación de momento.
+    \item \textbf{El Tránsito:} El objeto viaja por el espacio a velocidad constante hasta alcanzar a $B$.
+    \item \textbf{La Recepción:} $B$ atrapa el objeto (choque inelástico perfecto), adquiriendo una nueva velocidad en conjunto.
+\end{enumerate}
+
+Para entender mejor esta interacción cinemática y dinámica, observemos el gráfico de posición vs. tiempo del sistema:
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig, ax = plt.subplots(figsize=(6, 4))
+ax.set_xlim(0, 10)
+ax.set_ylim(-15, 110)
+ax.set_xlabel('$t$ (s)', fontsize=12)
+ax.set_ylabel('$x$ (m)', fontsize=12)
+ax.grid(True, linestyle=':', alpha=0.7)
+
+t1 = np.linspace(0, 10, 100)
+xA = -1 * t1
+ax.plot(t1, xA, 'b-', label='Astronauta A', linewidth=2)
+
+t2 = np.linspace(0, 20/3, 50)
+xp = 15 * t2
+ax.plot(t2, xp, 'k--', label='Objeto', linewidth=1.5)
+
+t3_rest = np.linspace(0, 20/3, 50)
+xB_rest = np.full_like(t3_rest, 100)
+t3_move = np.linspace(20/3, 10, 50)
+xB_move = 100 + (15/17) * (t3_move - 20/3)
+ax.plot(np.concatenate((t3_rest, t3_move)), np.concatenate((xB_rest, xB_move)), 'r-', label='Astronauta B', linewidth=2)
+
+ax.plot(20/3, 100, 'ko', markersize=5)
+ax.text(20/3 - 1, 103, 'Recepcion', fontsize=10)
+
+ax.legend(loc='center left')
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{2. Evento 1: El Lanzamiento (Retroceso de A)}
+Antes del lanzamiento, el astronauta $A$ y el objeto ($p$) están en reposo ($\vec{P}_0 = 0$).
+\[ \vec{P}_0 = \vec{P}_f \]
+\[ 0 = m_A \vec{v}_A + m_p \vec{v}_p \]
+\[ 0 = (75) \vec{v}_A + (5)(15 \vec{i}) \]
+\[ 75 \vec{v}_A = -75 \vec{i} \implies \vec{v}_A = -1 \vec{i} \, \si{m/s} \]
+El astronauta $A$ retrocede hacia la izquierda con una rapidez de $1 \, \si{m/s}$.
+
+\subsubsection*{3. Evento 2: Tiempo de Vuelo del Objeto}
+El objeto debe recorrer la distancia inicial que separa a los astronautas ($100 \, \si{m}$) con su rapidez constante de $15 \, \si{m/s}$. Calculamos el tiempo de impacto ($t_p$):
+\[ t_p = \frac{d}{v_p} = \frac{100}{15} = \frac{20}{3} \, \si{s} \approx 6.67 \, \si{s} \]
+Como el impacto ocurre a los $\sim 6.67 \, \si{s}$, esto confirma que $B$ es golpeado \textit{antes} de que finalicen los $10 \, \si{s}$ estipulados por el problema.
+
+\subsubsection*{4. Evento 3: La Recepción (Choque Inelástico en B)}
+Al atrapar el objeto, el astronauta $B$ y el objeto se mueven juntos. Se conserva el momento justo un instante antes y después del impacto:
+\[ \vec{P}_{antes} = \vec{P}_{despues} \]
+\[ m_p \vec{v}_p + m_B(0) = (m_p + m_B) \vec{v}_B \]
+\[ (5)(15 \vec{i}) = (5 + 80) \vec{v}_B \]
+\[ 75 \vec{i} = 85 \vec{v}_B \implies \vec{v}_B = \frac{75}{85} \vec{i} = \frac{15}{17} \vec{i} \approx 0.882 \vec{i} \, \si{m/s} \]
+El astronauta $B$ empieza a moverse hacia la derecha.
+
+\subsubsection*{5. Cálculo de Posiciones a los 10 segundos}
+Calculamos dónde se encuentra cada astronauta en el instante $t = 10 \, \si{s}$.
+
+\textbf{Posición Final de A ($x_{Af}$):}
+$A$ ha estado moviéndose durante la totalidad de los $10 \, \si{s}$.
+\[ x_{Af} = x_{A0} + v_A t = 0 + (-1)(10) = -10 \, \si{m} \]
+
+\textbf{Posición Final de B ($x_{Bf}$):}
+$B$ permaneció en reposo en $x = 100$ durante los primeros $20/3 \, \si{s}$. El tiempo que $B$ estuvo en movimiento es:
+\[ t_{mov} = 10 - \frac{20}{3} = \frac{10}{3} \, \si{s} \approx 3.33 \, \si{s} \]
+Calculamos su desplazamiento en ese tiempo:
+\[ x_{Bf} = x_{B0} + v_B t_{mov} = 100 + \left(\frac{15}{17}\right) \left(\frac{10}{3}\right) \]
+\[ x_{Bf} = 100 + \frac{50}{17} \approx 100 + 2.941 = 102.941 \, \si{m} \]
+
+\subsubsection*{6. Distancia Final}
+La distancia de separación es la magnitud de la diferencia entre sus posiciones finales:
+\[ D = |x_{Bf} - x_{Af}| = 102.941 - (-10) = 112.941 \, \si{m} \]
+
+\textit{Nota metodológica:} Si se redondean valores prematuramente durante el cálculo (por ejemplo, usando $0.88$ en lugar de $15/17$ y $3.33$ en lugar de $10/3$), el resultado puede desviarse ligeramente, arrojando valores como el sugerido por el texto guía ($112.63 \, \si{m}$). Sin embargo, la solución analítica exacta arroja $112.94 \, \si{m}$.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $D \approx 112.94 \, \si{m}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Se muestra el gráfico $F$ vs. $t$, obtenido durante la colisión de una pelota de tenis, de $58 \, \si{g}$, contra una pared. La velocidad inicial de la pelota tiene una magnitud de $32 \, \si{m/s}$ y es perpendicular a la pared. Después de la colisión, la pelota rebota perpendicularmente a la pared con la misma rapidez. Determine el valor máximo de la fuerza de contacto durante la colisión, $F_{max}$.
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    % Ejes
+    \draw[->, thick] (0,0) -- (7,0) node[right] {$t \, (\si{ms})$};
+    \draw[->, thick] (0,0) -- (0,4) node[above] {$F \, (\si{N})$};
+    
+    % Gráfica (Trapecio)
+    \draw[thick, blue] (0,0) -- (2,3) -- (4,3) -- (6,0);
+    
+    % Líneas guía
+    \draw[dashed] (2,0) node[below] {$2$} -- (2,3);
+    \draw[dashed] (4,0) node[below] {$4$} -- (4,3);
+    \draw[dashed] (6,0) node[below] {$6$};
+    \draw[dashed] (0,3) node[left] {$F_{max}$} -- (2,3);
+    
+    % Origen
+    \node[below left] at (0,0) {$0$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Identificación de Datos y Sistema de Referencia}
+Como el gráfico muestra una fuerza de contacto positiva ($+F$), definiremos nuestro sistema de referencia de modo que la pared ejerza fuerza en el sentido positivo ($+\vec{i}$). Para que esto ocurra, la pelota debe golpear la pared moviéndose hacia la izquierda (sentido negativo) y rebotar hacia la derecha (sentido positivo).
+\begin{itemize}
+    \item Masa de la pelota: $m = 58 \, \si{g} = 0.058 \, \si{kg}$
+    \item Velocidad inicial (hacia la pared): $\vec{v}_0 = -32 \vec{i} \, \si{m/s}$
+    \item Velocidad final (rebote): $\vec{v}_f = 32 \vec{i} \, \si{m/s}$
+\end{itemize}
+
+\subsubsection*{2. Representación Gráfica del Cambio de Velocidad (Python)}
+Es común confundirse al restar velocidades que tienen sentidos opuestos. La representación de los vectores ayuda a visualizar que la variación total de velocidad ($\Delta\vec{v}$) es la suma de sus magnitudes, ya que el cambio de dirección representa una aceleración (y fuerza) que frena la pelota y luego la impulsa de regreso.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(6, 3))
+ax.set_xlim(-35, 35)
+ax.set_ylim(-1.5, 1.5)
+
+ax.axvline(0, color='gray', linestyle='--', linewidth=2)
+ax.text(-2, 1.0, 'Pared', rotation=90, color='gray', fontsize=12, va='center')
+
+ax.quiver(30, 0.5, -30, 0, angles='xy', scale_units='xy', scale=1, color='blue', width=0.01)
+ax.text(15, 0.7, r'$\vec{v}_0 = -32 \vec{i}$', color='blue', fontsize=12, ha='center')
+
+ax.quiver(0, -0.5, 30, 0, angles='xy', scale_units='xy', scale=1, color='red', width=0.01)
+ax.text(15, -0.8, r'$\vec{v}_f = 32 \vec{i}$', color='red', fontsize=12, ha='center')
+
+ax.quiver(-30, 0, 60, 0, angles='xy', scale_units='xy', scale=1, color='purple', width=0.01, alpha=0.5)
+ax.text(0, 0.2, r'$\Delta\vec{v} = 64 \vec{i}$', color='purple', fontsize=12, ha='center')
+
+ax.axis('off')
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{3. Cálculo del Impulso desde el Gráfico (Área)}
+El impulso ejercido por la pared sobre la pelota es equivalente al área bajo la curva del gráfico de Fuerza vs. Tiempo. La figura es un trapecio.
+\textbf{Precaución con las unidades:} El eje del tiempo está en milisegundos ($\si{ms}$), por lo que debemos multiplicar por $10^{-3}$ para obtener segundos y mantener la coherencia en el Sistema Internacional.
+
+El área de un trapecio se calcula como:
+\[ \text{Área} = \frac{(\text{Base Mayor} + \text{Base Menor}) \cdot \text{Altura}}{2} \]
+\[ I = \frac{(6 + 2) \times 10^{-3} \cdot F_{max}}{2} \]
+\[ I = \frac{8 \times 10^{-3} \cdot F_{max}}{2} \]
+\[ I = 4 \times 10^{-3} F_{max} \]
+
+\subsubsection*{4. Teorema del Impulso y la Cantidad de Movimiento}
+Sabemos que el impulso neto también es igual a la variación de la cantidad de movimiento lineal de la pelota:
+\[ I = \Delta p \]
+\[ I = m \vec{v}_f - m \vec{v}_0 \]
+\[ I = m (\vec{v}_f - \vec{v}_0) \]
+
+Sustituimos los datos cinemáticos en la ecuación:
+\[ I = 0.058 \left( 32 - (-32) \right) \]
+\[ I = 0.058 (64) \]
+\[ I = 3.712 \, \si{N\cdot s} \]
+
+\subsubsection*{5. Despeje de la Fuerza Máxima}
+Igualamos el impulso obtenido geométricamente del área con el impulso calculado mediante las velocidades:
+\[ 4 \times 10^{-3} F_{max} = 3.712 \]
+\[ F_{max} = \frac{3.712}{4 \times 10^{-3}} \]
+\[ F_{max} = \frac{3.712}{0.004} \]
+\[ F_{max} = 928 \, \si{N} \]
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $F_{max} = 928 \, \si{N}$
+\end{tcolorbox}
+
+\newpage
+
+% --- EJERCICIO 10: LITERAL A ---
+\subsection*{Enunciado}
+Un hombre, de masa $m$, que se encuentra en reposo en una lancha de masa $4m$, lanza un paquete de masa $m/4$ con una velocidad $v_0\vec{i}$ hacia otro hombre de igual masa, que se encuentra en reposo, en una lancha idéntica a la anterior. Desprecie la fricción del aire, del agua, considere el movimiento del paquete rectilíneo y calcule:
+\begin{enumerate}[label=\alph*)]
+    \item La velocidad del primer hombre luego de lanzar el paquete.
+\end{enumerate}
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[thick, blue, dashed] (-3, 0) -- (4, 0);
+    
+    \draw[thick, fill=gray!20] (-2, 0) -- (-1.5, -0.5) -- (-0.5, -0.5) -- (0, 0) -- cycle;
+    \node at (-1, -0.25) {$4m$};
+    
+    \draw[thick] (-1.2, 0) -- (-1.2, 0.8); 
+    \draw[thick] (-1.2, 0.8) circle (0.15); 
+    \draw[thick] (-1.2, 0.5) -- (-0.8, 0.5); 
+    \node at (-1.5, 0.5) {$m$};
+    
+    \draw[thick, fill=brown!50] (-0.5, 0.5) circle (0.15);
+    \node[above] at (-0.5, 0.65) {$m/4$};
+    
+    \draw[->, thick, red, line width=1.2pt] (-0.2, 0.5) -- (1, 0.5) node[midway, above] {$v_0\vec{i}$};
+    
+    \draw[<-, thick, blue, line width=1pt] (-2.5, -0.2) -- (-1.5, -0.2) node[midway, below] {$\vec{v}_A$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Físico y Sistema de Referencia}
+El sistema de estudio en esta primera etapa está compuesto por el primer hombre, su lancha y el paquete. Al despreciar la fricción del agua y del aire, no existen fuerzas externas netas actuando sobre el sistema en el eje horizontal. Por tanto, la cantidad de movimiento lineal se conserva.
+
+Definimos las masas del sistema:
+\begin{itemize}
+    \item Masa del subsistema hombre-lancha ($M_A$): $m + 4m = 5m$
+    \item Masa del paquete ($m_p$): $\frac{m}{4}$
+\end{itemize}
+
+Antes del lanzamiento, todo el sistema se encuentra en reposo, por lo que la cantidad de movimiento inicial es cero ($\vec{P}_0 = 0$).
+
+\subsubsection*{2. Representación Gráfica (Python)}
+Para que la cantidad de movimiento final siga siendo cero, el vector de momento del paquete debe ser cancelado exactamente por el vector de momento de la lancha y el hombre.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(6, 2))
+ax.set_xlim(-5, 5)
+ax.set_ylim(-1, 1)
+
+ax.axhline(0, color='black', linewidth=1)
+ax.axvline(0, color='gray', linestyle='--', linewidth=0.5)
+
+ax.quiver(0, 0, 4, 0, angles='xy', scale_units='xy', scale=1, color='red', width=0.015)
+ax.text(2, 0.3, r'$\vec{p}_{paquete}$', color='red', fontsize=12, ha='center')
+
+ax.quiver(0, 0, -4, 0, angles='xy', scale_units='xy', scale=1, color='blue', width=0.015)
+ax.text(-2, 0.3, r'$\vec{p}_{hombre+lancha}$', color='blue', fontsize=12, ha='center')
+
+ax.axis('off')
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{3. Ecuación de Conservación}
+Aplicamos la conservación de la cantidad de movimiento:
+\[ \vec{P}_0 = \vec{P}_f \]
+\[ 0 = M_A \vec{v}_A + m_p \vec{v}_p \]
+
+Sustituimos las masas y la velocidad del paquete ($\vec{v}_p = v_0\vec{i}$):
+\[ 0 = (5m) \vec{v}_A + \left(\frac{m}{4}\right) (v_0\vec{i}) \]
+
+Despejamos la velocidad de retroceso $\vec{v}_A$:
+\[ (5m) \vec{v}_A = - \frac{m}{4} v_0\vec{i} \]
+
+Cancelamos la variable de la masa $m$ en ambos lados y dividimos por 5:
+\[ \vec{v}_A = - \frac{\frac{1}{4} v_0}{5} \vec{i} \]
+\[ \vec{v}_A = - \frac{v_0}{20} \vec{i} \]
+
+El signo negativo indica que el primer hombre y su lancha retroceden en la dirección $-\vec{i}$.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{v}_A = - \frac{v_0}{20} \vec{i}$
+\end{tcolorbox}
+
+\newpage
+
+% --- EJERCICIO 10: LITERAL B ---
+\subsection*{Enunciado}
+Un hombre, de masa $m$, que se encuentra en reposo en una lancha de masa $4m$, lanza un paquete de masa $m/4$ con una velocidad $v_0\vec{i}$ hacia otro hombre de igual masa, que se encuentra en reposo, en una lancha idéntica a la anterior. Desprecie la fricción del aire, del agua, considere el movimiento del paquete rectilíneo y calcule:
+\begin{enumerate}[label=\alph*), start=2]
+    \item La velocidad del segundo hombre después de haber recibido el paquete.
+\end{enumerate}
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[thick, blue, dashed] (-1, 0) -- (5, 0);
+    
+    \draw[thick, fill=gray!20] (2, 0) -- (2.5, -0.5) -- (3.5, -0.5) -- (4, 0) -- cycle;
+    \node at (3, -0.25) {$4m$};
+    
+    \draw[thick] (3.2, 0) -- (3.2, 0.8); 
+    \draw[thick] (3.2, 0.8) circle (0.15); 
+    \draw[thick] (2.8, 0.5) -- (3.2, 0.5); 
+    \node at (3.5, 0.5) {$m$};
+    
+    \draw[thick, fill=brown!50] (0.5, 0.5) circle (0.15);
+    \node[above] at (0.5, 0.65) {$m/4$};
+    
+    \draw[->, thick, red, line width=1.2pt] (0.8, 0.5) -- (2.2, 0.5) node[midway, above] {$v_0\vec{i}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Físico: Choque Inelástico}
+Para esta segunda etapa, el sistema de estudio es el paquete (que se encuentra en movimiento) y el segundo hombre con su lancha (que se encuentran en reposo). 
+
+Cuando el hombre atrapa el paquete, ambos pasan a moverse juntos con la misma velocidad final ($\vec{v}_B$). Físicamente, este evento se clasifica como un choque perfectamente inelástico. Nuevamente, sin fricción del agua, la cantidad de movimiento horizontal se conserva.
+
+Masas del sistema receptor:
+\begin{itemize}
+    \item Masa inicial del receptor en reposo ($M_{B0}$): $m + 4m = 5m$
+    \item Masa del paquete en movimiento ($m_p$): $\frac{m}{4}$
+    \item Masa total final después de atraparlo ($M_{Bf}$): $5m + \frac{m}{4} = \frac{21m}{4}$
+\end{itemize}
+
+\subsubsection*{2. Representación Gráfica (Python)}
+El momento inicial es provisto únicamente por el paquete. Después de la interacción, ese mismo momento exacto es distribuido en una masa mucho mayor (la lancha, el hombre y el paquete juntos), resultando en una velocidad final positiva pero mucho menor.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(6, 2))
+ax.set_xlim(-1, 6)
+ax.set_ylim(-1, 1)
+
+ax.axhline(0, color='black', linewidth=1)
+ax.axvline(0, color='gray', linestyle='--', linewidth=0.5)
+
+ax.quiver(0, 0.3, 4, 0, angles='xy', scale_units='xy', scale=1, color='red', width=0.015)
+ax.text(2, 0.5, r'$\vec{P}_{inicial} = \vec{p}_{paquete}$', color='red', fontsize=12, ha='center')
+
+ax.quiver(0, -0.3, 4, 0, angles='xy', scale_units='xy', scale=1, color='purple', width=0.015)
+ax.text(2, -0.7, r'$\vec{P}_{final} = \vec{p}_{sistema \ total}$', color='purple', fontsize=12, ha='center')
+
+ax.axis('off')
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{3. Ecuación de Conservación}
+Planteamos la igualdad de momento antes y después de atrapar el paquete:
+\[ \vec{P}_0 = \vec{P}_f \]
+\[ m_p \vec{v}_p + M_{B0}(0) = M_{Bf} \vec{v}_B \]
+
+Sustituimos las masas y la velocidad del paquete ($v_0\vec{i}$):
+\[ \left(\frac{m}{4}\right) (v_0\vec{i}) = \left( \frac{21m}{4} \right) \vec{v}_B \]
+
+Despejamos la velocidad final del segundo hombre ($\vec{v}_B$):
+\[ \vec{v}_B = \frac{\frac{m}{4} v_0\vec{i}}{\frac{21m}{4}} \]
+
+Cancelamos la masa $m$ y el divisor $4$ en ambos lados de la fracción:
+\[ \vec{v}_B = \frac{v_0}{21} \vec{i} \]
+
+El resultado positivo comprueba que la segunda lancha se moverá en la misma dirección en la que viajaba el paquete ($+\vec{i}$).
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{v}_B = \frac{v_0}{21} \vec{i}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una persona, de $35 \, \si{kg}$, está de pie en el extremo izquierdo de una tabla de $90 \, \si{kg}$, que se encuentra en reposo, sobre una superficie horizontal lisa. La persona camina hacia el extremo derecho de la tabla con velocidad constante, como resultado de dicha maniobra, la posición de la persona cambia $3.2\vec{i} \, \si{m}$, respecto de tierra. Determine la longitud de la tabla.
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[thick] (-3, 0) -- (4, 0);
+    
+    \draw[thick, fill=gray!20] (-2, 0) rectangle (2, 0.4);
+    \node at (0, 0.2) {$m_2 = 90 \, \si{kg}$};
+    
+    \draw[thick, fill=blue!20] (-1.8, 0.4) rectangle (-1.2, 1.4);
+    \draw[thick, fill=blue!10] (-1.5, 1.6) circle (0.2);
+    \node at (-1.5, 2.1) {$m_1 = 35 \, \si{kg}$};
+    
+    \draw[->, thick, blue, line width=1pt] (-1.0, 1.0) -- (0.5, 1.0) node[midway, above] {$\vec{v}_1$};
+    
+    \draw[<-, thick, red, line width=1pt] (-0.5, -0.4) -- (0.5, -0.4) node[midway, below] {$\vec{v}_2$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Físico: Conservación del Centro de Masa}
+El sistema está conformado por la persona ($m_1$) y la tabla ($m_2$). Al estar sobre una superficie lisa, no existen fuerzas externas en la dirección horizontal ($\sum F_x = 0$). Como el sistema parte del reposo, su cantidad de movimiento inicial es cero y el centro de masa del sistema debe permanecer estático respecto a la Tierra durante todo el movimiento.
+
+Dado que la cantidad de movimiento se conserva ($m_1 \vec{v}_1 + m_2 \vec{v}_2 = 0$), podemos multiplicar esta ecuación por el intervalo de tiempo $\Delta t$ de la maniobra para obtener la relación de los desplazamientos respecto a la Tierra:
+\[ m_1 \Delta\vec{x}_1 + m_2 \Delta\vec{x}_2 = 0 \]
+
+\subsubsection*{2. Desplazamiento de la Tabla}
+Conocemos la masa de ambos cuerpos y el desplazamiento de la persona respecto a la Tierra ($\Delta\vec{x}_1 = 3.2\vec{i} \, \si{m}$). Despejamos el desplazamiento de la tabla ($\Delta\vec{x}_2$):
+\[ (35)(3.2\vec{i}) + (90)\Delta\vec{x}_2 = 0 \]
+\[ 112\vec{i} + 90\Delta\vec{x}_2 = 0 \]
+\[ \Delta\vec{x}_2 = -\frac{112}{90}\vec{i} \]
+\[ \Delta\vec{x}_2 \approx -1.244\vec{i} \, \si{m} \]
+El signo negativo confirma que, para que el centro de masa no se mueva, la tabla debe deslizarse hacia la izquierda mientras la persona camina hacia la derecha.
+
+\subsubsection*{3. Representación Gráfica del Movimiento Relativo (Python)}
+Para visualizar por qué la longitud de la tabla no es simplemente $3.2 \, \si{m}$, graficamos las posiciones iniciales y finales. La longitud total de la tabla es la distancia que recorrió la persona más la distancia que la tabla se "escurrió" por debajo de ella.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+fig, ax = plt.subplots(figsize=(7, 4))
+ax.set_xlim(-2, 4)
+ax.set_ylim(-1.5, 2.5)
+ax.axis('off')
+
+ax.add_patch(patches.Rectangle((0, 1.5), 4.44, 0.4, fill=True, color='lightgray', ec='black'))
+ax.plot(0, 1.9, 'bo', markersize=10)
+ax.text(2.22, 1.7, 'Tabla Inicial', ha='center', va='center')
+
+ax.add_patch(patches.Rectangle((-1.244, 0), 4.44, 0.4, fill=True, color='darkgray', ec='black'))
+ax.plot(3.2, 0.4, 'bo', markersize=10)
+ax.text(0.98, 0.2, 'Tabla Final', ha='center', va='center', color='white')
+
+ax.quiver(0, 1.1, 3.2, 0, angles='xy', scale_units='xy', scale=1, color='blue', width=0.005)
+ax.text(1.6, 1.25, r'$\Delta x_1 = 3.2 \, \mathrm{m}$', color='blue', fontsize=11, ha='center')
+
+ax.quiver(0, -0.3, -1.244, 0, angles='xy', scale_units='xy', scale=1, color='red', width=0.005)
+ax.text(-0.62, -0.55, r'$\Delta x_2 = -1.24 \, \mathrm{m}$', color='red', fontsize=11, ha='center')
+
+ax.quiver(-1.244, -1.0, 4.444, 0, angles='xy', scale_units='xy', scale=1, color='purple', width=0.005)
+ax.text(0.98, -1.25, r'Longitud de la tabla $L$', color='purple', fontsize=11, ha='center')
+
+ax.plot([0, 0], [-0.4, 2.2], 'k--', alpha=0.5)
+
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{4. Cálculo de la Longitud de la Tabla}
+La longitud de la tabla ($L$) equivale al desplazamiento de la persona \textit{relativo a la tabla}. Cinemáticamente, el desplazamiento relativo entre dos cuerpos se define como la diferencia de sus desplazamientos absolutos:
+\[ \Delta\vec{x}_{1/2} = \Delta\vec{x}_1 - \Delta\vec{x}_2 \]
+Sustituyendo los valores vectoriales calculados:
+\[ \Delta\vec{x}_{1/2} = 3.2\vec{i} - (-1.244\vec{i}) \]
+\[ \Delta\vec{x}_{1/2} = (3.2 + 1.244)\vec{i} \]
+\[ \Delta\vec{x}_{1/2} = 4.444\vec{i} \, \si{m} \]
+
+La longitud de la tabla corresponde a la magnitud de este desplazamiento relativo.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $L \approx 4.44 \, \si{m}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una mujer, de $60 \, \si{kg}$, está de pie en el extremo derecho de un bote de $240 \, \si{kg}$ inicialmente en reposo, lista para lanzarse al agua. Si la mujer se lanza horizontalmente con una velocidad de $6\vec{i} \, \si{m/s}$ respecto al bote. Determine la velocidad del bote respecto a tierra después de que la mujer se ha lanzado. Desprecie la resistencia del agua.
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[thick, cyan, dashed] (-3, 0) -- (5, 0);
+    
+    \draw[thick, fill=brown!30] (-2, 0) -- (-1.5, -0.6) -- (2.5, -0.6) -- (3, 0) -- cycle;
+    \node at (0.5, -0.3) {$m_B = 240 \, \si{kg}$};
+    
+    \draw[thick, fill=pink!30] (2.2, 0) rectangle (2.8, 1.2);
+    \draw[thick, fill=pink!40] (2.5, 1.4) circle (0.2);
+    \node at (2.5, 1.9) {$m_M = 60 \, \si{kg}$};
+    
+    \draw[->, thick, red, line width=1.2pt] (3, 0.6) -- (4.5, 0.6) node[midway, above] {$\vec{v}_{M/B} = 6\vec{i}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Movimiento Relativo}
+El detalle clave de este ejercicio es que la velocidad de lanzamiento de la mujer está dada \textit{respecto al bote}, no respecto a un observador estacionario en la Tierra. 
+
+Para aplicar la conservación de la cantidad de movimiento, todas las velocidades deben estar en el mismo sistema de referencia inercial (la Tierra). Usamos la ecuación de velocidad relativa:
+\[ \vec{v}_{M/B} = \vec{v}_M - \vec{v}_B \]
+Donde:
+\begin{itemize}
+    \item $\vec{v}_{M/B} = 6\vec{i} \, \si{m/s}$ (Velocidad de la mujer respecto al bote)
+    \item $\vec{v}_M$ (Velocidad de la mujer respecto a la Tierra)
+    \item $\vec{v}_B$ (Velocidad del bote respecto a la Tierra)
+\end{itemize}
+
+Despejamos la velocidad absoluta de la mujer:
+\[ \vec{v}_M = \vec{v}_{M/B} + \vec{v}_B \]
+\[ \vec{v}_M = 6\vec{i} + \vec{v}_B \]
+
+\subsubsection*{2. Conservación de la Cantidad de Movimiento}
+Al despreciar la resistencia del agua, no hay fuerzas horizontales externas netas actuando sobre el sistema (mujer + bote). Por lo tanto, la cantidad de movimiento lineal se conserva a lo largo del eje x.
+\[ \vec{P}_0 = \vec{P}_f \]
+
+El sistema está inicialmente en reposo, así que $\vec{P}_0 = 0$.
+\[ 0 = m_B \vec{v}_B + m_M \vec{v}_M \]
+
+\subsubsection*{3. Resolución de la Ecuación}
+Sustituimos las masas y la expresión de la velocidad relativa de la mujer obtenida en el primer paso:
+\[ 0 = (240) \vec{v}_B + (60) (6\vec{i} + \vec{v}_B) \]
+
+Aplicamos propiedad distributiva:
+\[ 0 = 240 \vec{v}_B + 360\vec{i} + 60 \vec{v}_B \]
+
+Agrupamos los términos que contienen $\vec{v}_B$:
+\[ 0 = 300 \vec{v}_B + 360\vec{i} \]
+
+Despejamos la velocidad del bote:
+\[ 300 \vec{v}_B = -360\vec{i} \]
+\[ \vec{v}_B = -\frac{360}{300} \vec{i} \]
+\[ \vec{v}_B = -1.2 \vec{i} \, \si{m/s} \]
+
+El signo negativo indica que, como reacción al salto de la mujer hacia la derecha ($+\vec{i}$), el bote retrocede hacia la izquierda ($-\vec{i}$).
+
+\subsubsection*{4. Representación Gráfica del Movimiento Relativo (Python)}
+Podemos visualizar cómo las velocidades se componen vectorial mente. Aunque la mujer saltó a $6 \, \si{m/s}$ desde la perspectiva del bote, para un observador en el muelle, ella se mueve más lento hacia la derecha debido a que el bote se está deslizando hacia atrás bajo sus pies simultáneamente.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(7, 3.5))
+ax.set_xlim(-2, 7)
+ax.set_ylim(-1.5, 2)
+ax.axvline(0, color='gray', linestyle='--', linewidth=1)
+
+ax.quiver(0, 1, 6, 0, angles='xy', scale_units='xy', scale=1, color='blue', width=0.01)
+ax.text(3, 1.2, r'$\vec{v}_{M/B} = 6 \vec{i}$ (Mujer respecto al bote)', color='blue', fontsize=11, ha='center')
+
+ax.quiver(0, 0, -1.2, 0, angles='xy', scale_units='xy', scale=1, color='red', width=0.01)
+ax.text(-1, 0.2, r'$\vec{v}_B = -1.2 \vec{i}$', color='red', fontsize=11, ha='center')
+
+ax.quiver(-1.2, -1, 6, 0, angles='xy', scale_units='xy', scale=1, color='purple', width=0.01)
+ax.text(1.8, -0.7, r'$\vec{v}_M = \vec{v}_B + \vec{v}_{M/B} = 4.8 \vec{i}$ (Mujer respecto a Tierra)', color='purple', fontsize=11, ha='center')
+
+ax.axis('off')
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{v}_B = -1.2 \vec{i} \, \si{m/s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un patinador, de $60 \, \si{kg}$, que está inicialmente en reposo, sobre una superficie horizontal de hielo, lanza un cuerpo de $0.5 \, \si{kg}$ con una rapidez de $10 \, \si{m/s}$, horizontalmente hacia adelante. Si el coeficiente de rozamiento cinético entre los patines y el hielo es $0.01$, determine qué distancia recorre el patinador hasta detenerse. (Considere $g = 10 \, \si{m/s^2}$).
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \fill[cyan!5] (-3, -0.3) rectangle (4, 0);
+    \draw[thick, cyan!50!blue] (-3, 0) -- (4, 0);
+    \node[below] at (2, -0.3) {$\mu_k = 0.01$};
+
+    \draw[thick] (-1, 0) -- (-1.5, 0.8) -- (-1, 1.5) circle (0.2);
+    \draw[thick] (-1.5, 0.8) -- (-0.5, 1.0);
+    \node at (-1.5, 2.0) {$m_2 = 60 \, \si{kg}$};
+
+    \draw[thick, fill=gray!50] (0, 1) circle (0.15);
+    \node at (0, 1.4) {$m_1 = 0.5 \, \si{kg}$};
+
+    \draw[->, thick, red, line width=1.2pt] (0.3, 1) -- (2, 1) node[midway, above] {$\vec{v}_1 = 10\vec{i} \, \si{m/s}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Conservación de la Cantidad de Movimiento}
+El problema se divide en dos etapas. La primera es el lanzamiento del cuerpo. Durante el instante del lanzamiento, la fuerza interna que expulsa el cuerpo es muchísimo mayor que la fuerza de fricción externa del hielo. Por ello, podemos considerar que en ese breve instante la cantidad de movimiento lineal del sistema en el eje horizontal se conserva.
+
+Asignamos la dirección hacia adelante como positiva ($+\vec{i}$) y hacia atrás como negativa ($-\vec{i}$).
+\[ \vec{P}_{inicial} = \vec{P}_{final} \]
+
+Como ambos parten del reposo:
+\[ 0 = m_1 \vec{v}_1 + m_2 \vec{v}_2 \]
+\[ 0 = (0.5)(10 \vec{i}) + 60 \vec{v}_2 \]
+\[ 0 = 5 \vec{i} + 60 \vec{v}_2 \]
+\[ 60 \vec{v}_2 = -5 \vec{i} \]
+\[ \vec{v}_2 = -\frac{5}{60} \vec{i} = -\frac{1}{12} \vec{i} \, \si{m/s} \]
+
+El patinador adquiere una rapidez inicial de retroceso de $1/12 \, \si{m/s}$ hacia la izquierda. Llamaremos a esta rapidez $v_0$ para la siguiente etapa de frenado.
+
+\subsubsection*{2. Análisis Dinámico del Frenado}
+La segunda etapa comienza inmediatamente después del lanzamiento. El patinador se desliza hacia la izquierda, y la fuerza de rozamiento cinético del hielo actúa en sentido opuesto (hacia la derecha) para frenarlo.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(5, 4))
+ax.set_xlim(-3, 3)
+ax.set_ylim(-3, 3)
+ax.axhline(0, color='black', linewidth=1.5)
+ax.axvline(0, color='gray', linestyle='--', linewidth=0.5)
+
+ax.add_patch(plt.Rectangle((-0.5, 0), 1, 1.5, fill=True, color='lightblue', ec='black', lw=1.5))
+
+ax.quiver(0, 1.5, 0, 1.2, angles='xy', scale_units='xy', scale=1, color='blue', width=0.015)
+ax.text(0.2, 2.5, r'$\vec{N}$', color='blue', fontsize=14)
+
+ax.quiver(0, 0, 0, -1.5, angles='xy', scale_units='xy', scale=1, color='green', width=0.015)
+ax.text(0.2, -1.2, r'$\vec{W} = m_2 \vec{g}$', color='green', fontsize=14)
+
+ax.quiver(0.5, 0, 1.5, 0, angles='xy', scale_units='xy', scale=1, color='red', width=0.015)
+ax.text(1.8, 0.2, r'$\vec{f}_k$', color='red', fontsize=14)
+
+ax.quiver(-0.5, 0.75, -1.5, 0, angles='xy', scale_units='xy', scale=1, color='purple', width=0.01, linestyle='dashed')
+ax.text(-1.8, 1.0, r'$\vec{v}_0$', color='purple', fontsize=14)
+
+ax.axis('off')
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+Aplicamos la Segunda Ley de Newton para encontrar la magnitud de la aceleración de frenado ($a$).
+En el eje vertical:
+\[ \sum F_y = 0 \implies N = m_2 g = (60)(10) = 600 \, \si{N} \]
+
+En el eje horizontal, la única fuerza es el rozamiento, que provoca la desaceleración:
+\[ \sum F_x = m_2 a \]
+\[ f_k = m_2 a \]
+\[ \mu_k N = m_2 a \]
+\[ (0.01)(600) = 60 a \]
+\[ 6 = 60 a \implies a = 0.1 \, \si{m/s^2} \]
+
+\subsubsection*{3. Análisis Cinemático (Distancia de Parada)}
+Usaremos las magnitudes escalares del movimiento para calcular la distancia recorrida ($d$). Conocemos la rapidez inicial ($v_0 = 1/12 \, \si{m/s}$), la aceleración de frenado ($a = 0.1 \, \si{m/s^2}$), y la rapidez final al detenerse ($v_f = 0$).
+\[ v_f^2 = v_0^2 - 2 a d \]
+\[ 0 = \left(\frac{1}{12}\right)^2 - 2(0.1) d \]
+\[ 0 = \frac{1}{144} - 0.2 d \]
+\[ 0.2 d = \frac{1}{144} \]
+\[ d = \frac{1}{144 \cdot 0.2} \]
+\[ d = \frac{1}{28.8} \]
+\[ d \approx 0.03472 \, \si{m} \]
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $d \approx 0.0347 \, \si{m}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una rana, de masa $m$, está sentada en el extremo de una tabla de masa $M$ y de longitud $L$. La tabla flota sobre la superficie de un lago. La rana salta a lo largo de la tabla, formando un ángulo $\alpha$ con la horizontal. Determine la rapidez inicial con la que debe saltar la rana, para que alcance el otro extremo de la tabla. Suponga que la tabla desliza sobre la superficie del agua sin resistencia.
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[cyan, dashed, thick] (-1, 0) -- (6, 0);
+    
+    \draw[thick, fill=brown!40] (0, 0) rectangle (4, 0.4);
+    \node at (2, 0.2) {$M, L$};
+    
+    \draw[thick, fill=green!50] (0.3, 0.5) circle (0.15);
+    \node at (0.3, 0.85) {$m$};
+    
+    \draw[->, thick, red, line width=1.2pt] (0.3, 0.5) -- (1.5, 1.2) node[above] {$v_0$};
+    \draw[dashed, gray] (0.3, 0.5) -- (1.5, 0.5);
+    \draw (0.8, 0.5) arc (0:30:0.5);
+    \node at (1.0, 0.65) {$\alpha$};
+    
+    \draw[dashed, blue, ->] (0.3, 0.5) .. controls (1.5, 2) and (2.5, 2) .. (3.7, 0.5);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Cinemático (Movimiento Parabólico de la Rana)}
+La rana realiza un salto parabólico. Su desplazamiento horizontal absoluto (respecto al agua o a la Tierra) lo llamaremos $d_1$. Utilizando las ecuaciones del movimiento de proyectiles, el alcance máximo horizontal de la rana está dado por:
+$$d_1 = \frac{v_0^2 \sin(2\alpha)}{g}$$
+
+\subsubsection*{2. Análisis Dinámico (Conservación de la Cantidad de Movimiento)}
+Al no existir resistencia del agua, el sistema (rana + tabla) está libre de fuerzas externas en la dirección horizontal. Por consiguiente, la cantidad de movimiento lineal horizontal se conserva. Como inicialmente el sistema está en reposo, el centro de masa del sistema no puede desplazarse horizontalmente.
+
+Para que el centro de masa permanezca estacionario, el momento de la rana hacia adelante debe ser igual al momento de la tabla hacia atrás. Multiplicando las velocidades por el tiempo de vuelo, obtenemos la relación de desplazamientos absolutos:
+$$m \cdot d_1 = M \cdot d_2$$
+Donde $d_2$ es la distancia absoluta que la tabla retrocede.
+
+\subsubsection*{3. Representación Gráfica de los Desplazamientos (Python)}
+Para que la rana caiga exactamente en el otro extremo, la longitud total de la tabla ($L$) debe cubrirse con la suma de la distancia que avanza la rana ($d_1$) y la distancia que retrocede la tabla ($d_2$) a su encuentro.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+fig, ax = plt.subplots(figsize=(7, 3.5))
+ax.set_xlim(-2, 5)
+ax.set_ylim(-1.5, 2.5)
+ax.axis('off')
+
+ax.add_patch(patches.Rectangle((0, 1.5), 4, 0.3, fill=True, color='tan', ec='black'))
+ax.plot(0.2, 1.9, 'go', markersize=8)
+ax.text(2, 1.65, 'Inicio', ha='center', va='center')
+
+ax.add_patch(patches.Rectangle((-1.5, 0), 4, 0.3, fill=True, color='wheat', ec='black'))
+ax.plot(2.3, 0.4, 'go', markersize=8)
+ax.text(0.5, 0.15, 'Aterrizaje', ha='center', va='center')
+
+ax.quiver(0.2, 1.1, 2.1, 0, angles='xy', scale_units='xy', scale=1, color='blue', width=0.005)
+ax.text(1.25, 1.25, r'$d_1$ (Rana)', color='blue', fontsize=12, ha='center')
+
+ax.quiver(0, -0.3, -1.5, 0, angles='xy', scale_units='xy', scale=1, color='red', width=0.005)
+ax.text(-0.75, -0.5, r'$d_2$ (Tabla)', color='red', fontsize=12, ha='center')
+
+ax.quiver(-1.5, -0.8, 4, 0, angles='xy', scale_units='xy', scale=1, color='purple', width=0.005)
+ax.text(0.5, -1.0, r'$L = d_1 + d_2$', color='purple', fontsize=12, ha='center')
+
+ax.plot([0.2, 0.2], [-0.4, 2.0], 'k--', alpha=0.3)
+ax.plot([2.3, 2.3], [-0.4, 1.0], 'k--', alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{4. Resolución de las Ecuaciones}
+De la deducción gráfica y física, establecemos la relación geométrica:
+$$L = d_1 + d_2$$
+
+Despejamos $d_2$ para sustituirlo en la ecuación de conservación de masa:
+$$d_2 = L - d_1$$
+
+Sustituimos $d_2$ en la ecuación $m \cdot d_1 = M \cdot d_2$:
+$$m \cdot d_1 = M(L - d_1)$$
+$$m \cdot d_1 = M \cdot L - M \cdot d_1$$
+
+Agrupamos los términos con $d_1$:
+$$m \cdot d_1 + M \cdot d_1 = M \cdot L$$
+$$d_1(m + M) = M \cdot L$$
+
+Ahora, sustituimos $d_1$ por su equivalente cinemático del alcance máximo:
+$$\left( \frac{v_0^2 \sin(2\alpha)}{g} \right) (m + M) = M \cdot L$$
+
+Finalmente, despejamos la rapidez inicial al cuadrado ($v_0^2$) y extraemos la raíz:
+$$v_0^2 \sin(2\alpha) (m + M) = M g L$$
+$$v_0^2 = \frac{M g L}{\sin(2\alpha) (M + m)}$$
+$$v_0 = \sqrt{\frac{M g L}{\sin(2\alpha) (M + m)}}$$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $v_0 = \sqrt{\frac{M g L}{\sin(2\alpha) (M + m)}}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una madre, de $52 \, \si{kg}$, y su hijo, de $22 \, \si{kg}$, se encuentran flotando en reposo en un lago, separados entre sí $5 \, \si{m}$. Con un cordel de masa despreciable la madre jala suavemente a su hijo hasta reunirse. Determine la distancia que recorrió la madre.
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[cyan, thick, decorate, decoration={snake, amplitude=1.5mm, segment length=5mm}] (-1, 0) -- (6, 0);
+    
+    \draw[thick, fill=blue!20] (0, 0.5) circle (0.2);
+    \draw[thick] (0, 0.3) -- (0, -0.2);
+    \draw[thick] (0, 0.1) -- (0.5, 0.1); 
+    \node at (0, 0.9) {$m_1 = 52 \, \si{kg}$};
+    
+    \draw[thick, fill=red!20] (5, 0.4) circle (0.15);
+    \draw[thick] (5, 0.25) -- (5, -0.2);
+    \draw[thick] (5, 0.05) -- (4.5, 0.05);
+    \node at (5, 0.8) {$m_2 = 22 \, \si{kg}$};
+    
+    \draw[thick, gray, dashed] (0.5, 0.1) -- (5, 0.05);
+    
+    \draw[<->, thick, black] (0, -0.6) -- (5, -0.6) node[midway, fill=white] {$d = 5 \, \si{m}$};
+    \draw[dashed, gray] (0, -0.2) -- (0, -0.8);
+    \draw[dashed, gray] (5, -0.2) -- (5, -0.8);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Físico: El Centro de Masa}
+El sistema de estudio está compuesto por la madre y su hijo. Al estar flotando en un lago y jalarse "suavemente", podemos despreciar la resistencia del agua. Esto implica que no existen fuerzas externas netas actuando sobre el sistema en la dirección horizontal.
+
+Cuando las fuerzas externas son nulas ($\sum \vec{F}_{ext} = 0$), la cantidad de movimiento del sistema se conserva y, como consecuencia directa, \textbf{la posición del centro de masa (CM) permanece estática} respecto al agua. Al jalar la cuerda, tanto la madre como el hijo se mueven hacia el centro de masa hasta encontrarse exactamente en esa posición.
+
+\subsubsection*{2. Definición del Sistema de Referencia}
+Para calcular la posición del centro de masa, establecemos un sistema de coordenadas unidimensional (eje $x$). Resulta muy conveniente colocar el origen ($x=0$) en la posición inicial de la madre.
+\begin{itemize}
+    \item Posición inicial de la madre ($x_1$): $0 \, \si{m}$
+    \item Masa de la madre ($m_1$): $52 \, \si{kg}$
+    \item Posición inicial del hijo ($x_2$): $5 \, \si{m}$
+    \item Masa del hijo ($m_2$): $22 \, \si{kg}$
+\end{itemize}
+
+\subsubsection*{3. Representación Gráfica del Encuentro (Python)}
+Visualizar el centro de masa nos permite entender que la madre (al tener mayor masa) se desplazará una distancia menor que su hijo para llegar al punto de encuentro.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(6, 2.5))
+ax.set_xlim(-1, 6)
+ax.set_ylim(-1, 1)
+
+ax.axhline(0, color='cyan', linestyle='-', alpha=0.3, linewidth=3)
+ax.axvline(0, color='gray', linestyle='--', linewidth=0.5)
+
+ax.plot(0, 0, 'bo', markersize=14)
+ax.text(0, 0.3, '$m_1$ (Madre)', color='blue', ha='center')
+
+ax.plot(5, 0, 'ro', markersize=8)
+ax.text(5, 0.3, '$m_2$ (Hijo)', color='red', ha='center')
+
+x_cm = (52 * 0 + 22 * 5) / (52 + 22)
+
+ax.plot(x_cm, 0, 'gx', markersize=10, markeredgewidth=2)
+ax.text(x_cm, -0.4, 'Centro de Masa\n(Punto de encuentro)', color='green', ha='center', fontsize=10)
+
+ax.quiver(0.2, 0, x_cm - 0.3, 0, angles='xy', scale_units='xy', scale=1, color='blue', width=0.008)
+ax.quiver(4.8, 0, -(5 - x_cm - 0.2), 0, angles='xy', scale_units='xy', scale=1, color='red', width=0.008)
+
+ax.axis('off')
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{4. Cálculo del Centro de Masa}
+La ecuación para la posición del centro de masa de un sistema de partículas es:
+\[ x_{CM} = \frac{m_1 x_1 + m_2 x_2}{m_1 + m_2} \]
+
+Sustituimos los valores correspondientes a nuestro sistema de referencia:
+\[ x_{CM} = \frac{(52)(0) + (22)(5)}{52 + 22} \]
+\[ x_{CM} = \frac{0 + 110}{74} \]
+\[ x_{CM} = \frac{110}{74} \]
+\[ x_{CM} \approx 1.486 \, \si{m} \]
+
+\subsubsection*{5. Distancia Recorrida por la Madre}
+La madre inició en la posición $x_1 = 0$ y terminó en la posición del centro de masa $x_{CM} \approx 1.486 \, \si{m}$. Por lo tanto, la distancia absoluta que recorrió es simplemente la diferencia entre estas dos posiciones.
+\[ d_{madre} = |x_{CM} - x_1| \]
+\[ d_{madre} = |1.486 - 0| \]
+\[ d_{madre} \approx 1.49 \, \si{m} \]
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $d_{madre} \approx 1.49 \, \si{m}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Dos personas, de $80 \, \si{kg}$ y $60 \, \si{kg}$ respectivamente, están juntos sobre una superficie horizontal lisa. Se empujan mutuamente uno al otro y la persona de mayor masa se desplaza con una rapidez de $1 \, \si{m/s}$ hacia la izquierda. Determine, luego de $5 \, \si{s}$, la posición relativa de la persona de mayor masa respecto a la de menor masa.
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    % Superficie
+    \fill[pattern=north east lines, pattern color=gray!50] (-3, -0.2) rectangle (3, 0);
+    \draw[thick] (-3, 0) -- (3, 0);
+    
+    % Persona 1 (Mayor masa - Izquierda)
+    \draw[thick, blue] (-0.8, 0) -- (-0.5, 0.5) -- (-0.2, 0); 
+    \draw[thick, blue] (-0.5, 0.5) -- (-0.5, 1.2); 
+    \draw[thick, blue] (-0.5, 1.4) circle (0.2); 
+    \draw[thick, blue] (-0.5, 1.0) -- (-0.1, 0.9); 
+    \node[blue] at (-1.2, 1.5) {$m_1$};
+
+    % Persona 2 (Menor masa - Derecha)
+    \draw[thick, red] (0.8, 0) -- (0.5, 0.5) -- (0.2, 0); 
+    \draw[thick, red] (0.5, 0.5) -- (0.5, 1.1); 
+    \draw[thick, red] (0.5, 1.25) circle (0.15); 
+    \draw[thick, red] (0.5, 0.9) -- (0.1, 0.9); 
+    \node[red] at (1.2, 1.5) {$m_2$};
+    
+    % Vectores
+    \draw[<-, thick, blue, line width=1pt] (-2.0, -0.6) -- (-0.5, -0.6) node[midway, below] {$\vec{v}_1$};
+    \draw[->, thick, red, line width=1pt] (0.5, -0.6) -- (2.0, -0.6) node[midway, below] {$\vec{v}_2$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Identificación de Datos y Sistema de Referencia}
+Establecemos el punto de partida de ambas personas como el origen de nuestro sistema de coordenadas ($x_0 = 0$). Asumimos la dirección hacia la derecha como positiva ($+\vec{i}$) y hacia la izquierda como negativa ($-\vec{i}$).
+\begin{itemize}
+    \item Masa persona 1 (mayor masa): $m_1 = 80 \, \si{kg}$
+    \item Masa persona 2 (menor masa): $m_2 = 60 \, \si{kg}$
+    \item Velocidad persona 1: $\vec{v}_1 = -1 \vec{i} \, \si{m/s}$
+    \item Tiempo de evaluación: $t = 5 \, \si{s}$
+\end{itemize}
+
+\subsubsection*{2. Conservación de la Cantidad de Movimiento}
+Al estar sobre una superficie lisa (sin fricción), la fuerza de empuje es una fuerza interna del sistema compuesto por ambas personas. Por lo tanto, no hay fuerzas externas horizontales netas y la cantidad de movimiento lineal se conserva.
+\[ \vec{P}_{inicial} = \vec{P}_{final} \]
+
+Como ambos están inicialmente juntos y en reposo, el momento inicial es nulo:
+\[ 0 = m_1 \vec{v}_1 + m_2 \vec{v}_2 \]
+\[ 0 = (80) (-1 \vec{i}) + (60) \vec{v}_2 \]
+\[ 0 = -80 \vec{i} + 60 \vec{v}_2 \]
+
+Despejamos la velocidad de la persona de menor masa ($\vec{v}_2$):
+\[ 60 \vec{v}_2 = 80 \vec{i} \]
+\[ \vec{v}_2 = \frac{80}{60} \vec{i} = \frac{4}{3} \vec{i} \, \si{m/s} \]
+
+\subsubsection*{3. Análisis Cinemático (Posiciones a los 5 segundos)}
+Como no actúan más fuerzas después del empujón, ambos se mueven con Movimiento Rectilíneo Uniforme (MRU). Calculamos sus posiciones finales ($\vec{r} = \vec{v} t$).
+
+\textbf{Posición de la persona 1 ($m_1$):}
+\[ \vec{r}_1 = \vec{v}_1 t = (-1 \vec{i})(5) \]
+\[ \vec{r}_1 = -5 \vec{i} \, \si{m} \]
+
+\textbf{Posición de la persona 2 ($m_2$):}
+\[ \vec{r}_2 = \vec{v}_2 t = \left(\frac{4}{3} \vec{i}\right)(5) \]
+\[ \vec{r}_2 = \frac{20}{3} \vec{i} \, \si{m} \]
+
+\subsubsection*{4. Representación Gráfica (Python)}
+Para comprender la posición relativa, graficaremos la ubicación de ambas personas a los $5 \, \si{s}$. La posición relativa de 1 respecto a 2 ($\vec{r}_{1/2}$) es un vector que nace en el observador (persona 2) y apunta hacia el objeto observado (persona 1).
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(7, 2.5))
+ax.set_xlim(-6, 8)
+ax.set_ylim(-1.5, 1.5)
+
+ax.axhline(0, color='black', linewidth=1)
+ax.axvline(0, color='gray', linestyle='--', linewidth=0.5)
+
+ax.plot(0, 0, 'ko', markersize=4)
+ax.text(0, 0.2, 'Origen', ha='center', fontsize=10)
+
+ax.plot(-5, 0, 'bo', markersize=12)
+ax.text(-5, 0.4, r'$m_1$ ($-5\vec{i}$)', color='blue', ha='center', fontsize=11)
+
+pos2 = 20/3
+ax.plot(pos2, 0, 'ro', markersize=9)
+ax.text(pos2, 0.4, r'$m_2$ ($+6.67\vec{i}$)', color='red', ha='center', fontsize=11)
+
+ax.quiver(pos2, -0.6, -5 - pos2, 0, angles='xy', scale_units='xy', scale=1, color='purple', width=0.008)
+ax.text(0.83, -0.9, r'$\vec{r}_{1/2}$ (Vector posición relativa)', color='purple', fontsize=11, ha='center')
+
+ax.axis('off')
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{5. Cálculo de la Posición Relativa}
+La posición relativa de la persona 1 con respecto a la persona 2 se define algebraicamente como:
+\[ \vec{r}_{1/2} = \vec{r}_1 - \vec{r}_2 \]
+
+Sustituimos las posiciones calculadas:
+\[ \vec{r}_{1/2} = (-5 \vec{i}) - \left(\frac{20}{3} \vec{i}\right) \]
+\[ \vec{r}_{1/2} = \left(-\frac{15}{3} - \frac{20}{3}\right) \vec{i} \]
+\[ \vec{r}_{1/2} = -\frac{35}{3} \vec{i} \, \si{m} \]
+
+Convirtiendo a notación decimal:
+\[ \vec{r}_{1/2} \approx -11.667 \vec{i} \, \si{m} \]
+
+El signo negativo nos confirma que, desde la perspectiva de la persona de menor masa, la persona de mayor masa se encuentra hacia la izquierda.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{r}_{1/2} \approx -11.67 \vec{i} \, \si{m}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una bala, de $80 \, \si{g}$, se dispara horizontalmente, con una rapidez $v$, contra un bloque de madera de $3 \, \si{kg}$, que descansa sobre una superficie horizontal rugosa ($\mu = 0.3$). La bala atraviesa el bloque y sale con una rapidez de $35 \, \si{m/s}$. Si el bloque recorre una distancia de $1.5 \, \si{m}$ luego del impacto, determine el valor de $v$. (Considere $g = 10 \, \si{m/s^2}$).
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \fill[pattern=north east lines, pattern color=gray!50] (-3, -0.3) rectangle (5, 0);
+    \draw[thick] (-3, 0) -- (5, 0);
+    
+    \node[below] at (1, 0) {$\mu = 0.3$};
+
+    \draw[thick, fill=brown!40] (0.5, 0) rectangle (2, 1);
+    \node at (1.25, 0.5) {$3 \, \si{kg}$};
+
+    \draw[thick, fill=black!70] (-2, 0.4) rectangle (-1.5, 0.6);
+    \draw[->, thick, red, line width=1.2pt] (-1.4, 0.5) -- (-0.5, 0.5) node[midway, above] {$v$};
+    \node at (-1.75, 0.8) {$80 \, \si{g}$};
+
+    \draw[dashed, thick, fill=black!70] (3, 0.4) rectangle (3.5, 0.6);
+    \draw[->, dashed, thick, red, line width=1.2pt] (3.6, 0.5) -- (4.8, 0.5) node[midway, above] {$35 \, \si{m/s}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Estrategia de Resolución y Conversión de Unidades}
+Este es un problema clásico que combina dos fenómenos físicos independientes que ocurren secuencialmente. Para resolverlo, debemos analizar el problema desde el final hacia el principio:
+\begin{enumerate}
+    \item \textbf{Etapa de Deslizamiento:} Analizar la cinemática y dinámica del bloque \textit{después} de que la bala lo atraviesa, para descubrir con qué velocidad inicial empezó a deslizar.
+    \item \textbf{Etapa de Colisión:} Analizar la conservación de la cantidad de movimiento \textit{durante} el brevísimo impacto, utilizando la velocidad descubierta en la etapa anterior.
+\end{enumerate}
+
+Homologamos las unidades al Sistema Internacional:
+\begin{itemize}
+    \item $m_1$ (bala) = $80 \, \si{g} = 0.08 \, \si{kg}$
+    \item $m_2$ (bloque) = $3 \, \si{kg}$
+\end{itemize}
+
+\subsubsection*{2. Análisis Dinámico de la Etapa de Deslizamiento (Python)}
+Inmediatamente después de que la bala sale, el bloque se mueve hacia la derecha. La única fuerza horizontal que actúa sobre él es la fuerza de rozamiento cinético, la cual provoca que se detenga luego de $1.5 \, \si{m}$.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(5, 4))
+ax.set_xlim(-3, 3)
+ax.set_ylim(-3, 3)
+ax.axhline(0, color='black', linewidth=1.5)
+ax.axvline(0, color='gray', linestyle='--', linewidth=0.5)
+
+ax.add_patch(plt.Rectangle((-1, 0), 2, 1.2, fill=True, color='tan', ec='black', lw=1.5))
+
+ax.quiver(0, 1.2, 0, 1.5, angles='xy', scale_units='xy', scale=1, color='blue', width=0.015)
+ax.text(0.2, 2.2, r'$\vec{N}$', color='blue', fontsize=14)
+
+ax.quiver(0, 0, 0, -2, angles='xy', scale_units='xy', scale=1, color='green', width=0.015)
+ax.text(0.2, -1.5, r'$\vec{W} = m_2\vec{g}$', color='green', fontsize=14)
+
+ax.quiver(-1, 0, -1.5, 0, angles='xy', scale_units='xy', scale=1, color='red', width=0.015)
+ax.text(-2.2, 0.2, r'$\vec{f}_k$', color='red', fontsize=14)
+
+ax.quiver(1, 0.6, 1.5, 0, angles='xy', scale_units='xy', scale=1, color='purple', width=0.01, linestyle='dashed')
+ax.text(1.8, 0.8, r'$\vec{v}_{2f}$ (Movimiento)', color='purple', fontsize=12)
+
+ax.axis('off')
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+Aplicamos la Segunda Ley de Newton al bloque:
+En el eje $y$:
+\[ \sum F_y = 0 \implies N = m_2 g = (3)(10) = 30 \, \si{N} \]
+
+En el eje $x$ (sentido positivo hacia la derecha):
+\[ \sum F_x = m_2 a \]
+\[ -f_k = m_2 a \]
+\[ -\mu N = m_2 a \]
+\[ -0.3 (30) = 3 a \]
+\[ -9 = 3 a \implies a = -3 \, \si{m/s^2} \]
+El bloque desacelera a razón de $3 \, \si{m/s^2}$.
+
+\subsubsection*{3. Análisis Cinemático de la Etapa de Deslizamiento}
+Sabiendo que el bloque se detiene ($v_{final} = 0$), su aceleración ($a = -3 \, \si{m/s^2}$) y la distancia recorrida ($d = 1.5 \, \si{m}$), calculamos la velocidad con la que inició el deslizamiento ($v_{2f}$), que corresponde a la velocidad exacta que tenía justo al terminar el impacto.
+\[ v_{final}^2 = v_{2f}^2 + 2ad \]
+\[ 0 = v_{2f}^2 + 2(-3)(1.5) \]
+\[ 0 = v_{2f}^2 - 9 \]
+\[ v_{2f}^2 = 9 \implies v_{2f} = 3 \, \si{m/s} \]
+El bloque adquirió una rapidez de $3 \, \si{m/s}$ tras ser atravesado por la bala.
+
+\subsubsection*{4. Conservación de la Cantidad de Movimiento (Etapa de Colisión)}
+Durante la fracción de segundo que dura la colisión, la fuerza impulsiva es mucho mayor que el rozamiento, por lo que el sistema (bala + bloque) se considera aislado horizontalmente.
+\[ \vec{P}_{inicial} = \vec{P}_{final} \]
+
+Antes del impacto, solo la bala se mueve (rapidez $v$). Después, la bala sale con $35 \, \si{m/s}$ y el bloque se mueve con $3 \, \si{m/s}$ (calculado en el paso anterior). Todo ocurre hacia la derecha.
+\[ m_1 v + m_2 (0) = m_1 v_{1f} + m_2 v_{2f} \]
+\[ (0.08) v = (0.08)(35) + (3)(3) \]
+\[ 0.08 v = 2.8 + 9 \]
+\[ 0.08 v = 11.8 \]
+
+Despejamos la rapidez inicial de la bala $v$:
+\[ v = \frac{11.8}{0.08} \]
+\[ v = 147.5 \, \si{m/s} \]
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $v = 147.5 \, \si{m/s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Otra bala, de $80 \, \si{g}$, se dispara horizontalmente, con una rapidez $v$, contra otro bloque de madera de $3 \, \si{kg}$, que descansa sobre una superficie horizontal rugosa ($\mu = 0.3$). Esta vez la bala se incrusta en el bloque y ambos se mueven durante $2.5 \, \si{s}$ después del impacto. Determine el valor de $v$. (Considere $g = 10 \, \si{m/s^2}$).
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \fill[pattern=north east lines, pattern color=gray!50] (-3, -0.3) rectangle (4, 0);
+    \draw[thick] (-3, 0) -- (4, 0);
+    \node[below] at (0.5, 0) {$\mu = 0.3$};
+
+    \draw[thick, fill=brown!40] (0, 0) rectangle (1.5, 1);
+    \node at (0.75, 0.5) {$3 \, \si{kg}$};
+
+    \draw[thick, fill=black!70] (-2, 0.4) rectangle (-1.5, 0.6);
+    \draw[->, thick, red, line width=1.2pt] (-1.4, 0.5) -- (-0.5, 0.5) node[midway, above] {$v$};
+    \node at (-1.75, 0.8) {$80 \, \si{g}$};
+
+    \draw[dashed, thick, fill=brown!20] (2.5, 0) rectangle (4, 1);
+    \draw[thick, fill=black!70] (2.8, 0.4) rectangle (3.1, 0.6);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Estrategia de Resolución y Sistema Combinado}
+A diferencia del ejercicio anterior, en este caso nos enfrentamos a un \textbf{choque perfectamente inelástico}, ya que la bala se incrusta en el bloque y ambos continúan moviéndose juntos como un solo cuerpo.
+Resolveremos el problema de atrás hacia adelante: primero analizaremos el movimiento de frenado del sistema combinado para hallar su velocidad inicial, y luego aplicaremos la conservación de la cantidad de movimiento durante el impacto.
+
+Calculamos la masa del sistema combinado (bala + bloque):
+\begin{itemize}
+    \item $m_1$ (bala) = $80 \, \si{g} = 0.08 \, \si{kg}$
+    \item $m_2$ (bloque) = $3 \, \si{kg}$
+    \item $M_{total} = m_1 + m_2 = 3.08 \, \si{kg}$
+\end{itemize}
+
+\subsubsection*{2. Análisis Dinámico (El Deslizamiento)}
+Después del impacto, el sistema combinado desliza hacia la derecha. La fuerza de rozamiento cinético es la única fuerza horizontal y produce una desaceleración hasta detener el conjunto.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(5, 4))
+ax.set_xlim(-3, 3)
+ax.set_ylim(-3, 3)
+ax.axhline(0, color='black', linewidth=1.5)
+ax.axvline(0, color='gray', linestyle='--', linewidth=0.5)
+
+ax.add_patch(plt.Rectangle((-1, 0), 2, 1.2, fill=True, color='tan', ec='black', lw=1.5))
+ax.add_patch(plt.Rectangle((-0.2, 0.4), 0.4, 0.2, fill=True, color='black'))
+
+ax.quiver(0, 1.2, 0, 1.5, angles='xy', scale_units='xy', scale=1, color='blue', width=0.015)
+ax.text(0.2, 2.2, r'$\vec{N}$', color='blue', fontsize=14)
+
+ax.quiver(0, 0, 0, -2, angles='xy', scale_units='xy', scale=1, color='green', width=0.015)
+ax.text(0.2, -1.5, r'$\vec{W} = M_{total}\vec{g}$', color='green', fontsize=14)
+
+ax.quiver(-1, 0, -1.5, 0, angles='xy', scale_units='xy', scale=1, color='red', width=0.015)
+ax.text(-2.2, 0.2, r'$\vec{f}_k$', color='red', fontsize=14)
+
+ax.axis('off')
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+Aplicamos la Segunda Ley de Newton al sistema:
+En el eje vertical:
+\[ \sum F_y = 0 \implies N = M_{total} g \]
+\[ N = (3.08)(10) = 30.8 \, \si{N} \]
+
+En el eje horizontal:
+\[ \sum F_x = M_{total} a \]
+\[ -f_k = M_{total} a \]
+\[ -\mu N = M_{total} a \]
+\[ -0.3 (30.8) = 3.08 a \]
+\[ -9.24 = 3.08 a \implies a = -3 \, \si{m/s^2} \]
+La masa total simplificará los cálculos, ya que la aceleración por fricción en una superficie plana depende directamente de $\mu \cdot g$ ($0.3 \times 10 = 3$).
+
+\subsubsection*{3. Análisis Cinemático (Frenado)}
+Sabemos que el conjunto desacelera a $3 \, \si{m/s^2}$, toma $2.5 \, \si{s}$ en detenerse y su velocidad final es $0$. Calculamos la velocidad con la que arrancó este movimiento ($V_{sistema}$), que es exactamente la velocidad post-impacto.
+\[ v_f = V_{sistema} + a t \]
+\[ 0 = V_{sistema} + (-3)(2.5) \]
+\[ 0 = V_{sistema} - 7.5 \]
+\[ V_{sistema} = 7.5 \, \si{m/s} \]
+
+\subsubsection*{4. Conservación de la Cantidad de Movimiento (El Choque)}
+Al incrustarse la bala, las fuerzas de deformación son internas, por lo que el momento lineal horizontal se conserva instantáneamente.
+\[ \vec{P}_{inicial} = \vec{P}_{final} \]
+
+Antes del choque, solo la bala tiene movimiento. Después del choque, ambos se mueven juntos con la velocidad $V_{sistema}$ hallada anteriormente.
+\[ m_1 v + m_2 (0) = M_{total} V_{sistema} \]
+\[ (0.08) v = (3.08)(7.5) \]
+\[ 0.08 v = 23.1 \]
+
+Despejamos la rapidez inicial de la bala $v$:
+\[ v = \frac{23.1}{0.08} \]
+\[ v = 288.75 \, \si{m/s} \]
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $v = 288.75 \, \si{m/s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+El arma de un guardabosque dispara $220$ balas de goma de $12.6 \, \si{g}$ por minuto, con una rapidez de $975 \, \si{m/s}$ cada una. Si un animal, de $84.7 \, \si{kg}$, se dirige hacia el guardabosque a razón de $3.87 \, \si{m/s}$, determine en qué tiempo se logrará detener al animal en su marcha, si se le dispara directamente. Considere que todas las balas viajan horizontalmente y caen al suelo, después de dar en el blanco.
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[thick] (-3, 0) -- (6, 0);
+    
+    \draw[thick, fill=blue!10] (-2, 0) rectangle (-1, 1.5);
+    \node at (-1.5, 0.75) {Arma};
+    
+    \draw[->, thick, blue, line width=1.2pt] (-0.8, 1) -- (0.5, 1) node[midway, above] {$v_b$};
+    \draw[thick, fill=black] (-0.5, 1) ellipse (0.1 and 0.05);
+    \draw[thick, fill=black] (0.0, 1) ellipse (0.1 and 0.05);
+    \draw[thick, fill=black] (0.5, 1) ellipse (0.1 and 0.05);
+    \node[above] at (0, 1.2) {balas};
+    
+    \draw[thick, fill=brown!40] (3.5, 0) rectangle (5.5, 1.5);
+    \node at (4.5, 0.75) {$m_a = 84.7 \, \si{kg}$};
+    
+    \draw[<-, thick, red, line width=1.2pt] (2.0, 0.75) -- (3.3, 0.75) node[midway, above] {$v_a$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Identificación de Datos y Conversión de Unidades}
+Alineamos todas las unidades al Sistema Internacional (SI) y definimos la dirección hacia la derecha como positiva ($+\vec{i}$) y hacia la izquierda como negativa ($-\vec{i}$).
+\begin{itemize}
+    \item Masa de una bala ($m_b$): $12.6 \, \si{g} = 0.0126 \, \si{kg}$
+    \item Velocidad de la bala ($\vec{v}_b$): $975 \vec{i} \, \si{m/s}$
+    \item Masa del animal ($m_a$): $84.7 \, \si{kg}$
+    \item Velocidad del animal ($\vec{v}_a$): $-3.87 \vec{i} \, \si{m/s}$ (se mueve en sentido opuesto)
+    \item Frecuencia de disparo ($f$): $220 \, \text{balas/min} = \frac{220}{60} \, \text{balas/s} \approx 3.667 \, \text{balas/s}$
+\end{itemize}
+
+\subsubsection*{2. Análisis Físico: Conservación de la Cantidad de Movimiento}
+El problema indica que las balas "caen al suelo" después de dar en el blanco. Físicamente, esto significa que sufren un choque inelástico donde pierden toda su velocidad horizontal ($\vec{v}_{bf} = 0$). El animal debe ser detenido completamente, por lo que su velocidad final también será nula ($\vec{v}_{af} = 0$).
+
+Para detener al animal, la cantidad de movimiento total transferida por $n$ balas debe cancelar exactamente la cantidad de movimiento inicial del animal. 
+\[ \vec{P}_{inicial} = \vec{P}_{final} \]
+\[ \vec{p}_{animal} + \sum_{1}^{n} \vec{p}_{bala} = 0 \]
+\[ m_a \vec{v}_a + n (m_b \vec{v}_b) = 0 \]
+
+\subsubsection*{3. Representación Gráfica Comparativa (Python)}
+Para entender por qué se requieren múltiples balas, es útil comparar la magnitud de la cantidad de movimiento de una sola bala frente a la del animal. El animal es masivo pero lento, mientras que la bala es muy ligera pero sumamente rápida.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(6, 2.5))
+ax.set_xlim(0, 360)
+ax.set_ylim(-1, 2)
+
+p_animal = 84.7 * 3.87
+p_bala = 0.0126 * 975
+
+ax.barh(1, p_animal, color='red', height=0.4)
+ax.text(p_animal/2, 1, f'$|p_{{animal}}| \\approx {p_animal:.1f} \\, \\mathrm{{kg \\cdot m/s}}$', color='white', ha='center', va='center', fontweight='bold')
+
+ax.barh(0, p_bala, color='blue', height=0.4)
+ax.text(p_bala + 5, 0, f'$|p_{{bala}}| \\approx {p_bala:.1f} \\, \\mathrm{{kg \\cdot m/s}}$', color='blue', va='center')
+
+ax.text(180, -0.6, r'$\rightarrow$ Se requieren múltiples balas para igualar el momento', style='italic', ha='center')
+
+ax.axis('off')
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{4. Cálculo del Número de Balas ($n$)}
+Sustituimos los valores en nuestra ecuación de conservación y trabajamos con los módulos (despejando $n$):
+\[ m_a v_a = n (m_b v_b) \]
+\[ (84.7)(3.87) = n (0.0126)(975) \]
+\[ 327.789 = n (12.285) \]
+\[ n = \frac{327.789}{12.285} \]
+\[ n \approx 26.682 \, \text{balas} \]
+Se requieren aproximadamente $26.68$ balas para neutralizar por completo el impulso de la masa del animal.
+
+\subsubsection*{5. Cálculo del Tiempo}
+Sabiendo cuántas balas se necesitan y la tasa a la que se disparan, podemos calcular el tiempo necesario mediante una regla de tres simple o usando la fórmula de frecuencia:
+\[ n = f \cdot t \implies t = \frac{n}{f} \]
+\[ t = \frac{26.682}{3.667} \]
+\[ t \approx 7.276 \, \si{s} \]
+
+Redondeando a un decimal para ajustarnos a la precisión típica de la respuesta sugerida, obtenemos $7.3 \, \si{s}$.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $t \approx 7.3 \, \si{s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un proyectil, de $10 \, \si{kg}$, se dispara desde el suelo, con una velocidad inicial de $200 \, \si{m/s}$, que forma un ángulo de $60^\circ$ por encima de la horizontal. Cuando el proyectil está en el punto más alto de su trayectoria, una explosión interna hace que se rompa en dos partes. Una parte, de $10/3 \, \si{kg}$, cae al suelo directamente bajo el punto de la explosión, después de $12.5 \, \si{s}$. Determine la distancia del punto de disparo hasta el punto donde cae la otra parte. (Considere $g = 10 \, \si{m/s^2}$).
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    % Trayectoria inicial
+    \draw[dashed, gray] (0,0) parabola (4,3);
+    \draw[->, thick] (0,0) -- (1,1.73) node[above] {$v_0$};
+    \draw (0.5,0) arc (0:60:0.5) node[midway, right] {$60^\circ$};
+    \draw[thick] (-0.5,0) -- (10,0) node[right] {suelo};
+
+    % Punto de explosión
+    \draw[fill=orange!20] (4,3) circle (0.2);
+    \node[above] at (4,3.2) {Explosión};
+    \draw[<->] (4,0) -- (4,3) node[midway, left] {$h_{max}$};
+
+    % Fragmento 1 (Cae vertical)
+    \draw[->, blue, thick] (4,2.8) -- (4,0.2) node[below] {$m_1$};
+    
+    % Fragmento 2 (Parábola extendida)
+    \draw[dashed, red] (4,3) parabola[bend pos=0] (9,0);
+    \draw[fill=red!20] (9,0) circle (0.15) node[below=0.2cm] {$m_2$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis del Movimiento hasta la Altura Máxima}
+Primero, determinamos las condiciones del proyectil justo antes de la explosión. Descomponemos la velocidad inicial:
+\begin{itemize}
+    \item $v_{0x} = 200 \cos(60^\circ) = 100 \, \si{m/s}$
+    \item $v_{0y} = 200 \sin(60^\circ) = 100\sqrt{3} \approx 173.2 \, \si{m/s}$
+\end{itemize}
+
+En el punto más alto, la velocidad vertical es nula ($\vec{v}_y = 0$). La velocidad del proyectil es puramente horizontal:
+\[ \vec{v}_{antes} = 100 \vec{i} \, \si{m/s} \]
+
+Calculamos el tiempo de subida ($t_s$) y la altura máxima ($h_{max}$):
+\[ t_s = \frac{v_{0y}}{g} = \frac{173.2}{10} = 17.32 \, \si{s} \]
+\[ h_{max} = \frac{v_{0y}^2}{2g} = \frac{(173.2)^2}{20} = 1500 \, \si{m} \]
+\[ x_{explosión} = v_{0x} \cdot t_s = 100 \cdot 17.32 = 1732 \, \si{m} \]
+
+\subsubsection*{2. Cinemática del Primer Fragmento ($m_1$)}
+El fragmento $m_1 = 10/3 \, \si{kg}$ cae directamente bajo el punto de explosión en $t = 12.5 \, \si{s}$. Esto significa que su velocidad horizontal es cero, pero adquiere una velocidad vertical inicial ($\vec{v}_{1y}$) debido a la explosión.
+Usamos la ecuación de posición: $y_f = y_0 + v_{1y}t - \frac{1}{2}gt^2$
+\[ 0 = 1500 + v_{1y}(12.5) - 5(12.5)^2 \]
+\[ 0 = 1500 + 12.5 v_{1y} - 781.25 \]
+\[ -718.75 = 12.5 v_{1y} \implies v_{1y} = -57.5 \, \si{m/s} \]
+\[ \vec{v}_1 = 0 \vec{i} - 57.5 \vec{j} \, \si{m/s} \]
+
+\subsubsection*{3. Conservación de la Cantidad de Movimiento}
+La explosión es un evento interno. La cantidad de movimiento total se conserva:
+\[ m_{total} \vec{v}_{antes} = m_1 \vec{v}_1 + m_2 \vec{v}_2 \]
+Donde $m_2 = 10 - 10/3 = 20/3 \, \si{kg}$.
+\[ (10)(100 \vec{i}) = \left(\frac{10}{3}\right)(-57.5 \vec{j}) + \left(\frac{20}{3}\right) \vec{v}_2 \]
+Multiplicamos todo por $3/10$:
+\[ 300 \vec{i} = -57.5 \vec{j} + 2 \vec{v}_2 \]
+\[ 2 \vec{v}_2 = 300 \vec{i} + 57.5 \vec{j} \implies \vec{v}_2 = 150 \vec{i} + 28.75 \vec{j} \, \si{m/s} \]
+
+\subsubsection*{4. Cinemática del Segundo Fragmento ($m_2$)}
+Ahora calculamos cuánto tiempo tarda $m_2$ en llegar al suelo desde $h=1500 \, \si{m}$ con $v_{2y} = 28.75 \, \si{m/s}$.
+\[ 0 = 1500 + 28.75 t - 5 t^2 \]
+\[ 5t^2 - 28.75t - 1500 = 0 \]
+Aplicando la fórmula cuadrática:
+\[ t = \frac{28.75 \pm \sqrt{(-28.75)^2 - 4(5)(-1500)}}{10} \]
+\[ t \approx \frac{28.75 + 175.57}{10} \approx 20.43 \, \si{s} \]
+
+\subsubsection*{5. Cálculo de la Distancia Final}
+El desplazamiento horizontal adicional del segundo fragmento desde la explosión es:
+\[ \Delta x_2 = v_{2x} \cdot t = 150 \cdot 20.43 = 3064.5 \, \si{m} \]
+
+La distancia total desde el punto de disparo ($x=0$) es:
+\[ X_{total} = x_{explosión} + \Delta x_2 \]
+\[ X_{total} = 1732 + 3064.5 = 4796.5 \, \si{m} \]
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $X_{total} \approx 4796.9 \, \si{m}$
+\end{tcolorbox}
+
+\end{document}

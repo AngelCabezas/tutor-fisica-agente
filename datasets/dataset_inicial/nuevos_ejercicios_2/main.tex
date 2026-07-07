@@ -1,0 +1,3406 @@
+\documentclass[12pt, a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{geometry}
+\usepackage[most]{tcolorbox}
+\usepackage{siunitx}
+\usepackage{enumitem}
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usepackage{verbatim}
+\usepackage{xcolor}
+\usepackage{listings}
+
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta, calc, babel}
+\geometry{a4paper, margin=1in}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstset{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2,
+    language=Python
+}
+
+\title{Dataset de Entrenamiento: Tutor LLM de Física}
+\author{Ángel Cabezas}
+\date{\today}
+
+\begin{document}
+\subsection*{Enunciado}
+En un lanzamiento vertical hacia arriba, con aceleración constante (eje $y$ positivo hacia arriba), existen dos instantes distintos $t_1 < t_2$ tales que $\vec{v}(t_1) = \vec{v}(t_2) = +3\hat{j} \, \si{m/s}$. La conclusión correcta es:
+
+\begin{enumerate}[label=\alph*)]
+    \item Es posible si $t_2 - t_1 = 0.3 \, \si{s}$.
+    \item Es posible: ocurre una vez subiendo y otro bajando.
+    \item Es posible solo si $y(t_1) = y(t_2)$.
+    \item Es imposible en MRUV con $\vec{a}$ constante.
+    \item Es posible únicamente si $\vec{a}$ es nula en la altura máximo.
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Carácter Vectorial de la Velocidad}
+Es fundamental recordar que la velocidad es una magnitud \textbf{vectorial}, lo que implica que posee magnitud (rapidez), dirección y sentido (signo). 
+En un lanzamiento vertical donde definimos el eje $y$ positivo hacia arriba:
+\begin{itemize}
+    \item Mientras el objeto \textbf{sube}, su velocidad apunta hacia arriba y tiene signo positivo ($+\hat{j}$).
+    \item Mientras el objeto \textbf{baja}, su velocidad apunta hacia abajo y tiene signo negativo ($-\hat{j}$).
+\end{itemize}
+
+El enunciado establece la condición de que en dos tiempos diferentes la velocidad es exactamente $+3\hat{j} \, \si{m/s}$. Al ser un vector positivo, nos está diciendo que en ambos instantes el objeto se encuentra subiendo.
+
+\subsubsection*{2. Análisis del MRUV (Tiro Vertical)}
+El movimiento de un objeto lanzado verticalmente bajo la influencia de la gravedad es un Movimiento Rectilíneo Uniformemente Variado (MRUV). Su aceleración es constante y apunta siempre hacia abajo: $\vec{a} = -g\hat{j}$ (donde $g \approx 9.8 \, \si{m/s^2}$).
+
+La ecuación que describe la velocidad en función del tiempo es una función lineal:
+$$ \vec{v}(t) = \vec{v}_0 + \vec{a}t $$
+$$ \vec{v}(t) = (\vec{v}_0 - gt)\hat{j} $$
+
+Matemáticamente, esta ecuación representa una línea recta con pendiente constante no nula (la pendiente es $-g$). Una característica de las funciones lineales con pendiente distinta de cero es que son inyectivas (uno a uno); es decir, para cada valor del tiempo $t$ existe un único valor de velocidad $\vec{v}$, y cada valor de velocidad se alcanza \textbf{una sola vez} en toda la trayectoria.
+
+\subsubsection*{3. Evaluación de la Situación}
+Como la aceleración debida a la gravedad reduce continuamente la velocidad durante la fase de subida, es físicamente imposible que el objeto vuelva a tener exactamente la misma velocidad positiva de $+3\hat{j} \, \si{m/s}$ en un instante posterior ($t_2 > t_1$).
+
+¿Qué sucede cuando el objeto vuelve a pasar por la misma altura de bajada? (Lo que plantea la opción c y la opción b).
+Por conservación de la energía, cuando el objeto regresa a la misma altura ($y(t_1) = y(t_2)$), su rapidez será idéntica ($3 \, \si{m/s}$), pero su movimiento será hacia abajo. Por ende, su vector velocidad será $\vec{v} = -3\hat{j} \, \si{m/s}$.
+Como $+3\hat{j} \neq -3\hat{j}$, la condición del problema no se cumple en la bajada.
+
+En conclusión, en un lanzamiento vertical con aceleración constante, no pueden existir dos tiempos distintos en los que el vector velocidad sea exactamente el mismo.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large d) Es imposible en MRUV con $\vec{a}$ constante.
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un cuerpo tiene un movimiento vertical. La gráfica velocidad - tiempo correspondiente a su movimiento se muestra a continuación. Con base en el análisis de dicha gráfica, ¿cuál de las siguientes afirmaciones es correcta?
+
+\begin{enumerate}[label=\alph*)]
+    \item El cuerpo es lanzado hacia arriba y alcanza su altura máxima en el instante $t = 4 \, \si{s}$.
+    \item Durante el intervalo de tiempo mostrado, el cuerpo finaliza en una posición situada por debajo del nivel de lanzamiento.
+    \item La rapidez del cuerpo es máxima en el instante $t = 0$.
+    \item El cuerpo regresa al nivel de lanzamiento en el instante $t = 2 \, \si{s}$.
+    \item El cuerpo parte desde una altura de $20 \, \si{m}$ y es lanzado inicialmente hacia abajo.
+\end{enumerate}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9, >=Latex]
+    \draw[->, thick] (0,0) -- (6,0) node[right] {$t \, (\si{s})$};
+    \draw[->, thick] (0,-3.5) -- (0,2.5) node[above] {$v_y \, (\si{m/s})$};
+    \node[below left] at (0,0) {$0$};
+
+    \draw (-0.1, 2) -- (0.1, 2) node[left=5pt] {$+20$};
+    \draw (-0.1, 1) -- (0.1, 1) node[left=5pt] {$+10$};
+    \draw (-0.1, -1) -- (0.1, -1) node[left=5pt] {$-10$};
+    \draw (-0.1, -2) -- (0.1, -2) node[left=5pt] {$-20$};
+    \draw (-0.1, -3) -- (0.1, -3) node[left=5pt] {$-30$};
+
+    \foreach \x in {1,2,3,4,5} {
+        \draw (\x, -0.1) -- (\x, 0.1) node[below=5pt] {$\x$};
+    }
+
+    \draw[thick, fill=teal!20, fill opacity=0.5] (0,0) -- (0,2) -- (2,0) -- cycle;
+    \draw[thick, fill=teal!20, fill opacity=0.5] (2,0) -- (5,0) -- (5,-3) -- cycle;
+
+    \draw[very thick] (0,2) -- (5,-3);
+    
+    \draw[dashed] (5,0) -- (5,-3);
+    \draw[dashed] (1,0) -- (1,1);
+    \draw[dashed] (3,0) -- (3,-1);
+    \draw[dashed] (4,0) -- (4,-2);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Cualitativo de la Gráfica}
+Observemos el comportamiento de la velocidad a lo largo del tiempo:
+\begin{itemize}
+    \item \textbf{Inicio ($t=0$):} La velocidad es $+20 \, \si{m/s}$. Al ser positiva, el cuerpo fue lanzado \textbf{hacia arriba}. (Descarta la opción e).
+    \item \textbf{Instante $t=2 \, \si{s}$:} La gráfica cruza el eje horizontal, lo que significa que su velocidad es $0 \, \si{m/s}$. Físicamente, este es el momento exacto en el que el cuerpo se detiene en el aire para cambiar de dirección, es decir, \textbf{alcanza su altura máxima}. (Descarta las opciones a y d).
+    \item \textbf{Fin ($t=5 \, \si{s}$):} La velocidad es $-30 \, \si{m/s}$. La rapidez es el valor absoluto de la velocidad ($|-30| = 30 \, \si{m/s}$). Como $30 > 20$, la rapidez final es mayor a la inicial. (Descarta la opción c).
+\end{itemize}
+
+\subsubsection*{2. Cálculo del Desplazamiento (Áreas)}
+Para corroborar la opción restante, calcularemos el desplazamiento total sumando algebraicamente las áreas formadas entre la recta y el eje del tiempo.
+
+\textbf{Área 1 (Desplazamiento de subida):} Triángulo desde $t=0$ hasta $t=2$.
+$$ A_1 = \frac{\text{base} \times \text{altura}}{2} = \frac{2 \times 20}{2} = +20 \, \si{m} $$
+El cuerpo sube $20 \, \si{m}$.
+
+\textbf{Área 2 (Desplazamiento de bajada):} Triángulo desde $t=2$ hasta $t=5$. La altura es $-30 \, \si{m/s}$.
+$$ A_2 = \frac{\text{base} \times \text{altura}}{2} = \frac{(5-2) \times (-30)}{2} = \frac{3 \times -30}{2} = -45 \, \si{m} $$
+El cuerpo desciende $45 \, \si{m}$.
+
+\textbf{Desplazamiento Total ($\Delta\vec{r}$):}
+$$ \Delta\vec{r} = A_1 + A_2 $$
+$$ \Delta\vec{r} = 20\hat{j} - 45\hat{j} $$
+$$ \Delta\vec{r} = -25\hat{j} \, \si{m} $$
+
+\subsubsection*{3. Conclusión Física}
+Un desplazamiento total negativo ($-25\hat{j} \, \si{m}$) significa que el cuerpo subió una cierta distancia, pero luego descendió mucho más, cruzando su punto de partida. Al finalizar el intervalo de tiempo, terminó $25 \, \si{m}$ más abajo que donde inició. Esto valida perfectamente la opción (b).
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) Durante el intervalo de tiempo mostrado, el cuerpo finaliza en una posición situada por debajo del nivel de lanzamiento.
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un helicóptero vuela horizontalmente con velocidad constante. Justo debajo, una lancha avanza en la misma dirección y con la misma velocidad. Si se deja caer un objeto desde el helicóptero, ¿qué ocurre respecto a la lancha?
+
+\begin{enumerate}[label=\alph*)]
+    \item Cae detrás de la lancha
+    \item Cae delante de la lancha
+    \item Cae sobre la lancha
+    \item Cae verticalmente hacia abajo
+    \item Dependerá de la magnitud de la velocidad constante
+\end{enumerate}
+
+\begin{center}
+\begin{tikzpicture}[scale=1.5, >=Latex]
+    % Línea vertical punteada de referencia inicial
+    \draw[dashed, gray] (0, 2.5) -- (0, -0.5);
+    
+    % Posición inicial Helicóptero
+    \filldraw[dodgerblue] (0, 2) circle (3pt);
+    \draw[->, very thick, dodgerblue] (0, 2) -- (1.5, 2) node[right] {$\vec{v}_x$};
+    \node[above left] at (0, 2) {Helicóptero};
+
+    % Posición inicial Lancha
+    \filldraw[dodgerblue] (0, 0) circle (3pt);
+    \draw[->, very thick, dodgerblue] (0, 0) -- (1.5, 0) node[right] {$\vec{v}_x$};
+    \node[below left] at (0, 0) {Lancha};
+    
+    % Trayectoria parabólica del objeto
+    \draw[thick, dashed, teal] (0, 2) .. controls (1.5, 2) and (2.5, 1) .. (3, 0);
+    
+    % Posición final Lancha y Objeto
+    \filldraw[teal] (3, 0) circle (3pt);
+    \draw[->, very thick, dodgerblue] (3, 0) -- (4.5, 0) node[right] {$\vec{v}_x$};
+    
+    % Olas
+    \draw[cyan] (-0.5, -0.1) sin (0,-0.2) cos (0.5,-0.1) sin (1,-0.2);
+    \draw[cyan] (2.5, -0.1) sin (3,-0.2) cos (3.5,-0.1) sin (4,-0.2);
+
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Principio de Inercia y Velocidad Inicial del Objeto}
+Cuando un objeto es "soltado" o "dejado caer" desde un sistema de referencia que se encuentra en movimiento (en este caso, el helicóptero), el objeto no parte del reposo absoluto. Por la Primera Ley de Newton (Principio de Inercia), el objeto conserva la velocidad que tenía el sistema en el instante en que fue liberado.
+
+Por lo tanto, la velocidad inicial del objeto tiene dos componentes:
+\begin{itemize}
+    \item \textbf{Vertical ($v_{0y}$):} Es cero, ya que simplemente se deja caer, no se lanza hacia abajo ni hacia arriba.
+    \item \textbf{Horizontal ($v_{0x, obj}$):} Es exactamente igual a la velocidad horizontal del helicóptero ($v_H$).
+\end{itemize}
+
+\subsubsection*{2. Análisis de los Desplazamientos Horizontales}
+El objeto describe una trayectoria parabólica, pero su movimiento horizontal es independiente de su caída vertical (Principio de Independencia de los Movimientos de Galileo). En el eje $x$, el objeto se mueve con Movimiento Rectilíneo Uniforme (MRU).
+Su posición horizontal en cualquier instante $t$ durante la caída es:
+$$ x_{obj}(t) = v_{0x, obj} \cdot t = v_H \cdot t $$
+
+Por otro lado, la lancha también se mueve con MRU en la superficie del agua. Su posición en el mismo instante $t$ es:
+$$ x_{L}(t) = v_L \cdot t $$
+
+\subsubsection*{3. Conclusión Cinematica}
+El enunciado establece una condición fundamental: el helicóptero y la lancha avanzan con la \textbf{misma velocidad} ($v_H = v_L$).
+Sustituyendo esto en la ecuación del objeto:
+$$ x_{obj}(t) = v_L \cdot t $$
+
+Como podemos observar, las ecuaciones de posición horizontal para el objeto y para la lancha son matemáticamente idénticas ($x_{obj}(t) = x_{L}(t)$). Esto significa que, respecto a un observador en tierra, tanto la lancha como el objeto que cae avanzan hacia adelante exactamente a la misma tasa. En todo momento de la caída, el objeto se encontrará alineado verticalmente sobre la lancha, por lo que terminará cayendo directamente sobre ella.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) Cae sobre la lancha
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+En la ecuación de la trayectoria del movimiento parabólico el termino $v_0$, representa:
+
+\begin{enumerate}[label=\alph*)]
+    \item La rapidez de lanzamiento.
+    \item La componente de la velocidad en el eje horizontal.
+    \item La componente de la velocidad en el eje vertical.
+    \item La velocidad de lanzamiento.
+    \item La rapidez del punto final del movimiento.
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis de la Ecuación de la Trayectoria}
+La ecuación de la trayectoria para un movimiento parabólico (proyectiles) relaciona la posición vertical ($y$) directamente con la posición horizontal ($x$), eliminando la variable del tiempo ($t$). Su forma estándar, asumiendo que el lanzamiento se realiza desde el origen $(0,0)$, es:
+$$ y = x \tan(\theta) - \frac{g x^2}{2 v_0^2 \cos^2(\theta)} $$
+
+\subsubsection*{2. Identificación de los Términos}
+Desglosemos los elementos que conforman esta ecuación:
+\begin{itemize}
+    \item $\theta$: Es el ángulo inicial de lanzamiento medido respecto a la horizontal.
+    \item $g$: Es la magnitud de la aceleración debida a la gravedad.
+    \item $v_0$: Es un valor \textbf{escalar} (nota que está elevado al cuadrado en el denominador). Representa la magnitud del vector velocidad inicial ($\vec{v}_0$). En física, a la magnitud de la velocidad se le denomina \textbf{rapidez}. 
+\end{itemize}
+
+Evaluando las opciones:
+\begin{itemize}
+    \item Las componentes de la velocidad serían $v_{0x} = v_0 \cos(\theta)$ y $v_{0y} = v_0 \sin(\theta)$, por lo que $v_0$ por sí solo no es una componente.
+    \item La "velocidad de lanzamiento" hace referencia al \textbf{vector} completo $\vec{v}_0 = (v_{0x}, v_{0y})$, no solo a su escalar.
+    \item $v_0$ corresponde a las condiciones iniciales, no al punto final.
+\end{itemize}
+
+Por lo tanto, el término $v_0$ representa estrictamente la rapidez inicial o rapidez de lanzamiento.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large a) La rapidez de lanzamiento.
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una partícula se mueve por una circunferencia de radio $R$ con rapidez constante $v$. ¿Cuál de las siguientes afirmaciones es correcta?
+
+\begin{enumerate}[label=\alph*)]
+    \item La aceleración es paralela a la velocidad.
+    \item La aceleración tiene magnitud constante y dirección variable.
+    \item La aceleración es nula.
+    \item La velocidad es constante en módulo y dirección.
+    \item La velocidad angular aumenta con el tiempo.
+\end{enumerate}
+
+\begin{center}
+\begin{tikzpicture}[scale=1.5, >=Latex]
+    \draw[->, thick] (-1.5, 0) -- (1.5, 0) node[right] {$x$};
+    \draw[->, thick] (0, -1.5) -- (0, 1.5) node[above] {$y$};
+    
+    \draw[thick, dashed, dodgerblue] (0,0) circle (1);
+    
+    % Posición 1
+    \filldraw (0.866, 0.5) circle (2pt);
+    \draw[->, thick, dodgerblue] (0.866, 0.5) -- (0.366, 1.366) node[above] {$\vec{v}$};
+    \draw[->, thick, firebrick] (0.866, 0.5) -- (0, 0) node[midway, below right] {$\vec{a}_N$};
+    
+    % Posición 2
+    \filldraw (-0.5, 0.866) circle (2pt);
+    \draw[->, thick, dodgerblue] (-0.5, 0.866) -- (-1.366, 0.366) node[left] {$\vec{v}$};
+    \draw[->, thick, firebrick] (-0.5, 0.866) -- (0, 0) node[midway, above left] {$\vec{a}_N$};
+    
+    % Posición 3
+    \filldraw (0, -1) circle (2pt);
+    \draw[->, thick, dodgerblue] (0, -1) -- (1, -1) node[right] {$\vec{v}$};
+    \draw[->, thick, firebrick] (0, -1) -- (0, -0.3) node[right] {$\vec{a}_N$};
+
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis del Movimiento Circular Uniforme (MCU)}
+El problema describe un Movimiento Circular Uniforme (MCU), ya que la trayectoria es una circunferencia (radio $R$ constante) y la rapidez ($v$) es constante. 
+
+Analicemos las variables cinemáticas para descartar opciones:
+\begin{itemize}
+    \item \textbf{Velocidad ($\vec{v}$):} Es un vector tangente a la trayectoria. Aunque su magnitud (rapidez $v$) es constante, su \textbf{dirección} cambia continuamente a medida que la partícula gira. (Esto descarta la opción d).
+    \item \textbf{Velocidad Angular ($\omega$):} Se relaciona con la rapidez lineal mediante $\omega = \frac{v}{R}$. Al ser $v$ y $R$ constantes, $\omega$ también es constante, no aumenta. (Esto descarta la opción e).
+\end{itemize}
+
+\subsubsection*{2. Análisis de la Aceleración}
+Cualquier cambio en el vector velocidad (ya sea en magnitud o en dirección) implica la existencia de una aceleración. Dado que la dirección de la velocidad cambia constantemente, la aceleración \textbf{no puede ser nula}. (Esto descarta la opción c).
+
+En el MCU, como la rapidez no cambia, la aceleración tangencial es cero ($a_T = 0$). Toda la aceleración del sistema es puramente \textbf{centripetal} (o normal, $\vec{a}_N$), la cual es \textbf{perpendicular} a la velocidad (no paralela, descartando la opción a) y apunta siempre hacia el centro de la circunferencia.
+
+Evaluemos las características de esta aceleración centrípeta:
+\begin{itemize}
+    \item \textbf{Magnitud:} Se calcula con la fórmula $|\vec{a}_N| = \frac{v^2}{R}$. Como $v$ y $R$ son valores fijos y constantes, la \textbf{magnitud} de la aceleración es \textbf{constante}.
+    \item \textbf{Dirección:} Como siempre apunta hacia el centro desde la posición actual de la partícula, la línea de acción del vector gira junto con la partícula. Por lo tanto, su \textbf{dirección} es \textbf{variable} en el tiempo (como se aprecia en las flechas rojas del gráfico).
+\end{itemize}
+
+La afirmación que describe correctamente esto es la opción b.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) La aceleración tiene magnitud constante y dirección variable.
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una persona deja caer un objeto desde la terraza de un edificio. Tres segundos más tarde, otra persona, ubicada en el suelo, lanza verticalmente hacia arriba un segundo objeto con una rapidez de $108 \, \si{km/h}$. Si los dos objetos llegan al mismo tiempo al suelo, despreciando la resistencia del aire, determine: El tiempo en el cual se encuentran los objetos.
+    
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    % Suelo (Nivel de Referencia)
+    \fill[pattern=north east lines, pattern color=gray] (-1, -0.3) rectangle (5, 0);
+    \draw[thick, dodgerblue] (-1, 0) -- (5, 0) node[right, text=black] {N.R.};
+
+    % Edificio
+    \draw[thick, fill=blue!5] (-1, 0) rectangle (0, 7);
+    \draw[thick] (-1, 7) -- (0, 7);
+    \fill[pattern=north west lines, pattern color=dodgerblue!50] (-1, 0) rectangle (0, 7);
+
+    % Partícula A
+    \filldraw[dodgerblue] (0.5, 7) circle (4pt);
+    \node[right] at (0.6, 7) {$v_{0A} = 0$};
+    \draw[->, thick, dodgerblue, dashed] (0.5, 6.7) -- (0.5, 0.2);
+    \node[dodgerblue] at (1.2, 3.5) {$\Delta t_A$};
+
+    % Partícula B
+    \filldraw[teal] (2.5, 0.2) circle (4pt);
+    \draw[->, thick, teal] (2.5, 0.4) -- (2.5, 2) node[right] {$\vec{v}_{0B}$};
+    \draw[->, thick, teal, dashed] (2.5, 2.1) -- (2.5, 4.5) arc (180:0:0.4) -- (3.3, 0.3);
+    \filldraw[teal!50!black] (3.3, 0.2) circle (4pt);
+    
+    % Textos descriptivos
+    \node[above, text=dodgerblue] at (0.5, 7.3) {Objeto A};
+    \node[below, text=teal] at (2.9, -0.4) {Objeto B};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\textit{Nota: De acuerdo a los valores de la rúbrica de solución, para este problema se asume la magnitud de la aceleración de la gravedad como $g = 10 \, \si{m/s^2}$.}
+
+\subsubsection*{1. Análisis de la Partícula B (Lanzada desde el suelo)}
+Primero, homogeneizamos las unidades de la rapidez inicial de la partícula B convirtiéndola de $\si{km/h}$ a $\si{m/s}$:
+$$ v_{0B} = 108 \, \si{km/h} \times \left( \frac{5}{18} \right) = 30 \, \si{m/s} $$
+
+El objeto B realiza un movimiento completo de subida y bajada, regresando a su nivel de lanzamiento (el suelo). El tiempo de vuelo ($t_{vB}$) para este tipo de trayectoria simétrica se calcula como:
+$$ t_{vB} = \frac{2v_{0B}}{g} $$
+$$ t_{vB} = \frac{2(30)}{10} $$
+$$ t_{vB} = \frac{60}{10} = 6 \, \si{s} $$
+
+El objeto B permanece $6$ segundos en el aire antes de impactar nuevamente contra el suelo.
+
+\subsubsection*{2. Análisis del Tiempo de Encuentro (Literal a)}
+El enunciado indica que el objeto A se dejó caer $3$ segundos \textbf{antes} de que se lanzara el objeto B. 
+Además, ambos objetos \textbf{llegan al mismo tiempo al suelo} (su punto de encuentro final).
+
+Por lógica temporal, el tiempo total que el objeto A estuvo en el aire ($\Delta t_A$) debe ser igual al tiempo de vuelo del objeto B más los $3$ segundos de ventaja que tuvo A:
+$$ \Delta t_A = 3 \, \si{s} + t_{vB} $$
+$$ \Delta t_A = 3 + 6 $$
+$$ \Delta t_A = 9 \, \si{s} $$
+
+Los objetos se encuentran en el suelo a los $9$ segundos contabilizados desde el instante en que se soltó el primer objeto.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta a)]
+\centering \Large $t_A = 9 \, \si{s}$
+\end{tcolorbox}
+
+
+\newpage
+
+\subsection*{Enunciado}
+Una persona deja caer un objeto desde la terraza de un edificio. Tres segundos más tarde, otra persona, ubicada en el suelo, lanza verticalmente hacia arriba un segundo objeto con una rapidez de $108 \, \si{km/h}$. Si los dos objetos llegan al mismo tiempo al suelo, despreciando la resistencia del aire, determine: La altura del edificio.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    % Suelo (Nivel de Referencia)
+    \fill[pattern=north east lines, pattern color=gray] (-1, -0.3) rectangle (5, 0);
+    \draw[thick, dodgerblue] (-1, 0) -- (5, 0) node[right, text=black] {N.R.};
+
+    % Edificio
+    \draw[thick, fill=blue!5] (-1, 0) rectangle (0, 7);
+    \draw[thick] (-1, 7) -- (0, 7);
+    \fill[pattern=north west lines, pattern color=dodgerblue!50] (-1, 0) rectangle (0, 7);
+
+    % Partícula A
+    \filldraw[dodgerblue] (0.5, 7) circle (4pt);
+    \node[right] at (0.6, 7) {$v_{0A} = 0$};
+    \draw[->, thick, dodgerblue, dashed] (0.5, 6.7) -- (0.5, 0.2);
+    \node[dodgerblue] at (1.2, 3.5) {$\Delta t_A$};
+
+    % Partícula B
+    \filldraw[teal] (2.5, 0.2) circle (4pt);
+    \draw[->, thick, teal] (2.5, 0.4) -- (2.5, 2) node[right] {$\vec{v}_{0B}$};
+    \draw[->, thick, teal, dashed] (2.5, 2.1) -- (2.5, 4.5) arc (180:0:0.4) -- (3.3, 0.3);
+    \filldraw[teal!50!black] (3.3, 0.2) circle (4pt);
+    
+    % Textos descriptivos
+    \node[above, text=dodgerblue] at (0.5, 7.3) {Objeto A};
+    \node[below, text=teal] at (2.9, -0.4) {Objeto B};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solucion}
+Para determinar la altura del edificio ($h$), analizamos la caída libre de la Partícula A. 
+Sabemos que "se deja caer", por lo tanto, su velocidad inicial es nula ($v_{0A} = 0$). El tiempo que tarda en recorrer toda la altura del edificio hasta chocar contra el suelo es de $9 \, \si{s}$.
+
+Utilizamos la ecuación escalar de posición para caída libre:
+$$ h = v_{0A} \Delta t_A + \frac{1}{2} g (\Delta t_A)^2 $$
+
+Como $v_{0A} = 0$, el primer término se anula:
+$$ h = \frac{1}{2} g (\Delta t_A)^2 $$
+$$ h = \frac{1}{2} (10) (9)^2 $$
+$$ h = 5 (81) $$
+$$ h = 405 \, \si{m} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta b)]
+\centering \Large $h = 405 \, \si{m}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un proyectil en $t = 0$ es lanzado con una $v_0$ y un $\theta_0$ sobre la horizontal. En cierto instante $t_1$ el proyectil tiene una velocidad $\vec{v}_1 = 60\hat{i} + 20\hat{j} \, \si{m/s}$ y dos segundos después alcanza $180 \, \si{m}$ de altura máxima. Determine la velocidad de lanzamiento en función de los vectores bases $\hat{i}, \hat{j}$.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    % Eje horizontal (Suelo)
+    \fill[pattern=north east lines, pattern color=gray] (-1, -0.3) rectangle (9, 0);
+    \draw[thick, dodgerblue] (-1, 0) -- (9, 0) node[right, text=black] {N.R.};
+
+    % Trayectoria parabólica
+    \draw[thick, dashed, dodgerblue] (0, 0) parabola bend (4, 4) (8, 0);
+
+    % Punto de lanzamiento
+    \filldraw[dodgerblue!80!black] (0, 0) circle (4pt);
+    \draw[->, thick, dodgerblue] (0, 0) -- (1, 1) node[left] {$\vec{v}_0$};
+    
+    % Ángulo inicial
+    \draw[thick] (0.5, 0) arc (0:45:0.5);
+    \node at (0.8, 0.3) {$\theta_0$};
+
+    % Punto en t1
+    \filldraw[dodgerblue!80!black] (1.5, 2.53) circle (4pt);
+    \node[right] at (1.6, 2.53) {$t_1$};
+    \draw[->, thick, dodgerblue] (1.5, 2.53) -- (2.5, 3.2) node[above] {$\vec{v}_1$};
+
+    % Altura máxima
+    \draw[dashed, gray] (4, 0) -- (4, 4);
+    \draw[<->] (4.2, 0) -- (4.2, 4) node[midway, right] {H = $180 \, \si{m}$};
+    
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis de la Componente Horizontal ($x$)}
+En un movimiento parabólico ideal (despreciando la resistencia del aire), no existen fuerzas que actúen en el eje horizontal. Por lo tanto, la velocidad en el eje $x$ se mantiene constante durante todo el trayecto (MRU).
+Dado que conocemos la velocidad en el instante $t_1$ ($\vec{v}_1 = 60\hat{i} + 20\hat{j}$), deducimos inmediatamente que la componente horizontal inicial es idéntica:
+$$ v_{0x} = v_{1x} = 60 \, \si{m/s} $$
+
+\subsubsection*{2. Análisis de la Componente Vertical ($y$)}
+El movimiento vertical es un MRUV afectado por la gravedad. El enunciado nos proporciona el valor de la altura máxima ($H = 180 \, \si{m}$). 
+Utilizamos la fórmula que relaciona la altura máxima con la componente vertical de la velocidad inicial ($v_{0y}$):
+$$ H = \frac{v_{0y}^2}{2g} $$
+
+Despejamos $v_{0y}$:
+$$ v_{0y}^2 = 2gH $$
+$$ v_{0y}^2 = 2(10)(180) $$
+$$ v_{0y}^2 = 3600 $$
+$$ v_{0y} = \sqrt{3600} = 60 \, \si{m/s} $$
+
+\subsubsection*{3. Vector Velocidad Inicial}
+Ensamblamos el vector de la velocidad de lanzamiento sumando sus dos componentes ortogonales:
+$$ \vec{v}_0 = v_{0x}\hat{i} + v_{0y}\hat{j} $$
+$$ \vec{v}_0 = 60\hat{i} + 60\hat{j} \, \si{m/s} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{v}_0 = 60\hat{i} + 60\hat{j} \, \si{m/s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un proyectil en $t = 0$ es lanzado con una $v_0$ y un $\theta_0$ sobre la horizontal. En cierto instante $t_1$ el proyectil tiene una velocidad $\vec{v}_1 = 60\hat{i} + 20\hat{j} \, \si{m/s}$ y dos segundos después alcanza $180 \, \si{m}$ de altura máxima. Determine el instante en el que alcanza la $\vec{v}_1$.
+
+\subsection*{Solución}
+
+\subsubsection*{1. Planteamiento de la Ecuación Cinemática}
+Nos enfocaremos únicamente en el eje vertical ($y$), donde la aceleración es constante ($\vec{a} = -g\hat{j}$).
+Conocemos la velocidad vertical inicial (calculada en el literal anterior) y la velocidad vertical en el instante de interés $t_1$:
+\begin{itemize}
+    \item $v_{0y} = 60 \, \si{m/s}$
+    \item $v_{fy} = 20 \, \si{m/s}$ (componente $y$ del vector $\vec{v}_1$)
+\end{itemize}
+
+Utilizamos la ecuación de velocidad en función del tiempo:
+$$ v_{fy} = v_{0y} - g \Delta t $$
+
+\subsubsection*{2. Despeje del Tiempo ($t_1$)}
+Reemplazamos los valores y despejamos $t_1$:
+$$ 20 = 60 - 10 t_1 $$
+$$ 10 t_1 = 60 - 20 $$
+$$ 10 t_1 = 40 $$
+$$ t_1 = \frac{40}{10} = 4 \, \si{s} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $t_1 = 4 \, \si{s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un proyectil en $t = 0$ es lanzado con una $v_0$ y un $\theta_0$ sobre la horizontal. En cierto instante $t_1$ el proyectil tiene una velocidad $\vec{v}_1 = 60\hat{i} + 20\hat{j} \, \si{m/s}$ y dos segundos después alcanza $180 \, \si{m}$ de altura máxima. Determine la posición a la que alcanza la $\vec{v}_1$ en función de los vectores bases $\hat{i}, \hat{j}$.
+
+\subsection*{Solución}
+
+\subsubsection*{1. Planteamiento de la Ecuación Vectorial}
+Para hallar la posición en cualquier instante $t$, utilizamos la ecuación general vectorial de la cinemática, asumiendo que el proyectil parte desde el origen ($\vec{r}_0 = 0\hat{i} + 0\hat{j}$):
+$$ \Delta\vec{r} = \vec{v}_0 \Delta t + \frac{1}{2} \vec{g} (\Delta t)^2 $$
+$$ \vec{r}_f - \vec{r}_0 = \vec{v}_0 t_1 + \frac{1}{2} \vec{g} (t_1)^2 $$
+
+\subsubsection*{2. Sustitución y Cálculo}
+Evaluamos la ecuación en el instante $t_1 = 4 \, \si{s}$. Reemplazamos el vector velocidad inicial ($\vec{v}_0 = 60\hat{i} + 60\hat{j}$) y el vector aceleración de la gravedad ($\vec{g} = -10\hat{j}$):
+$$ \vec{r}_f = (60\hat{i} + 60\hat{j})(4) + \frac{1}{2} (-10\hat{j}) (4)^2 $$
+
+Realizamos las multiplicaciones escalares:
+$$ \vec{r}_f = (240\hat{i} + 240\hat{j}) + (-5\hat{j}) (16) $$
+$$ \vec{r}_f = 240\hat{i} + 240\hat{j} - 80\hat{j} $$
+
+Finalmente, agrupamos los términos semejantes (componentes en $\hat{j}$):
+$$ \vec{r}_f = 240\hat{i} + (240 - 80)\hat{j} $$
+$$ \vec{r}_f = 240\hat{i} + 160\hat{j} \, \si{m} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{r}_f = 240\hat{i} + 160\hat{j} \, \si{m}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un objeto es lanzado hacia arriba con una rapidez inicial $v_0$ y alcanza una altura máxima $H$. ¿A qué altura se encuentra cuando su rapidez es la mitad de la rapidez inicial?
+
+\begin{enumerate}[label=\alph*)]
+    \item $\frac{1}{2}H$
+    \item $\frac{1}{4}H$
+    \item $\frac{3}{4}H$
+    \item $\frac{2}{3}H$
+    \item $\frac{1}{\sqrt{2}}H$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Altura Máxima ($H$)}
+En un lanzamiento vertical hacia arriba (MRUV), la velocidad final en el punto de altura máxima es cero. Utilizando la ecuación independiente del tiempo ($v_f^2 = v_0^2 - 2g\Delta r$), la altura máxima $H$ se define como:
+$$ H = \frac{v_0^2}{2g} $$
+
+\subsubsection*{2. Planteamiento a la altura solicitada ($h$)}
+Buscamos una altura específica $h$ en la cual la rapidez del objeto se haya reducido exactamente a la mitad de su valor inicial. Es decir, nuestra nueva velocidad final en ese punto es $v_f = \frac{v_0}{2}$.
+Aplicamos nuevamente la ecuación cinemática:
+$$ v_f^2 = v_0^2 - 2gh $$
+
+Sustituimos nuestra condición de velocidad:
+$$ \left(\frac{v_0}{2}\right)^2 = v_0^2 - 2gh $$
+$$ \frac{v_0^2}{4} = v_0^2 - 2gh $$
+
+\subsubsection*{3. Despeje de la altura ($h$)}
+Pasamos el término de la gravedad al lado izquierdo y agrupamos los términos de velocidad:
+$$ 2gh = v_0^2 - \frac{v_0^2}{4} $$
+$$ 2gh = \frac{4v_0^2 - v_0^2}{4} $$
+$$ 2gh = \frac{3}{4}v_0^2 $$
+
+Despejamos $h$:
+$$ h = \frac{3}{4} \left(\frac{v_0^2}{2g}\right) $$
+
+Como determinamos en el primer paso que $H = \frac{v_0^2}{2g}$, podemos sustituirlo en nuestra expresión final:
+$$ h = \frac{3}{4}H $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) $\frac{3}{4}H$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un cuerpo tiene un movimiento vertical. La gráfica velocidad - tiempo correspondiente a su movimiento se muestra a continuación. Con base en el análisis de dicha gráfica, ¿cuál de las siguientes afirmaciones es correcta?
+
+\begin{enumerate}[label=\alph*)]
+    \item El cuerpo es lanzado verticalmente hacia abajo y su aceleración es constante.
+    \item La distancia total recorrida es $65 \, \si{m}$.
+    \item El cuerpo es lanzado hacia arriba y su rapidez disminuye uniformemente en todo el tiempo.
+    \item En $t = 2 \, \si{s}$ el cuerpo llegó al nivel de lanzamiento.
+    \item El cuerpo inicia su movimiento retardado en el instante $t = 2 \, \si{s}$.
+\end{enumerate}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9, >=Latex]
+    \draw[->, thick] (0,0) -- (6,0) node[right] {$t \, (\si{s})$};
+    \draw[->, thick] (0,-3.5) -- (0,2.5) node[above] {$v_y \, (\si{m/s})$};
+    \node[below left] at (0,0) {$0$};
+
+    \draw (-0.1, 2) -- (0.1, 2) node[left=5pt] {$+20$};
+    \draw (-0.1, 1) -- (0.1, 1) node[left=5pt] {$+10$};
+    \draw (-0.1, -1) -- (0.1, -1) node[left=5pt] {$-10$};
+    \draw (-0.1, -2) -- (0.1, -2) node[left=5pt] {$-20$};
+    \draw (-0.1, -3) -- (0.1, -3) node[left=5pt] {$-30$};
+
+    \foreach \x in {1,2,3,4,5} {
+        \draw (\x, -0.1) -- (\x, 0.1) node[below=5pt] {$\x$};
+    }
+
+    \draw[thick, fill=teal!20, fill opacity=0.5] (0,0) -- (0,2) -- (2,0) -- cycle;
+    \draw[thick, fill=teal!20, fill opacity=0.5] (2,0) -- (5,0) -- (5,-3) -- cycle;
+
+    \draw[very thick] (0,2) -- (5,-3);
+    
+    \draw[dashed] (5,0) -- (5,-3);
+    \draw[dashed] (1,0) -- (1,1);
+    \draw[dashed] (3,0) -- (3,-1);
+    \draw[dashed] (4,0) -- (4,-2);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis de Opciones Cualitativas}
+Revisemos la coherencia física de cada afirmación apoyándonos en la gráfica:
+\begin{itemize}
+    \item \textbf{a)} Falso. En $t=0$, la velocidad es $+20 \, \si{m/s}$, lo que significa que fue lanzado hacia \textbf{arriba}.
+    \item \textbf{c)} Falso. La rapidez disminuye (frena) solo en el intervalo de $0$ a $2 \, \si{s}$. Desde $t=2$ hasta $t=5$, la rapidez (valor absoluto) \textbf{aumenta} de $0$ a $30 \, \si{m/s}$, por lo que el objeto está acelerando hacia abajo.
+    \item \textbf{d)} Falso. En $t=2$, la velocidad es $0$. Físicamente esto representa el punto de \textbf{altura máxima}, no el retorno al nivel de lanzamiento.
+    \item \textbf{e)} Falso. El movimiento retardado (frenado) ocurre de $0$ a $2$ segundos. En $t=2$, inicia un movimiento \textbf{acelerado}.
+\end{itemize}
+
+\subsubsection*{2. Cálculo de la Distancia Total Recorrida}
+A diferencia del desplazamiento (que suma algebraicamente las áreas), la \textbf{distancia total} ($s_{Total}$) es una magnitud escalar positiva que suma los valores absolutos de todas las áreas bajo la curva.
+$$ s_{Total} = |A_1| + |A_2| $$
+
+\textbf{Área 1 (Subida):} De $t=0$ a $t=2$.
+$$ A_1 = \frac{\text{base} \times \text{altura}}{2} = \frac{2 \times 20}{2} = 20 \, \si{m} $$
+
+\textbf{Área 2 (Bajada):} De $t=2$ a $t=5$.
+$$ |A_2| = \left| \frac{(5-2) \times (-30)}{2} \right| = \left| \frac{3 \times -30}{2} \right| = |-45| = 45 \, \si{m} $$
+
+Sumamos ambas distancias:
+$$ s_{Total} = 20 \, \si{m} + 45 \, \si{m} = 65 \, \si{m} $$
+
+Esto confirma que la opción (b) es matemáticamente correcta.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) La distancia total recorrida es $65 \, \si{m}$.
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un proyectil se lanza con rapidez inicial $v_0$ formando un ángulo $\theta$ con la horizontal. En dos instantes distintos del movimiento, el proyectil se encuentra a la misma altura, uno durante la subida y otro durante la bajada. Comparando esos instantes, se cumple que:
+
+\begin{enumerate}[label=\alph*)]
+    \item La velocidad tiene la misma dirección.
+    \item Las aceleraciones son opuestas.
+    \item La velocidad es la misma.
+    \item La rapidez es la misma.
+    \item La velocidad es perpendicular a la aceleración en ambos instantes.
+\end{enumerate}
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    % Eje horizontal
+    \draw[thick, dodgerblue] (-1, 0) -- (7, 0) node[right, text=dodgerblue] {N.R.};
+    \fill[pattern=north east lines, pattern color=dodgerblue!50] (-1, -0.2) rectangle (7, 0);
+
+    % Trayectoria parabólica
+    \draw[thick, dashed, dodgerblue] (0, 0) parabola bend (3, 3) (6, 0);
+
+    % Puntos t1 y t2
+    \filldraw[dodgerblue!80!black] (1, 1.66) circle (3pt);
+    \filldraw[dodgerblue!80!black] (5, 1.66) circle (3pt);
+
+    \node[above left, text=dodgerblue] at (1, 1.66) {$t_1$};
+    \node[above right, text=dodgerblue] at (5, 1.66) {$t_2$};
+
+    % Alturas h
+    \draw[thick, dodgerblue] (1, 0) -- (1, 1.66);
+    \draw[thick, dodgerblue] (5, 0) -- (5, 1.66);
+    \node[right, text=dodgerblue] at (1, 0.8) {h};
+    \node[left, text=dodgerblue] at (5, 0.8) {h};
+
+    % Vectores de velocidad
+    \draw[->, thick, dodgerblue] (1, 1.66) -- (1.8, 2.7) node[above] {$\vec{v}_1$};
+    \draw[->, thick, dodgerblue] (5, 1.66) -- (5.8, 0.6) node[right] {$\vec{v}_2$};
+
+    % Texto central
+    \node[text=dodgerblue] at (3, 1.66) {$v_1 = v_2$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis de Vectores Cinemáticos}
+Evaluaremos las características del movimiento parabólico para dos puntos que comparten la misma posición vertical (altura $h$):
+
+\begin{itemize}
+    \item \textbf{Aceleración:} En el tiro parabólico libre, la única aceleración que actúa sobre la partícula es la gravedad ($\vec{g} = -9.8\hat{j} \, \si{m/s^2}$). Al ser un vector constante que siempre apunta hacia abajo, las aceleraciones en ambos puntos son idénticas, no opuestas. (Descarta la opción b).
+    \item \textbf{Componentes de Velocidad:} 
+        \begin{itemize}
+            \item El eje $x$ es un MRU, por lo que la componente horizontal siempre es igual: $v_{1x} = v_{2x}$.
+            \item Por conservación de la energía, al volver a la misma altura, el objeto tiene la misma magnitud de velocidad vertical, pero con sentido invertido (uno subiendo y otro bajando): $v_{1y} = -v_{2y}$.
+        \end{itemize}
+    \item \textbf{Vector Velocidad:} Como la velocidad es un vector definido por $\vec{v} = v_x\hat{i} + v_y\hat{j}$, el hecho de que se invierta el signo en el eje $y$ significa que las direcciones son diferentes (uno apunta "arriba a la derecha" y el otro "abajo a la derecha"). Por ende, los vectores no son los mismos ni tienen igual dirección. (Descarta las opciones a y c).
+    \item \textbf{Perpendicularidad:} La velocidad y la aceleración solo forman un ángulo de $90^\circ$ en el vértice exacto de la parábola (altura máxima), donde $v_y = 0$. (Descarta la opción e).
+\end{itemize}
+
+\subsubsection*{2. Conclusión: La Rapidez}
+La \textbf{rapidez} ($v$) es la magnitud o módulo escalar del vector velocidad. Se calcula mediante el Teorema de Pitágoras con sus componentes:
+$$ v = \sqrt{(v_x)^2 + (v_y)^2} $$
+Dado que $v_x$ es idéntico y el signo negativo de $v_y$ desaparece al elevarse al cuadrado, el resultado escalar es exactamente el mismo para ambos instantes ($v_1 = v_2$). Por consiguiente, la rapidez es la misma.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large d) La rapidez es la misma.
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+¿Cuál de las siguientes variables no intervienen en la ecuación de la trayectoria del movimiento parabólico?
+
+\begin{enumerate}[label=\alph*)]
+    \item Tiempo ($t$)
+    \item Rapidez inicial ($v_0$)
+    \item Angulo de lanzamiento ($\theta$)
+    \item Posición en el eje horizontal ($x$)
+    \item Posición en el eje vertical ($y$)
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis de las Ecuaciones Paramétricas}
+En la cinemática de un movimiento parabólico (proyectiles), la posición bidimensional se describe originalmente mediante dos ecuaciones paramétricas que dependen del tiempo ($t$):
+\begin{align*}
+    x(t) &= v_0 \cos(\theta) t \\
+    y(t) &= v_0 \sin(\theta) t - \frac{1}{2}gt^2
+\end{align*}
+
+\subsubsection*{2. Deducción de la Ecuación de la Trayectoria}
+Para conocer la forma geométrica estática de la ruta (la parábola en el plano cartesiano $x-y$), se debe eliminar la variable paramétrica temporal. Esto se logra despejando el tiempo $t$ de la ecuación del eje horizontal y sustituyéndolo en la ecuación del eje vertical.
+
+El resultado algebraico de esta sustitución es lo que conocemos como la \textbf{ecuación de la trayectoria}:
+$$ y = x \tan(\theta) - \frac{g x^2}{2 v_0^2 \cos^2(\theta)} $$
+
+Al observar esta ecuación final, notamos que relaciona directamente la posición vertical ($y$) con la posición horizontal ($x$), y depende de las constantes de las condiciones iniciales: la rapidez inicial ($v_0$), el ángulo de lanzamiento ($\theta$) y la aceleración de la gravedad ($g$). 
+
+La única variable que desaparece por completo en esta relación espacial es el \textbf{tiempo} ($t$), ya que la ecuación de la trayectoria nos dice "dónde" está el objeto en el espacio, no "cuándo" llega allí.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large a) Tiempo ($t$)
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un automóvil se mueve por una circunferencia con rapidez constante. ¿Cuál de las siguientes afirmaciones es correcta?
+
+\begin{enumerate}[label=\alph*)]
+    \item La velocidad del automóvil es constante.
+    \item La aceleración del automóvil es constante.
+    \item La aceleración del automóvil es nula.
+    \item La velocidad del automóvil está dirigida hacia el centro de la trayectoria.
+    \item La aceleración del automóvil está dirigida hacia el centro de la trayectoria.
+\end{enumerate}
+
+\begin{center}
+\begin{tikzpicture}[scale=1.5, >=Latex]
+    \draw[->, thick, dashed] (-1.5, 0) -- (1.5, 0) node[right] {$x \, (\si{m})$};
+    \draw[->, thick, dashed] (0, -1.5) -- (0, 1.5) node[above] {$y \, (\si{m})$};
+    
+    \draw[thick, dashed, dodgerblue] (0,0) circle (1);
+    
+    % Posición 1
+    \filldraw[dodgerblue!80!black] (-0.866, 0.5) circle (2.5pt);
+    \draw[->, thick, dodgerblue] (-0.866, 0.5) -- (-1.366, -0.366) node[left] {$\vec{v}$};
+    \draw[->, thick, dodgerblue!80!black] (-0.866, 0.5) -- (-0.3, 0.17) node[midway, below] {$\vec{a}$};
+    
+    % Posición 2
+    \filldraw[dodgerblue!80!black] (0, -1) circle (2.5pt);
+    \draw[->, thick, dodgerblue] (0, -1) -- (1, -1) node[right] {$\vec{v}$};
+    \draw[->, thick, dodgerblue!80!black] (0, -1) -- (0, -0.4) node[right] {$\vec{a}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis del Movimiento Circular Uniforme (MCU)}
+El enunciado describe un automóvil que viaja en una trayectoria circular sin cambiar el valor de su rapidez (magnitud de la velocidad). Esto constituye la definición de un Movimiento Circular Uniforme (MCU).
+
+Evaluemos el comportamiento de los vectores cinemáticos para cada opción:
+\begin{itemize}
+    \item \textbf{Velocidad:} Es un vector \textbf{tangente} a la curva de la trayectoria en todo momento (esto descarta la opción d). Aunque su magnitud (rapidez) no cambia, su \textbf{dirección} está variando continuamente para poder dar la curva. Como un vector deja de ser constante si cambia su dirección, afirmamos que la velocidad \textbf{no es constante} (esto descarta la opción a).
+    \item \textbf{Aceleración:} Puesto que la velocidad está cambiando de dirección, obligatoriamente debe existir una aceleración actuando sobre el automóvil (esto descarta la opción c). En el MCU, al no haber cambios en la rapidez, la aceleración tangencial es cero ($a_T = 0$). Por tanto, la única aceleración presente es la \textbf{centrípeta} o \textbf{normal} ($\vec{a} = \vec{a}_N$).
+\end{itemize}
+
+\subsubsection*{2. Características de la Aceleración Centrípeta}
+Por definición física, la aceleración centrípeta es la responsable de "doblar" la trayectoria de la partícula para mantenerla confinada en el círculo. Esta aceleración siempre apunta perpendicularmente al vector velocidad y va directamente \textbf{hacia el centro} de la circunferencia.
+    
+\textit{Nota teórica adicional:} Aunque la magnitud de esta aceleración es constante ($|\vec{a}_N| = \frac{v^2}{R}$), su dirección espacial cambia a cada instante porque la flecha del vector va rotando para perseguir al centro a medida que el auto avanza. Por ello, el vector aceleración en sí tampoco se considera constante (esto descarta la opción b).
+
+La única afirmación teóricamente impecable es que esta aceleración está dirigida hacia el centro.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large e) La aceleración del automóvil está dirigida hacia el centro de la trayectoria.
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una persona lanza un objeto verticalmente hacia arriba desde el borde de un acantilado, con una rapidez de $126 \, \si{km/h}$. Cuatro segundos más tarde, otra persona, ubicada en el mismo punto, deja caer un segundo objeto. Si los dos objetos llegan al mismo tiempo al fondo del acantilado, despreciando la resistencia del aire, determine: El tiempo en el cual se encuentran los objetos, desde que se lanza el primero de ellos.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    % Acantilado
+    \fill[pattern=north east lines, pattern color=dodgerblue!50] (-2, -6) rectangle (0, 0);
+    \draw[very thick, dodgerblue] (-2, 0) -- (0, 0) -- (0, -6);
+    
+    % Nivel de Referencia
+    \draw[thick, dashed, dodgerblue] (0, 0) -- (5, 0) node[right, text=black] {N.R.};
+    
+    % Fondo del acantilado
+    \draw[thick, dodgerblue] (0, -5.5) -- (5, -5.5);
+    \fill[pattern=north east lines, pattern color=gray] (0, -5.8) rectangle (5, -5.5);
+    
+    % Objeto A
+    \filldraw[dodgerblue] (0.6, 0) circle (4pt);
+    \draw[->, thick, dodgerblue] (0.6, 0.2) -- (0.6, 1.8) node[left] {$\vec{v}_{0A}$};
+    \draw[thick, dashed, dodgerblue] (0.6, 1.9) arc (180:0:0.3) -- (1.2, -5.3);
+    \filldraw[dodgerblue] (1.2, -5.3) circle (4pt);
+    
+    % Objeto B
+    \filldraw[teal] (2.2, 0) circle (4pt);
+    \node[above right, text=teal] at (2.2, 0) {$v_{0B} = 0$};
+    \draw[thick, dashed, teal] (2.2, -0.2) -- (2.2, -5.3);
+    \filldraw[teal] (2.2, -5.3) circle (4pt);
+    
+    % Indicador de profundidad h
+    \draw[thick] (4, 0) -- (4, -5.5);
+    \draw[thick] (3.8, 0) -- (4.2, 0);
+    \draw[thick] (3.8, -5.5) -- (4.2, -5.5);
+    \node[right] at (4.1, -2.75) {h};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Planteamiento de las Ecuaciones de Posición}
+Primero, homogeneizamos las unidades de la rapidez inicial del objeto A:
+$$ v_{0A} = 126 \, \si{km/h} \times \left( \frac{5}{18} \right) = 35 \, \si{m/s} $$
+
+Definimos las ecuaciones vectoriales de posición para ambos objetos en función del tiempo $t$ (donde $t$ es el tiempo transcurrido desde que se lanza el primer objeto). Como ambos parten del Nivel de Referencia, su posición inicial es $\vec{r}_0 = 0$. La gravedad actúa hacia abajo ($\vec{g} = -10\hat{j} \, \si{m/s^2}$).
+
+\textbf{Objeto A (lanzado hacia arriba en $t=0$):}
+$$ \vec{r}_{fA} = \vec{r}_{0A} + \vec{v}_{0A} t + \frac{1}{2} \vec{g} t^2 $$
+$$ \vec{r}_{fA} = 0 + (35\hat{j})t + \frac{1}{2}(-10\hat{j})t^2 $$
+$$ \vec{r}_{fA} = (35t - 5t^2)\hat{j} $$
+
+\textbf{Objeto B (dejado caer 4 segundos después):}
+Como este objeto inicia su movimiento en $t = 4 \, \si{s}$, el tiempo efectivo que pasa en el aire es $(t - 4)$. Su velocidad inicial es nula ($\vec{v}_{0B} = 0$).
+$$ \vec{r}_{fB} = \vec{r}_{0B} + \vec{v}_{0B}(t - 4) + \frac{1}{2}\vec{g}(t - 4)^2 $$
+$$ \vec{r}_{fB} = 0 + 0 + \frac{1}{2}(-10\hat{j})(t - 4)^2 $$
+$$ \vec{r}_{fB} = -5(t - 4)^2\hat{j} $$
+
+\subsubsection*{2. Cálculo del Tiempo de Encuentro}
+El problema indica que ambos llegan al \textbf{mismo tiempo al fondo}, lo que significa que sus posiciones finales son exactamente iguales:
+$$ \vec{r}_{fA} = \vec{r}_{fB} $$
+
+Igualamos las componentes escalares:
+$$ 35t - 5t^2 = -5(t - 4)^2 $$
+
+Resolvemos el binomio al cuadrado:
+$$ 35t - 5t^2 = -5(t^2 - 8t + 16) $$
+$$ 35t - 5t^2 = -5t^2 + 40t - 80 $$
+
+Podemos cancelar el término $-5t^2$ de ambos lados de la ecuación:
+$$ 35t = 40t - 80 $$
+$$ 80 = 40t - 35t $$
+$$ 5t = 80 $$
+$$ t = \frac{80}{5} = 16 \, \si{s} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta a)]
+\centering \Large $t = 16 \, \si{s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una persona lanza un objeto verticalmente hacia arriba desde el borde de un acantilado, con una rapidez de $126 \, \si{km/h}$. Cuatro segundos más tarde, otra persona, ubicada en el mismo punto, deja caer un segundo objeto. Si los dos objetos llegan al mismo tiempo al fondo del acantilado, despreciando la resistencia del aire, determine: La profundidad del acantilado.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    % Acantilado
+    \fill[pattern=north east lines, pattern color=dodgerblue!50] (-2, -6) rectangle (0, 0);
+    \draw[very thick, dodgerblue] (-2, 0) -- (0, 0) -- (0, -6);
+    
+    % Nivel de Referencia
+    \draw[thick, dashed, dodgerblue] (0, 0) -- (5, 0) node[right, text=black] {N.R.};
+    
+    % Fondo del acantilado
+    \draw[thick, dodgerblue] (0, -5.5) -- (5, -5.5);
+    \fill[pattern=north east lines, pattern color=gray] (0, -5.8) rectangle (5, -5.5);
+    
+    % Objeto A
+    \filldraw[dodgerblue] (0.6, 0) circle (4pt);
+    \draw[->, thick, dodgerblue] (0.6, 0.2) -- (0.6, 1.8) node[left] {$\vec{v}_{0A}$};
+    \draw[thick, dashed, dodgerblue] (0.6, 1.9) arc (180:0:0.3) -- (1.2, -5.3);
+    \filldraw[dodgerblue] (1.2, -5.3) circle (4pt);
+    
+    % Objeto B
+    \filldraw[teal] (2.2, 0) circle (4pt);
+    \node[above right, text=teal] at (2.2, 0) {$v_{0B} = 0$};
+    \draw[thick, dashed, teal] (2.2, -0.2) -- (2.2, -5.3);
+    \filldraw[teal] (2.2, -5.3) circle (4pt);
+    
+    % Indicador de profundidad h
+    \draw[thick] (4, 0) -- (4, -5.5);
+    \draw[thick] (3.8, 0) -- (4.2, 0);
+    \draw[thick] (3.8, -5.5) -- (4.2, -5.5);
+    \node[right] at (4.1, -2.75) {h};
+\end{tikzpicture}
+\end{center}
+
+
+\subsection*{Solución}
+
+\subsubsection*{1. Cálculo de la Posición Final}
+Para determinar la profundidad del acantilado, basta con evaluar la posición final de cualquiera de los dos objetos en el instante de encuentro ($t = 16 \, \si{s}$). Utilizaremos la ecuación del objeto B, ya que es matemáticamente más directa.
+
+$$ \vec{r}_{fB} = -5(t - 4)^2\hat{j} $$
+Sustituimos $t = 16$:
+$$ \vec{r}_{fB} = -5(16 - 4)^2\hat{j} $$
+$$ \vec{r}_{fB} = -5(12)^2\hat{j} $$
+$$ \vec{r}_{fB} = -5(144)\hat{j} $$
+$$ \vec{r}_{fB} = -720\hat{j} \, \si{m} $$
+
+El vector posición final es $-720\hat{j} \, \si{m}$, lo que indica que el fondo se encuentra $720$ metros por debajo del Nivel de Referencia.
+
+\subsubsection*{2. Profundidad del Acantilado}
+La profundidad ($h$) es una magnitud escalar que representa la distancia vertical desde el borde hasta el fondo. Por lo tanto, corresponde al módulo (valor absoluto) del vector posición final:
+$$ h = |\vec{r}_{fB}| = |-720| $$
+$$ h = 720 \, \si{m} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta b)]
+\centering \Large $h = 720 \, \si{m}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un proyectil en $t = 0$ es lanzado con una $v_0$ y un $\theta_0$ sobre la horizontal. En cierto instante $t_1$ el proyectil tiene una velocidad $\vec{v}_1 = 80\hat{i} + 40\hat{j} \, \si{m/s}$ y cuatro segundos después alcanza $240 \, \si{m}$ de altura máxima. Determine la velocidad de lanzamiento en función de los vectores bases $\hat{i}, \hat{j}$.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    % Suelo
+    \fill[pattern=north east lines, pattern color=gray] (-1, -0.3) rectangle (9, 0);
+    \draw[thick, dodgerblue] (-1, 0) -- (9, 0) node[right, text=black] {N.R.};
+
+    % Trayectoria parabólica
+    \draw[thick, dashed, dodgerblue] (0, 0) parabola bend (4.5, 4.5) (9, 0);
+
+    % Lanzamiento inicial
+    \filldraw[dodgerblue!80!black] (0, 0) circle (4pt);
+    \draw[->, thick, dodgerblue] (0, 0) -- (1.2, 1.5) node[left] {$\vec{v}_0$};
+    \draw[thick] (0.6, 0) arc (0:50:0.6);
+    \node at (0.9, 0.4) {$\theta_0$};
+
+    % Punto en t1
+    \filldraw[dodgerblue!80!black] (2, 3.6) circle (4pt);
+    \node[right] at (2.1, 3.5) {$t_1$};
+    \draw[->, thick, dodgerblue] (2, 3.6) -- (3.2, 4.3) node[above] {$\vec{v}_1$};
+
+    % Altura máxima
+    \draw[dashed, gray] (4.5, 0) -- (4.5, 4.5);
+    \draw[<->] (4.7, 0) -- (4.7, 4.5) node[midway, right] {H = $240 \, \si{m}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\textit{Nota: Acorde a las convenciones de la solución proporcionada, asumimos la magnitud de la aceleración de la gravedad como $g = 10 \, \si{m/s^2}$.}
+
+\subsubsection*{1. Análisis de la Componente Horizontal ($x$)}
+En el movimiento parabólico, no hay aceleración en el eje $x$ (despreciando la resistencia del aire), por lo que la componente horizontal de la velocidad se mantiene constante en todo momento (MRU). 
+Al conocer que en $t_1$ la velocidad es $\vec{v}_1 = 80\hat{i} + 40\hat{j}$, sabemos que la componente inicial horizontal es igual a la componente en $t_1$:
+$$ v_{0x} = v_{1x} = 80 \, \si{m/s} $$
+
+\subsubsection*{2. Análisis de la Componente Vertical ($y$)}
+El eje $y$ se rige por un MRUV bajo la acción de la gravedad. Usamos el dato de la altura máxima ($H = 240 \, \si{m}$) y la ecuación que la relaciona con la componente vertical de la velocidad inicial:
+$$ H = \frac{v_{0y}^2}{2g} $$
+
+Despejamos $v_{0y}$:
+$$ 240 = \frac{v_{0y}^2}{2(10)} $$
+$$ v_{0y}^2 = 240 \times 20 $$
+$$ v_{0y}^2 = 4800 $$
+$$ v_{0y} = \sqrt{4800} = \sqrt{1600 \times 3} = 40\sqrt{3} \, \si{m/s} $$
+
+\subsubsection*{3. Vector Velocidad Inicial}
+Unimos las componentes para formar el vector velocidad de lanzamiento $\vec{v}_0$:
+$$ \vec{v}_0 = v_{0x}\hat{i} + v_{0y}\hat{j} $$
+$$ \vec{v}_0 = 80\hat{i} + 40\sqrt{3}\hat{j} \, \si{m/s} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{v}_0 = 80\hat{i} + 40\sqrt{3}\hat{j} \, \si{m/s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un proyectil en $t = 0$ es lanzado con una $v_0$ y un $\theta_0$ sobre la horizontal. En cierto instante $t_1$ el proyectil tiene una velocidad $\vec{v}_1 = 80\hat{i} + 40\hat{j} \, \si{m/s}$ y cuatro segundos después alcanza $240 \, \si{m}$ de altura máxima. Determine el instante en el que alcanza la $\vec{v}_1$.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    % Suelo
+    \fill[pattern=north east lines, pattern color=gray] (-1, -0.3) rectangle (9, 0);
+    \draw[thick, dodgerblue] (-1, 0) -- (9, 0) node[right, text=black] {N.R.};
+
+    % Trayectoria parabólica
+    \draw[thick, dashed, dodgerblue] (0, 0) parabola bend (4.5, 4.5) (9, 0);
+
+    % Lanzamiento inicial
+    \filldraw[dodgerblue!80!black] (0, 0) circle (4pt);
+    \draw[->, thick, dodgerblue] (0, 0) -- (1.2, 1.5) node[left] {$\vec{v}_0$};
+    \draw[thick] (0.6, 0) arc (0:50:0.6);
+    \node at (0.9, 0.4) {$\theta_0$};
+
+    % Punto en t1
+    \filldraw[dodgerblue!80!black] (2, 3.6) circle (4pt);
+    \node[right] at (2.1, 3.5) {$t_1$};
+    \draw[->, thick, dodgerblue] (2, 3.6) -- (3.2, 4.3) node[above] {$\vec{v}_1$};
+
+    % Altura máxima
+    \draw[dashed, gray] (4.5, 0) -- (4.5, 4.5);
+    \draw[<->] (4.7, 0) -- (4.7, 4.5) node[midway, right] {H = $240 \, \si{m}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Planteamiento Cinemático en el Eje $y$}
+Para encontrar el tiempo $t_1$, evaluamos exclusivamente el eje vertical. Conocemos la velocidad vertical inicial y la velocidad vertical final en ese instante $t_1$:
+\begin{itemize}
+    \item $v_{0y} = 40\sqrt{3} \, \si{m/s}$
+    \item $v_{fy} = 40 \, \si{m/s}$ (extraída del vector $\vec{v}_1$)
+\end{itemize}
+
+Aplicamos la ecuación de velocidad del MRUV:
+$$ v_{fy} = v_{0y} - g \Delta t $$
+
+\subsubsection*{2. Despeje de $t_1$}
+Sustituimos los valores correspondientes:
+$$ 40 = 40\sqrt{3} - 10 t_1 $$
+
+Movemos los términos para despejar $t_1$:
+$$ 10 t_1 = 40\sqrt{3} - 40 $$
+$$ t_1 = \frac{40\sqrt{3} - 40}{10} $$
+$$ t_1 = 4\sqrt{3} - 4 $$
+
+Sabiendo que $\sqrt{3} \approx 1.732$:
+$$ t_1 = 4(1.732) - 4 $$
+$$ t_1 = 6.928 - 4 $$
+$$ t_1 \approx 2.93 \, \si{s} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $t_1 = 2.93 \, \si{s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un proyectil en $t = 0$ es lanzado con una $v_0$ y un $\theta_0$ sobre la horizontal. En cierto instante $t_1$ el proyectil tiene una velocidad $\vec{v}_1 = 80\hat{i} + 40\hat{j} \, \si{m/s}$ y cuatro segundos después alcanza $240 \, \si{m}$ de altura máxima. Determine la posición a la que alcanza la $\vec{v}_1$ en función de los vectores bases $\hat{i}, \hat{j}$.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    % Suelo
+    \fill[pattern=north east lines, pattern color=gray] (-1, -0.3) rectangle (9, 0);
+    \draw[thick, dodgerblue] (-1, 0) -- (9, 0) node[right, text=black] {N.R.};
+
+    % Trayectoria parabólica
+    \draw[thick, dashed, dodgerblue] (0, 0) parabola bend (4.5, 4.5) (9, 0);
+
+    % Lanzamiento inicial
+    \filldraw[dodgerblue!80!black] (0, 0) circle (4pt);
+    \draw[->, thick, dodgerblue] (0, 0) -- (1.2, 1.5) node[left] {$\vec{v}_0$};
+    \draw[thick] (0.6, 0) arc (0:50:0.6);
+    \node at (0.9, 0.4) {$\theta_0$};
+
+    % Punto en t1
+    \filldraw[dodgerblue!80!black] (2, 3.6) circle (4pt);
+    \node[right] at (2.1, 3.5) {$t_1$};
+    \draw[->, thick, dodgerblue] (2, 3.6) -- (3.2, 4.3) node[above] {$\vec{v}_1$};
+
+    % Altura máxima
+    \draw[dashed, gray] (4.5, 0) -- (4.5, 4.5);
+    \draw[<->] (4.7, 0) -- (4.7, 4.5) node[midway, right] {H = $240 \, \si{m}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Ecuación Vectorial de Posición}
+Para encontrar el vector posición en el instante $t_1$, partimos de la ecuación general cinemática. Asumimos que el proyectil es lanzado desde el origen, por lo que el vector posición inicial es nulo ($\vec{r}_0 = \vec{0}$).
+$$ \Delta\vec{r} = \vec{v}_0 \Delta t + \frac{1}{2} \vec{g} \Delta t^2 $$
+$$ \vec{r}_f - \vec{0} = \vec{v}_0 t_1 + \frac{1}{2} \vec{g} t_1^2 $$
+
+\subsubsection*{2. Reemplazo y Cálculo}
+Sustituimos el tiempo calculado $t_1 = 2.93 \, \si{s}$, la velocidad inicial $\vec{v}_0 = 80\hat{i} + 40\sqrt{3}\hat{j}$ y la gravedad vectorial $\vec{g} = -10\hat{j}$:
+$$ \vec{r}_f = (80\hat{i} + 40\sqrt{3}\hat{j})(2.93) + \frac{1}{2} (-10\hat{j}) (2.93)^2 $$
+
+Distribuimos el tiempo en el primer paréntesis y elevamos al cuadrado en el segundo:
+$$ \vec{r}_f = (80 \times 2.93)\hat{i} + (40\sqrt{3} \times 2.93)\hat{j} - 5(8.5849)\hat{j} $$
+$$ \vec{r}_f = 234.4\hat{i} + (69.282 \times 2.93)\hat{j} - 42.9245\hat{j} $$
+$$ \vec{r}_f = 234.4\hat{i} + 202.996\hat{j} - 42.9245\hat{j} $$
+
+Restamos las componentes en el eje vertical ($\hat{j}$):
+$$ \vec{r}_f = 234.4\hat{i} + (202.996 - 42.9245)\hat{j} $$
+$$ \vec{r}_f = 234.4\hat{i} + 160.07\hat{j} \, \si{m} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{r}_f = 234.4\hat{i} + 160.07\hat{j} \, \si{m}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Se lanza una piedra verticalmente hacia arriba, de tal manera que esta alcanza una altura máxima de 10 metros. Entonces, el tiempo que tarda en recorrer los primeros 5 metros:
+\begin{enumerate}[label=\alph*)]
+    \item depende de la masa de la piedra.
+    \item es igual al tiempo de subida.
+    \item es igual al tiempo que tarda en recorrer los 5 metros siguientes.
+    \item es mayor que el tiempo que tarda en recorrer los 5 metros siguientes.
+    \item es menor que el tiempo que tarda en recorrer los 5 metros siguientes.
+\end{enumerate}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    \draw[thick, blue] (-1.5, 0) -- (1.5, 0);
+    \draw[fill=blue] (0, 0.2) circle (0.2);
+    \draw[->, thick, blue] (0, 0.5) -- (0, 1.5) node[right] {$v_0$};
+    
+    \draw[dashed] (-1, 2.5) -- (1, 2.5);
+    \draw[dashed] (-1, 5) -- (1, 5);
+    
+    \draw[<->] (-0.5, 0) -- (-0.5, 2.5) node[midway, left] {$5 \, \si{m}$};
+    \draw[<->] (-0.5, 2.5) -- (-0.5, 5) node[midway, left] {$5 \, \si{m}$};
+    
+    \node[right, text=blue] at (0.5, 1.25) {$v_{\text{mayor}}$};
+    \node[right, text=blue] at (0.5, 0.75) {$t_{\text{menor}}$};
+    
+    \node[right, text=green!60!black] at (0.5, 3.75) {$v_{\text{menor}}$};
+    \node[right, text=green!60!black] at (0.5, 3.25) {$t_{\text{mayor}}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Físico}
+El movimiento es una caída libre (lanzamiento vertical hacia arriba). La aceleración que actúa sobre la piedra es la gravedad ($g$), la cual apunta hacia abajo. Esto significa que a medida que la piedra sube, su rapidez va disminuyendo uniformemente hasta hacerse cero en la altura máxima ($10 \, \si{m}$).
+
+Debido a que la rapidez en el tramo inferior (de $0 \, \si{m}$ a $5 \, \si{m}$) es en todo momento mayor que la rapidez en el tramo superior (de $5 \, \si{m}$ a $10 \, \si{m}$), la piedra recorrerá la misma distancia ($5 \, \si{m}$) en menos tiempo en el primer tramo.
+
+\subsubsection*{2. Demostración Visual (Python)}
+Para que el modelo asimile correctamente la relación no lineal entre posición y tiempo, graficamos la función $y(t)$.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+g = 10.0
+h_max = 10.0
+v0 = np.sqrt(2 * g * h_max)
+t_max = v0 / g
+
+t = np.linspace(0, t_max, 100)
+y = v0 * t - 0.5 * g * t**2
+
+plt.figure(figsize=(6, 4))
+plt.plot(t, y, 'b-', linewidth=2, label='Posicion y(t)')
+
+t_5m = (v0 - np.sqrt(v0**2 - 2*g*5)) / g
+plt.axhline(5, color='gray', linestyle='--')
+plt.axvline(t_5m, color='r', linestyle='--', label=f't(5m) = {t_5m:.2f} s')
+plt.axvline(t_max, color='g', linestyle='--', label=f't(10m) = {t_max:.2f} s')
+
+plt.fill_betweenx([0, 5], 0, t_5m, color='red', alpha=0.2, label='Primeros 5m')
+plt.fill_betweenx([5, 10], t_5m, t_max, color='green', alpha=0.2, label='Siguientes 5m')
+
+plt.title("Lanzamiento Vertical: Posicion vs Tiempo")
+plt.xlabel("Tiempo (s)")
+plt.ylabel("Altura (m)")
+plt.legend()
+plt.grid(True)
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{3. Conclusión}
+Al observar la concavidad de la parábola, el primer intervalo de $5 \, \si{m}$ requiere una franja de tiempo mucho más estrecha ($t_{\text{menor}}$) que el segundo intervalo de $5 \, \si{m}$ ($t_{\text{mayor}}$), donde la curva se aplana debido a la pérdida de velocidad.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering Opción e) es menor que el tiempo que tarda en recorrer los 5 metros siguientes.
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Se dispara un proyectil desde la terraza de un edificio con una rapidez inicial de $25 \, \si{m/s}$ y un ángulo de $53.13^\circ$ por encima de la horizontal. Después de 4 segundos, el proyectil está:
+\begin{enumerate}[label=\alph*)]
+    \item bajando, en el nivel de lanzamiento.
+    \item bajando, en un punto ubicado por debajo del nivel de lanzamiento.
+    \item bajando, en un punto ubicado por encima del nivel de lanzamiento.
+    \item en el punto más alto de su trayectoria.
+    \item subiendo, en un punto ubicado por encima del nivel de lanzamiento.
+\end{enumerate}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    \draw[thick, pattern=north east lines] (-1, 0) rectangle (7, -0.3);
+    \draw[thick, blue] (-1, 0) -- (7, 0);
+    
+    \draw[dashed, blue] (0,0) parabola bend (3,3) (6,0);
+    
+    \draw[fill=blue] (0,0) circle (0.15);
+    \draw[->, thick, blue] (0,0) -- (1, 1.33) node[left] {$\vec{v}_0$};
+    \draw (0.5, 0) arc (0:53.13:0.5);
+    \node at (0.8, 0.3) {$\theta_0$};
+    
+    \draw[fill=blue] (6,0) circle (0.15) node[above right] {$4 \, \si{s}$};
+    
+    \draw[<->, dashed, blue] (3,0) -- (3,3) node[midway, right] {H};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Cinemático}
+El movimiento de proyectiles se divide en dos ejes independientes. Para conocer la posición vertical del proyectil con respecto al nivel de lanzamiento, evaluamos la componente $Y$ del movimiento.
+
+Se nos proporciona una ecuación clave para calcular el tiempo de vuelo respecto al nivel inicial:
+$$ t_v = \frac{2v_{0y}}{g} = \frac{2 v_0 \sin(\theta)}{g} $$
+
+\subsubsection*{2. Cálculo del Tiempo de Vuelo}
+Sustituyendo los valores dados en el problema (y asumiendo $g = 10 \, \si{m/s^2}$ para simplificar, como es común en este nivel de ejercicios):
+$$ t_v = \frac{2(25) \sin(53.13^\circ)}{10} $$
+Sabemos que $\sin(53.13^\circ) \approx 0.8$ (pertenece al triángulo notable $3-4-5$).
+$$ t_v = \frac{50 (0.8)}{10} = \frac{40}{10} = 4 \, \si{s} $$
+
+\subsubsection*{3. Visualización de la Trayectoria (Python)}
+Para comprobar la posición y el vector velocidad en $t=4 \, \si{s}$, generamos el gráfico de la trayectoria geométrica.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+v0 = 25.0
+theta = np.radians(53.13)
+g = 10.0
+
+v0x = v0 * np.cos(theta)
+v0y = v0 * np.sin(theta)
+
+t = np.linspace(0, 5, 100)
+x = v0x * t
+y = v0y * t - 0.5 * g * t**2
+
+plt.figure(figsize=(8, 4))
+plt.plot(x, y, 'b--', label='Trayectoria')
+plt.axhline(0, color='black', linewidth=2, label='Nivel de lanzamiento')
+
+t_eval = 4.0
+x_eval = v0x * t_eval
+y_eval = v0y * t_eval - 0.5 * g * t_eval**2
+
+plt.plot(x_eval, y_eval, 'ro', markersize=8, label=f'Posición a t={t_eval}s')
+
+vy_eval = v0y - g * t_eval
+plt.quiver(x_eval, y_eval, v0x, vy_eval, angles='xy', scale_units='xy', scale=5, color='red', label='Vector Velocidad')
+
+plt.title("Trayectoria del Proyectil")
+plt.xlabel("Posición X (m)")
+plt.ylabel("Posición Y (m)")
+plt.legend()
+plt.grid(True)
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{4. Conclusión}
+Puesto que el tiempo necesario para subir y regresar al mismo nivel de lanzamiento es exactamente $4 \, \si{s}$, en ese instante preciso el proyectil se encuentra en el origen vertical ($y=0$). Dado que está terminando su parábola en ese nivel, el vector velocidad apunta hacia abajo (componente vertical negativa). 
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering Opción a) bajando, en el nivel de lanzamiento.
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Dos automóviles $A$ y $B$ se mueven con rapidez constante a lo largo de redondeles concéntricos como se muestra en la figura. Si ambos tardan 1 minuto en completar 2 vueltas, entonces es correcto afirmar que:
+\begin{enumerate}[label=\alph*)]
+    \item el periodo de $A$ es mayor que el periodo de $B$.
+    \item el periodo de $A$ es menor que el periodo de $B$.
+    \item la frecuencia de $A$ es mayor que la frecuencia de $B$.
+    \item la rapidez de $A$ es mayor que la rapidez de $B$.
+    \item la rapidez de $A$ es menor que la rapidez de $B$.
+\end{enumerate}
+
+\begin{center}
+\begin{tikzpicture}[scale=1.5, >=Latex]
+    \draw[->] (-1.5, 0) -- (1.5, 0) node[right] {$x \, (+)$};
+    \draw[->] (0, -1.5) -- (0, 1.5) node[above] {$y \, (+)$};
+    
+    \draw[dashed, thick] (0,0) circle (0.6);
+    \draw[dashed, thick] (0,0) circle (1.2);
+    
+    \fill (0.6, 0.3) circle (0.08) node[right] {A};
+    \fill (-1.0, 0.6) circle (0.08) node[above left] {B};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis de Periodo y Frecuencia}
+El enunciado indica que \textbf{ambos} automóviles tardan el mismo tiempo en completar el mismo número de vueltas (2 vueltas en 1 minuto).
+El periodo ($T$) se define como el tiempo necesario para dar una vuelta completa:
+$$ T_A = T_B = \frac{60 \, \si{s}}{2 \, \text{vueltas}} = 30 \, \si{s} $$
+Al ser iguales los periodos, sus frecuencias angulares ($\omega$) también son idénticas:
+$$ \omega_A = \omega_B = \frac{2\pi}{T} $$
+Por lo tanto, las opciones a, b y c son incorrectas.
+
+\subsubsection*{2. Análisis de Rapidez Lineal}
+La relación entre la rapidez lineal ($v$), la frecuencia angular ($\omega$) y el radio ($R$) está dada por la ecuación:
+$$ v = \omega R $$
+Dado que $\omega$ es una constante para ambos automóviles, la rapidez lineal es directamente proporcional al radio. Como se observa en la figura, el automóvil $A$ recorre la pista interior, por lo que su radio es menor ($R_A < R_B$).
+
+Aplicando la lógica matemática: a menor radio, menor rapidez. Esto significa que para mantener el ritmo angular del automóvil $B$, el automóvil $A$ no necesita ir tan rápido linealmente porque la circunferencia que recorre es más pequeña.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering Opción e) la rapidez de $A$ es menor que la rapidez de $B$.
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+El propósito principal de un diagrama de cuerpo libre es:
+\begin{enumerate}[label=\alph*)]
+    \item describir las interacciones internas entre las distintas partes del cuerpo analizado.
+    \item identificar tanto las fuerzas internas como las externas que actúan simultáneamente sobre el cuerpo.
+    \item incluir todos los detalles geométricos del cuerpo, como dimensiones, forma y material.
+    \item mostrar únicamente las fuerzas que forman pares de acción y reacción.
+    \item representar las fuerzas externas que actúan sobre un cuerpo aislado del entorno.
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Fundamento Teórico}
+En el estudio de la dinámica y la aplicación de las Leyes de Newton, un Diagrama de Cuerpo Libre (DCL) es una herramienta conceptual y visual fundamental. El procedimiento consiste en "aislar" imaginariamente el cuerpo de interés de todo su entorno.
+
+Una vez que el cuerpo está aislado, representamos gráficamente todas las fuerzas que el \textbf{entorno} ejerce sobre él mediante vectores.
+
+\subsubsection*{2. Fuerzas Internas vs. Externas}
+Es de vital importancia comprender que en un DCL \textbf{solo se dibujan las fuerzas externas}. Las fuerzas internas (aquellas que las partes del propio cuerpo ejercen unas sobre otras) se cancelan en pares de acción y reacción por la Tercera Ley de Newton, y no contribuyen a la aceleración neta del centro de masa del cuerpo.
+
+Tal como resume el apunte, \textit{"en el DCL se dibujan solo las fuerzas externas porque son las únicas que pueden modificar el movimiento del cuerpo"}.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering Opción e) representar las fuerzas externas que actúan sobre un cuerpo aislado del entorno.
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+¿Cuál es la magnitud de la fuerza constante $\vec{F}$, paralela al plano inclinado liso, necesaria para que el bloque de la figura se mantenga en reposo? En la figura: $m = 200 \, \si{kg}$ ; $\theta = 36.87^\circ$.
+\begin{enumerate}[label=\alph*)]
+    \item $200 \, \si{N}$
+    \item $1200 \, \si{N}$
+    \item $1500 \, \si{N}$
+    \item $1600 \, \si{N}$
+    \item $2000 \, \si{N}$
+\end{enumerate}
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2, >=Latex]
+    \draw[thick] (0,0) -- (5,0);
+    \draw[thick] (0,0) -- (4, 1.5);
+    
+    \draw (0.8,0) arc (0:20.5:0.8);
+    \node at (1.1, 0.2) {$\theta$};
+    
+    \begin{scope}[rotate=20.5]
+        \draw[thick, fill=white] (2,0) rectangle (3.2, 0.8) node[midway] {$m$};
+        \draw[->, thick, black] (0.8, 0.4) -- (2, 0.4) node[midway, above] {$\vec{F}$};
+    \end{scope}
+    
+    \draw[pattern=north east lines] (0,-0.2) rectangle (5,0);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Físico del Equilibrio}
+El problema indica que el bloque se encuentra en un plano inclinado "liso" (sin fricción) y debe mantenerse "en reposo". De acuerdo con la Primera Ley de Newton, para que un cuerpo se mantenga en equilibrio (reposo), la sumatoria de las fuerzas que actúan sobre él debe ser igual a cero.
+$$ \sum \vec{F} = 0 $$
+
+Dado que el movimiento potencial ocurre a lo largo del plano inclinado, es conveniente inclinar nuestro sistema de referencia ($x, y$) de modo que el eje $x$ sea paralelo al plano inclinado y el eje $y$ sea perpendicular a este.
+
+\subsubsection*{2. Descomposición de Fuerzas (Python)}
+El peso ($\vec{P}$ o $\vec{W}$) siempre apunta verticalmente hacia abajo. En un plano inclinado, el peso se descompone en dos componentes:
+- $P_y$: Perpendicular al plano, se equilibra con la fuerza Normal ($\vec{N}$).
+- $P_x$: Paralela al plano, es la componente que empuja el bloque hacia abajo.
+
+Generamos el diagrama para visualizar esto:
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+theta_deg = 36.87
+theta = np.radians(theta_deg)
+
+fig, ax = plt.subplots(figsize=(6, 6))
+ax.set_aspect('equal')
+ax.axis('off')
+
+ax.plot([-2, 2], [0, 0], 'k--', alpha=0.3)
+ax.plot([0, 0], [-2, 2], 'k--', alpha=0.3)
+
+dx_x = 2 * np.cos(theta)
+dy_x = 2 * np.sin(theta)
+ax.plot([-dx_x, dx_x], [-dy_x, dy_x], 'b--', alpha=0.5)
+ax.text(dx_x + 0.1, dy_x, 'Eje x', color='blue')
+
+dx_y = -2 * np.sin(theta)
+dy_y = 2 * np.cos(theta)
+ax.plot([-dx_y, dx_y], [-dy_y, dy_y], 'b--', alpha=0.5)
+ax.text(dx_y, dy_y + 0.1, 'Eje y', color='blue')
+
+ax.plot(0, 0, 'ko', markersize=8)
+
+nx = -np.sin(theta) * 1.5
+ny = np.cos(theta) * 1.5
+ax.arrow(0, 0, nx, ny, head_width=0.1, color='blue', length_includes_head=True)
+ax.text(nx - 0.2, ny + 0.1, r'$\vec{N}$', color='blue', fontsize=14)
+
+fx = -np.cos(theta) * 1.2
+fy = -np.sin(theta) * 1.2
+ax.arrow(0, 0, fx, fy, head_width=0.1, color='blue', length_includes_head=True)
+ax.text(fx - 0.2, fy - 0.2, r'$\vec{F}$', color='blue', fontsize=14)
+
+px = 0
+py = -2
+ax.arrow(0, 0, px, py, head_width=0.1, color='green', length_includes_head=True)
+ax.text(px + 0.1, py - 0.2, r'$\vec{P}$', color='green', fontsize=14)
+
+px_comp = np.sin(theta) * 2 * np.cos(theta)
+py_comp = np.sin(theta) * 2 * np.sin(theta)
+ax.arrow(0, 0, px_comp, py_comp, head_width=0.08, color='green', alpha=0.5, length_includes_head=True)
+ax.text(px_comp + 0.1, py_comp - 0.1, r'$P_x$', color='green', fontsize=12)
+
+plt.title("Diagrama de Cuerpo Libre Rotado")
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{3. Planteamiento Matemático}
+Realizamos la sumatoria de fuerzas en el eje $x$ (paralelo al plano). Asumimos dirección positiva hacia arriba del plano. Las fuerzas involucradas son la fuerza $\vec{F}$ (hacia arriba) y la componente en $x$ del peso $P_x$ (hacia abajo).
+$$ \sum F_x = 0 $$
+$$ F - P_x = 0 $$
+
+Sabemos que la componente del peso paralela al plano es $P_x = m g \sin(\theta)$. Sustituyendo esto en nuestra ecuación de equilibrio:
+$$ F = m g \sin(\theta) $$
+
+Procedemos a evaluar con los datos del problema ($m = 200 \, \si{kg}$, $g = 10 \, \si{m/s^2}$, $\theta = 36.87^\circ$):
+$$ F = (200)(10) \sin(36.87^\circ) $$
+Considerando que el ángulo $36.87^\circ$ corresponde al triángulo notable de $3-4-5$, sabemos que $\sin(36.87^\circ) \approx 0.6$:
+$$ F = 2000 (0.6) $$
+$$ F = 1200 \, \si{N} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering Opción b) $1200 \, \si{N}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un automóvil acelera uniformemente en línea recta desde el reposo hasta alcanzar una rapidez de $20 \, \si{m/s}$ en $5$ segundos. ¿Cuál es la magnitud de la fuerza externa neta que actúa sobre un pasajero de $100 \, \si{kg}$?
+\begin{enumerate}[label=\alph*)]
+    \item $5 \, \si{N}$
+    \item $20 \, \si{N}$
+    \item $100 \, \si{N}$
+    \item $200 \, \si{N}$
+    \item $400 \, \si{N}$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Cinemático (Cálculo de la Aceleración)}
+Primero, necesitamos determinar la aceleración que experimenta el automóvil (y por ende, el pasajero que va dentro de él). Como el movimiento es rectilíneo uniformemente acelerado (MRUA), podemos usar la ecuación fundamental de la cinemática de velocidades:
+$$ v_f = v_0 + a \Delta t $$
+
+Sabemos que el auto parte del reposo ($v_0 = 0$), alcanza una rapidez final $v_f = 20 \, \si{m/s}$ en un tiempo $\Delta t = 5 \, \si{s}$. Despejamos la aceleración $a$:
+$$ 20 = 0 + a (5) $$
+$$ a = \frac{20}{5} $$
+$$ a = 4 \, \si{m/s^2} $$
+
+\subsubsection*{2. Análisis Dinámico (Segunda Ley de Newton)}
+Una vez que conocemos la aceleración del sistema, aplicamos la Segunda Ley de Newton específicamente sobre el pasajero. La ley establece que la fuerza neta externa aplicada sobre un cuerpo es proporcional a su masa multiplicada por la aceleración que adquiere:
+$$ \sum F = m a $$
+
+Sustituimos la masa del pasajero ($m = 100 \, \si{kg}$) y la aceleración calculada previamente:
+$$ \sum F = (100) (4) $$
+$$ \sum F = 400 \, \si{N} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering Opción e) $400 \, \si{N}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Se transporta una caja sobre la plataforma de un camión que se mueve con velocidad constante. Durante este trayecto el trabajo neto que se ejerce sobre la caja:
+\begin{enumerate}[label=\alph*)]
+    \item es activo.
+    \item es nulo.
+    \item es resistivo.
+    \item puede ser activo o resistivo, dependiendo de la masa de la caja.
+    \item puede ser activo o resistivo, dependiendo del tiempo que el camión se mueve.
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Fundamento Teórico: Teorema del Trabajo y la Energía}
+Para resolver este problema de manera directa y conceptual, recurrimos al Teorema del Trabajo y la Energía Cinética. Este teorema establece que el trabajo neto total ($W_{\text{neto}}$) realizado por todas las fuerzas externas sobre un objeto es igual al cambio en su energía cinética ($\Delta E_c$).
+$$ W_{\text{neto}} = \Delta E_c $$
+$$ W_{\text{neto}} = E_{c,f} - E_{c,i} $$
+$$ W_{\text{neto}} = \frac{1}{2} m v_f^2 - \frac{1}{2} m v_i^2 $$
+
+\subsubsection*{2. Análisis del Problema}
+El enunciado nos proporciona un dato crítico: el camión (y, por lo tanto, la caja que viaja en él) se mueve con \textbf{velocidad constante}.
+Si la velocidad es constante, implica que la velocidad inicial y la velocidad final son idénticas ($v_f = v_i$).
+
+En consecuencia, la energía cinética de la caja no cambia durante el trayecto:
+$$ \Delta E_c = 0 $$
+
+Aplicando esto a nuestro teorema, deducimos que si no hay cambio en la energía cinética, el trabajo neto realizado sobre el cuerpo debe ser estrictamente cero.
+$$ W_{\text{neto}} = 0 $$
+Un trabajo de cero julios se define conceptualmente como un trabajo "nulo".
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering Opción b) es nulo.
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+¿Cuánto se debe comprimir desde su longitud natural al resorte ideal vertical de la figura ($k = 50 \, \si{N/m}$) de tal manera que el bloque de masa $m = 2 \, \si{kg}$ alcance una altura $h = 1 \, \si{m}$?
+\begin{enumerate}[label=\alph*)]
+    \item $0.57 \, \si{m}$
+    \item $0.65 \, \si{m}$
+    \item $0.80 \, \si{m}$
+    \item $1.37 \, \si{m}$
+    \item $1.45 \, \si{m}$
+\end{enumerate}
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[thick, pattern=north east lines] (-1, 0) rectangle (1, -0.2);
+    \draw[thick] (-1, 0) -- (1, 0);
+    
+    \draw[thick] (0, 0) -- (-0.2, 0.1) -- (0.2, 0.3) -- (-0.2, 0.5) -- (0.2, 0.7) -- (-0.2, 0.9) -- (0, 1);
+    
+    \draw[thick, fill=white] (-0.4, 1) rectangle (0.4, 1.6) node[midway] {$m$};
+    
+    \draw[dashed] (0.4, 1) -- (1.5, 1);
+    \draw[dashed] (0.4, 2.5) -- (1.5, 2.5);
+    
+    \draw[<->, thick] (1.2, 1) -- (1.2, 2.5) node[midway, left] {$h$};
+    
+    \draw[->, thick] (-0.8, 0.5) -- (-0.8, 1) node[midway, left] {$l_0$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Principio de Conservación de la Energía}
+Dado que el resorte es ideal y no se mencionan fuerzas no conservativas (como la fricción con el aire), la energía mecánica del sistema masa-resorte-Tierra se conserva.
+$$ E_{M0} = E_{Mf} $$
+
+Debemos definir claramente nuestros dos estados:
+- \textbf{Estado Inicial (0):} El resorte está comprimido una distancia $x$. El bloque está en reposo ($v_0 = 0$). Si colocamos nuestro nivel de referencia de energía potencial gravitatoria ($y=0$) en este punto de máxima compresión, la energía mecánica inicial es puramente energía potencial elástica ($E_{pe0}$).
+- \textbf{Estado Final (f):} El bloque es lanzado y alcanza su altura máxima, por lo que su velocidad se hace momentáneamente cero ($v_f = 0$). El resorte ya se ha descomprimido. La energía mecánica es puramente energía potencial gravitatoria ($E_{pgf}$).
+
+\subsubsection*{2. Planteamiento de Ecuaciones}
+La altura total alcanzada por el bloque, medida desde nuestro nivel de referencia (el punto de compresión máxima), es la compresión $x$ más la altura $h$ por encima de la longitud natural $l_0$. Es decir, Altura Total = $h + x$.
+
+Igualamos las energías:
+$$ E_{pe0} = E_{pgf} $$
+$$ \frac{1}{2} k x^2 = m g (h + x) $$
+
+Sustituimos los valores dados: $k = 50 \, \si{N/m}$, $m = 2 \, \si{kg}$, $h = 1 \, \si{m}$, y asumimos $g = 10 \, \si{m/s^2}$ (común en este formato de evaluaciones):
+$$ \frac{1}{2} (50) x^2 = (2)(10) (1 + x) $$
+
+\subsubsection*{3. Resolución Matemática}
+Simplificamos la ecuación para formar una ecuación cuadrática:
+$$ 25 x^2 = 20 (1 + x) $$
+$$ 25 x^2 = 20 + 20x $$
+$$ 25 x^2 - 20x - 20 = 0 $$
+
+Dividimos toda la ecuación entre 5 para simplificar los coeficientes:
+$$ 5x^2 - 4x - 4 = 0 $$
+
+Aplicamos la fórmula general para ecuaciones cuadráticas $ax^2 + bx + c = 0$:
+$$ x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a} $$
+$$ x = \frac{-(-4) \pm \sqrt{(-4)^2 - 4(5)(-4)}}{2(5)} $$
+$$ x = \frac{4 \pm \sqrt{16 + 80}}{10} $$
+$$ x = \frac{4 \pm \sqrt{96}}{10} $$
+
+Sabemos que $\sqrt{96} \approx 9.798$. Descartamos la raíz negativa porque la compresión representa una distancia física positiva en nuestra definición:
+$$ x = \frac{4 + 9.798}{10} $$
+$$ x = \frac{13.798}{10} $$
+$$ x \approx 1.3798 \, \si{m} $$
+
+Redondeando a dos decimales, obtenemos que la compresión necesaria es $1.37 \, \si{m}$.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering Opción d) $1.37 \, \si{m}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+El rotor de un helicóptero gira de tal manera que completa 260 revoluciones cada minuto. Para el rotor determine la frecuencia en hercios.
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Físico y Conversión de Unidades}
+El problema nos proporciona la velocidad angular inicial en revoluciones por minuto ($\si{rev/min}$ o RPM). En el Sistema Internacional, la frecuencia se mide en Hercios ($\si{Hz}$), que equivale a revoluciones por segundo o ciclos por segundo ($\si{s^{-1}}$).
+
+Primero, convertiremos la velocidad angular a radianes por segundo ($\si{rad/s}$), que es la unidad estándar. Sabemos que una revolución completa equivale a $2\pi$ radianes y un minuto equivale a $60$ segundos:
+$$ \omega = 260 \, \frac{\text{rev}}{\text{min}} \cdot \left( \frac{2\pi \, \text{rad}}{1 \, \text{rev}} \right) \cdot \left( \frac{1 \, \text{min}}{60 \, \text{s}} \right) $$
+$$ \omega = \frac{260 \cdot 2\pi}{60} \, \si{rad/s} $$
+$$ \omega = \frac{520\pi}{60} \, \si{rad/s} $$
+$$ \omega = \frac{26}{3}\pi \, \si{rad/s} $$
+
+\subsubsection*{2. Cálculo de la Frecuencia}
+La relación fundamental entre la velocidad angular ($\omega$) y la frecuencia ($f$) está dada por la ecuación:
+$$ \omega = 2\pi f $$
+
+Despejamos la frecuencia $f$ y sustituimos el valor de $\omega$ que acabamos de calcular:
+$$ f = \frac{\omega}{2\pi} $$
+$$ f = \frac{\frac{26}{3}\pi}{2\pi} $$
+$$ f = \frac{26}{3 \cdot 2} $$
+$$ f = \frac{13}{3} \, \si{Hz} $$
+$$ f \approx 4.333 \, \si{Hz} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $f = 4.333 \, \si{Hz}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+El rotor de un helicóptero gira de tal manera que completa 260 revoluciones cada minuto. Determine la cantidad de revoluciones que completa en 12 segundos.
+
+\subsection*{Solución}
+
+\subsubsection*{1. Relación entre Frecuencia y Número de Vueltas}
+La frecuencia ($f$) nos indica el número de vueltas o revoluciones que da el rotor en un solo segundo. Por lo tanto, si queremos saber el número total de revoluciones ($\eta$ o $n$) en un intervalo de tiempo ($\Delta t$), simplemente multiplicamos la frecuencia por dicho tiempo:
+$$ \eta = f \cdot \Delta t $$
+
+\subsubsection*{2. Cálculo del Número de Revoluciones}
+Tomamos el valor de la frecuencia calculado en la parte anterior ($f \approx 4.333 \, \si{Hz}$) y el tiempo dado de $12 \, \si{s}$.
+
+$$ \eta = (4.333) (12) $$
+
+Si usamos la fracción exacta para no perder decimales ($f = 13/3$):
+$$ \eta = \left(\frac{13}{3}\right) (12) $$
+$$ \eta = 13 \cdot 4 $$
+$$ \eta = 52 \, \text{revoluciones} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\eta = 52 \, \text{revoluciones}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+El rotor de un helicóptero gira de tal manera que completa 260 revoluciones cada minuto. Para un punto ubicado en la punta de una de sus palas de 7.3 m de largo, determine su rapidez.
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Físico: Rapidez Tangencial}
+Todos los puntos de la pala del helicóptero giran con la misma velocidad angular ($\omega$), pero la rapidez lineal o tangencial ($v$) depende de qué tan lejos esté el punto del centro de rotación (el radio $R$). 
+
+La ecuación que relaciona estas variables es:
+$$ v = \omega R $$
+
+El problema nos indica que la pala tiene un largo de $7.3 \, \si{m}$, lo que corresponde al radio $R$ de la trayectoria circular que describe la punta de la pala.
+
+\subsubsection*{2. Visualización del Movimiento Circular (Python)}
+Generamos un esquema visto desde arriba para que el LLM relacione la longitud de la pala con el radio vectorial y la dirección tangencial de la rapidez.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+R = 7.3
+
+fig, ax = plt.subplots(figsize=(6, 6))
+ax.set_aspect('equal')
+ax.axis('off')
+
+theta = np.linspace(0, 2*np.pi, 100)
+x_circle = R * np.cos(theta)
+y_circle = R * np.sin(theta)
+ax.plot(x_circle, y_circle, 'k--', alpha=0.5, label='Trayectoria de la punta')
+
+ax.plot(0, 0, 'ko', markersize=8)
+ax.text(-0.5, -0.8, 'Eje\nRotor', ha='center')
+
+angle = np.pi / 4
+x_point = R * np.cos(angle)
+y_point = R * np.sin(angle)
+
+ax.plot([0, x_point], [0, y_point], 'b-', linewidth=3)
+ax.text(x_point/2 - 1, y_point/2 + 0.5, f'R = {R} m', color='blue', fontsize=12)
+
+ax.plot(x_point, y_point, 'ro', markersize=6)
+
+v_dx = -np.sin(angle) * 3
+v_dy = np.cos(angle) * 3
+ax.arrow(x_point, y_point, v_dx, v_dy, head_width=0.5, head_length=0.7, fc='red', ec='red')
+ax.text(x_point + v_dx - 1, y_point + v_dy + 0.5, r'$\vec{v}$ (Rapidez)', color='red', fontsize=14)
+
+plt.title("Vista superior del Rotor del Helicóptero")
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{3. Cálculo de la Rapidez}
+Sustituimos la velocidad angular en radianes por segundo ($\omega = \frac{26}{3}\pi \, \si{rad/s}$) y el radio ($R = 7.3 \, \si{m}$) en la fórmula:
+$$ v = \left( \frac{26}{3}\pi \right) (7.3) $$
+$$ v = \left( \frac{26 \cdot 7.3}{3} \right) \pi $$
+$$ v = \left( \frac{189.8}{3} \right) \pi $$
+$$ v \approx 198.75 \, \si{m/s} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $v = 198.75 \, \si{m/s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un bloque $B$ de $10 \, \si{kg}$ se encuentra sobre un plano liso inclinado y está unido mediante una cuerda ideal que pasa por una polea sin rozamiento a un bloque colgante $C$ de $20 \, \si{kg}$. Sobre el bloque $B$ actúa una fuerza constante de magnitud $F = 50 \, \si{N}$, aplicada hacia abajo del plano inclinado. Sin embargo, dicha fuerza no es suficiente para contrarrestar el peso del bloque $C$. En consecuencia, al soltarse el sistema desde el reposo, el bloque $C$ desciende y arrastra al bloque $B$ hacia arriba del plano. 
+
+Determine la magnitud de la fuerza normal.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2, >=Latex]
+    \draw[thick, pattern=north east lines] (0,0) -- (6,0) -- (6,-0.2) -- (0,-0.2) -- cycle;
+    \draw[thick] (0,0) -- (5, 2.887);
+    \draw[thick] (5, 2.887) -- (5, 0);
+    
+    \draw (0.8,0) arc (0:30:0.8);
+    \node at (1.1, 0.3) {$30^\circ$};
+    
+    \draw[thick] (5, 2.887) circle (0.2);
+    \draw[fill=black] (5, 2.887) circle (0.05);
+    
+    \begin{scope}[rotate=30]
+        \draw[thick, fill=white] (2.5, 0) rectangle (3.7, 0.8) node[midway] {$B$};
+        \draw[->, thick, black] (2.5, 0.4) -- (1.5, 0.4) node[above] {$\vec{F}$};
+        \draw[->, thick, red] (3.8, 1.0) -- (4.8, 1.0) node[above] {$\vec{a_B}$};
+        \draw[thick] (3.7, 0.4) -- (5.6, 0.4); 
+    \end{scope}
+    
+    \draw[thick] (5.2, 2.887) -- (5.2, 1.5);
+    \draw[thick, fill=white] (4.8, 0.7) rectangle (5.6, 1.5) node[midway] {$C$};
+    
+    \draw[->, thick, red] (5.8, 1.5) -- (5.8, 0.5) node[right] {$\vec{a_C}$};
+    
+    \draw[->, thick] (4.8, 3.2) arc (120:-30:0.4) node[above right] {mov};
+    \fill (4.8, 0) rectangle (5.0, 0.2);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Físico y Ejes de Referencia}
+Para el bloque $B$, que se encuentra sobre el plano inclinado, es conveniente establecer un sistema de coordenadas rotado. El eje $x$ será paralelo al plano inclinado (positivo hacia arriba, en la dirección del movimiento) y el eje $y$ será perpendicular al plano.
+
+La fuerza normal ($\vec{N}_B$) actúa únicamente en el eje $y$, equilibrando la componente perpendicular del peso del bloque ($\vec{P}_{By}$).
+
+\subsubsection*{2. Diagrama de Cuerpo Libre (Python)}
+Generamos el DCL del bloque $B$ para visualizar la descomposición del peso.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+theta = np.radians(30)
+fig, ax = plt.subplots(figsize=(6, 6))
+ax.set_aspect('equal')
+ax.axis('off')
+
+ax.plot([-2, 2], [0, 0], 'k:', alpha=0.5)
+ax.plot([0, 0], [-2, 2], 'k:', alpha=0.5)
+ax.text(2.1, 0, 'x', fontsize=12)
+ax.text(0, 2.1, 'y', fontsize=12)
+
+ax.plot(0, 0, 'ks')
+
+ax.arrow(0, 0, 0, 1.5, head_width=0.1, color='tab:blue', length_includes_head=True)
+ax.text(-0.5, 1.4, r'$\vec{N}_B$', color='tab:blue', fontsize=12)
+
+ax.arrow(0, 0, 1.5, 0, head_width=0.1, color='tab:blue', length_includes_head=True)
+ax.text(1.4, 0.2, r'$\vec{T}$', color='tab:blue', fontsize=12)
+
+ax.arrow(0, 0, -1.0, 0, head_width=0.1, color='tab:blue', length_includes_head=True)
+ax.text(-1.0, -0.3, r'$\vec{F}$', color='tab:blue', fontsize=12)
+
+px = -1.5 * np.sin(theta)
+py = -1.5 * np.cos(theta)
+ax.arrow(0, 0, px, py, head_width=0.1, color='tab:blue', length_includes_head=True)
+ax.text(px-0.4, py, r'$\vec{P}_B$', color='tab:blue', fontsize=12)
+
+ax.arrow(0, 0, px, 0, head_width=0.05, color='tab:green', alpha=0.5, length_includes_head=True)
+ax.arrow(0, 0, 0, py, head_width=0.05, color='tab:green', alpha=0.5, length_includes_head=True)
+ax.text(px-0.1, 0.1, r'$P_x$', color='tab:green', fontsize=12)
+ax.text(0.1, py-0.1, r'$P_y$', color='tab:green', fontsize=12)
+
+theta_arc = np.linspace(np.radians(270), np.radians(270-30), 20)
+ax.plot(0.4*np.cos(theta_arc), 0.4*np.sin(theta_arc), 'r-')
+ax.text(0.05, -0.6, r'$\theta$', color='red', fontsize=12)
+
+plt.title("DCL Bloque B (Ejes Rotados)")
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{3. Cálculo de la Fuerza Normal}
+Dado que el bloque no se mueve en la dirección perpendicular al plano, la sumatoria de fuerzas en el eje $y$ es cero. Asumiendo $g = 10 \, \si{m/s^2}$:
+$$ \sum F_y = 0 $$
+$$ N_B - P_{By} = 0 $$
+$$ N_B = P_{By} $$
+$$ N_B = m_B g \cos(30^\circ) $$
+$$ N_B = (10)(10) \cos(30^\circ) $$
+$$ N_B = 100 (0.866) $$
+$$ N_B = 86.60 \, \si{N} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $N_B = 86.60 \, \si{N}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un bloque $B$ de $10 \, \si{kg}$ se encuentra sobre un plano liso inclinado y está unido mediante una cuerda ideal que pasa por una polea sin rozamiento a un bloque colgante $C$ de $20 \, \si{kg}$. Sobre el bloque $B$ actúa una fuerza constante de magnitud $F = 50 \, \si{N}$, aplicada hacia abajo del plano inclinado. Sin embargo, dicha fuerza no es suficiente para contrarrestar el peso del bloque $C$. En consecuencia, al soltarse el sistema desde el reposo, el bloque $C$ desciende y arrastra al bloque $B$ hacia arriba del plano. 
+
+Determine la magnitud de la aceleración de los bloques y la magnitud de la tensión en la cuerda.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2, >=Latex]
+    \draw[thick, pattern=north east lines] (0,0) -- (6,0) -- (6,-0.2) -- (0,-0.2) -- cycle;
+    \draw[thick] (0,0) -- (5, 2.887);
+    \draw[thick] (5, 2.887) -- (5, 0);
+    
+    \draw (0.8,0) arc (0:30:0.8);
+    \node at (1.1, 0.3) {$30^\circ$};
+    
+    \draw[thick] (5, 2.887) circle (0.2);
+    \draw[fill=black] (5, 2.887) circle (0.05);
+    
+    \begin{scope}[rotate=30]
+        \draw[thick, fill=white] (2.5, 0) rectangle (3.7, 0.8) node[midway] {$B$};
+        \draw[->, thick, black] (2.5, 0.4) -- (1.5, 0.4) node[above] {$\vec{F}$};
+        \draw[->, thick, red] (3.8, 1.0) -- (4.8, 1.0) node[above] {$\vec{a_B}$};
+        \draw[thick] (3.7, 0.4) -- (5.6, 0.4); 
+    \end{scope}
+    
+    \draw[thick] (5.2, 2.887) -- (5.2, 1.5);
+    \draw[thick, fill=white] (4.8, 0.7) rectangle (5.6, 1.5) node[midway] {$C$};
+    
+    \draw[->, thick, red] (5.8, 1.5) -- (5.8, 0.5) node[right] {$\vec{a_C}$};
+    
+    \draw[->, thick] (4.8, 3.2) arc (120:-30:0.4) node[above right] {mov};
+    \fill (4.8, 0) rectangle (5.0, 0.2);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Diagrama de Cuerpo Libre del Bloque C (Python)}
+Para aplicar la Segunda Ley de Newton necesitamos visualizar las fuerzas sobre el bloque $C$. A diferencia de $B$, $C$ se mueve puramente en el eje vertical.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(4, 5))
+ax.set_aspect('equal')
+ax.axis('off')
+
+ax.plot([-1, 1], [0, 0], 'k:', alpha=0.5)
+ax.plot([0, 0], [-2, 2], 'k:', alpha=0.5)
+ax.text(1.1, 0, 'x', fontsize=12)
+ax.text(0, 2.1, 'y', fontsize=12)
+
+ax.plot(0, 0, 'ks')
+
+ax.arrow(0, 0, 0, 1.2, head_width=0.1, color='tab:blue', length_includes_head=True)
+ax.text(0.2, 1.1, r'$\vec{T}$', color='tab:blue', fontsize=14)
+
+ax.arrow(0, 0, 0, -1.8, head_width=0.1, color='tab:blue', length_includes_head=True)
+ax.text(0.2, -1.7, r'$\vec{P}_C$', color='tab:blue', fontsize=14)
+
+plt.title("DCL Bloque C")
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{2. Ecuaciones de Movimiento (Segunda Ley de Newton)}
+El sistema se mueve de forma conjunta, por lo que la magnitud de la aceleración ($a$) y de la tensión ($T$) es la misma para ambos bloques. Definimos como dirección positiva el sentido del movimiento dictado por el sistema.
+
+\textbf{Para el bloque B (Eje $x$ paralelo al plano):}
+Se mueve hacia arriba del plano. Las fuerzas a favor son la Tensión ($T$), y en contra actúan la Fuerza ($F$) y la componente paralela del peso ($P_{Bx} = m_B g \sin 30^\circ$).
+$$ \sum F_x = m_B a $$
+$$ -F - P_{Bx} + T = m_B a $$
+$$ -50 - (10)(10) \sin(30^\circ) + T = 10a $$
+$$ -50 - 100(0.5) + T = 10a $$
+$$ -50 - 50 + T = 10a $$
+$$ T - 10a = 100 \quad \text{--- (Ecuación 1)} $$
+
+\textbf{Para el bloque C (Eje $y$ vertical):}
+Si mantenemos el eje $y$ estándar (positivo hacia arriba), la aceleración del bloque $C$ es negativa porque se mueve hacia abajo ($-a$).
+$$ \sum F_y = m_C (-a) $$
+$$ T - P_C = - m_C a $$
+$$ T - m_C g = - m_C a $$
+$$ T - (20)(10) = -20a $$
+$$ T - 200 = -20a $$
+$$ T + 20a = 200 \quad \text{--- (Ecuación 2)} $$
+
+\subsubsection*{3. Resolución del Sistema de Ecuaciones}
+Tenemos el siguiente sistema lineal:
+\begin{align*}
+    1) \quad T - 10a &= 100 \\
+    2) \quad T + 20a &= 200
+\end{align*}
+
+Restando la Ecuación 1 de la Ecuación 2:
+$$ (T + 20a) - (T - 10a) = 200 - 100 $$
+$$ T + 20a - T + 10a = 100 $$
+$$ 30a = 100 $$
+$$ a = \frac{100}{30} \approx 3.33 \, \si{m/s^2} $$
+
+Para hallar la tensión, sustituimos $a$ en la Ecuación 1:
+$$ T - 10(3.33) = 100 $$
+$$ T - 33.33 = 100 $$
+$$ T = 133.33 \, \si{N} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering 
+$a = 3.33 \, \si{m/s^2}$ \\
+$T = 133.33 \, \si{N}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un anillo de masa $m = 2 \, \si{kg}$ se desliza a lo largo de una guía rígida y lisa, tal como se muestra en la figura. El anillo parte desde el reposo en el punto $A$ y se desliza hasta el punto $B$. El anillo está unido a un resorte, el cual se encuentra en su longitud natural cuando el anillo pasa por el punto $B$. La constante elástica del resorte es $k = 1000 \, \si{N/m}$. Determine la deformación del resorte cuando el anillo se encuentra en el punto $A$.
+
+\begin{center}
+\begin{tikzpicture}[scale=2, >=Latex]
+    \draw[dashed, blue] (0, 0) -- (1.5, 0) node[above left] {NR};
+    
+    \draw[thick] (1.2, 1.5) .. controls (1.2, 0.5) and (0.8, 0) .. (0,0) node[below] {$B$};
+    
+    \fill[gray!50] (-0.1, 0.8) rectangle (0, 1.0);
+    \draw[thick] (0, 0.8) -- (0, 1.0);
+    \fill (0, 0.9) circle (0.04);
+    
+    \draw[thick, fill=gray!30] (1.15, 1.45) rectangle (1.25, 1.55) node[right] {$A$};
+    
+    \draw[thick] (0, 0.9) -- (0.1, 1.05) -- (0.3, 0.85) -- (0.5, 1.25) -- (0.7, 1.05) -- (0.9, 1.45) -- (1.1, 1.25) -- (1.2, 1.5);
+    \node[blue] at (0.8, 1.0) {$l_f$};
+    
+    \draw[dashed] (0, 0.9) -- (0, 1.8);
+    \draw[dashed] (1.2, 1.5) -- (1.2, 1.8);
+    \draw[<->] (0, 1.7) -- (1.2, 1.7) node[midway, above] {$1.2 \, \si{m}$};
+    
+    \draw[dashed] (0, 0.9) -- (-0.5, 0.9);
+    \draw[dashed] (1.2, 1.5) -- (-0.5, 1.5);
+    \draw[<->] (-0.3, 0.9) -- (-0.3, 1.5) node[midway, left] {$0.6 \, \si{m}$};
+    
+    \draw[dashed] (0, 0) -- (-0.5, 0);
+    \draw[<->] (-0.3, 0) -- (-0.3, 0.9) node[midway, left] {$0.9 \, \si{m}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Geométrico de las Longitudes del Resorte}
+El problema nos indica un dato fundamental: el resorte se encuentra en su \textbf{longitud natural} ($l_0$) cuando el anillo pasa por el punto $B$. Observando el diagrama, el punto $B$ se encuentra directamente debajo del pivote del resorte. La distancia vertical desde el pivote hasta $B$ es de $0.9 \, \si{m}$.
+Por lo tanto, la longitud natural del resorte sin deformar es:
+$$ l_0 = 0.9 \, \si{m} $$
+
+\subsubsection*{2. Cálculo de la Longitud Final ($l_f$) en el punto A}
+Cuando el anillo está en el punto $A$, el resorte se ha estirado formando la hipotenusa de un triángulo rectángulo.
+\begin{itemize}
+    \item La base del triángulo (distancia horizontal) es $1.2 \, \si{m}$.
+    \item La altura del triángulo (distancia vertical desde el pivote hasta $A$) es $0.6 \, \si{m}$.
+\end{itemize}
+
+Aplicamos el Teorema de Pitágoras para hallar la longitud estirada del resorte ($l_f$):
+$$ l_f = \sqrt{(\text{base})^2 + (\text{altura})^2} $$
+$$ l_f = \sqrt{1.2^2 + 0.6^2} $$
+$$ l_f = \sqrt{1.44 + 0.36} $$
+$$ l_f = \sqrt{1.80} \approx 1.3416 \, \si{m} $$
+
+\subsubsection*{3. Cálculo de la Deformación ($x$)}
+La deformación del resorte ($x$) es la diferencia entre su longitud estirada en el punto $A$ y su longitud natural:
+$$ x = l_f - l_0 $$
+$$ x = 1.3416 - 0.9 $$
+$$ x = 0.4416 \, \si{m} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $x \approx 0.441 \, \si{m}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un anillo de masa $m = 2 \, \si{kg}$ se desliza a lo largo de una guía rígida y lisa, tal como se muestra en la figura. El anillo parte desde el reposo en el punto $A$ y se desliza hasta el punto $B$. El anillo está unido a un resorte, el cual se encuentra en su longitud natural cuando el anillo pasa por el punto $B$. La constante elástica del resorte es $k = 1000 \, \si{N/m}$. 
+
+Determine la energía mecánica del sistema en el punto $A$, considerando como nivel de referencia de la energía potencial gravitatoria el punto $B$.
+
+\begin{center}
+\begin{tikzpicture}[scale=2, >=Latex]
+    \draw[dashed, blue] (0, 0) -- (1.5, 0) node[above left] {NR};
+    
+    \draw[thick] (1.2, 1.5) .. controls (1.2, 0.5) and (0.8, 0) .. (0,0) node[below] {$B$};
+    
+    \fill[gray!50] (-0.1, 0.8) rectangle (0, 1.0);
+    \draw[thick] (0, 0.8) -- (0, 1.0);
+    \fill (0, 0.9) circle (0.04);
+    
+    \draw[thick, fill=gray!30] (1.15, 1.45) rectangle (1.25, 1.55) node[right] {$A$};
+    
+    \draw[thick] (0, 0.9) -- (0.1, 1.05) -- (0.3, 0.85) -- (0.5, 1.25) -- (0.7, 1.05) -- (0.9, 1.45) -- (1.1, 1.25) -- (1.2, 1.5);
+    \node[blue] at (0.8, 1.0) {$l_f$};
+    
+    \draw[dashed] (0, 0.9) -- (0, 1.8);
+    \draw[dashed] (1.2, 1.5) -- (1.2, 1.8);
+    \draw[<->] (0, 1.7) -- (1.2, 1.7) node[midway, above] {$1.2 \, \si{m}$};
+    
+    \draw[dashed] (0, 0.9) -- (-0.5, 0.9);
+    \draw[dashed] (1.2, 1.5) -- (-0.5, 1.5);
+    \draw[<->] (-0.3, 0.9) -- (-0.3, 1.5) node[midway, left] {$0.6 \, \si{m}$};
+    
+    \draw[dashed] (0, 0) -- (-0.5, 0);
+    \draw[<->] (-0.3, 0) -- (-0.3, 0.9) node[midway, left] {$0.9 \, \si{m}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Desglose de la Energía Mecánica}
+La energía mecánica total en el punto $A$ ($E_{MA}$) es la suma de tres tipos de energía:
+$$ E_{MA} = E_{c_A} + E_{pg_A} + E_{pe_A} $$
+
+\begin{itemize}
+    \item \textbf{Energía Cinética ($E_{c_A}$):} El problema indica que el anillo "parte desde el reposo", lo que significa que su velocidad inicial es nula ($v_A = 0$). Por lo tanto, $E_{c_A} = 0$.
+    \item \textbf{Energía Potencial Gravitatoria ($E_{pg_A}$):} Evaluamos la altura total de $A$ respecto al Nivel de Referencia (NR) que se encuentra en $B$. La altura total es $h = 0.9 \, \si{m} + 0.6 \, \si{m} = 1.5 \, \si{m}$.
+    \item \textbf{Energía Potencial Elástica ($E_{pe_A}$):} Se debe a la deformación del resorte en el punto $A$, la cual calculamos en el literal anterior ($x = 0.4416 \, \si{m}$).
+\end{itemize}
+
+\subsubsection*{2. Cálculo de las Energías}
+Calculamos la energía potencial gravitatoria ($m = 2 \, \si{kg}$, $g = 10 \, \si{m/s^2}$):
+$$ E_{pg_A} = m g h $$
+$$ E_{pg_A} = (2)(10)(1.5) = 30 \, \si{J} $$
+
+Calculamos la energía potencial elástica ($k = 1000 \, \si{N/m}$):
+$$ E_{pe_A} = \frac{1}{2} k x^2 $$
+$$ E_{pe_A} = \frac{1}{2} (1000) (0.4416)^2 $$
+$$ E_{pe_A} = 500 (0.195) $$
+$$ E_{pe_A} \approx 97.24 \, \si{J} $$
+
+Sumamos para obtener la energía mecánica total:
+$$ E_{MA} = 0 + 30 + 97.24 $$
+$$ E_{MA} = 127.24 \, \si{J} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $E_{MA} = 127.24 \, \si{J}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un anillo de masa $m = 2 \, \si{kg}$ se desliza a lo largo de una guía rígida y lisa, tal como se muestra en la figura. El anillo parte desde el reposo en el punto $A$ y se desliza hasta el punto $B$. El anillo está unido a un resorte, el cual se encuentra en su longitud natural cuando el anillo pasa por el punto $B$. La constante elástica del resorte es $k = 1000 \, \si{N/m}$. 
+
+Determine la rapidez del anillo al pasar por el punto $B$.
+
+\begin{center}
+\begin{tikzpicture}[scale=2, >=Latex]
+    \draw[dashed, blue] (0, 0) -- (1.5, 0) node[above left] {NR};
+    
+    \draw[thick] (1.2, 1.5) .. controls (1.2, 0.5) and (0.8, 0) .. (0,0) node[below] {$B$};
+    
+    \fill[gray!50] (-0.1, 0.8) rectangle (0, 1.0);
+    \draw[thick] (0, 0.8) -- (0, 1.0);
+    \fill (0, 0.9) circle (0.04);
+    
+    \draw[thick, fill=gray!30] (1.15, 1.45) rectangle (1.25, 1.55) node[right] {$A$};
+    
+    \draw[thick] (0, 0.9) -- (0.1, 1.05) -- (0.3, 0.85) -- (0.5, 1.25) -- (0.7, 1.05) -- (0.9, 1.45) -- (1.1, 1.25) -- (1.2, 1.5);
+    \node[blue] at (0.8, 1.0) {$l_f$};
+    
+    \draw[dashed] (0, 0.9) -- (0, 1.8);
+    \draw[dashed] (1.2, 1.5) -- (1.2, 1.8);
+    \draw[<->] (0, 1.7) -- (1.2, 1.7) node[midway, above] {$1.2 \, \si{m}$};
+    
+    \draw[dashed] (0, 0.9) -- (-0.5, 0.9);
+    \draw[dashed] (1.2, 1.5) -- (-0.5, 1.5);
+    \draw[<->] (-0.3, 0.9) -- (-0.3, 1.5) node[midway, left] {$0.6 \, \si{m}$};
+    
+    \draw[dashed] (0, 0) -- (-0.5, 0);
+    \draw[<->] (-0.3, 0) -- (-0.3, 0.9) node[midway, left] {$0.9 \, \si{m}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Visualización de la Conservación de Energía (Python)}
+Dado que la guía es lisa (no hay fricción que disipe energía en forma de calor) y la única otra fuerza que hace trabajo es el resorte (fuerza conservativa), la Energía Mecánica se conserva.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+labels = ['Estado A', 'Estado B']
+epg = [30.0, 0.0]
+epe = [97.24, 0.0]
+ec = [0.0, 127.24]
+
+x = np.arange(len(labels))
+width = 0.5
+
+fig, ax = plt.subplots(figsize=(6, 5))
+p1 = ax.bar(x, epg, width, label='E. Potencial Gravitatoria', color='tab:green')
+p2 = ax.bar(x, epe, width, bottom=epg, label='E. Potencial Elastica', color='tab:blue')
+p3 = ax.bar(x, ec, width, bottom=np.array(epg)+np.array(epe), label='E. Cinetica', color='tab:red')
+
+ax.set_ylabel('Energia (Joules)')
+ax.set_title('Principio de Conservacion de la Energia Mecanica')
+ax.set_xticks(x)
+ax.set_xticklabels(labels)
+
+ax.axhline(127.24, color='black', linestyle='--', alpha=0.5)
+ax.text(1.3, 130, 'E. Mecanica Total = 127.24 J', fontsize=10)
+
+ax.legend()
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{2. Análisis del Estado en B}
+Por el Principio de Conservación de la Energía Mecánica:
+$$ E_{MA} = E_{MB} $$
+
+En el punto $B$:
+\begin{itemize}
+    \item $E_{pg_B} = 0$, ya que el punto $B$ es nuestro nivel de referencia ($h = 0$).
+    \item $E_{pe_B} = 0$, ya que el problema establece que en $B$ el resorte está en su longitud natural ($x = 0$).
+\end{itemize}
+Esto significa que toda la energía potencial acumulada en $A$ se transforma íntegramente en energía cinética ($E_{c_B}$) al llegar al punto $B$.
+
+\subsubsection*{3. Cálculo de la Rapidez}
+Planteamos la ecuación:
+$$ E_{MA} = E_{c_B} $$
+$$ 127.24 = \frac{1}{2} m v_B^2 $$
+$$ 127.24 = \frac{1}{2} (2) v_B^2 $$
+$$ 127.24 = v_B^2 $$
+
+Despejamos $v_B$ sacando la raíz cuadrada:
+$$ v_B = \sqrt{127.24} $$
+$$ v_B \approx 11.28 \, \si{m/s} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $v = 11.28 \, \si{m/s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Desde una altura de $10$ metros se deja caer una piedra. Entonces el tiempo al recorrer los primeros $5$ metros:
+\begin{enumerate}[label=\alph*)]
+    \item es menor al tiempo que tarda en recorrer los últimos $5$ metros.
+    \item es mayor al tiempo que tarda en recorrer los últimos $5$ metros.
+    \item es igual al tiempo que tarda en recorrer los últimos $5$ metros.
+    \item es igual al doble de tiempo que tarda en recorrer los últimos $5$ metros.
+    \item es igual a la mitad de tiempo que tarda en recorrer los últimos $5$ metros.
+\end{enumerate}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    \draw[thick, blue] (-1.5, 0) -- (1.5, 0);
+    \draw[pattern=north east lines, draw=none] (-1.5, -0.3) rectangle (1.5, 0);
+    
+    \draw[dashed, gray] (-1, 3) -- (1, 3);
+    \draw[dashed, gray] (-1, 6) -- (1, 6);
+    
+    \draw[fill=blue] (0, 6.2) circle (0.2) node[right, xshift=10pt] {$v_0 = 0$};
+    
+    \draw[<->] (-0.5, 3) -- (-0.5, 6) node[midway, left] {$5 \, \si{m}$};
+    \draw[<->] (-0.5, 0) -- (-0.5, 3) node[midway, left] {$5 \, \si{m}$};
+    
+    \node[right, text=gray] at (0.2, 4.8) {$v_{\text{menor}}$};
+    \node[right, text=gray] at (0.2, 4.2) {$t_{\text{mayor}}$};
+    
+    \node[right, text=gray] at (0.2, 1.8) {$v_{\text{mayor}}$};
+    \node[right, text=gray] at (0.2, 1.2) {$t_{\text{menor}}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Físico de la Caída Libre}
+Cuando un objeto se deja caer ($v_0 = 0$), experimenta un movimiento rectilíneo uniformemente variado (MRUV) acelerado por la gravedad ($g$). Esto significa que su rapidez aumenta constantemente a medida que desciende.
+
+\begin{itemize}
+    \item \textbf{Primeros 5 metros:} La piedra inicia desde el reposo. Durante este tramo, sus velocidades son relativamente bajas (van desde $0$ hasta una velocidad intermedia). Dado que la rapidez promedio en este tramo es pequeña ($v_{\text{menor}}$), le tomará un mayor tiempo ($t_{\text{mayor}}$) recorrer esta distancia.
+    \item \textbf{Últimos 5 metros:} La piedra ya ingresa a este tramo con una velocidad considerable adquirida en la primera mitad. Además, la gravedad sigue acelerándola. Su rapidez promedio en este segundo tramo es mucho más alta ($v_{\text{mayor}}$). Al moverse más rápido, cubre la misma distancia ($5 \, \si{m}$) en un lapso de tiempo mucho más corto ($t_{\text{menor}}$).
+\end{itemize}
+
+\subsubsection*{2. Demostración Visual (Python)}
+Podemos visualizar esta relación no lineal graficando la posición vertical en función del tiempo.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+g = 10.0
+h0 = 10.0
+
+t_total = np.sqrt(2 * h0 / g)
+t = np.linspace(0, t_total, 100)
+
+y = h0 - 0.5 * g * t**2
+
+t_5m = np.sqrt(2 * 5.0 / g)
+
+fig, ax = plt.subplots(figsize=(6, 4))
+ax.plot(t, y, 'b-', linewidth=2, label='Posición y(t)')
+
+ax.axhline(5, color='gray', linestyle='--')
+ax.axvline(t_5m, color='r', linestyle='--', label=f't para primeros 5m = {t_5m:.2f} s')
+ax.axvline(t_total, color='g', linestyle='--', label=f't total = {t_total:.2f} s')
+
+ax.fill_betweenx([5, 10], 0, t_5m, color='red', alpha=0.2)
+ax.fill_betweenx([0, 5], t_5m, t_total, color='green', alpha=0.2)
+
+ax.annotate('Mayor tiempo\n(Menor rapidez)', xy=(t_5m/2, 7.5), ha='center', color='red')
+ax.annotate('Menor tiempo\n(Mayor rapidez)', xy=((t_total+t_5m)/2, 2.5), ha='center', color='green')
+
+ax.set_title("Caída Libre: Posición vs Tiempo")
+ax.set_xlabel("Tiempo (s)")
+ax.set_ylabel("Altura (m)")
+ax.grid(True)
+plt.show()
+\end{lstlisting}
+
+Por lógica y observación gráfica, el tiempo para el primer tramo es indiscutiblemente mayor que el tiempo para el segundo tramo.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering Opción b) es mayor al tiempo que tarda en recorrer los últimos 5 metros.
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un proyectil es lanzado con una rapidez inicial $v_0$ y un ángulo $\theta_0$ sobre la horizontal. Al alcanzar la altura máxima de su trayectoria, se puede afirmar que:
+\begin{enumerate}[label=\alph*)]
+    \item La rapidez es máxima y la velocidad es paralela a la gravedad.
+    \item La rapidez es mínima y la velocidad es perpendicular a la gravedad.
+    \item La rapidez es mínima y la velocidad es opuesta a la gravedad.
+    \item El ángulo entre la velocidad y la gravedad aumenta indefinidamente.
+    \item La velocidad es nula y la gravedad permanece constante.
+\end{enumerate}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9, >=Latex]
+    \draw[thick, pattern=north east lines] (-1, 0) rectangle (7, -0.3);
+    \draw[thick, blue] (-1, 0) -- (7, 0);
+    
+    \draw[dashed, blue] (0,0) parabola bend (3,3) (6,0);
+    
+    \draw[fill=blue] (0,0) circle (0.15);
+    \draw[->, thick, blue] (0,0) -- (0.8, 1.2) node[left] {$\vec{v}_0$};
+    \draw (0.5, 0) arc (0:56:0.5);
+    \node at (0.8, 0.3) {$\theta_0$};
+    
+    \draw[fill=blue] (3,3) circle (0.15);
+    
+    \draw[->, thick, blue] (3,3) -- (4.5, 3) node[above] {$\vec{v}_x$};
+    \draw[->, thick, gray] (3,3) -- (3, 1.8) node[left] {$\vec{g}$};
+    
+    \fill[red] (3,3) rectangle (3.2, 2.8);
+    
+    \draw[<->, dashed, blue] (2.8,0) -- (2.8,3) node[midway, left] {H};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Descomposición de la Velocidad}
+El movimiento parabólico es un movimiento bidimensional que se compone de:
+\begin{itemize}
+    \item \textbf{Eje horizontal ($x$):} Movimiento Rectilíneo Uniforme (MRU). La componente de la velocidad horizontal es constante en toda la trayectoria: $v_x = v_0 \cos \theta_0$.
+    \item \textbf{Eje vertical ($y$):} Movimiento Rectilíneo Uniformemente Variado (MRUV). La gravedad acelera el proyectil hacia abajo. El proyectil sube perdiendo velocidad vertical hasta que $v_y = 0$ en el punto más alto, y luego comienza a caer.
+\end{itemize}
+
+\subsubsection*{2. Análisis en la Altura Máxima ($H$)}
+La rapidez total del proyectil en cualquier instante está dada por el módulo de su vector velocidad:
+$$ v = \sqrt{v_x^2 + v_y^2} $$
+
+En el punto de altura máxima, el proyectil deja de subir, por lo que su velocidad vertical es instantáneamente nula ($v_y = 0$). Sustituyendo esto en la fórmula de la rapidez:
+$$ v = \sqrt{v_x^2 + 0^2} = v_x $$
+Dado que $v_x$ siempre está presente y es constante, mientras que $v_y$ varía de un valor positivo a cero y luego a valores negativos, es justo en este punto donde la rapidez global alcanza su \textbf{valor mínimo}.
+
+\subsubsection*{3. Análisis Vectorial}
+En la altura máxima:
+\begin{itemize}
+    \item El vector velocidad ($\vec{v}$) tiene únicamente componente horizontal ($\vec{v} = v_x \hat{i}$). Por ende, es tangente a la trayectoria y completamente horizontal.
+    \item El vector aceleración debida a la gravedad ($\vec{g}$) apunta siempre directamente hacia abajo ($\vec{g} = -g \hat{j}$).
+\end{itemize}
+Geométricamente, una línea horizontal y una línea vertical forman un ángulo de $90^\circ$. Por lo tanto, en este instante exacto, la velocidad y la gravedad son perpendiculares.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering Opción b) La rapidez es mínima y la velocidad es perpendicular a la gravedad.
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una persona $A$ se encuentra en el Ecuador y otra persona $B$ está cerca del Polo Norte. Considerando la rotación de la Tierra como un MCU para cada persona, se afirma que:
+\begin{enumerate}[label=\alph*)]
+    \item Ambas personas experimentan la misma velocidad y aceleración normal.
+    \item La persona $B$ tiene mayor frecuencia que la persona $A$.
+    \item La persona $A$ tiene mayor rapidez angular que la persona $B$.
+    \item La persona $B$ tiene mayor período que la persona $A$.
+    \item Ambas personas recorren el mismo desplazamiento angular en intervalos de tiempos iguales.
+\end{enumerate}
+
+\begin{center}
+\begin{tikzpicture}[scale=1.5, >=Latex]
+    \draw[thick] (0,0) circle (1);
+    
+    \draw[dashed, gray] (-1,0) arc (180:360:1 and 0.3);
+    \draw[dashed, gray] (1,0) arc (0:180:1 and 0.3);
+    
+    \draw[dashed, gray] (-0.6,0.8) arc (180:360:0.6 and 0.15);
+    \draw[dashed, gray] (0.6,0.8) arc (0:180:0.6 and 0.15);
+    
+    \draw[dashed, gray] (0, 1.3) -- (0, -1.3);
+    \draw[->, thick, black] (-0.2, 1.2) arc (180:0:0.2 and 0.05) node[above] {eje};
+    
+    \fill (-1, 0) circle (0.05) node[left] {A};
+    
+    \fill (-0.6, 0.8) circle (0.05) node[left] {B};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Concepto de Rotación de Cuerpos Rígidos}
+La Tierra es un cuerpo sólido (rígido) que rota sobre su propio eje. En un cuerpo rígido en rotación, absolutamente todos los puntos que lo conforman completan una vuelta entera exactamente al mismo tiempo, independientemente de su latitud o distancia al eje de rotación.
+
+El tiempo que tarda la Tierra en dar una vuelta completa es el período ($T$), el cual es de $24$ horas para cualquier habitante del planeta. Por lo tanto:
+$$ T_A = T_B = 24 \, \si{h} $$
+
+Dado que la frecuencia ($f = 1/T$) y la velocidad angular ($\omega = 2\pi/T$) dependen exclusivamente del período, estas magnitudes angulares también son idénticas para la persona en el Ecuador ($A$) y la persona cerca del Polo Norte ($B$):
+$$ \omega_A = \omega_B $$
+
+\subsubsection*{2. Desplazamiento Angular}
+La velocidad angular ($\omega$) se define como la razón de cambio del desplazamiento angular ($\Delta \theta$) respecto al tiempo ($\Delta t$):
+$$ \omega = \frac{\Delta \theta}{\Delta t} $$
+
+Dado que la velocidad angular de la Tierra es constante para todos los puntos ($\omega_A = \omega_B$), se concluye matemáticamente que, para un mismo intervalo de tiempo ($\Delta t$), el desplazamiento angular ($\Delta \theta$) barrido será exactamente el mismo.
+$$ \Delta \theta_A = \Delta \theta_B $$
+
+Ambas personas girarán la misma cantidad de grados (por ejemplo, $15^\circ$ cada hora), sin importar que el radio de giro de $A$ (Ecuador) sea inmensamente mayor que el radio de giro de $B$ (Polo). Es importante destacar que aunque el \textit{desplazamiento angular} es igual, la \textit{rapidez lineal} ($v = \omega R$) de $A$ será mucho mayor que la de $B$ por tener un mayor radio de giro.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering Opción e) Ambas personas recorren el mismo desplazamiento angular en intervalos de tiempos iguales.
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un bloque de $30 \, \si{kg}$ está bajo la acción de una fuerza $F = 30 \, \si{N}$ como se muestra en la figura. La magnitud de la fuerza normal es:
+\begin{enumerate}[label=\alph*)]
+    \item $315 \, \si{N}$
+    \item $300 \, \si{N}$
+    \item $285 \, \si{N}$
+    \item $326 \, \si{N}$
+    \item Cero porque es liso.
+\end{enumerate}
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2, >=Latex]
+    \draw[thick, pattern=north east lines] (0,0) rectangle (4,-0.2);
+    \draw[thick] (0,0) -- (4,0);
+    \draw[<-] (3.5, 0) .. controls (3.5, -0.4) and (3.2, -0.4) .. (3.2, -0.6) node[below] {liso};
+    
+    \draw[thick, fill=white] (1.5,0) rectangle (2.7, 0.8) node[midway] {$m$};
+    
+    \draw[->, thick, black] (0.5, 1.37) -- (1.5, 0.8) node[pos=0, above] {$\vec{F}$};
+    
+    \draw[dashed] (0.5, 0.8) -- (1.5, 0.8);
+    \draw (0.9, 0.8) arc (180:150:0.4);
+    \node at (0.6, 1.0) {$30^\circ$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Físico en el Eje Vertical}
+El bloque se encuentra apoyado sobre una superficie horizontal, lo que significa que no hay movimiento ni aceleración en el eje vertical ($y$). Por la Primera Ley de Newton, el sistema está en equilibrio en esa dirección.
+
+Las fuerzas que actúan en el eje vertical son:
+\begin{itemize}
+    \item El peso ($P = mg$) apuntando hacia abajo.
+    \item La fuerza normal ($N$) ejercida por la superficie apuntando hacia arriba.
+    \item La componente vertical de la fuerza aplicada ($F_y$), que al estar empujando el bloque en diagonal hacia abajo, también aporta una fuerza hacia abajo.
+\end{itemize}
+
+\subsubsection*{2. Diagrama de Cuerpo Libre (Python)}
+Para visualizar claramente por qué la fuerza Normal es mayor que el peso, graficamos el DCL.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig, ax = plt.subplots(figsize=(5, 5))
+ax.set_aspect('equal')
+ax.axis('off')
+
+ax.plot([-2, 2], [0, 0], 'k:', alpha=0.5)
+ax.plot([0, 0], [-2.5, 2], 'k:', alpha=0.5)
+ax.text(2.1, 0, 'x', fontsize=12)
+ax.text(0, 2.1, 'y', fontsize=12)
+
+ax.plot(0, 0, 'ks', markersize=10)
+
+ax.arrow(0, 0, 0, 1.8, head_width=0.1, color='tab:blue', length_includes_head=True)
+ax.text(-0.4, 1.5, r'$\vec{N}$', color='tab:blue', fontsize=14)
+
+ax.arrow(0, 0, 0, -1.2, head_width=0.1, color='tab:blue', length_includes_head=True)
+ax.text(-0.4, -1.0, r'$\vec{P}$', color='tab:blue', fontsize=14)
+
+theta = np.radians(30)
+fx = 1.5 * np.cos(theta)
+fy = -1.5 * np.sin(theta)
+ax.arrow(0, 0, fx, fy, head_width=0.1, color='tab:blue', length_includes_head=True)
+ax.text(fx, fy - 0.2, r'$\vec{F}$', color='tab:blue', fontsize=14)
+
+ax.arrow(0, 0, fx, 0, head_width=0.05, color='tab:green', alpha=0.5, length_includes_head=True)
+ax.arrow(0, 0, 0, fy, head_width=0.05, color='tab:green', alpha=0.5, length_includes_head=True)
+ax.text(fx - 0.2, 0.1, r'$F_x$', color='tab:green')
+ax.text(-0.3, fy + 0.2, r'$F_y$', color='tab:green')
+
+plt.title("DCL del Bloque")
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{3. Cálculo de la Fuerza Normal}
+Aplicamos la sumatoria de fuerzas en el eje $y$:
+$$ \sum F_y = 0 $$
+$$ N - P - F_y = 0 $$
+
+Despejamos la fuerza normal $N$:
+$$ N = P + F_y $$
+$$ N = m g + F \sin(30^\circ) $$
+
+Sustituimos los valores ($m = 30 \, \si{kg}$, $F = 30 \, \si{N}$, $g = 10 \, \si{m/s^2}$):
+$$ N = (30)(10) + 30 \sin(30^\circ) $$
+$$ N = 300 + 30 (0.5) $$
+$$ N = 300 + 15 $$
+$$ N = 315 \, \si{N} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering Opción a) $315 \, \si{N}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un bloque de peso $100 \, \si{N}$ esta suspendido como se muestra en la figura. Entonces la magnitud de la tensión en el cable $A$ es:
+\begin{enumerate}[label=\alph*)]
+    \item $60 \, \si{N}$
+    \item $85 \, \si{N}$
+    \item $100 \, \si{N}$
+    \item $125 \, \si{N}$
+    \item Falta la otra cuerda.
+\end{enumerate}
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2, >=Latex]
+    \draw[thick, pattern=north east lines] (1.5, 2) rectangle (3.5, 2.2);
+    \draw[thick] (1.5, 2) -- (3.5, 2);
+    
+    \draw[thick, pattern=north east lines] (-1.2, 0.5) rectangle (-1, 1.5);
+    \draw[thick] (-1, 0.5) -- (-1, 1.5);
+    
+    \fill (-1, 1) circle (0.05);
+    \draw[thick] (-1, 1) -- (1, 1);
+    
+    \draw[thick] (1, 1) -- (2.5, 2) node[midway, below right] {A};
+    \fill (2.5, 2) circle (0.05);
+    
+    \draw[thick] (1, 1) -- (1, 0.2);
+    \draw[thick, fill=white] (0.6, -0.4) rectangle (1.4, 0.2) node[midway] {$m$};
+    
+    \draw[dashed] (1, 2) -- (3.5, 2);
+    \draw (2.0, 2) arc (180:213:0.5);
+    \node at (1.6, 1.8) {$53.13^\circ$};
+    
+    \fill (1,1) rectangle (1.1, 0.9);
+    \fill (1,1) circle (0.06);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis del Nodo}
+El sistema se encuentra en equilibrio estático. Analizaremos las fuerzas que concurren en el nodo (el punto donde se unen las tres cuerdas). 
+En el eje vertical ($y$), las únicas fuerzas que actúan son:
+\begin{itemize}
+    \item El peso del bloque ($P$) tirando hacia abajo.
+    \item La componente vertical de la tensión de la cuerda A ($T_{Ay}$) tirando hacia arriba.
+\end{itemize}
+La cuerda horizontal no ejerce ninguna fuerza en el eje vertical.
+
+\subsubsection*{2. Geometría y Fuerzas (Python)}
+El ángulo que forma la cuerda A con el techo es alterno interno al ángulo que forma con la horizontal en el nodo. Por tanto, el ángulo desde el nodo respecto a la horizontal también es de $53.13^\circ$.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig, ax = plt.subplots(figsize=(4, 4))
+ax.set_aspect('equal')
+ax.axis('off')
+
+ax.plot([-1.5, 1.5], [0, 0], 'k:', alpha=0.5)
+ax.plot([0, 0], [-1.5, 1.5], 'k:', alpha=0.5)
+
+ax.arrow(0, 0, 0, -1, head_width=0.1, color='tab:blue', length_includes_head=True)
+ax.text(0.1, -0.8, r'$\vec{T}_B = \vec{P}$', color='tab:blue', fontsize=12)
+
+ax.arrow(0, 0, -1, 0, head_width=0.1, color='tab:blue', length_includes_head=True)
+ax.text(-0.8, 0.1, r'$\vec{T}_C$', color='tab:blue', fontsize=12)
+
+theta = np.radians(53.13)
+tax = 1.2 * np.cos(theta)
+tay = 1.2 * np.sin(theta)
+ax.arrow(0, 0, tax, tay, head_width=0.1, color='tab:blue', length_includes_head=True)
+ax.text(tax, tay, r'$\vec{T}_A$', color='tab:blue', fontsize=12)
+
+ax.arrow(0, 0, 0, tay, head_width=0.05, color='tab:green', alpha=0.5, length_includes_head=True)
+ax.text(-0.3, tay - 0.2, r'$T_{Ay}$', color='tab:green')
+
+plt.title("Fuerzas en el Nodo")
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{3. Cálculo de la Tensión A}
+Planteamos el equilibrio en el eje $y$:
+$$ \sum F_y = 0 $$
+$$ T_{Ay} - P = 0 $$
+$$ T_A \sin(\theta) = P $$
+
+Sustituimos el valor del peso ($P = 100 \, \si{N}$) y el ángulo ($\theta = 53.13^\circ$):
+$$ T_A \sin(53.13^\circ) = 100 $$
+
+Recordando el triángulo notable de lados 3-4-5, sabemos que $\sin(53.13^\circ) \approx 0.8 = \frac{4}{5}$.
+$$ T_A (0.8) = 100 $$
+$$ T_A = \frac{100}{0.8} $$
+$$ T_A = \frac{1000}{8} = 125 \, \si{N} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering Opción d) $125 \, \si{N}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Cuando un individuo empuja una pared con las manos ejerciendo una fuerza horizontal de $50 \, \si{N}$, según la tercera ley de Newton, la pared:
+\begin{enumerate}[label=\alph*)]
+    \item Ejerce una fuerza de $50 \, \si{N}$ en dirección contraria.
+    \item No ejerce ninguna fuerza.
+    \item Ejerce una fuerza menor que $50 \, \si{N}$.
+    \item Ejerce una fuerza mayor que $50 \, \si{N}$.
+    \item Ejerce una fuerza de $50 \, \si{N}$ hacia el piso.
+\end{enumerate}
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2, >=Latex]
+    \draw[thick, fill=cyan!30] (0, 0) rectangle (0.2, 3);
+    \draw[thick, pattern=north east lines] (-0.5, 0) rectangle (0.7, -0.2);
+    \draw[thick] (-0.5, 0) -- (0.7, 0);
+    
+    \draw[<-, thick, green!60!black] (0.2, 1.5) -- (1.5, 1.5) node[above, midway] {acción};
+    \draw[->, thick, red] (0, 1.2) -- (-1.3, 1.2) node[above, midway] {reacción};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Fundamento Teórico: Tercera Ley de Newton}
+La Tercera Ley de Newton, conocida como el principio de acción y reacción, establece que \textit{"Si un cuerpo A ejerce una fuerza sobre un cuerpo B, entonces el cuerpo B ejerce una fuerza de la misma magnitud y dirección, pero en sentido contrario, sobre el cuerpo A."}
+
+\subsubsection*{2. Análisis del Problema}
+En este escenario:
+\begin{itemize}
+    \item \textbf{Cuerpo A:} El individuo.
+    \item \textbf{Cuerpo B:} La pared.
+    \item \textbf{Fuerza de Acción:} El individuo empuja la pared con $50 \, \si{N}$ hacia adelante.
+\end{itemize}
+
+Por estricto cumplimiento de la ley física, la pared responde de forma simultánea. La magnitud de la fuerza de reacción de la pared debe ser exactamente igual a la de la acción ($50 \, \si{N}$), y su sentido debe ser estrictamente el opuesto (hacia el individuo). 
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering Opción a) Ejerce una fuerza de $50 \, \si{N}$ en dirección contraria.
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un auto ingresa a una pista horizontal con una rapidez inicial de $12 \, \si{m/s}$ y finalmente se detiene. Entonces se afirma que:
+\begin{enumerate}[label=\alph*)]
+    \item El trabajo neto es necesariamente activo.
+    \item El trabajo neto es necesariamente resistivo.
+    \item El trabajo del peso puede ser activo o resistivo.
+    \item La energía cinética inicial es igual a la energía cinética final.
+    \item El trabajo de la fuerza de rozamiento es positivo ya que logra detenerlo.
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Teorema del Trabajo y la Energía}
+La relación directa entre las fuerzas que actúan sobre un cuerpo y su cambio de velocidad está dictada por el Teorema del Trabajo y la Energía Cinética:
+$$ W_{\text{neto}} = \Delta E_c $$
+$$ W_{\text{neto}} = E_{c_f} - E_{c_o} $$
+
+\subsubsection*{2. Análisis Cinemático y Energético}
+El problema indica que el auto ingresa con una rapidez inicial $v_o = 12 \, \si{m/s}$, lo que significa que posee una energía cinética inicial ($E_{c_o} > 0$).
+Al final del trayecto, el auto se detiene, por lo que su rapidez final es $v_f = 0$. En consecuencia, su energía cinética final es nula ($E_{c_f} = 0$).
+
+Sustituimos esto en nuestro teorema:
+$$ W_{\text{neto}} = 0 - E_{c_o} $$
+$$ W_{\text{neto}} = -E_{c_o} $$
+
+\subsubsection*{3. Conclusión Física}
+Matemáticamente, el trabajo neto resulta en un valor negativo. Físicamente, esto confirma que el trabajo neto es de carácter \textbf{resistivo}. Un trabajo resistivo tiene el propósito de retirar energía mecánica del sistema (en este caso, disipada por la fricción), logrando reducir la energía cinética hasta detener el movimiento por completo.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering Opción b) El trabajo neto es necesariamente resistivo.
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un bloque de $1 \, \si{kg}$ cae desde una determinada altura sobre un resorte vertical de constante elástica $200 \, \si{N/m}$ comprimiéndole una distancia $60 \, \si{cm}$. La altura desde donde se soltó el bloque medido desde la máxima compresión del resorte es:
+\begin{enumerate}[label=\alph*)]
+    \item $3.6 \, \si{m}$
+    \item $6 \, \si{m}$
+    \item $2 \, \si{m}$
+    \item $1.8 \, \si{m}$
+    \item $7.2 \, \si{m}$
+\end{enumerate}
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[thick, pattern=north east lines] (-1, 0) rectangle (1, -0.2);
+    \draw[thick] (-1, 0) -- (1, 0);
+    
+    \draw[thick] (0, 0) -- (-0.2, 0.1) -- (0.2, 0.3) -- (-0.2, 0.5) -- (0.2, 0.7) -- (-0.2, 0.9) -- (0, 1);
+    
+    \draw[thick, fill=white] (-0.4, 1) rectangle (0.4, 1.6) node[midway] {$m$};
+    \node[right] at (0.4, 1.3) {B};
+    
+    \draw[dashed, blue] (1, 1) -- (2.5, 1) node[right] {NR};
+    \draw[dashed, blue] (1, 1.8) -- (2.5, 1.8) node[right] {PEq};
+    
+    \draw[dashed] (-0.4, 3.5) rectangle (0.4, 4.1);
+    \node[right] at (0.4, 3.8) {A};
+    
+    \draw[<->] (2, 1) -- (2, 3.8) node[midway, left] {h};
+    \draw[<->] (-0.8, 1) -- (-0.8, 1.8) node[midway, left] {$60 \, \si{cm}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Establecimiento de Estados y Referencias}
+Aplicaremos el Principio de Conservación de la Energía Mecánica. Para ello, primero convertimos las unidades al Sistema Internacional:
+Deformación máxima: $x = 60 \, \si{cm} = 0.6 \, \si{m}$.
+
+Definimos los estados:
+\begin{itemize}
+    \item \textbf{Estado A (Inicio):} El bloque es soltado desde el reposo ($v_A = 0$).
+    \item \textbf{Estado B (Compresión máxima):} El bloque comprime el resorte hasta detenerse momentáneamente ($v_B = 0$). 
+\end{itemize}
+
+El problema pide expresamente calcular la altura $h$ medida \textbf{desde la máxima compresión}. Por lo tanto, estableceremos nuestro Nivel de Referencia (NR) justo en el punto de compresión máxima (Estado B).
+De esta manera, en el Estado B, la altura es $0$, y en el Estado A, la altura total es $h$.
+
+\subsubsection*{2. Ecuación de Conservación}
+Al no haber fuerzas disipativas (rozamiento del aire), la energía mecánica se conserva:
+$$ E_{M_A} = E_{M_B} $$
+
+En el punto A, toda la energía es potencial gravitatoria:
+$$ E_{M_A} = E_{pg_A} = m g h $$
+
+En el punto B (el NR), la altura es cero, por lo que solo hay energía potencial elástica acumulada en el resorte:
+$$ E_{M_B} = E_{pe_B} = \frac{1}{2} k x^2 $$
+
+Igualamos ambas energías:
+$$ m g h = \frac{1}{2} k x^2 $$
+
+\subsubsection*{3. Resolución}
+Sustituimos los datos dados ($m = 1 \, \si{kg}$, $g = 10 \, \si{m/s^2}$, $k = 200 \, \si{N/m}$, $x = 0.6 \, \si{m}$):
+$$ (1)(10) h = \frac{1}{2} (200) (0.6)^2 $$
+$$ 10 h = 100 (0.36) $$
+$$ 10 h = 36 $$
+$$ h = 3.6 \, \si{m} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering Opción a) $3.6 \, \si{m}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una partícula se mueve en una circunferencia de radio $R = 0.5 \, \si{m}$ realizando movimiento circular uniforme. Su posición angular (en radianes) está dada por:
+$$ \theta(t) = \frac{\pi}{4} + 0.3 t $$
+Donde $t$ está en segundos. Calcule la rapidez lineal.
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis de la Ecuación de Movimiento}
+La ecuación general de la posición angular para un Movimiento Circular Uniforme (MCU) es:
+$$ \theta(t) = \theta_0 + \omega t $$
+
+Al comparar la ecuación general con la ecuación proporcionada en el problema ($\theta(t) = \frac{\pi}{4} + 0.3 t$), podemos extraer directamente los siguientes parámetros del movimiento:
+\begin{itemize}
+    \item \textbf{Posición angular inicial ($\theta_0$):} Es el término independiente de $t$. En este caso, $\theta_0 = \frac{\pi}{4} \, \si{rad}$.
+    \item \textbf{Velocidad angular ($\omega$):} Es el coeficiente que acompaña a la variable de tiempo $t$. En este caso, $\omega = 0.3 \, \si{rad/s}$.
+\end{itemize}
+
+\subsubsection*{2. Visualización del Sistema (Python)}
+Para comprender mejor de dónde parte la partícula y cómo se relaciona la velocidad angular con la velocidad lineal (tangencial), generamos el siguiente esquema.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+R = 0.5
+theta_0 = np.pi / 4
+
+fig, ax = plt.subplots(figsize=(5, 5))
+ax.set_aspect('equal')
+ax.axis('off')
+
+circle_theta = np.linspace(0, 2*np.pi, 100)
+ax.plot(R*np.cos(circle_theta), R*np.sin(circle_theta), 'k--', alpha=0.5)
+
+ax.axhline(0, color='gray', linewidth=0.8, linestyle=':')
+ax.axvline(0, color='gray', linewidth=0.8, linestyle=':')
+
+x0 = R * np.cos(theta_0)
+y0 = R * np.sin(theta_0)
+ax.plot([0, x0], [0, y0], 'b-', linewidth=2)
+ax.plot(x0, y0, 'bo', markersize=8)
+
+arc_theta = np.linspace(0, theta_0, 20)
+ax.plot(0.15*np.cos(arc_theta), 0.15*np.sin(arc_theta), 'b-')
+ax.text(0.18, 0.08, r'$\theta_0 = \frac{\pi}{4}$', color='blue', fontsize=12)
+
+vx = -np.sin(theta_0) * 0.2
+vy = np.cos(theta_0) * 0.2
+ax.arrow(x0, y0, vx, vy, head_width=0.03, color='red', length_includes_head=True)
+ax.text(x0 + vx - 0.05, y0 + vy + 0.05, r'$\vec{v}$', color='red', fontsize=14)
+
+omega_arc = np.linspace(theta_0 + 0.1, theta_0 + 0.6, 20)
+ax.arrow(0.6*np.cos(theta_0+0.5), 0.6*np.sin(theta_0+0.5), 
+         -0.05*np.sin(theta_0+0.5), 0.05*np.cos(theta_0+0.5), 
+         head_width=0.03, color='red')
+ax.plot(0.6*np.cos(omega_arc), 0.6*np.sin(omega_arc), 'r-')
+ax.text(0.4, 0.55, r'$\omega = 0.3$', color='red', fontsize=12)
+
+plt.title("MCU: Posicion Inicial y Rapidez Lineal")
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{3. Cálculo de la Rapidez Lineal}
+La rapidez lineal ($v$) es directamente proporcional a la velocidad angular ($\omega$) y al radio de la trayectoria circular ($R$), según la fórmula:
+$$ v = \omega R $$
+
+Sustituimos los valores conocidos ($\omega = 0.3 \, \si{rad/s}$ y $R = 0.5 \, \si{m}$):
+$$ v = (0.3)(0.5) $$
+$$ v = 0.15 \, \si{m/s} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $v = 0.15 \, \si{m/s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una partícula se mueve en una circunferencia de radio $R = 0.5 \, \si{m}$ realizando movimiento circular uniforme. Su posición angular (en radianes) está dada por:
+$$ \theta(t) = \frac{\pi}{4} + 0.3 t $$
+Donde $t$ está en segundos. Calcule la frecuencia en hercios (Hz).
+
+\subsection*{Solución}
+
+\subsubsection*{1. Relación entre Velocidad Angular y Frecuencia}
+Como determinamos en el paso anterior analizando la ecuación de movimiento, la velocidad angular constante de la partícula es $\omega = 0.3 \, \si{rad/s}$.
+
+La velocidad angular ($\omega$) y la frecuencia ($f$) están relacionadas por la ecuación fundamental:
+$$ \omega = 2\pi f $$
+
+\subsubsection*{2. Cálculo de la Frecuencia}
+Despejamos la frecuencia ($f$):
+$$ f = \frac{\omega}{2\pi} $$
+
+Sustituimos el valor de $\omega$:
+$$ f = \frac{0.3}{2\pi} $$
+$$ f = \frac{0.3}{6.2832} $$
+$$ f \approx 0.0477 \, \si{Hz} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $f = 0.0477 \, \si{Hz}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una partícula se mueve en una circunferencia de radio $R = 0.5 \, \si{m}$ realizando movimiento circular uniforme. Su posición angular (en radianes) está dada por:
+$$ \theta(t) = \frac{\pi}{4} + 0.3 t $$
+Donde $t$ está en segundos. Calcule la distancia total recorrida durante los primeros $10 \, \si{s}$.
+
+\subsection*{Solución}
+
+\subsubsection*{1. Cálculo del Desplazamiento Angular}
+La velocidad angular se define como el cambio de la posición angular en el tiempo:
+$$ \omega = \frac{\Delta \theta}{\Delta t} $$
+
+Despejamos el desplazamiento angular ($\Delta \theta$):
+$$ \Delta \theta = \omega \Delta t $$
+
+Sustituimos la velocidad angular ($\omega = 0.3 \, \si{rad/s}$) y el intervalo de tiempo ($\Delta t = 10 \, \si{s}$):
+$$ \Delta \theta = (0.3)(10) $$
+$$ \Delta \theta = 3 \, \si{rad} $$
+
+\subsubsection*{2. Cálculo de la Distancia Lineal Recorrida}
+En el movimiento circular, la distancia total recorrida sobre el arco de la circunferencia ($s$) se calcula multiplicando el desplazamiento angular (estrictamente en radianes) por el radio ($R$):
+$$ s = \Delta \theta \cdot R $$
+
+Sustituimos los valores calculados y el radio dado ($R = 0.5 \, \si{m}$):
+$$ s = (3)(0.5) $$
+$$ s = 1.5 \, \si{m} $$
+
+\textit{Nota alternativa equivalente:} También podríamos calcularlo usando la rapidez lineal hallada en el literal a ($v = 0.15 \, \si{m/s}$) y la fórmula del MRU ($s = v \cdot t$): $s = (0.15)(10) = 1.5 \, \si{m}$. Ambos métodos son correctos y conducen al mismo resultado físico.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $s = 1.5 \, \si{m}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un bloque $B$ de $40 \, \si{kg}$ se encuentra sobre un piso inclinado liso y unido a otro bloque $C$ de $10 \, \si{kg}$ mediante una cuerda ideal que pasa por una polea sin rozamiento, como se indica en la figura. Sobre $C$ se aplica una fuerza constante $F$ de magnitud $50 \, \si{N}$ hacia abajo; sin embargo, esta no es suficiente para mantener el sistema en reposo. En consecuencia, el bloque $B$ desciende por el plano inclinado y el bloque $C$ se mueve hacia arriba. 
+
+Determine la magnitud de la fuerza normal.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2, >=Latex]
+    \draw[thick, pattern=north east lines] (0,0) -- (6,0) -- (6,-0.2) -- (0,-0.2) -- cycle;
+    \draw[thick] (0,0) -- (5, 4.195);
+    \draw[thick] (5, 4.195) -- (5, 0);
+    \fill (4.8, 0) rectangle (5.0, 0.2);
+    
+    \draw (0.8,0) arc (0:40:0.8);
+    \node at (1.2, 0.35) {$40^\circ$};
+    
+    \draw[thick] (5, 4.195) circle (0.2);
+    \fill (5, 4.195) circle (0.05);
+    
+    \begin{scope}[rotate=40]
+        \draw[thick, fill=white] (2.5, 0) rectangle (3.7, 0.8) node[midway] {$B$};
+        \draw[->, thick, red] (2.3, 1.1) -- (1.3, 1.1) node[above] {$\vec{a_B}$};
+        \draw[thick] (3.7, 0.4) -- (6.2, 0.4); 
+    \end{scope}
+    
+    \draw[thick] (5.2, 4.195) -- (5.2, 2.5);
+    \draw[thick, fill=white] (4.8, 1.7) rectangle (5.6, 2.5) node[midway] {$C$};
+    
+    \draw[->, thick, black] (5.2, 1.7) -- (5.2, 0.8) node[right] {$\vec{F}$};
+    \draw[->, thick, red] (5.8, 1.7) -- (5.8, 2.7) node[right] {$\vec{a_C}$};
+    
+    \draw[->, thick] (4.8, 4.5) arc (130:-40:0.4) node[above right] {mov};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Físico y Ejes de Referencia}
+Para estudiar el bloque $B$, definimos un sistema de coordenadas inclinado donde el eje $x$ es paralelo al plano (apuntando hacia arriba de la pendiente) y el eje $y$ es perpendicular al plano.
+
+Dado que el bloque no se separa del plano inclinado ni se hunde en él, no hay movimiento en el eje $y$. Por lo tanto, la sumatoria de fuerzas en el eje $y$ debe ser cero. Las fuerzas en este eje son la Fuerza Normal ($\vec{N}_B$) hacia arriba y la componente perpendicular del peso ($\vec{P}_{By}$) hacia abajo.
+
+\subsubsection*{2. Diagrama de Cuerpo Libre (Python)}
+Visualizamos la descomposición del peso del bloque $B$ para facilitar el cálculo.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+theta = np.radians(40)
+fig, ax = plt.subplots(figsize=(6, 6))
+ax.set_aspect('equal')
+ax.axis('off')
+
+ax.plot([-2, 2], [0, 0], 'k:', alpha=0.5)
+ax.plot([0, 0], [-2, 2], 'k:', alpha=0.5)
+ax.text(2.1, 0, 'x', fontsize=12)
+ax.text(0, 2.1, 'y', fontsize=12)
+
+ax.plot(0, 0, 'ks')
+
+ax.arrow(0, 0, 0, 1.5, head_width=0.1, color='tab:blue', length_includes_head=True)
+ax.text(-0.5, 1.4, r'$\vec{N}_B$', color='tab:blue', fontsize=12)
+
+ax.arrow(0, 0, 1.2, 0, head_width=0.1, color='tab:blue', length_includes_head=True)
+ax.text(1.1, 0.2, r'$\vec{T}$', color='tab:blue', fontsize=12)
+
+px = -1.8 * np.sin(theta)
+py = -1.8 * np.cos(theta)
+ax.arrow(0, 0, px, py, head_width=0.1, color='tab:blue', length_includes_head=True)
+ax.text(px-0.3, py-0.2, r'$\vec{P}_B$', color='tab:blue', fontsize=12)
+
+ax.arrow(0, 0, px, 0, head_width=0.05, color='tab:green', alpha=0.5, length_includes_head=True)
+ax.arrow(0, 0, 0, py, head_width=0.05, color='tab:green', alpha=0.5, length_includes_head=True)
+ax.text(px-0.2, 0.1, r'$P_x$', color='tab:green', fontsize=12)
+ax.text(0.1, py-0.2, r'$P_y$', color='tab:green', fontsize=12)
+
+theta_arc = np.linspace(np.radians(270), np.radians(270-40), 20)
+ax.plot(0.5*np.cos(theta_arc), 0.5*np.sin(theta_arc), 'r-')
+ax.text(0.1, -0.7, r'$\theta$', color='red', fontsize=12)
+
+plt.title("DCL Bloque B (Ejes Rotados)")
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{3. Cálculo de la Fuerza Normal}
+Aplicamos la Primera Ley de Newton en el eje $y$ (considerando $g = 10 \, \si{m/s^2}$):
+$$ \sum F_y = 0 $$
+$$ N_B - P_{By} = 0 $$
+$$ N_B = P_{By} $$
+$$ N_B = m_B g \cos(40^\circ) $$
+$$ N_B = (40)(10) \cos(40^\circ) $$
+$$ N_B = 400 (0.7660) $$
+$$ N_B \approx 306.42 \, \si{N} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $N_B = 306.42 \, \si{N}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un bloque $B$ de $40 \, \si{kg}$ se encuentra sobre un piso inclinado liso y unido a otro bloque $C$ de $10 \, \si{kg}$ mediante una cuerda ideal que pasa por una polea sin rozamiento, como se indica en la figura. Sobre $C$ se aplica una fuerza constante $F$ de magnitud $50 \, \si{N}$ hacia abajo; sin embargo, esta no es suficiente para mantener el sistema en reposo. En consecuencia, el bloque $B$ desciende por el plano inclinado y el bloque $C$ se mueve hacia arriba. 
+
+Determine la magnitud de la aceleración de los bloques y la magnitud de la tensión en la cuerda.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2, >=Latex]
+    \draw[thick, pattern=north east lines] (0,0) -- (6,0) -- (6,-0.2) -- (0,-0.2) -- cycle;
+    \draw[thick] (0,0) -- (5, 4.195);
+    \draw[thick] (5, 4.195) -- (5, 0);
+    \fill (4.8, 0) rectangle (5.0, 0.2);
+    
+    \draw (0.8,0) arc (0:40:0.8);
+    \node at (1.2, 0.35) {$40^\circ$};
+    
+    \draw[thick] (5, 4.195) circle (0.2);
+    \fill (5, 4.195) circle (0.05);
+    
+    \begin{scope}[rotate=40]
+        \draw[thick, fill=white] (2.5, 0) rectangle (3.7, 0.8) node[midway] {$B$};
+        \draw[->, thick, red] (2.3, 1.1) -- (1.3, 1.1) node[above] {$\vec{a_B}$};
+        \draw[thick] (3.7, 0.4) -- (6.2, 0.4); 
+    \end{scope}
+    
+    \draw[thick] (5.2, 4.195) -- (5.2, 2.5);
+    \draw[thick, fill=white] (4.8, 1.7) rectangle (5.6, 2.5) node[midway] {$C$};
+    
+    \draw[->, thick, black] (5.2, 1.7) -- (5.2, 0.8) node[right] {$\vec{F}$};
+    \draw[->, thick, red] (5.8, 1.7) -- (5.8, 2.7) node[right] {$\vec{a_C}$};
+    
+    \draw[->, thick] (4.8, 4.5) arc (130:-40:0.4) node[above right] {mov};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Diagrama de Cuerpo Libre del Bloque C (Python)}
+Para resolver la aceleración y la tensión, debemos plantear las ecuaciones dinámicas para ambos bloques. Primero visualizamos las fuerzas sobre $C$.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(4, 5))
+ax.set_aspect('equal')
+ax.axis('off')
+
+ax.plot([-1, 1], [0, 0], 'k:', alpha=0.5)
+ax.plot([0, 0], [-2, 2], 'k:', alpha=0.5)
+ax.text(1.1, 0, 'x', fontsize=12)
+ax.text(0, 2.1, 'y', fontsize=12)
+
+ax.plot(0, 0, 'ks')
+
+ax.arrow(0, 0, 0, 1.2, head_width=0.1, color='tab:blue', length_includes_head=True)
+ax.text(0.2, 1.1, r'$\vec{T}$', color='tab:blue', fontsize=14)
+
+ax.arrow(0, 0, 0, -1.0, head_width=0.1, color='tab:blue', length_includes_head=True)
+ax.text(0.2, -0.9, r'$\vec{P}_C$', color='tab:blue', fontsize=14)
+
+ax.arrow(0, -1.0, 0, -0.6, head_width=0.1, color='tab:blue', length_includes_head=True)
+ax.text(0.2, -1.5, r'$\vec{F}$', color='tab:blue', fontsize=14)
+
+plt.title("DCL Bloque C")
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{2. Planteamiento de las Ecuaciones de Movimiento}
+Usaremos la convención del sistema de referencia planteado en el DCL del literal anterior (eje $x$ positivo hacia arriba del plano para el bloque $B$, y eje $y$ positivo hacia arriba para el bloque $C$).
+El enunciado indica que $B$ desciende por el plano inclinado, lo que implica que su aceleración es negativa respecto a nuestro eje $x$ ($a_x = -a$). El bloque $C$ se mueve hacia arriba, por lo que su aceleración es positiva ($a_y = a$).
+
+\textbf{Ecuación para el bloque B (Eje $x$):}
+$$ \sum F_x = m_B (-a) $$
+Las fuerzas en $x$ son la Tensión ($T$) positiva y la componente del peso ($P_{Bx}$) negativa.
+$$ T - P_{Bx} = - m_B a $$
+$$ T - m_B g \sin(40^\circ) = - 40 a $$
+$$ T - (40)(10) \sin(40^\circ) = - 40 a $$
+$$ T - 400 (0.6428) = - 40 a $$
+$$ T - 257.11 = - 40 a $$
+$$ T + 40 a = 257.11 \quad \text{--- (Ecuación 1)} $$
+
+\textbf{Ecuación para el bloque C (Eje $y$):}
+$$ \sum F_y = m_C a $$
+Las fuerzas en $y$ son la Tensión ($T$) hacia arriba, el peso ($P_C$) hacia abajo y la fuerza aplicada ($F$) hacia abajo.
+$$ T - P_C - F = m_C a $$
+$$ T - m_C g - 50 = 10 a $$
+$$ T - (10)(10) - 50 = 10 a $$
+$$ T - 100 - 50 = 10 a $$
+$$ T - 150 = 10 a $$
+$$ T - 10 a = 150 \quad \text{--- (Ecuación 2)} $$
+
+\subsubsection*{3. Resolución del Sistema}
+Tenemos un sistema de dos ecuaciones lineales:
+\begin{align*}
+    1) \quad T + 40a &= 257.11 \\
+    2) \quad T - 10a &= 150
+\end{align*}
+
+Restamos la Ecuación 2 de la Ecuación 1 para eliminar $T$:
+$$ (T + 40a) - (T - 10a) = 257.11 - 150 $$
+$$ 50 a = 107.11 $$
+$$ a = \frac{107.11}{50} $$
+$$ a \approx 2.14 \, \si{m/s^2} $$
+
+Para hallar la tensión $T$, sustituimos el valor de $a$ en la Ecuación 2:
+$$ T - 10(2.1422) = 150 $$
+$$ T - 21.42 = 150 $$
+$$ T = 150 + 21.42 $$
+$$ T \approx 171.42 \, \si{N} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering 
+$a = 2.14 \, \si{m/s^2}$ \\
+$T = 171.42 \, \si{N}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una argolla de masa $m = 4 \, \si{kg}$ puede deslizarse sin fricción por una guía vertical lisa. La argolla está conectada a un resorte de longitud natural $l_0 = 0.3 \, \si{m}$ y constante elástica $k = 400 \, \si{N/m}$. Si la argolla se suelta desde el reposo en la posición A. 
+
+Determine la deformación del resorte en el punto A.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.5, >=Latex]
+    \draw[thick, pattern=north east lines] (-0.3, 1.5) rectangle (0.3, 1.7);
+    \draw[thick] (-0.3, 1.5) -- (0.3, 1.5);
+    
+    \draw[thick, pattern=north east lines] (-0.3, -1.5) rectangle (0.3, -1.7);
+    \draw[thick] (-0.3, -1.5) -- (0.3, -1.5);
+    
+    \draw[thick, pattern=north east lines] (-1.8, 0.3) rectangle (-1.6, -0.3);
+    \draw[thick] (-1.6, 0.3) -- (-1.6, -0.3);
+    
+    \draw[thick, fill=black] (0, 1.5) -- (0, -1.5);
+    
+    \draw[thick, fill=gray!30] (-0.2, 0.8) rectangle (0.2, 1.0);
+    \node[right] at (0.2, 0.9) {A};
+    
+    \fill (0, 0) circle (0.05);
+    \node[above right] at (0, 0) {B};
+    
+    \fill (0, -0.9) circle (0.05);
+    \node[right] at (0.1, -0.9) {C};
+    
+    \draw[thick, gray] (-1.6, 0) -- (-1.4, 0.1) -- (-1.2, 0.05) -- (-1.0, 0.25) -- (-0.8, 0.2) -- (-0.6, 0.4) -- (-0.4, 0.4) -- (-0.2, 0.6) -- (-0.1, 0.8);
+    \node[blue, above left] at (-0.8, 0.4) {$l_f$};
+    
+    \draw[dashed] (-1.6, 0) -- (0, 0);
+    \draw[<->] (-1.6, -0.15) -- (0, -0.15) node[midway, below] {$40 \, \si{cm}$};
+    
+    \draw[<->] (0.5, 0) -- (0.5, 0.9) node[midway, right] {$30 \, \si{cm}$};
+    \draw[<->] (0.5, -0.9) -- (0.5, 0) node[midway, right] {$60 \, \si{cm}$};
+    
+    \draw[dashed, blue] (-1, -0.9) -- (1, -0.9) node[above left] {NR};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Geométrico (Python)}
+Para determinar la deformación del resorte en el punto A, primero debemos calcular su longitud total estirada ($l_f$) en esa posición. El resorte forma la hipotenusa de un triángulo rectángulo junto con la distancia horizontal a la guía y la distancia vertical desde B hasta A.
+
+Convertimos las medidas a metros para el Sistema Internacional:
+$30 \, \si{cm} = 0.3 \, \si{m}$
+$40 \, \si{cm} = 0.4 \, \si{m}$
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(4, 3))
+ax.set_aspect('equal')
+ax.axis('off')
+
+ax.plot([0, 0.4], [0, 0], 'k-', lw=2)
+ax.plot([0.4, 0.4], [0, 0.3], 'k-', lw=2)
+ax.plot([0, 0.4], [0, 0.3], 'b-', lw=2)
+
+ax.text(0.2, -0.05, '0.4 m', ha='center', fontsize=12)
+ax.text(0.42, 0.15, '0.3 m', va='center', fontsize=12)
+ax.text(0.15, 0.18, r'$l_f$', color='blue', fontsize=14)
+
+ax.plot([0.37, 0.4], [0.03, 0.03], 'k-')
+ax.plot([0.37, 0.37], [0, 0.03], 'k-')
+
+plt.title("Triangulo Rectangulo en A")
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{2. Cálculo de la Deformación}
+Aplicamos el Teorema de Pitágoras para hallar la longitud final $l_f$:
+$$ l_f = \sqrt{(0.3)^2 + (0.4)^2} $$
+$$ l_f = \sqrt{0.09 + 0.16} $$
+$$ l_f = \sqrt{0.25} $$
+$$ l_f = 0.5 \, \si{m} $$
+
+La deformación del resorte ($x$) es la diferencia entre su longitud final en esa posición y su longitud natural ($l_0 = 0.3 \, \si{m}$):
+$$ x = l_f - l_0 $$
+$$ x = 0.5 - 0.3 $$
+$$ x = 0.2 \, \si{m} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $x = 0.2 \, \si{m}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una argolla de masa $m = 4 \, \si{kg}$ puede deslizarse sin fricción por una guía vertical lisa. La argolla está conectada a un resorte de longitud natural $l_0 = 0.3 \, \si{m}$ y constante elástica $k = 400 \, \si{N/m}$. Si la argolla se suelta desde el reposo en la posición A. 
+
+Determine la energía mecánica en el punto A, considerando como referencia el punto C.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.5, >=Latex]
+    \draw[thick, pattern=north east lines] (-0.3, 1.5) rectangle (0.3, 1.7);
+    \draw[thick] (-0.3, 1.5) -- (0.3, 1.5);
+    
+    \draw[thick, pattern=north east lines] (-0.3, -1.5) rectangle (0.3, -1.7);
+    \draw[thick] (-0.3, -1.5) -- (0.3, -1.5);
+    
+    \draw[thick, pattern=north east lines] (-1.8, 0.3) rectangle (-1.6, -0.3);
+    \draw[thick] (-1.6, 0.3) -- (-1.6, -0.3);
+    
+    \draw[thick, fill=black] (0, 1.5) -- (0, -1.5);
+    
+    \draw[thick, fill=gray!30] (-0.2, 0.8) rectangle (0.2, 1.0);
+    \node[right] at (0.2, 0.9) {A};
+    
+    \fill (0, 0) circle (0.05);
+    \node[above right] at (0, 0) {B};
+    
+    \fill (0, -0.9) circle (0.05);
+    \node[right] at (0.1, -0.9) {C};
+    
+    \draw[thick, gray] (-1.6, 0) -- (-1.4, 0.1) -- (-1.2, 0.05) -- (-1.0, 0.25) -- (-0.8, 0.2) -- (-0.6, 0.4) -- (-0.4, 0.4) -- (-0.2, 0.6) -- (-0.1, 0.8);
+    \node[blue, above left] at (-0.8, 0.4) {$l_f$};
+    
+    \draw[dashed] (-1.6, 0) -- (0, 0);
+    \draw[<->] (-1.6, -0.15) -- (0, -0.15) node[midway, below] {$40 \, \si{cm}$};
+    
+    \draw[<->] (0.5, 0) -- (0.5, 0.9) node[midway, right] {$30 \, \si{cm}$};
+    \draw[<->] (0.5, -0.9) -- (0.5, 0) node[midway, right] {$60 \, \si{cm}$};
+    
+    \draw[dashed, blue] (-1, -0.9) -- (1, -0.9) node[above left] {NR};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Desglose de Energías en el Punto A}
+La energía mecánica total en el punto A ($E_{MA}$) es la suma de la energía cinética, la energía potencial gravitatoria y la energía potencial elástica.
+$$ E_{MA} = E_{cA} + E_{pgA} + E_{peA} $$
+
+\begin{itemize}
+    \item \textbf{Energía Cinética ($E_{cA}$):} La argolla parte del reposo, por tanto $v_A = 0 \Rightarrow E_{cA} = 0$.
+    \item \textbf{Energía Potencial Gravitatoria ($E_{pgA}$):} Medimos la altura desde el Nivel de Referencia (NR) en C. La altura de A es $30 \, \si{cm} + 60 \, \si{cm} = 90 \, \si{cm} = 0.9 \, \si{m}$.
+    \item \textbf{Energía Potencial Elástica ($E_{peA}$):} Utilizamos la deformación calculada en el literal anterior, $x_A = 0.2 \, \si{m}$.
+\end{itemize}
+
+\subsubsection*{2. Cálculo de la Energía Mecánica}
+Procedemos a evaluar las componentes (con $g = 10 \, \si{m/s^2}$):
+$$ E_{pgA} = m g h_A $$
+$$ E_{pgA} = (4)(10)(0.9) = 36 \, \si{J} $$
+
+$$ E_{peA} = \frac{1}{2} k x_A^2 $$
+$$ E_{peA} = \frac{1}{2} (400) (0.2)^2 $$
+$$ E_{peA} = 200 (0.04) = 8 \, \si{J} $$
+
+Sumando ambas energías:
+$$ E_{MA} = 36 \, \si{J} + 8 \, \si{J} $$
+$$ E_{MA} = 44 \, \si{J} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $E_{MA} = 44 \, \si{J}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una argolla de masa $m = 4 \, \si{kg}$ puede deslizarse sin fricción por una guía vertical lisa. La argolla está conectada a un resorte de longitud natural $l_0 = 0.3 \, \si{m}$ y constante elástica $k = 400 \, \si{N/m}$. Si la argolla se suelta desde el reposo en la posición A. 
+
+Determine la rapidez de la argolla al pasar por el punto B.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.5, >=Latex]
+    \draw[thick, pattern=north east lines] (-0.3, 1.5) rectangle (0.3, 1.7);
+    \draw[thick] (-0.3, 1.5) -- (0.3, 1.5);
+    
+    \draw[thick, pattern=north east lines] (-0.3, -1.5) rectangle (0.3, -1.7);
+    \draw[thick] (-0.3, -1.5) -- (0.3, -1.5);
+    
+    \draw[thick, pattern=north east lines] (-1.8, 0.3) rectangle (-1.6, -0.3);
+    \draw[thick] (-1.6, 0.3) -- (-1.6, -0.3);
+    
+    \draw[thick, fill=black] (0, 1.5) -- (0, -1.5);
+    
+    \draw[thick, fill=gray!30] (-0.2, 0.8) rectangle (0.2, 1.0);
+    \node[right] at (0.2, 0.9) {A};
+    
+    \fill (0, 0) circle (0.05);
+    \node[above right] at (0, 0) {B};
+    
+    \fill (0, -0.9) circle (0.05);
+    \node[right] at (0.1, -0.9) {C};
+    
+    \draw[thick, gray] (-1.6, 0) -- (-1.4, 0.1) -- (-1.2, 0.05) -- (-1.0, 0.25) -- (-0.8, 0.2) -- (-0.6, 0.4) -- (-0.4, 0.4) -- (-0.2, 0.6) -- (-0.1, 0.8);
+    \node[blue, above left] at (-0.8, 0.4) {$l_f$};
+    
+    \draw[dashed] (-1.6, 0) -- (0, 0);
+    \draw[<->] (-1.6, -0.15) -- (0, -0.15) node[midway, below] {$40 \, \si{cm}$};
+    
+    \draw[<->] (0.5, 0) -- (0.5, 0.9) node[midway, right] {$30 \, \si{cm}$};
+    \draw[<->] (0.5, -0.9) -- (0.5, 0) node[midway, right] {$60 \, \si{cm}$};
+    
+    \draw[dashed, blue] (-1, -0.9) -- (1, -0.9) node[above left] {NR};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Energético en el Punto B (Python)}
+Al no existir fuerzas no conservativas (como la fricción), la energía mecánica total se conserva durante todo el trayecto. Por tanto, la energía en A debe ser exactamente igual a la energía en B.
+$$ E_{MA} = E_{MB} $$
+
+En el punto B, la argolla está en movimiento (tiene $E_{cB}$), tiene una altura respecto a C ($h_B = 0.6 \, \si{m}$) y el resorte aún tiene cierta deformación, ya que su longitud ahí es exactamente la distancia horizontal de $0.4 \, \si{m}$.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+labels = ['Estado A', 'Estado B']
+epg = [36.0, 24.0]  # E_pg = m*g*h = 4*10*0.6 = 24 J en B
+epe = [8.0, 2.0]    # x_B = 0.4 - 0.3 = 0.1m -> E_pe = 0.5*400*(0.1)^2 = 2 J
+ec = [0.0, 18.0]    # 44 - 24 - 2 = 18 J
+
+x = np.arange(len(labels))
+width = 0.4
+
+fig, ax = plt.subplots(figsize=(6, 4))
+ax.bar(x, epg, width, label='E. Potencial Gravitatoria', color='tab:green')
+ax.bar(x, epe, width, bottom=epg, label='E. Potencial Elastica', color='tab:blue')
+ax.bar(x, ec, width, bottom=np.array(epg)+np.array(epe), label='E. Cinetica', color='tab:red')
+
+ax.set_ylabel('Energia (Joules)')
+ax.set_title('Conservacion y Transformacion de la Energia Mecanica')
+ax.set_xticks(x)
+ax.set_xticklabels(labels)
+ax.axhline(44, color='black', linestyle='--', alpha=0.5)
+
+ax.legend()
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{2. Cálculo de Componentes en B}
+Calculamos las energías potenciales en B.
+\begin{itemize}
+    \item Altura en B: $h_B = 60 \, \si{cm} = 0.6 \, \si{m}$.
+    \item Longitud del resorte en B: $l_B = 40 \, \si{cm} = 0.4 \, \si{m}$.
+    \item Deformación en B: $x_B = 0.4 - 0.3 = 0.1 \, \si{m}$.
+\end{itemize}
+
+Energía Potencial Gravitatoria en B:
+$$ E_{pgB} = (4)(10)(0.6) = 24 \, \si{J} $$
+
+Energía Potencial Elástica en B:
+$$ E_{peB} = \frac{1}{2} (400) (0.1)^2 = 200(0.01) = 2 \, \si{J} $$
+
+\subsubsection*{3. Cálculo de la Rapidez ($v_B$)}
+Planteamos la ecuación de conservación:
+$$ 44 = E_{cB} + E_{pgB} + E_{peB} $$
+$$ 44 = \frac{1}{2} m v_B^2 + 24 + 2 $$
+$$ 44 = \frac{1}{2} (4) v_B^2 + 26 $$
+$$ 44 = 2 v_B^2 + 26 $$
+
+Despejamos $v_B$:
+$$ 44 - 26 = 2 v_B^2 $$
+$$ 18 = 2 v_B^2 $$
+$$ 9 = v_B^2 $$
+$$ v_B = \sqrt{9} = 3 \, \si{m/s} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $v_B = 3 \, \si{m/s}$
+\end{tcolorbox}
+\end{document}

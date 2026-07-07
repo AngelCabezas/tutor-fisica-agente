@@ -1,0 +1,1364 @@
+\documentclass[12pt, a4paper]{article}
+
+% --- PAQUETES ---
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{geometry}
+\usepackage[most]{tcolorbox}
+\usepackage{siunitx}
+\usepackage{enumitem}
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usepackage{verbatim} 
+\usepackage{xcolor}
+
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta, calc, babel}
+\geometry{a4paper, margin=1in}
+
+\title{Ejercicios Dinamica: rotacional}
+\author{Dataset Entrenamiento LLM}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\subsection*{Enunciado}
+En la ecuación $\sum \vec{\tau} = I \vec{\alpha}$:
+\begin{enumerate}[label=\alph*)]
+    \item $I$ puede ser positivo o negativo
+    \item $\sum \vec{\tau}$ es perpendicular a $\vec{\alpha}$
+    \item necesariamente $\sum \vec{\tau}$ está en la misma dirección que $\vec{\alpha}$
+    \item $\sum \vec{\tau}$ puede estar en dirección contraria a $\vec{\alpha}$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Dirección del Torque y la Aceleración Angular}
+
+La Segunda Ley de Newton para la rotación establece una relación de proporcionalidad directa entre el torque neto aplicado a un sistema y la aceleración angular que este adquiere. La constante de proporcionalidad es el Momento de Inercia ($I$).
+
+Dado que la masa de un objeto no puede ser negativa y el radio al cuadrado siempre es positivo ($I = \int r^2 dm$), el momento de inercia es invariablemente un escalar positivo. En álgebra vectorial, multiplicar un vector ($\vec{\alpha}$) por un escalar positivo ($I$) da como resultado un nuevo vector ($\vec{\tau}$) que puede tener diferente magnitud, pero que obligatoriamente conserva la misma dirección y sentido.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) necesariamente $\sum \vec{\tau}$ está en la misma dirección que $\vec{\alpha}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+La segunda ley de Newton en términos angulares, $\sum \vec{\tau} = I \vec{\alpha}$:
+\begin{enumerate}[label=\alph*)]
+    \item es aplicable solo cuando el momento de inercia es constante
+    \item se puede aplicar en cualquier circunstancia
+    \item asegura que si hay un torque neto entonces el cuerpo necesariamente rota en la misma dirección que éste
+    \item no se puede aplicar cuando el torque es variable
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Derivación de la Ecuación Dinámica y el Error de Velocidad vs Aceleración}
+
+La opción correcta es la 'a'. Para entenderlo, debemos ir a la forma más fundamental y universal de la Segunda Ley de Newton, que relaciona el torque neto con la tasa de cambio del momento angular ($\vec{L} = I\vec{\omega}$):
+$$\sum \vec{\tau} = \frac{d\vec{L}}{dt} = \frac{d(I\vec{\omega})}{dt}$$
+Aplicando la regla de la cadena para derivadas obtenemos dos términos:
+$$\sum \vec{\tau} = I\frac{d\vec{\omega}}{dt} + \vec{\omega}\frac{dI}{dt}$$
+$$\sum \vec{\tau} = I\vec{\alpha} + \vec{\omega}\frac{dI}{dt}$$
+Para que la ecuación se simplifique a la conocida $\sum \vec{\tau} = I \vec{\alpha}$, el término $\frac{dI}{dt}$ debe ser cero. Esto significa matemáticamente que el momento de inercia no debe cambiar con el tiempo. (Si el cuerpo cambia de forma mientras gira, como un patinador que encoge los brazos, la fórmula simple no sirve y hay que usar conservación del momento angular).
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large a) es aplicable solo cuando el momento de inercia es constante
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+La regla uniforme de la figura, de longitud $L$, puede ser apoyada por un eje horizontal en los puntos $A, B$ ó $C$, de manera que al ser abandonada gire libremente en un plano vertical. La magnitud de la aceleración angular inicial de la regla:
+\begin{enumerate}[label=\alph*)]
+    \item es mayor alrededor de $A$ que de $B$
+    \item es mayor alrededor de $B$ que de $C$
+    \item es igual alrededor de $A$ que de $B$
+    \item es igual en los tres casos
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Relación entre Torque, Inercia y Distancia al Centro de Masa}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+fig, ax = plt.subplots(figsize=(6, 2))
+ax.axis('off')
+
+rod = patches.Rectangle((0, 0), 5, 0.4, fc='lightblue', ec='black', lw=2)
+ax.add_patch(rod)
+
+ax.plot(0.2, 0.2, 'ko', markersize=6)
+ax.text(0.1, 0.5, 'A')
+
+ax.plot(1, 0.2, 'ko', markersize=6)
+ax.text(0.9, 0.5, 'B')
+
+ax.plot(4.8, 0.2, 'ko', markersize=6)
+ax.text(4.7, 0.5, 'C')
+
+ax.plot(2.5, 0.2, 'rx', markersize=8)
+ax.text(2.4, 0.5, 'CM', color='red')
+
+ax.annotate('', xy=(1, -0.2), xytext=(0, -0.2), arrowprops=dict(arrowstyle='<->'))
+ax.text(0.5, -0.5, 'L/5', ha='center')
+
+ax.annotate('', xy=(2.5, -0.2), xytext=(1, -0.2), arrowprops=dict(arrowstyle='<->'))
+ax.text(1.75, -0.5, '0.3L', ha='center', color='blue')
+
+ax.annotate('', xy=(2.5, -0.8), xytext=(0, -0.8), arrowprops=dict(arrowstyle='<->'))
+ax.text(1.25, -1.1, '0.5L', ha='center', color='red')
+
+ax.set_xlim(-0.5, 5.5)
+ax.set_ylim(-1.5, 1)
+plt.show()
+\end{verbatim}
+
+Para comparar las aceleraciones, calculamos $\alpha = \frac{\tau}{I}$ para cada pivote. La regla es uniforme, por lo que su Centro de Masa (CM) está exactamente en el medio, a una distancia de $0.5L$ desde el extremo $A$.
+
+Analizamos el pivote $A$:
+La distancia del pivote al CM es $d_A = 0.5L$.
+El torque generado por el peso es $\tau_A = Mg(0.5L)$.
+El momento de inercia usando el teorema de Steiner es $I_A = \frac{1}{12}ML^2 + M(0.5L)^2 = \frac{1}{3}ML^2 \approx 0.333ML^2$.
+$$\alpha_A = \frac{0.5MgL}{0.333ML^2} = 1.5 \frac{g}{L}$$
+Por simetría, la aceleración en el pivote $C$ es idéntica ($\alpha_A = \alpha_C$).
+
+Analizamos el pivote $B$:
+El punto $B$ está a $L/5 = 0.2L$ desde $A$. La distancia del pivote $B$ al CM es $d_B = 0.5L - 0.2L = 0.3L$.
+El torque generado por el peso es $\tau_B = Mg(0.3L)$.
+El momento de inercia es $I_B = \frac{1}{12}ML^2 + M(0.3L)^2 = 0.0833ML^2 + 0.09ML^2 = 0.1733ML^2$.
+$$\alpha_B = \frac{0.3MgL}{0.1733ML^2} \approx 1.73 \frac{g}{L}$$
+
+Al comparar los resultados observamos que $1.73 > 1.50$. Por lo tanto, la aceleración angular es mayor al pivotar desde $B$ que al pivotar desde $A$ o $C$. Al acercar el pivote al centro de masa, el torque disminuye de forma lineal, pero la inercia rotacional disminuye de forma cuadrática, resultando en un sistema más fácil de acelerar inicialmente.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) es mayor alrededor de $B$ que de $C$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+El momento de inercia de un cuerpo rígido depende:
+\begin{enumerate}[label=\alph*)]
+    \item de la forma del cuerpo
+    \item del tamaño del cuerpo
+    \item del eje alrededor del cual puede rotar el cuerpo
+    \item de la forma y tamaño del cuerpo y del eje alrededor del cual rota el cuerpo
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Variables de la Inercia Rotacional}
+
+El momento de inercia ($I$) mide la resistencia de un objeto a cambiar su estado de rotación. Se define matemáticamente mediante la integral $I = \int r^2 dm$.
+Al analizar esta ecuación, evidenciamos de qué factores depende:
+\begin{itemize}
+    \item Depende de $m$, es decir, de la distribución espacial de la masa. Esto engloba la \textbf{forma} (si la masa está compactada o alargada) y el \textbf{tamaño} (el volumen total que ocupa esa masa).
+    \item Depende vitalmente de $r$, que es la distancia perpendicular desde cada partícula de masa hasta el \textbf{eje de rotación} elegido. El mismo objeto exacto tendrá un momento de inercia muy diferente si gira por su centro o si gira por un extremo.
+\end{itemize}
+Por lo tanto, depende simultáneamente de las tres variables descritas.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large d) de la forma y tamaño del cuerpo y del eje alrededor del cual rota el cuerpo
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Para calcular el momento de inercia de un cuerpo rígido, respecto a determinado eje de rotación, se puede reemplazar el cuerpo por su centro de masa:
+\begin{enumerate}[label=\alph*)]
+    \item siempre
+    \item nunca
+    \item solamente cuando el cuerpo es macizo
+    \item solamente cuando el cuerpo no es muy grande
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Distribución Espacial vs Masa Puntual}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(7, 3.5))
+
+ax1.axis('off')
+disk = patches.Circle((0, 0), 1, color='lightblue', ec='black', lw=2)
+ax1.add_patch(disk)
+ax1.plot(0, 0, 'ko')
+ax1.plot([0, 1], [0, 0], 'k-', lw=1.5)
+ax1.text(0.5, 0.1, 'R')
+ax1.text(0, -1.4, r'$I = \frac{1}{2}MR^2$', ha='center', fontsize=14)
+ax1.set_title('Cuerpo Extenso (Disco)', fontsize=12)
+ax1.set_xlim(-1.5, 1.5)
+ax1.set_ylim(-1.5, 1.5)
+
+ax2.axis('off')
+ax2.plot(0, 0, 'bo', markersize=15)
+ax2.text(0, -1.4, r'$I = M(0)^2 = 0$', ha='center', fontsize=14)
+ax2.set_title('Toda la masa en el CM', fontsize=12)
+ax2.set_xlim(-1.5, 1.5)
+ax2.set_ylim(-1.5, 1.5)
+
+plt.tight_layout()
+plt.show()
+\end{verbatim}
+
+El momento de inercia no solo depende de la cantidad total de masa, sino de \textbf{cómo está distribuida} esa masa alrededor del eje de rotación ($I = \int r^2 dm$). 
+Para entender por qué no podemos reemplazar el cuerpo por su centro de masa (CM), hagamos un experimento mental matemático:
+Supongamos un disco homogéneo de masa $M$ y radio $R$ que gira sobre un eje que pasa por su centro. Su inercia real es $I = \frac{1}{2}MR^2$.
+Si concentramos toda su masa en su centro de masa (que está justo en el eje de rotación), la distancia $r$ de esta "nueva partícula" al eje sería cero. Su momento de inercia se volvería $I = M(0)^2 = 0$. 
+
+Esto es un absurdo físico, ya que requeriría cero torque para hacerlo girar a cualquier velocidad. Dado que la distribución radial es la esencia misma de la inercia rotacional, alterar las posiciones relativas de las partículas para agruparlas en el CM destruye por completo el cálculo del momento de inercia.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) nunca
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+El impulso angular es una cantidad:
+\begin{enumerate}[label=\alph*)]
+    \item escalar que depende del tiempo que se aplique el torque
+    \item escalar independiente del eje alrededor del cual gira el cuerpo
+    \item vectorial que no depende del tiempo que se aplica el torque
+    \item vectorial siempre colineal con la velocidad angular
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Naturaleza Vectorial del Impulso Angular (y corrección de opciones)}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+
+fig = plt.figure(figsize=(5, 5))
+ax = fig.add_subplot(111, projection='3d')
+ax.axis('off')
+
+ax.quiver(0, 0, 0, 0, 0, 1, color='blue', lw=2)
+ax.text(0.1, 0, 1.1, r'$\vec{\omega}_i$', color='blue', fontsize=12)
+
+ax.quiver(0, 0, 0, 0, 1, 0, color='red', lw=3)
+ax.text(0, 1.2, 0, r'$\vec{J} = \vec{\tau}\Delta t = \Delta\vec{L}$', color='red', fontsize=12)
+
+ax.quiver(0, 0, 0, 0, 1, 1, color='green', lw=2)
+ax.text(0, 1.1, 1.1, r'$\vec{\omega}_f$', color='green', fontsize=12)
+
+ax.plot([0, 0], [1, 1], [0, 1], 'k--', alpha=0.5)
+ax.plot([0, 0], [0, 1], [1, 1], 'k--', alpha=0.5)
+
+ax.set_xlim(-1, 1)
+ax.set_ylim(-1, 1.5)
+ax.set_zlim(-1, 1.5)
+plt.show()
+\end{verbatim}
+
+El impulso angular ($\vec{J}$) se define matemáticamente como la integral del torque en el tiempo ($\vec{J} = \int \vec{\tau} dt$), y es igual a la variación de la cantidad de movimiento angular ($\vec{J} = \Delta\vec{L}$).
+Al ser el producto de un vector ($\vec{\tau}$) por un escalar ($dt$), el impulso angular es indudablemente una magnitud \textbf{vectorial} y \textbf{sí depende del tiempo}.
+* Esto descarta inmediatamente las opciones 'a' y 'b' (porque afirman que es escalar).
+* También descarta la opción 'c' (porque afirma que no depende del tiempo).
+
+Nos queda únicamente la opción 'd'. Si bien acierta en definirla como una cantidad vectorial, afirma que es "siempre colineal con la velocidad angular". Esto es \textbf{físicamente inexacto}. El impulso angular es colineal con el torque y, por tanto, con la \textbf{variación} de la velocidad angular ($\Delta\vec{\omega}$), no con la velocidad angular en sí ($\vec{\omega}$). (Por ejemplo, si un trompo gira verticalmente y se le aplica un torque lateral, el impulso angular es perpendicular a la velocidad angular, causando precesión).
+
+Sin embargo, en el contexto de un examen de opción múltiple, se asume la opción 'd' como la respuesta intencionada al ser la única que identifica su naturaleza vectorial y su relación intrínseca con el eje de rotación (asumiendo rotaciones simples en ejes fijos principales donde $\Delta\vec{\omega}$ y $\vec{\omega}$ yacen en la misma línea).
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large d) vectorial siempre colineal con la velocidad angular
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una mancuerna, formada por dos esferas $A$ y $B$, de masas $m$ y $3m$ respectivamente, unidas por una varilla de masa despreciable, descansa sobre una superficie horizontal lisa. Se aplica una fuerza, paralela a la superficie y perpendicular a la varilla, sobre $A$ primero y luego sobre $B$. La aceleración angular de la mancuerna:
+\begin{enumerate}[label=\alph*)]
+    \item es cero en ambos casos
+    \item es mayor en el primer caso que en el segundo
+    \item es menor en el primer caso que en el segundo
+    \item es igual en ambos casos
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Dinámica Rotacional alrededor del Centro de Masa}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+fig, ax = plt.subplots(figsize=(7, 3))
+ax.axis('off')
+
+ax.plot([0, 4], [0, 0], 'k-', lw=4)
+
+circleA = patches.Circle((0, 0), 0.4, fc='lightblue', ec='black', lw=2)
+ax.add_patch(circleA)
+ax.text(0, 0, 'm', ha='center', va='center', fontsize=12)
+ax.text(0, -0.7, 'A', ha='center', fontsize=12, fontweight='bold')
+
+circleB = patches.Circle((4, 0), 0.6, fc='lightcoral', ec='black', lw=2)
+ax.add_patch(circleB)
+ax.text(4, 0, '3m', ha='center', va='center', fontsize=12)
+ax.text(4, -0.9, 'B', ha='center', fontsize=12, fontweight='bold')
+
+ax.plot(3, 0, 'kx', markersize=10, markeredgewidth=2)
+ax.text(3, -0.5, 'CM', color='black', ha='center', fontweight='bold')
+
+ax.annotate('', xy=(3, 1), xytext=(0, 1), arrowprops=dict(arrowstyle='<->', color='blue'))
+ax.text(1.5, 1.2, r'$r_A = 3L/4$', ha='center', color='blue')
+
+ax.annotate('', xy=(4, 1), xytext=(3, 1), arrowprops=dict(arrowstyle='<->', color='red'))
+ax.text(3.5, 1.2, r'$r_B = L/4$', ha='center', color='red')
+
+ax.set_xlim(-1, 5)
+ax.set_ylim(-1.5, 2)
+plt.show()
+\end{verbatim}
+
+Dado que la mancuerna descansa sobre una superficie horizontal lisa, no tiene pivotes fijos. En estas condiciones, cualquier rotación libre ocurrirá de forma natural alrededor de su Centro de Masa (CM).
+
+Calculamos la posición del CM tomando la masa $m$ en el origen ($x=0$) y la masa $3m$ en $x=L$:
+$$x_{cm} = \frac{m(0) + 3m(L)}{m + 3m} = \frac{3mL}{4m} = \frac{3}{4}L$$
+Las distancias de cada esfera al centro de masa son:
+$$r_A = \frac{3}{4}L \quad \text{y} \quad r_B = \frac{1}{4}L$$
+
+El momento de inercia ($I$) del sistema respecto al CM es constante en ambos casos:
+$$I = m(r_A)^2 + 3m(r_B)^2 = m\left(\frac{3}{4}L\right)^2 + 3m\left(\frac{1}{4}L\right)^2 = m\left(\frac{9}{16}L^2\right) + 3m\left(\frac{1}{16}L^2\right) = \frac{12}{16}mL^2 = \frac{3}{4}mL^2$$
+
+Calculamos la aceleración angular ($\alpha = \frac{\tau}{I}$) para cada caso:
+Caso 1 (Fuerza sobre A): El torque es $\tau_1 = F \cdot r_A = F\left(\frac{3}{4}L\right)$.
+$$\alpha_1 = \frac{F(3L/4)}{3mL^2/4} = \frac{F}{mL}$$
+
+Caso 2 (Fuerza sobre B): El torque es $\tau_2 = F \cdot r_B = F\left(\frac{1}{4}L\right)$.
+$$\alpha_2 = \frac{F(L/4)}{3mL^2/4} = \frac{F}{3mL}$$
+
+Comparando ambos resultados, es evidente matemáticamente que $\frac{F}{mL} > \frac{F}{3mL}$. Aplicar la fuerza en la masa más ligera genera mayor aceleración angular porque se aprovecha un brazo de palanca significativamente mayor respecto al centro de masa.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) es mayor en el primer caso que en el segundo
+\end{tcolorbox}
+
+\vspace{1cm}
+
+\subsection*{Enunciado}
+Suponga que en cierto momento toda la población de la Tierra empezara a correr hacia el oeste, entonces la velocidad angular de ésta:
+\begin{enumerate}[label=\alph*)]
+    \item aumentaría
+    \item disminuiría
+    \item permanecería constante
+    \item puede aumentar o disminuir, dependiendo de la velocidad con la que corran las personas
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Conservación del Momento Angular y Sistemas Cerrados}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+fig, ax = plt.subplots(figsize=(5, 5))
+ax.axis('off')
+
+earth = patches.Circle((0, 0), 2, fill=False, color='blue', lw=2)
+ax.add_patch(earth)
+
+ax.arrow(0, 2.5, -1, 0, head_width=0.2, color='blue', lw=2)
+ax.text(-0.5, 2.7, 'Oeste', color='blue', ha='center')
+ax.arrow(0, 2.5, 1, 0, head_width=0.2, color='blue', lw=2)
+ax.text(0.5, 2.7, 'Este', color='blue', ha='center')
+
+arc1 = patches.Arc((0, 0), 5, 5, angle=0, theta1=45, theta2=135, color='green', lw=2)
+ax.add_patch(arc1)
+ax.arrow(-1.75, 1.75, -0.1, -0.1, head_width=0.15, color='green', lw=2)
+ax.text(-2.5, 1.8, r'$\omega_{Tierra}$', color='green', fontsize=12)
+
+ax.plot(0, 2, 'ro', markersize=8)
+ax.arrow(0, 2, -1.2, 0, head_width=0.2, color='red', lw=2)
+ax.text(-1, 1.6, r'$\vec{v}_{personas}$', color='red', fontsize=12)
+
+ax.set_xlim(-3, 3)
+ax.set_ylim(-3, 3.5)
+plt.show()
+\end{verbatim}
+
+El sistema Tierra-Población es un sistema cerrado en el espacio. Al no existir torques externos significativos, el momento angular total ($L_{total}$) debe permanecer estrictamente constante.
+$$L_{total} = L_{Tierra} + L_{Poblacion} = \text{constante}$$
+
+La Tierra rota de Oeste a Este. Establezcamos esta dirección como positiva para el momento angular.
+Inicialmente, las personas están en reposo relativo al suelo, por lo que viajan de Oeste a Este arrastradas por la rotación del planeta, aportando un momento angular positivo.
+Si toda la población empieza a correr hacia el Oeste, se están moviendo en sentido contrario a la rotación natural del planeta. Esto disminuye su velocidad real en el espacio, reduciendo drásticamente su contribución al momento angular total ($L_{Poblacion}$ disminuye).
+
+Para que la suma matemática se mantenga constante, la reducción del momento angular de las personas debe ser compensada obligatoriamente por un incremento en el momento angular del planeta ($L_{Tierra}$ debe aumentar).
+Dado que $L_{Tierra} = I_{Tierra} \omega_{Tierra}$ y el momento de inercia de la Tierra es fijo, la única forma de que su momento angular aumente es que su velocidad angular ($\omega_{Tierra}$) aumente. La Tierra giraría imperceptiblemente más rápido.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large a) aumentaría
+\end{tcolorbox}
+
+\vspace{1cm}
+
+\subsection*{Enunciado}
+El péndulo de la figura, formado por una esfera de masa $m$ y por una varilla de longitud $L$ y masa despreciable, se suelta desde el reposo, en la posición indicada. En la parte más baja de su trayectoria vertical la esfera choca contra otra esfera idéntica, que se está moviendo horizontalmente con una rapidez $v = \sqrt{2gL}$. Luego del choque las dos esferas quedan pegadas. Entonces, inmediatamente después del choque la CMA (Cantidad de Movimiento Angular) del sistema, tiene una magnitud igual a:
+\begin{enumerate}[label=\alph*)]
+    \item $0$
+    \item $mL\sqrt{2gL}$
+    \item $2mL\sqrt{2gL}$
+    \item $3mL\sqrt{2gL}$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Suma Vectorial del Momento Angular Previo a la Colisión}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+import numpy as np
+
+fig, ax = plt.subplots(figsize=(5, 5))
+ax.axis('off')
+
+ax.plot(0, 2, 'k^', markersize=12)
+ax.plot([0, 2], [2, 2], 'k-', lw=3)
+ax.plot(2, 2, 'bo', markersize=15)
+ax.text(2.3, 2, 'm')
+
+arc = patches.Arc((0, 2), 4, 4, angle=0, theta1=270, theta2=360, color='k', ls='--')
+ax.add_patch(arc)
+
+ax.plot([0, 0], [2, 0], 'k--', lw=2)
+ax.plot(0, 0, 'bo', markersize=15, fillstyle='none')
+ax.arrow(0, 0, -0.8, 0, head_width=0.15, color='blue', lw=2)
+ax.text(-0.5, 0.2, r'$\vec{v}_1$', color='blue')
+
+ax.plot(-2, 0, 'ro', markersize=15)
+ax.text(-2.3, 0, 'm')
+ax.arrow(-2, 0, 0.8, 0, head_width=0.15, color='red', lw=2)
+ax.text(-1.5, 0.2, r'$\vec{v}_2$', color='red')
+
+ax.plot([-0.1, -0.1], [2, 0], 'k|-', lw=1)
+ax.text(-0.3, 1, 'L', fontsize=12)
+
+ax.set_xlim(-3, 3)
+ax.set_ylim(-1, 3)
+plt.show()
+\end{verbatim}
+
+Dado que las fuerzas de colisión son estrictamente internas, el momento angular total del sistema se conserva alrededor del pivote ($L_{antes} = L_{despues}$). Calcularemos el momento angular total justo un instante antes del choque.
+
+1. Análisis del péndulo:
+Se suelta desde la horizontal. Por conservación de la energía mecánica ($mgL = \frac{1}{2}mv^2$), la rapidez de la masa del péndulo al llegar al punto más bajo es $v_1 = \sqrt{2gL}$. Su dirección de movimiento es hacia la izquierda.
+El momento angular de esta masa respecto al pivote es $L_1 = r_{\perp} \cdot p = L(m v_1) = mL\sqrt{2gL}$. 
+Utilizando la regla de la mano derecha (vector posición hacia abajo, velocidad hacia la izquierda), el giro es \textbf{horario} (lo consideraremos matemáticamente negativo).
+$$L_1 = -mL\sqrt{2gL}$$
+
+2. Análisis de la esfera entrante:
+Se aproxima horizontalmente desde la izquierda con una rapidez dada por el enunciado $v_2 = \sqrt{2gL}$. Su dirección de movimiento es hacia la derecha para impactar al péndulo.
+El brazo de palanca perpendicular desde la línea de acción de esta esfera hasta el pivote es exactamente $L$.
+El momento angular de esta masa respecto al pivote es $L_2 = r_{\perp} \cdot p = L(m v_2) = mL\sqrt{2gL}$.
+Utilizando la regla de la mano derecha (vector posición hacia abajo, velocidad hacia la derecha), la tendencia de giro alrededor del pivote es \textbf{antihorario} (lo consideraremos positivo).
+$$L_2 = +mL\sqrt{2gL}$$
+
+3. Momento Angular Total del Sistema:
+Sumamos vectorialmente ambas contribuciones:
+$$L_{total} = L_1 + L_2 = -mL\sqrt{2gL} + mL\sqrt{2gL} = 0$$
+
+Al ser nulo el momento angular justo antes del choque, la conservación dicta que inmediatamente después del choque, la magnitud de la CMA también será exactamente cero. (Físicamente, ambas masas se detendrán en seco tras pegarse).
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large a) $0$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Para utilizar la expresión $\sum \vec{\tau} = I \vec{\alpha}$, en el cálculo de la aceleración angular de un cuerpo rígido que rota alrededor de un eje, es necesario y suficiente que:
+\begin{enumerate}[label=\alph*)]
+    \item la masa del cuerpo sea constante
+    \item la inercia rotacional, $I$, sea constante
+    \item el eje sea fijo
+    \item el cuerpo se encuentre inicialmente en reposo
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Restricción del Eje Fijo en la Dinámica de Rotación}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+import numpy as np
+
+fig = plt.figure(figsize=(6, 4))
+ax = fig.add_subplot(111, projection='3d')
+ax.axis('off')
+
+z_line = np.linspace(-2, 2, 10)
+x_line = np.zeros_like(z_line)
+y_line = np.zeros_like(z_line)
+ax.plot(x_line, y_line, z_line, 'k-', lw=3)
+ax.text(0.2, 0, 1.8, 'Eje Fijo', fontsize=12, fontweight='bold')
+
+u = np.linspace(0, 2*np.pi, 50)
+v = np.linspace(0, np.pi, 50)
+x = 1.5 * np.outer(np.cos(u), np.sin(v))
+y = 1.5 * np.outer(np.sin(u), np.sin(v))
+z = 0.5 * np.outer(np.ones(np.size(u)), np.cos(v))
+ax.plot_surface(x, y, z, color='lightblue', alpha=0.6, ec='gray', lw=0.5)
+
+ax.quiver(0, 0, 1, 0, 0, 1, color='blue', lw=2)
+ax.text(0.1, 0, 2.2, r'$\vec{\alpha}$', color='blue', fontsize=12)
+
+ax.quiver(0, 0, 0, 0, 0, 1.5, color='red', lw=2)
+ax.text(0.1, 0, 1.2, r'$\vec{\tau}_{net}$', color='red', fontsize=12)
+
+theta = np.linspace(0, np.pi, 20)
+arc_x = 1 * np.cos(theta)
+arc_y = 1 * np.sin(theta)
+arc_z = np.ones_like(theta) * 0.5
+ax.plot(arc_x, arc_y, arc_z, color='blue', lw=2)
+ax.quiver(arc_x[-2], arc_y[-2], 0.5, arc_x[-1]-arc_x[-2], arc_y[-1]-arc_y[-2], 0, color='blue')
+
+ax.set_xlim(-2, 2)
+ax.set_ylim(-2, 2)
+ax.set_zlim(-2, 2.5)
+plt.show()
+\end{verbatim}
+
+La ecuación general del movimiento rotacional en tres dimensiones proviene de la conservación del momento angular: $\sum \vec{\tau} = \frac{d\vec{L}}{dt}$.
+Sabiendo que $\vec{L} = I\vec{\omega}$, la derivada se expande matemáticamente como:
+$$\sum \vec{\tau} = I \frac{d\vec{\omega}}{dt} + \vec{\omega} \frac{dI}{dt}$$
+
+El enunciado nos indica que tratamos con un \textbf{"cuerpo rígido"}. Por definición, las partículas de un cuerpo rígido no cambian sus posiciones relativas, por lo que su inercia ($I$) respecto a un eje dado no cambia. Esto elimina el segundo término ($\frac{dI}{dt} = 0$).
+
+Sin embargo, para que los vectores torque ($\vec{\tau}$) y aceleración angular ($\vec{\alpha}$) sean perfectamente colineales como lo exige la expresión simplificada $\sum \vec{\tau} = I \vec{\alpha}$, el momento angular $\vec{L}$ debe cambiar únicamente en magnitud y no en dirección. 
+Si el eje de rotación se moviera o se inclinara (como un trompo que cabecea), el vector $\vec{\omega}$ cambiaría de dirección en el espacio. Un cambio de dirección en la velocidad implica una aceleración angular transversal que genera fuerzas giroscópicas, requiriendo torques adicionales que complican la ecuación (Ecuaciones de Euler).
+Por lo tanto, la condición \textbf{necesaria y suficiente} en la mecánica básica para que esta ecuación escalar/vectorial simple sea válida, es confinar el movimiento rotacional a un \textbf{eje fijo}.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) el eje sea fijo
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una esfera rueda, sin deslizar, hacia abajo de un plano inclinado rugoso. Respecto a un eje horizontal que pasa por el centro de la esfera, se cumple que:
+\begin{enumerate}[label=\alph*)]
+    \item el torque neto es cero
+    \item el torque neto y rapidez angular aumentan
+    \item la inercia rotacional aumenta
+    \item la inercia rotacional permanece constante y su rapidez angular aumenta
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Dinámica de Rodadura en un Plano Inclinado}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+import numpy as np
+
+fig, ax = plt.subplots(figsize=(6, 5))
+ax.axis('off')
+
+x = np.linspace(0, 6, 100)
+y = 0.5 * x
+ax.plot(x, y, 'k-', lw=3)
+
+angle = np.arctan(0.5)
+cx = 3
+cy = 1.5 + 1.2 / np.cos(angle)
+sphere = plt.Circle((cx, cy), 1.2, fill=False, color='black', lw=2)
+ax.add_patch(sphere)
+
+ax.plot(cx, cy, 'ko')
+ax.text(cx + 0.2, cy + 0.2, 'CM', fontsize=12)
+
+ax.arrow(cx, cy, 0, -1.8, head_width=0.15, color='blue', lw=2)
+ax.text(cx + 0.1, cy - 2, r'$m\vec{g}$', color='blue', fontsize=12)
+
+contact_x = cx + 1.2 * np.sin(angle)
+contact_y = cy - 1.2 * np.cos(angle)
+
+norm_dx = -1.5 * np.sin(angle)
+norm_dy = 1.5 * np.cos(angle)
+ax.arrow(contact_x, contact_y, norm_dx, norm_dy, head_width=0.15, color='red', lw=2)
+ax.text(contact_x + norm_dx - 0.5, contact_y + norm_dy, r'$\vec{N}$', color='red', fontsize=12)
+
+fric_dx = -1.5 * np.cos(angle)
+fric_dy = -1.5 * np.sin(angle)
+ax.arrow(contact_x, contact_y, fric_dx, fric_dy, head_width=0.15, color='green', lw=2)
+ax.text(contact_x + fric_dx, contact_y + fric_dy - 0.3, r'$\vec{f}_s$', color='green', fontsize=12)
+
+arc = patches.Arc((cx, cy), 1, 1, angle=0, theta1=200, theta2=340, color='purple', lw=2)
+ax.add_patch(arc)
+ax.arrow(cx + 0.47*np.cos(np.radians(340)), cy + 0.47*np.sin(np.radians(340)), 0.1, -0.1, head_width=0.1, color='purple', lw=2)
+ax.text(cx + 0.7, cy - 0.5, r'$\vec{\alpha}$', color='purple', fontsize=12)
+
+ax.set_xlim(0, 6)
+ax.set_ylim(-1, 5)
+plt.show()
+\end{verbatim}
+
+1. \textbf{Inercia Rotacional ($I$):} La esfera es un cuerpo rígido macizo. Su momento de inercia respecto a su centro geométrico es $I = \frac{2}{5}mR^2$. Como ni la masa ni el radio cambian mientras baja, su inercia rotacional \textbf{permanece estrictamente constante}. Esto descarta automáticamente la opción 'c'.
+2. \textbf{Torque Neto ($\sum \vec{\tau}$):} Analizamos las tres fuerzas que actúan sobre la esfera:
+    * El Peso ($mg$): Actúa exactamente en el CM. Su brazo de palanca es cero, por lo que no hace torque ($\tau_{mg} = 0$).
+    * La Normal ($N$): Su línea de acción es perpendicular a la superficie y pasa exactamente a través del centro de la esfera. Su brazo de palanca es cero ($\tau_N = 0$).
+    * La Fricción Estática ($f_s$): Actúa en el punto de contacto, paralela a la rampa. Su línea de acción está a una distancia perpendicular igual al radio ($R$) del centro. Produce un torque $\tau = f_s \cdot R$.
+    Dado que el ángulo de inclinación es constante, la fuerza de fricción requerida para rodar sin resbalar es constante. Por lo tanto, el torque neto es \textbf{constante y diferente de cero}. Esto descarta las opciones 'a' y 'b'.
+3. \textbf{Rapidez Angular ($\omega$):} Como existe un torque neto constante, la esfera experimenta una aceleración angular constante ($\vec{\alpha} = \vec{\tau}/I$). Una aceleración angular constante en la misma dirección del movimiento implica, por cinemática, que la \textbf{rapidez angular de la esfera aumenta} de manera continua mientras baja.
+
+El análisis físico confirma que la opción 'd' describe perfectamente la dinámica del sistema.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large d) la inercia rotacional permanece constante y su rapidez angular aumenta
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una regla de masa $m$ puede rotar alrededor de un eje horizontal fijo, que pasa por uno de sus extremos. Si se la abandona desde el reposo, desde la posición horizontal, mientras baja, respecto a dicho eje:
+\begin{enumerate}[label=\alph*.]
+    \item el torque producido por su peso aumenta
+    \item el momento de inercia de la regla, respecto a dicho eje, aumenta
+    \item la cantidad de movimiento angular de la regla aumenta
+    \item la aceleración angular de la regla permanece constante
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Físico y Diagrama}
+Consideremos una regla de longitud $L$ y masa $m$. El eje de rotación se encuentra en un extremo, al cual llamaremos pivote. La única fuerza que produce torque respecto a este eje es el peso de la regla ($W = mg$), el cual actúa en su centro de masa, ubicado a una distancia de $L/2$ del pivote.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+import matplotlib.patches as patches
+import matplotlib.transforms as transforms
+
+def draw_ruler_dynamics():
+    fig, ax = plt.subplots(figsize=(7, 5))
+    ax.set_title("Dinámica de la regla en rotación")
+    ax.set_xlim(-0.2, 1.2)
+    ax.set_ylim(-1.0, 0.3)
+    ax.axis('off')
+
+    ax.plot(0, 0, 'ko', markersize=8)
+    ax.text(-0.08, 0.05, 'Eje', fontsize=12)
+
+    rect_h = patches.Rectangle((0, -0.05), 1, 0.1, linewidth=1, edgecolor='gray', facecolor='lightgray', alpha=0.5)
+    ax.add_patch(rect_h)
+    ax.plot(0.5, 0, 'ro', markersize=5)
+    ax.arrow(0.5, 0, 0, -0.4, head_width=0.03, fc='red', ec='red', alpha=0.3)
+    ax.text(0.55, -0.2, '$mg$', color='red', fontsize=12, alpha=0.3)
+
+    theta_deg = -35
+    theta = np.radians(theta_deg)
+    length = 1.0
+    x_cm = (length/2) * np.cos(theta)
+    y_cm = (length/2) * np.sin(theta)
+
+    t = transforms.Affine2D().rotate_around(0, 0, theta) + ax.transData
+    rect_ang = patches.Rectangle((0, -0.05), 1, 0.1, linewidth=1.5, edgecolor='black', facecolor='skyblue', transform=t)
+    ax.add_patch(rect_ang)
+
+    ax.plot(x_cm, y_cm, 'ro', markersize=5)
+    ax.arrow(x_cm, y_cm, 0, -0.4, head_width=0.03, fc='red', ec='red')
+    ax.text(x_cm + 0.05, y_cm - 0.2, '$mg$', color='red', fontsize=12)
+
+    arc = patches.Arc((0,0), 0.4, 0.4, angle=0, theta1=theta_deg, theta2=0, color='blue', linewidth=1.5)
+    ax.add_patch(arc)
+    ax.text(0.25, -0.1, r'$\theta$', color='blue', fontsize=14)
+
+    ax.plot([0, x_cm], [y_cm, y_cm], 'k--')
+    ax.plot([x_cm, x_cm], [0, y_cm], 'k--')
+    ax.text(x_cm/2, y_cm - 0.08, r'$r_{\perp}$', ha='center', fontsize=12)
+
+    plt.tight_layout()
+    plt.show()
+
+draw_ruler_dynamics()
+\end{lstlisting}
+
+\subsubsection*{2. Evaluación de las Opciones}
+
+\textbf{Análisis del Torque (Opción a):}
+El torque ($\tau$) generado por el peso se define como el producto de la fuerza por el brazo de palanca ($r_{\perp}$). Si $\theta$ es el ángulo que forma la regla con la horizontal, el brazo de palanca es la distancia horizontal desde el eje hasta el centro de masa.
+$$\tau = F \cdot r_{\perp} = (mg) \left( \frac{L}{2} \cos\theta \right)$$
+A medida que la regla baja, el ángulo $\theta$ aumenta (de $0^\circ$ hacia $90^\circ$). En el primer cuadrante, al aumentar el ángulo, la función $\cos\theta$ disminuye. Por lo tanto, el brazo de palanca se hace más corto y el torque \textbf{disminuye}. La opción \textit{a} es incorrecta.
+
+\textbf{Análisis del Momento de Inercia (Opción b):}
+El momento de inercia ($I$) de una varilla que gira respecto a uno de sus extremos es una constante que depende exclusivamente de su masa y distribución geométrica:
+$$I = \frac{1}{3}mL^2$$
+Como ni la masa ni la longitud de la regla cambian durante la caída, el momento de inercia permanece \textbf{constante}. La opción \textit{b} es incorrecta.
+
+\textbf{Análisis de la Aceleración Angular (Opción d):}
+Aplicando la Segunda Ley de Newton para la rotación:
+$$\tau = I \alpha \implies \alpha = \frac{\tau}{I}$$
+Sabemos que el torque $\tau$ está disminuyendo y que el momento de inercia $I$ es constante. En consecuencia, la aceleración angular $\alpha$ también \textbf{disminuye}. La opción \textit{d} es incorrecta.
+
+\textbf{Análisis de la Cantidad de Movimiento Angular (Opción c):}
+La cantidad de movimiento angular ($L_{ang}$) se define como:
+$$L_{ang} = I \omega$$
+Aunque la aceleración angular $\alpha$ está disminuyendo, su valor sigue siendo positivo (tiene el mismo sentido que el movimiento). Mientras exista una aceleración angular positiva, la velocidad angular $\omega$ seguirá \textbf{aumentando}. Dado que $\omega$ aumenta e $I$ es constante, el producto $I \omega$ aumenta. Por lo tanto, la cantidad de movimiento angular de la regla aumenta a medida que cae. La opción \textit{c} es la correcta.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Correcta]
+\centering \Large c. la cantidad de movimiento angular de la regla aumenta
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un disco de masa $m$ y radio $R$ recibe un impulso angular y rueda sobre una superficie horizontal rugosa. Entonces, despreciando la fricción con el aire:
+\begin{enumerate}[label=\alph*.]
+    \item el disco se mantendrá moviendo con velocidad angular constante
+    \item el torque neto sobre el disco, respecto al eje horizontal que pasa por su centro, es cero
+    \item la CMA del disco irá disminuyendo
+    \item el momento de inercia del disco va disminuyendo
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Físico}
+Cuando el disco recibe un impulso angular, adquiere una velocidad angular inicial $\omega_0$. Al entrar en contacto con la superficie rugosa, existe un deslizamiento relativo entre el punto de contacto del disco y el suelo. Este deslizamiento genera una fuerza de rozamiento cinético ($f_k$) que se opone al sentido de rotación en dicho punto de contacto.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+def draw_rolling_disk():
+    fig, ax = plt.subplots(figsize=(6, 4))
+    ax.set_xlim(-2, 2)
+    ax.set_ylim(-0.5, 2.5)
+    ax.axis('off')
+
+    ax.plot([-2, 2], [0, 0], 'k-', lw=2)
+
+    circle = patches.Circle((0, 1), 1, linewidth=1.5, edgecolor='black', facecolor='lightgray')
+    ax.add_patch(circle)
+    ax.plot(0, 1, 'ko')
+    ax.text(0, 1.1, 'CM', ha='center')
+
+    ax.arrow(0, 1, 0, -1, head_width=0.1, fc='black', ec='black', length_includes_head=True)
+    ax.text(0.1, 0.4, 'W')
+
+    ax.arrow(0, 0, 0, 0.9, head_width=0.1, fc='blue', ec='blue', length_includes_head=True)
+    ax.text(-0.3, 0.4, 'N', color='blue')
+
+    ax.arrow(0, 0, -0.8, 0, head_width=0.1, fc='red', ec='red', length_includes_head=True)
+    ax.text(-0.5, 0.1, '$f_k$', color='red')
+
+    arc = patches.Arc((0, 1), 0.8, 0.8, angle=0, theta1=0, theta2=180, color='green', linewidth=1.5)
+    ax.add_patch(arc)
+    ax.arrow(-0.4, 1, 0, -0.1, head_width=0.08, fc='green', ec='green')
+    ax.text(-0.7, 1.5, r'$\omega$', color='green')
+
+    plt.tight_layout()
+    plt.show()
+
+draw_rolling_disk()
+\end{lstlisting}
+
+\subsubsection*{2. Evaluación de las Opciones}
+
+\textbf{Análisis de la Velocidad Angular (Opción a):}
+Debido a la presencia de la fuerza de rozamiento cinético, se genera una aceleración angular que se opone a la rotación. Por lo tanto, la velocidad angular no es constante; esta disminuirá hasta que el disco alcance la condición de rodadura pura (donde el punto de contacto tenga velocidad cero respecto al suelo). La opción \textit{a} es incorrecta.
+
+\textbf{Análisis del Torque Neto (Opción b):}
+El torque neto ($\tau$) respecto al centro de masa se calcula multiplicando la fuerza por su brazo de palanca. El peso ($W$) y la normal ($N$) pasan exactamente por el centro de masa, por lo que su torque es cero. Sin embargo, la fuerza de rozamiento actúa en el borde del disco, a una distancia $R$ del centro:
+$$\tau_{neto} = f_k \cdot R$$
+Dado que la superficie es rugosa, $f_k \neq 0$, y por ende, el torque neto es diferente de cero. La opción \textit{b} es incorrecta.
+
+\textbf{Análisis del Momento de Inercia (Opción d):}
+El momento de inercia de un disco uniforme respecto a su centro es $I = \frac{1}{2}mR^2$. Esta es una propiedad intrínseca que depende de su distribución de masa y su geometría, la cual permanece inalterable durante el movimiento. La opción \textit{d} es incorrecta.
+
+\textbf{Análisis de la Cantidad de Movimiento Angular (Opción c):}
+La Cantidad de Movimiento Angular (CMA, comúnmente denotada como $L$) respecto al centro de rotación se define por la ecuación:
+$$L = I \omega$$
+Como analizamos en el punto anterior, el momento de inercia $I$ es constante. No obstante, el torque generado por la fricción causa una desaceleración, provocando que la velocidad angular $\omega$ disminuya progresivamente. Al ser $L$ directamente proporcional a $\omega$, la magnitud de la cantidad de movimiento angular también irá disminuyendo en el tiempo. La opción \textit{c} es la correcta.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Correcta]
+\centering \Large c. la CMA del disco irá disminuyendo
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Se aplica un torque externo neto, paralelo al eje de rotación, sobre un cuerpo que se encuentra inicialmente rotando. Entonces la velocidad angular del cuerpo:
+\begin{enumerate}[label=\alph*.]
+    \item puede cambiar de magnitud pero no de dirección
+    \item necesariamente aumenta
+    \item puede cambiar tanto en magnitud como en dirección
+    \item necesariamente cambia de dirección
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Vectorial}
+Tanto la velocidad angular ($\vec{\omega}$) como el torque ($\vec{\tau}$) y la aceleración angular ($\vec{\alpha}$) son magnitudes vectoriales. Cuando un cuerpo gira alrededor de un eje fijo, su vector de velocidad angular $\vec{\omega}$ se encuentra sobre dicho eje. 
+
+El problema indica que el torque externo neto es \textbf{paralelo} al eje de rotación. Esto significa que el vector $\vec{\tau}$ es colineal con $\vec{\omega}$, existiendo dos posibles escenarios:
+\begin{itemize}
+    \item Que apunten en el mismo sentido (paralelos).
+    \item Que apunten en sentidos opuestos (antiparalelos).
+\end{itemize}
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+def draw_vectors():
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8, 3))
+    
+    ax1.set_title("Caso 1: Mismo sentido")
+    ax1.set_xlim(-1, 5)
+    ax1.set_ylim(-1, 1)
+    ax1.axis('off')
+    ax1.arrow(0, 0, 2, 0, head_width=0.2, head_length=0.3, fc='blue', ec='blue')
+    ax1.text(0.8, 0.3, r'$\vec{\omega}_0$', color='blue', fontsize=14)
+    ax1.arrow(0, -0.4, 1.5, 0, head_width=0.2, head_length=0.3, fc='red', ec='red')
+    ax1.text(0.5, -0.8, r'$\vec{\tau}_{neto}$', color='red', fontsize=14)
+    
+    ax2.set_title("Caso 2: Sentido opuesto")
+    ax2.set_xlim(-3, 3)
+    ax2.set_ylim(-1, 1)
+    ax2.axis('off')
+    ax2.arrow(0, 0, 2, 0, head_width=0.2, head_length=0.3, fc='blue', ec='blue')
+    ax2.text(0.8, 0.3, r'$\vec{\omega}_0$', color='blue', fontsize=14)
+    ax2.arrow(0, -0.4, -1.5, 0, head_width=0.2, head_length=0.3, fc='red', ec='red')
+    ax2.text(-1.2, -0.8, r'$\vec{\tau}_{neto}$', color='red', fontsize=14)
+
+    plt.tight_layout()
+    plt.show()
+
+draw_vectors()
+\end{lstlisting}
+
+\subsubsection*{2. Evaluación de los Escenarios}
+Por la Segunda Ley de Newton para la rotación, sabemos que $\vec{\tau}_{neto} = I \vec{\alpha}$. Dado que el momento de inercia ($I$) es un escalar positivo, la aceleración angular $\vec{\alpha}$ siempre tendrá la misma dirección y sentido que el torque neto.
+
+\textbf{Si el torque actúa en el mismo sentido (Caso 1):}
+La aceleración angular $\vec{\alpha}$ tiene el mismo signo que la velocidad angular inicial $\vec{\omega}_0$. Aplicando la ecuación de cinemática rotacional $\vec{\omega}_f = \vec{\omega}_0 + \vec{\alpha}t$, la magnitud de la velocidad angular \textbf{aumentará} de forma continua, manteniendo su dirección original.
+
+\textbf{Si el torque actúa en sentido opuesto (Caso 2):}
+La aceleración angular $\vec{\alpha}$ tiene signo contrario a la velocidad angular inicial $\vec{\omega}_0$. Esto produce una \textbf{disminución} en la magnitud de la velocidad angular (el cuerpo frena). Si este torque se mantiene el tiempo suficiente, la velocidad angular llegará a cero y luego el cuerpo comenzará a girar en el sentido opuesto, lo que implica un \textbf{cambio de dirección} del vector $\vec{\omega}$.
+
+\subsubsection*{3. Conclusión}
+Dependiendo de si el torque aplicado favorece o se opone al movimiento inicial, y del tiempo que actúe, la velocidad angular \textbf{puede cambiar tanto en magnitud} (aumentando o disminuyendo) \textbf{como en dirección} (si se frena hasta invertir su giro).
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Correcta]
+\centering \Large c. puede cambiar tanto en magnitud como en dirección
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Cuando se derrite una masa de hielo de altura uniforme, ubicada en el fondo de un recipiente cilíndrico vertical, que giraba con rapidez angular uniforme, alrededor de un eje vertical que pasa por su centro de masa, la rapidez angular del recipiente:
+\begin{enumerate}[label=\alph*.]
+    \item disminuye porque actúa un torque en contra del movimiento
+    \item aumenta porque actúa un torque a favor del movimiento
+    \item permanece constante porque no existe torque neto
+    \item disminuye porque aumenta la inercia rotacional del sistema
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis de Torques y Conservación}
+En este sistema (recipiente + masa de agua/hielo), no existen fuerzas externas que generen un torque respecto al eje vertical de rotación. Al ser el torque neto externo igual a cero ($\tau_{neto} = 0$), el sistema obedece la ley de conservación de la cantidad de movimiento angular ($L$).
+$$L_i = L_f$$
+$$I_i \omega_i = I_f \omega_f$$
+Esto nos permite descartar de inmediato las opciones \textit{a} y \textit{b}, ya que afirman la existencia de un torque neto actuando sobre el sistema.
+
+\subsubsection*{2. Análisis de la Inercia Rotacional}
+El momento de inercia ($I$) depende de cómo está distribuida la masa respecto al eje de rotación. Mientras más alejada esté la masa del eje, mayor será el momento de inercia.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def draw_melting_ice():
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8, 4))
+    
+    ax1.set_title("Antes: Hielo (Sólido)")
+    ax1.set_xlim(-2, 2)
+    ax1.set_ylim(0, 4)
+    ax1.axis('off')
+    ax1.plot([-1.5, -1.5], [0, 4], 'k-', lw=2)
+    ax1.plot([1.5, 1.5], [0, 4], 'k-', lw=2)
+    ax1.plot([-1.5, 1.5], [0, 0], 'k-', lw=2)
+    ax1.fill_between([-1.5, 1.5], 0, 1.5, color='lightblue', alpha=0.7)
+    ax1.plot([0, 0], [0, 4], 'k--', lw=1)
+    ax1.text(0, 0.75, 'Masa uniforme', ha='center', fontsize=10)
+    
+    ax2.set_title("Después: Agua (Fluido en rotación)")
+    ax2.set_xlim(-2, 2)
+    ax2.set_ylim(0, 4)
+    ax2.axis('off')
+    ax2.plot([-1.5, -1.5], [0, 4], 'k-', lw=2)
+    ax2.plot([1.5, 1.5], [0, 4], 'k-', lw=2)
+    ax2.plot([-1.5, 1.5], [0, 0], 'k-', lw=2)
+    x = np.linspace(-1.5, 1.5, 100)
+    y = 0.5 + 0.7 * x**2
+    ax2.fill_between(x, 0, y, color='blue', alpha=0.5)
+    ax2.plot([0, 0], [0, 4], 'k--', lw=1)
+    ax2.text(0, 0.4, 'Masa desplazada', ha='center', fontsize=10)
+    ax2.arrow(0.2, 0.8, 0.8, 0.3, head_width=0.1, fc='black', ec='black')
+    ax2.arrow(-0.2, 0.8, -0.8, 0.3, head_width=0.1, fc='black', ec='black')
+    
+    plt.tight_layout()
+    plt.show()
+
+draw_melting_ice()
+\end{lstlisting}
+
+Cuando el hielo está en estado sólido, mantiene su forma de disco cilíndrico uniforme en el fondo del recipiente. Sin embargo, al derretirse y convertirse en agua (un fluido), la rotación del recipiente provoca que el agua se desplace hacia las paredes externas, adquiriendo la forma de un paraboloide de revolución. 
+
+Al desplazarse el agua hacia los bordes, una mayor fracción de la masa se aleja del eje de giro. En consecuencia, el momento de inercia final ($I_f$) es mayor que el momento de inercia inicial ($I_i$).
+$$I_f > I_i$$
+
+\subsubsection*{3. Conclusión}
+Retomando la ecuación de conservación del momento angular:
+$$\omega_f = \frac{I_i}{I_f} \omega_i$$
+Dado que el denominador ($I_f$) ha aumentado y el sistema debe mantener su cantidad de movimiento angular constante, la rapidez angular final ($\omega_f$) debe ser obligatoriamente menor a la inicial. La rapidez angular disminuye porque la inercia rotacional aumenta.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Correcta]
+\centering \Large d. disminuye porque aumenta la inercia rotacional del sistema
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+La mancuerna de la figura, apoyada en el centro geométrico, se suelta desde el reposo, en la posición indicada. El torque neto que actúa sobre la mancuerna, alrededor del centro de giro:
+\begin{enumerate}[label=\alph*.]
+    \item permanece constante e igual a cero
+    \item permanece constante y diferente de cero
+    \item es variable
+    \item puede ser constante o variable
+\end{enumerate}
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[thick] (-2, 0) -- (2, 0);
+    \draw[thick, fill=white] (-2, 0) circle (0.3) node {$2m$};
+    \draw[thick, fill=white] (2, 0) circle (0.3) node {$1.5m$};
+    \draw[thick] (-0.3, -0.5) -- (0.3, -0.5) -- (0, 0) -- cycle;
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis del Sistema en el Instante Inicial}
+La mancuerna está apoyada en su centro geométrico, por lo que las distancias desde el pivote hasta cada masa son iguales. Llamemos a esta distancia $R$. 
+En la posición horizontal inicial, los pesos de ambas masas son perpendiculares a la varilla. 
+El torque inicial producido por la masa izquierda (que tiende a hacer girar el sistema en sentido antihorario) es $\tau_1 = (2mg)R$.
+El torque inicial producido por la masa derecha (que tiende a hacer girar el sistema en sentido horario) es $\tau_2 = (1.5mg)R$.
+El torque neto inicial es la diferencia entre ambos:
+$$\tau_{neto, inicial} = 2mgR - 1.5mgR = 0.5mgR$$
+Como este valor es diferente de cero, el sistema no está en equilibrio y comenzará a rotar hacia el lado de mayor masa.
+
+\subsubsection*{2. Evolución del Torque durante la Rotación}
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+import matplotlib.patches as patches
+
+def draw_variable_torque():
+    fig, ax = plt.subplots(figsize=(8, 4))
+    ax.set_title("Evolucion del brazo de palanca al rotar")
+    ax.set_xlim(-2.5, 2.5)
+    ax.set_ylim(-1.5, 1.5)
+    ax.axis('off')
+
+    ax.plot([-0.2, 0.2, 0, -0.2], [-0.3, -0.3, 0, -0.3], 'k-')
+    
+    R = 2.0
+    theta_deg = 30
+    theta = np.radians(theta_deg)
+    
+    x1, y1 = -R*np.cos(theta), R*np.sin(theta)
+    x2, y2 = R*np.cos(theta), -R*np.sin(theta)
+    
+    ax.plot([x1, x2], [y1, y2], 'k-', lw=2)
+    
+    circle1 = patches.Circle((x1, y1), 0.3, facecolor='white', edgecolor='black', lw=1.5)
+    ax.add_patch(circle1)
+    ax.text(x1, y1, '2m', ha='center', va='center')
+    
+    circle2 = patches.Circle((x2, y2), 0.3, facecolor='white', edgecolor='black', lw=1.5)
+    ax.add_patch(circle2)
+    ax.text(x2, y2, '1.5m', ha='center', va='center')
+    
+    ax.arrow(x1, y1-0.3, 0, -0.5, head_width=0.1, fc='blue', ec='blue')
+    ax.text(x1-0.3, y1-0.7, r'$2mg$', color='blue')
+    
+    ax.arrow(x2, y2-0.3, 0, -0.375, head_width=0.1, fc='red', ec='red')
+    ax.text(x2+0.1, y2-0.6, r'$1.5mg$', color='red')
+    
+    ax.plot([0, x1], [0, 0], 'k--')
+    ax.plot([x1, x1], [0, y1], 'k--')
+    ax.text(x1/2, 0.1, r'$R \cos\theta$', ha='center')
+
+    ax.plot([0, x2], [0, 0], 'k--')
+    ax.plot([x2, x2], [0, y2], 'k--')
+    ax.text(x2/2, 0.1, r'$R \cos\theta$', ha='center')
+
+    plt.tight_layout()
+    plt.show()
+
+draw_variable_torque()
+\end{lstlisting}
+
+A medida que la mancuerna rota un ángulo $\theta$ respecto a la horizontal, la línea de acción de los pesos (que siempre es vertical) ya no es perpendicular a la varilla. 
+El nuevo brazo de palanca (la distancia horizontal desde el pivote hasta la línea de acción de cada fuerza) se calcula mediante trigonometría y equivale a $R \cos\theta$.
+El torque neto en cualquier instante $\theta$ es:
+$$\tau_{neto}(\theta) = (2mg)(R \cos\theta) - (1.5mg)(R \cos\theta)$$
+$$\tau_{neto}(\theta) = 0.5mgR \cos\theta$$
+
+\subsubsection*{3. Conclusión}
+La función $\cos\theta$ cambia de valor continuamente a medida que el ángulo $\theta$ aumenta durante la rotación (disminuyendo desde $1$ cuando $\theta=0^\circ$). Por lo tanto, el torque neto depende enteramente de la posición angular del sistema en cada instante y no se mantiene constante. 
+
+Nota pedagogica: Aunque otras opciones pudieran parecer intuitivas inicialmente, el analisis riguroso de la trigonometria del brazo de palanca demuestra que el torque es una magnitud variable en este sistema.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Correcta]
+\centering \Large c. es variable
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un tablón se encuentra en reposo sobre una superficie horizontal lisa. Se dispara una bala con una velocidad horizontal y perpendicular al tablón, en uno de sus extremos. Si la bala queda incrustada en el tablón, luego del disparo el tablón:
+\begin{enumerate}[label=\alph*.]
+    \item se traslada paralelamente a sí mismo
+    \item rota alrededor del otro extremo
+    \item se traslada y rota alrededor del centro de masa del sistema
+    \item se traslada y rota alrededor de su centro geométrico
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis de Conservación del Movimiento}
+En este evento de colisión inelástica sobre una superficie lisa (sin fuerzas externas en el plano), se conservan dos magnitudes fundamentales:
+\begin{itemize}
+    \item \textbf{Cantidad de movimiento lineal ($\vec{P}$):} La bala tiene un momento lineal inicial. Al incrustarse, el sistema completo (tablón + bala) debe adquirir una velocidad lineal en la dirección original de la bala. Por tanto, el sistema \textbf{se traslada}.
+    \item \textbf{Cantidad de movimiento angular ($\vec{L}$):} La bala incide en un extremo, cuya línea de acción de la velocidad no pasa por el centro de masa del sistema. Esto genera un momento angular inicial. Para conservarlo, el sistema debe adquirir una velocidad angular. Por tanto, el sistema \textbf{rota}.
+\end{itemize}
+
+\subsubsection*{2. Determinación del Eje de Rotación Libre}
+Cuando un cuerpo o sistema de cuerpos se mueve libremente en el espacio (o sobre un plano sin ejes fijos), su rotación se da siempre de forma natural alrededor de su \textbf{centro de masa}.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+def draw_collision_cm():
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 4))
+    
+    ax1.set_title("Antes del impacto")
+    ax1.set_xlim(-0.5, 4.5)
+    ax1.set_ylim(-1, 2)
+    ax1.axis('off')
+    
+    tablon1 = patches.Rectangle((0, 0), 4, 0.4, facecolor='saddlebrown', edgecolor='black')
+    ax1.add_patch(tablon1)
+    ax1.plot(2, 0.2, 'ko', markersize=5)
+    ax1.text(2, -0.2, 'CM Tablon\n(Centro geometrico)', ha='center', fontsize=9)
+    
+    bala = patches.Circle((3.8, 1.2), 0.1, facecolor='gray', edgecolor='black')
+    ax1.add_patch(bala)
+    ax1.arrow(3.8, 1.2, 0, -0.6, head_width=0.15, fc='red', ec='red')
+    ax1.text(4, 0.9, r'$\vec{v}$', color='red', fontsize=12)
+    
+    ax2.set_title("Despues del impacto")
+    ax2.set_xlim(-0.5, 4.5)
+    ax2.set_ylim(-1, 2)
+    ax2.axis('off')
+    
+    tablon2 = patches.Rectangle((0, 0), 4, 0.4, facecolor='saddlebrown', edgecolor='black')
+    ax2.add_patch(tablon2)
+    
+    bala_inc = patches.Circle((3.8, 0.2), 0.1, facecolor='gray', edgecolor='black')
+    ax2.add_patch(bala_inc)
+    
+    ax2.plot(2, 0.2, 'ko', markersize=3, alpha=0.5) 
+    
+    cm_sys_x = 2.6
+    ax2.plot(cm_sys_x, 0.2, 'ro', markersize=6)
+    ax2.text(cm_sys_x, -0.2, 'Nuevo CM\ndel Sistema', ha='center', color='red', fontsize=9)
+    
+    arc = patches.Arc((cm_sys_x, 0.2), 1, 1, angle=0, theta1=0, theta2=180, color='blue', linewidth=1.5)
+    ax2.add_patch(arc)
+    ax2.arrow(cm_sys_x - 0.5, 0.2, 0, -0.1, head_width=0.1, fc='blue', ec='blue')
+    ax2.text(cm_sys_x - 0.8, 0.8, r'$\omega$', color='blue', fontsize=12)
+    
+    ax2.arrow(cm_sys_x, 0.2, 0, -0.6, head_width=0.15, fc='green', ec='green')
+    ax2.text(cm_sys_x + 0.2, -0.6, r'$\vec{V}_{cm}$', color='green', fontsize=12)
+
+    plt.tight_layout()
+    plt.show()
+
+draw_collision_cm()
+\end{lstlisting}
+
+Antes del impacto, el centro de masa del tablón coincidía con su centro geométrico. Sin embargo, al incrustarse la bala en un extremo, se añade masa en ese punto, provocando que la distribución de masa cambie. El nuevo centro de masa del sistema completo (tablón + bala) se desplaza desde el centro geométrico hacia el extremo donde ocurrió el impacto. 
+
+Por lo tanto, el sistema compuesto ya no rotará sobre el centro geométrico del tablón original (lo que descarta la opción d), sino que \textbf{se trasladará y rotará alrededor del nuevo centro de masa del sistema}.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Correcta]
+\centering \Large c. se traslada y rota alrededor del centro de masa del sistema
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un sistema de partículas está rotando alrededor de cierto eje. Si se desea aumentar la rapidez angular del sistema:
+\begin{enumerate}[label=\alph*.]
+    \item la única opción es aplicar un torque paralelo al eje
+    \item se puede aplicar un torque perpendicular al eje
+    \item se pueden acercar las partículas hacia el eje
+    \item se deben alejar las partículas del eje
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Teórico y Conservación del Momento Angular}
+La cantidad de movimiento angular ($L$) de un sistema de partículas que rota alrededor de un eje fijo está dada por la relación:
+$$L = I \omega$$
+Donde $I$ es el momento de inercia del sistema y $\omega$ es su rapidez angular. 
+A su vez, el momento de inercia de un sistema de partículas depende de la masa de cada partícula ($m_i$) y de su distancia al eje de rotación ($r_i$):
+$$I = \sum m_i r_i^2$$
+
+Si sobre el sistema no actúa un torque neto externo, la cantidad de movimiento angular se conserva ($L_i = L_f$).
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+def draw_angular_conservation():
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 4))
+    
+    ax1.set_title("Estado Inicial: Particulas alejadas")
+    ax1.set_xlim(-3, 3)
+    ax1.set_ylim(-3, 3)
+    ax1.axis('off')
+    
+    ax1.plot([0, 0], [-2.5, 2.5], 'k-.', lw=1.5)
+    
+    circle1 = patches.Circle((0, 0), 2, fill=False, edgecolor='gray', linestyle='--')
+    ax1.add_patch(circle1)
+    
+    ax1.plot(-2, 0, 'ro', markersize=8)
+    ax1.plot(2, 0, 'ro', markersize=8)
+    
+    ax1.plot([0, 2], [0, 0], 'k-')
+    ax1.text(1, 0.2, r'$r_i$', fontsize=12, ha='center')
+    
+    ax1.arrow(0, 1.5, 0, 0.5, head_width=0.2, fc='blue', ec='blue')
+    ax1.text(0.3, 1.8, r'$\omega_i$', color='blue', fontsize=14)
+    
+    ax2.set_title("Estado Final: Particulas acercadas")
+    ax2.set_xlim(-3, 3)
+    ax2.set_ylim(-3, 3)
+    ax2.axis('off')
+    
+    ax2.plot([0, 0], [-2.5, 2.5], 'k-.', lw=1.5)
+    
+    circle2 = patches.Circle((0, 0), 1, fill=False, edgecolor='gray', linestyle='--')
+    ax2.add_patch(circle2)
+    
+    ax2.plot(-1, 0, 'ro', markersize=8)
+    ax2.plot(1, 0, 'ro', markersize=8)
+    
+    ax2.plot([0, 1], [0, 0], 'k-')
+    ax2.text(0.5, 0.2, r'$r_f$', fontsize=12, ha='center')
+    
+    ax2.arrow(0, 0.5, 0, 1.5, head_width=0.2, fc='blue', ec='blue')
+    ax2.text(0.3, 1.8, r'$\omega_f > \omega_i$', color='blue', fontsize=14)
+    
+    plt.tight_layout()
+    plt.show()
+
+draw_angular_conservation()
+\end{lstlisting}
+
+\subsubsection*{2. Evaluación de las Opciones}
+
+\textbf{Análisis de Torques (Opciones a y b):}
+Aplicar un torque en el mismo sentido del eje de rotación efectivamente aumentará la rapidez angular (fuerza aceleradora). Sin embargo, la opción \textit{a} afirma que es la \textbf{única} opción, lo cual es falso, ya que la cinemática rotacional también permite cambios en la velocidad variando la distribución de masa.
+Por otro lado, aplicar un torque \textbf{perpendicular} al eje (opción \textit{b}) no altera la rapidez angular alrededor de ese eje original, sino que genera un movimiento de precesión (cambia la dirección del eje de rotación en el espacio).
+
+\textbf{Análisis de la Distribución de Masa (Opciones c y d):}
+Basándonos en la ecuación del momento de inercia ($I = \sum m_i r_i^2$), si acercamos las partículas hacia el eje, la distancia $r_i$ disminuye. Dado que el radio está elevado al cuadrado, esto produce una disminución significativa en el momento de inercia ($I_f < I_i$).
+
+Por el principio de conservación del momento angular:
+$$I_i \omega_i = I_f \omega_f$$
+$$\omega_f = \omega_i \left( \frac{I_i}{I_f} \right)$$
+Como $I_i > I_f$, la fracción $\left( \frac{I_i}{I_f} \right)$ es mayor que 1. En consecuencia, $\omega_f$ será mayor que $\omega_i$. Acercar las partículas al eje causa, de manera garantizada, un aumento en la rapidez angular del sistema.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Correcta]
+\centering \Large c. se pueden acercar las partículas hacia el eje
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Escoja la afirmación correcta:
+\begin{enumerate}[label=\alph*.]
+    \item un cuerpo debe estar girando para tener momento de inercia rotacional
+    \item solamente los cuerpos que rotan tienen CMA
+    \item un cuerpo que se mueve con MRU tiene CMA respecto a un eje que no esté sobre la línea de acción de la velocidad
+    \item solamente cuando un cuerpo está en reposo puede sufrir variación de su CMA
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis del Momento de Inercia (Opción a)}
+El momento de inercia ($I$) es una propiedad intrínseca de un cuerpo que depende exclusivamente de su masa y de cómo está distribuida geométricamente esa masa respecto a un eje de referencia ($I = \int r^2 dm$). Un cuerpo tiene momento de inercia sin importar si está en reposo, en traslación o en rotación. La opción \textit{a} es falsa.
+
+\subsubsection*{2. Análisis de la Cantidad de Movimiento Angular en Traslación (Opciones b y c)}
+La Cantidad de Movimiento Angular ($\vec{L}$) de una partícula respecto a un punto de origen (o eje) se define matemáticamente como el producto cruz entre el vector posición ($\vec{r}$) y el vector cantidad de movimiento lineal ($\vec{p} = m\vec{v}$):
+$$\vec{L} = \vec{r} \times \vec{p}$$
+Su magnitud se calcula como:
+$$L = r p \sin\theta = m v (r \sin\theta)$$
+Donde $\theta$ es el ángulo entre los vectores $\vec{r}$ y $\vec{v}$.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+def draw_mru_angular_momentum():
+    fig, ax = plt.subplots(figsize=(7, 4))
+    ax.set_title("Cantidad de Movimiento Angular en MRU")
+    ax.set_xlim(-1, 6)
+    ax.set_ylim(-1, 4)
+    ax.axis('off')
+
+    ax.plot(0, 0, 'ko', markersize=6)
+    ax.text(-0.3, -0.3, 'O (Eje)', fontsize=12)
+
+    ax.plot([-1, 6], [3, 3], 'k--', alpha=0.5)
+    
+    x_p, y_p = 3, 3
+    ax.plot(x_p, y_p, 'ro', markersize=8)
+    ax.text(x_p, y_p + 0.3, 'm', color='red', fontsize=12, ha='center')
+
+    ax.arrow(x_p, y_p, 2, 0, head_width=0.15, fc='red', ec='red', length_includes_head=True)
+    ax.text(x_p + 1.8, y_p + 0.2, r'$\vec{v}$', color='red', fontsize=12)
+
+    ax.arrow(0, 0, x_p, y_p, head_width=0.1, fc='blue', ec='blue', length_includes_head=True)
+    ax.text(x_p/2 - 0.2, y_p/2 + 0.2, r'$\vec{r}$', color='blue', fontsize=12)
+
+    ax.plot([0, 0], [0, 3], 'g-.')
+    ax.text(-0.4, 1.5, r'$r_{\perp}$', color='green', fontsize=12)
+    
+    ax.plot([x_p, x_p + 1.5], [y_p, y_p + 1.5], 'b--', alpha=0.5)
+    
+    arc = patches.Arc((x_p, y_p), 1.5, 1.5, angle=0, theta1=0, theta2=45, color='black', linewidth=1.5)
+    ax.add_patch(arc)
+    ax.text(x_p + 0.8, y_p + 0.25, r'$\theta$', fontsize=12)
+
+    plt.tight_layout()
+    plt.show()
+
+draw_mru_angular_momentum()
+\end{lstlisting}
+
+En el gráfico observamos un cuerpo moviéndose en Movimiento Rectilíneo Uniforme (MRU). La distancia $r \sin\theta$ equivale geométricamente al brazo de palanca o "distancia perpendicular" ($r_{\perp}$) desde el origen hasta la línea de acción de la velocidad.
+Por lo tanto, la magnitud del momento angular se simplifica a:
+$$L = m v r_{\perp}$$
+
+Mientras el eje de referencia no se encuentre sobre la línea de acción de la velocidad (lo que haría que $r_{\perp} = 0$), cualquier cuerpo en MRU posee una Cantidad de Movimiento Angular distinta de cero y, de hecho, constante (ya que $m$, $v$ y $r_{\perp}$ no cambian). 
+Esto desmiente el error conceptual de la opción \textit{b} y confirma que la opción \textit{c} es la verdadera ley física.
+
+\subsubsection*{3. Análisis de la Variación de CMA (Opción d)}
+La variación de la cantidad de movimiento angular respecto al tiempo es igual al torque neto aplicado ($\sum \vec{\tau} = \frac{d\vec{L}}{dt}$). Un cuerpo en movimiento puede sufrir una variación en su CMA si se le aplica un torque externo; no es un requisito estar en reposo. La opción \textit{d} es falsa.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Correcta]
+\centering \Large c. un cuerpo que se mueve con MRU tiene CMA respecto a un eje que no esté sobre la línea de acción de la velocidad
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+El movimiento de los aspersores de agua giratorios, utilizados para regar los jardines, se explica:
+\begin{enumerate}[label=\alph*.]
+    \item porque los mueve el viento
+    \item gracias a un motor eléctrico
+    \item por el principio de conservación de la cantidad de movimiento angular
+    \item por el principio de conservación de la cantidad de movimiento lineal
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis del Sistema Físico}
+Consideremos el sistema formado por el aspersor y el agua que fluye en su interior. Inicialmente, antes de que el agua sea expulsada, el sistema completo está en reposo y su cantidad de movimiento angular total respecto al eje de rotación es cero ($L_{total} = 0$).
+
+Al abrir el paso, el agua es expulsada a través de las boquillas ubicadas en los extremos de los brazos del aspersor. Estas boquillas están diseñadas con una orientación específica para que el agua salga con una componente de velocidad perpendicular a los brazos.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+def draw_sprinkler():
+    fig, ax = plt.subplots(figsize=(6, 6))
+    ax.set_title("Vista superior de un aspersor giratorio")
+    ax.set_xlim(-3, 3)
+    ax.set_ylim(-3, 3)
+    ax.axis('off')
+
+    ax.plot(0, 0, 'ko', markersize=8)
+    ax.text(-0.3, -0.3, 'Eje', fontsize=12)
+
+    rect1 = patches.Rectangle((-2, -0.1), 4, 0.2, facecolor='gray', edgecolor='black')
+    ax.add_patch(rect1)
+
+    ax.arrow(2, 0.1, 0, 0.8, head_width=0.2, fc='blue', ec='blue')
+    ax.text(2.1, 0.6, r'$\vec{v}_{agua}$', color='blue', fontsize=12)
+    
+    ax.arrow(-2, -0.1, 0, -0.8, head_width=0.2, fc='blue', ec='blue')
+    ax.text(-2.7, -0.8, r'$\vec{v}_{agua}$', color='blue', fontsize=12)
+
+    ax.arrow(0, 0, 2, 0, head_width=0.1, fc='black', ec='black', alpha=0.5)
+    ax.text(1, -0.3, r'$\vec{r}$', fontsize=12)
+
+    arc = patches.Arc((0, 0), 2.5, 2.5, angle=0, theta1=20, theta2=160, color='red', linewidth=2)
+    ax.add_patch(arc)
+    ax.arrow(-1.18, 0.42, -0.2, -0.1, head_width=0.15, fc='red', ec='red')
+    ax.text(-1.5, 1.2, r'$\omega_{aspersor}$', color='red', fontsize=14)
+
+    plt.tight_layout()
+    plt.show()
+
+draw_sprinkler()
+\end{lstlisting}
+
+\subsubsection*{2. Principio de Conservación}
+El agua expulsada adquiere una cantidad de movimiento lineal ($\vec{p} = m\vec{v}$). Al ser expulsada a una distancia $\vec{r}$ del eje central, genera una cantidad de movimiento angular para el chorro de agua ($\vec{L}_{agua} = \vec{r} \times \vec{p}$).
+
+Dado que el eje del aspersor puede girar libremente y no existen torques externos netos aplicados sobre el sistema en el plano de rotación, la cantidad de movimiento angular total del sistema (aspersor + agua) se debe conservar íntegramente:
+$$L_{inicial} = L_{final}$$
+$$0 = \vec{L}_{agua} + \vec{L}_{aspersor}$$
+$$\vec{L}_{aspersor} = -\vec{L}_{agua}$$
+
+Para mantener el equilibrio y que la suma siga siendo cero, el aspersor debe adquirir una cantidad de movimiento angular de igual magnitud, pero en dirección exactamente opuesta a la del agua expulsada. Esto significa que el aspersor comenzará a rotar ($\vec{L}_{aspersor} = I \vec{\omega}$) en sentido contrario. Este es el principio fundamental que explica su funcionamiento autónomo.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Correcta]
+\centering \Large c. por el principio de conservación de la cantidad de movimiento angular
+\end{tcolorbox}
+
+\end{document}

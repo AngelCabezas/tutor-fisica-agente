@@ -1,0 +1,960 @@
+\documentclass[12pt, a4paper]{article}
+
+% --- PAQUETES ---
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{geometry}
+\usepackage[most]{tcolorbox}
+\usepackage{siunitx}
+\usepackage{enumitem}
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usepackage{verbatim} % <-- Paquete verbatim listo para usarse
+\usepackage{xcolor}
+
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta, calc, babel}
+\geometry{a4paper, margin=1in}
+
+\title{Ejercicios Teóricos: Cinemática (Movimiento Parabólico)}
+\author{Dataset Entrenamiento LLM}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\subsection*{Enunciado}
+El movimiento parabólico de proyectiles tiene:
+\begin{enumerate}[label=\alph*)]
+    \item desplazamiento uniforme
+    \item aceleración tangencial constante
+    \item aceleración normal constante
+    \item aceleración constante
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Dinámica del Proyectil}
+En el estudio clásico del movimiento parabólico (despreciando la resistencia del aire), una vez que el proyectil es lanzado, la única fuerza que actúa sobre él durante todo su trayecto es la fuerza de atracción gravitacional de la Tierra.
+
+Según la Segunda Ley de Newton ($\sum \vec{F} = m\vec{a}$), si la única fuerza es el peso ($\vec{P} = m\vec{g}$), la aceleración de la partícula es exactamente la gravedad ($\vec{a} = \vec{g}$). 
+El vector gravedad es un vector rígidamente dirigido hacia el centro de la Tierra con una magnitud aproximada de $9.8\,\si{m/s^2}$. Como este vector no cambia ni de tamaño ni de dirección en el espacio de estudio, la \textbf{aceleración total es constante}.
+*(Nota: Las componentes tangencial y normal sí varían continuamente porque la dirección de la velocidad del proyectil va cambiando, alterando el ángulo de proyección entre $\vec{v}$ y $\vec{g}$)*.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large d) aceleración constante
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+De las siguientes situaciones, la que más se ajusta al movimiento parabólico es:
+\begin{enumerate}[label=\alph*)]
+    \item el movimiento de un esquiador acuático
+    \item una bala de cañón lanzada por un atleta
+    \item una hoja desprendiéndose de su rama
+    \item un avión de papel impulsado por un niño
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Condiciones Ideales del Modelo}
+El modelo matemático del movimiento parabólico asume una condición estricta: \textbf{la ausencia de fuerzas aerodinámicas} (como la sustentación o el arrastre del aire). 
+Para que un objeto real en la Tierra se aproxime a este modelo ideal, debe tener una densidad muy alta y una superficie relativamente pequeña, de modo que la fuerza de gravedad domine abrumadoramente sobre la resistencia del fluido.
+\begin{itemize}
+    \item \textbf{Opciones c y d:} Una hoja y un avión de papel están diseñados para planear. Su movimiento está dominado por la mecánica de fluidos, trazando caminos caóticos o planeos sustentados, lejos de una parábola perfecta.
+    \item \textbf{Opción a:} Un esquiador acuático está sometido a la tensión de una cuerda y a la flotabilidad/arrastre del agua.
+    \item \textbf{Opción b (Correcta):} Una bala de cañón (o bala de acero en atletismo) es un objeto masivo, denso y esférico. Al ser lanzada, la resistencia del aire es mínima en comparación con su enorme inercia y peso, por lo que su trayectoria física es la que más fielmente calca la parábola matemática predicha por las ecuaciones de cinemática.
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) una bala de cañón lanzada por un atleta
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Las gráficas \textit{velocidad - tiempo} para el movimiento del chorro de agua saliendo de una manguera con surtidor horizontalmente dispuesto es recta:
+
+\begin{center}
+\begin{tikzpicture}[scale=1]
+    \draw[->] (-0.5,0) -- (4,0) node[right] {$x$};
+    \draw[->] (0,-0.5) -- (0,3) node[above] {$y$};
+    \node[below left] at (0,0) {$O$};
+    
+    % Manguera
+    \draw[thick] (0.2, 2.2) -- (1, 2.2) -- (1, 2.4) -- (0.2, 2.4) -- cycle;
+    \draw[thick] (1, 2.2) -- (1.5, 2.3) -- (1, 2.4);
+    
+    % Trayectoria
+    \draw[thick, dashed] (1.5, 2.3) parabola bend (1.5, 2.3) (3.5, 0);
+    \draw[->, thick] (3.4, 0.2) -- (3.5, 0);
+\end{tikzpicture}
+\end{center}
+
+\begin{enumerate}[label=\alph*)]
+    \item horizontal en el eje $x$ y recta de pendiente positiva en el eje $y$
+    \item horizontal en el eje $y$ y recta de pendiente positiva en el eje $x$
+    \item recta de pendiente negativa en el eje $x$ y horizontal en el eje $y$
+    \item recta de pendiente positiva en el eje $x$ y horizontal en el eje $y$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Desacople Analítico de Velocidades}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8, 3))
+
+t = np.linspace(0, 2, 50)
+vx = np.full_like(t, 5)
+
+ax1.plot(t, vx, 'b-', lw=2)
+ax1.set_title("Eje X: $v_x$ vs $t$")
+ax1.set_ylim(0, 10)
+ax1.spines['bottom'].set_position('zero')
+ax1.spines['top'].set_color('none')
+ax1.spines['right'].set_color('none')
+
+vy = 9.8 * t
+
+ax2.plot(t, vy, 'r-', lw=2)
+ax2.set_title("Eje Y: $|v_y|$ vs $t$")
+ax2.set_ylim(0, 25)
+ax2.spines['bottom'].set_position('zero')
+ax2.spines['top'].set_color('none')
+ax2.spines['right'].set_color('none')
+
+plt.tight_layout()
+plt.show()
+\end{verbatim}
+
+Aplicamos el Principio de Independencia de Movimientos:
+\begin{itemize}
+    \item \textbf{En el eje $X$:} No existe aceleración ($a_x = 0$). Es un Movimiento Rectilíneo Uniforme (MRU). La velocidad horizontal es constante en todo el recorrido ($v_x = v_0$). La gráfica de una constante es una recta \textbf{horizontal}. (Esto descarta automáticamente las opciones c y d).
+    \item \textbf{En el eje $Y$:} El chorro sale horizontalmente, por lo que su velocidad inicial en Y es nula ($v_{0y} = 0$). Inmediatamente comienza a caer bajo el efecto de la gravedad. Su velocidad vertical aumenta su magnitud a un ritmo constante de $9.8\,\si{m/s}$ cada segundo. Si se analiza la magnitud (rapidez vertical $|v_y|$) o si se asume un sistema de referencia positivo hacia abajo para la caída, la ecuación es $v_y(t) = gt$, lo cual corresponde a una \textbf{recta de pendiente positiva}.
+\end{itemize}
+Por descarte riguroso de la dinámica en X, la única opción con sentido físico integral para el par de gráficas es la 'a'.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large a) horizontal en el eje $x$ y recta de pendiente positiva en el eje $y$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Cuando una partícula tiene un movimiento parabólico que inicia en $O$ (fig.), es correcto afirmar que:
+
+\begin{center}
+\begin{tikzpicture}[scale=1]
+    \draw[->] (-0.5,0) -- (4,0) node[right] {$x$};
+    \draw[->] (0,-0.5) -- (0,3) node[above] {$y$};
+    \node[below left] at (0,0) {$O$};
+    
+    \draw[thick] (0,0) parabola bend (1.5, 2) (3, 0);
+    \node[above] at (1.5, 2) {$A$};
+    \node[below] at (3, 0) {$B$};
+    \draw[->, thick] (2.9, 0.2) -- (3, 0);
+\end{tikzpicture}
+\end{center}
+
+\begin{enumerate}[label=\alph*)]
+    \item en $A$ la componente normal de su aceleración es $\vec{g}$
+    \item la velocidad en $O$ es la misma que en $B$
+    \item la aceleración tangencial en $O$ y en $B$ es igual a $\vec{g}$
+    \item la velocidad en $A$ es cero
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Vectorial en el Vértice}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig, ax = plt.subplots(figsize=(6, 4))
+ax.spines['left'].set_position('zero')
+ax.spines['bottom'].set_position('zero')
+ax.spines['right'].set_color('none')
+ax.spines['top'].set_color('none')
+
+x = np.linspace(0, 4, 100)
+y = -0.5 * (x - 2)**2 + 2
+ax.plot(x, y, 'k-', lw=2)
+
+ax.plot(2, 2, 'ko')
+ax.text(2, 2.2, 'A', fontsize=12)
+
+ax.arrow(2, 2, 1.5, 0, head_width=0.15, color='blue')
+ax.text(3.6, 2, '$\\vec{v}_A$', color='blue', fontsize=12)
+
+ax.arrow(2, 2, 0, -1.5, head_width=0.15, color='red')
+ax.text(2.1, 0.5, '$\\vec{a} = \\vec{g} = \\vec{a}_N$', color='red', fontsize=12)
+
+ax.plot([2, 2.2, 2.2], [1.8, 1.8, 2], 'g-', lw=1.5)
+
+ax.set_xlim(-0.5, 4.5)
+ax.set_ylim(-0.5, 3)
+plt.show()
+\end{verbatim}
+
+Evaluemos cada afirmación en la figura de la parábola:
+\begin{itemize}
+    \item \textbf{Opción b:} Falsa. En $O$, el vector velocidad apunta hacia arriba y a la derecha. En $B$, apunta hacia abajo y a la derecha. Los vectores tienen direcciones distintas, por lo que no son la misma velocidad.
+    \item \textbf{Opción c:} Falsa. La gravedad apunta totalmente hacia abajo. En $O$ y en $B$, la velocidad está en diagonal, por lo que la aceleración tangencial (proyección de $\vec{g}$ sobre la velocidad) es solo una fracción de $\vec{g}$ ($g\sin\theta$), no su totalidad.
+    \item \textbf{Opción d:} Falsa. En la altura máxima $A$, solo la velocidad vertical es nula ($v_y = 0$). La partícula sigue avanzando hacia adelante, por lo que conserva toda su velocidad horizontal ($v_x = v_{0x} \neq 0$).
+    \item \textbf{Opción a (Correcta):} En el punto $A$, la velocidad de la partícula es netamente horizontal. La aceleración total ($\vec{g}$) sigue siendo netamente vertical hacia abajo. Al formarse exactamente un ángulo de $90^\circ$ entre la velocidad y la aceleración, el $100\%$ del vector aceleración actúa como \textbf{aceleración normal} (centrípeta).
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large a) en $A$ la componente normal de su aceleración es $\vec{g}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Para una flecha descendiendo parabólicamente, se tiene que el movimiento es:
+\begin{enumerate}[label=\alph*)]
+    \item acelerado
+    \item retardado
+    \item uniforme
+    \item variado
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Dinámico de la Fase de Descenso}
+En el movimiento parabólico, dividimos el análisis del vector velocidad ($\vec{v}$) en sus dos componentes ortogonales ($v_x$ y $v_y$).
+La magnitud total de la velocidad (rapidez) en cualquier instante se calcula mediante el Teorema de Pitágoras:
+$$ |\vec{v}| = \sqrt{v_x^2 + v_y^2} $$
+
+Evaluemos qué sucede en la fase de descenso:
+\begin{itemize}
+    \item \textbf{Eje Horizontal ($X$):} No hay fuerzas actuando en esta dirección. Por el principio de inercia, la componente $v_x$ se mantiene rígidamente constante a lo largo de todo el vuelo.
+    \item \textbf{Eje Vertical ($Y$):} En el descenso, la flecha se mueve hacia abajo, por lo que su componente de velocidad vertical apunta hacia el centro de la Tierra (dirección negativa en un marco estándar). Simultáneamente, la aceleración de la gravedad ($\vec{g}$) también apunta invariablemente hacia abajo.
+\end{itemize}
+
+Al apuntar la velocidad vertical y la aceleración exactamente en el mismo sentido, la gravedad "empuja" a la flecha a su favor, provocando que la magnitud de $v_y$ crezca metro a metro. 
+Si en nuestra ecuación pitagórica inicial el término $v_x$ es constante pero el término $v_y^2$ se hace cada vez más grande, el resultado global $|\vec{v}|$ obligatoriamente aumenta. Un incremento continuo en la rapidez escalar es la definición fundamental de un movimiento \textbf{acelerado}.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large a) acelerado
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Se dispara un proyectil con velocidad inicial $\vec{v}_0 = 4\hat{i} + 20\hat{j} \,\si{m/s}$ sobre una superficie horizontal, es correcto afirmar que:
+\begin{enumerate}[label=\alph*)]
+    \item en el punto más alto de su trayectoria su rapidez es $4\,\si{m/s}$
+    \item la aceleración en el punto más alto de su trayectoria es cero
+    \item la velocidad que tiene al llegar al suelo es $-4\hat{i} + 20\hat{j} \,\si{m/s}$
+    \item la velocidad que tiene al llegar al suelo es $-4\hat{i} - 20\hat{j} \,\si{m/s}$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Evaluación Vectorial en Puntos Críticos}
+A partir del vector de velocidad inicial, identificamos las componentes de lanzamiento:
+$$ v_{0x} = 4\,\si{m/s} \quad \text{y} \quad v_{0y} = 20\,\si{m/s} $$
+
+Analicemos la veracidad de cada aseveración:
+\begin{itemize}
+    \item \textbf{Opción b (Falsa):} La aceleración es la gravedad ($\approx -9.8\hat{j}\,\si{m/s^2}$). Esta nunca se "apaga", por lo que es distinta de cero en absolutamente todos los puntos de la trayectoria parabólica.
+    \item \textbf{Opciones c y d (Falsas):} El proyectil se dispara sobre una superficie horizontal, por lo que su punto de impacto tiene la misma altura que su punto de lanzamiento ($y_f = y_0 = 0$). Por simetría parabólica, al retornar a la misma altura, la magnitud de la velocidad vertical es la misma pero en sentido contrario ($v_{fy} = -20\,\si{m/s}$). La componente horizontal nunca cambia y sigue apuntando hacia adelante ($v_{fx} = +4\,\si{m/s}$). Por lo tanto, el vector velocidad exacto de impacto es $\vec{v}_f = 4\hat{i} - 20\hat{j}\,\si{m/s}$. Ninguna de las dos opciones presenta este vector correcto (ambas alteran erróneamente el signo de $\hat{i}$).
+    \item \textbf{Opción a (Correcta):} En el instante preciso de alcanzar la altura máxima, el proyectil deja de subir para empezar a caer; por tanto, su velocidad vertical se anula momentáneamente ($v_y = 0\,\si{m/s}$). La componente horizontal se mantiene inalterable ($v_x = 4\,\si{m/s}$).
+    El vector velocidad en la cumbre es $\vec{v}_{max} = 4\hat{i} + 0\hat{j}\,\si{m/s}$. 
+    La rapidez es su magnitud: $|\vec{v}_{max}| = \sqrt{4^2 + 0^2} = 4\,\si{m/s}$.
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large a) en el punto más alto de su trayectoria su rapidez es $4\,\si{m/s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Dos cazadores $A$ y $B$, uno frente al otro divisan una presa a la misma distancia, si los dos disparan sus flechas al mismo tiempo y el uno lo hace con un ángulo de elevación de $45^\circ$ y el otro con un ángulo de $60^\circ$ haciendo blanco los dos. Es correcto afirmar que:
+\begin{enumerate}[label=\alph*)]
+    \item Las flechas impactan al blanco simultáneamente
+    \item primero impacta la flecha de $A$ y luego la de $B$
+    \item primero impacta la flecha de $A$ y luego la de $B$ (Nota: opción repetida en el original)
+    \item no se puede determinar que flecha impacta primero
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Relación entre Tiempo de Vuelo, Alcance y Ángulo}
+Dado que ambos cazadores están a la misma distancia de la presa ($x_A = x_B = d$) y ambos logran impactarla (tienen el mismo alcance horizontal), podemos relacionar su tiempo de vuelo mediante las ecuaciones del tiro parabólico.
+El alcance horizontal es $d = v_{0x} t$. Despejando la velocidad inicial en $X$:
+$$ v_{0x} = \frac{d}{t} $$
+Sabemos por trigonometría que $v_{0x} = \frac{v_{0y}}{\tan\theta}$. Sustituyendo en la ecuación anterior:
+$$ \frac{v_{0y}}{\tan\theta} = \frac{d}{t} $$
+En un movimiento parabólico en terreno plano, el tiempo de vuelo total depende exclusivamente de la velocidad inicial vertical: $t = \frac{2v_{0y}}{g} \implies v_{0y} = \frac{gt}{2}$.
+Reemplazamos $v_{0y}$ en nuestra ecuación:
+$$ \frac{\left(\frac{gt}{2}\right)}{\tan\theta} = \frac{d}{t} $$
+Multiplicamos en cruz para despejar el tiempo $t$:
+$$ t^2 = \frac{2d \tan\theta}{g} $$
+Como la distancia $d$ y la gravedad $g$ son idénticas para ambos cazadores, el cuadrado de su tiempo de vuelo es directamente proporcional a la tangente de su ángulo de disparo ($t \propto \sqrt{\tan\theta}$).
+Evaluamos las tangentes:
+\begin{itemize}
+    \item Cazador A ($45^\circ$): $\tan(45^\circ) = 1$
+    \item Cazador B ($60^\circ$): $\tan(60^\circ) = \sqrt{3} \approx 1.732$
+\end{itemize}
+Puesto que $\tan(45^\circ) < \tan(60^\circ)$, el tiempo de vuelo del cazador A es matemáticamente menor al del cazador B ($t_A < t_B$). Por lo tanto, la flecha de A llega primero a la presa.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) primero impacta la flecha de $A$ y luego la de $B$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una esfera rueda sobre una mesa y cae por su borde, en su caída es correcto afirmar que:
+\begin{enumerate}[label=\alph*)]
+    \item su movimiento es rectilíneo uniformemente variado
+    \item su movimiento es semi parabólico
+    \item el tiempo de caída es mayor que si le hubiere soltado del borde de la mesa
+    \item el tiempo de caída es menor que si le hubiere soltado del borde de la mesa
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Condiciones Iniciales del Tiro Horizontal}
+Cuando la esfera rueda sobre la mesa (superficie horizontal), su vector velocidad es estrictamente paralelo a la mesa. En el instante exacto en que abandona el borde, posee una velocidad inicial horizontal ($v_{0x} \neq 0$) pero carece de velocidad inicial vertical ($v_{0y} = 0$).
+Al estar bajo la influencia exclusiva de la gravedad a partir de ese punto, la trayectoria trazada describirá matemáticamente la mitad exacta de una parábola clásica descendente. En la nomenclatura física, a este caso particular del movimiento de proyectiles se le denomina \textbf{tiro horizontal o movimiento semi parabólico}.
+
+*(Nota sobre c y d: Al ser la velocidad inicial vertical igual a cero, el tiempo que tarda en tocar el piso dependerá única y exclusivamente de la altura de la mesa, $t = \sqrt{2h/g}$. Será exactamente el mismo tiempo que si se hubiera dejado caer desde el reposo absoluto en ese borde).*
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) su movimiento es semi parabólico
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Desde lo alto de un edificio se lanza una esfera $A$ con $\vec{v}_0 = 10\hat{i} \,\si{m/s}$ y simultáneamente, desde el mismo punto se suelta otra esfera $B$. Para la esfera $A$ parecería que la esfera $B$:
+\begin{enumerate}[label=\alph*)]
+    \item se aleja con rapidez constante
+    \item se aproxima con rapidez constante
+    \item mantiene su distancia de separación
+    \item se aleja con rapidez variable
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Refutación del Error Intuitivo en Caída Simultánea}
+\textit{Nota de Tutor: El estudiante eligió "mantiene su distancia de separación". Este es un fallo grave de percepción espacial relativa. Demostraremos que se separan horizontalmente.}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig, ax = plt.subplots(figsize=(6, 5))
+ax.set_title("Distancia Relativa: Esfera A vs Esfera B")
+
+t = np.linspace(0, 3, 20)
+y = 45 - 4.9 * t**2
+xA = 10 * t
+xB = np.zeros_like(t)
+
+ax.plot(xA, y, 'b-', label='Esfera A (Tiro Horizontal)')
+ax.plot(xB, y, 'r-', label='Esfera B (Caida Libre)')
+
+for step in [5, 10, 15, 19]:
+    ax.plot([xB[step], xA[step]], [y[step], y[step]], 'g--')
+    ax.text((xB[step]+xA[step])/2, y[step]+1, f"d={xA[step]:.1f}m", color='green', fontsize=9)
+
+ax.set_xlabel('Posicion Horizontal (m)')
+ax.set_ylabel('Altura Vertical (m)')
+ax.legend()
+plt.show()
+\end{verbatim}
+
+Analizamos las ecuaciones de posición para cada componente de ambas esferas:
+\begin{itemize}
+    \item \textbf{Eje Vertical ($Y$):} Ambas esferas tienen $v_{0y} = 0$, caen desde la misma altura y bajo la misma gravedad simultáneamente. Su altura $y(t) = H - \frac{1}{2}gt^2$ es siempre idéntica. Verticalmente no se separan.
+    \item \textbf{Eje Horizontal ($X$):} La esfera B se suelta (no tiene movimiento horizontal, $x_B = 0$). La esfera A es lanzada con MRU a $10\,\si{m/s}$, por lo que su posición horizontal avanza linealmente: $x_A = 10t$.
+\end{itemize}
+
+El vector de posición relativa de B vista desde A es:
+$$ \vec{r}_{B/A} = \vec{r}_B - \vec{r}_A = (0 - 10t)\hat{i} + (y(t) - y(t))\hat{j} = -10t\hat{i} $$
+La distancia que los separa es la magnitud de este vector: $|\vec{r}_{B/A}| = 10t$.
+Dado que la distancia está multiplicada por el tiempo $t$, a medida que los segundos avanzan, la separación se hace cada vez más grande. Derivando esta posición relativa, la velocidad con la que se alejan es estrictamente de $10\,\si{m/s}$. Como este valor no cambia, se alejan con una \textbf{rapidez constante}.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large a) se aleja con rapidez constante
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+De acuerdo con la gráfica ($v_y - t$) de una partícula con $\vec{v}_{0x} = 5\hat{i} \,\si{m/s}$ constante, es correcto afirmar que:
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    \draw[->] (-0.5,0) -- (5,0) node[right] {\footnotesize $t(s)$};
+    \draw[->] (0,-2) -- (0,3) node[above] {\footnotesize $v_y(m/s)$};
+    
+    \draw[thick] (0,2) -- (2,0) -- (3,-1);
+    
+    \node[left] at (0,2) {\footnotesize 20};
+    \node[below left] at (0,0) {\footnotesize 0};
+    \node[below] at (1,0) {\footnotesize 1};
+    \node[below] at (2,0) {\footnotesize 2};
+    \node[below] at (3,0) {\footnotesize 3};
+\end{tikzpicture}
+\end{center}
+
+\begin{enumerate}[label=\alph*)]
+    \item el movimiento es tiro vertical con $\vec{v}_0 = 5\hat{i} + 20\hat{j} \,\si{m/s}$
+    \item desde los $2$ segundos el movimiento es retardado
+    \item la aceleración a los $2$ segundos es cero
+    \item el movimiento es parabólico con tiempo de subir $2\,\si{s}$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Lectura del Comportamiento Simultáneo}
+Cruzamos la información del enunciado con la gráfica del eje vertical:
+\begin{itemize}
+    \item \textbf{Del enunciado:} Sabemos que existe un movimiento horizontal perpetuo de $5\,\si{m/s}$. Esto descarta la opción 'a', ya que un tiro vertical ocurre únicamente en una dimensión (sin velocidad en X). Al combinar el avance constante en X con la aceleración gravitacional en Y, obtenemos indiscutiblemente un \textbf{movimiento parabólico}.
+    \item \textbf{De la gráfica:} El eje muestra el comportamiento de la velocidad vertical ($v_y$). En $t=0$, la partícula arranca con $20\,\si{m/s}$ hacia arriba. A medida que avanza el tiempo, esa velocidad disminuye por la gravedad hasta llegar a \textbf{cero} exactamente en $t = 2\,\si{s}$ (intersección con el eje X).
+\end{itemize}
+En la cinemática de proyectiles, el momento en el que la componente vertical de la velocidad se hace cero es el punto de \textbf{altura máxima}. Si le tomó 2 segundos alcanzar ese cero, entonces el "tiempo de subida" es exactamente $2\,\si{s}$.
+
+*(Descarte adicional: la opción 'b' es falsa porque de 2s en adelante la curva se adentra en velocidades negativas, ganando magnitud hacia abajo, lo que lo hace acelerado; la 'c' es falsa porque la gravedad es constante siempre).*
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large d) el movimiento es parabólico con tiempo de subir $2\,\si{s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Para un movimiento parabólico realizado con un ángulo de elevación de $45^\circ$, es correcto afirmar que:
+\begin{enumerate}[label=\alph*)]
+    \item su alcance siempre será mayor que de cualquier otro proyectil
+    \item su alcance no depende del ángulo sino de la velocidad horizontal
+    \item su alcance siempre será igual al de otro proyectil si tienen la misma $\vec{v}_0$
+    \item su alcance siempre será mayor al de otro proyectil si tienen la misma $v_0$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Corrección: Condiciones de Maximización}
+\textit{Nota de Tutor: El estudiante resaltó la opción 'a'. Esto es un error lógico severo. Un ángulo de $45^\circ$ no garantiza el alcance máximo universal; depende crucialmente de la rapidez de disparo.}
+
+Analizamos la ecuación general del alcance máximo horizontal ($R$) en un terreno plano:
+$$ R = \frac{v_0^2 \sin(2\theta)}{g} $$
+Para que el alcance sea el máximo posible, el término trigonométrico $\sin(2\theta)$ debe ser igual a $1$, lo cual ocurre cuando $\theta = 45^\circ$.
+Sin embargo, esta maximización es \textbf{relativa a una rapidez inicial ($v_0$) específica y constante}. 
+Si lanzas una pelota a $45^\circ$ con una rapidez de $2\,\si{m/s}$, su alcance será minúsculo comparado con una bala disparada a $10^\circ$ con una rapidez de $800\,\si{m/s}$. 
+Por lo tanto, no podemos afirmar que "siempre será mayor que \textit{cualquier} otro proyectil" (opción a). Solo será mayor si los comparamos bajo la condición estricta de que posean la \textbf{misma rapidez inicial ($v_0$)}.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large d) su alcance siempre será mayor al de otro proyectil si tienen la misma $v_0$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Para el movimiento parabólico de 2 proyectiles $A$ y $B$ realizado con la misma rapidez inicial, es correcto afirmar que:
+\begin{enumerate}[label=\alph*)]
+    \item El tiempo de vuelo de $A$ y $B$ son iguales
+    \item mayor tiempo de vuelo tendrá la que mayor ángulo de disparo tenga
+    \item menor tiempo de vuelo tendrá la que mayor ángulo de disparo tenga
+    \item si los ángulos de disparo son $30^\circ$ y $60^\circ$, los alcances son iguales
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Propiedad de los Ángulos Complementarios}
+Evaluemos matemáticamente la opción 'd' usando la fórmula del alcance horizontal:
+$$ R = \frac{v_0^2 \sin(2\theta)}{g} $$
+Dado que ambos proyectiles comparten la misma rapidez inicial $v_0$ y la misma gravedad $g$, el alcance dependerá exclusivamente del término $\sin(2\theta)$.
+Calculamos este término para ambos ángulos:
+\begin{itemize}
+    \item Para $\theta = 30^\circ$: $\sin(2 \cdot 30^\circ) = \sin(60^\circ) = \frac{\sqrt{3}}{2} \approx 0.866$
+    \item Para $\theta = 60^\circ$: $\sin(2 \cdot 60^\circ) = \sin(120^\circ) = \frac{\sqrt{3}}{2} \approx 0.866$
+\end{itemize}
+Al arrojar exactamente el mismo valor multiplicador, los alcances horizontales serán matemáticamente idénticos. Esta es una propiedad universal en cinemática: dos ángulos complementarios ($\alpha + \beta = 90^\circ$) bajo la misma rapidez inicial siempre impactarán en el mismo punto.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large d) si los ángulos de disparo son $30^\circ$ y $60^\circ$, los alcances son iguales
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Cuando 2 proyectiles $A$ y $B$ tienen el mismo alcance, es correcto afirmar que:
+\begin{enumerate}[label=\alph*)]
+    \item el tiempo de subir de $A$ y $B$ son iguales
+    \item la altura máxima de $A$ y $B$ son iguales
+    \item en el punto más alto de la trayectoria $A$ y $B$ tienen velocidad cero
+    \item sus rapideces iniciales son iguales y sus ángulos de disparo complementarios
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Deducción Inversa de Propiedades Cinemáticas}
+Este ejercicio es la aplicación teórica inversa del Ejercicio 12. 
+Como se demostró anteriormente, si la rapidez de disparo es un parámetro controlado y constante para ambos proyectiles, la única forma de que un Proyectil $A$ caiga exactamente en el mismo punto horizontal que un Proyectil $B$ (que fue lanzado con una inclinación diferente) es que ambos ángulos sumen $90^\circ$. 
+
+\begin{itemize}
+    \item \textbf{Opción a y b:} Falsas. El que tiene mayor ángulo (ej. $60^\circ$) viaja más alto y pasa más tiempo en el aire que el que viaja más "rasante" (ej. $30^\circ$), aunque ambos caigan en el mismo lugar.
+    \item \textbf{Opción c:} Falsa. En el punto más alto, mantienen su velocidad horizontal ($v_x \neq 0$).
+    \item \textbf{Opción d (Correcta):} Condensa el requisito estándar (rapideces iguales) y la propiedad geométrica necesaria (ángulos complementarios) para que los alcances se igualen en un entorno ideal.
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large d) sus rapideces iniciales son iguales y sus ángulos de disparo complementarios
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Desde lo alto de un plano inclinado $60^\circ$ se dispara un proyectil con $\vec{v}_0 = 10\hat{i} + 10\hat{j} \,\si{m/s}$, es correcto afirmar que:
+\begin{enumerate}[label=\alph*)]
+    \item el tiempo de subir es mayor al tiempo de bajar al plano
+    \item el tiempo de subir es igual al tiempo de bajar al plano
+    \item la velocidad de impacto con el plano es menor que la inicial
+    \item la velocidad de impacto con el plano es mayor que la inicial
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Conservación de la Energía y Rapidez}
+\textit{Nota: Los textos básicos suelen usar la palabra "velocidad" para referirse a la rapidez escalar (magnitud). Interpretaremos la pregunta bajo esta convención.}
+
+El proyectil se dispara desde el origen ($y_0 = 0$) situado en la parte superior de una pendiente que va en bajada. Esto significa que el punto de impacto final ocurrirá en una coordenada vertical negativa ($y_f < 0$).
+Calculemos la rapidez inicial:
+$$ v_0 = \sqrt{10^2 + 10^2} = \sqrt{200} \approx 14.1\,\si{m/s} $$
+
+A lo largo del vuelo, la componente horizontal se conserva ($v_{fx} = 10\,\si{m/s}$). 
+Sin embargo, la componente vertical de la velocidad está bajo el efecto de la gravedad: $v_{fy}^2 = v_{0y}^2 - 2g(\Delta y)$.
+Como la posición final $\Delta y$ es negativa, la ecuación se vuelve una suma matemática:
+$$ v_{fy}^2 = (10)^2 - 2(9.8)(-\text{altura}) = 100 + \text{término positivo} $$
+Por lo tanto, la magnitud al cuadrado de la velocidad vertical final ($v_{fy}^2$) será estrictamente \textbf{mayor} a 100.
+Al recalcular la rapidez de impacto $v_f = \sqrt{10^2 + v_{fy}^2}$, el resultado será indiscutiblemente mayor que $\sqrt{200}$. Como el proyectil cayó por debajo de su línea de lanzamiento, la gravedad tuvo más tiempo para acelerarlo hacia abajo, resultando en un impacto mucho más violento.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large d) la velocidad de impacto con el plano es mayor que la inicial
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Desde lo alto de un plano inclinado $45^\circ$ se dispara un proyectil con $\vec{v}_0 = 10\hat{i} + 20\hat{j} \,\si{m/s}$, es correcto afirmar que a los:
+\begin{enumerate}[label=\alph*)]
+    \item $3\,\si{s}$ se encuentra en el punto más alto de su trayectoria
+    \item $4\,\si{s}$ el desplazamiento vertical es mayor que el horizontal
+    \item $4\,\si{s}$ la rapidez vertical es mayor que la horizontal
+    \item $6\,\si{s}$ ha recorrido igual distancia verticalmente que horizontalmente
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Evaluación Cinemática Múltiple}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig, ax = plt.subplots(figsize=(6, 5))
+ax.spines['left'].set_position('zero')
+ax.spines['bottom'].set_position('zero')
+ax.spines['right'].set_color('none')
+ax.spines['top'].set_color('none')
+
+t = np.linspace(0, 6, 100)
+x = 10 * t
+y = 20 * t - 5 * t**2
+ax.plot(x, y, 'b-', lw=2)
+
+x_plane = np.linspace(0, 65, 100)
+y_plane = -x_plane
+ax.plot(x_plane, y_plane, 'k-', lw=3)
+
+ax.plot(40, 0, 'go')
+ax.arrow(40, 0, 10, 0, head_width=3, color='blue')
+ax.arrow(40, 0, 0, -20, head_width=3, color='red')
+
+ax.plot(60, -60, 'ro')
+
+ax.set_xlim(-5, 65)
+ax.set_ylim(-65, 25)
+plt.show()
+\end{verbatim}
+
+Evaluamos minuciosamente cada opción utilizando las ecuaciones de movimiento, tomando $g \approx 10\,\si{m/s^2}$ para el cálculo mental escolar:
+\begin{itemize}
+    \item \textbf{Opción a:} El tiempo de altura máxima es $t = \frac{v_{0y}}{g} = \frac{20}{10} = 2\,\si{s}$. Falsa.
+    \item \textbf{Opción b:} A los $4\,\si{s}$, el desplazamiento horizontal es $x = 10(4) = 40\,\si{m}$. El desplazamiento vertical es $y = 20(4) - 5(4)^2 = 80 - 80 = 0\,\si{m}$. ($40 > 0$). Falsa.
+    \item \textbf{Opción d:} A los $6\,\si{s}$, la posición es $x=60$, $y=-60$. (Dato curioso: choca contra el plano inclinado en este instante exacto, ya que la ecuación del plano de $45^\circ$ es $y = -x$). Aunque su desplazamiento neto vertical sea $-60\,\si{m}$, la \textbf{distancia recorrida} verticalmente incluye subir $20\,\si{m}$ y bajar $80\,\si{m}$, sumando un total de $100\,\si{m}$, que no es igual a los $60\,\si{m}$ recorridos en $X$. Falsa.
+    \item \textbf{Opción c (Correcta):} A los $4\,\si{s}$, sabemos que la velocidad en el eje $X$ nunca cambia, por lo que su rapidez horizontal sigue siendo $|v_x| = 10\,\si{m/s}$. La velocidad en el eje $Y$ se calcula como $v_y = v_{0y} - gt = 20 - 10(4) = -20\,\si{m/s}$. La rapidez es su magnitud absoluta ($|-20| = 20\,\si{m/s}$). Por lo tanto, $20\,\si{m/s} > 10\,\si{m/s}$.
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) $4\,\si{s}$ la rapidez vertical es mayor que la horizontal
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Desde el borde de un acantilado se lanzan horizontalmente y de forma simultánea dos esferas. La esfera $A$ tiene una masa de $1\,\si{kg}$ y la esfera $B$ tiene una masa de $10\,\si{kg}$. Ambas salen con la misma rapidez inicial $v_0$. Despreciando la resistencia del aire, es correcto afirmar que:
+\begin{enumerate}[label=\alph*)]
+    \item La esfera $B$ llega primero al suelo por ser más pesada
+    \item La esfera $A$ llega primero al suelo porque tiene menor inercia
+    \item Ambas esferas llegan al suelo exactamente al mismo tiempo
+    \item La esfera $B$ llega más lejos horizontalmente que la esfera $A$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Independencia de la Masa en Caída Libre y Tiro Horizontal}
+El tiempo de vuelo en un movimiento parabólico o semiparabólico en terreno plano depende única y exclusivamente de dos factores: la altura inicial ($h$) y la aceleración gravitacional ($g$). 
+La ecuación que rige el eje vertical es $y(t) = h - \frac{1}{2}gt^2$.
+Al igualar la posición final a cero (el suelo), despejamos el tiempo:
+$$ t = \sqrt{\frac{2h}{g}} $$
+En esta ecuación cinemática \textbf{no existe la variable masa ($m$)}. La gravedad acelera a todos los cuerpos por igual ($9.8\,\si{m/s^2}$) independientemente de qué tan pesados sean. Al ser lanzadas desde la misma altura y sin velocidad inicial en $Y$, ambas tardarán matemáticamente los mismos segundos en caer.
+Adicionalmente, como tienen la misma velocidad horizontal $v_0$ y el mismo tiempo de vuelo $t$, su alcance horizontal ($x = v_0 t$) también será idéntico.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) Ambas esferas llegan al suelo exactamente al mismo tiempo
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Dos proyectiles idénticos se lanzan desde el suelo con la misma rapidez inicial $v_0$. El proyectil $A$ se lanza con un ángulo de $15^\circ$ y el proyectil $B$ con un ángulo de $75^\circ$. En un modelo ideal sin fricción, es correcto afirmar que:
+\begin{enumerate}[label=\alph*)]
+    \item El proyectil $A$ tiene mayor alcance horizontal
+    \item El proyectil $B$ tiene mayor alcance horizontal
+    \item Ambos tienen el mismo alcance, pero $A$ tiene mayor altura máxima
+    \item Ambos tienen el mismo alcance, pero $B$ tiene mayor altura máxima
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Propiedades de los Ángulos Complementarios}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig, ax = plt.subplots(figsize=(6, 4))
+ax.spines['left'].set_position('zero')
+ax.spines['bottom'].set_position('zero')
+ax.spines['right'].set_color('none')
+ax.spines['top'].set_color('none')
+ax.set_xlabel('Alcance (X)', loc='right')
+ax.set_ylabel('Altura (Y)', loc='top')
+
+v0 = 20
+g = 9.8
+
+t1 = np.linspace(0, 2*v0*np.sin(np.deg2rad(15))/g, 100)
+x1 = v0*np.cos(np.deg2rad(15))*t1
+y1 = v0*np.sin(np.deg2rad(15))*t1 - 0.5*g*t1**2
+
+t2 = np.linspace(0, 2*v0*np.sin(np.deg2rad(75))/g, 100)
+x2 = v0*np.cos(np.deg2rad(75))*t2
+y2 = v0*np.sin(np.deg2rad(75))*t2 - 0.5*g*t2**2
+
+ax.plot(x1, y1, 'b-', lw=2, label='15 grados (Proyectil A)')
+ax.plot(x2, y2, 'r-', lw=2, label='75 grados (Proyectil B)')
+
+ax.set_xlim(0, 22)
+ax.set_ylim(0, 20)
+ax.legend()
+plt.tight_layout()
+plt.show()
+\end{verbatim}
+
+Como demostramos analíticamente en problemas anteriores, dos ángulos que suman $90^\circ$ (complementarios, como $15^\circ + 75^\circ = 90^\circ$) producen exactamente el \textbf{mismo alcance horizontal} cuando se disparan con la misma rapidez inicial, gracias a la identidad trigonométrica $\sin(2\theta) = \sin(180^\circ - 2\theta)$.
+
+Sin embargo, sus trayectorias son muy distintas. La altura máxima depende del cuadrado del seno del ángulo:
+$$ h_{max} = \frac{v_0^2 \sin^2\theta}{2g} $$
+Dado que $\sin(75^\circ) > \sin(15^\circ)$, el proyectil lanzado a $75^\circ$ (proyectil B) destina casi toda su energía a subir, logrando una altitud mucho mayor, pasando más tiempo en el aire antes de caer en el mismo punto exacto que el proyectil A.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large d) Ambos tienen el mismo alcance, pero $B$ tiene mayor altura máxima
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Para un objeto lanzado en movimiento parabólico desde el suelo con una rapidez inicial $v_0$ y un ángulo $\theta$ (donde $0^\circ < \theta < 90^\circ$), ¿cuál es la rapidez mínima que alcanza la partícula durante toda su trayectoria?
+\begin{enumerate}[label=\alph*)]
+    \item $0\,\si{m/s}$
+    \item $v_0 \cos\theta$
+    \item $v_0 \sin\theta$
+    \item $v_0$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Conservación de la Rapidez Horizontal}
+La rapidez en cualquier instante $t$ se calcula evaluando la magnitud del vector velocidad mediante Pitágoras:
+$$ v = \sqrt{v_x^2 + v_y^2} $$
+En un movimiento parabólico, sabemos por el Principio de Galileo que la componente horizontal de la velocidad no sufre alteraciones, por lo que en todo momento $v_x = v_{0x} = v_0 \cos\theta$.
+La componente vertical ($v_y$) sí cambia, disminuyendo al subir y aumentando al bajar. 
+
+Para que la suma total $v$ sea \textbf{la menor posible} (el mínimo de la función), el término variable $v_y^2$ debe ser lo más pequeño posible. El valor mínimo que puede alcanzar cualquier número al cuadrado es cero. 
+Esto ocurre exactamente en el punto de \textbf{altura máxima}, donde el proyectil deja de subir y $v_y = 0$.
+Sustituyendo este cero en la ecuación pitagórica:
+$$ v_{min} = \sqrt{(v_0 \cos\theta)^2 + 0^2} = v_0 \cos\theta $$
+La partícula nunca se detiene por completo (rapidez nula), siempre mantiene un remanente constante de velocidad horizontal.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) $v_0 \cos\theta$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Al graficar la trayectoria parabólica plana de un proyectil ($y$ vs $x$), se puede afirmar que la derivada de la velocidad del proyectil con respecto al tiempo $\left(\frac{d\vec{v}}{dt}\right)$:
+\begin{enumerate}[label=\alph*)]
+    \item Es un vector tangente a la curva en cada punto
+    \item Es el vector nulo en el punto de altura máxima
+    \item Apunta siempre hacia el origen del lanzamiento
+    \item Es un vector constante que siempre apunta hacia abajo
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Interpretación Diferencial de la Aceleración}
+En cálculo vectorial, la derivada de la velocidad con respecto al tiempo es la definición matemática exacta de la \textbf{aceleración instantánea}:
+$$ \vec{a} = \frac{d\vec{v}}{dt} $$
+En un movimiento parabólico ideal, la única fuerza existente es el peso del proyectil originado por la gravedad terrestre.
+Independientemente de la posición espacial del proyectil (ya sea subiendo, bajando, o en el vértice), el vector aceleración $\vec{a}$ es exactamente igual al vector gravedad $\vec{g}$.
+Dado que $\vec{g}$ tiene una magnitud fija de $9.8\,\si{m/s^2}$ y una dirección fija inalterable trazada verticalmente hacia el centro de la Tierra, concluimos que la derivada pedida es un \textbf{vector constante apuntando hacia abajo}.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large d) Es un vector constante que siempre apunta hacia abajo
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un cazador apunta su rifle directamente al centro de un blanco suspendido en el aire a cierta distancia. En el instante \textbf{exacto} en que la bala sale del cañón, el blanco se suelta y empieza a caer en caída libre. Despreciando la fricción del aire, es rigurosamente cierto que la bala:
+\begin{enumerate}[label=\alph*)]
+    \item Pasará por encima del blanco, ya que este cayó
+    \item Pasará por debajo del blanco debido a la parábola de la bala
+    \item Impactará exactamente al blanco en el aire
+    \item Depende de la velocidad inicial de la bala para saber si acierta
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. El Paradigma de la Relatividad y la Caída Libre Común}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig, ax = plt.subplots(figsize=(6, 4))
+ax.spines['left'].set_position('zero')
+ax.spines['bottom'].set_position('zero')
+ax.spines['right'].set_color('none')
+ax.spines['top'].set_color('none')
+ax.set_xlabel('X', loc='right')
+ax.set_ylabel('Y', loc='top')
+
+x_t = 10
+y_t = 10
+ax.plot([0, x_t], [0, y_t], 'k--', label='Linea de vision directa')
+
+v0 = 15
+theta = np.arctan(y_t/x_t)
+g = 9.8
+
+t_hit = x_t / (v0 * np.cos(theta))
+t = np.linspace(0, t_hit, 50)
+
+x_p = v0 * np.cos(theta) * t
+y_p = v0 * np.sin(theta) * t - 0.5 * g * t**2
+y_m = y_t - 0.5 * g * t**2
+
+ax.plot(x_p, y_p, 'b-', lw=2, label='Trayectoria Bala')
+ax.plot(np.full_like(t, x_t), y_m, 'r-', lw=2, label='Caida del Blanco')
+ax.plot(x_t, y_m[-1], 'go', markersize=8, label='Impacto')
+
+ax.set_xlim(-1, 12)
+ax.set_ylim(-1, 12)
+ax.legend(loc='lower right', fontsize=8)
+plt.tight_layout()
+plt.show()
+\end{verbatim}
+
+Este es un famoso experimento mental clásico. Analicemos el marco de referencia:
+Si la gravedad no existiera, la bala viajaría en línea recta (MRU) a lo largo de la "línea de visión" y el blanco se quedaría flotando en su lugar. Habría un impacto.
+
+Al "encender" la gravedad, ambos objetos sufren exactamente el mismo efecto simultáneo: ambos caen respecto a sus posiciones originales en el vacío a una razón de $\frac{1}{2}gt^2$. 
+\begin{itemize}
+    \item El blanco desciende una distancia $\Delta y = \frac{1}{2}gt^2$ desde su punto de soporte.
+    \item La bala desciende exactamente la misma distancia $\Delta y = \frac{1}{2}gt^2$ respecto a la línea recta imaginaria con la que fue apuntada.
+\end{itemize}
+Como ambos han "caído" exactamente la misma distancia vertical en el mismo intervalo de tiempo, sus coordenadas espaciales se cruzan inexorablemente. \textbf{El impacto está garantizado} independientemente de qué tan rápido haya salido la bala (siempre y cuando la bala llegue al eje horizontal del blanco antes de tocar el suelo).
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) Impactará exactamente al blanco en el aire
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Considere un proyectil lanzado con una velocidad inicial $\vec{v}_0$ y un ángulo $\theta$ respecto a la horizontal. En el instante preciso en el que el proyectil alcanza su \textbf{altura máxima}, su aceleración normal ($a_N$) y tangencial ($a_T$) son respectivamente:
+\begin{enumerate}[label=\alph*)]
+    \item $a_N = g \cos\theta$ y $a_T = g \sin\theta$
+    \item $a_N = 0$ y $a_T = g$
+    \item $a_N = g$ y $a_T = 0$
+    \item $a_N = g \sin\theta$ y $a_T = 0$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Descomposición Intrínseca en el Vértice}
+En la base intrínseca de la cinemática curvilínea:
+\begin{itemize}
+    \item La aceleración tangencial ($\vec{a}_T$) es colineal (paralela) al vector velocidad.
+    \item La aceleración normal ($\vec{a}_N$) es perpendicular al vector velocidad.
+\end{itemize}
+
+En el punto de altura máxima de una parábola, la velocidad vertical se hace cero ($v_y = 0$). Todo el vector velocidad remanente es completamente \textbf{horizontal} ($\vec{v} = v_x\hat{i}$).
+Simultáneamente, la aceleración total (la gravedad $\vec{g}$) sigue apuntando completamente \textbf{vertical hacia abajo}.
+
+Puesto que horizontal ($X$) y vertical ($Y$) forman un ángulo exacto de $90^\circ$ entre sí, el vector aceleración es $100\%$ perpendicular a la velocidad. 
+Al ser totalmente perpendicular, la gravedad actúa íntegramente como aceleración normal. Como no hay "sombra" geométrica de la gravedad a lo largo del eje horizontal, la componente tangencial es nula en ese instante fraccionario.
+$$ a_N = g \quad \text{y} \quad a_T = 0 $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) $a_N = g$ y $a_T = 0$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Al deducir la ecuación geométrica de la trayectoria de un proyectil ($y$ en función de $x$), eliminando el parámetro temporal $t$ del sistema de ecuaciones cinemáticas, se obtiene una función matemática de la forma:
+\begin{enumerate}[label=\alph*)]
+    \item $y = Ax^2 + Bx^3$
+    \item $y = Ax + \frac{B}{x}$
+    \item $y = A \sin(Bx)$
+    \item $y = Ax - Bx^2$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Deducción Analítica de la Ecuación de Trayectoria}
+Partimos de las ecuaciones paramétricas del movimiento ideal en 2D (con origen en 0,0):
+\begin{itemize}
+    \item En X: $x = (v_0 \cos\theta) t$
+    \item En Y: $y = (v_0 \sin\theta) t - \frac{1}{2}g t^2$
+\end{itemize}
+Para encontrar $y(x)$, despejamos el tiempo $t$ de la primera ecuación:
+$$ t = \frac{x}{v_0 \cos\theta} $$
+Sustituimos esta expresión en la ecuación de $Y$:
+$$ y(x) = (v_0 \sin\theta) \left( \frac{x}{v_0 \cos\theta} \right) - \frac{1}{2}g \left( \frac{x}{v_0 \cos\theta} \right)^2 $$
+Simplificando términos (las $v_0$ se cancelan en el primer miembro y $\sin/\cos = \tan$):
+$$ y(x) = (\tan\theta) x - \left( \frac{g}{2 v_0^2 \cos^2\theta} \right) x^2 $$
+
+Si agrupamos las constantes físicas ($A = \tan\theta$ y $B = \frac{g}{2 v_0^2 \cos^2\theta}$), la ecuación toma la forma general:
+$$ y(x) = Ax - Bx^2 $$
+Esta es la firma inconfundible de una parábola en el plano cartesiano que abre hacia abajo, demostrando matemáticamente la geometría del movimiento.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large d) $y = Ax - Bx^2$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una pelota lanzada parabólicamente cruza la altura de $5\,\si{m}$ mientras asciende, y tiempo después vuelve a cruzar exactamente la misma altura de $5\,\si{m}$ mientras desciende. En ambos instantes de tiempo, al comparar sus variables cinemáticas, la pelota tiene:
+\begin{enumerate}[label=\alph*)]
+    \item Exactamente la misma velocidad ($\vec{v}$)
+    \item Exactamente la misma rapidez ($|\vec{v}|$), pero distinta velocidad
+    \item Distinta rapidez y distinta velocidad
+    \item Exactamente la misma aceleración tangencial
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Simetría Vectorial y Conservación de Energía}
+Por la Ley de Conservación de la Energía Mecánica, en ausencia de fuerzas no conservativas como la fricción, la energía potencial y cinética en dos puntos a la misma altura deben ser idénticas:
+$$ E_k \text{(subida)} + E_p \text{(subida)} = E_k \text{(bajada)} + E_p \text{(bajada)} $$
+Dado que $E_p$ solo depende de la altura ($mgh$), y la altura es $5\,\si{m}$ en ambos casos, $E_p$ es igual y se cancela. Por lo tanto, sus energías cinéticas ($\frac{1}{2}mv^2$) son iguales, obligando a que \textbf{sus rapideces escalares ($v = |\vec{v}|$) sean idénticas}.
+
+Sin embargo, el \textbf{vector velocidad} involucra dirección espacial.
+\begin{itemize}
+    \item Al subir, su vector es $\vec{v}_{subida} = v_x\hat{i} + v_y\hat{j}$ (apunta diagonal arriba).
+    \item Al bajar, la componente vertical se invirtió por la gravedad, su vector es $\vec{v}_{bajada} = v_x\hat{i} - v_y\hat{j}$ (apunta diagonal abajo).
+\end{itemize}
+Al no tener la misma dirección, es erróneo afirmar que tienen "la misma velocidad", aunque sus velocímetros marquen el mismo número (misma rapidez).
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) Exactamente la misma rapidez ($|\vec{v}|$), pero distinta velocidad
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Se dispara un proyectil con un ángulo de elevación $\theta$. ¿En qué parte específica de toda su trayectoria el proyectil experimenta la cantidad mínima de Energía Cinética?
+\begin{enumerate}[label=\alph*)]
+    \item En el instante del disparo
+    \item En el instante del impacto
+    \item A la mitad de su altura máxima
+    \item En el vértice o punto más alto
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Mínimo de la Función de Energía}
+La Energía Cinética de una partícula de masa $m$ está dada por la ecuación escalar:
+$$ E_k = \frac{1}{2} m v^2 $$
+Puesto que la masa y la fracción de un medio son constantes inalterables, la Energía Cinética será mínima única y exclusivamente en el instante donde la magnitud de su velocidad (la rapidez $v$) sea la mínima.
+
+Como demostramos analíticamente en el Ejercicio 18, la rapidez de un proyectil en vuelo obedece la función Pitagórica $v = \sqrt{v_x^2 + v_y^2}$. 
+El valor $v_x$ es constante, y el valor $v_y$ pierde magnitud al subir, llegando a ser exactamente $0$ en la cumbre del vuelo. 
+Por lo tanto, es en la \textbf{altura máxima} (donde se ha consumido toda la velocidad vertical) que la rapidez es mínima ($v = v_x$). Al ser la rapidez mínima, la Energía Cinética cae a su valor más bajo posible para ese vuelo específico.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large d) En el vértice o punto más alto
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Si dejamos de asumir un escenario ideal y permitimos que la \textbf{resistencia aerodinámica del aire} afecte a un proyectil real, la curva geométrica resultante sufrirá una distorsión. ¿Cuál de las siguientes es una consecuencia geométrica de la fricción del aire?
+\begin{enumerate}[label=\alph*)]
+    \item La trayectoria se mantiene perfectamente simétrica, pero más baja
+    \item El ángulo de impacto contra el suelo será más empinado que el ángulo de lanzamiento
+    \item El tiempo de subida será mayor que el tiempo de bajada
+    \item El proyectil alcanzará una altura máxima mayor por efecto del viento en contra
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Cinemática de Proyectiles No Ideales}
+La fuerza de arrastre o resistencia del aire ($\vec{F}_d = -kv^2 \hat{u}_v$) es una fuerza que siempre actúa en dirección diametralmente opuesta a la velocidad instantánea del proyectil. Esto destruye por completo las dos premisas del movimiento ideal: la velocidad horizontal $v_x$ ya no es constante (se frena horizontalmente) y la aceleración vertical cambia drásticamente.
+
+Esta fuerza no conservativa "roba" energía cinética continuamente a la bala. 
+\begin{itemize}
+    \item Al subir, la gravedad y el aire actúan hacia abajo juntos. Se frena muy rápido (tiempo de subida corto).
+    \item Al bajar, la gravedad tira hacia abajo y el aire frena hacia arriba. Cae más lento, por lo que el tiempo de bajada es \textbf{mayor} al de subida. (Opción c falsa).
+    \item Como el proyectil perdió gran parte de su velocidad de avance horizontal ($v_x$) pero la gravedad le impone una fuerte velocidad de caída vertical ($v_y$), el vector de impacto final termina siendo mucho más "vertical" que el que tuvo al inicio de su viaje. Esto significa que \textbf{la curva cae en picada}, haciendo que el ángulo final contra el suelo sea notablemente más inclinado (más empinado) que el ángulo original de disparo.
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) El ángulo de impacto contra el suelo será más empinado que el ángulo de lanzamiento
+\end{tcolorbox}
+
+\end{document}

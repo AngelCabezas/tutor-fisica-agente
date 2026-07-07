@@ -1,0 +1,2390 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,shorthands=off]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{geometry}
+\geometry{a4paper, margin=2.5cm}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{pythonstyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=4,
+    language=Python
+}
+\lstset{style=pythonstyle}
+
+\begin{document}
+
+\subsection*{Enunciado}
+Imagina que empujas un carrito sobre una superficie de hielo perfectamente lisa y luego lo sueltas. Marca la opción que te parece más correcta y escribe por qué:
+\begin{enumerate}
+    \item[a)] El carrito se detiene casi de inmediato.
+    \item[b)] El carrito frena poco a poco hasta detenerse.
+    \item[c)] El carrito continúa moviéndose para siempre con la misma velocidad.
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{Análisis del concepto de inercia}
+Para abordar este problema, es indispensable recurrir a la Primera Ley de Newton, conocida como la ley de la inercia, pilar fundamental de la física conceptual. Esta ley dictamina que todo cuerpo persevera en su estado de reposo o de movimiento uniforme y rectilíneo, a no ser que sea obligado a cambiar su estado por fuerzas impresas sobre él. La inercia es, por tanto, la tendencia natural de los objetos a resistir cambios en su estado de movimiento.
+
+\subsubsection*{Evaluación de las fuerzas involucradas}
+El enunciado nos presenta una situación idealizada al mencionar una superficie de hielo perfectamente lisa. Desde la perspectiva física, esta condición implica una ausencia total de la fuerza de fricción o rozamiento entre la superficie y el carrito. 
+
+Analicemos las fuerzas que actúan sobre el carrito una vez que se suelta. En el eje vertical, el carrito está sometido a la fuerza de gravedad dirigida hacia abajo, es decir, su peso. Simultáneamente, la superficie de hielo ejerce una fuerza perpendicular hacia arriba, conocida como fuerza normal. Dado que el carrito no se eleva ni se hunde, estas dos fuerzas verticales se anulan entre sí, resultando en una fuerza neta vertical igual a cero.
+
+En el eje horizontal, la situación es clave. Al soltar el carrito, la fuerza de empuje inicial desaparece. Al ser una superficie perfectamente lisa, la fuerza de fricción horizontal es nula. Por lo tanto, la suma de fuerzas en el eje horizontal es cero. Según la Segunda Ley de Newton, una fuerza neta nula produce una aceleración nula. Sin aceleración, la velocidad no puede cambiar; ni su magnitud ni su dirección.
+
+\subsubsection*{Representación en Diagrama de Cuerpo Libre}
+Para consolidar la comprensión pedagógica de que no existe una fuerza neta horizontal que altere la velocidad del carrito, se proporciona a continuación el código en Python para generar el Diagrama de Cuerpo Libre. Este diagrama demuestra gráficamente el equilibrio en el eje vertical y la ausencia de vectores de fuerza en el eje horizontal que se opongan al movimiento.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(8, 6))
+
+ax.plot(0, 0, 'ko', markersize=10)
+
+ax.annotate('Fuerza Normal (N)', xy=(0, 0.2), xytext=(0, 2),
+            arrowprops=dict(facecolor='blue', shrink=0.05),
+            fontsize=12, ha='center')
+
+ax.annotate('Peso (W o mg)', xy=(0, -0.2), xytext=(0, -2),
+            arrowprops=dict(facecolor='red', shrink=0.05),
+            fontsize=12, ha='center')
+
+ax.annotate('Velocidad Constante (v)', xy=(0.5, 0), xytext=(2.5, 0),
+            arrowprops=dict(edgecolor='green', arrowstyle='->', lw=2),
+            fontsize=12, va='center', color='green')
+
+ax.set_xlim(-3, 3)
+ax.set_ylim(-3, 3)
+ax.axhline(0, color='black', linewidth=1)
+ax.axvline(0, color='black', linewidth=1)
+ax.grid(True, linestyle='--', alpha=0.7)
+ax.set_title('Diagrama de Cuerpo Libre: Carrito en Hielo Liso')
+
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Descarte sistemático de opciones}
+Con el marco teórico establecido, analizamos las alternativas dadas.
+La opción a y la opción b sugieren que el carrito eventualmente se detiene, ya sea de inmediato o poco a poco. Para que un cuerpo en movimiento se detenga, debe experimentar una aceleración negativa, lo cual exige la presencia de una fuerza externa neta en sentido contrario al movimiento, como lo sería la fricción. Al no existir fricción en nuestra superficie de hielo perfectamente lisa, ambas opciones quedan descartadas físicamente.
+
+\subsubsection*{Conclusión}
+La opción correcta es la c. El carrito continúa moviéndose para siempre con la misma velocidad. La razón fundamentada es que, al encontrarse sobre una superficie sin fricción y sin fuerzas de empuje continuas, la fuerza neta sobre el carrito es cero. Por la ley de la inercia, el objeto mantendrá su estado de movimiento rectilíneo uniforme indefinidamente.
+
+\newpage
+
+\subsection*{Enunciado}
+¿Necesita un objeto en movimiento que algo lo empuje continuamente para seguir moviéndose? ¿Por qué?
+
+\subsection*{Solución}
+
+\subsubsection*{Respuesta Directa}
+No. Un objeto en movimiento no requiere la aplicación de una fuerza continua para mantener su estado de movimiento.
+
+\subsubsection*{Análisis del Sistema de Fuerzas}
+El contexto inicial de las interacciones de contacto y la evaluación estándar de los sistemas de referencia inerciales quedan validados bajo los principios de la mecánica clásica. Las variables de masa y velocidad inicial se asumen como parámetros establecidos del sistema.
+
+Procediendo directamente a la transformación del estado dinámico, la ausencia de una fuerza externa neta garantiza la conservación estricta de la cantidad de movimiento lineal. La aceleración neta del sistema se vuelve cero, lo que imposibilita cualquier variación en el vector velocidad.
+
+\subsubsection*{Conclusión}
+Por el principio de inercia, un objeto preservará su movimiento rectilíneo uniforme indefinidamente; una fuerza continua no es necesaria para mantener el movimiento, sino únicamente para alterarlo.
+
+\newpage
+
+\subsection*{Enunciado}
+Si sueltas simultáneamente una hoja de papel y una bola hecha con otra hoja idéntica desde la misma altura, ¿cuál llega primero al suelo? ¿Por qué?
+
+\subsection*{Solución}
+
+\subsubsection*{Respuesta Directa}
+La bola de papel hecha con la hoja idéntica llega primero al suelo.
+
+\subsubsection*{Análisis Aerodinámico}
+Las condiciones iniciales de masa idéntica, la constante de aceleración gravitacional y la altura de liberación compartida operan como el entorno base validado para el sistema de caída libre modificado.
+
+Saltando a la resolución de la interacción de fluidos, la variación en la sección transversal geométrica dicta la transformación cinética final. La hoja extendida maximiza el área de contacto, generando una fuerza de resistencia aerodinámica superior que contrarresta significativamente el peso. En la bola de papel, esta resistencia es marginal, maximizando su aceleración neta de descenso.
+
+\subsubsection*{Conclusión}
+La bola de papel aterriza primero porque su morfología compacta minimiza la resistencia del aire, permitiéndole mantener una aceleración neta hacia abajo mucho mayor que la de la hoja de papel extendida.
+
+\newpage
+
+\subsection*{Enunciado}
+
+Para la siguiente situación, identifica los dos cuerpos que interactúan y describe si la naturaleza de esa interacción es de contacto o gravitacional:
+
+La Tierra atrae a una manzana que cae del árbol.
+
+Los dos cuerpos: \underline{\hspace{8cm}}
+
+La naturaleza de la interacción: \underline{\hspace{8cm}}
+
+\subsection*{Solución}
+
+\subsubsection*{Análisis del concepto de interacción}
+En la mecánica clásica, una fuerza no existe de manera aislada; es siempre parte de una acción mutua entre dos objetos. A este fenómeno se le denomina interacción. Para que exista una interacción, es indispensable la presencia de al menos dos cuerpos materiales: un agente que ejerce la acción y un objeto que la recibe. Por la Tercera Ley de Newton, ambos cuerpos experimentan fuerzas de igual magnitud pero en direcciones opuestas.
+
+\subsubsection*{Identificación de los cuerpos en el sistema}
+En el escenario descrito, el evento dinámico es la caída de un objeto. El objeto que experimenta la aceleración hacia abajo es la manzana. El agente responsable de generar la fuerza que causa esta aceleración, atrayendo el objeto hacia su centro, es el planeta Tierra. Por lo tanto, el par de acción y reacción se establece de forma exclusiva entre estos dos elementos materiales.
+
+\subsubsection*{Determinación de la naturaleza de la interacción}
+Las interacciones físicas fundamentales pueden clasificarse por cómo se transmiten. Cuando la fuerza requiere un toque físico directo a nivel macroscópico, se denomina de contacto. Sin embargo, en este escenario, la manzana y la Tierra no necesitan estar tocándose para que exista la fuerza de atracción. La Tierra genera un campo en el espacio que actúa sobre la masa de la manzana a distancia. Esta acción a través del espacio vacío define a un tipo específico de fuerza fundamental.
+
+\subsubsection*{Representación visual de la interacción}
+Para comprender pedagógicamente que la interacción es mutua (la Tierra atrae a la manzana, y la manzana atrae a la Tierra con la misma fuerza), se presenta el diagrama del par de fuerzas.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(6, 5))
+
+ax.add_patch(plt.Circle((0, 0), 1.5, color='blue', alpha=0.2))
+ax.text(0, -0.5, 'Tierra', ha='center', fontsize=12, fontweight='bold')
+
+ax.add_patch(plt.Circle((0, 3), 0.3, color='red', alpha=0.8))
+ax.text(0.5, 3, 'Manzana', ha='left', va='center', fontsize=12)
+
+ax.annotate('', xy=(0, 2), xytext=(0, 2.7),
+            arrowprops=dict(facecolor='black', shrink=0.05, width=1.5, headwidth=7))
+ax.text(0.1, 2.35, r'$F_{Tierra \rightarrow manzana}$', fontsize=10)
+
+ax.annotate('', xy=(0, 1), xytext=(0, 0.3),
+            arrowprops=dict(facecolor='black', shrink=0.05, width=1.5, headwidth=7))
+ax.text(0.1, 0.65, r'$F_{manzana \rightarrow Tierra}$', fontsize=10)
+
+ax.set_xlim(-3, 3)
+ax.set_ylim(-2, 4)
+ax.axis('off')
+plt.title('Par de Interacción a Distancia')
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+Los dos cuerpos: La Tierra y la manzana. \\
+La naturaleza de la interacción: Gravitacional.
+
+\newpage
+
+\subsection*{Enunciado}
+
+Para la siguiente situación, identifica los dos cuerpos que interactúan y describe si la naturaleza de esa interacción es de contacto o gravitacional:
+
+Empujas una pared con tu mano.
+
+Los dos cuerpos: \underline{\hspace{8cm}}
+
+La naturaleza de la interacción: \underline{\hspace{8cm}}
+
+\subsection*{Solución}
+
+\subsubsection*{Análisis del concepto de interacción por empuje}
+Siguiendo el principio universal de que las fuerzas ocurren en pares interactuantes, cualquier acción de empuje requiere obligatoriamente de dos identidades. Un sistema no puede ejercer una fuerza sobre la nada. La acción mecánica de empujar implica un esfuerzo que debe ser resistido o recibido directamente por la estructura de otro objeto para que la fuerza se manifieste.
+
+\subsubsection*{Identificación de los cuerpos en el sistema}
+El texto establece claramente la acción mecánica: empujar. El agente activo que inicia esta fuerza muscular es la mano de la persona. El elemento pasivo que recibe el empuje y proporciona la resistencia estructural opuesta es la pared. Estos dos elementos constituyen el sistema bi-corporal necesario para la interacción descrita.
+
+\subsubsection*{Determinación de la naturaleza de la interacción}
+A diferencia de los campos gravitatorios, el acto de empujar una pared requiere que la superficie de la piel humana y la superficie del material de la pared coincidan en el mismo límite espacial. A nivel atómico, esto es la repulsión electromagnética de las nubes electrónicas, pero a nivel macroscópico y dentro de la física conceptual, toda fuerza que requiere este toque físico evidente e insalvable para transmitirse se clasifica bajo un término específico.
+
+\subsubsection*{Representación visual de la interacción}
+El siguiente diagrama ilustra que la mano empuja la pared (fuerza aplicada), pero simultáneamente, la pared ejerce una fuerza normal idéntica y opuesta sobre la mano, evidenciando el requerimiento del contacto físico.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(6, 4))
+
+ax.add_patch(plt.Rectangle((1, -2), 2, 4, color='gray', alpha=0.4))
+ax.text(2, 2.2, 'Pared', ha='center', fontsize=12, fontweight='bold')
+
+ax.add_patch(plt.Rectangle((-1, -0.5), 2, 1, color='orange', alpha=0.4))
+ax.text(-0.2, 0.8, 'Mano', ha='center', fontsize=12)
+
+ax.annotate('', xy=(1, 0.2), xytext=(0, 0.2),
+            arrowprops=dict(facecolor='black', shrink=0.05, width=1.5, headwidth=7))
+ax.text(-0.8, 0.4, r'$F_{mano \rightarrow pared}$', fontsize=10)
+
+ax.annotate('', xy=(0, -0.2), xytext=(1, -0.2),
+            arrowprops=dict(facecolor='black', shrink=0.05, width=1.5, headwidth=7))
+ax.text(-0.8, -0.6, r'$F_{pared \rightarrow mano}$', fontsize=10)
+
+ax.set_xlim(-2, 4)
+ax.set_ylim(-3, 3)
+ax.axis('off')
+plt.title('Par de Interacción por Contacto')
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+Los dos cuerpos: La mano y la pared. \\
+La naturaleza de la interacción: De contacto.
+
+\newpage
+
+\subsection*{Enunciado}
+Un estudiante escribe en su cuaderno: "El objeto se detendrá naturalmente a menos que exista algún impulso que mantenga su movimiento."
+
+¿Qué hay de incorrecto en esa afirmación?
+
+\subsection*{Solución}
+
+\subsubsection*{Análisis del concepto de inercia y estado natural}
+El error principal radica en la incomprensión del concepto de inercia, formalizado por Galileo y posteriormente por Newton. La afirmación asume equivocadamente que el reposo es el único estado "natural" de un cuerpo material y que el movimiento es un estado artificial que debe ser forzado continuamente. Desde la perspectiva de la física conceptual, tanto el reposo absoluto como el movimiento rectilíneo uniforme son estados naturales equivalentes de equilibrio dinámico (donde la fuerza neta es cero).
+
+\subsubsection*{Evaluación de la causa de detención}
+Cuando observamos en la vida cotidiana que un objeto se detiene de forma aparentemente autónoma (como un bloque deslizándose sobre una mesa), no lo hace de forma "natural" por agotamiento de un impulso interno o falta de fuerza motriz. Se detiene porque existe una fuerza externa real actuando en contra de su movimiento: la fuerza de fricción. Si se suprime la fricción y la resistencia del medio, el objeto jamás requeriría un nuevo empuje para seguir moviéndose en el espacio.
+
+\subsubsection*{Conclusión}
+La afirmación es incorrecta porque asume que los objetos buscan naturalmente el reposo y requieren una fuerza constante para moverse. Según la Primera Ley de Newton, el movimiento rectilíneo uniforme se mantiene indefinidamente por inercia; lo que realmente requiere la aplicación de una fuerza externa neta (como la fricción) es el acto de alterar ese estado para detener al objeto.
+
+\newpage
+
+\subsection*{Enunciado}
+
+Un estudiante escribe en su cuaderno: "El objeto se detendrá naturalmente a menos que exista algún impulso que mantenga su movimiento."
+
+¿Cómo la reformularías usando los conceptos de esta clase?
+
+\subsection*{Solución}
+
+\subsubsection*{Reestructuración bajo el marco newtoniano}
+Para corregir la afirmación del estudiante y alinearla con la física clásica, es estrictamente necesario eliminar la noción de que el movimiento constante requiere una causa o fuerza continua. Debemos sustituir el concepto erróneo de "impulso de mantenimiento" por el concepto fundamental de "inercia", y cambiar la causa de la detención de un proceso "natural o espontáneo" a la acción directa de una "fuerza externa neta disipativa".
+
+\subsubsection*{Conclusión}
+Una reformulación correcta sería: "Un objeto en movimiento continuará moviéndose a velocidad constante y en línea recta debido a su inercia; solo se detendrá o alterará su movimiento si una fuerza externa neta, como la fuerza de fricción, actúa sobre él."
+
+\newpage
+
+\subsection*{Enunciado}
+Un estudiante escribe en su cuaderno: "El objeto se detendrá naturalmente a menos que exista algún impulso que mantenga su movimiento."
+
+¿En qué se parece esa afirmación a la idea aristotélica?
+
+\subsection*{Solución}
+
+\subsubsection*{Revisión histórica del movimiento aristotélico}
+En la física desarrollada por Aristóteles en la antigüedad, el movimiento se dividía conceptualmente en dos clases principales: el movimiento natural (los elementos buscando su lugar natural en el cosmos, como una roca cayendo o el humo subiendo) y el movimiento violento. El movimiento violento era aquel impuesto externamente por empujones o tirones. Aristóteles enseñaba rigurosamente que para que un movimiento violento continuara, debía existir un agente o motor externo interactuando y empujando constantemente al objeto. Si dicho empuje cesaba, el objeto inmediatamente volvía a su estado natural inerte.
+
+\subsubsection*{Paralelismo con la premisa del estudiante}
+La afirmación formulada por el estudiante reproduce de manera exacta este paradigma pre-galileano. Al indicar que un "impulso" es necesario para mantener el movimiento, el estudiante está recurriendo a la intuición aristotélica del movimiento violento, ignorando por completo el concepto de inercia y omitiendo a la fricción como la verdadera fuerza que causa la detención en los entornos cotidianos no ideales.
+
+\subsubsection*{Conclusión}
+La afirmación es idéntica a la doctrina del "movimiento violento" de Aristóteles, la cual sostenía empíricamente que el estado perfecto de todo cuerpo terrestre es el reposo, y que cualquier objeto en desplazamiento requiere indispensablemente de una fuerza o empuje continuo e ininterrumpido por parte de un agente para no detenerse.
+
+\newpage
+
+\subsection*{Enunciado}
+Un astronauta en el espacio exterior, muy lejos de cualquier planeta, lanza un objeto y lo suelta. ¿Qué movimiento tendrá ese objeto?
+\begin{enumerate}
+    \item[a)] Se detendrá gradualmente porque no hay nada que lo empuje.
+    \item[b)] Acelerará porque no hay gravedad.
+    \item[c)] Continuará moviéndose con la misma velocidad en línea recta indefinidamente.
+    \item[d)] Describirá una trayectoria curva.
+    \item[e)] Orbitará alrededor de la estrella más cercana.
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{Análisis del entorno idealizado}
+El problema sitúa la acción en el "espacio exterior, muy lejos de cualquier planeta". En la física conceptual, esta premisa establece un entorno de referencia inercial donde las interacciones gravitacionales macroscópicas son despreciables. Asimismo, al encontrarse en el vacío espacial, no existe resistencia de fluidos. Esto significa que una vez que el objeto abandona la mano del astronauta, el sistema queda completamente libre de fuerzas externas interactuantes.
+
+\subsubsection*{Evaluación de las fuerzas y la inercia}
+Para determinar el comportamiento dinámico del objeto, es mandatorio aplicar la Primera Ley de Newton. Esta ley estipula que todo cuerpo persevera en su estado de reposo o de movimiento uniforme y rectilíneo a no ser que sea obligado a cambiar su estado por fuerzas impresas sobre él. Al soltar el objeto, este ya posee una velocidad inicial otorgada por el lanzamiento. Dado que el entorno carece de gravedad que lo atraiga o fricción que lo disipe, la fuerza neta del sistema es matemáticamente cero. Según la Segunda Ley de Newton, una fuerza neta nula imposibilita cualquier aceleración. En consecuencia, ni la magnitud ni la dirección del vector velocidad pueden alterarse.
+
+\subsubsection*{Representación del estado cinemático}
+El siguiente script en Python genera una representación visual del objeto en el vacío. Se modela para demostrar pedagógicamente la existencia de un vector de velocidad constante, contrastado con la ausencia total de vectores de fuerza neta que modifiquen su trayectoria.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(8, 4))
+
+ax.add_patch(plt.Circle((0, 0), 0.4, color='silver', ec='black'))
+ax.text(0, 0, 'Objeto', ha='center', va='center', fontsize=10, fontweight='bold')
+
+ax.annotate('Velocidad (v = constante)', xy=(0.5, 0), xytext=(3, 0),
+            arrowprops=dict(facecolor='green', shrink=0.05, width=2, headwidth=8),
+            fontsize=12, va='center', color='green')
+
+ax.text(0, -1, 'Suma de Fuerzas = 0\nAceleracion = 0', ha='center', fontsize=11, color='red')
+
+ax.set_xlim(-2, 5)
+ax.set_ylim(-2, 2)
+ax.set_facecolor('#1a1a1a')
+fig.patch.set_facecolor('#1a1a1a')
+
+ax.tick_params(colors='white')
+for spine in ax.spines.values():
+    spine.set_edgecolor('white')
+
+ax.text(1.5, 1.5, 'Vacio Espacial', color='white', fontsize=14, ha='center')
+
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Descarte sistemático de opciones}
+Apoyándonos en el marco teórico de la inercia, procedemos a descartar distractores. La opción a es incorrecta porque la desaceleración o detención gradual exige la presencia de una fuerza disipativa externa, inexistente en el vacío. La opción b es incorrecta porque para que exista aceleración debe existir una fuerza neta a favor del movimiento. Las opciones d y e son incorrectas ya que alterar una trayectoria recta para convertirla en curva o en una órbita demanda obligatoriamente una fuerza centrípeta continua aplicada ortogonalmente a la velocidad, condición que se anula por la ausencia de planetas o estrellas cercanas.
+
+\subsubsection*{Conclusión}
+La opción correcta es la c. El objeto continuará moviéndose con la misma velocidad en línea recta indefinidamente, cumpliendo rigurosamente la Primera Ley de Newton debido a que la fuerza neta actuando sobre él en el espacio profundo es igual a cero.
+
+\newpage
+
+\subsection*{Enunciado}
+Un cuerpo está en reposo sobre una mesa. Según la Primera Ley de Newton, ¿cuál de las siguientes afirmaciones es correcta?
+\begin{enumerate}
+    \item[a)] No hay ninguna fuerza actuando sobre el cuerpo.
+    \item[b)] Hay fuerzas actuando sobre el cuerpo, pero la fuerza neta es cero.
+    \item[c)] La mesa ejerce una fuerza sobre el cuerpo, pero el cuerpo no ejerce ninguna fuerza sobre la mesa.
+    \item[d)] El cuerpo tiene inercia cero porque está en reposo.
+    \item[e)] La fuerza neta es positiva a pesar de que el cuerpo no se mueve.
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{Respuesta Directa}
+La opción correcta es la b) Hay fuerzas actuando sobre el cuerpo, pero la fuerza neta es cero.
+
+\subsubsection*{Análisis del Estado de Equilibrio}
+Los parámetros estáticos del sistema masa-superficie y la interacción gravitacional de fondo quedan validados como el entorno base bajo el marco inercial de la Primera Ley de Newton. 
+
+Procediendo directamente a la resolución matemática del estado de equilibrio, la superposición vectorial de la fuerza gravitacional descendente y la fuerza normal ascendente ejercida por la mesa resulta en una cancelación exacta. La ausencia de variaciones cinemáticas garantiza que el sumatorio de interacciones concurrentes colapsa a una fuerza neta de magnitud cero, haciendo redundante la evaluación de vectores individuales en estados de reposo absoluto.
+
+\subsubsection*{Representación en Diagrama de Cuerpo Libre}
+Para ilustrar la superposición vectorial nula, se emplea la siguiente estructura en Python.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(6, 5))
+
+ax.add_patch(plt.Rectangle((-2, -0.5), 4, 0.5, color='saddlebrown'))
+ax.text(0, -0.25, 'Mesa', ha='center', va='center', color='white', fontweight='bold')
+
+ax.add_patch(plt.Rectangle((-0.5, 0), 1, 1, color='teal'))
+ax.text(0, 0.5, 'Cuerpo', ha='center', va='center', color='white', fontweight='bold')
+
+ax.annotate('', xy=(0, 1), xytext=(0, 2),
+            arrowprops=dict(facecolor='blue', shrink=0.05, width=2, headwidth=8))
+ax.text(0.2, 1.5, 'Fuerza Normal (N)', color='blue', va='center')
+
+ax.annotate('', xy=(0, 0), xytext=(0, -1),
+            arrowprops=dict(facecolor='red', shrink=0.05, width=2, headwidth=8))
+ax.text(0.2, -0.5, 'Peso (W)', color='red', va='center')
+
+ax.set_xlim(-3, 3)
+ax.set_ylim(-2, 3)
+ax.axis('off')
+plt.title('Diagrama de Cuerpo Libre: Equilibrio Estatico')
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+La opción b es la respuesta correcta. El estado de reposo no denota una ausencia de interacciones físicas, sino el cumplimiento de la condición de equilibrio mecánico donde la fuerza neta es cero.
+
+\newpage
+
+\subsection*{Enunciado}
+¿Cuál de las siguientes situaciones ilustra mejor el concepto de inercia?
+\begin{enumerate}
+    \item[a)] Una piedra cae más rápido que un lápiz porque es más pesada.
+    \item[b)] Si un primer objeto tiene más masa que un segundo objeto, será más difícil hacer que cambien las características del movimiento del primero.
+    \item[c)] Un imán atrae un clavo desde cierta distancia.
+    \item[d)] Una pelota rueda por el suelo y se detiene porque ya no tiene velocidad suficiente para seguir moviéndose.
+    \item[e)] La inercia de un cuerpo es independiente de la masa del mismo.
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{Respuesta Directa}
+La opción correcta es la b) Si un primer objeto tiene más masa que un segundo objeto, será más difícil hacer que cambien las características del movimiento del primero.
+
+\subsubsection*{Análisis de la Proporcionalidad Inercial}
+Los parámetros teóricos que definen la resistencia fundamental a los cambios cinemáticos en la mecánica clásica quedan validados como el contexto conceptual base. 
+
+Procediendo directamente a la correlación de variables, la métrica cuantitativa de la inercia es exclusivamente la masa del objeto. Esta relación directa e indivisible garantiza que la resistencia a cualquier aceleración (positiva o negativa) escala en función de la masa presente en el sistema. La evaluación de los escenarios alternativos resulta innecesaria, ya que la dependencia absoluta entre la inercia y la cantidad de materia descarta automáticamente cualquier proposición que asuma independencia de la masa o atribuya la detención a la pérdida inherente de velocidad.
+
+\subsubsection*{Conclusión}
+La opción b es la correcta. La inercia de un cuerpo es directamente proporcional a su masa; por lo tanto, un objeto con mayor masa presentará una mayor resistencia a cualquier alteración en su estado de movimiento o reposo.
+
+\newpage
+
+\subsection*{Enunciado}
+Un camión y una bicicleta se mueven a la misma velocidad. Se aplica la misma fuerza de frenado a ambos. ¿Cuál se detiene primero y por qué?
+
+\subsection*{Solución}
+
+\subsubsection*{Respuesta Directa}
+La bicicleta se detiene primero debido a su menor inercia.
+
+\subsubsection*{Análisis de la Desaceleración}
+Los parámetros cinemáticos iniciales de velocidad compartida y la magnitud constante de la fuerza disipativa aplicada sobre ambos sistemas quedan validados como el entorno base de la dinámica.
+
+Procediendo directamente a la transformación del estado cinemático, la aceleración negativa resultante obedece a una proporción inversa con respecto a la masa. El camión, al poseer una cantidad de materia abrumadoramente superior, presenta una alta inercia. La misma fuerza de frenado genera en él una tasa de desaceleración mínima comparada con la de la bicicleta, prolongando inevitablemente su tiempo de frenado.
+
+\subsubsection*{Representación Comparativa de Desaceleración}
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(7, 4))
+
+vehiculos = ['Bicicleta (Masa Menor)', 'Camion (Masa Mayor)']
+desaceleracion = [5, 0.5]
+
+ax.bar(vehiculos, desaceleracion, color=['teal', 'saddlebrown'], alpha=0.8)
+
+ax.set_ylabel('Desaceleracion resultante (a)', fontweight='bold')
+ax.set_title('Aplicacion de Fuerza Constante en Masas Diferentes')
+ax.grid(axis='y', linestyle='--', alpha=0.5)
+
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+La bicicleta se detiene primero. Dado que la fuerza de frenado aplicada es idéntica, el vehículo con menor masa experimenta una mayor desaceleración, mientras que el camión resiste más el cambio en su estado de movimiento debido a su mayor inercia.
+
+\newpage
+
+\subsection*{Enunciado}
+¿Es correcto decir que la fuerza es algo que un cuerpo posee y que puede "tener más o menos fuerza"? Justifica.
+
+\subsection*{Solución}
+
+\subsubsection*{Respuesta Directa}
+No. La fuerza no es una propiedad intrínseca que un cuerpo pueda poseer o almacenar.
+
+\subsubsection*{Análisis de la Interacción Mecánica}
+Los postulados de la mecánica clásica sobre la naturaleza de las interacciones y las propiedades inherentes de la materia quedan validados como el marco de referencia base.
+
+Procediendo directamente a la delimitación conceptual, la fuerza se define estrictamente como la medida cuantitativa de una interacción simultánea entre un mínimo de dos cuerpos físicos. La magnitud observable no reside en el interior del agente, sino que surge de forma transitoria en el momento exacto del contacto o de la influencia gravitacional/electromagnética. Lo que un cuerpo posee inherentemente es masa (que determina su inercia) y energía. Atribuir la fuerza como una capacidad de almacenamiento interno aísla erróneamente al objeto de su entorno e invalida el requerimiento del par de acción-reacción dictado por la Tercera Ley de Newton.
+
+\subsubsection*{Conclusión}
+No es correcto. La fuerza es exclusivamente la medida de una interacción entre dos cuerpos involucrados y jamás una propiedad de la materia. Decir que un cuerpo "tiene fuerza" es una imprecisión conceptual grave; los cuerpos poseen masa o energía, pero ejercen o experimentan fuerzas únicamente al interactuar con otros elementos del sistema.
+
+\newpage
+\subsection*{Enunciado}
+Describe cómo cambia la fuerza neta de un objeto cuando sobre él actúan varias fuerzas en distintas direcciones, y explique por qué en este caso no pueden sumarse como números comunes. 
+
+¿Qué características de cada fuerza deben analizarse para determinar la fuerza neta?
+
+\subsection*{Solución}
+
+\subsubsection*{Respuesta Directa}
+Se deben analizar invariablemente la magnitud y la dirección de cada fuerza.
+
+\subsubsection*{Análisis Vectorial}
+Las definiciones fundamentales del álgebra lineal aplicadas a sistemas físicos inerciales quedan validadas como el marco de referencia operativo base. 
+
+Procediendo directamente a la parametrización de las interacciones concurrentes, la naturaleza direccional intrínseca de las fuerzas imposibilita la aplicación de aritmética escalar básica. La superposición de interacciones mecánicas requiere de manera estricta la evaluación simultánea de la amplitud del vector (magnitud) y su orientación espacial (dirección y sentido) para procesar correctamente la resultante neta del sistema.
+
+\subsubsection*{Conclusión}
+Para determinar la fuerza neta, es indispensable analizar tanto la magnitud (la intensidad de la interacción) como la dirección (la línea de acción geométrica y el sentido) de cada fuerza individual, ya que las fuerzas son magnitudes vectoriales, no escalares.
+
+\newpage
+
+\subsection*{Enunciado}
+Describe cómo cambia la fuerza neta de un objeto cuando sobre él actúan varias fuerzas en distintas direcciones, y explique por qué en este caso no pueden sumarse como números comunes. 
+
+¿De qué manera influye la dirección de las fuerzas en la resultante final?
+
+\subsection*{Solución}
+
+\subsubsection*{Respuesta Directa}
+La dirección define geométricamente la operación de superposición, determinando si las magnitudes se amplifican, se atenúan o se desvían.
+
+\subsubsection*{Análisis de Superposición}
+Las condiciones de contorno para la concurrencia de vectores coplanares y tridimensionales en un mismo punto de aplicación quedan establecidas. 
+
+Saltando a la resolución geométrica del sistema de fuerzas, la alineación angular relativa entre los vectores dicta la transformación matemática final. Vectores estrictamente paralelos con el mismo sentido colapsan en una suma lineal que maximiza la resultante; vectores en sentidos opuestos se sustraen, minimizándola. Cualquier variación angular intermedia exige el procesamiento de componentes trigonométricas que reconfiguran tanto la intensidad como el estado dinámico y la trayectoria del objeto.
+
+\subsubsection*{Conclusión}
+La dirección influye de manera crítica al establecer la relación geométrica entre las fuerzas aplicadas. Determina si las interacciones colaboran entre sí, si se oponen cancelándose mutuamente, o si interactúan formando ángulos, lo cual altera de forma sustancial tanto la magnitud final como la línea de acción de la fuerza neta resultante.
+
+\newpage
+
+\subsection*{Enunciado}
+Describe cómo cambia la fuerza neta de un objeto cuando sobre él actúan varias fuerzas en distintas direcciones, y explique por qué en este caso no pueden sumarse como números comunes. 
+
+¿Qué método puede utilizarse para hallar la fuerza neta cuando las fuerzas no están en una misma línea de acción?
+
+\subsection*{Solución}
+
+\subsubsection*{Respuesta Directa}
+Se utiliza la regla del paralelogramo para la adición gráfica vectorial, o el Teorema de Pitágoras para configuraciones analíticas perpendiculares.
+
+\subsubsection*{Análisis Geométrico}
+Las premisas operativas del espacio euclidiano para la representación bidimensional de vectores concurrentes quedan validadas. 
+
+Ejecutando directamente la síntesis vectorial para fuerzas no colineales, la complejidad del sistema se reduce mediante la aplicación directa de la regla del paralelogramo para hallar la diagonal resultante. En configuraciones donde los vectores mantienen una relación de ortogonalidad estricta, la evaluación geométrica colapsa directamente en el Teorema de Pitágoras, eludiendo transiciones procedimentales algebraicas extensas para determinar la magnitud de la fuerza neta.
+
+\subsubsection*{Representación Gráfica del Método}
+Para consolidar la comprensión del método geométrico en configuraciones ortogonales, se presenta el modelo visual de la regla del paralelogramo resolviendo la fuerza neta.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(6, 5))
+
+ax.plot(0, 0, 'ko', markersize=6)
+
+ax.annotate('', xy=(4, 0), xytext=(0, 0), 
+            arrowprops=dict(facecolor='blue', shrink=0, width=2, headwidth=8))
+ax.annotate('', xy=(0, 3), xytext=(0, 0), 
+            arrowprops=dict(facecolor='red', shrink=0, width=2, headwidth=8))
+
+ax.annotate('', xy=(4, 3), xytext=(0, 0), 
+            arrowprops=dict(facecolor='green', shrink=0, width=2.5, headwidth=9))
+
+ax.plot([4, 4], [0, 3], 'k--', alpha=0.5)
+ax.plot([0, 4], [3, 3], 'k--', alpha=0.5)
+
+ax.text(2, -0.4, 'Fuerza 1', color='blue', ha='center', fontsize=11)
+ax.text(-0.8, 1.5, 'Fuerza 2', color='red', va='center', fontsize=11)
+ax.text(2, 1.7, 'Fuerza Neta', color='green', fontweight='bold', rotation=36.87, ha='center')
+
+ax.set_xlim(-1.5, 5)
+ax.set_ylim(-1, 4)
+ax.axis('off')
+plt.title('Regla del Paralelogramo (Metodo Ortogonal)')
+
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+El método fundamental a utilizar es la regla del paralelogramo, la cual construye gráficamente la diagonal resultante de dos fuerzas. Cuando estas fuerzas forman un ángulo recto (90 grados) exacto entre sí, se aplica directamente el Teorema de Pitágoras sobre las magnitudes para calcular matemáticamente la fuerza neta.
+
+\newpage
+
+\subsection*{Enunciado}
+Sobre un objeto actúan dos fuerzas $F_1$ y $F_2$. Se sabe que la magnitud de cada una de las fuerzas son de $8 \text{ N}$ y $6 \text{ N}$, además la magnitud de la fuerza resultante es de $2 \text{ N}$. Describe qué relación debe existir entre las direcciones de ambas fuerzas para que la fuerza neta tenga esa magnitud.
+
+Si dos fuerzas de $8 \text{ N}$ y $6 \text{ N}$ producen una resultante de solo $2 \text{ N}$, ¿qué puede inferirse sobre la orientación entre ellas?
+
+\subsection*{Solución}
+
+\subsubsection*{Análisis de los límites de la resultante}
+Al superponer dos vectores, las magnitudes máxima y mínima posibles de la resultante están dictadas por su alineación geométrica. La resultante máxima ocurre cuando los vectores son paralelos y apuntan en el mismo sentido, lo que en este caso produciría una suma aritmética simple: $8 \text{ N} + 6 \text{ N} = 14 \text{ N}$. Por el contrario, la resultante mínima se da cuando los vectores son antiparalelos, es decir, están sobre la misma línea pero tiran en sentidos contrarios, resultando en una resta aritmética: $8 \text{ N} - 6 \text{ N} = 2 \text{ N}$.
+
+\subsubsection*{Evaluación del caso específico}
+El enunciado establece como un hecho físico que la fuerza neta medida sobre el objeto es exactamente $2 \text{ N}$. Este valor coincide con precisión matemática con el límite inferior del rango de superposición ($14 \text{ N}$ a $2 \text{ N}$). Cualquier otra orientación que involucrara un ángulo diferente a $180^\circ$ entre las fuerzas generaría, por la regla del paralelogramo, un valor intermedio estrictamente mayor a $2 \text{ N}$.
+
+\subsubsection*{Conclusión}
+Se infiere de forma concluyente que las fuerzas están orientadas en la misma línea de acción geométrica pero apuntan en sentidos exactamente opuestos, formando un ángulo de $180^\circ$ entre sí.
+
+\newpage
+
+\subsection*{Enunciado}
+Sobre un objeto actúan dos fuerzas $F_1$ y $F_2$. Se sabe que la magnitud de cada una de las fuerzas son de $8 \text{ N}$ y $6 \text{ N}$, además la magnitud de la fuerza resultante es de $2 \text{ N}$. Describe qué relación debe existir entre las direcciones de ambas fuerzas para que la fuerza neta tenga esa magnitud.
+
+¿Por qué en este caso la fuerza neta corresponde a la diferencia de magnitudes y no a la suma?
+
+\subsection*{Solución}
+
+\subsubsection*{Naturaleza vectorial de la interacción}
+La adición de fuerzas no se rige por la aritmética escalar convencional, sino por el álgebra vectorial. La suma de las magnitudes solo es válida cuando las interacciones colaboran al cien por ciento para cambiar el estado cinemático del objeto, lo cual requiere que apunten en el mismo sentido. 
+
+\subsubsection*{Condición física de la sustracción}
+En este escenario, el objeto experimenta dos interacciones que compiten. Al establecer un eje de coordenadas unidimensional a lo largo de la línea de acción de las fuerzas, convendremos que un sentido es positivo y el contrario es negativo. La superposición vectorial se expresa algebraicamente como $F_{neta} = (+8 \text{ N}) + (-6 \text{ N})$. Físicamente, la fuerza menor anula una porción equivalente de la fuerza mayor. La magnitud observable del desequilibrio remanente es la diferencia aritmética.
+
+\subsubsection*{Representación en Diagrama Vectorial}
+El siguiente esquema ilustra la competencia entre los vectores colineales y cómo la cancelación parcial da origen al vector resultante de menor magnitud.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(8, 3))
+
+ax.plot(0, 0, 'ko', markersize=8)
+
+ax.annotate('', xy=(8, 0), xytext=(0, 0),
+            arrowprops=dict(facecolor='blue', shrink=0, width=2, headwidth=8))
+ax.text(4, 0.4, 'F1 = 8 N', color='blue', ha='center', fontsize=12)
+
+ax.annotate('', xy=(-6, 0), xytext=(0, 0),
+            arrowprops=dict(facecolor='red', shrink=0, width=2, headwidth=8))
+ax.text(-3, 0.4, 'F2 = 6 N', color='red', ha='center', fontsize=12)
+
+ax.annotate('', xy=(2, -1.2), xytext=(0, -1.2),
+            arrowprops=dict(facecolor='green', shrink=0, width=3, headwidth=10))
+ax.text(1, -1.8, 'F_neta = 2 N', color='green', ha='center', fontsize=12, fontweight='bold')
+
+ax.set_xlim(-7, 9)
+ax.set_ylim(-3, 2)
+ax.axis('off')
+plt.title('Superposicion de Vectores Colineales y Opuestos')
+
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+Corresponde a la diferencia porque la naturaleza vectorial de las fuerzas obliga a restar sus magnitudes al estar aplicadas sobre la misma línea de acción, pero oponiéndose entre sí físicamente.
+
+\newpage
+
+\subsection*{Enunciado}
+Sobre un objeto actúan dos fuerzas $F_1$ y $F_2$. Se sabe que la magnitud de cada una de las fuerzas son de $8 \text{ N}$ y $6 \text{ N}$, además la magnitud de la fuerza resultante es de $2 \text{ N}$. Describe qué relación debe existir entre las direcciones de ambas fuerzas para que la fuerza neta tenga esa magnitud.
+
+Con base en el análisis anterior, ¿es correcto afirmar que las fuerzas tienen la misma dirección y sentidos opuestos? Justifique.
+
+\subsection*{Solución}
+
+\subsubsection*{Definición rigurosa de términos vectoriales}
+En la física clásica, los términos "dirección" y "sentido" no son sinónimos, y su distinción es clave para el rigor pedagógico. La dirección establece la recta geométrica a lo largo de la cual actúa el vector (por ejemplo, el eje horizontal). El sentido define hacia cuál de los dos extremos posibles de esa recta apunta el vector (por ejemplo, hacia la derecha o hacia la izquierda).
+
+\subsubsection*{Verificación del marco conceptual}
+Para que se ejecute la cancelación parcial perfecta que reduce $8 \text{ N}$ y $6 \text{ N}$ a $2 \text{ N}$, es indispensable que ambas fuerzas operen sobre la misma recta geométrica; si hubiera la más mínima desviación angular entre sus rectas de acción, los componentes transversales no se anularían y la resultante variaría. Al compartir la recta, comparten por definición la misma dirección. Simultáneamente, el hecho de que sus magnitudes se resten en lugar de sumarse confirma que los vectores apuntan hacia polos contrarios sobre esa misma recta.
+
+\subsubsection*{Conclusión}
+Sí, es estrictamente correcto. Las fuerzas deben compartir la misma dirección (la misma línea geométrica transversal en el espacio) para interactuar sin generar componentes laterales, y obligatoriamente deben tener sentidos opuestos para que el efecto físico neto sea la sustracción de sus capacidades de empuje o tracción.
+
+\newpage
+
+\subsection*{Enunciado}
+Observa los tres tocones $A$, $B$ y $C$, cada uno jalado por dos sogas de $200 \text{ N}$ en distintas direcciones. Sin realizar cálculos al inicio, analiza con tu grupo cómo influye el ángulo entre las fuerzas en la magnitud de la fuerza neta.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8]
+\tikzset{force/.style={->, red, very thick}}
+\tikzstyle{label}=[font=\large\bfseries]
+
+\begin{scope}[shift={(0,0)}]
+\fill[green!50!black] (-0.8,-0.1) ellipse (1 and 0.2);
+\draw[fill=brown, thick] (-0.4,-0.1) rectangle (0.4, 0.3);
+\draw[fill=brown!80!black, thick] (0,0.3) ellipse (0.4 and 0.1);
+\draw[force] (0,0.3) -- (2,0.3);
+\draw[force] (0,0.3) -- (0,2.3);
+\node[label] at (0,-0.8) {A};
+\end{scope}
+
+\begin{scope}[shift={(5,0)}]
+\fill[green!50!black] (-0.8,-0.1) ellipse (1 and 0.2);
+\draw[fill=brown, thick] (-0.4,-0.1) rectangle (0.4, 0.3);
+\draw[fill=brown!80!black, thick] (0,0.3) ellipse (0.4 and 0.1);
+\draw[force] (0,0.3) -- (2,0.3);
+\draw[force] (0,0.3) -- (1,2.032); 
+\node[label] at (0,-0.8) {B};
+\end{scope}
+
+\begin{scope}[shift={(10,0)}]
+\fill[green!50!black] (-0.8,-0.1) ellipse (1 and 0.2);
+\draw[fill=brown, thick] (-0.4,-0.1) rectangle (0.4, 0.3);
+\draw[fill=brown!80!black, thick] (0,0.3) ellipse (0.4 and 0.1);
+\draw[force] (0,0.3) -- (2,0.3);
+\draw[force] (0,0.3) -- (-1,2.032);
+\node[label] at (0,-0.8) {C};
+\end{scope}
+\end{tikzpicture}
+\end{center}
+
+1. ¿En cuál de los tres casos la fuerza neta sobre el tocón será mayor y en cuál será menor? Ordena los casos de mayor a menor y explica tu razonamiento a partir de la dirección y el ángulo entre las fuerzas.
+
+\subsection*{Solución}
+
+\subsubsection*{Análisis vectorial de fuerzas concurrentes}
+Al aplicar fuerzas sobre un mismo punto (en este caso, un tocón), el efecto resultante no se obtiene mediante una suma aritmética simple, sino que depende estrictamente de la naturaleza vectorial de las fuerzas. La magnitud de la fuerza neta o resultante está intrínsecamente ligada al ángulo que forman los dos vectores fuerza entre sí. 
+
+\subsubsection*{Relación geométrica entre el ángulo y la resultante}
+Para visualizar esta relación, utilizamos la regla del paralelogramo. La fuerza neta corresponde a la diagonal principal del paralelogramo formado por los dos vectores. 
+Si las fuerzas apuntan en la misma dirección y sentido (ángulo de $0^\circ$), colaboran totalmente y la diagonal es máxima. Conforme el ángulo entre ellas comienza a abrirse, las componentes transversales de las fuerzas comienzan a competir entre sí, haciendo que la diagonal resultante se acorte. En el extremo opuesto, si tiran en sentidos contrarios (ángulo de $180^\circ$), se oponen totalmente y la resultante es mínima (cero si tienen la misma magnitud). 
+
+Por lo tanto, existe una relación fundamental: a menor ángulo entre dos fuerzas concurrentes, mayor será la magnitud de su fuerza neta resultante.
+
+\subsubsection*{Evaluación de los casos propuestos}
+Dado que en todos los casos la magnitud individual de cada soga es idéntica ($200 \text{ N}$), la única variable de control es el ángulo de separación.
+\begin{itemize}
+    \item \textbf{Tocón B (Ángulo agudo):} El ángulo es menor a $90^\circ$. Las fuerzas están más alineadas, colaborando en gran medida en una dirección común, lo que genera la mayor diagonal resultante.
+    \item \textbf{Tocón A (Ángulo recto):} El ángulo es exactamente $90^\circ$. Las fuerzas son ortogonales. La resultante es intermedia, calculable directamente mediante el Teorema de Pitágoras.
+    \item \textbf{Tocón C (Ángulo obtuso):} El ángulo es mayor a $90^\circ$. Las fuerzas se oponen fuertemente en el eje horizontal, cancelando una parte significativa de su capacidad de empuje conjunto, resultando en la menor fuerza neta de los tres escenarios.
+\end{itemize}
+
+\subsubsection*{Representación gráfica de la magnitud resultante}
+El siguiente script en Python genera los paralelogramos para cada escenario. Al observarlo, resulta evidente de forma gráfica cómo la longitud de la flecha azul (fuerza neta) disminuye conforme aumenta el ángulo de apertura entre las fuerzas rojas.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig, axs = plt.subplots(1, 3, figsize=(12, 4))
+casos = ['Caso A (90 grados)', 'Caso B (Agudo)', 'Caso C (Obtuso)']
+angulos = [np.pi/2, np.pi/3, 2*np.pi/3]
+
+for ax, angulo, titulo in zip(axs, angulos, casos):
+    F1 = np.array([2, 0])
+    F2 = np.array([2*np.cos(angulo), 2*np.sin(angulo)])
+    R = F1 + F2
+    
+    ax.annotate('', xy=F1, xytext=(0, 0), arrowprops=dict(facecolor='red', width=1.5, headwidth=6))
+    ax.annotate('', xy=F2, xytext=(0, 0), arrowprops=dict(facecolor='red', width=1.5, headwidth=6))
+    ax.annotate('', xy=R, xytext=(0, 0), arrowprops=dict(facecolor='blue', width=2, headwidth=8))
+    
+    ax.plot([F1[0], R[0]], [F1[1], R[1]], 'k--', alpha=0.5)
+    ax.plot([F2[0], R[0]], [F2[1], R[1]], 'k--', alpha=0.5)
+    
+    ax.set_xlim(-2, 4)
+    ax.set_ylim(-0.5, 4)
+    ax.axis('off')
+    ax.set_title(titulo)
+
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+El orden de mayor a menor fuerza neta es: \textbf{B, A, C}.
+El caso B experimenta la mayor fuerza neta porque tiene el ángulo más pequeño (agudo), lo que significa que las fuerzas se refuerzan mutuamente con mayor eficiencia. El caso C experimenta la menor fuerza neta porque su ángulo es el más grande (obtuso), provocando que las componentes de las fuerzas se opongan entre sí en mayor medida, cancelando parte del esfuerzo total.
+
+\newpage
+
+\subsection*{Enunciado}
+Situación: Una caja es sostenida por tres cables unidos en un punto de anclaje que tomaremos como el origen de coordenadas. Se requiere que la fuerza resultante sobre la caja sea vertical hacia arriba y tenga una magnitud exacta de $650 \text{ N}$. Las fuerzas aplicadas por los cables son: una primera fuerza de $600 \text{ N}$ en el segundo cuadrante (con una pendiente geométrica de $4$ horizontal y $3$ vertical), una segunda fuerza de $400 \text{ N}$ en el primer cuadrante a $30^\circ$ sobre el eje $x$ positivo, y una tercera fuerza $F_1$ desconocida en el primer cuadrante a un ángulo $\theta$ medido desde el eje $y$ positivo.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8]
+\draw[<->] (-4,0) -- (4,0) node[right] {$x$};
+\draw[<->] (0,-1) -- (0,4) node[above] {$y$};
+\fill[gray!30] (-2,-2.5) rectangle (2,-0.5);
+\draw[thick] (-2,-2.5) rectangle (2,-0.5);
+\draw[thick] (-2,-0.5) -- (0,0) -- (2,-0.5);
+\fill (0,0) circle (2pt) node[below] {$A$};
+\draw[->, thick] (0,0) -- (3, 1.732) node[right] {$400\text{ N}$};
+\draw (1,0) arc (0:30:1) node[midway, right] {$30^\circ$};
+\draw[->, thick] (0,0) -- (1.5, 3) node[above right] {$F_1$};
+\draw (0,1.5) arc (90:63.4:1.5) node[midway, above] {$\theta$};
+\draw[->, thick] (0,0) -- (-2.4, 1.8) node[above left] {$600\text{ N}$};
+\draw (-1.6, 1.2) -- (-2.4, 1.2) node[midway, below] {$4$} -- (-2.4, 1.8) node[midway, left] {$3$};
+\node at (-1.8, 1.6) {$5$};
+\end{tikzpicture}
+\end{center}
+
+¿Qué significa que la fuerza resultante sobre la caja sea únicamente vertical?
+
+\subsection*{Solución}
+
+\subsubsection*{Análisis del concepto de resultante neta}
+En el estudio de la mecánica vectorial, la fuerza resultante representa el efecto combinado de todas las fuerzas individuales que actúan simultáneamente sobre un cuerpo. Cuando un problema especifica una restricción direccional absoluta para esta resultante, nos está dictando las condiciones de contorno del sistema de ecuaciones de equilibrio.
+
+\subsubsection*{Interpretación de la restricción vertical}
+Decir que la resultante es "únicamente vertical" significa que el vector suma carece de inclinación o desvío lateral. En el plano cartesiano bidimensional, esto implica obligatoriamente que todas las interacciones físicas que tiran del objeto hacia la derecha (componentes en $+x$) están siendo perfectamente contrarrestadas y anuladas por las interacciones que tiran hacia la izquierda (componentes en $-x$). Matemáticamente, el sumatorio de fuerzas en el eje horizontal es cero. En consecuencia, toda la capacidad de interacción del sistema se concentra en el eje $y$.
+
+\subsubsection*{Conclusión}
+Significa que la suma algebraica de todas las componentes horizontales de los cables es igual a cero ($\Sigma F_x = 0$), provocando que el efecto de tracción neto del sistema exista exclusivamente en el eje vertical ($\Sigma F_y = 650 \text{ N}$ hacia arriba).
+
+\newpage
+\subsection*{Enunciado}
+Situación: Una caja es sostenida por tres cables unidos en un punto de anclaje que tomaremos como el origen de coordenadas. Se requiere que la fuerza resultante sobre la caja sea vertical hacia arriba y tenga una magnitud exacta de $650 \text{ N}$. Las fuerzas aplicadas por los cables son: una primera fuerza de $600 \text{ N}$ en el segundo cuadrante (con una pendiente geométrica de $4$ horizontal y $3$ vertical), una segunda fuerza de $400 \text{ N}$ en el primer cuadrante a $30^\circ$ sobre el eje $x$ positivo, y una tercera fuerza $F_1$ desconocida en el primer cuadrante a un ángulo $\theta$ medido desde el eje $y$ positivo.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8]
+\draw[<->] (-4,0) -- (4,0) node[right] {$x$};
+\draw[<->] (0,-1) -- (0,4) node[above] {$y$};
+\fill[gray!30] (-2,-2.5) rectangle (2,-0.5);
+\draw[thick] (-2,-2.5) rectangle (2,-0.5);
+\draw[thick] (-2,-0.5) -- (0,0) -- (2,-0.5);
+\fill (0,0) circle (2pt) node[below] {$A$};
+\draw[->, thick] (0,0) -- (3, 1.732) node[right] {$400\text{ N}$};
+\draw (1,0) arc (0:30:1) node[midway, right] {$30^\circ$};
+\draw[->, thick] (0,0) -- (1.5, 3) node[above right] {$F_1$};
+\draw (0,1.5) arc (90:63.4:1.5) node[midway, above] {$\theta$};
+\draw[->, thick] (0,0) -- (-2.4, 1.8) node[above left] {$600\text{ N}$};
+\draw (-1.6, 1.2) -- (-2.4, 1.2) node[midway, below] {$4$} -- (-2.4, 1.8) node[midway, left] {$3$};
+\node at (-1.8, 1.6) {$5$};
+\end{tikzpicture}
+\end{center}
+
+¿En qué dirección actúa la fuerza de $600 \text{ N}$? ¿Cómo puede descomponerse?
+
+\subsection*{Solución}
+
+\subsubsection*{Identificación de la dirección geométrica}
+La fuerza de $600 \text{ N}$ tiene su origen en el punto de anclaje y su flecha apunta hacia la región superior izquierda del plano de referencia. En coordenadas cartesianas estándar, esta región se define como el segundo cuadrante. Sus características inherentes son un avance negativo en el eje de las abscisas ($-x$) y un avance positivo en el eje de las ordenadas ($+y$).
+
+\subsubsection*{Método de descomposición por triángulos semejantes}
+En lugar de proporcionar un ángulo explícito, el problema define la dirección mediante un pequeño triángulo rectángulo de pendiente. Los lados de este triángulo son $4$ (cateto horizontal) y $3$ (cateto vertical). Para proceder, es necesario calcular la hipotenusa de este triángulo de referencia utilizando el Teorema de Pitágoras: $\sqrt{4^2 + 3^2} = 5$. 
+
+La descomposición vectorial aprovecha el principio de proporcionalidad geométrica. El vector de fuerza principal y sus componentes rectangulares forman un triángulo que es matemáticamente semejante al pequeño triángulo de pendiente. Por lo tanto, la componente en un eje específico es igual a la magnitud total multiplicada por la fracción que representa el lado correspondiente del triángulo de pendiente sobre su hipotenusa.
+
+\subsubsection*{Conclusión}
+La fuerza actúa en el segundo cuadrante (dirección superior izquierda). Se descompone utilizando proporciones de triángulos semejantes en lugar de trigonometría directa: la componente horizontal se halla multiplicando la magnitud por la relación negativa del cateto adyacente ($-4/5$), y la vertical por la relación del cateto opuesto ($3/5$).
+
+\newpage
+\subsection*{Enunciado}
+Situación: Una caja es sostenida por tres cables unidos en un punto de anclaje que tomaremos como el origen de coordenadas. Se requiere que la fuerza resultante sobre la caja sea vertical hacia arriba y tenga una magnitud exacta de $650 \text{ N}$. Las fuerzas aplicadas por los cables son: una primera fuerza de $600 \text{ N}$ en el segundo cuadrante (con una pendiente geométrica de $4$ horizontal y $3$ vertical), una segunda fuerza de $400 \text{ N}$ en el primer cuadrante a $30^\circ$ sobre el eje $x$ positivo, y una tercera fuerza $F_1$ desconocida en el primer cuadrante a un ángulo $\theta$ medido desde el eje $y$ positivo.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8]
+\draw[<->] (-4,0) -- (4,0) node[right] {$x$};
+\draw[<->] (0,-1) -- (0,4) node[above] {$y$};
+\fill[gray!30] (-2,-2.5) rectangle (2,-0.5);
+\draw[thick] (-2,-2.5) rectangle (2,-0.5);
+\draw[thick] (-2,-0.5) -- (0,0) -- (2,-0.5);
+\fill (0,0) circle (2pt) node[below] {$A$};
+\draw[->, thick] (0,0) -- (3, 1.732) node[right] {$400\text{ N}$};
+\draw (1,0) arc (0:30:1) node[midway, right] {$30^\circ$};
+\draw[->, thick] (0,0) -- (1.5, 3) node[above right] {$F_1$};
+\draw (0,1.5) arc (90:63.4:1.5) node[midway, above] {$\theta$};
+\draw[->, thick] (0,0) -- (-2.4, 1.8) node[above left] {$600\text{ N}$};
+\draw (-1.6, 1.2) -- (-2.4, 1.2) node[midway, below] {$4$} -- (-2.4, 1.8) node[midway, left] {$3$};
+\node at (-1.8, 1.6) {$5$};
+\end{tikzpicture}
+\end{center}
+
+¿Qué componentes tienen la fuerza de $400 \text{ N}$ y $600 \text{ N}$ respecto a los ejes $x$ y $y$?
+
+\subsection*{Solución}
+
+\subsubsection*{Cálculo de componentes para la fuerza de $400 \text{ N}$}
+Esta fuerza se ubica en el primer cuadrante, por lo que ambas componentes serán positivas. El ángulo de $30^\circ$ está medido respecto al eje horizontal $x$. La trigonometría básica nos dicta que la proyección adyacente al ángulo usa la función coseno, y la proyección opuesta usa la función seno.
+$$F_{3x} = 400 \cdot \cos(30^\circ) = 400 \left(\frac{\sqrt{3}}{2}\right) \approx 346.41 \text{ N}$$
+$$F_{3y} = 400 \cdot \sin(30^\circ) = 400 (0.5) = 200 \text{ N}$$
+
+\subsubsection*{Cálculo de componentes para la fuerza de $600 \text{ N}$}
+Como se estableció previamente, esta fuerza reside en el segundo cuadrante ($-x, +y$) y utiliza el triángulo de pendiente $3-4-5$. 
+Para el eje horizontal ($x$), utilizamos el cateto paralelo a $x$, que tiene valor $4$:
+$$F_{2x} = -600 \left(\frac{4}{5}\right) = -480 \text{ N}$$
+Para el eje vertical ($y$), utilizamos el cateto paralelo a $y$, que tiene valor $3$:
+$$F_{2y} = 600 \left(\frac{3}{5}\right) = 360 \text{ N}$$
+
+\subsubsection*{Conclusión}
+Para la fuerza de $400 \text{ N}$, sus componentes son $F_x = 346.41 \text{ N}$ y $F_y = 200 \text{ N}$. 
+Para la fuerza de $600 \text{ N}$, sus componentes son $F_x = -480 \text{ N}$ y $F_y = 360 \text{ N}$.
+
+\newpage
+\subsection*{Enunciado}
+Situación: Una caja es sostenida por tres cables unidos en un punto de anclaje que tomaremos como el origen de coordenadas. Se requiere que la fuerza resultante sobre la caja sea vertical hacia arriba y tenga una magnitud exacta de $650 \text{ N}$. Las fuerzas aplicadas por los cables son: una primera fuerza de $600 \text{ N}$ en el segundo cuadrante (con una pendiente geométrica de $4$ horizontal y $3$ vertical), una segunda fuerza de $400 \text{ N}$ en el primer cuadrante a $30^\circ$ sobre el eje $x$ positivo, y una tercera fuerza $F_1$ desconocida en el primer cuadrante a un ángulo $\theta$ medido desde el eje $y$ positivo.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8]
+\draw[<->] (-4,0) -- (4,0) node[right] {$x$};
+\draw[<->] (0,-1) -- (0,4) node[above] {$y$};
+\fill[gray!30] (-2,-2.5) rectangle (2,-0.5);
+\draw[thick] (-2,-2.5) rectangle (2,-0.5);
+\draw[thick] (-2,-0.5) -- (0,0) -- (2,-0.5);
+\fill (0,0) circle (2pt) node[below] {$A$};
+\draw[->, thick] (0,0) -- (3, 1.732) node[right] {$400\text{ N}$};
+\draw (1,0) arc (0:30:1) node[midway, right] {$30^\circ$};
+\draw[->, thick] (0,0) -- (1.5, 3) node[above right] {$F_1$};
+\draw (0,1.5) arc (90:63.4:1.5) node[midway, above] {$\theta$};
+\draw[->, thick] (0,0) -- (-2.4, 1.8) node[above left] {$600\text{ N}$};
+\draw (-1.6, 1.2) -- (-2.4, 1.2) node[midway, below] {$4$} -- (-2.4, 1.8) node[midway, left] {$3$};
+\node at (-1.8, 1.6) {$5$};
+\end{tikzpicture}
+\end{center}
+
+¿Por qué una componente de $F_1$ depende del seno y coseno del ángulo $\theta$?
+
+\subsection*{Solución}
+
+\subsubsection*{Análisis de la dependencia trigonométrica}
+Cualquier vector trazado en un plano cartesiano puede ser visto como la hipotenusa de un triángulo rectángulo, donde los catetos son las proyecciones ortogonales (componentes) del vector sobre los ejes coordenados. Las definiciones fundamentales de la trigonometría vinculan los lados de este triángulo con las funciones seno y coseno respecto a un ángulo dado.
+
+\subsubsection*{El marco de referencia para el ángulo $\theta$}
+Un error común es asumir mecánicamente que la componente horizontal siempre es el coseno y la vertical siempre es el seno. Sin embargo, en el gráfico proporcionado, el ángulo $\theta$ para la fuerza $F_1$ está medido explícitamente desde el eje vertical $y$. 
+
+Al observar el triángulo rectángulo que se forma, el lado adyacente al ángulo $\theta$ es la componente vertical $y$. Por definición matemática, el cateto adyacente se relaciona con el coseno, por lo que $F_{1y} = F_1 \cos\theta$. Inversamente, la componente horizontal $x$ se encuentra "frente" al ángulo $\theta$, convirtiéndola en el cateto opuesto, el cual se relaciona con la función seno: $F_{1x} = F_1 \sin\theta$.
+
+\subsubsection*{Conclusión}
+Depende de estas funciones porque las proyecciones ortogonales del vector forman los catetos de un triángulo rectángulo. Al estar $\theta$ definido respecto al eje vertical, se invierte la convención estándar: la componente vertical corresponde al cateto adyacente (utilizando el coseno) y la componente horizontal al cateto opuesto (utilizando el seno).
+
+\newpage
+\subsection*{Enunciado}
+Situación: Una caja es sostenida por tres cables unidos en un punto de anclaje que tomaremos como el origen de coordenadas. Se requiere que la fuerza resultante sobre la caja sea vertical hacia arriba y tenga una magnitud exacta de $650 \text{ N}$. Las fuerzas aplicadas por los cables son: una primera fuerza de $600 \text{ N}$ en el segundo cuadrante (con una pendiente geométrica de $4$ horizontal y $3$ vertical), una segunda fuerza de $400 \text{ N}$ en el primer cuadrante a $30^\circ$ sobre el eje $x$ positivo, y una tercera fuerza $F_1$ desconocida en el primer cuadrante a un ángulo $\theta$ medido desde el eje $y$ positivo.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8]
+\draw[<->] (-4,0) -- (4,0) node[right] {$x$};
+\draw[<->] (0,-1) -- (0,4) node[above] {$y$};
+\fill[gray!30] (-2,-2.5) rectangle (2,-0.5);
+\draw[thick] (-2,-2.5) rectangle (2,-0.5);
+\draw[thick] (-2,-0.5) -- (0,0) -- (2,-0.5);
+\fill (0,0) circle (2pt) node[below] {$A$};
+\draw[->, thick] (0,0) -- (3, 1.732) node[right] {$400\text{ N}$};
+\draw (1,0) arc (0:30:1) node[midway, right] {$30^\circ$};
+\draw[->, thick] (0,0) -- (1.5, 3) node[above right] {$F_1$};
+\draw (0,1.5) arc (90:63.4:1.5) node[midway, above] {$\theta$};
+\draw[->, thick] (0,0) -- (-2.4, 1.8) node[above left] {$600\text{ N}$};
+\draw (-1.6, 1.2) -- (-2.4, 1.2) node[midway, below] {$4$} -- (-2.4, 1.8) node[midway, left] {$3$};
+\node at (-1.8, 1.6) {$5$};
+\end{tikzpicture}
+\end{center}
+
+¿Cuáles son las componentes de la fuerza neta?
+
+\subsection*{Solución}
+
+\subsubsection*{Extracción de datos del requerimiento del sistema}
+La fuerza neta es el vector resultante, denotado frecuentemente como $R$. El problema establece literalmente una condición de diseño para el sistema de cables: "se requiere que la fuerza resultante sobre la caja sea vertical hacia arriba y tenga una magnitud de $650 \text{ N}$".
+
+\subsubsection*{Traducción analítica del requerimiento}
+Dado que el vector resultante se encuentra contenido en su totalidad sobre el eje positivo de las ordenadas ($+y$), no existe ninguna proyección lateral. Su avance sobre el eje de las abscisas ($x$) es nulo. Toda la magnitud del vector constituye su componente vertical.
+
+\subsubsection*{Conclusión}
+Las componentes de la fuerza neta son $R_x = 0 \text{ N}$ para el eje horizontal, y $R_y = 650 \text{ N}$ para el eje vertical.
+
+\newpage
+\subsection*{Enunciado}
+Situación: Una caja es sostenida por tres cables unidos en un punto de anclaje que tomaremos como el origen de coordenadas. Se requiere que la fuerza resultante sobre la caja sea vertical hacia arriba y tenga una magnitud exacta de $650 \text{ N}$. Las fuerzas aplicadas por los cables son: una primera fuerza de $600 \text{ N}$ en el segundo cuadrante (con una pendiente geométrica de $4$ horizontal y $3$ vertical), una segunda fuerza de $400 \text{ N}$ en el primer cuadrante a $30^\circ$ sobre el eje $x$ positivo, y una tercera fuerza $F_1$ desconocida en el primer cuadrante a un ángulo $\theta$ medido desde el eje $y$ positivo.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8]
+\draw[<->] (-4,0) -- (4,0) node[right] {$x$};
+\draw[<->] (0,-1) -- (0,4) node[above] {$y$};
+\fill[gray!30] (-2,-2.5) rectangle (2,-0.5);
+\draw[thick] (-2,-2.5) rectangle (2,-0.5);
+\draw[thick] (-2,-0.5) -- (0,0) -- (2,-0.5);
+\fill (0,0) circle (2pt) node[below] {$A$};
+\draw[->, thick] (0,0) -- (3, 1.732) node[right] {$400\text{ N}$};
+\draw (1,0) arc (0:30:1) node[midway, right] {$30^\circ$};
+\draw[->, thick] (0,0) -- (1.5, 3) node[above right] {$F_1$};
+\draw (0,1.5) arc (90:63.4:1.5) node[midway, above] {$\theta$};
+\draw[->, thick] (0,0) -- (-2.4, 1.8) node[above left] {$600\text{ N}$};
+\draw (-1.6, 1.2) -- (-2.4, 1.2) node[midway, below] {$4$} -- (-2.4, 1.8) node[midway, left] {$3$};
+\node at (-1.8, 1.6) {$5$};
+\end{tikzpicture}
+\end{center}
+
+¿Cómo se puede hallar $F_1$ y el ángulo $\theta$ a partir de esas ecuaciones?
+
+\subsection*{Solución}
+
+\subsubsection*{Planteamiento del Sistema de Ecuaciones Vectoriales}
+Basándonos en la condición de que la fuerza neta horizontal es cero y la vertical es $650 \text{ N}$, estructuramos un sistema algebraico sumando las componentes calculadas en los apartados anteriores.
+
+Para el eje horizontal ($x$):
+$$\Sigma F_x = 0$$
+$$-480 + 346.41 + F_1 \sin\theta = 0$$
+$$F_1 \sin\theta = 133.59$$
+
+Para el eje vertical ($y$):
+$$\Sigma F_y = 650$$
+$$360 + 200 + F_1 \cos\theta = 650$$
+$$560 + F_1 \cos\theta = 650$$
+$$F_1 \cos\theta = 90$$
+
+\subsubsection*{Resolución Analítica de las Incógnitas}
+El sistema resultante está compuesto por las proyecciones ortogonales de la fuerza $F_1$. Para hallar el ángulo $\theta$, dividimos la ecuación horizontal entre la vertical. Esta operación trigonométrica anula la magnitud $F_1$ y transforma el cociente en la función tangente:
+$$\frac{F_1 \sin\theta}{F_1 \cos\theta} = \frac{133.59}{90}$$
+$$\tan\theta = 1.4843$$
+$$\theta = \arctan(1.4843) \approx 56.03^\circ$$
+
+Una vez hallado el ángulo, podemos sustituirlo en cualquiera de las ecuaciones originales, o aplicar el Teorema de Pitágoras directamente sobre las componentes rectangulares para determinar la magnitud del vector principal:
+$$F_1 = \sqrt{(133.59)^2 + (90)^2}$$
+$$F_1 = \sqrt{17846.28 + 8100} = \sqrt{25946.28} \approx 161.08 \text{ N}$$
+
+\subsubsection*{Representación Computacional del Equilibrio Vectorial}
+Para visualizar cómo las componentes individuales interactúan geométricamente para generar una fuerza neta puramente vertical, se proporciona un modelo en Python. Resulta pedagógicamente indispensable observar que la extensión horizontal de la fuerza $F_1$ y de la fuerza de $400 \text{ N}$ cancelan exactamente la fuerza de $600 \text{ N}$ que tira hacia la izquierda.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(6, 6))
+
+ax.annotate('', xy=(-480, 360), xytext=(0, 0), arrowprops=dict(facecolor='purple', width=1.5, headwidth=6))
+ax.text(-500, 380, '600 N', color='purple')
+
+ax.annotate('', xy=(346.4, 200), xytext=(0, 0), arrowprops=dict(facecolor='orange', width=1.5, headwidth=6))
+ax.text(360, 220, '400 N', color='orange')
+
+ax.annotate('', xy=(133.6, 90), xytext=(0, 0), arrowprops=dict(facecolor='blue', width=1.5, headwidth=6))
+ax.text(150, 100, 'F1 (161 N)', color='blue')
+
+ax.annotate('', xy=(0, 650), xytext=(0, 0), arrowprops=dict(facecolor='green', width=2.5, headwidth=8))
+ax.text(-50, 670, 'Resultante (650 N)', color='green', fontweight='bold')
+
+ax.axhline(0, color='black', linewidth=1)
+ax.axvline(0, color='black', linewidth=1)
+ax.grid(True, linestyle='--', alpha=0.6)
+ax.set_xlim(-600, 500)
+ax.set_ylim(-100, 800)
+ax.set_title('Equilibrio Vectorial de Fuerzas Concurrentes')
+
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+Se determinan formulando un sistema de dos ecuaciones derivadas de la sumatoria de fuerzas en los ejes cartesianos. Al despejar las incógnitas como componentes ($F_{1x}$ y $F_{1y}$), se halla el ángulo $\theta$ mediante la razón trigonométrica tangente (dividiendo la ecuación horizontal entre la vertical), y la magnitud $F_1$ aplicando el Teorema de Pitágoras sobre dichos componentes.
+
+\newpage
+\subsection*{Enunciado}
+Situación: Una caja es sostenida por tres cables unidos en un punto de anclaje que tomaremos como el origen de coordenadas. Se requiere que la fuerza resultante sobre la caja sea vertical hacia arriba y tenga una magnitud exacta de $650 \text{ N}$. Las fuerzas aplicadas por los cables son: una primera fuerza de $600 \text{ N}$ en el segundo cuadrante (con una pendiente geométrica de $4$ horizontal y $3$ vertical), una segunda fuerza de $400 \text{ N}$ en el primer cuadrante a $30^\circ$ sobre el eje $x$ positivo, y una tercera fuerza $F_1$ desconocida en el primer cuadrante a un ángulo $\theta$ medido desde el eje $y$ positivo.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8]
+\draw[<->] (-4,0) -- (4,0) node[right] {$x$};
+\draw[<->] (0,-1) -- (0,4) node[above] {$y$};
+\fill[gray!30] (-2,-2.5) rectangle (2,-0.5);
+\draw[thick] (-2,-2.5) rectangle (2,-0.5);
+\draw[thick] (-2,-0.5) -- (0,0) -- (2,-0.5);
+\fill (0,0) circle (2pt) node[below] {$A$};
+\draw[->, thick] (0,0) -- (3, 1.732) node[right] {$400\text{ N}$};
+\draw (1,0) arc (0:30:1) node[midway, right] {$30^\circ$};
+\draw[->, thick] (0,0) -- (1.5, 3) node[above right] {$F_1$};
+\draw (0,1.5) arc (90:63.4:1.5) node[midway, above] {$\theta$};
+\draw[->, thick] (0,0) -- (-2.4, 1.8) node[above left] {$600\text{ N}$};
+\draw (-1.6, 1.2) -- (-2.4, 1.2) node[midway, below] {$4$} -- (-2.4, 1.8) node[midway, left] {$3$};
+\node at (-1.8, 1.6) {$5$};
+\end{tikzpicture}
+\end{center}
+¿Por qué en este problema no basta con sumar directamente las magnitudes de la fuerza?
+
+\subsection*{Solución}
+
+\subsubsection*{Diferencia cualitativa entre cantidades físicas}
+En la física clásica es imperativo distinguir entre magnitudes escalares y vectoriales. Las magnitudes escalares, como la masa o el volumen, carecen de orientación espacial y, por tanto, pueden sumarse mediante aritmética básica ($2 \text{ kg} + 3 \text{ kg} = 5 \text{ kg}$). La fuerza, sin embargo, es una magnitud vectorial. Posee no solo intensidad (módulo), sino también una línea de acción (dirección) y una orientación específica sobre esa línea (sentido).
+
+\subsubsection*{Consecuencias de la superposición espacial}
+Al aplicar múltiples fuerzas sobre un mismo punto con distintos ángulos de inclinación, sus efectos mecánicos compiten y se entrelazan. Una fuerza que tira en diagonal ejerce parte de su esfuerzo en levantar el objeto y parte en arrastrarlo lateralmente. Si sumáramos aritméticamente las magnitudes ($600 + 400 + 161 = 1161 \text{ N}$), estaríamos asumiendo erróneamente que todos los cables tiran en un frente perfectamente unificado y paralelo. La realidad espacial dicta que las componentes horizontales opuestas se cancelan entre sí, "desperdiciando" parte del esfuerzo total para mantener la verticalidad, lo que reduce la fuerza neta real a solo $650 \text{ N}$.
+
+\subsubsection*{Conclusión}
+No basta con una suma directa porque la fuerza es un vector, no un escalar. Las diferentes direcciones y ángulos con los que tiran los cables provocan que sus interacciones se anulen o se refuercen de manera parcial y geométricamente dependiente, requiriendo un proceso de descomposición ortogonal y álgebra vectorial para determinar el efecto real sobre el cuerpo.
+
+\newpage
+
+\subsection*{Enunciado}
+Observa los cuatro cubos $A$, $B$, $C$ y $D$. En cada caso actúan dos fuerzas horizontales de distinta magnitud y sentido. Antes de realizar operaciones, analiza con tus compañeros cómo cambia la fuerza neta cuando las fuerzas actúan en el mismo sentido o en sentidos opuestos.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=stealth]
+\tikzstyle{box}=[draw, fill=cyan!30, minimum width=1cm, minimum height=0.8cm, font=\bfseries]
+\tikzstyle{force}=[->, magenta, thick]
+
+\node[box] (A) at (0,0) {A};
+\draw[force] (A.west) -- ++(-1.5,0) node[above, black] {10 N};
+\draw[force] (A.east) -- ++(1,0) node[above, black] {5 N};
+
+\node[box] (B) at (4,0) {B};
+\draw[force] (B.west) -- ++(-1.2,0) node[above, black] {7 N};
+\draw[force] (B.east) -- ++(0.7,0) node[above, black] {3 N};
+
+\node[box] (C) at (8,0) {C};
+\draw[force] (C.west) -- ++(-1.7,0) node[above, black] {12 N};
+\draw[force] (C.east) -- ++(0.8,0) node[above, black] {4 N};
+
+\node[box] (D) at (12,0) {D};
+\draw[force] (D.west) -- ++(-0.7,0) node[above, black] {3 N};
+\draw[force] (D.east) -- ++(0.7,0) node[above, black] {3 N};
+\end{tikzpicture}
+\end{center}
+
+1. ¿Cómo se ordenan las fuerzas netas que actúan sobre los cubos $A$, $B$, $C$ y $D$, de menor a mayor? Justifica tu respuesta a partir de la magnitud y el sentido de las fuerzas en cada caso.
+
+\subsection*{Solución}
+
+\subsubsection*{Análisis de superposición vectorial colineal}
+Para determinar el estado dinámico de cada cubo, debemos aplicar el principio de superposición de fuerzas. Dado que todas las interacciones en este escenario ocurren a lo largo de un único eje horizontal, los vectores involucrados son estrictamente colineales. Cuando dos fuerzas actúan en la misma línea de acción pero apuntan en sentidos opuestos, sus efectos mecánicos compiten físicamente entre sí. 
+
+Matemáticamente, esto se resuelve estableciendo una convención de signos geométrica (asignando valor positivo a los vectores que apuntan hacia la derecha y negativo a los que apuntan hacia la izquierda) y ejecutando una suma algebraica. La magnitud de la fuerza neta final corresponde al valor absoluto de esta sumatoria, el cual representa la intensidad del desequilibrio resultante sobre el cuerpo.
+
+\subsubsection*{Cálculo de la fuerza neta por cubo}
+Procedemos a calcular la fuerza neta para cada sistema aislado aplicando la sustracción dictada por sus sentidos opuestos:
+
+Para el cubo $A$: La superposición es $-10 \text{ N} + 5 \text{ N} = -5 \text{ N}$. La magnitud neta es de $5 \text{ N}$ dirigida hacia la izquierda.
+
+Para el cubo $B$: La superposición es $-7 \text{ N} + 3 \text{ N} = -4 \text{ N}$. La magnitud neta es de $4 \text{ N}$ dirigida hacia la izquierda.
+
+Para el cubo $C$: La superposición es $-12 \text{ N} + 4 \text{ N} = -8 \text{ N}$. La magnitud neta es de $8 \text{ N}$ dirigida hacia la izquierda.
+
+Para el cubo $D$: La superposición es $-3 \text{ N} + 3 \text{ N} = 0 \text{ N}$. Las magnitudes idénticas en sentidos contrarios se cancelan de manera perfecta, resultando en una magnitud neta nula. El objeto se encuentra en equilibrio traslacional.
+
+\subsubsection*{Representación en Gráfico Comparativo}
+Para consolidar visualmente el ordenamiento cuantitativo de los desequilibrios mecánicos calculados, se presenta a continuación un bloque de código Python que genera un gráfico de barras ordenado. Esta abstracción gráfica es pedagógicamente valiosa para separar la evaluación de la "magnitud" (la intensidad del tirón) de su vector "sentido".
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(8, 4))
+cubos = ['Cubo D', 'Cubo B', 'Cubo A', 'Cubo C']
+fuerzas = [0, 4, 5, 8]
+colores = ['teal', 'olive', 'orange', 'maroon']
+
+bars = ax.bar(cubos, fuerzas, color=colores, alpha=0.8)
+
+ax.set_ylabel('Magnitud de Fuerza Neta (N)', fontweight='bold')
+ax.set_title('Ordenamiento de Fuerzas Netas de Menor a Mayor')
+ax.grid(axis='y', linestyle='--', alpha=0.5)
+
+for bar in bars:
+    height = bar.get_height()
+    ax.text(bar.get_x() + bar.get_width()/2., height + 0.2,
+            f'{height} N', ha='center', va='bottom', fontweight='bold')
+
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+El ordenamiento correcto de las fuerzas netas, de menor a mayor magnitud, es: \textbf{D, B, A, C}.
+
+La justificación técnica reside en que, al poseer todas las fuerzas sentidos diametralmente opuestos sobre sus respectivos cubos, la fuerza neta se obtiene mediante la diferencia aritmética de sus módulos. Al efectuar este cálculo de superposición, se constata que $D$ experimenta una fuerza neta de $0 \text{ N}$, seguido por $B$ con $4 \text{ N}$, luego $A$ con $5 \text{ N}$, y finalmente $C$, el cual sufre el mayor desequilibrio con una magnitud de $8 \text{ N}$.
+
+\newpage
+
+\subsection*{Enunciado}
+¿Por qué, para determinar la fuerza resultante que actúa sobre un cuerpo, no es suficiente sumar únicamente los valores numéricos de las fuerzas aplicadas?
+
+\subsection*{Solución}
+
+\subsubsection*{Diferenciación entre escalares y vectores}
+En la física conceptual, es fundamental establecer la rigurosa distinción entre magnitudes escalares y vectoriales. Las magnitudes escalares, como la masa o la temperatura, quedan completamente definidas por un valor numérico y su respectiva unidad. Por el contrario, la fuerza es una magnitud vectorial intrínseca. Esto significa que la descripción de una interacción mecánica está incompleta si solo se proporciona su intensidad (valor numérico o módulo); es estrictamente imprescindible conocer su línea de acción geométrica en el espacio (dirección) y hacia dónde apunta sobre esa línea (sentido).
+
+\subsubsection*{Limitaciones de la aritmética escalar}
+Sumar únicamente los valores numéricos asume de forma falaz que todas las interacciones ocurren de manera perfectamente alineada y colaborativa. En el espacio tridimensional real, dos fuerzas aplicadas sobre un mismo cuerpo pueden estar compitiendo entre sí. Si aplicamos la aritmética escalar simple a dos fuerzas de $10 \text{ N}$, el resultado siempre será $20 \text{ N}$. Sin embargo, desde el análisis vectorial, si estas mismas fuerzas tiran en sentidos diametralmente opuestos, el desequilibrio físico sobre el cuerpo se cancela, resultando en una fuerza neta absolutamente nula ($0 \text{ N}$).
+
+\subsubsection*{Conclusión}
+No es suficiente porque la fuerza es una magnitud vectorial. Para determinar el efecto dinámico real (fuerza resultante) sobre un cuerpo, es obligatorio aplicar el álgebra de vectores que integra la orientación espacial; omitir esto ignoraría cómo fuerzas de igual magnitud numérica pueden sumarse, contrarrestarse parcialmente o anularse por completo dependiendo exclusivamente de sus direcciones y sentidos relativos.
+
+\newpage
+
+\subsection*{Enunciado}
+¿Por qué el ángulo entre dos fuerzas es un factor importante para determinar la magnitud y dirección de la resultante?
+
+\subsection*{Solución}
+
+\subsubsection*{El ángulo como determinante de superposición}
+Cuando múltiples fuerzas actúan simultáneamente sobre un mismo punto de anclaje, la apertura angular que las separa dicta la geometría exacta de su superposición. De acuerdo con la regla gráfica del paralelogramo para la adición de vectores, la fuerza resultante neta corresponde a la diagonal principal trazada desde el origen de los vectores concurrentes. El ángulo de separación modifica de manera directa y proporcional las dimensiones geométricas de dicho paralelogramo y, en consecuencia, altera inevitablemente tanto la longitud (magnitud) como la inclinación (dirección) de la diagonal resultante.
+
+\subsubsection*{Análisis de los límites de interferencia}
+El efecto físico del ángulo se entiende evaluando sus límites matemáticos. Si el ángulo es de $0^\circ$, los vectores son colineales con el mismo sentido, logrando una colaboración perfecta; la magnitud de la resultante alcanza su límite superior. Conforme el ángulo se abre, las componentes proyectadas de las fuerzas comienzan a interferir y oponerse mutuamente, reduciendo progresivamente la magnitud neta y desviando su línea de acción hacia el vector de mayor dominio. Al alcanzar un ángulo de $180^\circ$, la oposición estructural es total, y la magnitud resultante colapsa a su límite inferior posible.
+
+\subsubsection*{Demostración Visual de la Dependencia Angular}
+El siguiente script en Python genera una visualización que demuestra pedagógicamente cómo, manteniendo estrictamente constantes las magnitudes individuales de dos fuerzas base, la simple alteración del ángulo de separación entre ellas reconfigura de manera drástica tanto la intensidad como la trayectoria del vector resultante (en verde).
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig, axs = plt.subplots(1, 3, figsize=(12, 4))
+angulos = [0, np.pi/2, np.pi]
+titulos = ['Angulo = 0 grados\n(Colaboracion Maxima)', 
+           'Angulo = 90 grados\n(Interferencia Ortogonal)', 
+           'Angulo = 180 grados\n(Oposicion Total)']
+
+for ax, angulo, titulo in zip(axs, angulos, titulos):
+    F1 = np.array([4, 0])
+    F2 = np.array([3*np.cos(angulo), 3*np.sin(angulo)])
+    R = F1 + F2
+    
+    ax.annotate('', xy=F1, xytext=(0,0), arrowprops=dict(facecolor='blue', width=1.5, headwidth=6))
+    ax.annotate('', xy=F2, xytext=(0,0), arrowprops=dict(facecolor='red', width=1.5, headwidth=6))
+    
+    if np.linalg.norm(R) > 0.1:
+        ax.annotate('', xy=R, xytext=(0,0), arrowprops=dict(facecolor='green', width=2.5, headwidth=8))
+        
+    if angulo != 0 and angulo != np.pi:
+        ax.plot([F1[0], R[0]], [F1[1], R[1]], 'k--', alpha=0.4)
+        ax.plot([F2[0], R[0]], [F2[1], R[1]], 'k--', alpha=0.4)
+        
+    ax.set_xlim(-4, 8)
+    ax.set_ylim(-1, 4)
+    ax.axis('off')
+    ax.set_title(titulo, fontsize=11, fontweight='bold')
+
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+El ángulo es el factor regulador principal porque establece matemáticamente el grado de colaboración o interferencia geométrica entre los vectores concurrentes. Este determina las proporciones exactas del paralelogramo vectorial, dictando si las fuerzas se suman constructivamente, si sus componentes se cancelan reduciendo la magnitud neta, y definiendo la orientación espacial final (dirección) de dicha resultante.
+
+\newpage
+
+\subsection*{Enunciado}
+Durante una maniobra de carga en un taller industrial, un gancho metálico fijo a una pared sostiene dos cables que tiran de él en distintas direcciones. Uno de los cables ejerce una fuerza de $200 \text{ N}$, formando un ángulo de $30^\circ$ en sentido horario. El otro cable ejerce una fuerza de $500 \text{ N}$, y forma un ángulo adicional de $40^\circ$ con respecto al primer cable. Para verificar la resistencia del soporte, el técnico necesita determinar la magnitud de la fuerza resultante producida por la acción conjunta de ambos cables sobre el gancho. ¿Cuál es la magnitud de la fuerza neta que actúa sobre el gancho?
+
+\begin{center}
+\begin{tikzpicture}[scale=1]
+\fill[gray!30] (-1,-2.5) rectangle (0,1);
+\draw[thick] (0,-2.5) -- (0,1);
+\draw[thick, fill=gray!40] (0,0.1) arc (90:-90:0.1) -- (-0.2,-0.1) -- (-0.2,0.1) -- cycle;
+\draw[thick, double, double distance=2pt] (0.1,0) arc (180:0:0.4) arc (360:180:0.2);
+
+\draw[dashed] (0,0) -- (4,0);
+
+\draw[->, thick] (0,0) -- (2.598, -1.5) node[right] {$200\text{ N}$};
+\draw[->, thick] (0,0) -- (1.710, -4.698) node[right] {$500\text{ N}$};
+
+\draw (1.5,0) arc (0:-30:1.5);
+\node at (1.8, -0.4) {$30^\circ$};
+
+\draw (2,-1.15) arc (-30:-70:2.3);
+\node at (2.4, -1.8) {$40^\circ$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{Análisis del sistema de fuerzas concurrentes}
+El problema presenta dos fuerzas que actúan simultáneamente sobre un mismo punto de anclaje (el gancho). Como la fuerza es una magnitud vectorial, no es posible sumar directamente sus módulos numéricos ($200 \text{ N} + 500 \text{ N}$) para obtener la fuerza total. Las direcciones divergentes provocan que las fuerzas colaboren en ciertos ejes y compitan en otros. Para resolver esto algebraicamente, es indispensable establecer un sistema de coordenadas cartesianas y descomponer cada vector en sus componentes ortogonales rectangulares (ejes $x$ e $y$). 
+
+Tomando la línea horizontal perpendicular a la pared como el eje $x$ positivo, los ángulos se miden en sentido horario, lo que en convención trigonométrica estándar se representa mediante ángulos negativos. La primera fuerza ($F_1$) se ubica a $-30^\circ$. La segunda fuerza ($F_2$) está desplazada $40^\circ$ adicionales respecto a la primera, por lo que su ángulo total medido desde la horizontal es $-30^\circ - 40^\circ = -70^\circ$.
+
+\subsubsection*{Descomposición rectangular de las fuerzas}
+Utilizamos las funciones trigonométricas seno y coseno para proyectar cada magnitud vectorial sobre los ejes cartesianos. El coseno proyecta la magnitud sobre el eje adyacente al ángulo (eje $x$), mientras que el seno la proyecta sobre el eje opuesto (eje $y$).
+
+Para la fuerza $F_1$ ($200 \text{ N}$):
+$$F_{1x} = 200 \cdot \cos(-30^\circ) = 200 \cdot (0.866) \approx 173.21 \text{ N}$$
+$$F_{1y} = 200 \cdot \sin(-30^\circ) = 200 \cdot (-0.5) = -100.00 \text{ N}$$
+Vectorialmente se expresa como: $\vec{F_1} = (173.21, -100.00) \text{ N}$
+
+Para la fuerza $F_2$ ($500 \text{ N}$):
+$$F_{2x} = 500 \cdot \cos(-70^\circ) = 500 \cdot (0.342) \approx 171.01 \text{ N}$$
+$$F_{2y} = 500 \cdot \sin(-70^\circ) = 500 \cdot (-0.9397) \approx -469.85 \text{ N}$$
+Vectorialmente se expresa como: $\vec{F_2} = (171.01, -469.85) \text{ N}$
+
+\subsubsection*{Superposición y cálculo de la resultante}
+Una vez que todas las fuerzas están descompuestas en los mismos ejes rectilíneos, la fuerza resultante neta ($\vec{F_R}$) se obtiene mediante la suma algebraica directa de sus respectivas componentes. 
+
+Sumatoria en el eje horizontal ($x$):
+$$\Sigma F_x = 173.21 \text{ N} + 171.01 \text{ N} = 344.22 \text{ N}$$
+
+Sumatoria en el eje vertical ($y$):
+$$\Sigma F_y = -100.00 \text{ N} + (-469.85 \text{ N}) = -569.85 \text{ N}$$
+
+El vector resultante es $\vec{F_R} = (344.22, -569.85) \text{ N}$. 
+Para hallar la magnitud escalar de esta fuerza neta, aplicamos el Teorema de Pitágoras sobre las componentes totales calculadas:
+$$F_R = \sqrt{(\Sigma F_x)^2 + (\Sigma F_y)^2}$$
+$$F_R = \sqrt{(344.22)^2 + (-569.85)^2}$$
+$$F_R = \sqrt{118487.40 + 324729.02}$$
+$$F_R = \sqrt{443216.42} \approx 665.75 \text{ N}$$
+
+\subsubsection*{Representación gráfica de la resultante}
+Para consolidar pedagógicamente el concepto de superposición vectorial, el siguiente script de Python genera el diagrama de la regla del paralelogramo para este sistema específico, validando visualmente cómo las componentes convergen para formar la resultante calculada.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(6, 7))
+
+F1_x, F1_y = 173.21, -100.00
+F2_x, F2_y = 171.01, -469.85
+FR_x, FR_y = F1_x + F2_x, F1_y + F2_y
+
+ax.annotate('', xy=(F1_x, F1_y), xytext=(0,0), arrowprops=dict(facecolor='black', width=1.5, headwidth=6))
+ax.text(F1_x + 10, F1_y + 10, 'F1 = 200 N', color='black', fontsize=11)
+
+ax.annotate('', xy=(F2_x, F2_y), xytext=(0,0), arrowprops=dict(facecolor='black', width=1.5, headwidth=6))
+ax.text(F2_x - 90, F2_y - 20, 'F2 = 500 N', color='black', fontsize=11)
+
+ax.annotate('', xy=(FR_x, FR_y), xytext=(0,0), arrowprops=dict(facecolor='purple', width=2.5, headwidth=8))
+ax.text(FR_x + 10, FR_y, 'F_Resultante', color='purple', fontweight='bold', fontsize=12)
+
+ax.plot([F1_x, FR_x], [F1_y, FR_y], 'k--', alpha=0.5)
+ax.plot([F2_x, FR_x], [F2_y, FR_y], 'k--', alpha=0.5)
+
+ax.axhline(0, color='gray', linestyle='--')
+ax.axvline(0, color='gray', linestyle='--')
+ax.set_xlim(-50, 450)
+ax.set_ylim(-650, 50)
+ax.grid(True, linestyle=':', alpha=0.7)
+ax.set_title('Superposicion Vectorial sobre el Gancho')
+
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+La magnitud de la fuerza neta que actúa sobre el gancho es de $665.75 \text{ N}$.
+
+\newpage
+
+\subsection*{Enunciado}
+Para cada situación identifica: las fuerzas que actúan sobre el objeto señalado, su dirección y sentido, y determina si el objeto está en equilibrio en reposo, equilibrio en MRU o ninguno de los dos. Justifica en cada caso.
+
+Un cuadro colgado en la pared mediante dos cuerdas simétricas.
+
+\subsection*{Solución}
+
+\subsubsection*{Identificación de fuerzas en el sistema}
+En el caso de un cuadro suspendido que no tiene movimiento, las interacciones físicas se dan en dos ejes, aunque dominantemente en el plano bidimensional de la pared.
+La primera fuerza ineludible es el Peso del cuadro, el cual es la fuerza de atracción gravitacional que la Tierra ejerce sobre su masa. Esta fuerza tiene una dirección estrictamente vertical y un sentido hacia abajo.
+Para contrarrestar esta caída, existen dos cuerdas simétricas. Cada cuerda ejerce una fuerza de Tensión sobre el cuadro. Dado que están dispuestas en ángulo, la dirección de cada tensión es a lo largo de su respectiva cuerda, con sentido hacia arriba y alejándose del centro del cuadro (una hacia la izquierda y otra hacia la derecha).
+
+\subsubsection*{Análisis del estado de equilibrio}
+La Primera Ley de Newton establece que si un objeto no presenta aceleración, la fuerza neta sobre él es matemáticamente cero ($\Sigma F = 0$). El cuadro no se traslada en ninguna dirección espacial; su velocidad inicial es cero y se mantiene en cero. Las componentes horizontales de las tensiones se anulan entre sí debido a la simetría, y la suma de las componentes verticales de ambas tensiones anula exactamente al vector del peso.
+
+\subsubsection*{Representación en Diagrama de Cuerpo Libre}
+Para ilustrar la cancelación de vectores en un sistema bidimensional simétrico, se presenta el siguiente esquema en Python.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(6, 5))
+
+ax.plot(0, 0, 'ks', markersize=12)
+ax.text(0.3, 0, 'Cuadro', va='center')
+
+ax.annotate('', xy=(0, -2), xytext=(0, 0),
+            arrowprops=dict(facecolor='red', shrink=0, width=2, headwidth=8))
+ax.text(0.2, -1, 'Peso (W)', color='red')
+
+ax.annotate('', xy=(-1.5, 1.5), xytext=(0, 0),
+            arrowprops=dict(facecolor='blue', shrink=0, width=2, headwidth=8))
+ax.text(-1.8, 1.7, 'Tension 1', color='blue')
+
+ax.annotate('', xy=(1.5, 1.5), xytext=(0, 0),
+            arrowprops=dict(facecolor='blue', shrink=0, width=2, headwidth=8))
+ax.text(1.2, 1.7, 'Tension 2', color='blue')
+
+ax.set_xlim(-3, 3)
+ax.set_ylim(-3, 3)
+ax.axis('off')
+plt.title('Equilibrio Estatico Bidimensional')
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+Fuerzas: Peso (vertical, hacia abajo) y dos Tensiones (diagonales, hacia arriba).
+Estado: Equilibrio en reposo (estático). La justificación radica en que la velocidad del cuadro es nula y constante, lo que garantiza una aceleración de cero y una suma vectorial de fuerzas igual a cero en todos los ejes.
+
+\newpage
+\subsection*{Enunciado}
+Para cada situación identifica: las fuerzas que actúan sobre el objeto señalado, su dirección y sentido, y determina si el objeto está en equilibrio en reposo, equilibrio en MRU o ninguno de los dos. Justifica en cada caso.
+
+Un ascensor que sube a velocidad constante.
+
+\subsection*{Solución}
+
+\subsubsection*{Identificación de fuerzas en el sistema}
+El ascensor opera predominantemente en un eje de movimiento unidimensional (vertical).
+La primera fuerza actuante es el Peso total del sistema (cabina más carga), generado por la interacción gravitacional. Su dirección es vertical y su sentido es hacia abajo.
+La segunda fuerza proviene del mecanismo de izaje. El cable de acero acoplado a la cabina ejerce una fuerza de Tensión. Su dirección es a lo largo de la línea del cable (vertical) y su sentido es hacia arriba.
+
+\subsubsection*{Análisis del estado dinámico}
+En la física conceptual newtoniana, el término "velocidad constante" es el indicador absoluto de la ausencia de una fuerza neta externa. Que el ascensor se mueva hacia arriba no implica que la fuerza hacia arriba deba ser mayor que el peso. Si la tensión fuera mayor que el peso, el ascensor aceleraría hacia arriba; si fuera menor, desaceleraría. Puesto que la velocidad no cambia ni en magnitud ni en dirección, la aceleración es estrictamente cero. Esto obliga a que la magnitud de la Tensión ascendente iguale con precisión perfecta a la magnitud del Peso descendente.
+
+\subsubsection*{Conclusión}
+Fuerzas: Peso (vertical, hacia abajo) y Tensión del cable (vertical, hacia arriba).
+Estado: Equilibrio en MRU (dinámico). La justificación se fundamenta en que, al moverse a una velocidad que no cambia (constante), la aceleración es nula; por consiguiente, las fuerzas opuestas en el eje vertical se anulan mutuamente, manteniendo una fuerza neta de cero.
+
+\newpage
+\subsection*{Enunciado}
+Para cada situación identifica: las fuerzas que actúan sobre el objeto señalado, su dirección y sentido, y determina si el objeto está en equilibrio en reposo, equilibrio en MRU o ninguno de los dos. Justifica en cada caso.
+
+Un paracaidista que cae a velocidad constante porque la resistencia del aire iguala su peso.
+
+\subsection*{Solución}
+
+\subsubsection*{Identificación de fuerzas en el sistema}
+El sistema de caída libre modificada por fricción fluida se analiza en el eje vertical.
+La fuerza inercial base es el Peso del paracaidista (que incluye su equipo). Su dirección es vertical y su sentido hacia el centro gravitatorio (abajo).
+Al desplazarse a través de un fluido (la atmósfera), se genera una fuerza de fricción conocida como Resistencia del aire o arrastre aerodinámico. La fricción siempre se opone a la dirección del movimiento; dado que el paracaidista cae, esta fuerza tiene una dirección vertical y un sentido hacia arriba.
+
+\subsubsection*{Análisis del estado aerodinámico}
+El propio enunciado proporciona la premisa de validación: la resistencia del aire "iguala su peso". Al inicio del salto, el peso es mayor que la resistencia, produciendo aceleración hacia abajo. Sin embargo, la resistencia del aire aumenta proporcionalmente con el incremento de la velocidad. En el momento exacto en que esta fuerza disipativa ascendente iguala en magnitud a la fuerza gravitacional descendente, la suma de fuerzas se vuelve cero. A partir de ese instante, la aceleración se anula y el paracaidista alcanza lo que en mecánica de fluidos se denomina "velocidad terminal".
+
+\subsubsection*{Conclusión}
+Fuerzas: Peso (vertical, hacia abajo) y Resistencia del aire (vertical, hacia arriba).
+Estado: Equilibrio en MRU (dinámico). Se justifica porque el paracaidista ha dejado de acelerar (su velocidad de caída ya no aumenta). La Primera Ley de Newton avala que un objeto sometido a una fuerza neta nula perseverará en su estado de movimiento rectilíneo uniforme.
+
+\newpage
+\subsection*{Enunciado}
+Para cada situación identifica: las fuerzas que actúan sobre el objeto señalado, su dirección y sentido, y determina si el objeto está en equilibrio en reposo, equilibrio en MRU o ninguno de los dos. Justifica en cada caso.
+
+Un automóvil que frena progresivamente hasta detenerse.
+
+\subsection*{Solución}
+
+\subsubsection*{Identificación de fuerzas en el sistema}
+En un vehículo en rodadura sobre una superficie horizontal, actúan cuatro fuerzas principales agrupadas en dos ejes.
+En el eje vertical: El Peso del automóvil (vertical, hacia abajo) y la Fuerza Normal ejercida por la superficie del asfalto como respuesta estructural (vertical, hacia arriba). Estas dos fuerzas se anulan entre sí, ya que el auto no levita ni se hunde en el pavimento.
+En el eje horizontal: Durante la maniobra de frenado, los neumáticos interactúan con el pavimento generando una Fuerza de Fricción cinética (o estática si es sistema ABS). Como la fricción se opone al deslizamiento, su dirección es horizontal y su sentido es estrictamente opuesto al vector de la velocidad del vehículo.
+
+\subsubsection*{Análisis del estado cinemático}
+El término "frena progresivamente" describe de forma inequívoca una variación en el estado de movimiento del sistema; específicamente, una disminución en la magnitud del vector velocidad a lo largo del tiempo. Todo cambio en la velocidad constituye una aceleración (en este caso, una aceleración negativa o desaceleración). Según la Segunda Ley de Newton, para que una masa experimente una aceleración, debe estar sometida imperativamente a una fuerza neta desequilibrada diferente de cero ($\Sigma F = m \cdot a$). En esta situación, la fuerza de fricción de los frenos no está siendo contrarrestada por ninguna fuerza de empuje del motor.
+
+\subsubsection*{Representación del desequilibrio dinámico}
+Para demostrar pedagógicamente por qué este sistema viola la condición de inercia y equilibrio, se presenta un diagrama en Python resaltando la asimetría en el eje horizontal.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(7, 3))
+
+ax.add_patch(plt.Rectangle((-1, -0.5), 2, 1, color='teal', alpha=0.7))
+ax.text(0, 0, 'Auto', ha='center', va='center', color='white', fontweight='bold')
+
+ax.annotate('', xy=(0, 1.5), xytext=(0, 0.5),
+            arrowprops=dict(facecolor='blue', shrink=0, width=2, headwidth=8))
+ax.text(0.1, 1, 'Normal', color='blue')
+
+ax.annotate('', xy=(0, -1.5), xytext=(0, -0.5),
+            arrowprops=dict(facecolor='red', shrink=0, width=2, headwidth=8))
+ax.text(0.1, -1, 'Peso', color='red')
+
+ax.annotate('', xy=(3, 0), xytext=(1, 0),
+            arrowprops=dict(edgecolor='green', arrowstyle='->', lw=2))
+ax.text(2, 0.2, 'Velocidad (v)', color='green')
+
+ax.annotate('', xy=(-3, 0), xytext=(-1, 0),
+            arrowprops=dict(facecolor='orange', shrink=0, width=3, headwidth=10))
+ax.text(-2.5, 0.3, 'Friccion (F_neta)', color='orange', fontweight='bold')
+
+ax.set_xlim(-4, 4)
+ax.set_ylim(-2, 2)
+ax.axis('off')
+plt.title('Diagrama de Cuerpo Libre: Sistema No Equilibrado')
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+Fuerzas: Peso (vertical, abajo), Fuerza Normal (vertical, arriba) y Fuerza de Fricción (horizontal, sentido opuesto al movimiento).
+Estado: Ninguno de los dos. No está en equilibrio estático porque se está moviendo, y no está en equilibrio dinámico (MRU) porque su velocidad no es constante. Se justifica por el hecho de que el objeto posee una aceleración neta generada por una fuerza de fricción desequilibrada, incumpliendo la condición de $\Sigma F = 0$.
+
+\newpage
+\subsection*{Enunciado}
+Para cada situación identifica: las fuerzas que actúan sobre el objeto señalado, su dirección y sentido, y determina si el objeto está en equilibrio en reposo, equilibrio en MRU o ninguno de los dos. Justifica en cada caso.
+
+Una persona que nada a velocidad constante en línea recta.
+
+\subsection*{Solución}
+
+\subsubsection*{Identificación de fuerzas hidrodinámicas}
+El nado humano implica un sistema de propulsión a través de un fluido viscoso y denso (agua).
+En el eje vertical operan dos fuerzas que interactúan volumétricamente: El Peso del nadador (vertical, hacia el centro de la Tierra) y la Fuerza de Flotabilidad o Empuje hidrostático generado por el volumen de agua desplazado, según el Principio de Arquímedes (vertical, hacia arriba).
+En el eje horizontal del movimiento operan las fuerzas motrices: La Fuerza de Propulsión ejercida por la brazada y patada del nadador empujando el agua hacia atrás (dirección de la trayectoria, sentido hacia adelante) y la Fuerza de Arrastre hidrodinámico o resistencia del agua (dirección de la trayectoria, sentido hacia atrás).
+
+\subsubsection*{Análisis del estado dinámico cruzado}
+El enunciado dicta dos condiciones rectoras: "en línea recta" (dirección inalterable) y "velocidad constante" (magnitud inalterable). Esta combinación define la perfección inercial del Movimiento Rectilíneo Uniforme. Para que este estado se mantenga, las leyes de Newton exigen un balance perfecto en todos los planos. En la vertical, el nadador no se hunde ni sale volando de la piscina, garantizando que el Empuje anula al Peso. En la horizontal, la energía muscular invertida en la Fuerza de Propulsión sirve única y exclusivamente para cancelar la Fuerza de Arrastre generada por la fricción del agua.
+
+\subsubsection*{Conclusión}
+Fuerzas: Verticales (Peso abajo, Flotabilidad arriba). Horizontales (Propulsión adelante, Arrastre hidrodinámico atrás).
+Estado: Equilibrio en MRU (dinámico). La justificación se apoya en que la velocidad del nadador no sufre alteraciones ni en rapidez ni en trayectoria. Esto corrobora irrefutablemente que la aceleración es nula y, en consecuencia, las fuerzas opuestas en cada uno de los ejes coordenados se contrarrestan produciendo una fuerza neta espacial igual a cero.
+
+\newpage
+
+\subsection*{Enunciado}
+La regla del equilibrio en números.
+
+Un objeto cuelga de dos cuerdas. La tensión en la cuerda izquierda es de $30 \text{ N}$ y en la cuerda derecha es de $50 \text{ N}$. ¿Cuánto pesa el objeto? ¿Cómo lo sabes?
+
+\subsection*{Solución}
+
+\subsubsection*{Análisis de las condiciones de equilibrio}
+Cuando un objeto cuelga en reposo, se encuentra en un estado de equilibrio estático. De acuerdo con la Primera Ley de Newton y la regla del equilibrio mecánico para fuerzas coplanares, la suma vectorial de todas las fuerzas que actúan sobre el cuerpo debe ser estrictamente cero ($\Sigma F = 0$). Para el análisis conceptual en este nivel, al no especificarse ángulos de inclinación, se establece la premisa pedagógica de que ambas cuerdas sostienen al objeto de manera vertical y paralela.
+
+\subsubsection*{Evaluación de fuerzas verticales}
+En el eje vertical operan dos conjuntos de fuerzas con sentidos opuestos. Hacia arriba actúan las fuerzas de tensión ejercidas por las cuerdas, las cuales sostienen la masa. Hacia abajo actúa de manera exclusiva el peso del objeto, que es la fuerza de atracción gravitacional de la Tierra.
+Para satisfacer la ecuación de equilibrio $\Sigma F_y = 0$, la magnitud total de las fuerzas ascendentes debe igualar exactamente a la magnitud total de las fuerzas descendentes.
+Fuerza hacia arriba = Tensión izquierda + Tensión derecha = $30 \text{ N} + 50 \text{ N} = 80 \text{ N}$.
+Por lo tanto, la fuerza hacia abajo (el peso) debe tener una magnitud idéntica para que el sistema no acelere.
+
+\subsubsection*{Representación en Diagrama de Cuerpo Libre}
+El siguiente código en Python genera la representación visual de los vectores de fuerza concurrentes, demostrando que la suma de los vectores de tensión cancela perfectamente al vector del peso.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(5, 6))
+
+ax.add_patch(plt.Rectangle((-0.5, -0.5), 1, 1, color='teal'))
+ax.text(0, 0, 'Objeto', color='white', ha='center', va='center', fontweight='bold')
+
+ax.annotate('', xy=(-0.25, 2.5), xytext=(-0.25, 0.5),
+            arrowprops=dict(facecolor='blue', shrink=0, width=2, headwidth=8))
+ax.text(-0.35, 1.5, 'T1 = 30 N', color='blue', ha='right')
+
+ax.annotate('', xy=(0.25, 4.5), xytext=(0.25, 0.5),
+            arrowprops=dict(facecolor='blue', shrink=0, width=2, headwidth=8))
+ax.text(0.35, 2.5, 'T2 = 50 N', color='blue', ha='left')
+
+ax.annotate('', xy=(0, -4.5), xytext=(0, -0.5),
+            arrowprops=dict(facecolor='red', shrink=0, width=3, headwidth=10))
+ax.text(0.2, -2.5, 'Peso = 80 N', color='red', ha='left', fontweight='bold')
+
+ax.set_xlim(-2, 2)
+ax.set_ylim(-5.5, 5.5)
+ax.axhline(0, color='gray', linestyle='--', alpha=0.5)
+ax.axis('off')
+plt.title('Equilibrio Estatico: Tensiones vs Peso')
+
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+El objeto pesa $80 \text{ N}$. Lo sabemos porque, para mantener el equilibrio estático ($\Sigma F = 0$), la fuerza total hacia abajo (el peso) debe ser exactamente igual a la suma de las fuerzas que tiran hacia arriba (las tensiones de las cuerdas, $30 \text{ N} + 50 \text{ N}$).
+
+\newpage
+\subsection*{Enunciado}
+La regla del equilibrio en números.
+
+Una caja cuyo peso es $200 \text{ N}$ se empuja horizontalmente sobre el suelo y se mueve a velocidad constante. ¿Cuánto vale la fuerza de fricción? Si se duplica la fuerza aplicada, ¿la caja sigue en equilibrio? ¿Qué ocurre con su movimiento?
+
+\subsection*{Solución}
+
+\subsubsection*{Análisis del equilibrio dinámico}
+El concepto central de esta situación es el movimiento a "velocidad constante". En la mecánica newtoniana, una velocidad que no cambia ni en rapidez ni en dirección implica una aceleración nula. Si la aceleración es cero, la Segunda Ley de Newton dictamina que la fuerza neta externa sobre el sistema debe ser cero ($\Sigma F = 0$). Aunque la caja está en movimiento, mecánicamente se encuentra en un estado de equilibrio dinámico.
+
+\subsubsection*{Evaluación de la fuerza de fricción}
+En el eje vertical, el peso de $200 \text{ N}$ se anula con una fuerza normal de $200 \text{ N}$ hacia arriba. (El valor de $200 \text{ N}$ actúa aquí como un distractor conceptual común para evaluar si el estudiante comprende en qué eje ocurre el fenómeno).
+En el eje horizontal, la caja experimenta la fuerza de empuje aplicada y la fuerza de fricción cinética en sentido opuesto. Dado que $\Sigma F_x = 0$, la magnitud de la fuerza de fricción debe ser matemáticamente idéntica a la magnitud de la fuerza de empuje. Aunque el problema no provee el valor numérico del empuje, conceptualmente sabemos que la fricción equivale exactamente a dicha fuerza aplicada para poder anularla.
+
+\subsubsection*{Análisis de la duplicación de fuerza}
+Si la fuerza aplicada se duplica súbitamente, el balance se rompe. La nueva fuerza de empuje será del doble de magnitud, mientras que la fricción cinética (que depende de la rugosidad de las superficies y el peso, factores que no han cambiado) mantendrá su valor original. La sumatoria de fuerzas horizontales ya no será cero ($\Sigma F_x > 0$), resultando en una fuerza neta desequilibrada a favor de la dirección del empuje.
+
+\subsubsection*{Representación del sistema en equilibrio dinámico}
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(7, 3))
+
+ax.add_patch(plt.Rectangle((-1, -0.5), 2, 1, color='orange', alpha=0.6))
+ax.text(0, 0, 'Caja', ha='center', va='center', fontweight='bold')
+
+ax.annotate('', xy=(2.5, 0), xytext=(1, 0),
+            arrowprops=dict(facecolor='green', shrink=0, width=2, headwidth=8))
+ax.text(1.7, 0.3, 'F_empuje', color='green', ha='center')
+
+ax.annotate('', xy=(-2.5, 0), xytext=(-1, 0),
+            arrowprops=dict(facecolor='red', shrink=0, width=2, headwidth=8))
+ax.text(-1.7, 0.3, 'F_friccion', color='red', ha='center')
+
+ax.annotate('', xy=(0, 1.5), xytext=(0, 0.5),
+            arrowprops=dict(facecolor='blue', shrink=0, width=1.5, headwidth=6))
+ax.text(0.1, 1, 'Normal (200 N)', color='blue')
+
+ax.annotate('', xy=(0, -1.5), xytext=(0, -0.5),
+            arrowprops=dict(facecolor='black', shrink=0, width=1.5, headwidth=6))
+ax.text(0.1, -1, 'Peso (200 N)', color='black')
+
+ax.set_xlim(-3.5, 3.5)
+ax.set_ylim(-2, 2)
+ax.axhline(-0.5, color='gray', linewidth=2)
+ax.axis('off')
+plt.title('Equilibrio Dinamico (Velocidad Constante)')
+
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+La fuerza de fricción vale exactamente lo mismo que la fuerza de empuje horizontal que se esté aplicando (se anulan entre sí). Si se duplica la fuerza aplicada, la caja ya no sigue en equilibrio estático ni dinámico; como resultado de la fuerza neta a favor del movimiento, la caja comenzará a acelerar progresivamente en esa dirección.
+
+\newpage
+\subsection*{Enunciado}
+La regla del equilibrio en números.
+
+Dos personas cargan una viga horizontal de peso $800 \text{ N}$, una en cada extremo. La persona de la izquierda soporta $350 \text{ N}$. ¿Cuánto soporta la persona de la derecha? ¿Se cumple la condición $\Sigma\vec{F} = \vec{0}$?
+
+\subsection*{Solución}
+
+\subsubsection*{Análisis del equilibrio de traslación}
+El sistema descrito involucra un cuerpo rígido (la viga) sostenido en reposo en el espacio tridimensional. Esto certifica que el sistema se encuentra en estado de equilibrio mecánico estático. Para que la viga no caiga ni se eleve, debe satisfacer la primera condición de equilibrio para la traslación, la cual establece que la sumatoria de todas las interacciones vectoriales en el eje vertical debe anularse mutuamente.
+
+\subsubsection*{Evaluación de la sumatoria de fuerzas}
+Asignando un sistema de coordenadas donde el sentido ascendente es positivo y el descendente es negativo, identificamos los vectores.
+Fuerza hacia abajo: El peso de la viga, con una magnitud de $-800 \text{ N}$.
+Fuerzas hacia arriba: La fuerza ejercida por la persona izquierda ($+350 \text{ N}$) y la fuerza ejercida por la persona derecha ($+F_D$, valor desconocido).
+Planteando la ecuación de equilibrio:
+$$\Sigma F_y = 0$$
+$$350 \text{ N} + F_D - 800 \text{ N} = 0$$
+$$F_D - 450 \text{ N} = 0$$
+$$F_D = 450 \text{ N}$$
+
+\subsubsection*{Representación de las fuerzas sobre la viga}
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(8, 4))
+
+ax.add_patch(plt.Rectangle((-3, -0.2), 6, 0.4, color='saddlebrown'))
+ax.text(0, 0.4, 'Viga', ha='center', fontweight='bold')
+
+ax.annotate('', xy=(0, -2.5), xytext=(0, -0.2),
+            arrowprops=dict(facecolor='red', shrink=0, width=3, headwidth=10))
+ax.text(0.2, -1.5, 'Peso = 800 N', color='red', fontweight='bold')
+
+ax.annotate('', xy=(-3, 1.5), xytext=(-3, 0.2),
+            arrowprops=dict(facecolor='blue', shrink=0, width=2, headwidth=8))
+ax.text(-3, 1.7, 'F_izq = 350 N', color='blue', ha='center')
+
+ax.annotate('', xy=(3, 2), xytext=(3, 0.2),
+            arrowprops=dict(facecolor='blue', shrink=0, width=2.5, headwidth=9))
+ax.text(3, 2.2, 'F_der = 450 N', color='blue', ha='center')
+
+ax.set_xlim(-4, 4)
+ax.set_ylim(-3, 3)
+ax.axis('off')
+plt.title('Distribucion de Fuerzas en Equilibrio')
+
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+La persona de la derecha soporta $450 \text{ N}$. Sí se cumple de manera estricta la condición de equilibrio $\Sigma\vec{F} = \vec{0}$, puesto que la suma de las fuerzas ascendentes ($350 \text{ N} + 450 \text{ N} = 800 \text{ N}$) neutraliza exactamente la fuerza descendente del peso ($800 \text{ N}$).
+
+\newpage
+
+\subsection*{Enunciado}
+Un estudiante afirma: "si un objeto está en reposo, significa que no hay ninguna fuerza actuando sobre él." ¿Es correcta esa afirmación? Construye un contraejemplo concreto y explica qué dice la regla del equilibrio al respecto.
+
+\subsection*{Solución}
+
+\subsubsection*{Análisis conceptual de la afirmación}
+En la física clásica, la ausencia de movimiento (reposo) es frecuentemente malinterpretada por los estudiantes como una ausencia total de interacciones físicas. Esta concepción es errónea. El reposo no garantiza que el entorno esté aislado o vacío de fuerzas, sino que garantiza que todas las fuerzas presentes en el sistema se están contrarrestando de manera matemáticamente perfecta. 
+
+\subsubsection*{Aplicación de la regla del equilibrio}
+La Primera Ley de Newton y la regla del equilibrio mecánico establecen que un objeto permanece en reposo si y solo si la fuerza neta aplicada sobre él es cero ($\Sigma F = 0$). Esta condición de suma vectorial nula permite explícitamente la existencia de múltiples fuerzas actuando de manera simultánea sobre un mismo cuerpo, siempre y cuando sus magnitudes y direcciones produzcan una cancelación mutua en todos los ejes espaciales.
+
+\subsubsection*{Construcción del contraejemplo}
+Un contraejemplo innegable en la experiencia cotidiana es un libro grueso colocado sobre un escritorio horizontal. El libro se encuentra en absoluto reposo. Sin embargo, está sometido constantemente a una interacción gravitacional masiva: la Tierra tira del libro hacia abajo con una fuerza equivalente a su peso. Simultáneamente, la estructura molecular de la mesa se comprime microscópicamente y empuja al libro hacia arriba con una Fuerza Normal de idéntica magnitud. Hay fuerzas enormes actuando en el sistema, pero su superposición vectorial resulta en cero, manteniendo el reposo.
+
+\subsubsection*{Conclusión}
+La afirmación es incorrecta. La regla del equilibrio establece que la sumatoria de fuerzas es cero ($\Sigma F = 0$), lo cual permite que existan múltiples fuerzas actuando simultáneamente siempre y cuando se anulen mutuamente. Un contraejemplo concreto es un libro en reposo sobre una mesa, donde actúan ininterrumpidamente la fuerza gravitacional hacia abajo y la fuerza normal hacia arriba sin generar movimiento.
+
+\newpage
+\subsection*{Enunciado}
+Otro estudiante dice: "el equilibrio en MRU no es equilibrio de verdad porque el objeto se está moviendo." ¿Estás de acuerdo? ¿Qué tienen en común el equilibrio en reposo y en MRU desde el punto de vista de las fuerzas y de la Primera Ley de Newton?
+
+\subsection*{Solución}
+
+\subsubsection*{Desmitificación del movimiento inercial}
+La noción de que el equilibrio exige quietud es un remanente del pensamiento aristotélico que fue superado por Galileo y Newton. Para la física mecánica, no existe un estado de "equilibrio falso" o "verdadero" basado en la percepción visual de desplazamiento. El Movimiento Rectilíneo Uniforme (MRU) ocurre en el espacio profundo o bajo condiciones ideales de fricción compensada, y representa un estado de inercia inalterada tan fundamental como el reposo mismo.
+
+\subsubsection*{Equivalencia Inercial Newtoniana}
+Desde el punto de vista dinámico, el estado de un objeto se evalúa por su aceleración (los cambios en su velocidad), no por su velocidad misma. Según la Primera Ley de Newton, la inercia es la tendencia a mantener el estado actual de movimiento. Si un objeto está en MRU, su velocidad es constante; por lo tanto, su aceleración es rigurosamente nula. La Segunda Ley de Newton correlaciona una aceleración nula de forma unívoca con una fuerza neta igual a cero. Matemáticamente y conceptualmente, un objeto estacionario y un objeto a $100 \text{ km/h}$ en línea recta están experimentando exactamente la misma condición neta de fuerzas.
+
+\subsubsection*{Conclusión}
+No estoy de acuerdo con el estudiante. El equilibrio en MRU es un equilibrio dinámico perfectamente válido. Desde el punto de vista de las fuerzas y la Primera Ley de Newton, el reposo y el MRU tienen en común la condición fundamental y absoluta de que la fuerza neta que actúa sobre el objeto es estrictamente cero ($\Sigma F = 0$), lo que resulta en una ausencia total de aceleración.
+
+\newpage
+\subsection*{Enunciado}
+Un ascensor sube a velocidad constante. La tensión del cable es igual al peso del ascensor más su carga. Ahora el ascensor comienza a acelerar hacia arriba. ¿Qué ocurre con la tensión del cable? ¿El ascensor sigue en equilibrio? ¿Por qué?
+
+\subsection*{Solución}
+
+\subsubsection*{Análisis del cambio de estado cinemático}
+El problema describe una transición crítica entre dos estados inerciales. En la fase inicial, el ascensor sube a "velocidad constante". Esto certifica la existencia de un equilibrio dinámico donde las fuerzas ascendentes y descendentes se anulan. Sin embargo, en el instante en que el mecanismo induce una aceleración hacia arriba para incrementar la velocidad de subida, la inercia del sistema (su resistencia inherente al cambio) debe ser vencida. 
+
+\subsubsection*{Evaluación de la nueva demanda de fuerza}
+Para lograr que una masa altere su velocidad, la Segunda Ley de Newton exige la presencia imperativa de una fuerza neta desequilibrada en la misma dirección de la aceleración deseada. Puesto que el peso gravitacional del ascensor y sus ocupantes es una constante invariable (depende de la masa y la gravedad local), la única variable ajustable en el sistema es la tracción mecánica del cable. Para generar una fuerza neta positiva hacia arriba, la tensión suministrada por el motor no solo debe igualar el peso del sistema, sino que debe superarlo en una magnitud exactamente igual al producto de la masa total por la aceleración requerida ($T - W = m \cdot a$).
+
+\subsubsection*{Representación visual de la ruptura del equilibrio}
+El siguiente código en Python genera una comparativa gráfica de los diagramas de cuerpo libre del ascensor, ilustrando pedagógicamente cómo el vector de tensión debe extenderse para romper la condición de sumatoria nula y producir aceleración.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+fig, axs = plt.subplots(1, 2, figsize=(10, 5))
+
+for ax in axs:
+    ax.add_patch(plt.Rectangle((-1, -1), 2, 2, color='gray', alpha=0.5))
+    ax.text(0, 0, 'Ascensor\n+ Carga', ha='center', va='center', fontweight='bold')
+    ax.set_xlim(-3, 3)
+    ax.set_ylim(-4, 5)
+    ax.axis('off')
+
+axs[0].annotate('', xy=(0, 3), xytext=(0, 1), arrowprops=dict(facecolor='blue', width=2, headwidth=8))
+axs[0].text(0.5, 2, 'Tension = W', color='blue', va='center')
+axs[0].annotate('', xy=(0, -3), xytext=(0, -1), arrowprops=dict(facecolor='red', width=2, headwidth=8))
+axs[0].text(0.5, -2, 'Peso (W)', color='red', va='center')
+axs[0].text(0, -3.8, 'Velocidad Constante\nEquilibrio (F_neta = 0)', ha='center', fontweight='bold')
+
+axs[1].annotate('', xy=(0, 4.5), xytext=(0, 1), arrowprops=dict(facecolor='blue', width=3, headwidth=10))
+axs[1].text(0.5, 2.5, 'Tension > W', color='blue', va='center', fontweight='bold')
+axs[1].annotate('', xy=(0, -3), xytext=(0, -1), arrowprops=dict(facecolor='red', width=2, headwidth=8))
+axs[1].text(0.5, -2, 'Peso (W)', color='red', va='center')
+axs[1].annotate('', xy=(-2, 2), xytext=(-2, 0), arrowprops=dict(edgecolor='green', arrowstyle='->', lw=3))
+axs[1].text(-2.5, 1, 'a', color='green', fontweight='bold', fontsize=14)
+axs[1].text(0, -3.8, 'Aceleracion Ascendente\nNO hay Equilibrio (F_neta > 0)', ha='center', fontweight='bold')
+
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+La tensión del cable debe aumentar considerablemente, volviéndose mayor que el peso total del ascensor y su carga. El ascensor ya no sigue en equilibrio porque su estado de movimiento está cambiando. Se justifica por la Segunda Ley de Newton: al existir una aceleración hacia arriba, se requiere forzosamente una fuerza neta en esa misma dirección, rompiendo la condición de $\Sigma F = 0$.
+
+\newpage
+\subsection*{Enunciado}
+Una persona se para sobre una báscula dentro de un ascensor que sube a velocidad constante. ¿Qué marca la báscula? ¿Cambiaría la lectura si el ascensor acelerara hacia arriba? ¿Y si acelerara hacia abajo? Razona sin usar fórmulas.
+
+\subsection*{Solución}
+
+\subsubsection*{El concepto físico de una báscula}
+Para razonar este fenómeno sin ecuaciones, primero debemos comprender qué es lo que realmente mide una báscula. Contrario a la intuición popular, una báscula no mide directamente la fuerza de gravedad tirando del cuerpo humano hacia abajo. Lo que la báscula verdaderamente registra es la compresión de sus resortes internos; es decir, mide la Fuerza Normal de soporte que ella misma debe ejercer empujando hacia arriba contra los pies de la persona para no ser atravesada por esta. A este valor se le denomina "peso aparente".
+
+\subsubsection*{Análisis en velocidad constante (Equilibrio inercial)}
+Cuando el ascensor sube a velocidad constante, el sistema completo se encuentra en equilibrio dinámico. La persona no está acelerando. Por lo tanto, el piso de la báscula solo necesita empujar hacia arriba con exactamente la misma intensidad con la que la gravedad tira de la persona hacia abajo para mantener la sumatoria neta en cero. La compresión de los resortes refleja con exactitud el peso real.
+
+\subsubsection*{Análisis en aceleración hacia arriba (Compresión adicional)}
+Si el ascensor de repente acelera hacia arriba, la inercia de la persona tiende a mantenerla en su estado de movimiento anterior. Para que la masa de la persona logre acelerar al unísono con el ascensor, el suelo debe empujarla agresivamente hacia arriba. La báscula se ve aplastada entre el piso del ascensor que sube cada vez más rápido y la inercia de la persona. Para lograr vencer el peso y además proveer aceleración, la báscula debe ejercer una fuerza de soporte mucho mayor. Por consiguiente, los resortes se comprimen más.
+
+\subsubsection*{Análisis en aceleración hacia abajo (Pérdida de soporte)}
+Si el ascensor acelera hacia abajo, el piso literalmente comienza a ceder bajo los pies de la persona. La gravedad tira de la masa de la persona hacia abajo, lo que normalmente requeriría soporte total, pero como el suelo de la báscula se está retirando (acelerando en la misma dirección de la gravedad), la báscula no necesita ejercer tanto empuje hacia arriba para sostenerla. La compresión sobre los resortes disminuye drásticamente. En el caso extremo de que se cortaran los cables y acelerara a la gravedad de la Tierra (caída libre), el suelo huiría tan rápido que la báscula no ejercería soporte alguno, marcando cero absoluto.
+
+\subsubsection*{Representación visual del peso aparente}
+Para consolidar la demostración conceptual de que la báscula lee la Fuerza Normal generada por la interacción de soporte, el siguiente modelo en Python expone cómo varía el vector de compresión ascendente (la lectura) ante los cambios inerciales del entorno.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+fig, axs = plt.subplots(1, 3, figsize=(12, 4))
+estados = ['Velocidad Constante\n(Lectura = Peso Real)', 
+           'Acelerando Arriba\n(Lectura > Peso Real)', 
+           'Acelerando Abajo\n(Lectura < Peso Real)']
+
+for i, ax in enumerate(axs):
+    ax.add_patch(plt.Rectangle((-0.8, 0), 1.6, 3, color='tan'))
+    ax.add_patch(plt.Rectangle((-1.2, -0.4), 2.4, 0.4, color='silver')) 
+    ax.text(0, -0.2, 'Bascula', ha='center', va='center', fontweight='bold')
+    
+    W = 2.5
+    if i == 0:
+        N = 2.5
+        acc = 0
+    elif i == 1:
+        N = 4.0
+        acc = 1
+    else:
+        N = 1.0
+        acc = -1
+        
+    ax.annotate('', xy=(0.5, 1.5 - W), xytext=(0.5, 1.5), 
+                arrowprops=dict(facecolor='red', width=2, headwidth=8))
+    ax.text(0.7, 1.5 - W/2, 'Gravedad', color='red', va='center')
+    
+    ax.annotate('', xy=(-0.5, N), xytext=(-0.5, 0), 
+                arrowprops=dict(facecolor='blue', width=3 if N>W else 1.5, headwidth=9))
+    ax.text(-0.7, N/2, 'F. Normal\n(Lectura)', color='blue', ha='right', va='center')
+    
+    if acc != 0:
+        dir_y = 4.5 if acc > 0 else -1.5
+        orig_y = 3.5 if acc > 0 else -0.5
+        ax.annotate('', xy=(2, dir_y), xytext=(2, orig_y), 
+                    arrowprops=dict(edgecolor='green', arrowstyle='->', lw=3))
+        ax.text(2.2, (dir_y+orig_y)/2, 'a', color='green', fontweight='bold', fontsize=14)
+
+    ax.set_xlim(-3, 3)
+    ax.set_ylim(-2, 5)
+    ax.axis('off')
+    ax.set_title(estados[i], fontsize=10, fontweight='bold')
+
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+A velocidad constante, la báscula marca exactamente el peso real de la persona. Si el ascensor acelera hacia arriba, la inercia de la persona la presiona con más fuerza contra el piso y la lectura cambiará marcando un peso mayor al real. Por el contrario, si acelera hacia abajo, el piso cede bajo sus pies, reduciendo la interacción y la lectura cambiará marcando un peso menor al real.
+
+\newpage
+
+\subsection*{Enunciado}
+En el tema 2.1 aprendiste que Galileo concluyó que un objeto sobre una superficie horizontal sin fricción seguiría moviéndose indefinidamente. ¿En qué tipo de equilibrio se encontraría ese objeto? ¿Qué valor tendría $\Sigma\vec{F}$ en esa situación?
+
+\subsection*{Solución}
+
+\subsubsection*{Análisis del estado inercial}
+El experimento mental de Galileo, que posteriormente cimentaría la Primera Ley de Newton, establece un entorno idealizado donde se suprime la fricción. Si un objeto se mueve sobre una superficie horizontal infinita bajo estas condiciones, ninguna fuerza externa interfiere con su avance. Por el principio de inercia, la velocidad del objeto se mantendrá inalterable, conservando indefinidamente tanto su rapidez como su dirección rectilínea.
+
+\subsubsection*{Clasificación del equilibrio}
+En la mecánica clásica, el estado de equilibrio no es exclusivo del reposo absoluto. Se define por la ausencia de aceleración. Puesto que el objeto en cuestión no sufre variaciones en su vector velocidad, su aceleración es estrictamente cero. Esto clasifica al sistema dentro de un estado de equilibrio dinámico, específicamente experimentando un Movimiento Rectilíneo Uniforme (MRU).
+
+\subsubsection*{Evaluación de la fuerza neta}
+La Segunda Ley de Newton vincula la fuerza neta con la aceleración mediante la relación matemática $\Sigma\vec{F} = m \cdot \vec{a}$. Al ser la aceleración $\vec{a} = \vec{0}$ debido a la velocidad constante, el producto de la masa por la aceleración colapsa a cero, independientemente de cuánta masa posea el objeto.
+
+\subsubsection*{Conclusión}
+El objeto se encontraría en un estado de equilibrio dinámico (específicamente en MRU). En esta situación inercial, el valor de la fuerza neta o sumatoria de fuerzas sería rigurosamente nulo: $\Sigma\vec{F} = \vec{0}$.
+
+\newpage
+\subsection*{Enunciado}
+En el tema 2.2 estudiaste la fuerza neta y la suma vectorial. ¿Por qué es importante que la condición de equilibrio sea $\Sigma\vec{F} = \vec{0}$ y no simplemente "la suma de las magnitudes de las fuerzas es cero"? ¿En qué se diferencian esas dos afirmaciones?
+
+\subsection*{Solución}
+
+\subsubsection*{Naturaleza de la magnitud vs. Naturaleza vectorial}
+La diferencia radica en las propiedades inherentes de las magnitudes físicas. La magnitud es simplemente el valor numérico escalar de una fuerza, el cual es siempre un número positivo o cero que indica su intensidad (por ejemplo, $10 \text{ N}$). Por otro lado, el vector fuerza ($\vec{F}$) abarca tres propiedades inseparables: magnitud, dirección (línea de acción) y sentido (hacia dónde apunta).
+
+\subsubsection*{Análisis de las afirmaciones}
+Si la condición de equilibrio fuera "la suma de las magnitudes es cero", matemáticamente implicaría sumar puros valores absolutos ($|\vec{F_1}| + |\vec{F_2}| + ... = 0$). La única forma aritmética de que una suma de números estrictamente positivos dé cero es que absolutamente todas las fuerzas individuales sean cero. Esto significaría que un objeto solo podría estar en equilibrio si estuviera completamente aislado en el vacío sin interactuar con nada en el universo.
+
+En cambio, la afirmación $\Sigma\vec{F} = \vec{0}$ respeta el álgebra vectorial. Permite que existan interacciones masivas aplicadas sobre el cuerpo (magnitudes grandes), pero que, al apuntar en sentidos geométricamente opuestos, sus componentes se resten y se anulen entre sí. 
+
+\subsubsection*{Representación gráfica del contraste}
+El siguiente código en Python demuestra pedagógicamente cómo la suma de vectores opuestos permite el equilibrio, mientras que la suma de sus magnitudes escalares jamás lo haría.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(8, 3))
+
+ax.plot(0, 0, 'ko', markersize=8)
+
+ax.annotate('', xy=(-3, 0), xytext=(0, 0), 
+            arrowprops=dict(facecolor='red', width=2, headwidth=8))
+ax.text(-1.5, 0.3, 'F1 (Magnitud = 10 N)', color='red', ha='center')
+
+ax.annotate('', xy=(3, 0), xytext=(0, 0), 
+            arrowprops=dict(facecolor='blue', width=2, headwidth=8))
+ax.text(1.5, 0.3, 'F2 (Magnitud = 10 N)', color='blue', ha='center')
+
+ax.text(0, -0.6, 'Condicion Vectorial: F1 + F2 = 0 (SI hay Equilibrio)\nSuma de Magnitudes: 10 + 10 = 20 (NO hay Equilibrio)', 
+        ha='center', fontweight='bold', fontsize=10)
+
+ax.set_xlim(-5, 5)
+ax.set_ylim(-1.5, 1)
+ax.axis('off')
+plt.title('Vectores vs Magnitudes Escalares')
+
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+Es importante porque la fuerza es un vector. La primera afirmación ($\Sigma\vec{F} = \vec{0}$) hace posible el equilibrio mediante la cancelación geométrica de fuerzas que actúan en sentidos opuestos. La segunda afirmación es incorrecta porque al sumar solo escalares positivos, la única manera de obtener cero sería que no existiera ninguna fuerza actuando sobre el objeto, ignorando situaciones reales como un puente soportando toneladas de peso en equilibrio.
+
+\newpage
+\subsection*{Enunciado}
+Aristóteles habría dicho que un automóvil que circula a velocidad constante necesita que el motor lo empuje continuamente para mantenerse en movimiento. ¿Es eso correcto? ¿Para qué sirve realmente la fuerza del motor en ese caso? Usa el concepto de equilibrio en MRU en tu respuesta.
+
+\subsection*{Solución}
+
+\subsubsection*{Refutación del paradigma aristotélico}
+Desde la perspectiva de la física clásica (Galileo/Newton), la afirmación de Aristóteles es fundamentalmente incorrecta. El error histórico radicaba en no reconocer a la fricción como una fuerza externa invisible. Aristóteles creía que el movimiento era un estado forzado que decaía de forma natural al reposo, pero la Primera Ley de Newton establece que el movimiento inercial es un estado tan natural y perpetuo como el reposo, y no requiere en absoluto de una fuerza motriz intrínseca para subsistir.
+
+\subsubsection*{Análisis de las fuerzas disipativas en la realidad}
+En un entorno real y no idealizado, un automóvil que se desplaza por una autopista experimenta continuamente fuerzas que se oponen a su movimiento. Estas fuerzas disipativas incluyen la fricción cinética entre los neumáticos y el asfalto, y la resistencia aerodinámica que ejerce el fluido (el aire) contra el chasis del vehículo. Si el motor se apagara, estas fuerzas crearían una fuerza neta desequilibrada en sentido contrario al movimiento, provocando una desaceleración hasta el reposo.
+
+\subsubsection*{El rol del motor y el equilibrio dinámico}
+Para que el automóvil mantenga una "velocidad constante" (es decir, experimente un Movimiento Rectilíneo Uniforme), el sistema debe encontrarse obligatoriamente en un estado de equilibrio dinámico, lo cual exige que la sumatoria de todas las fuerzas en el eje horizontal sea cero ($\Sigma\vec{F} = \vec{0}$). La fuerza de propulsión generada por el motor no se utiliza para empujar al auto y obligarlo a moverse; su única función física es cancelar vectorialmente a las fuerzas disipativas.
+
+\subsubsection*{Representación del equilibrio dinámico del vehículo}
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(8, 3.5))
+
+ax.add_patch(plt.Rectangle((-1.5, -0.5), 3, 1, color='teal', alpha=0.5))
+ax.text(0, 0, 'Automovil', ha='center', va='center', fontweight='bold')
+
+ax.annotate('', xy=(3.5, 0), xytext=(1.5, 0), 
+            arrowprops=dict(facecolor='green', width=2, headwidth=8))
+ax.text(2.5, 0.3, 'Fuerza del Motor', color='green', ha='center')
+
+ax.annotate('', xy=(-3.5, 0), xytext=(-1.5, 0), 
+            arrowprops=dict(facecolor='red', width=2, headwidth=8))
+ax.text(-2.5, 0.3, 'Friccion Total', color='red', ha='center')
+
+ax.annotate('', xy=(0, 1.2), xytext=(0, 0.5), 
+            arrowprops=dict(edgecolor='blue', arrowstyle='->', lw=2))
+ax.text(0.1, 0.8, 'Velocidad Constante (MRU)', color='blue')
+
+ax.text(0, -0.8, 'F_motor = F_friccion  -->  Fuerza Neta = 0', 
+        ha='center', fontweight='bold', fontsize=11)
+
+ax.set_xlim(-4.5, 4.5)
+ax.set_ylim(-1.5, 1.5)
+ax.axis('off')
+plt.title('Equilibrio Dinamico en Traccion')
+
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+No es correcto. El movimiento en sí mismo se mantiene por inercia sin necesidad de impulso. La fuerza del motor sirve real y exclusivamente para equilibrar y cancelar las fuerzas de fricción del suelo y del aire. Al neutralizar la fricción, se asegura que la fuerza neta sea cero ($\Sigma\vec{F} = \vec{0}$), permitiendo que el automóvil permanezca en un estado de equilibrio en MRU conservando su velocidad por inercia pura.
+
+\newpage
+
+\subsection*{Enunciado}
+Un dron de reparto vuela horizontalmente a velocidad constante transportando un paquete. Cuando el dron vuela horizontalmente a velocidad constante, ¿en qué tipo de equilibrio se encuentra? Identifica todas las fuerzas que actúan sobre él en dirección horizontal y vertical.
+
+\subsection*{Solución}
+
+\subsubsection*{Análisis del estado cinemático}
+El concepto rector en esta situación es la frase "velocidad constante". Según la Primera Ley de Newton, si un objeto no presenta cambios en su rapidez ni en la dirección de su trayectoria, su aceleración es rigurosamente nula. Cuando la aceleración de un sistema es cero a pesar de estar en movimiento, decimos que el sistema se encuentra en un estado de inercia inalterada. En términos de mecánica de fuerzas, esto se define como un equilibrio dinámico.
+
+\subsubsection*{Identificación de las interacciones vectoriales}
+Para que el dron mantenga este equilibrio dinámico, las fuerzas que actúan sobre él deben cancelarse mutuamente en todos los ejes espaciales. 
+En la dirección vertical, la gravedad de la Tierra tira del sistema (dron más paquete) hacia abajo con una fuerza denominada Peso. Para evitar caer, los rotores del dron deben generar una fuerza aerodinámica hacia arriba conocida como Sustentación, cuya magnitud debe ser exactamente igual a la del peso.
+En la dirección horizontal, el avance del dron a través de la atmósfera genera una fuerza de fricción fluida que se opone al movimiento, llamada Resistencia del aire o arrastre. Para no perder velocidad y desacelerar, los rotores deben proporcionar una fuerza motriz hacia adelante, llamada Empuje, con una magnitud que anule exactamente a la resistencia.
+
+\subsubsection*{Representación en Diagrama de Cuerpo Libre}
+El siguiente código en Python genera el diagrama de fuerzas que ilustra cómo los vectores opuestos se anulan en pares, garantizando la condición de sumatoria de fuerzas igual a cero que requiere el MRU.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(7, 5))
+
+ax.add_patch(plt.Rectangle((-1, -0.5), 2, 1, color='teal', alpha=0.6))
+ax.text(0, 0, 'Dron +\nPaquete', ha='center', va='center', fontweight='bold')
+
+ax.annotate('', xy=(0, 2), xytext=(0, 0.5),
+            arrowprops=dict(facecolor='blue', shrink=0, width=2, headwidth=8))
+ax.text(0.1, 1.5, 'Sustentacion', color='blue')
+
+ax.annotate('', xy=(0, -2), xytext=(0, -0.5),
+            arrowprops=dict(facecolor='red', shrink=0, width=2, headwidth=8))
+ax.text(0.1, -1.5, 'Peso', color='red')
+
+ax.annotate('', xy=(3, 0), xytext=(1, 0),
+            arrowprops=dict(facecolor='green', shrink=0, width=2, headwidth=8))
+ax.text(2, 0.3, 'Empuje', color='green', ha='center')
+
+ax.annotate('', xy=(-3, 0), xytext=(-1, 0),
+            arrowprops=dict(facecolor='orange', shrink=0, width=2, headwidth=8))
+ax.text(-2, 0.3, 'Resistencia\ndel Aire', color='orange', ha='center')
+
+ax.set_xlim(-4, 4)
+ax.set_ylim(-3, 3)
+ax.axis('off')
+plt.title('Equilibrio Dinamico (MRU)')
+
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+El dron se encuentra en equilibrio dinámico. Las fuerzas son: en la vertical, el Peso (hacia abajo) y la Sustentación (hacia arriba); en la horizontal, el Empuje (hacia adelante) y la Resistencia del aire (hacia atrás).
+
+\newpage
+\subsection*{Enunciado}
+Un dron de reparto vuela horizontalmente a velocidad constante transportando un paquete. En determinado momento el dron se detiene en el aire y queda suspendido sin moverse. Cuando el dron queda suspendido inmóvil en el aire, ¿en qué tipo de equilibrio se encuentra ahora? ¿Cambió la fuerza neta al pasar de un estado al otro?
+
+\subsection*{Solución}
+
+\subsubsection*{Análisis del nuevo estado cinemático}
+Al detenerse por completo y quedar "suspendido inmóvil", el dron ha perdido toda su velocidad. Cuando la velocidad es cero y se mantiene constante en el tiempo, la aceleración sigue siendo nula. En la física newtoniana, a este estado de inmovilidad perfecta, donde todas las interacciones externas se neutralizan sobre un cuerpo en reposo, se le denomina equilibrio estático.
+
+\subsubsection*{Comparación de la condición de fuerza neta}
+El concepto más profundo aquí es entender qué exige la naturaleza para mantener el equilibrio. La Primera Ley de Newton no hace distinción entre el reposo (equilibrio estático) y el movimiento a velocidad constante (equilibrio dinámico); ambos requieren ineludiblemente que la fuerza neta externa sea estrictamente cero. 
+
+Al pasar de volar horizontalmente a estar suspendido, lo que cambió fue la configuración de las fuerzas individuales: el empuje horizontal y la resistencia del aire dejaron de existir al detenerse el avance, y la sustentación vertical y el peso siguieron anulándose mutuamente. Sin embargo, la sumatoria final de todos los vectores (la fuerza neta) era $0 \text{ N}$ durante el vuelo y sigue siendo $0 \text{ N}$ mientras está suspendido.
+
+\subsubsection*{Conclusión}
+Ahora se encuentra en un equilibrio estático. La fuerza neta no cambió en absoluto al pasar de un estado al otro; en ambos casos (equilibrio dinámico y equilibrio estático), la fuerza neta es estrictamente cero.
+
+\newpage
+\subsection*{Enunciado}
+Un dron de reparto vuela horizontalmente a velocidad constante transportando un paquete. En determinado momento el dron se detiene en el aire y queda suspendido sin moverse. El dron suelta el paquete desde esa posición. En el instante exacto en que lo suelta, ¿el dron sigue en equilibrio? ¿Por qué? ¿Qué ocurre con el paquete en ese instante?
+
+\subsection*{Solución}
+
+\subsubsection*{Análisis de la perturbación del sistema dron}
+Mientras el dron sostenía el paquete, sus rotores estaban configurados para generar una fuerza de sustentación ascendente que igualaba exactamente al peso combinado de la estructura del dron más la masa del paquete. En la fracción de segundo en que el paquete es liberado, esa masa extra desaparece del sistema físico del dron. Por lo tanto, el peso gravitacional que tira del dron hacia abajo disminuye abruptamente.
+Sin embargo, los rotores siguen girando a la misma velocidad en ese instante exacto, produciendo la misma fuerza de sustentación masiva. De repente, la fuerza hacia arriba es considerablemente mayor que el nuevo y reducido peso del dron vacío. La sumatoria de fuerzas verticales ya no es cero; existe una fuerza neta desequilibrada apuntando hacia arriba.
+
+\subsubsection*{Estado cinemático inicial del paquete}
+Por otro lado, al evaluar al paquete como un sistema aislado en el instante exacto de su liberación, se rompe su propio estado de equilibrio. Mientras estaba sujeto, el dron ejercía una fuerza normal o de tensión hacia arriba sobre el paquete que anulaba su peso. Al soltarse, esa fuerza de soporte desaparece. La única fuerza que actúa sobre el paquete en ese primer instante es la atracción de la gravedad (su peso) apuntando hacia abajo sin oposición. Además, como el dron estaba suspendido inmóvil, el paquete tiene una velocidad inicial de cero.
+
+\subsubsection*{Conclusión}
+El dron no sigue en equilibrio; pierde su estado estático porque al soltar el peso extra del paquete, la fuerza de sustentación de los rotores se vuelve mayor que el peso actual del dron, generando una fuerza neta hacia arriba que provocará que el dron acelere bruscamente en esa dirección. En ese mismo instante, el paquete queda sometido únicamente a la fuerza de gravedad y comienza a acelerar hacia abajo, iniciando una caída libre desde el reposo.
+
+\newpage
+
+\subsection*{Enunciado}
+Indica si la siguiente afirmación es verdadera o falsa y justifica tu respuesta: 
+
+Un objeto en equilibrio en MRU puede estar acelerando.
+
+\subsection*{Solución}
+
+\subsubsection*{Análisis cinemático del Movimiento Rectilíneo Uniforme}
+El Movimiento Rectilíneo Uniforme (MRU) se define conceptualmente por dos condiciones inquebrantables: la trayectoria debe ser una línea recta invariable y la rapidez debe mantenerse constante en el tiempo. La aceleración se define en física clásica como la tasa de cambio del vector velocidad (ya sea en magnitud o en dirección). 
+
+\subsubsection*{Relación entre MRU y aceleración}
+Dado que en el MRU el vector velocidad no experimenta ninguna modificación bajo ninguna métrica, es matemáticamente imposible la existencia de una aceleración. La aceleración de un objeto en MRU es rigurosamente cero ($a = 0$). Además, por la Segunda Ley de Newton, si existiera una aceleración, habría una fuerza neta desequilibrada ($\Sigma F \neq 0$), lo que automáticamente destruiría el estado de equilibrio.
+
+\subsubsection*{Conclusión}
+Falsa. Un objeto en equilibrio en MRU se mueve a velocidad constante en línea recta, lo que implica que no hay cambio en su velocidad. Por tanto, la aceleración es estrictamente cero. Si hubiera aceleración, la fuerza neta sería distinta de cero y el objeto ya no estaría en equilibrio.
+
+\newpage
+\subsection*{Enunciado}
+Indica si la siguiente afirmación es verdadera o falsa y justifica tu respuesta: 
+
+Para que un objeto esté en equilibrio es suficiente con que la suma de las magnitudes de las fuerzas sea cero.
+
+\subsection*{Solución}
+
+\subsubsection*{Diferenciación entre suma escalar y vectorial}
+En el análisis dinámico, las fuerzas operan como vectores, poseyendo magnitud, dirección y sentido. La afirmación confunde una suma escalar aritmética con una suma vectorial geométrica. Si sumamos puramente las "magnitudes" (valores numéricos absolutos que siempre son positivos), la única forma de que el resultado dé cero es que no exista ninguna fuerza aplicada.
+
+\subsubsection*{Condición real del equilibrio}
+La condición mecánica de equilibrio exige que la suma vectorial sea nula ($\Sigma\vec{F} = \vec{0}$). Esto permite que múltiples fuerzas de gran magnitud interactúen con el objeto, pero al estar orientadas en sentidos geométricamente opuestos, se anulan mutuamente (por ejemplo, $+10 \text{ N}$ y $-10 \text{ N}$).
+
+\subsubsection*{Conclusión}
+Falsa. Las fuerzas son magnitudes vectoriales. Para que exista equilibrio es indispensable que las fuerzas se anulen vectorialmente considerando sus direcciones y sentidos ($\Sigma\vec{F} = \vec{0}$). La suma escalar de sus magnitudes no representa la realidad física del equilibrio, ya que fuerzas opuestas cancelarían su efecto, pero la suma de sus magnitudes no sería cero.
+
+\newpage
+\subsection*{Enunciado}
+Indica si la siguiente afirmación es verdadera o falsa y justifica tu respuesta: 
+
+Un objeto puede estar en equilibrio, aunque sobre él actúen varias fuerzas.
+
+\subsection*{Solución}
+
+\subsubsection*{Principio de Superposición en el Equilibrio}
+El equilibrio dictado por la Primera Ley de Newton no requiere el aislamiento del objeto en el vacío. De hecho, en el entorno terrestre, es imposible encontrar un objeto sobre el cual no actúe al menos la fuerza de gravedad. El equilibrio permite una cantidad ilimitada de interacciones simultáneas.
+
+\subsubsection*{Cancelación vectorial}
+Lo que la física exige para mantener el estado inercial (reposo o MRU) es que la superposición total de todas esas fuerzas concurrentes colapse a cero. Mientras los vectores se cancelen entre sí simétricamente en todos los ejes cartesianos, el objeto no experimentará aceleración.
+
+\subsubsection*{Representación de múltiples fuerzas en equilibrio}
+Para visualizar cómo varias fuerzas pueden mantener a un objeto en equilibrio, se presenta el modelo de un objeto suspendido por dos cuerdas, donde las tres fuerzas involucradas se anulan.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(6, 5))
+
+ax.plot(0, 0, 'ko', markersize=10)
+ax.text(0.3, 0, 'Objeto', fontweight='bold')
+
+ax.annotate('', xy=(0, -2), xytext=(0, 0),
+            arrowprops=dict(facecolor='red', shrink=0, width=2, headwidth=8))
+ax.text(0.2, -1.5, 'Peso', color='red')
+
+ax.annotate('', xy=(-1.5, 2), xytext=(0, 0),
+            arrowprops=dict(facecolor='blue', shrink=0, width=2, headwidth=8))
+ax.text(-1.8, 1.5, 'Tension 1', color='blue')
+
+ax.annotate('', xy=(1.5, 2), xytext=(0, 0),
+            arrowprops=dict(facecolor='blue', shrink=0, width=2, headwidth=8))
+ax.text(1.2, 1.5, 'Tension 2', color='blue')
+
+ax.text(0, -3, 'Suma Vectorial (F_neta) = 0', ha='center', fontweight='bold', color='green')
+
+ax.set_xlim(-3, 3)
+ax.set_ylim(-3.5, 3)
+ax.axis('off')
+plt.title('Equilibrio Estatico con Multiples Fuerzas')
+
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+Verdadera. El equilibrio no exige la ausencia de fuerzas, sino que la suma vectorial de todas ellas sea cero. Es común observar objetos en equilibrio sometidos a dos fuerzas (un libro en una mesa con Peso y Normal) o más (un cuerpo colgado de múltiples cuerdas).
+
+\newpage
+\subsection*{Enunciado}
+Indica si la siguiente afirmación es verdadera o falsa y justifica tu respuesta: 
+
+El equilibrio en reposo y en MRU se diferencian en el valor de la fuerza neta.
+
+\subsection*{Solución}
+
+\subsubsection*{Equivalencia de estados inerciales}
+Tanto el reposo absoluto como el Movimiento Rectilíneo Uniforme constituyen los dos únicos estados de inercia inalterada reconocidos por la mecánica clásica. Dinámicamente, son idénticos. En ambos escenarios, el objeto no altera su vector velocidad, lo que significa que en ambos casos la aceleración es de $0 \text{ m/s}^2$. 
+
+\subsubsection*{Implicación de la aceleración nula}
+Aplicando la Segunda Ley de Newton, la fuerza neta es el producto de la masa por la aceleración. Si la aceleración es nula en ambos estados, la fuerza neta debe ser matemáticamente cero en ambos estados de igual manera. La única diferencia física entre ellos depende exclusivamente del sistema de referencia desde el cual se observa la velocidad, no de las fuerzas.
+
+\subsubsection*{Conclusión}
+Falsa. Tanto el equilibrio en reposo como en MRU comparten exactamente el mismo valor de fuerza neta: cero ($\Sigma\vec{F} = \vec{0}$). La diferencia entre ambos no radica en las interacciones dinámicas o la fuerza neta, sino puramente en su estado cinemático observable (velocidad nula versus velocidad constante).
+
+\newpage
+
+\subsection*{Enunciado}
+Un libro cuyo peso es de $12 \text{ N}$ descansa sobre una mesa. ¿Cuál es la magnitud de la fuerza normal que la mesa ejerce sobre el libro? ¿Cuál es la fuerza neta sobre el libro?
+
+\begin{center}
+\begin{tikzpicture}[scale=1]
+\draw[->, thick] (-3, 1) -- (-2, 1) node[right] {$x(+)$};
+\draw[->, thick] (-3, 1) -- (-3, 2) node[above] {$y(+)$};
+
+\fill[brown!70!black] (-1.5, -0.5) rectangle (1.5, 0);
+\draw[thick] (-1.5, 0) -- (1.5, 0);
+\draw[thick] (-1.5, -0.25) -- (1.5, -0.25);
+\draw[thick] (-1.5, -0.5) -- (1.5, -0.5);
+
+\fill[green!40!black] (-1.2, 0) rectangle (1.2, 0.4);
+\fill[white] (-1.1, 0.05) rectangle (1.2, 0.35);
+\draw[thick] (-1.2, 0) rectangle (1.2, 0.4);
+\draw[thick] (-1.1, 0.05) -- (1.2, 0.05);
+\draw[thick] (-1.1, 0.35) -- (1.2, 0.35);
+
+\draw[->, magenta, ultra thick] (0, 0.2) -- (0, 2) node[right, black] {$\vec{N}$};
+\draw[->, magenta, ultra thick] (0, 0.2) -- (0, -1.6) node[right, black] {$\vec{P}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{Análisis de las fuerzas concurrentes}
+Para resolver el problema, primero identificamos las interacciones físicas a las que está sometido el libro. El libro experimenta una fuerza de atracción gravitacional hacia el centro de la Tierra, la cual conocemos como su peso ($P$). Al estar apoyado sobre una superficie horizontal, la mesa reacciona a la compresión estructural ejerciendo una fuerza perpendicular de soporte hacia arriba, conocida conceptualmente como la fuerza normal ($N$). Ambas fuerzas actúan en la misma línea de acción vertical.
+
+\subsubsection*{Aplicación de la Primera Ley de Newton}
+El enunciado nos indica que el libro "descansa", lo cual es sinónimo de encontrarse en un estado de reposo absoluto. De acuerdo con la Primera Ley de Newton y el principio del equilibrio mecánico, para que un objeto permanezca en reposo continuo, la suma vectorial de todas las fuerzas aplicadas sobre él debe anularse. Es decir, la fuerza neta debe ser estrictamente cero ($\Sigma\vec{F} = \vec{0}$).
+
+\subsubsection*{Resolución Matemática}
+Estableciendo el eje vertical con dirección positiva hacia arriba ($+y$), procedemos a sumar las componentes de las fuerzas. La fuerza normal es positiva y el peso es negativo.
+$$\Sigma F_y = 0$$
+$$N - P = 0$$
+Despejando la fuerza normal, confirmamos que su magnitud debe ser idéntica a la del peso para mantener el equilibrio:
+$$N = P$$
+$$N = 12 \text{ N}$$
+
+Dado que el sistema satisface la ecuación de equilibrio $\Sigma\vec{F} = \vec{0}$ en todos sus ejes, podemos deducir de manera directa el valor de la fuerza neta.
+
+\subsubsection*{Representación en Diagrama de Cuerpo Libre}
+Para consolidar la demostración pedagógica de que los vectores se anulan matemáticamente produciendo un estado estático, se proporciona el siguiente script en Python que genera el Diagrama de Cuerpo Libre aislado del libro.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(4, 5))
+
+ax.plot(0, 0, 'ks', markersize=15)
+ax.text(0.3, 0, 'Libro', va='center', fontweight='bold')
+
+ax.annotate('', xy=(0, 2), xytext=(0, 0.15),
+            arrowprops=dict(facecolor='magenta', shrink=0, width=2, headwidth=8))
+ax.text(0.2, 1.5, 'Fuerza Normal (N)', color='magenta')
+
+ax.annotate('', xy=(0, -2), xytext=(0, -0.15),
+            arrowprops=dict(facecolor='magenta', shrink=0, width=2, headwidth=8))
+ax.text(0.2, -1.5, 'Peso (P)', color='magenta')
+
+ax.text(0, -3, 'Fuerza Neta = 0 N\n(Equilibrio Estatico)', ha='center', fontweight='bold')
+
+ax.set_xlim(-2, 2)
+ax.set_ylim(-3.5, 2.5)
+ax.axhline(0, color='gray', linestyle='--', alpha=0.4)
+ax.axis('off')
+plt.title('Diagrama de Cuerpo Libre')
+
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+La magnitud de la fuerza normal que ejerce la mesa sobre el libro es de $12 \text{ N}$ dirigida hacia arriba. La fuerza neta sobre el libro es de $0 \text{ N}$, garantizando que el cuerpo permanezca en reposo de acuerdo con los principios de equilibrio inercial de la Primera Ley de Newton.
+
+\newpage
+
+\subsection*{Enunciado}
+Un objeto cuelga de dos cuerdas verticales. La tensión en la cuerda izquierda es de $40 \text{ N}$ y en la cuerda derecha es de $60 \text{ N}$. ¿Cuánto pesa el objeto? ¿Está en equilibrio?
+
+\subsection*{Solución}
+
+\subsubsection*{Identificación del sistema de fuerzas}
+Para determinar el estado mecánico del objeto, primero debemos identificar todas las interacciones vectoriales a las que está sometido. En el eje vertical, el objeto experimenta tres fuerzas concurrentes: la tensión de la cuerda izquierda ($T_1$) dirigida hacia arriba, la tensión de la cuerda derecha ($T_2$) también dirigida hacia arriba, y la fuerza de atracción gravitacional o peso ($P$) dirigida hacia abajo.
+
+\subsubsection*{Aplicación de la Primera Ley de Newton}
+El enunciado indica que el objeto "cuelga", lo cual establece de forma implícita que se encuentra en un estado de reposo absoluto. Según la Primera Ley de Newton, para que un cuerpo se mantenga en reposo, la suma vectorial de todas las fuerzas que actúan sobre él debe ser estrictamente cero ($\Sigma\vec{F} = \vec{0}$). Estableciendo un sistema de referencia cartesiano con la dirección hacia arriba como positiva ($+y$), la ecuación de equilibrio inercial se formula de la siguiente manera:
+$$\Sigma F_y = 0$$
+$$T_1 + T_2 - P = 0$$
+
+\subsubsection*{Resolución matemática}
+A partir de la ecuación de equilibrio dinámico, despejamos la variable desconocida, que en este caso es la magnitud del peso ($P$):
+$$P = T_1 + T_2$$
+Sustituyendo las magnitudes físicas proporcionadas por el problema:
+$$P = 40 \text{ N} + 60 \text{ N} = 100 \text{ N}$$
+La suma de las tensiones que tiran hacia arriba es de $100 \text{ N}$ y el peso que tira hacia abajo es de $100 \text{ N}$. La suma vectorial en el eje vertical es efectivamente cero, confirmando el cumplimiento del estado de inercia.
+
+\subsubsection*{Representación en Diagrama de Cuerpo Libre}
+Para visualizar la distribución asimétrica de estas fuerzas y su cancelación vectorial, se presenta el siguiente script en Python que genera el diagrama de cuerpo libre del sistema, emulando la gráfica requerida para la comprensión estructural.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(5, 6))
+
+ax.annotate('', xy=(-2.5, 2.5), xytext=(-2.5, 0.5), arrowprops=dict(facecolor='black', width=1, headwidth=6))
+ax.annotate('', xy=(-0.5, 0.5), xytext=(-2.5, 0.5), arrowprops=dict(facecolor='black', width=1, headwidth=6))
+ax.text(-2.5, 2.8, 'y (+)', ha='center', fontweight='bold')
+ax.text(-0.2, 0.5, 'x (+)', va='center', fontweight='bold')
+
+ax.add_patch(plt.Rectangle((-1, -1.5), 2, 3, color='burlywood', ec='black', lw=1.5))
+ax.plot([-0.6, 0.2, 0.8, -0.4, 0.6], [-0.5, 0, -1, -0.8, -1.2], color='black', alpha=0.6, lw=1.5)
+
+ax.annotate('', xy=(-0.5, 3.5), xytext=(-0.5, 1.5),
+            arrowprops=dict(facecolor='magenta', shrink=0, width=2.5, headwidth=9))
+ax.text(-0.7, 3, 'T1', color='black', ha='right', fontsize=12, fontweight='bold')
+
+ax.annotate('', xy=(0.5, 4.5), xytext=(0.5, 1.5),
+            arrowprops=dict(facecolor='magenta', shrink=0, width=2.5, headwidth=9))
+ax.text(0.7, 4, 'T2', color='black', ha='left', fontsize=12, fontweight='bold')
+
+ax.annotate('', xy=(0, -4.5), xytext=(0, -1.5),
+            arrowprops=dict(facecolor='magenta', shrink=0, width=2.5, headwidth=9))
+ax.text(0.2, -4, 'P', color='black', ha='left', fontsize=12, fontweight='bold')
+
+ax.set_xlim(-3.5, 2.5)
+ax.set_ylim(-5, 5.5)
+ax.axis('off')
+plt.title('Diagrama de Cuerpo Libre: Fuerzas Concurrentes')
+
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+El objeto pesa $100 \text{ N}$ y sí está en equilibrio en reposo porque $\Sigma\vec{F} = \vec{0}$. 
+
+Nota pedagógica importante: La tensión no se distribuye equitativamente entre las dos cuerdas (la cuerda derecha soporta $60 \text{ N}$, mientras que la izquierda solo $40 \text{ N}$). Esto es un indicativo físico de que el centro de gravedad del objeto no está perfectamente centrado entre los dos puntos de anclaje; sin embargo, sin importar la distribución interna, para mantener el equilibrio traslacional, la suma de ambas tensiones ascendentes siempre debe igualar a la magnitud del peso total.
+
+\newpage
+
+\subsection*{Enunciado}
+Una caja se empuja horizontalmente sobre el suelo y se mueve en línea recta a velocidad constante. La fuerza aplicada es de $90 \text{ N}$. ¿Cuánto vale la fuerza de fricción? ¿En qué tipo de equilibrio se encuentra la caja?
+
+\begin{center}
+\begin{tikzpicture}[scale=1]
+\draw[->, thick] (-3, 1) -- (-2, 1) node[right] {$x(+)$};
+\draw[->, thick] (-3, 1) -- (-3, 2) node[above] {$y(+)$};
+
+\fill[magenta!20] (-2, -0.1) rectangle (2, 0);
+\draw[thick, magenta] (-2, 0) -- (2, 0);
+
+\fill[orange!30] (-0.8, 0) rectangle (0.8, 1.5);
+\draw[thick] (-0.8, 0) rectangle (0.8, 1.5);
+\draw[thick, alpha=0.5] (-0.5, 0.2) .. controls (-0.1, 0.6) and (0.1, 0.1) .. (0.4, 0.5) .. controls (0.5, 0.7) and (0.6, 0.3) .. (0.7, 0.4);
+
+\draw[<-, thick, dashed] (-1.8, -0.3) -- (-0.2, -0.3) node[midway, below] {Fuerza de fricci\'on};
+\draw[->, thick, dashed] (0.2, -0.3) -- (1.8, -0.3) node[midway, below] {Fuerza aplicada};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{Análisis cinemático y conceptualización del estado}
+El enunciado nos proporciona una premisa fundamental para la dinámica clásica: la caja se mueve "en línea recta a velocidad constante". Esta condición cinemática describe un Movimiento Rectilíneo Uniforme (MRU). La velocidad no experimenta alteraciones en su magnitud (no acelera ni frena) ni en su dirección (no gira). Por definición, si no hay cambio en el vector velocidad, la aceleración del sistema es exactamente cero ($a = 0$). 
+
+Según la Primera Ley de Newton, la inercia de un cuerpo se mantiene inalterada a menos que una fuerza externa neta actúe sobre él. Puesto que la aceleración es nula, la Segunda Ley de Newton ($\Sigma\vec{F} = m \cdot \vec{a}$) nos garantiza matemáticamente que la fuerza neta externa sobre la caja debe ser cero. A este estado, donde existe movimiento pero no aceleración debido a la cancelación de fuerzas, se le denomina equilibrio dinámico.
+
+\subsubsection*{Evaluación de las fuerzas concurrentes en el eje horizontal}
+Para que la fuerza neta sea nula en el eje del movimiento (el eje horizontal $x$), todas las fuerzas que actúan en dicho eje deben anularse mutuamente. 
+Identificamos dos fuerzas horizontales que interactúan con la caja:
+1. La fuerza de empuje aplicada de $90 \text{ N}$, que, adoptando la convención del diagrama, actúa hacia la derecha (dirección positiva).
+2. La fuerza de fricción cinética, que surge por el contacto entre las superficies de la caja y el suelo. La naturaleza fundamental de la fricción es oponerse al deslizamiento relativo, por lo que actúa invariablemente en sentido contrario al movimiento (hacia la izquierda, dirección negativa).
+
+\subsubsection*{Planteamiento de la ecuación de equilibrio}
+Estableciendo la sumatoria de fuerzas en el eje $x$ e igualándola a cero por la condición de equilibrio:
+$$\Sigma F_x = 0$$
+$$F_{\text{aplicada}} - F_{\text{fricción}} = 0$$
+Despejamos la fuerza desconocida:
+$$F_{\text{fricción}} = F_{\text{aplicada}}$$
+Sustituyendo el valor dado en el problema:
+$$F_{\text{fricción}} = 90 \text{ N}$$
+
+\subsubsection*{Representación en Diagrama de Cuerpo Libre}
+Para reforzar la comprensión pedagógica de que el movimiento constante no implica una fuerza neta a favor del avance, se incluye el siguiente código en Python que dibuja el sistema equilibrado. Visualmente, el vector que impulsa la caja tiene la misma longitud que el vector que la frena.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(7, 3))
+
+ax.add_patch(plt.Rectangle((-1, -0.5), 2, 1.2, color='sandybrown', ec='black', lw=1.5))
+ax.text(0, 0.1, 'Caja', ha='center', va='center', fontweight='bold', fontsize=12)
+
+ax.annotate('', xy=(3.5, 0), xytext=(1, 0),
+            arrowprops=dict(facecolor='green', shrink=0, width=2, headwidth=8))
+ax.text(2.25, 0.3, 'F_aplicada = 90 N', color='green', ha='center', fontweight='bold')
+
+ax.annotate('', xy=(-3.5, 0), xytext=(-1, 0),
+            arrowprops=dict(facecolor='red', shrink=0, width=2, headwidth=8))
+ax.text(-2.25, 0.3, 'F_friccion = 90 N', color='red', ha='center', fontweight='bold')
+
+ax.annotate('', xy=(0, 1.8), xytext=(0, 0.8),
+            arrowprops=dict(edgecolor='blue', arrowstyle='->', lw=2.5))
+ax.text(0.1, 1.3, 'v = constante', color='blue', fontweight='bold')
+
+ax.set_xlim(-4.5, 4.5)
+ax.set_ylim(-1.5, 2.5)
+ax.axhline(-0.5, color='gray', linewidth=3)
+ax.axis('off')
+plt.title('Diagrama de Cuerpo Libre: Equilibrio Dinamico', fontsize=11)
+
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+La fuerza de fricción tiene una magnitud exacta de $90 \text{ N}$ y actúa en sentido contrario al movimiento (hacia la izquierda). La caja se encuentra en un estado de equilibrio dinámico (específicamente, equilibrio en MRU), justificado por el hecho de que se mueve a velocidad constante, lo cual certifica que la fuerza neta aplicada sobre ella es igual a cero ($\Sigma\vec{F} = \vec{0}$).
+
+\newpage
+
+\subsection*{Enunciado}
+Un avión vuela horizontalmente a velocidad constante. El empuje de sus motores es de $180000 \text{ N}$. En un momento dado el piloto reduce la potencia de los motores de modo que el empuje cae a $140000 \text{ N}$. ¿Sigue el avión en equilibrio en MRU? ¿Qué ocurre con su velocidad? ¿Qué tendría que ocurrir con la resistencia del aire para que el avión recupere dicho equilibrio a una velocidad menor?
+
+\begin{center}
+\begin{tikzpicture}[scale=1]
+\draw[->, thick] (-4, 1) -- (-3, 1) node[right] {$x(+)$};
+\draw[->, thick] (-4, 1) -- (-4, 2) node[above] {$y(+)$};
+
+\fill[cyan!10] (-2, -0.4) rectangle (2, 0.4);
+\draw[thick] (-2, -0.4) rectangle (2, 0.4);
+\fill[cyan!20] (-0.5, -1) -- (1.5, 0) -- (-0.5, 1) -- cycle;
+\draw[thick] (-0.5, -1) -- (1.5, 0) -- (-0.5, 1) -- cycle;
+\node[font=\bfseries] at (0,0) {AVIÓN};
+
+\draw[<-, thick, dashed] (-3, -1.5) -- (0, -1.5) node[midway, below] {Resistencia del aire};
+\draw[->, thick, dashed] (0, -1.5) -- (3, -1.5) node[midway, below] {Empuje};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{Análisis del estado cinemático inicial}
+El problema comienza describiendo un sistema en "vuelo horizontal a velocidad constante". Esta premisa establece que inicialmente el avión se encontraba en un estado de equilibrio dinámico o Movimiento Rectilíneo Uniforme (MRU). Para que la aceleración sea nula y la velocidad se mantenga constante, la Primera Ley de Newton dicta que la fuerza neta debe ser cero. Esto implica que la fuerza de propulsión (empuje) de $180000 \text{ N}$ estaba siendo exactamente neutralizada por una fuerza de resistencia del aire de $180000 \text{ N}$ operando en sentido contrario.
+
+\subsubsection*{Evaluación de la perturbación del sistema}
+El equilibrio se rompe en el instante en que el piloto reduce mecánicamente el empuje a $140000 \text{ N}$. La resistencia del aire, debido a la inercia de la masa del avión, no cambia de manera instantánea; se mantiene momentáneamente en su valor previo de $180000 \text{ N}$ porque la velocidad aún no ha tenido tiempo de disminuir significativamente. 
+Planteando la ecuación de fuerzas en el eje horizontal (tomando el sentido del avance como positivo):
+$$\Sigma F_x = \text{Empuje} - \text{Resistencia del aire}$$
+$$\Sigma F_x = 140000 \text{ N} - 180000 \text{ N}$$
+$$\Sigma F_x = -40000 \text{ N}$$
+La fuerza neta resulta en $40000 \text{ N}$ con signo negativo. Este desequilibrio vectorial actúa en contra de la dirección del movimiento actual.
+
+\subsubsection*{Restablecimiento del equilibrio aerodinámico}
+Al existir una fuerza neta contraria al desplazamiento, la Segunda Ley de Newton provoca que el avión experimente una aceleración negativa (desaceleración). Consecuentemente, su velocidad comienza a disminuir de forma paulatina.
+En la dinámica de fluidos, la magnitud de la resistencia del aire es directamente dependiente de la velocidad del objeto. A medida que el avión pierde velocidad por la desaceleración, la fricción del aire disminuye proporcionalmente. Este proceso de pérdida de velocidad y disminución de resistencia continuará hasta que la resistencia del aire caiga al nuevo valor de empuje ($140000 \text{ N}$). En ese instante preciso, las fuerzas volverán a igualarse ($\Sigma F_x = 0$), la aceleración volverá a ser nula y el avión retornará a un estado de MRU.
+
+\subsubsection*{Representación del desequilibrio transitorio}
+Para ilustrar la fase de transición donde el equilibrio se pierde, el siguiente código en Python genera el diagrama de fuerzas asimétricas, mostrando cómo la resistencia del aire supera momentáneamente al empuje del motor, forzando la desaceleración del vehículo.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(8, 3.5))
+
+ax.add_patch(plt.Rectangle((-1.5, -0.5), 3, 1, color='skyblue', ec='black', lw=1.5))
+ax.text(0, 0, 'Avion', ha='center', va='center', fontweight='bold', fontsize=12)
+
+ax.annotate('', xy=(2.2, 0), xytext=(1.5, 0),
+            arrowprops=dict(facecolor='green', shrink=0, width=2, headwidth=8))
+ax.text(1.85, 0.4, 'Empuje = 140 kN', color='green', ha='center', fontweight='bold')
+
+ax.annotate('', xy=(-3.5, 0), xytext=(-1.5, 0),
+            arrowprops=dict(facecolor='red', shrink=0, width=3, headwidth=10))
+ax.text(-2.5, 0.4, 'Resistencia = 180 kN', color='red', ha='center', fontweight='bold')
+
+ax.annotate('', xy=(-0.5, 1.2), xytext=(0.5, 1.2),
+            arrowprops=dict(edgecolor='orange', arrowstyle='->', lw=3))
+ax.text(0, 1.5, 'Desaceleracion (a)', color='orange', ha='center', fontweight='bold')
+
+ax.text(0, -1.2, 'Fuerza Neta = -40 kN (Hacia atras)', ha='center', fontweight='bold', color='purple')
+
+ax.set_xlim(-4.5, 3.5)
+ax.set_ylim(-1.5, 2.5)
+ax.axis('off')
+plt.title('Diagrama de Fuerzas: Fase Transitoria de Desaceleracion', fontsize=11)
+
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+Al reducir el empuje, el avión deja de estar en equilibrio (la fuerza neta pasa a ser de $-40000 \text{ N}$) y su velocidad comienza a disminuir drásticamente al desacelerar. Para que el avión recupere su equilibrio en MRU, la resistencia del aire tendrá que disminuir gradualmente junto con la pérdida de velocidad del avión, hasta igualarse con el nuevo empuje de $140000 \text{ N}$, estabilizándose en una nueva velocidad constante que será inferior a la inicial.
+
+\end{document}

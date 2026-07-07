@@ -1,0 +1,866 @@
+\documentclass[12pt, a4paper]{article}
+
+% --- PAQUETES ---
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{geometry}
+\usepackage[most]{tcolorbox}
+\usepackage{siunitx}
+\usepackage{enumitem}
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usepackage{verbatim} 
+\usepackage{listings}
+\usepackage{xcolor}
+
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta, calc, babel}
+\geometry{a4paper, margin=1in}
+
+% --- CONFIGURACIÓN DE LISTINGS (PYTHON) ---
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstset{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2,
+    language=Python
+}
+
+\title{Ejercicios Teóricos: Cinemática (Aceleración)}
+\author{Dataset Entrenamiento LLM}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\subsection*{Enunciado}
+Si la magnitud de la aceleración de una partícula que recorre por una trayectoria rectilínea disminuye con el tiempo, su rapidez:
+\begin{enumerate}[label=\alph*)]
+    \item necesariamente disminuye
+    \item permanece constante
+    \item necesariamente aumenta
+    \item puede aumentar o disminuir
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Dirección de la Aceleración y Variación de Rapidez}
+Es un error común pensar que si la aceleración disminuye, la partícula debe frenar. La magnitud de la aceleración ($|\vec{a}|$) solo nos dice "qué tan rápido está cambiando la velocidad", pero no en qué sentido.
+En un movimiento rectilíneo, existen dos posibilidades:
+\begin{itemize}
+    \item \textbf{Caso 1 ($\vec{v}$ y $\vec{a}$ en la misma dirección):} La partícula está acelerando. Si $|\vec{a}|$ disminuye, es el equivalente físico a "ir soltando el acelerador del auto poco a poco". Sigues ganando rapidez, pero cada vez sumas menos velocidad por segundo. \textbf{La rapidez aumenta.}
+    \item \textbf{Caso 2 ($\vec{v}$ y $\vec{a}$ en direcciones opuestas):} La partícula está frenando. Si $|\vec{a}|$ disminuye, es el equivalente a "ir soltando el pedal del freno poco a poco". Sigues perdiendo rapidez, pero de forma más suave. \textbf{La rapidez disminuye.}
+\end{itemize}
+
+Como el problema no especifica la dirección relativa entre los vectores velocidad y aceleración, no podemos determinar un solo comportamiento. Por lo tanto, la rapidez puede tanto aumentar como disminuir dependiendo de las condiciones iniciales.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large d) puede aumentar o disminuir
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una partícula que se mueve con aceleración diferente de cero, puede tener:
+\begin{enumerate}[label=\alph*)]
+    \item velocidad constante
+    \item velocidad cero, en cierto instante
+    \item velocidad cero, en todo instante
+    \item posición constante
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis de Puntos de Inflexión (Ej. Caída Libre)}
+Verifiquemos las opciones usando el cálculo diferencial $\vec{a} = d\vec{v}/dt$:
+\begin{itemize}
+    \item \textbf{Opción a:} Falsa. Si la velocidad es constante, su derivada es cero, por lo que la aceleración sería cero (contradice el enunciado $\vec{a} \neq 0$).
+    \item \textbf{Opción c y d:} Falsas. Si la posición o la velocidad fueran cero en "todo instante", la partícula estaría en reposo perpetuo, lo que implica aceleración nula.
+    \item \textbf{Opción b (Correcta):} Un cuerpo puede tener aceleración constante y cruzar momentáneamente por el reposo. El ejemplo clásico es lanzar una pelota verticalmente hacia arriba (Tiro Vertical). A medida que sube, la gravedad ($\vec{a} \approx -9.8 \hat{j} \, \si{m/s^2}$) frena la pelota. En el punto de \textbf{altura máxima}, la velocidad se hace exactamente cero por una fracción de segundo infinitesimal ($v = 0$), pero la aceleración de la gravedad sigue actuando plenamente, obligándola a iniciar su descenso.
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) velocidad cero, en cierto instante
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un satélite artificial de la Tierra se puede desplazar por una trayectoria prácticamente circular:
+\begin{enumerate}[label=\alph*)]
+    \item con velocidad constante
+    \item con rapidez constante
+    \item con aceleración constante
+    \item sin aceleración
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Variables Vectoriales en Órbitas Circulares}
+En un Movimiento Circular Uniforme (MCU), como el de un satélite en órbita circular estable, debemos diferenciar estrictamente los escalares de los vectores:
+\begin{itemize}
+    \item \textbf{Vector Velocidad ($\vec{v}$):} Apunta siempre tangente a la órbita. Como la órbita es un círculo, la dirección tangencial cambia a cada milímetro de avance. Al cambiar su dirección, el \textbf{vector velocidad es variable} (Opción a es falsa).
+    \item \textbf{Vector Aceleración ($\vec{a}$):} La aceleración centrípeta apunta siempre hacia el centro de la Tierra. A medida que el satélite gira, ese vector "hacia el centro" rota en el espacio. Al cambiar de dirección, el \textbf{vector aceleración es variable} (Opciones c y d son falsas).
+    \item \textbf{Rapidez ($v$):} Es la magnitud escalar del vector velocidad ($v = |\vec{v}|$). Esta indica cuántos metros recorre por segundo. En una órbita circular sin fricción, esta \textbf{magnitud se mantiene estrictamente constante}.
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) con rapidez constante
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Si un automóvil se mueve con rapidez constante sobre una carretera curva horizontal su:
+\begin{enumerate}[label=\alph*)]
+    \item velocidad es constante
+    \item aceleración es constante
+    \item aceleración es variable
+    \item aceleración es nula
+\end{enumerate}
+
+
+\subsection*{Solución}
+
+\subsubsection*{1. Corrección del Razonamiento Vectorial}
+\textit{Nota del Tutor: El estudiante seleccionó "aceleración es constante". Este es un grave error de análisis vectorial. Demostraremos por qué un auto en una curva jamás tiene aceleración constante, aunque su velocímetro no cambie.}
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def draw_car_curve():
+    fig, ax = plt.subplots(figsize=(6, 4))
+    ax.set_title("Vectores de Aceleración en una Curva")
+    
+    # Dibujar curva (Arco)
+    theta = np.linspace(np.pi/4, 3*np.pi/4, 100)
+    ax.plot(2*np.cos(theta), 2*np.sin(theta), 'k-', lw=3)
+    ax.plot(0, 0, 'ko') # Centro de curvatura
+    ax.text(0, -0.3, "Centro de curvatura")
+
+    # Posición 1 (Derecha)
+    ang1 = np.pi/3
+    ax.plot(2*np.cos(ang1), 2*np.sin(ang1), 'bo', markersize=8)
+    # Aceleración 1 (hacia el centro)
+    ax.arrow(2*np.cos(ang1), 2*np.sin(ang1), -0.8*np.cos(ang1), -0.8*np.sin(ang1), 
+             head_width=0.1, color='red', length_includes_head=True)
+    ax.text(1.2, 1.2, r'$\vec{a}_1$', color='red', fontsize=12)
+
+    # Posición 2 (Izquierda)
+    ang2 = 2*np.pi/3
+    ax.plot(2*np.cos(ang2), 2*np.sin(ang2), 'bo', markersize=8)
+    # Aceleración 2 (hacia el centro)
+    ax.arrow(2*np.cos(ang2), 2*np.sin(ang2), -0.8*np.cos(ang2), -0.8*np.sin(ang2), 
+             head_width=0.1, color='red', length_includes_head=True)
+    ax.text(-1.5, 1.2, r'$\vec{a}_2$', color='red', fontsize=12)
+
+    ax.set_xlim(-2.5, 2.5); ax.set_ylim(-0.5, 2.5); ax.axis('off')
+    plt.show()
+
+draw_car_curve()
+\end{lstlisting}
+
+Al tomar una curva con rapidez constante, la aceleración tangencial es cero ($a_T = 0$), pero existe una **aceleración normal o centrípeta** ($\vec{a}_N$) que es la encargada de cambiar la dirección del auto. 
+El vector $\vec{a}_N$ apunta en todo momento perpendicular a la velocidad y dirigido hacia el centro instantáneo de curvatura. 
+Como se observa en el gráfico, a medida que el auto avanza por la curva, el vector de aceleración tiene que \textbf{rotar} para seguir apuntando hacia el centro. 
+En física matemática, dos vectores solo son iguales (constantes) si mantienen su magnitud \textbf{y su dirección}. Puesto que la dirección del vector aceleración está cambiando a cada instante, la aceleración se clasifica indiscutiblemente como \textbf{variable}.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) aceleración es variable
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Seleccione la aseveración \textbf{incorrecta}. Es posible que una partícula:
+\begin{enumerate}[label=\alph*)]
+    \item cambie la dirección de la velocidad y su vector aceleración sea constante
+    \item se mueva con rapidez constante y tenga aceleración variable
+    \item tenga velocidad constante y aceleración variable
+    \item tenga aceleración constante y velocidad variable
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Demostración de Imposibilidad Física (Refutación de error)}
+\textit{Nota del Tutor: El estudiante parece haber marcado la opción 'b', lo cual es un error ya que la opción 'b' SÍ es físicamente posible (ej. Movimiento Circular Uniforme). El problema nos pide encontrar la afirmación que es Falsa/Incorrecta.}
+
+Analicemos la veracidad de cada postulado:
+\begin{itemize}
+    \item \textbf{Opción a:} Verdadera. En el tiro parabólico, la dirección de la velocidad cambia trazando una parábola, pero la aceleración (gravedad) es un vector constante apuntando hacia abajo todo el tiempo.
+    \item \textbf{Opción b:} Verdadera. Lo acabamos de demostrar en el Ejercicio 4. En una curva a rapidez constante, la dirección de la aceleración centrípeta cambia, volviéndola variable.
+    \item \textbf{Opción d:} Verdadera. En caída libre, la aceleración es constante ($\approx -9.8 \hat{j}$), pero la velocidad varía segundo a segundo.
+    \item \textbf{Opción c (Incorrecta, por tanto es la respuesta):} Nos dice que una partícula puede tener "velocidad constante y aceleración variable". Evaluemos esto con cálculo. Si el vector velocidad es constante ($\vec{v} = \vec{C}$), su derivada temporal obligatoriamente tiene que ser cero ($\vec{a} = d\vec{C}/dt = \vec{0}$). \textbf{Es matemáticamente imposible} que una partícula tenga velocidad constante y exista cualquier tipo de aceleración, y mucho menos una aceleración variable.
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) tenga velocidad constante y aceleración variable
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Señale el gráfico que representa al movimiento de un cuerpo que acelera uniformemente desde el reposo, a lo largo del eje x:
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    % --- GRAFICO A ---
+    \begin{scope}[xshift=0cm]
+        \draw[->] (-0.5,0) -- (3,0) node[right] {\footnotesize $t(s)$};
+        \draw[->] (0,-1) -- (0,3) node[above] {\footnotesize $x(m)$};
+        \draw[thick] (0,0) -- (1.5, 2) -- (2.8, 0);
+        \draw[dashed] (1.5,0) node[below] {\footnotesize 5} -- (1.5,2);
+        \draw[dashed] (0,2) -- (1.5,2);
+        \node at (1.5, -1) {a.};
+    \end{scope}
+    
+    % --- GRAFICO B ---
+    \begin{scope}[xshift=4.5cm]
+        \draw[->] (-0.5,0) -- (3,0) node[right] {\footnotesize $t(s)$};
+        \draw[->] (0,-1.5) -- (0,3) node[above] {\footnotesize $x(m)$};
+        \draw[thick] (0,-1) -- (2.8, 1.5);
+        \node at (1.1, -0.3) {\footnotesize 5};
+        \draw[dashed] (2.8,0) node[below] {\footnotesize 10} -- (2.8,1.5) -- (0,1.5);
+        \node at (1.5, -1) {b.};
+    \end{scope}
+
+    % --- GRAFICO C ---
+    \begin{scope}[xshift=9cm]
+        \draw[->] (-0.5,0) -- (3,0) node[right] {\footnotesize $t(s)$};
+        \draw[->] (0,-1) -- (0,3) node[above] {\footnotesize $v_x(m/s)$};
+        \draw[thick] (0,0) -- (2.8, 2);
+        \draw[dashed] (1.4,0) node[below] {\footnotesize 5} -- (1.4,1);
+        \draw[dashed] (2.8,0) node[below] {\footnotesize 10} -- (2.8,2);
+        \node at (1.5, -1) {c.};
+    \end{scope}
+
+    % --- GRAFICO D ---
+    \begin{scope}[xshift=13.5cm]
+        \draw[->] (-0.5,0) -- (3,0) node[right] {\footnotesize $t(s)$};
+        \draw[->] (0,-1) -- (0,3) node[above] {\footnotesize $a_x(m/s^2)$};
+        \draw[thick] (0,1) -- (1.4, 1);
+        \draw[thick] (1.4,2.5) -- (2.8, 2.5);
+        \draw[dashed] (1.4,0) node[below] {\footnotesize 5} -- (1.4,2.5);
+        \draw[dashed] (2.8,0) node[below] {\footnotesize 10} -- (2.8,2.5);
+        \node at (1.5, -1) {d.};
+    \end{scope}
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Modelado de Ecuaciones Cinemáticas}
+Analicemos la frase clave del enunciado: \textbf{"acelera uniformemente desde el reposo"}.
+\begin{itemize}
+    \item "Desde el reposo": Significa que la velocidad inicial es cero ($v_{0x} = 0$).
+    \item "Acelera uniformemente": Significa que la aceleración es una constante positiva ($a_x = k > 0$).
+\end{itemize}
+
+Evaluamos qué pasa con cada variable cinemática en función del tiempo:
+\begin{enumerate}
+    \item \textbf{Aceleración ($a_x$):} Debería ser una línea recta horizontal continua. El gráfico 'd' muestra un salto (aceleración variable en pasos). Se descarta.
+    \item \textbf{Posición ($x$):} La ecuación es $x(t) = x_0 + v_{0x}t + \frac{1}{2}a_x t^2$. Al ser $v_{0x}=0$, queda $x(t) = x_0 + k t^2$, lo cual es una parábola. Los gráficos 'a' y 'b' muestran líneas rectas para la posición, lo que implica velocidad constante (aceleración cero). Se descartan.
+    \item \textbf{Velocidad ($v_x$):} La ecuación es $v_x(t) = v_{0x} + a_x t$. Como parte del reposo, queda $v_x(t) = a_x t$. Esta es la ecuación de una línea recta que pasa por el origen $(0,0)$ con pendiente positiva. El gráfico 'c' representa exactamente esta función matemática.
+\end{enumerate}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Al instante $20\,\si{s}$ la aceleración del cuerpo A comparada con la aceleración de B:
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex]
+    \draw[->] (-0.5,0) -- (5,0) node[right] {\footnotesize $t(s)$};
+    \draw[->] (0,-0.5) -- (0,3) node[above] {\footnotesize $v (m/s)$};
+    
+    % Valores Y
+    \node[left] at (0,1) {\footnotesize 5};
+    \node[left] at (0,2) {\footnotesize 10};
+    \node[left] at (0,2.8) {\footnotesize 15};
+    
+    % Linea A
+    \draw[thick] (0,2) -- (4,2) node[above] {$A$};
+    
+    % Linea B
+    \draw[thick] (0,2.8) -- (4,-0.2) node[above right] {$B$};
+    
+    % Valor X
+    \draw[dashed] (3.73,0) -- (3.73,-0.2);
+    \node[below] at (3.73,0) {\footnotesize 20};
+\end{tikzpicture}
+\end{center}
+
+\begin{enumerate}[label=\alph*)]
+    \item es mayor
+    \item es menor
+    \item es igual
+    \item puede ser igual
+\end{enumerate}
+
+
+\subsection*{Solución}
+
+\subsubsection*{1. Ambigüedad Semántica: Valor Algebraico vs. Magnitud}
+\textit{Nota de Tutor: El estudiante marcó la opción 'b' (es menor). En física, este tipo de preguntas suele generar confusión porque la palabra "aceleración" se usa a veces como el vector/componente con signo, y a veces como su magnitud pura. Analicemos ambas para encontrar la lógica de la respuesta de un examen estándar.}
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+def draw_vt_slopes():
+    fig, ax = plt.subplots(figsize=(6, 4))
+    ax.set_title("Cálculo de pendientes en v-t (Aceleración)")
+    
+    ax.spines['left'].set_position('zero')
+    ax.spines['bottom'].set_position('zero')
+    ax.spines['right'].set_color('none')
+    ax.spines['top'].set_color('none')
+    
+    # Linea A (Pendiente = 0)
+    ax.plot([0, 25], [10, 10], 'b-', lw=2, label='Cuerpo A')
+    ax.text(10, 10.5, r'$a_A = \frac{dv}{dt} = 0$', color='blue', fontsize=12)
+    
+    # Linea B (Pendiente negativa)
+    # Pasa por (0, 15) y asumiendo que cruza en t=20, pasa por (20, 0)
+    # Ecuacion: v = -15/20 t + 15 = -0.75 t + 15
+    ax.plot([0, 25], [15, -3.75], 'r-', lw=2, label='Cuerpo B')
+    ax.text(5, 5, r'$a_B = \frac{0-15}{20-0} = -0.75$', color='red', fontsize=12, rotation=-35)
+    
+    ax.plot(20, 0, 'ko'); ax.text(20, 0.5, "t=20")
+    
+    ax.set_xlim(-2, 26); ax.set_ylim(-5, 18)
+    ax.legend()
+    plt.show()
+
+draw_vt_slopes()
+\end{lstlisting}
+
+La aceleración en un gráfico de velocidad-tiempo corresponde a la pendiente de la recta ($m = \frac{\Delta v}{\Delta t}$).
+\begin{itemize}
+    \item \textbf{Cuerpo A:} Es una recta horizontal. Su velocidad no cambia. Pendiente nula: $a_A = 0 \,\si{m/s^2}$.
+    \item \textbf{Cuerpo B:} Es una recta descendente. Pierde velocidad con el tiempo. Pendiente negativa: $a_B < 0$ (específicamente $a_B = -0.75 \,\si{m/s^2}$).
+\end{itemize}
+
+**Interpretación 1 (Algebraica Estricta):** En la recta numérica, el cero es matemáticamente \textit{mayor} que cualquier número negativo ($0 > -0.75$). Bajo esta lupa, la aceleración de A sería mayor que la de B.
+**Interpretación 2 (Magnitud Física):** En cinemática, el signo negativo solo indica que la aceleración apunta en sentido contrario al eje referencial. Para saber quién experimenta un cambio de velocidad "más fuerte", comparamos sus módulos o magnitudes: $|a_A| = 0$ y $|a_B| = 0.75$. Físicamente, el cuerpo B está sometido a una fuerza de frenado, mientras A no siente ninguna fuerza. Por tanto, la intensidad de la aceleración de A es \textbf{menor} que la de B ($0 < 0.75$).
+
+Dado que la opción marcada como correcta en el contexto de exámenes básicos suele referirse a la intensidad del fenómeno físico (magnitud), validamos que la aceleración que sufre A (ninguna) es menor a la que sufre B.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) es menor
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Para que exista movimiento curvilíneo, la aceleración al menos debe tener:
+\begin{enumerate}[label=\alph*)]
+    \item una componente perpendicular a la velocidad
+    \item una componente paralela a la velocidad
+    \item una magnitud mayor a la de la velocidad
+    \item una magnitud mayor a cero
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Condiciones para Curvar una Trayectoria}
+En el estudio de las componentes intrínsecas de la aceleración ($\vec{a} = \vec{a}_T + \vec{a}_N$):
+\begin{itemize}
+    \item La componente paralela a la velocidad ($\vec{a}_T$, aceleración tangencial) se encarga exclusivamente de alterar la \textit{rapidez} escalar de la partícula (hacer que vaya más rápido o más lento). No tiene la capacidad de curvar el movimiento. Si solo existe esta componente, el movimiento será obligatoriamente rectilíneo.
+    \item La componente perpendicular a la velocidad ($\vec{a}_N$, aceleración normal o centrípeta) es la encargada exclusiva de alterar la \textit{dirección} del vector velocidad.
+\end{itemize}
+Por definición, una trayectoria es curvilínea si y solo si la dirección de su velocidad cambia en el espacio. Por lo tanto, el requisito absoluto e indispensable es la existencia de una fuerza (y por ende una aceleración) que actúe de manera ortogonal/perpendicular al movimiento.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large a) una componente perpendicular a la velocidad
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un cuerpo se mueve por una trayectoria curvilínea con aceleración tangencial de magnitud constante, no nula. El movimiento del cuerpo necesariamente es:
+\begin{enumerate}[label=\alph*)]
+    \item uniforme
+    \item retardado
+    \item acelerado
+    \item uniformemente variado
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Refutación de Errores de Lectura}
+\textit{Nota de Tutor: El estudiante marcó la opción 'a' (uniforme) e incluso escribió apuntes correctos sobre aceleración tangencial, pero falló en la conclusión final. Corrijamos esta contradicción.}
+
+\begin{itemize}
+    \item \textbf{Opción a (Uniforme):} Por definición cinemática, un movimiento "uniforme" es aquel donde la rapidez no cambia en absoluto ($v = \text{cte}$). Esto requiere obligatoriamente que la aceleración tangencial sea cero ($a_T = 0$). El enunciado dice explícitamente "aceleración tangencial... \textbf{no nula}". Por lo tanto, es imposible que sea uniforme.
+    \item \textbf{Opciones b y c (Retardado / Acelerado):} No podemos afirmarlo. No sabemos si esa aceleración tangencial constante está a favor del movimiento (acelerado) o en contra (retardado).
+    \item \textbf{Opción d (Correcta):} La premisa dice "$a_T = \text{constante} \neq 0$". Esto significa que la rapidez de la partícula está aumentando o disminuyendo exactamente en la misma cantidad cada segundo (una variación uniforme y constante de la rapidez). Esta es la definición de libro de texto de un movimiento \textbf{Uniformemente Variado} (al ser curva, sería Movimiento Curvilíneo Uniformemente Variado - MCUV).
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large d) uniformemente variado
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+En un instante determinado, una partícula tiene una velocidad de $40\hat{i} - 30\hat{j} \,\si{m/s}$ y una aceleración de $20\hat{i} + 15\hat{j} \,\si{m/s^2}$, el movimiento de la partícula es:
+\begin{enumerate}[label=\alph*)]
+    \item uniforme
+    \item retardado
+    \item rectilíneo
+    \item curvilíneo
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Evaluación Vectorial mediante Productos (Punto y Cruz)}
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+def draw_v_a_vectors():
+    fig, ax = plt.subplots(figsize=(5, 5))
+    ax.set_title("Vectores Velocidad y Aceleración")
+    ax.axhline(0, color='gray', lw=1); ax.axvline(0, color='gray', lw=1)
+    
+    # Origen comun para visualizar angulo
+    origin = [0], [0]
+    
+    # Vector Velocidad (40, -30)
+    ax.quiver(*origin, 40, -30, angles='xy', scale_units='xy', scale=1, color='blue', width=0.01)
+    ax.text(20, -20, r'$\vec{v} (40\hat{i} - 30\hat{j})$', color='blue', fontsize=12)
+    
+    # Vector Aceleracion (20, 15)
+    ax.quiver(*origin, 20, 15, angles='xy', scale_units='xy', scale=1, color='red', width=0.01)
+    ax.text(10, 10, r'$\vec{a} (20\hat{i} + 15\hat{j})$', color='red', fontsize=12)
+    
+    ax.set_xlim(-5, 45); ax.set_ylim(-35, 20)
+    plt.grid(True, linestyle=':')
+    plt.show()
+
+draw_v_a_vectors()
+\end{lstlisting}
+
+Para clasificar el movimiento, debemos encontrar la relación angular entre el vector velocidad ($\vec{v}$) y el vector aceleración ($\vec{a}$). 
+
+\textbf{Paso 1: ¿Es rectilíneo o curvilíneo?}
+Para que el movimiento sea rectilíneo, los vectores $\vec{v}$ y $\vec{a}$ deben ser paralelos o colineales. Esto se prueba verificando si su producto vectorial (producto cruz) es cero, o si sus proporciones son iguales.
+Calculamos el producto cruz $\vec{v} \times \vec{a}$:
+$$ \vec{v} \times \vec{a} = (v_x a_y - v_y a_x) \hat{k} $$
+$$ \vec{v} \times \vec{a} = [(40)(15) - (-30)(20)] \hat{k} $$
+$$ \vec{v} \times \vec{a} = [600 - (-600)] \hat{k} = 1200 \hat{k} $$
+Como el producto cruz es distinto de cero ($\vec{v} \times \vec{a} \neq \vec{0}$), los vectores \textbf{no son paralelos}. Al existir un ángulo distinto a $0^\circ$ o $180^\circ$ entre ellos, existe obligatoriamente una componente de aceleración normal. Por lo tanto, el movimiento es ineludiblemente \textbf{curvilíneo}.
+
+*(Nota adicional: Para saber si acelera o se retarda sobre esa curva, calculamos el producto punto $\vec{v} \cdot \vec{a} = (40)(20) + (-30)(15) = 800 - 450 = 350$. Al ser positivo, el ángulo es agudo y la partícula está acelerando).*
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large d) curvilíneo
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+En un tiro parabólico ideal (despreciando la resistencia del aire), a medida que el proyectil asciende desde el punto de lanzamiento hasta alcanzar su altura máxima, el ángulo espacial que forman el vector velocidad ($\vec{v}$) y el vector aceleración ($\vec{a}$):
+\begin{enumerate}[label=\alph*)]
+    \item Es agudo y disminuye progresivamente
+    \item Es agudo y aumenta progresivamente
+    \item Es obtuso y aumenta progresivamente
+    \item Es obtuso y disminuye progresivamente
+    \item Permanece constante a $90^\circ$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Geometría Vectorial del Tiro Parabólico}
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def draw_projectile_angles():
+    fig, ax = plt.subplots(figsize=(7, 4))
+    ax.set_title("Ángulo entre $\\vec{v}$ y $\\vec{a}$ en ascenso")
+    
+    # Trayectoria
+    x = np.linspace(0, 5, 50)
+    y = -0.5 * (x - 2.5)**2 + 3.125
+    ax.plot(x, y, 'k--', label="Trayectoria")
+    
+    # Punto 1: Lanzamiento
+    ax.plot(0.5, 1.125, 'bo')
+    ax.arrow(0.5, 1.125, 1, 2, head_width=0.15, color='blue') # Velocidad
+    ax.arrow(0.5, 1.125, 0, -1.5, head_width=0.15, color='red') # Gravedad
+    ax.text(1.6, 3, r'$\vec{v}_1$', color='blue')
+    ax.text(0.6, -0.2, r'$\vec{a} = \vec{g}$', color='red')
+    # Arco obtuso
+    arc1 = plt.matplotlib.patches.Arc((0.5, 1.125), 1, 1, angle=0, theta1=270, theta2=63, color='green', lw=2)
+    ax.add_patch(arc1); ax.text(1, 0.5, r'$\theta > 90^\circ$', color='green')
+
+    # Punto 2: Altura maxima
+    ax.plot(2.5, 3.125, 'bo')
+    ax.arrow(2.5, 3.125, 1.5, 0, head_width=0.15, color='blue') # Velocidad horizontal
+    ax.arrow(2.5, 3.125, 0, -1.5, head_width=0.15, color='red') # Gravedad
+    ax.text(4, 3.3, r'$\vec{v}_2$', color='blue')
+    
+    # Arco recto
+    ax.plot([2.5, 2.7, 2.7], [2.925, 2.925, 3.125], 'g-', lw=2)
+    ax.text(2.7, 2.5, r'$\theta = 90^\circ$', color='green')
+
+    ax.set_xlim(-0.5, 5.5); ax.set_ylim(-1, 4.5); ax.axis('off')
+    plt.show()
+
+draw_projectile_angles()
+\end{lstlisting}
+
+En la fase de ascenso, la velocidad apunta hacia arriba y hacia adelante. La aceleración (gravedad) apunta rígidamente hacia abajo ($-y$).
+Dado que la velocidad tiene una componente contraria a la aceleración, el ángulo entre ellas es **obtuso** ($\theta > 90^\circ$). Esto es lo que causa que el proyectil se vaya frenando verticalmente (movimiento retardado).
+A medida que sube, la componente vertical de la velocidad se reduce, haciendo que el vector $\vec{v}$ se vaya "acostando" hacia la horizontal. 
+En el punto de altura máxima, la velocidad es puramente horizontal y la gravedad puramente vertical, por lo que el ángulo llega exactamente a $90^\circ$. 
+Por lo tanto, el ángulo pasó de ser muy obtuso (ej. $130^\circ$) hasta llegar a $90^\circ$; es decir, **disminuye progresivamente**.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large d) Es obtuso y disminuye progresivamente
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un observador A está en reposo en la Tierra y un observador B viaja en un tren rectilíneo que se mueve con \textbf{velocidad constante} respecto a A. Si ambos miden simultáneamente la aceleración de un avión C que realiza acrobacias en el cielo, ¿qué relación matemática existe entre sus mediciones?
+\begin{enumerate}[label=\alph*)]
+    \item La aceleración medida por A es mayor a la de B
+    \item La aceleración medida por A es menor a la de B
+    \item Ambas mediciones de aceleración son exactamente iguales
+    \item Depende estrictamente de la rapidez del tren
+    \item La aceleración medida por B debe ser nula
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Invarianza Galileana de la Aceleración}
+Utilizamos la ecuación fundamental de la velocidad relativa propuesta por Galileo:
+$$ \vec{v}_{C/A} = \vec{v}_{C/B} + \vec{v}_{B/A} $$
+Donde $\vec{v}_{B/A}$ es la velocidad del tren (observador B) respecto a la tierra (observador A).
+Para encontrar la aceleración, derivamos toda la ecuación vectorial con respecto al tiempo:
+$$ \frac{d}{dt}(\vec{v}_{C/A}) = \frac{d}{dt}(\vec{v}_{C/B}) + \frac{d}{dt}(\vec{v}_{B/A}) $$
+$$ \vec{a}_{C/A} = \vec{a}_{C/B} + \vec{a}_{B/A} $$
+El enunciado especifica que el tren se mueve con \textbf{velocidad constante}. La derivada de una constante es cero, por tanto, la aceleración del tren respecto a la tierra es nula ($\vec{a}_{B/A} = \vec{0}$).
+Sustituyendo en la ecuación:
+$$ \vec{a}_{C/A} = \vec{a}_{C/B} + \vec{0} $$
+$$ \vec{a}_{C/A} = \vec{a}_{C/B} $$
+Concluimos que la aceleración es una magnitud invariante entre cualquier par de sistemas de referencia inerciales (sistemas que no aceleran entre sí).
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) Ambas mediciones de aceleración son exactamente iguales
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Si una partícula se mueve a lo largo del eje $x$ con una velocidad $v_x < 0$ y una aceleración $a_x > 0$, entonces es estrictamente cierto que su rapidez:
+\begin{enumerate}[label=\alph*)]
+    \item Aumenta
+    \item Disminuye
+    \item Permanece constante
+    \item Es cero
+    \item Aumenta y luego disminuye
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Signos Algebraicos vs. Sentido del Movimiento}
+La \textbf{rapidez} es la magnitud del vector velocidad, es decir, un valor absoluto positivo ($|v_x|$).
+Para saber si un cuerpo acelera o frena, no basta con mirar el signo de la aceleración aisladamente. Debemos comparar el sentido de ambos vectores:
+\begin{itemize}
+    \item $v_x < 0$: El vector velocidad apunta hacia la zona negativa del eje (hacia la izquierda). La partícula se está moviendo a la izquierda.
+    \item $a_x > 0$: El vector aceleración apunta hacia la zona positiva del eje (hacia la derecha). 
+\end{itemize}
+Dado que apuntan en direcciones opuestas (son antiparalelos, ángulo de $180^\circ$), el producto escalar entre ambos es negativo. Físicamente, esto representa una fuerza que "tira" de la partícula en contra de su dirección de movimiento. Esto obliga a la partícula a perder ímpetu, por lo que su rapidez \textbf{disminuye} (es un movimiento rectilíneo retardado).
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) Disminuye
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+El vector de posición de una partícula en función del tiempo está dado por la función $\vec{r}(t) = (2t^3 - 4t)\hat{i} + (5t^2)\hat{j}$ (en unidades del SI). Al analizar el comportamiento de su aceleración, se puede afirmar que esta es:
+\begin{enumerate}[label=\alph*)]
+    \item Constante en magnitud y constante en dirección
+    \item Variable en magnitud y constante en dirección
+    \item Variable en magnitud y variable en dirección
+    \item Nula en todo momento
+    \item Constante en magnitud, pero de dirección variable
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Cálculo Diferencial Vectorial (Segunda Derivada)}
+Para encontrar la aceleración, debemos derivar el vector de posición dos veces respecto al tiempo.
+\textbf{Primera derivada (Velocidad):}
+$$ \vec{v}(t) = \frac{d\vec{r}}{dt} = \frac{d}{dt}(2t^3 - 4t)\hat{i} + \frac{d}{dt}(5t^2)\hat{j} $$
+$$ \vec{v}(t) = (6t^2 - 4)\hat{i} + (10t)\hat{j} $$
+
+\textbf{Segunda derivada (Aceleración):}
+$$ \vec{a}(t) = \frac{d\vec{v}}{dt} = \frac{d}{dt}(6t^2 - 4)\hat{i} + \frac{d}{dt}(10t)\hat{j} $$
+$$ \vec{a}(t) = (12t)\hat{i} + (10)\hat{j} $$
+
+Analizamos las propiedades de este vector resultante:
+\begin{itemize}
+    \item \textbf{Magnitud:} $|\vec{a}| = \sqrt{(12t)^2 + (10)^2} = \sqrt{144t^2 + 100}$. Dado que $t$ está en la ecuación, la magnitud va cambiando (creciendo) a medida que pasa el tiempo.
+    \item \textbf{Dirección:} Definida por $\tan\theta = \frac{a_y}{a_x} = \frac{10}{12t}$. Como el denominador cambia con el tiempo, la tangente cambia, lo que implica que el ángulo (dirección) se va modificando (el vector se va "acostando" hacia el eje X).
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) Variable en magnitud y variable en dirección
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un automóvil de carreras entra en una pista en forma de "U" (una media circunferencia exacta). Entra con una rapidez de $v$ y sale con la misma rapidez $v$. Si le tomó un tiempo $\Delta t$ completar el giro, la magnitud de su \textbf{aceleración media} es:
+\begin{enumerate}[label=\alph*)]
+    \item $0$
+    \item $\frac{v}{\Delta t}$
+    \item $\frac{2v}{\Delta t}$
+    \item $\frac{v^2}{R}$
+    \item $\frac{v^2}{2R}$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Trampa Conceptual: Aceleración Instantánea vs Media}
+\textit{Nota del Tutor: Muchos estudiantes marcarían mecánicamente $v^2/R$. Esa es la aceleración centrípeta en un instante específico. El problema pide la aceleración MEDIA para todo el intervalo.}
+
+Por definición, la aceleración media es el cambio total de la velocidad vectorial dividido para el tiempo transcurrido:
+$$ \vec{a}_m = \frac{\Delta \vec{v}}{\Delta t} = \frac{\vec{v}_f - \vec{v}_0}{\Delta t} $$
+
+Definamos un sistema de coordenadas. El auto entra a la curva moviéndose hacia la derecha ($+x$) y, al hacer una vuelta en "U", sale moviéndose hacia la izquierda ($-x$).
+\begin{itemize}
+    \item Velocidad vectorial inicial: $\vec{v}_0 = v\hat{i}$
+    \item Velocidad vectorial final: $\vec{v}_f = -v\hat{i}$
+\end{itemize}
+
+Calculamos la variación de velocidad ($\Delta \vec{v}$):
+$$ \Delta \vec{v} = (-v\hat{i}) - (v\hat{i}) = -2v\hat{i} $$
+La magnitud de este cambio es: $|\Delta \vec{v}| = 2v$.
+*(El velocímetro no cambió, pero el vector sufrió un cambio brutal igual al doble de la rapidez).*
+
+Sustituimos la magnitud en la ecuación de aceleración media:
+$$ |\vec{a}_m| = \frac{2v}{\Delta t} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) $\frac{2v}{\Delta t}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Para que una partícula describa rigurosamente un \textbf{movimiento rectilíneo} (sin importar si es uniforme o variado), la condición matemática vectorial absolutamente necesaria y suficiente es que:
+\begin{enumerate}[label=\alph*)]
+    \item La magnitud de la aceleración sea cero ($|\vec{a}| = 0$)
+    \item El producto punto entre velocidad y aceleración sea cero ($\vec{a} \cdot \vec{v} = 0$)
+    \item El producto cruz entre velocidad y aceleración sea cero ($\vec{a} \times \vec{v} = \vec{0}$)
+    \item La aceleración tangencial sea nula ($\vec{a}_T = \vec{0}$)
+    \item La aceleración y la posición sean perpendiculares
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Condición Analítica de Rectilineidad}
+Sabemos que un movimiento se curva \textbf{únicamente} si existe una componente de aceleración perpendicular a la velocidad (aceleración normal o centrípeta, $\vec{a}_N \neq \vec{0}$).
+Por lo tanto, para garantizar que la partícula viaje en una línea recta perfecta, debemos asegurar matemáticamente que la aceleración normal no existe ($\vec{a}_N = \vec{0}$).
+
+Si no hay aceleración normal, significa que el vector aceleración total ($\vec{a}$) solo puede estar contenido sobre la misma línea de acción que el vector velocidad ($\vec{v}$). Es decir, $\vec{a}$ y $\vec{v}$ deben ser paralelos o antiparalelos (o la aceleración ser cero).
+En álgebra vectorial, la herramienta que evalúa el paralelismo entre dos vectores es el \textbf{producto vectorial} (producto cruz). 
+Si el producto cruz es exactamente el vector nulo, se garantiza que no existe ningún ángulo entre ellos capaz de generar una componente perpendicular:
+$$ |\vec{a} \times \vec{v}| = |\vec{a}||\vec{v}|\sin(0^\circ \text{ o } 180^\circ) = 0 \implies \vec{a} \times \vec{v} = \vec{0} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) El producto cruz entre velocidad y aceleración sea cero ($\vec{a} \times \vec{v} = \vec{0}$)
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+En cierto instante, el vector velocidad de un vehículo es $\vec{v} = 3\hat{i} + 4\hat{j} \,\si{m/s}$ y su vector aceleración total es $\vec{a} = 2\hat{i} + 1\hat{j} \,\si{m/s^2}$. La magnitud de su aceleración tangencial ($a_T$) en ese preciso instante es:
+\begin{enumerate}[label=\alph*)]
+    \item $10\,\si{m/s^2}$
+    \item $2\,\si{m/s^2}$
+    \item $5\,\si{m/s^2}$
+    \item $\sqrt{5}\,\si{m/s^2}$
+    \item $3.16\,\si{m/s^2}$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Proyección Escalar entre Vectores}
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def draw_vector_projection():
+    fig, ax = plt.subplots(figsize=(6, 5))
+    ax.set_title("Proyección de $\\vec{a}$ sobre $\\vec{v}$ ($a_T$)")
+    
+    # Origen
+    orig = np.array([0, 0])
+    v = np.array([3, 4])
+    a = np.array([2, 1])
+    
+    # Magnitud de v y unitario
+    mag_v = np.linalg.norm(v)
+    u_v = v / mag_v
+    
+    # Proyeccion escalar (Producto punto)
+    proj_scalar = np.dot(a, u_v)
+    a_T_vec = proj_scalar * u_v
+    
+    # Ejes
+    ax.axhline(0, color='gray', lw=0.5); ax.axvline(0, color='gray', lw=0.5)
+    
+    # Vectores
+    ax.quiver(*orig, *v, angles='xy', scale_units='xy', scale=1, color='blue', width=0.01)
+    ax.quiver(*orig, *a, angles='xy', scale_units='xy', scale=1, color='red', width=0.01)
+    ax.quiver(*orig, *a_T_vec, angles='xy', scale_units='xy', scale=1, color='green', width=0.015)
+    
+    # Linea de proyeccion ortogonal
+    ax.plot([a[0], a_T_vec[0]], [a[1], a_T_vec[1]], 'k:')
+    
+    ax.text(3.1, 4.1, r'$\vec{v}$', color='blue', fontsize=12)
+    ax.text(2.1, 1.1, r'$\vec{a}$', color='red', fontsize=12)
+    ax.text(1, 1.8, r'$\vec{a}_T$', color='green', fontsize=14, fontweight='bold')
+    
+    ax.set_xlim(-1, 5); ax.set_ylim(-1, 5)
+    plt.grid(True, linestyle='--')
+    plt.show()
+
+draw_vector_projection()
+\end{lstlisting}
+
+La aceleración tangencial ($a_T$) no es más que la "sombra" geométrica (proyección escalar) del vector aceleración total sobre la línea trazada por el vector velocidad.
+La fórmula analítica de la proyección escalar de $\vec{a}$ sobre $\vec{v}$ es:
+$$ a_T = \vec{a} \cdot \hat{u}_v = \frac{\vec{a} \cdot \vec{v}}{|\vec{v}|} $$
+
+1. Calculamos el producto escalar (punto):
+$$ \vec{a} \cdot \vec{v} = (2)(3) + (1)(4) = 6 + 4 = 10 $$
+2. Calculamos la magnitud de la velocidad (Teorema de Pitágoras):
+$$ |\vec{v}| = \sqrt{3^2 + 4^2} = \sqrt{9 + 16} = \sqrt{25} = 5\,\si{m/s} $$
+3. Sustituimos en la ecuación:
+$$ a_T = \frac{10}{5} = 2\,\si{m/s^2} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) $2\,\si{m/s^2}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una partícula en movimiento circular aumenta su rapidez a una razón constante de $2\,\si{m/s}$ cada segundo. Al analizar teóricamente sus componentes intrínsecas de aceleración a lo largo del tiempo, se concluye que:
+\begin{enumerate}[label=\alph*)]
+    \item Tanto $\vec{a}_T$ como $\vec{a}_N$ son constantes
+    \item $\vec{a}_T$ es constante en magnitud pero variable en dirección, y $\vec{a}_N$ aumenta en magnitud
+    \item Ambas componentes aumentan su magnitud exponencialmente
+    \item $\vec{a}_T$ aumenta en magnitud y $\vec{a}_N$ es constante
+    \item Tanto $\vec{a}_T$ como $\vec{a}_N$ disminuyen progresivamente
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Dinámica del Movimiento Circular Uniformemente Variado (MCUV)}
+Analizamos cada componente por separado en base a los datos dados.
+
+\textbf{Aceleración Tangencial ($\vec{a}_T$):}
+Sabemos que la rapidez aumenta $2\,\si{m/s^2}$. Esta es, por definición, la \textbf{magnitud} de la aceleración tangencial ($|\vec{a}_T| = dv/dt = 2 = \text{cte}$). 
+Sin embargo, al ser un movimiento circular, el vector velocidad va rotando, y como $\vec{a}_T$ siempre es paralela a la velocidad, el vector $\vec{a}_T$ también va \textbf{rotando} en el espacio. Su magnitud es constante, pero su dirección es ineludiblemente variable.
+
+\textbf{Aceleración Normal ($\vec{a}_N$):}
+Su magnitud está dada por $a_N = v^2 / R$.
+Como el radio de curvatura ($R$) del círculo es fijo, pero la rapidez ($v$) está \textbf{aumentando} constantemente, el numerador crece de forma cuadrática. Por lo tanto, la magnitud de la aceleración normal exige ir \textbf{aumentando} cada vez más para lograr obligar a la partícula, ahora más rápida, a mantenerse dentro del mismo círculo.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large b) $\vec{a}_T$ es constante en magnitud pero variable en dirección, y $\vec{a}_N$ aumenta en magnitud
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Matemáticamente, ¿es posible que la magnitud de la aceleración total de una partícula sea \textbf{menor} que la magnitud de su propia aceleración normal ($|\vec{a}| < |\vec{a}_N|$)?
+\begin{enumerate}[label=\alph*)]
+    \item Sí, siempre y cuando la partícula esté frenando (movimiento retardado)
+    \item Sí, pero únicamente en los movimientos parabólicos
+    \item Nunca, es una violación de los axiomas matemáticos
+    \item Solo si el radio de curvatura es extremadamente pequeño
+    \item Solo si la aceleración tangencial asume un valor negativo
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Desigualdad de Pitágoras Vectorial}
+Sabemos que la aceleración total ($\vec{a}$) se descompone en dos bases ortogonales naturales del movimiento: la tangencial ($\vec{a}_T$) y la normal ($\vec{a}_N$).
+$$ \vec{a} = \vec{a}_T + \vec{a}_N $$
+Al ser vectores mutuamente perpendiculares, forman los catetos de un triángulo rectángulo, donde el vector aceleración total es la \textbf{hipotenusa}. Podemos calcular su magnitud mediante el Teorema de Pitágoras:
+$$ |\vec{a}|^2 = |\vec{a}_T|^2 + |\vec{a}_N|^2 $$
+$$ |\vec{a}| = \sqrt{|\vec{a}_T|^2 + |\vec{a}_N|^2} $$
+
+En el campo de los números reales, el cuadrado de cualquier número es siempre positivo o cero ($n^2 \ge 0$). Por lo tanto, sumar $|\vec{a}_T|^2$ solo puede hacer que el valor crezca o se mantenga igual si $a_T = 0$.
+Por geometría fundamental euclidiana, \textbf{la hipotenusa jamás puede ser más pequeña que uno de sus catetos}. Lo mínimo que puede valer la aceleración total es exactamente $|\vec{a}_N|$ (cuando la tangencial es cero), pero nunca menos.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) Nunca, es una violación de los axiomas matemáticos
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un globo aerostático asciende verticalmente con una velocidad constante de $5\,\si{m/s}$. Un pasajero asoma la mano por la canasta y suelta libremente un pequeño saco de arena. En el instante \textbf{exacto} en que el saco se separa de los dedos del pasajero, la aceleración de dicho saco (medida desde tierra) es:
+\begin{enumerate}[label=\alph*)]
+    \item $0\,\si{m/s^2}$, ya que arranca del reposo relativo
+    \item $9.8\,\si{m/s^2}$ dirigida hacia arriba por la inercia del globo
+    \item $9.8\,\si{m/s^2}$ dirigida hacia abajo
+    \item $4.8\,\si{m/s^2}$ dirigida hacia abajo (se resta la velocidad)
+    \item $5.0\,\si{m/s^2}$ dirigida hacia arriba
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Condiciones Iniciales de la Dinámica de Partículas}
+Este problema separa a los estudiantes que memorizan fórmulas de los que entienden la física. Debemos distinguir tajantemente entre velocidad y aceleración inicial.
+
+1. **La Velocidad:** Por la Primera Ley de Newton (Inercia), en el momento en que se suelta el saco, conserva la velocidad del marco de referencia en el que estaba contenido. El saco inicia su vuelo con una velocidad de $v_0 = +5\,\si{m/s}$ (hacia arriba). Por esto, el saco subirá un poco más antes de empezar a caer.
+2. **La Aceleración:** La aceleración es causada exclusivamente por fuerzas actuando *en ese instante* ($\sum \vec{F} = m\vec{a}$). En el milisegundo en que la mano suelta el saco, la única fuerza física en todo el universo que actúa sobre él es la gravedad terrestre (suponiendo despreciable el aire). El globo ya no lo empuja. Por tanto, su aceleración es inmediata y absolutamente la de la gravedad: $a_y = -9.8\,\si{m/s^2}$ (hacia abajo).
+
+Las velocidades no se restan con las aceleraciones como sugiere la opción 'd', ya que son magnitudes dimensionalmente incompatibles.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large c) $9.8\,\si{m/s^2}$ dirigida hacia abajo
+\end{tcolorbox}
+
+\end{document}
+
+\end{document}

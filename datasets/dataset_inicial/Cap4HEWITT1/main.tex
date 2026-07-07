@@ -1,0 +1,2355 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,es-tabla]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{geometry}
+\geometry{left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm}
+
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
+\usepackage{listings}
+\usepackage{xcolor}
+
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+
+\lstdefinestyle{pythonstyle}{
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{blue},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=4,
+    language=Python
+}
+\lstset{style=pythonstyle}
+
+\begin{document}
+
+\subsection*{Enunciado}
+Un automóvil se eleva cierta distancia en el elevador de una estación de servicio y, por tanto, tiene energía potencial respecto del suelo. Si se eleva el doble de alto, ¿cuánta más energía potencial tendría?
+
+\subsection*{Solución}
+
+\subsubsection*{Fundamento Conceptual}
+De acuerdo con los principios de la Física Conceptual, la energía potencial gravitacional es la energía que posee un objeto debido a su posición en un campo gravitatorio. Matemáticamente, esta energía se define como el producto de la masa del objeto, la aceleración de la gravedad y la altura a la que se encuentra respecto a un nivel de referencia. 
+
+\subsubsection*{Análisis de la Relación de Proporcionalidad}
+La ecuación que describe la energía potencial gravitacional es $E_p = m \cdot g \cdot h$. En este problema, la masa del automóvil $m$ y la aceleración de la gravedad $g$ permanecen constantes. Por lo tanto, la energía potencial es directamente proporcional a la altura $h$. Si definimos una altura inicial $h_1$, su energía potencial inicial será $E_{p1} = m \cdot g \cdot h_1$. Si el automóvil se eleva al doble de altura, la nueva altura es $h_2 = 2h_1$. Sustituyendo este valor en la ecuación, obtenemos $E_{p2} = m \cdot g \cdot (2h_1) = 2(m \cdot g \cdot h_1)$, lo que equivale a $E_{p2} = 2E_{p1}$.
+
+\subsubsection*{Conclusión}
+El automóvil tendría el doble de la energía potencial que tenía originalmente.
+
+\newpage
+\subsection*{Enunciado}
+Dos personas que pesan lo mismo suben un tramo de escaleras. La primera persona sube las escaleras en 30 s, y la segunda persona, en 40 s. ¿Cuál persona realiza más trabajo?
+
+\subsection*{Solución}
+
+\subsubsection*{Definición Física de Trabajo Mecánico}
+En física, el trabajo mecánico se realiza cuando una fuerza actúa sobre un objeto y este se desplaza en la dirección de la fuerza. La ecuación fundamental para el trabajo es $W = F \cdot d$. Al subir unas escaleras, el trabajo se realiza en contra de la fuerza de gravedad. Por lo tanto, la fuerza aplicada debe ser igual al peso de la persona y la distancia es el desplazamiento vertical neto, es decir, la altura de las escaleras.
+
+\subsubsection*{Análisis de Variables y Diferenciación con la Potencia}
+El enunciado establece dos condiciones clave: ambas personas pesan lo mismo, lo que implica que la fuerza $F$ requerida es idéntica para ambas, y ambas suben el mismo tramo de escaleras, lo que implica que la distancia vertical $d$ es la misma. Como el trabajo depende exclusivamente de la fuerza y la distancia, ambas personas efectúan exactamente la misma cantidad de trabajo. El tiempo de 30 segundos frente al de 40 segundos no altera el trabajo total realizado. El tiempo es una variable que define la potencia, que es la rapidez con la que se realiza el trabajo. La primera persona desarrolla más potencia porque realiza el mismo trabajo en menos tiempo, pero el trabajo en sí permanece inalterado.
+
+\subsubsection*{Conclusión}
+Ambas personas realizan exactamente la misma cantidad de trabajo, dado que el peso y la altura vencida son idénticos.
+
+\newpage
+\subsection*{Enunciado}
+El segundo piso de una casa está 6 m arriba del nivel de la calle. ¿Cuánto trabajo se necesita para levantar un refrigerador de 300 kg al segundo piso?
+
+\subsection*{Solución}
+
+\subsubsection*{Relación entre Trabajo y Energía Potencial Gravitacional}
+El trabajo requerido para levantar un objeto a velocidad constante desde el suelo hasta cierta altura es exactamente igual al cambio en su energía potencial gravitacional. La fuerza que debe aplicarse para levantar el refrigerador es igual a su peso. El peso se calcula multiplicando la masa por la aceleración de la gravedad $g$.
+
+\subsubsection*{Cálculo del Trabajo Realizado}
+Procedemos a identificar los datos del problema. La masa del refrigerador es $m = 300 \text{ kg}$, la altura es $h = 6 \text{ m}$, y utilizaremos el valor estándar de la aceleración de la gravedad $g = 9.8 \text{ m/s}^2$.
+La fuerza necesaria para levantar el refrigerador es su peso:
+$$F = m \cdot g = 300 \text{ kg} \cdot 9.8 \text{ m/s}^2 = 2940 \text{ N}$$
+El trabajo se calcula multiplicando esta fuerza por el desplazamiento vertical:
+$$W = F \cdot d = 2940 \text{ N} \cdot 6 \text{ m} = 17640 \text{ J}$$
+De manera equivalente, utilizando la fórmula de energía potencial $W = \Delta E_p = m \cdot g \cdot h$:
+$$W = 300 \cdot 9.8 \cdot 6 = 17640 \text{ J}$$
+
+\subsubsection*{Conclusión}
+Se necesitan 17640 Joules de trabajo para levantar el refrigerador al segundo piso.
+
+\newpage
+\subsection*{Enunciado}
+Una manzana que cuelga de una rama tiene una energía potencial debido a su altura. Si cae, ¿en qué se convierte esta energía justo antes de golpear el suelo?
+
+\subsection*{Solución}
+
+\subsubsection*{Principio de Conservación de la Energía Mecánica}
+Un pilar fundamental de la física es el principio de conservación de la energía, el cual dicta que la energía no puede crearse ni destruirse, solo transformarse de una forma a otra. En un sistema aislado donde solo actúan fuerzas conservativas como la gravedad, la energía mecánica total, que es la suma de la energía potencial y la energía cinética, permanece constante a lo largo del tiempo.
+
+\subsubsection*{Transformación Energética durante la Caída Libre}
+Mientras la manzana cuelga de la rama y se encuentra en reposo, toda su energía mecánica es energía potencial gravitacional debido a su altura máxima, y su energía cinética es nula porque no hay velocidad. En el momento en que la manzana se desprende y comienza a caer, su altura disminuye, lo que significa que su energía potencial gravitacional se va perdiendo. Simultáneamente, la fuerza de gravedad acelera la manzana, incrementando su velocidad. Debido al principio de conservación, la energía potencial perdida no desaparece, sino que se transforma en energía de movimiento, conocida como energía cinética. Justo un instante antes de golpear el suelo, la altura se reduce prácticamente a cero, por lo que la energía potencial es nula y la velocidad de la manzana es máxima.
+
+\subsubsection*{Conclusión}
+La energía potencial se convierte íntegramente en energía cinética justo antes de golpear el suelo.
+
+\newpage
+\subsection*{Enunciado}
+¿Por qué la fuerza de gravedad funciona sobre un automóvil que rueda por una colina mas no funciona cuando rueda a lo largo de una parte a nivel del camino?
+
+\subsection*{Solución}
+
+\subsubsection*{Aclaración Terminológica}
+En el contexto de la literatura física traducida, el término funciona empleado en este enunciado es una adaptación directa del idioma inglés "does work", cuyo significado riguroso en español es realiza trabajo. Por ende, la pregunta plantea por qué la gravedad realiza trabajo mecánico sobre el auto en una pendiente, pero no en un terreno plano.
+
+\subsubsection*{Condición Vectorial para el Trabajo Mecánico}
+Para comprender este fenómeno, debemos recordar el carácter vectorial del trabajo. El trabajo mecánico requiere que exista una fuerza, un desplazamiento, y lo más crucial, que al menos una componente de la fuerza actúe en la misma línea del desplazamiento. Matemáticamente, el trabajo es el producto escalar entre el vector fuerza y el vector desplazamiento, expresado como $W = F \cdot d \cdot \cos(\theta)$, donde $\theta$ es el ángulo que se forma entre la dirección de la fuerza aplicada y la dirección del movimiento del objeto.
+
+\subsubsection*{Análisis Vectorial en Camino Nivelado y en Colina}
+La fuerza de gravedad es un vector que siempre apunta en dirección vertical hacia el centro de la Tierra. 
+Cuando el automóvil rueda a lo largo de una parte a nivel del camino, su desplazamiento es puramente horizontal. El ángulo entre la gravedad vertical hacia abajo y el desplazamiento horizontal es de 90 grados. Dado que el coseno de 90 grados es cero, la ecuación del trabajo resulta en $W = 0$. La gravedad no contribuye al movimiento horizontal.
+Por el contrario, cuando el automóvil rueda por una colina inclinada, el desplazamiento sigue la pendiente. En este escenario, el ángulo entre la gravedad vertical y la trayectoria ya no es de 90 grados. La gravedad puede descomponerse en dos vectores: uno perpendicular a la colina y otro paralelo a la colina. La componente paralela a la colina apunta en la misma dirección general del desplazamiento inclinado del automóvil, lo que provoca que realice un trabajo mecánico positivo.
+
+\subsubsection*{Conclusión}
+Porque en un camino a nivel la fuerza de gravedad es perpendicular al desplazamiento y resulta en trabajo nulo, mientras que en una colina existe una componente de la gravedad que es paralela al desplazamiento y, por lo tanto, realiza trabajo mecánico.
+
+\newpage
+\subsection*{Enunciado}
+Un turista de 75 kg sube al cerro Panecillo desde su base hasta la cumbre. Considerando que la altura desde la base es 350 m y desde el nivel del mar es de 3000 m, determinar la energía potencial gravitacional del sistema turista-Tierra con respecto a la base del cerro (considerar $g = 10 \text{ m/s}^2$), cuando el turista está en la base del Panecillo.
+
+\subsection*{Solución}
+
+\subsubsection*{Fundamento Conceptual: El Nivel de Referencia}
+En el estudio de la mecánica, la energía potencial gravitacional no posee un valor absoluto, sino que es una magnitud relativa. Según la Física Conceptual, esta energía representa el trabajo necesario para elevar un objeto contra la gravedad de la Tierra y se define matemáticamente como $E_{pg} = m \cdot g \cdot h$. El valor de la altura $h$ depende íntegramente de la elección arbitraria de un origen de coordenadas o nivel de referencia, donde acordamos que $h = 0$. El problema establece explícitamente que nuestro nivel de referencia es la base del cerro.
+
+\subsubsection*{Representación del Sistema de Referencia}
+Para visualizar correctamente las posiciones del turista (base, cumbre y nivel del mar) respecto a nuestro nivel de referencia $h=0$, podemos generar un esquema mediante el siguiente código en Python utilizando Matplotlib. Esto es indispensable para evitar errores de signo en los cálculos posteriores.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+niveles = ['Cumbre', 'Base del Cerro (Ref h=0)', 'Nivel del Mar']
+alturas_relativas = [350, 0, -2650]
+
+fig, ax = plt.subplots(figsize=(8, 5))
+for rel_h, label in zip(alturas_relativas, niveles):
+    color = 'red' if rel_h == 0 else 'blue'
+    ax.axhline(y=rel_h, color=color, linestyle='-', linewidth=2)
+    ax.text(0.5, rel_h + 50, f'{label} (h = {rel_h} m)', 
+            ha='center', va='bottom', fontsize=10, color=color)
+
+ax.set_ylabel('Altura Relativa h (m)')
+ax.set_xlim(0, 1)
+ax.set_ylim(-3000, 1000)
+ax.set_xticks([])
+ax.set_title('Sistema de Referencia Espacial para Energía Potencial')
+plt.grid(True, linestyle=':', alpha=0.6)
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Análisis de la Posición y Cálculo}
+Para este primer escenario, el turista se encuentra ubicado exactamente en la base del cerro Panecillo. Dado que hemos definido matemáticamente este punto como nuestro origen, la altura del turista con respecto a la base es nula ($h = 0$).
+Sustituyendo los valores dados por el problema donde la masa $m = 75 \text{ kg}$ y la aceleración de la gravedad $g = 10 \text{ m/s}^2$:
+$$E_{pg} = m \cdot g \cdot h$$
+$$E_{pg} = (75 \text{ kg}) \cdot (10 \text{ m/s}^2) \cdot (0 \text{ m})$$
+$$E_{pg} = 0 \text{ J}$$
+
+\subsubsection*{Conclusión}
+La energía potencial gravitacional del sistema cuando el turista está en la base del Panecillo es 0 J.
+
+\newpage
+\subsection*{Enunciado}
+Un turista de 75 kg sube al cerro Panecillo desde su base hasta la cumbre. Considerando que la altura desde la base es 350 m y desde el nivel del mar es de 3000 m, determinar la energía potencial gravitacional del sistema turista-Tierra con respecto a la base del cerro (considerar $g = 10 \text{ m/s}^2$), cuando el turista está en la cumbre.
+
+\subsection*{Solución}
+
+\subsubsection*{Fundamento Conceptual: Trabajo en Contra de la Gravedad}
+Al ascender, el turista realiza un trabajo mecánico en contra de la fuerza de gravedad terrestre. Este trabajo no se pierde, sino que se almacena en el sistema turista-Tierra en forma de energía potencial gravitacional. Mientras más alto se sitúe el objeto respecto al nivel de referencia establecido, mayor será su capacidad para realizar trabajo al descender, lo que se traduce en una mayor energía potencial positiva.
+
+\subsubsection*{Análisis de la Altura Relativa}
+Se debe determinar la posición $h$ del turista respecto a la base del cerro (nuestro $h=0$). El enunciado indica de forma directa que la altura desde la base hasta la cumbre es de 350 m. Dado que la cumbre se encuentra geométricamente por encima de nuestro nivel de referencia, el vector de posición apunta en dirección contraria a la gravedad, lo que nos da un valor de altura positivo: $h = 350 \text{ m}$.
+
+\subsubsection*{Ejecución del Cálculo}
+Conocemos la masa $m = 75 \text{ kg}$, la gravedad $g = 10 \text{ m/s}^2$ y la altura relativa $h = 350 \text{ m}$. Aplicando la ecuación de la energía potencial:
+$$E_{pg} = m \cdot g \cdot h$$
+$$E_{pg} = (75 \text{ kg}) \cdot (10 \text{ m/s}^2) \cdot (350 \text{ m})$$
+$$E_{pg} = 262500 \text{ J}$$
+Para expresar el resultado de una manera más compacta en el Sistema Internacional, dividimos para mil y convertimos a kilojulios (kJ):
+$$E_{pg} = 262.5 \text{ kJ}$$
+
+\subsubsection*{Conclusión}
+La energía potencial gravitacional del sistema cuando el turista está en la cumbre es de 262.5 kJ.
+
+\newpage
+\subsection*{Enunciado}
+Un turista de 75 kg sube al cerro Panecillo desde su base hasta la cumbre. Considerando que la altura desde la base es 350 m y desde el nivel del mar es de 3000 m, determinar la energía potencial gravitacional del sistema turista-Tierra con respecto a la base del cerro (considerar $g = 10 \text{ m/s}^2$), cuando el turista está a nivel del mar.
+
+\subsection*{Solución}
+
+\subsubsection*{Fundamento Conceptual: Energía Potencial Negativa}
+Es un error común pensar que la energía no puede ser negativa. En el contexto de la energía potencial gravitacional, un signo negativo no indica una cantidad faltante de energía, sino que describe una posición espacial geométrica. Si un objeto se encuentra por debajo del nivel de referencia arbitrario establecido, la altura $h$ asume un valor negativo y, en consecuencia, la energía potencial calculada será negativa. Esto simplemente significa que el objeto tiene menos energía potencial en ese punto que la que tiene en el nivel de referencia.
+
+\subsubsection*{Determinación Topográfica de la Altura}
+El problema requiere calcular a qué distancia se encuentra el nivel del mar respecto a la base del cerro. 
+Sabemos por los datos que:
+1. La cumbre está a 3000 m sobre el nivel del mar.
+2. La cumbre está a 350 m sobre la base del cerro.
+Por simple resta geométrica, la altitud de la base del cerro sobre el nivel del mar es:
+$$\text{Altitud de la base} = 3000 \text{ m} - 350 \text{ m} = 2650 \text{ m}$$
+Como nuestro sistema de coordenadas dicta que la base es $h = 0$, y el nivel del mar está 2650 metros por debajo de la base, la posición del turista a nivel del mar adquiere un signo negativo:
+$$h = -2650 \text{ m}$$
+
+\subsubsection*{Ejecución del Cálculo}
+Con la masa $m = 75 \text{ kg}$, la gravedad $g = 10 \text{ m/s}^2$ y la altura $h = -2650 \text{ m}$, aplicamos la fórmula:
+$$E_{pg} = m \cdot g \cdot h$$
+$$E_{pg} = (75 \text{ kg}) \cdot (10 \text{ m/s}^2) \cdot (-2650 \text{ m})$$
+$$E_{pg} = -1987500 \text{ J}$$
+Convirtiendo el resultado a kilojulios para facilitar la lectura:
+$$E_{pg} = -1987.5 \text{ kJ}$$
+
+\subsubsection*{Conclusión}
+La energía potencial gravitacional del sistema cuando el turista está a nivel del mar es de -1987.5 kJ.
+
+\newpage
+
+\subsection*{Enunciado}
+Un carrito de una montaña rusa de 500 kg parte del reposo desde una altura A situada a 40 m sobre el suelo. Desciende por una pista sin fricción hasta llegar a un punto B que se encuentra a una altura de 15 m. Considerando la aceleración de la gravedad como $g = 10 \text{ m/s}^2$, determinar la variación de la energía potencial gravitatoria del sistema entre los puntos A y B.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.15, font=\sffamily]
+    \draw[thick, fill=gray!20] (0,0) rectangle (50,-2);
+    \node[below] at (25,-2) {Suelo (Referencia $h=0$)};
+    
+    \draw[ultra thick, gray] (0,40) to[out=0, in=180] (25,15) -- (50,15);
+    \draw[thick, blue, ->] (20,25) to[out=-45, in=165] (23,20);
+    \node[right, font=\footnotesize] at (22,23) {Pista sin fricción};
+    
+    \draw[<->] (5,0) -- (5,40) node[midway, fill=white] {$h_A = 40$ m};
+    \draw[<->] (40,0) -- (40,15) node[midway, fill=white] {$h_B = 15$ m};
+    
+    \draw[fill=orange, rounded corners] (6,40.5) rectangle (10,43.5);
+    \draw[fill=black] (7,40.5) circle (1);
+    \draw[fill=black] (9,40.5) circle (1);
+    \node[above, font=\footnotesize, align=center, draw, fill=green!10] at (8,45) {Punto A:\\$m=500$ kg\\$v_A=0$};
+    
+    \draw[fill=orange, rounded corners] (35,15.5) rectangle (39,18.5);
+    \draw[fill=black] (36,15.5) circle (1);
+    \draw[fill=black] (38,15.5) circle (1);
+    \node[above, font=\footnotesize, align=center, draw, fill=blue!10] at (37,20) {Punto B:\\$h_B=15$ m};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{Fundamento Conceptual: Variación de la Energía}
+De acuerdo con la literatura de Física Conceptual de Paul G. Hewitt, cuando analizamos los cambios de energía en un sistema, la magnitud denominada variación o cambio, representada por la letra griega delta mayúscula ($\Delta$), se define matemáticamente y de forma estricta como el estado final menos el estado inicial. En este caso, la energía potencial gravitatoria depende directamente de la altura. A medida que el carrito desciende, su altura respecto al nivel de referencia disminuye, lo que implica axiomáticamente que su energía potencial final será menor que su energía potencial inicial.
+
+\subsubsection*{Representación Visual de los Estados Energéticos}
+Para comprender pedagógicamente la magnitud del cambio antes de realizar el cálculo, podemos visualizar las energías en ambos puntos. El siguiente bloque de código en Python genera un gráfico de barras que evidencia la drástica caída en la energía almacenada por posición, facilitando la interpretación del signo que obtendremos.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+estados = ['Punto A (Inicial)', 'Punto B (Final)']
+energias = [200000, 75000]
+
+plt.figure(figsize=(7, 4))
+plt.bar(estados, energias, color=['#ff9999', '#66b3ff'], edgecolor='black')
+plt.ylabel('Energia Potencial Gravitatoria (Joules)')
+plt.title('Comparacion de Energia Potencial por Altura')
+plt.grid(axis='y', linestyle='--', alpha=0.7)
+
+for i, v in enumerate(energias):
+    plt.text(i, v + 5000, f'{v} J', ha='center', fontweight='bold')
+
+plt.ylim(0, 250000)
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Cálculo de la Variación de Energía Potencial}
+Para calcular el trabajo realizado por la gravedad o la variación de energía, identificamos el estado inicial (Punto A) y el estado final (Punto B).
+La ecuación para la variación es:
+$$\Delta E_p = E_{p(\text{final})} - E_{p(\text{inicial})}$$
+Sustituyendo la definición de energía potencial gravitatoria ($E_p = m \cdot g \cdot h$) obtenemos:
+$$\Delta E_p = (m \cdot g \cdot h_B) - (m \cdot g \cdot h_A)$$
+Para optimizar el cálculo matemático, podemos extraer el término común $m \cdot g$:
+$$\Delta E_p = m \cdot g \cdot (h_B - h_A)$$
+Sustituimos los datos proporcionados por el problema, donde $m = 500 \text{ kg}$, $g = 10 \text{ m/s}^2$, $h_B = 15 \text{ m}$ y $h_A = 40 \text{ m}$:
+$$\Delta E_p = 500 \cdot 10 \cdot (15 - 40)$$
+$$\Delta E_p = 5000 \cdot (-25)$$
+$$\Delta E_p = -125000 \text{ J}$$
+
+\subsubsection*{Conclusión}
+La variación de la energía potencial gravitatoria del sistema entre los puntos A y B es de -125000 J.
+
+\newpage
+\subsection*{Enunciado}
+Un carrito de una montaña rusa de 500 kg parte del reposo desde una altura A situada a 40 m sobre el suelo. Desciende por una pista sin fricción hasta llegar a un punto B que se encuentra a una altura de 15 m. Sabiendo que la variación de energía potencial gravitatoria del sistema es de -125000 J, ¿qué representa el signo obtenido?
+
+\begin{center}
+\begin{tikzpicture}[scale=0.15, font=\sffamily]
+    \draw[thick, fill=gray!20] (0,0) rectangle (50,-2);
+    \node[below] at (25,-2) {Suelo (Referencia $h=0$)};
+    
+    \draw[ultra thick, gray] (0,40) to[out=0, in=180] (25,15) -- (50,15);
+    \draw[thick, blue, ->] (20,25) to[out=-45, in=165] (23,20);
+    \node[right, font=\footnotesize] at (22,23) {Pista sin fricción};
+    
+    \draw[<->] (5,0) -- (5,40) node[midway, fill=white] {$h_A = 40$ m};
+    \draw[<->] (40,0) -- (40,15) node[midway, fill=white] {$h_B = 15$ m};
+    
+    \draw[fill=orange, rounded corners] (6,40.5) rectangle (10,43.5);
+    \draw[fill=black] (7,40.5) circle (1);
+    \draw[fill=black] (9,40.5) circle (1);
+    \node[above, font=\footnotesize, align=center, draw, fill=green!10] at (8,45) {Punto A:\\$m=500$ kg\\$v_A=0$};
+    
+    \draw[fill=orange, rounded corners] (35,15.5) rectangle (39,18.5);
+    \draw[fill=black] (36,15.5) circle (1);
+    \draw[fill=black] (38,15.5) circle (1);
+    \node[above, font=\footnotesize, align=center, draw, fill=blue!10] at (37,20) {Punto B:\\$h_B=15$ m};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{Fundamento Conceptual: Interpretación del Signo en Magnitudes Escalares}
+En el estudio de la física, es imperativo distinguir entre magnitudes vectoriales y escalares. La energía es una magnitud estrictamente escalar; carece de dirección y sentido en el espacio. Por consiguiente, el signo negativo en el resultado de una variación ($\Delta$) no está indicando que la energía apunte hacia abajo o a la izquierda. Un signo negativo en una diferencia escalar indica de forma unívoca una pérdida o disminución de esa magnitud específica dentro del sistema en estudio. El valor final es menor que el inicial.
+
+\subsubsection*{Principio de Conservación de la Energía Mecánica}
+Basándonos en la obra de Hewitt, debemos articular esta pérdida con la Primera Ley de la Termodinámica o Ley de Conservación de la Energía. Que la energía potencial haya disminuido en 125000 Joules no significa que esta energía haya desaparecido del universo. Dado que el problema especifica que la pista no tiene fricción, estamos ante un sistema conservativo ideal donde no hay pérdidas por calor o sonido. La energía potencial perdida debido al cambio de altura se ha transformado íntegramente en energía cinética (energía de movimiento). A medida que el carrito baja, pierde energía potencial pero gana velocidad simultáneamente. 
+
+\subsubsection*{Conclusión}
+El signo negativo representa que el sistema del carrito perdió 125000 Joules de energía potencial gravitatoria al descender, energía que, por el principio de conservación, se transformó equivalentemente en energía cinética para aumentar su velocidad.
+
+\newpage
+\subsection*{Enunciado}
+Un obrero sube un quintal de cemento hasta la azotea del edificio de ingeniería en sistemas. Si la azotea se ubica a 18 m de altura medidos desde la calle. Determinar el trabajo mecánico que efectúa al realizar esta labor. Considerar $g = 10 \text{ m/s}^2$ y que la masa de un quintal redondeada para propósitos académicos es de 50 kg.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.2, font=\sffamily]
+    \draw[thick, fill=gray!20] (10,0) rectangle (20,18);
+    \draw[thick] (-5,0) -- (25,0) node[right] {Calle ($h=0$)};
+    \draw[<->] (22,0) -- (22,18) node[midway, fill=white] {$h = 18$ m};
+    \draw[fill=orange, rounded corners] (14,18) rectangle (16,20);
+    \node[above] at (15,20) {50 kg};
+    \draw[->, ultra thick, blue] (15,2) -- (15,16);
+    \node[left, blue] at (14,9) {Ascenso};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{Fundamento Conceptual: Trabajo de un Agente Externo vs Trabajo de la Gravedad}
+Para abordar este problema, es indispensable diferenciar las fuerzas que actúan sobre el saco de cemento. Según la Física Conceptual de Paul G. Hewitt, el trabajo mecánico $W$ se define como el producto de la fuerza aplicada sobre un objeto por la distancia que este se desplaza, considerando la dirección de ambos vectores. Matemáticamente se expresa como $W = F \cdot d \cdot \cos(\theta)$.
+En este escenario existen dos trabajos distintos: el trabajo realizado por la gravedad y el trabajo realizado por el obrero. La gravedad empuja el saco hacia abajo (peso), pero el saco se mueve hacia arriba; al estar en direcciones opuestas ($\theta = 180^\circ$), el trabajo de la gravedad es negativo. Por el contrario, el obrero aplica una fuerza hacia arriba para levantar el saco, y el saco efectivamente se mueve hacia arriba. Como la fuerza del obrero y el desplazamiento apuntan en la misma dirección ($\theta = 0^\circ$), el trabajo efectuado por el obrero es estrictamente positivo.
+
+\subsubsection*{Aclaración Pedagógica sobre la Transferencia de Energía}
+Es crucial corregir un error conceptual presente en la imagen original del problema, el cual indica que $W = -9000 \text{ J}$ justificando que "el sistema perdió energía". Esto contradice los principios de la conservación de la energía y las leyes de Newton. Cuando el obrero (agente externo) levanta el cemento, transfiere su propia energía al saco realizando trabajo mecánico sobre él. Este trabajo se almacena en el sistema cemento-Tierra en forma de energía potencial gravitacional. Al elevar el objeto, el sistema GANA energía potencial ($\Delta E_p > 0$), no la pierde. El enunciado pide "el trabajo mecánico que efectúa al realizar esta labor", refiriéndose al obrero, por lo que el resultado debe reflejar la energía agregada al sistema y debe ser positivo.
+
+\subsubsection*{Análisis Vectorial}
+Para visualizar por qué el trabajo del obrero es positivo, ejecutamos el siguiente código de Python que gráfica los vectores de fuerza y desplazamiento. 
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(7, 5))
+
+ax.arrow(0, 0, 0, 15, head_width=0.3, head_length=1, fc='blue', ec='blue', width=0.08, label='Desplazamiento (Arriba)')
+ax.arrow(1, 0, 0, 15, head_width=0.3, head_length=1, fc='green', ec='green', width=0.08, label='Fuerza del Obrero (Arriba)')
+ax.arrow(-1, 15, 0, -15, head_width=0.3, head_length=1, fc='red', ec='red', width=0.08, label='Fuerza de Gravedad (Abajo)')
+
+ax.set_xlim(-2, 2)
+ax.set_ylim(-2, 18)
+ax.axhline(0, color='black', linewidth=1.5, linestyle='--')
+ax.text(1.5, 0, 'Calle (h=0)', va='center')
+ax.text(1.5, 16, 'Azotea', va='center')
+
+ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+ax.set_title('Vectores: Fuerza y Desplazamiento')
+ax.axis('off')
+plt.show()
+\end{lstlisting}
+
+Al observar el gráfico generado, es evidente que el vector de Desplazamiento (azul) y el vector de Fuerza del Obrero (verde) son paralelos y tienen el mismo sentido. El coseno de 0 grados es 1, confirmando el trabajo positivo.
+
+\subsubsection*{Cálculo Riguroso del Trabajo Efectuado}
+Para elevar el saco a velocidad constante, la fuerza mínima que el obrero debe aplicar hacia arriba debe igualar al peso del saco hacia abajo. 
+El peso del saco se calcula como:
+$$F = m \cdot g$$
+Sustituyendo los datos ($m = 50 \text{ kg}$, $g = 10 \text{ m/s}^2$):
+$$F = 50 \text{ kg} \cdot 10 \text{ m/s}^2 = 500 \text{ N}$$
+Ahora calculamos el trabajo mecánico realizado por esta fuerza a lo largo de los 18 metros de altura ($d = h = 18 \text{ m}$):
+$$W = F \cdot d$$
+$$W = 500 \text{ N} \cdot 18 \text{ m}$$
+$$W = 9000 \text{ J}$$
+Este valor es exactamente igual al aumento de la energía potencial del sistema ($\Delta E_p = mgh = +9000 \text{ J}$).
+
+\subsubsection*{Conclusión}
+El trabajo mecánico que efectúa el obrero al subir el quintal de cemento es de 9000 J.
+
+\newpage
+
+\subsection*{Enunciado}
+Se deja deslizar un carrito desde el reposo en la parte más alta de una pista. La pista tiene una bajada, luego una parte horizontal y finalmente una subida. Analiza el movimiento del carrito para el caso A, donde la pista no tiene fricción, y para el caso B, donde la pista tiene fricción. Resuelve la siguiente interrogante: ¿Hasta qué altura llegará el carrito en la subida final en cada caso, y qué ocurre con la energía del sistema durante el movimiento?
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, font=\sffamily]
+    \node[blue, font=\bfseries] at (3,4.5) {Caso A: pista sin friccion};
+    \draw[dashed, gray] (0,3) -- (6,3);
+    \draw[ultra thick, gray] (0,3) .. controls (1,0) and (2,0) .. (3,0) .. controls (4,0) and (5,0) .. (6,3);
+    \draw[fill=blue!80, rounded corners=1pt] (0.1,3.1) rectangle (0.9,3.6);
+    \fill[white] (0.3,3.1) circle (0.15); \draw[thick] (0.3,3.1) circle (0.15);
+    \fill[white] (0.7,3.1) circle (0.15); \draw[thick] (0.7,3.1) circle (0.15);
+    
+    \draw[fill=blue!80, rounded corners=1pt] (5.1,3.1) rectangle (5.9,3.6);
+    \fill[white] (5.3,3.1) circle (0.15); \draw[thick] (5.3,3.1) circle (0.15);
+    \fill[white] (5.7,3.1) circle (0.15); \draw[thick] (5.7,3.1) circle (0.15);
+
+    \begin{scope}[xshift=8cm]
+        \node[red, font=\bfseries] at (3,4.5) {Caso B: pista con friccion};
+        \draw[dashed, gray] (0,3) -- (6,3);
+        \draw[ultra thick, gray] (0,3) .. controls (1,0) and (2,0) .. (3,0) .. controls (4,0) and (5,0) .. (6,3);
+        
+        \draw[ultra thick, red, densely dotted] (1,0.5) .. controls (1.5,0) and (2,0) .. (3,0) .. controls (4,0) and (4.5,0.5) .. (5,1.5);
+        
+        \draw[fill=blue!80, rounded corners=1pt] (0.1,3.1) rectangle (0.9,3.6);
+        \fill[white] (0.3,3.1) circle (0.15); \draw[thick] (0.3,3.1) circle (0.15);
+        \fill[white] (0.7,3.1) circle (0.15); \draw[thick] (0.7,3.1) circle (0.15);
+        
+        \begin{scope}[shift={(4.5,1.2)}, rotate=35]
+            \draw[fill=blue!80, rounded corners=1pt] (0,0) rectangle (0.8,0.5);
+            \fill[white] (0.2,0) circle (0.15); \draw[thick] (0.2,0) circle (0.15);
+            \fill[white] (0.6,0) circle (0.15); \draw[thick] (0.6,0) circle (0.15);
+        \end{scope}
+    \end{scope}
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{Fundamento Conceptual: Trabajo y Energía}
+El análisis de este fenómeno se sustenta en la Primera Ley de la Termodinámica y el Teorema del Trabajo y la Energía. Según la Física Conceptual de Paul G. Hewitt, la energía total del universo es constante, pero la energía mecánica de un sistema aislado (la suma de su energía cinética y potencial) solo se conserva si actúan exclusivamente fuerzas conservativas, como la gravedad. Cuando intervienen fuerzas no conservativas, como la fricción, estas realizan un trabajo que transforma parte de la energía mecánica en energía térmica (calor).
+
+\subsubsection*{Análisis del Caso A: Pista sin fricción}
+En el escenario ideal donde no existe fricción, el carrito constituye un sistema conservativo. Al soltar el carrito desde el reposo en la cima de la pista, toda su energía inicial es energía potencial gravitatoria, definida como $E_{pi} = m \cdot g \cdot h_i$. A medida que el carrito desciende, esta energía se transforma íntegramente en energía cinética. Al subir por el otro extremo, la energía cinética se convierte nuevamente en energía potencial. Dado que ninguna porción de la energía se pierde por fricción, la energía mecánica se conserva estrictamente ($E_{mi} = E_{mf}$). En consecuencia, la energía potencial final debe ser idéntica a la inicial, lo que matemáticamente obliga a que la altura final sea igual a la altura inicial ($h_f = h_i$).
+
+\subsubsection*{Análisis del Caso B: Pista con fricción}
+En el mundo real, ilustrado en el caso B, la fricción entre las ruedas del carrito y la pista actúa como una fuerza resistiva. A medida que el carrito se desplaza, la fuerza de fricción realiza un trabajo mecánico negativo sobre el sistema. Este trabajo disipa una fracción de la energía mecánica del carrito, transformándola en energía térmica que calienta la pista y las ruedas. Debido a esta pérdida constante de energía útil para el movimiento, la energía mecánica total al llegar a la subida final es menor que la energía mecánica inicial ($E_{mf} < E_{mi}$). Al tener menos energía disponible para convertirse en energía potencial, el carrito no podrá alcanzar la altura original, deteniéndose a una altura menor ($h_f < h_i$).
+
+\subsubsection*{Conclusión}
+En el caso A, el carrito llegará exactamente a la misma altura inicial porque la energía mecánica del sistema se conserva en su totalidad. En el caso B, el carrito llegará a una altura menor porque parte de la energía mecánica del sistema se transforma en energía térmica debido al trabajo realizado por la fricción durante el recorrido.
+
+
+\newpage
+\subsection*{Enunciado}
+Se deja deslizar un carrito desde el reposo en la parte más alta de una pista. La pista tiene una bajada, luego una parte horizontal y finalmente una subida. Si el carrito parte desde cierta altura y no hay fricción, ¿llegará a la misma altura al otro lado, a una menor altura o a una mayor altura? ¿Por qué?
+
+\subsection*{Solución}
+
+\subsubsection*{Fundamento Conceptual: Inercia y Planos Inclinados de Galileo}
+Este problema evoca directamente los históricos experimentos de Galileo Galilei con planos inclinados, los cuales son una piedra angular en la comprensión de la conservación de la energía. Hewitt explica que, en ausencia de fricción, una esfera que desciende por un plano inclinado siempre rodará hacia arriba por un plano opuesto hasta alcanzar exactamente su altura de partida, independientemente de la pendiente del segundo plano. Esto ocurre porque la gravedad es una fuerza conservativa.
+
+\subsubsection*{Análisis Matemático de la Conservación}
+Planteamos la ecuación del Principio de Conservación de la Energía Mecánica para el estado inicial (cima de la bajada) y el estado final (altura máxima en la subida).
+$$E_{c(\text{inicial})} + E_{p(\text{inicial})} = E_{c(\text{final})} + E_{p(\text{final})}$$
+Dado que el carrito parte del reposo, su velocidad inicial es cero, anulando la energía cinética inicial ($E_{c(\text{inicial})} = 0$). Cuando el carrito alcanza su punto más alto en el otro lado, se detiene momentáneamente antes de retroceder, por lo que su velocidad final también es cero, anulando la energía cinética final ($E_{c(\text{final})} = 0$).
+La ecuación se simplifica a la igualdad de las energías potenciales:
+$$E_{p(\text{inicial})} = E_{p(\text{final})}$$
+Sustituyendo la fórmula de energía potencial ($E_p = m \cdot g \cdot h$):
+$$m \cdot g \cdot h_{\text{inicial}} = m \cdot g \cdot h_{\text{final}}$$
+Como la masa $m$ y la aceleración de la gravedad $g$ son constantes diferentes de cero, podemos simplificarlas de ambos lados de la ecuación, obteniendo:
+$$h_{\text{inicial}} = h_{\text{final}}$$
+
+\subsubsection*{Conclusión}
+El carrito llegará exactamente a la misma altura al otro lado. Esto se debe a que, en ausencia de fricción, la energía mecánica total se conserva, transformándose completamente de energía potencial a cinética y viceversa sin pérdidas térmicas.
+
+\newpage
+\subsection*{Enunciado}
+Se deja deslizar un carrito desde el reposo en la parte más alta de una pista. La pista tiene una bajada, luego una parte horizontal y finalmente una subida. En la parte más baja de la pista, ¿en qué forma está principalmente la energía?
+
+\subsection*{Solución}
+
+\subsubsection*{Fundamento Conceptual: Transformación Energética Continua}
+El movimiento de un objeto sometido a variaciones de altura en un campo gravitatorio es un proceso continuo de transformación energética. La posición más alta representa el punto de máxima acumulación de trabajo contra la gravedad, mientras que el punto más bajo del recorrido se establece convencionalmente como el nivel de referencia de altura cero ($h = 0$).
+
+\subsubsection*{Visualización de la Distribución Energética}
+Para ilustrar pedagógicamente cómo interactúan las variables de energía potencial y cinética en los extremos del recorrido, podemos ejecutar el siguiente script de Python. Esto nos permite observar la transferencia absoluta de magnitud de un tipo de energía a otro.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+import numpy as np
+
+puntos_trayectoria = ['Parte Mas Alta (Reposo)', 'Parte Mas Baja (Maxima Velocidad)']
+energia_potencial_almacenada = [100, 0]
+energia_cinetica_movimiento = [0, 100]
+
+posicion_x = np.arange(len(puntos_trayectoria))
+ancho_barra = 0.35
+
+fig, ax = plt.subplots(figsize=(8, 5))
+barra_potencial = ax.bar(posicion_x - ancho_barra/2, energia_potencial_almacenada, ancho_barra, label='Energia Potencial', color='lightcoral')
+barra_cinetica = ax.bar(posicion_x + ancho_barra/2, energia_cinetica_movimiento, ancho_barra, label='Energia Cinetica', color='cornflowerblue')
+
+ax.set_ylabel('Proporcion de Energia Total')
+ax.set_title('Distribucion de la Energia Mecanica en los Extremos')
+ax.set_xticks(posicion_x)
+ax.set_xticklabels(puntos_trayectoria)
+ax.legend()
+plt.grid(axis='y', linestyle='--', alpha=0.5)
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Análisis del Nivel de Referencia}
+Como se corrobora en la gráfica y en la teoría, cuando el carrito parte de la zona superior y comienza a descender, pierde altura progresivamente. Al disminuir la altura $h$, la magnitud de su energía potencial gravitatoria disminuye de forma directamente proporcional. Al mismo tiempo, la aceleración gravitatoria incrementa la velocidad del carrito, haciendo que gane energía cinética $E_c = \frac{1}{2} m v^2$.
+Al llegar a la parte más baja de la pista, el carrito ha perdido toda la altura relativa respecto a ese nivel ($h = 0$). Consecuentemente, su energía potencial es matemáticamente cero. Por la ley de conservación, todo el inventario energético que inicialmente poseía debido a su posición se ha transferido a la energía asociada a su movimiento. Por ello, en este instante inferior, el carrito experimenta su velocidad máxima.
+
+\subsubsection*{Conclusión}
+En la parte más baja de la pista, la energía se encuentra totalmente en forma de energía cinética, puesto que la energía potencial gravitatoria se ha reducido a cero al perder toda su altura.
+
+\newpage
+
+\subsection*{Enunciado}
+Se deja deslizar un carrito desde el reposo en la parte más alta de una pista. La pista tiene una bajada, luego una parte horizontal y finalmente una subida. Analiza el movimiento del carrito para el caso A, donde la pista no tiene fricción, y para el caso B, donde la pista tiene fricción. Si el carrito tiene masa igual a 2.0 kg y se deja deslizar desde el reposo en la parte más alta de la pista sin fricción con una altura inicial de 4.5 m respecto al punto más bajo de la pista. ¿Cuál es la rapidez del carrito al pasar por la parte más baja de la pista?
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, font=\sffamily]
+    \node[blue, font=\bfseries] at (3,4.5) {Caso A: pista sin friccion};
+    \draw[dashed, gray] (0,3) -- (6,3);
+    \draw[ultra thick, gray] (0,3) .. controls (1,0) and (2,0) .. (3,0) .. controls (4,0) and (5,0) .. (6,3);
+    \draw[fill=blue!80, rounded corners=1pt] (0.1,3.1) rectangle (0.9,3.6);
+    \fill[white] (0.3,3.1) circle (0.15); \draw[thick] (0.3,3.1) circle (0.15);
+    \fill[white] (0.7,3.1) circle (0.15); \draw[thick] (0.7,3.1) circle (0.15);
+    
+    \draw[fill=blue!80, rounded corners=1pt] (5.1,3.1) rectangle (5.9,3.6);
+    \fill[white] (5.3,3.1) circle (0.15); \draw[thick] (5.3,3.1) circle (0.15);
+    \fill[white] (5.7,3.1) circle (0.15); \draw[thick] (5.7,3.1) circle (0.15);
+
+    \begin{scope}[xshift=8cm]
+        \node[red, font=\bfseries] at (3,4.5) {Caso B: pista con friccion};
+        \draw[dashed, gray] (0,3) -- (6,3);
+        \draw[ultra thick, gray] (0,3) .. controls (1,0) and (2,0) .. (3,0) .. controls (4,0) and (5,0) .. (6,3);
+        
+        \draw[ultra thick, red, densely dotted] (1,0.5) .. controls (1.5,0) and (2,0) .. (3,0) .. controls (4,0) and (4.5,0.5) .. (5,1.5);
+        
+        \draw[fill=blue!80, rounded corners=1pt] (0.1,3.1) rectangle (0.9,3.6);
+        \fill[white] (0.3,3.1) circle (0.15); \draw[thick] (0.3,3.1) circle (0.15);
+        \fill[white] (0.7,3.1) circle (0.15); \draw[thick] (0.7,3.1) circle (0.15);
+        
+        \begin{scope}[shift={(4.5,1.2)}, rotate=35]
+            \draw[fill=blue!80, rounded corners=1pt] (0,0) rectangle (0.8,0.5);
+            \fill[white] (0.2,0) circle (0.15); \draw[thick] (0.2,0) circle (0.15);
+            \fill[white] (0.6,0) circle (0.15); \draw[thick] (0.6,0) circle (0.15);
+        \end{scope}
+    \end{scope}
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{Fundamento Conceptual: Transformación de la Energía}
+De acuerdo con los principios de la Física Conceptual, cuando un objeto se mueve en un sistema donde no actúan fuerzas disipativas como la fricción, la energía mecánica total se conserva. La energía mecánica es la suma de la energía potencial gravitatoria (debida a la altura) y la energía cinética (debida al movimiento). Al inicio, en la parte más alta, el carrito parte del reposo, por lo que su energía cinética es cero y toda su energía es potencial. Al descender hacia la parte más baja (donde definimos la altura como cero), toda esa energía potencial se transforma íntegramente en energía cinética.
+
+\subsubsection*{Visualización de la Transformación Energética}
+Para ilustrar esta transferencia total de energía sin pérdidas, el siguiente código en Python genera un gráfico de barras comparativo entre el estado inicial y el estado en el punto más bajo.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+estados = ['Punto mas Alto (Inicial)', 'Punto mas Bajo (Final)']
+energia_potencial = [88.2, 0.0]
+energia_cinetica = [0.0, 88.2]
+
+fig, ax = plt.subplots(figsize=(8, 5))
+ancho = 0.4
+
+ax.bar(estados, energia_potencial, ancho, label='Energia Potencial (J)', color='coral')
+ax.bar(estados, energia_cinetica, ancho, bottom=energia_potencial, label='Energia Cinetica (J)', color='skyblue')
+
+ax.set_ylabel('Energia (Joules)')
+ax.set_title('Conservacion y Transformacion de la Energia Mecanica')
+ax.legend()
+plt.grid(axis='y', linestyle='--', alpha=0.7)
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Planteamiento Matemático y Cálculo}
+Basándonos en la conservación de la energía, igualamos la energía mecánica inicial con la energía mecánica final en el punto más bajo:
+$$E_{m(\text{inicial})} = E_{m(\text{final})}$$
+$$E_{p(\text{inicial})} + E_{c(\text{inicial})} = E_{p(\text{final})} + E_{c(\text{final})}$$
+Dado que parte del reposo, $v_i = 0$, lo que anula la energía cinética inicial. En el punto más bajo, la altura $h_f = 0$, lo que anula la energía potencial final:
+$$E_{p(\text{inicial})} = E_{c(\text{final})}$$
+Sustituimos las fórmulas correspondientes de energía potencial ($mgh$) y energía cinética ($\frac{1}{2}mv^2$):
+$$m \cdot g \cdot h_i = \frac{1}{2} \cdot m \cdot v_f^2$$
+Como la masa $m$ se encuentra en ambos lados de la ecuación y es distinta de cero, se puede cancelar. Esto demuestra un principio clave conceptual: la rapidez final no depende de la masa del carrito.
+$$g \cdot h_i = \frac{1}{2} \cdot v_f^2$$
+Despejamos la rapidez final $v_f$:
+$$v_f^2 = 2 \cdot g \cdot h_i$$
+$$v_f = \sqrt{2 \cdot g \cdot h_i}$$
+Sustituimos los valores dados ($h_i = 4.5 \text{ m}$) y consideramos la aceleración de la gravedad estándar $g = 9.8 \text{ m/s}^2$:
+$$v_f = \sqrt{2 \cdot (9.8 \text{ m/s}^2) \cdot (4.5 \text{ m})}$$
+$$v_f = \sqrt{88.2 \text{ m}^2\text{/s}^2}$$
+$$v_f \approx 9.39 \text{ m/s}$$
+
+\subsubsection*{Conclusión}
+La rapidez del carrito al pasar por la parte más baja de la pista es de aproximadamente 9.39 m/s.
+
+\newpage
+\subsection*{Enunciado}
+Se deja deslizar un carrito desde el reposo en la parte más alta de una pista. La pista tiene una bajada, luego una parte horizontal y finalmente una subida. Analiza el movimiento del carrito para el caso A, donde la pista no tiene fricción, y para el caso B, donde la pista tiene fricción. Si el carrito tiene masa igual a 2.0 kg y se deja deslizar desde el reposo en la parte más alta de la pista sin fricción con una altura inicial de 4.5 m respecto al punto más bajo de la pista. ¿Hasta qué altura máxima llegará en la subida final?
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, font=\sffamily]
+    \node[blue, font=\bfseries] at (3,4.5) {Caso A: pista sin friccion};
+    \draw[dashed, gray] (0,3) -- (6,3);
+    \draw[ultra thick, gray] (0,3) .. controls (1,0) and (2,0) .. (3,0) .. controls (4,0) and (5,0) .. (6,3);
+    \draw[fill=blue!80, rounded corners=1pt] (0.1,3.1) rectangle (0.9,3.6);
+    \fill[white] (0.3,3.1) circle (0.15); \draw[thick] (0.3,3.1) circle (0.15);
+    \fill[white] (0.7,3.1) circle (0.15); \draw[thick] (0.7,3.1) circle (0.15);
+    
+    \draw[fill=blue!80, rounded corners=1pt] (5.1,3.1) rectangle (5.9,3.6);
+    \fill[white] (5.3,3.1) circle (0.15); \draw[thick] (5.3,3.1) circle (0.15);
+    \fill[white] (5.7,3.1) circle (0.15); \draw[thick] (5.7,3.1) circle (0.15);
+
+    \begin{scope}[xshift=8cm]
+        \node[red, font=\bfseries] at (3,4.5) {Caso B: pista con friccion};
+        \draw[dashed, gray] (0,3) -- (6,3);
+        \draw[ultra thick, gray] (0,3) .. controls (1,0) and (2,0) .. (3,0) .. controls (4,0) and (5,0) .. (6,3);
+        
+        \draw[ultra thick, red, densely dotted] (1,0.5) .. controls (1.5,0) and (2,0) .. (3,0) .. controls (4,0) and (4.5,0.5) .. (5,1.5);
+        
+        \draw[fill=blue!80, rounded corners=1pt] (0.1,3.1) rectangle (0.9,3.6);
+        \fill[white] (0.3,3.1) circle (0.15); \draw[thick] (0.3,3.1) circle (0.15);
+        \fill[white] (0.7,3.1) circle (0.15); \draw[thick] (0.7,3.1) circle (0.15);
+        
+        \begin{scope}[shift={(4.5,1.2)}, rotate=35]
+            \draw[fill=blue!80, rounded corners=1pt] (0,0) rectangle (0.8,0.5);
+            \fill[white] (0.2,0) circle (0.15); \draw[thick] (0.2,0) circle (0.15);
+            \fill[white] (0.6,0) circle (0.15); \draw[thick] (0.6,0) circle (0.15);
+        \end{scope}
+    \end{scope}
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{Fundamento Conceptual: Retorno al Estado Energético Inicial}
+Este escenario es una aplicación directa del principio de inercia y conservación de energía estudiado por Galileo en sus planos inclinados. Puesto que el enunciado especifica explícitamente que la pista no tiene fricción, el sistema no pierde energía mecánica en forma de calor. La energía cinética máxima adquirida en el punto más bajo se convertirá nuevamente en energía potencial gravitatoria a medida que el carrito ascienda por la subida final. El carrito seguirá subiendo y perdiendo rapidez hasta que toda su energía cinética se agote, momento en el cual habrá alcanzado su altura máxima. 
+
+\subsubsection*{Análisis y Cálculo de la Altura}
+Planteamos la conservación de la energía entre el punto inicial (reposo en la bajada) y el punto final (reposo instantáneo en la subida máxima). En ambos extremos la rapidez es cero, por lo tanto, la energía cinética es nula en ambos estados.
+$$E_{m(\text{inicial})} = E_{m(\text{final})}$$
+$$E_{p(\text{inicial})} + E_{c(\text{inicial})} = E_{p(\text{final})} + E_{c(\text{final})}$$
+$$E_{p(\text{inicial})} + 0 = E_{p(\text{final})} + 0$$
+Sustituyendo la ecuación de la energía potencial gravitatoria:
+$$m \cdot g \cdot h_{\text{inicial}} = m \cdot g \cdot h_{\text{final}}$$
+Simplificando la masa y la gravedad de ambos lados de la ecuación, obtenemos directamente la relación geométrica:
+$$h_{\text{inicial}} = h_{\text{final}}$$
+$$4.5 \text{ m} = h_{\text{final}}$$
+
+\subsubsection*{Conclusión}
+El carrito llegará a una altura máxima de 4.5 metros en la subida final, igualando exactamente su altura de partida.
+
+\newpage
+\subsection*{Enunciado}
+Se deja deslizar un carrito desde el reposo en la parte más alta de una pista. La pista tiene una bajada, luego una parte horizontal y finalmente una subida. Analiza el movimiento del carrito para el caso A, donde la pista no tiene fricción, y para el caso B, donde la pista tiene fricción. Si el carrito tiene masa igual a 2.0 kg y se deja deslizar desde el reposo en la parte más alta de la pista sin fricción con una altura inicial de 4.5 m respecto al punto más bajo de la pista. ¿Cuál es la energía mecánica total del sistema durante el movimiento?
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, font=\sffamily]
+    \node[blue, font=\bfseries] at (3,4.5) {Caso A: pista sin friccion};
+    \draw[dashed, gray] (0,3) -- (6,3);
+    \draw[ultra thick, gray] (0,3) .. controls (1,0) and (2,0) .. (3,0) .. controls (4,0) and (5,0) .. (6,3);
+    \draw[fill=blue!80, rounded corners=1pt] (0.1,3.1) rectangle (0.9,3.6);
+    \fill[white] (0.3,3.1) circle (0.15); \draw[thick] (0.3,3.1) circle (0.15);
+    \fill[white] (0.7,3.1) circle (0.15); \draw[thick] (0.7,3.1) circle (0.15);
+    
+    \draw[fill=blue!80, rounded corners=1pt] (5.1,3.1) rectangle (5.9,3.6);
+    \fill[white] (5.3,3.1) circle (0.15); \draw[thick] (5.3,3.1) circle (0.15);
+    \fill[white] (5.7,3.1) circle (0.15); \draw[thick] (5.7,3.1) circle (0.15);
+
+    \begin{scope}[xshift=8cm]
+        \node[red, font=\bfseries] at (3,4.5) {Caso B: pista con friccion};
+        \draw[dashed, gray] (0,3) -- (6,3);
+        \draw[ultra thick, gray] (0,3) .. controls (1,0) and (2,0) .. (3,0) .. controls (4,0) and (5,0) .. (6,3);
+        
+        \draw[ultra thick, red, densely dotted] (1,0.5) .. controls (1.5,0) and (2,0) .. (3,0) .. controls (4,0) and (4.5,0.5) .. (5,1.5);
+        
+        \draw[fill=blue!80, rounded corners=1pt] (0.1,3.1) rectangle (0.9,3.6);
+        \fill[white] (0.3,3.1) circle (0.15); \draw[thick] (0.3,3.1) circle (0.15);
+        \fill[white] (0.7,3.1) circle (0.15); \draw[thick] (0.7,3.1) circle (0.15);
+        
+        \begin{scope}[shift={(4.5,1.2)}, rotate=35]
+            \draw[fill=blue!80, rounded corners=1pt] (0,0) rectangle (0.8,0.5);
+            \fill[white] (0.2,0) circle (0.15); \draw[thick] (0.2,0) circle (0.15);
+            \fill[white] (0.6,0) circle (0.15); \draw[thick] (0.6,0) circle (0.15);
+        \end{scope}
+    \end{scope}
+\end{tikzpicture}
+\end{center}
+
+
+\subsection*{Solución}
+
+\subsubsection*{Fundamento Conceptual: Constancia de la Energía Total}
+La energía mecánica total de un sistema se define como la suma instantánea de todas sus energías potenciales y cinéticas. En un escenario ideal exento de fuerzas no conservativas (como rozamiento o resistencia del aire), esta suma permanece rígidamente constante en cualquier punto de la trayectoria. Es decir, aunque las proporciones de energía cinética y potencial fluctúen drásticamente mientras el carrito sube y baja, la magnitud de la energía mecánica total será un valor numérico estático e invariable desde el instante en que se suelta el carrito hasta el final de su recorrido.
+
+\subsubsection*{Ejecución del Cálculo}
+Dado que la energía mecánica total es constante, es suficiente calcularla en un solo punto donde conozcamos todas las variables. El punto más sencillo es el instante inicial, antes de que el carrito sea soltado.
+En el punto inicial, la altura es $h_i = 4.5 \text{ m}$ y la rapidez es $v_i = 0 \text{ m/s}$.
+La ecuación general es:
+$$E_m = E_p + E_c$$
+Evaluando en las condiciones iniciales:
+$$E_m = (m \cdot g \cdot h_i) + \left(\frac{1}{2} \cdot m \cdot v_i^2\right)$$
+Dado que la velocidad es cero, el segundo término se anula:
+$$E_m = m \cdot g \cdot h_i + 0$$
+Procedemos a sustituir los datos del problema, donde la masa es $m = 2.0 \text{ kg}$, la altura es $h_i = 4.5 \text{ m}$ y adoptamos la gravedad estándar $g = 9.8 \text{ m/s}^2$:
+$$E_m = (2.0 \text{ kg}) \cdot (9.8 \text{ m/s}^2) \cdot (4.5 \text{ m})$$
+$$E_m = 19.6 \text{ N} \cdot 4.5 \text{ m}$$
+$$E_m = 88.2 \text{ J}$$
+Este valor de 88.2 Joules representa el inventario energético total con el que cuenta el sistema para realizar todo su recorrido.
+
+\subsubsection*{Conclusión}
+La energía mecánica total del sistema durante todo el movimiento es constante y equivale a 88.2 J.
+
+\newpage
+
+\subsection*{Enunciado}
+Una pelota se deja caer desde una altura de 8 m sobre el suelo. Desprecia la resistencia del aire. ¿Cuál será la rapidez de la pelota justo antes de tocar el suelo?
+
+\begin{center}
+\begin{tikzpicture}[scale=0.6, font=\sffamily]
+    \draw[thick, fill=gray!20] (-3,0) rectangle (3,-0.5);
+    \node[below] at (0,-0.5) {Nivel de Referencia (Suelo $h=0$)};
+    
+    \draw[<->] (-1.5,0) -- (-1.5,8) node[midway, fill=white] {$h = 8$ m};
+    \draw[fill=red!80] (0,8) circle (0.3);
+    \node[right] at (0.5, 8) {Reposo ($v_i = 0$)};
+    
+    \draw[->, ultra thick, blue] (0,7.5) -- (0,5.5);
+    \node[right, blue] at (0.2, 6.5) {Aceleración de la gravedad ($g$)};
+    
+    \draw[dashed] (0,8) -- (-1.5,8);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{Fundamento Conceptual: Principio de Conservación de la Energía}
+Basándonos en la Física Conceptual de Paul G. Hewitt, cuando se ignora la resistencia del aire, el objeto se encuentra en un estado de caída libre influenciado únicamente por la gravedad, la cual es una fuerza conservativa. Esto implica que la energía mecánica total del sistema pelota-Tierra permanece constante durante todo el trayecto. La energía mecánica es la suma de la energía potencial gravitacional, dependiente de la altura, y la energía cinética, dependiente de la rapidez del objeto. 
+
+\subsubsection*{Dinámica de la Transformación Energética}
+Para que este principio quede completamente claro antes del cálculo, podemos visualizar cómo la energía cambia de estado mediante el siguiente código en Python. En la altura máxima, el 100 por ciento de la energía es potencial. Justo antes de tocar el suelo, esa energía no ha desaparecido, sino que se ha transformado en un 100 por ciento de energía cinética.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+posiciones = ['Altura Maxima (Inicio)', 'Justo antes del impacto (Final)']
+energia_potencial = [100, 0]
+energia_cinetica = [0, 100]
+
+plt.figure(figsize=(7, 4))
+ancho_barra = 0.5
+
+plt.bar(posiciones, energia_potencial, ancho_barra, color='lightcoral', label='Energia Potencial')
+plt.bar(posiciones, energia_cinetica, ancho_barra, bottom=energia_potencial, color='skyblue', label='Energia Cinetica')
+
+plt.ylabel('Porcentaje de Energia Total')
+plt.title('Transformacion de la Energia en Caida Libre')
+plt.legend(loc='center right')
+plt.grid(axis='y', linestyle='--', alpha=0.5)
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Planteamiento Matemático y Ejecución}
+Igualamos la energía mecánica en el punto inicial (arriba) y en el punto final (suelo):
+$$E_{m(\text{inicial})} = E_{m(\text{final})}$$
+$$E_{p(\text{inicial})} + E_{c(\text{inicial})} = E_{p(\text{final})} + E_{c(\text{final})}$$
+Dado que la pelota "se deja caer", su rapidez inicial es nula, por lo que $E_{c(\text{inicial})} = 0$. En el nivel del suelo, la altura es nula, por lo que $E_{p(\text{final})} = 0$. La ecuación se reduce a una transferencia perfecta:
+$$E_{p(\text{inicial})} = E_{c(\text{final})}$$
+Sustituimos por las ecuaciones fundamentales:
+$$m \cdot g \cdot h = \frac{1}{2} \cdot m \cdot v^2$$
+La masa $m$ es un factor común en ambos lados, por lo que se cancela. Esto demuestra que en ausencia de resistencia del aire, la rapidez final es independiente de la masa del objeto.
+$$g \cdot h = \frac{1}{2} \cdot v^2$$
+Despejamos la rapidez $v$:
+$$v^2 = 2 \cdot g \cdot h$$
+$$v = \sqrt{2 \cdot g \cdot h}$$
+Para obtener la respuesta numérica proporcionada en el material de origen, es necesario deducir que se está utilizando el valor de la aceleración de la gravedad aproximado de $g = 10 \text{ m/s}^2$ por fines didácticos. Sustituyendo los valores:
+$$v = \sqrt{2 \cdot (10 \text{ m/s}^2) \cdot (8 \text{ m})}$$
+$$v = \sqrt{160 \text{ m}^2\text{/s}^2}$$
+$$v \approx 12.649 \text{ m/s}$$
+Es imperativo notar que el material original presenta un error tipográfico en la unidad de la respuesta ("12.65 m"), ya que la rapidez debe expresarse obligatoriamente en metros por segundo (m/s).
+
+\subsubsection*{Conclusión}
+La rapidez de la pelota justo antes de tocar el suelo será de 12.65 m/s.
+
+\newpage
+\subsection*{Enunciado}
+Una piedra se lanza verticalmente hacia arriba con una rapidez inicial de 18 m/s. Desprecia la resistencia del aire. ¿Cuál es la altura máxima que alcanza respecto al punto de lanzamiento?
+
+\begin{center}
+\begin{tikzpicture}[scale=0.6, font=\sffamily]
+    \draw[thick, fill=gray!20] (-3,0) rectangle (3,-0.5);
+    \node[below] at (0,-0.5) {Punto de Lanzamiento ($h=0$)};
+    
+    \draw[fill=gray!80] (0,0.3) circle (0.3);
+    \node[right] at (0.5, 0.5) {$v_i = 18$ m/s};
+    
+    \draw[->, ultra thick, blue] (0,0.8) -- (0,3.5);
+    \node[right, blue] at (0.2, 2.5) {Ascenso};
+    
+    \draw[dashed, gray] (0,0) -- (-2,0);
+    \draw[dashed, gray] (0,6) -- (-2,6);
+    \draw[<->] (-1.5,0) -- (-1.5,6) node[midway, fill=white] {$h_{\text{max}}$};
+    
+    \draw[fill=gray!30, dashed] (0,6) circle (0.3);
+    \node[right] at (0.5, 6) {Altura máxima ($v_f = 0$)};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{Fundamento Conceptual: Trabajo contra la Gravedad}
+Cuando un objeto es lanzado hacia arriba, su energía cinética inicial realiza un trabajo en contra de la fuerza de gravedad terrestre. A medida que la piedra gana altura, pierde rapidez. Energéticamente, esto significa que su energía de movimiento (cinética) se está almacenando en el sistema en forma de energía de posición (potencial gravitacional). El punto culminante de este ascenso se define en física como el instante exacto donde la piedra agota toda su energía cinética, deteniéndose por un lapso infinitesimal antes de comenzar a caer. En ese punto, su rapidez es exactamente cero.
+
+\subsubsection*{Relación Inversa entre Altura y Cuadrado de la Rapidez}
+Para entender esta relación de forma gráfica y comprobar cómo la energía se intercambia linealmente en función de la altura alcanzada, se presenta el siguiente código computacional. Este gráfico evidencia que la energía mecánica total se mantiene como una línea recta horizontal.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+import numpy as np
+
+altura = np.linspace(0, 16.2, 100)
+energia_total = 100
+energia_potencial = (altura / 16.2) * 100
+energia_cinetica = energia_total - energia_potencial
+
+plt.figure(figsize=(8, 5))
+plt.plot(altura, energia_potencial, label='Energia Potencial', color='lightcoral', linewidth=2.5)
+plt.plot(altura, energia_cinetica, label='Energia Cinetica', color='skyblue', linewidth=2.5)
+plt.axhline(energia_total, label='Energia Mecanica Total', color='black', linestyle='--', linewidth=2)
+
+plt.xlabel('Altura de la piedra (m)')
+plt.ylabel('Porcentaje de Energia')
+plt.title('Intercambio Energetico durante el Ascenso Vertical')
+plt.legend(loc='center right')
+plt.grid(True, linestyle=':', alpha=0.7)
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Planteamiento Matemático y Ejecución}
+Establecemos la igualdad dictada por la conservación de la energía mecánica entre el instante del lanzamiento (inicial) y el momento en que alcanza su altura máxima (final):
+$$E_{m(\text{inicial})} = E_{m(\text{final})}$$
+$$E_{p(\text{inicial})} + E_{c(\text{inicial})} = E_{p(\text{final})} + E_{c(\text{final})}$$
+En el punto de lanzamiento, definimos la altura como cero, por lo tanto $E_{p(\text{inicial})} = 0$. En la altura máxima, la rapidez se vuelve cero instantáneamente, lo que anula la energía cinética, así que $E_{c(\text{final})} = 0$.
+La ecuación simplificada muestra que toda la energía de movimiento inicial se transforma en energía de posición final:
+$$E_{c(\text{inicial})} = E_{p(\text{final})}$$
+Sustituimos las expresiones algebraicas de la energía:
+$$\frac{1}{2} \cdot m \cdot v^2 = m \cdot g \cdot h$$
+Cancelamos la masa $m$ en ambos lados y despejamos la variable de interés, que en este caso es la altura $h$:
+$$h = \frac{v^2}{2 \cdot g}$$
+Sustituimos la rapidez inicial $v = 18 \text{ m/s}$ y el valor de la gravedad $g = 10 \text{ m/s}^2$ (acorde a la respuesta objetivo):
+$$h = \frac{(18 \text{ m/s})^2}{2 \cdot (10 \text{ m/s}^2)}$$
+$$h = \frac{324 \text{ m}^2\text{/s}^2}{20 \text{ m/s}^2}$$
+$$h = 16.2 \text{ m}$$
+
+\subsubsection*{Conclusión}
+La altura máxima que alcanza la piedra respecto al punto de lanzamiento es de 16.2 m.
+
+\newpage
+
+\subsection*{Enunciado}
+Un carrito de masa 2 kg parte del reposo desde una altura de 5 m sobre el suelo y desciende por una pista sin fricción. En cierto punto de la pista se encuentra a una altura de 2 m sobre el suelo. Considerando la aceleración de la gravedad $g = 10 \text{ m/s}^2$, ¿cuál es la rapidez del carrito en ese punto?
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9, font=\sffamily]
+    \draw[thick, fill=gray!20] (0,0) -- (0,5) .. controls (2,5) and (3,2) .. (5,2) .. controls (6,2) and (7,0) .. (8,0) -- cycle;
+    \draw[dashed, gray] (0,5) -- (1.5,5);
+    \draw[dashed, gray] (5,2) -- (6.5,2);
+    
+    \draw[fill=blue!50, rounded corners=2pt] (0.2,5.1) rectangle (1.2, 5.7);
+    \fill[black] (0.4, 5.1) circle (0.15);
+    \fill[black] (1.0, 5.1) circle (0.15);
+    \node[above, font=\footnotesize] at (0.7, 5.8) {$v_0 = 0$ m/s};
+    
+    \draw[fill=blue!50, rounded corners=2pt] (4.8,2.1) rectangle (5.8, 2.7);
+    \fill[black] (5.0, 2.1) circle (0.15);
+    \fill[black] (5.6, 2.1) circle (0.15);
+    \node[above, font=\footnotesize, align=center] at (5.3, 2.8) {Punto intermedio\\$h=2$ m};
+    
+    \draw[<->] (-0.8,0) -- (-0.8,5) node[midway, fill=white] {$h_1=5$ m};
+    \draw[<->] (4.2,0) -- (4.2,2) node[midway, fill=white] {$h=2$ m};
+    \draw[thick, green!50!black] (-1.5,0) -- (9,0) node[below left, text=black] {Suelo (Referencia $h=0$)};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{Fundamento Conceptual: Conservación de la Energía Mecánica}
+En concordancia con la obra de Paul G. Hewitt, cuando un cuerpo se mueve bajo la influencia exclusiva de fuerzas conservativas (como el peso) y se desprecia el rozamiento, la energía mecánica del sistema se mantiene constante en cada instante del recorrido. Al partir del reposo en la altura máxima, el carrito posee una energía cinética nula; por tanto, su energía mecánica es enteramente energía potencial gravitatoria. A medida que desciende por la pista, pierde altura y gana velocidad. Esto significa que una porción de su energía potencial original se ha transformado en energía cinética (energía de movimiento). 
+
+\subsubsection*{Visualización de la Transformación Energética}
+Para comprender cómo se distribuye esta energía antes de realizar los cálculos algebraicos, podemos observar el siguiente diagrama generado en Python. El gráfico demuestra que la suma de ambas energías en el punto intermedio equivale exactamente a la energía total que el sistema tenía al inicio.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+estados = ['Inicio (h = 5m)', 'Punto Intermedio (h = 2m)']
+energia_potencial = [100, 40]
+energia_cinetica = [0, 60]
+
+fig, ax = plt.subplots(figsize=(7, 5))
+ancho = 0.4
+
+ax.bar(estados, energia_potencial, ancho, label='Energia Potencial (Ep)', color='#ff9999', edgecolor='black')
+ax.bar(estados, energia_cinetica, ancho, bottom=energia_potencial, label='Energia Cinetica (Ec)', color='#66b3ff', edgecolor='black')
+
+ax.set_ylabel('Energia Mecanica (Joules)')
+ax.set_title('Conservacion y Distribucion de la Energia')
+ax.axhline(100, color='black', linestyle='--', linewidth=1.5, label='Energia Mecanica Total (100 J)')
+ax.legend(loc='center right')
+plt.grid(axis='y', linestyle=':', alpha=0.7)
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Planteamiento y Ecuación}
+Igualamos la energía mecánica inicial (en la cima) con la energía mecánica en el punto intermedio:
+$$E_{m(\text{inicial})} = E_{m(\text{intermedio})}$$
+$$E_{p(\text{inicial})} + E_{c(\text{inicial})} = E_{p(\text{intermedio})} + E_{c(\text{intermedio})}$$
+Sabemos que $v_{\text{inicial}} = 0$, lo que anula el término de la energía cinética inicial. Expandimos las demás expresiones con sus fórmulas correspondientes:
+$$m \cdot g \cdot h_{\text{inicial}} = m \cdot g \cdot h_{\text{intermedio}} + \frac{1}{2} \cdot m \cdot v_{\text{intermedio}}^2$$
+Para simplificar la ecuación, notamos que la masa $m$ es un factor común en todos los términos y es diferente de cero, por lo que podemos dividir toda la ecuación por $m$, demostrando que la rapidez no depende de la masa del carrito:
+$$g \cdot h_{\text{inicial}} = g \cdot h_{\text{intermedio}} + \frac{1}{2} \cdot v_{\text{intermedio}}^2$$
+
+\subsubsection*{Desarrollo Matemático}
+Despejamos la variable de la rapidez en el punto intermedio ($v_{\text{intermedio}}$):
+$$g \cdot h_{\text{inicial}} - g \cdot h_{\text{intermedio}} = \frac{1}{2} \cdot v_{\text{intermedio}}^2$$
+$$g \cdot (h_{\text{inicial}} - h_{\text{intermedio}}) = \frac{1}{2} \cdot v_{\text{intermedio}}^2$$
+$$2 \cdot g \cdot (h_{\text{inicial}} - h_{\text{intermedio}}) = v_{\text{intermedio}}^2$$
+$$v_{\text{intermedio}} = \sqrt{2 \cdot g \cdot (h_{\text{inicial}} - h_{\text{intermedio}})}$$
+Sustituimos los datos numéricos ($g = 10 \text{ m/s}^2$, $h_{\text{inicial}} = 5 \text{ m}$, $h_{\text{intermedio}} = 2 \text{ m}$):
+$$v_{\text{intermedio}} = \sqrt{2 \cdot (10 \text{ m/s}^2) \cdot (5 \text{ m} - 2 \text{ m})}$$
+$$v_{\text{intermedio}} = \sqrt{20 \text{ m/s}^2 \cdot 3 \text{ m}}$$
+$$v_{\text{intermedio}} = \sqrt{60 \text{ m}^2\text{/s}^2}$$
+$$v_{\text{intermedio}} \approx 7.7459 \text{ m/s}$$
+Redondeando a dos decimales, obtenemos el valor final.
+
+\subsubsection*{Conclusión}
+La rapidez del carrito en el punto intermedio es de aproximadamente 7.75 m/s.
+
+\newpage
+\subsection*{Enunciado}
+Un carrito de masa 2 kg parte del reposo desde una altura de 5 m sobre el suelo y desciende por una pista sin fricción. En cierto punto de la pista se encuentra a una altura de 2 m sobre el suelo. Considerando la aceleración de la gravedad $g = 10 \text{ m/s}^2$, ¿cuál es su energía cinética en ese punto?
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9, font=\sffamily]
+    \draw[thick, fill=gray!20] (0,0) -- (0,5) .. controls (2,5) and (3,2) .. (5,2) .. controls (6,2) and (7,0) .. (8,0) -- cycle;
+    \draw[dashed, gray] (0,5) -- (1.5,5);
+    \draw[dashed, gray] (5,2) -- (6.5,2);
+    
+    \draw[fill=blue!50, rounded corners=2pt] (0.2,5.1) rectangle (1.2, 5.7);
+    \fill[black] (0.4, 5.1) circle (0.15);
+    \fill[black] (1.0, 5.1) circle (0.15);
+    \node[above, font=\footnotesize] at (0.7, 5.8) {$v_0 = 0$ m/s};
+    
+    \draw[fill=blue!50, rounded corners=2pt] (4.8,2.1) rectangle (5.8, 2.7);
+    \fill[black] (5.0, 2.1) circle (0.15);
+    \fill[black] (5.6, 2.1) circle (0.15);
+    \node[above, font=\footnotesize, align=center] at (5.3, 2.8) {Punto intermedio\\$h=2$ m};
+    
+    \draw[<->] (-0.8,0) -- (-0.8,5) node[midway, fill=white] {$h_1=5$ m};
+    \draw[<->] (4.2,0) -- (4.2,2) node[midway, fill=white] {$h=2$ m};
+    \draw[thick, green!50!black] (-1.5,0) -- (9,0) node[below left, text=black] {Suelo (Referencia $h=0$)};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{Fundamento Conceptual: Dos Caminos Analíticos}
+La energía cinética es la energía que un objeto posee debido a su movimiento, y se define por la ecuación $E_c = \frac{1}{2}mv^2$. Podríamos calcularla directamente utilizando la rapidez obtenida en el literal anterior. Sin embargo, un enfoque pedagógicamente más rico, propuesto en la Física Conceptual, es deducirla a través del Teorema de Conservación. Puesto que no hay fuerzas disipativas, cualquier cantidad de energía potencial que el carrito haya perdido al bajar debe haberse convertido exactamente en la energía cinética que ha ganado.
+
+\subsubsection*{Cálculo por Transformación de Energía (Método Preferido)}
+Calcularemos la energía cinética observando la diferencia de altura, lo cual evita arrastrar posibles errores de redondeo en la rapidez.
+La energía cinética en el punto intermedio es igual a la variación absoluta de la energía potencial:
+$$E_{c(\text{intermedio})} = E_{p(\text{inicial})} - E_{p(\text{intermedio})}$$
+$$E_{c(\text{intermedio})} = m \cdot g \cdot h_{\text{inicial}} - m \cdot g \cdot h_{\text{intermedio}}$$
+Factorizamos la masa y la gravedad:
+$$E_{c(\text{intermedio})} = m \cdot g \cdot (h_{\text{inicial}} - h_{\text{intermedio}})$$
+Sustituimos los valores dados ($m = 2 \text{ kg}$, $g = 10 \text{ m/s}^2$, $h_{\text{inicial}} = 5 \text{ m}$, $h_{\text{intermedio}} = 2 \text{ m}$):
+$$E_{c(\text{intermedio})} = (2 \text{ kg}) \cdot (10 \text{ m/s}^2) \cdot (5 \text{ m} - 2 \text{ m})$$
+$$E_{c(\text{intermedio})} = 20 \text{ N} \cdot (3 \text{ m})$$
+$$E_{c(\text{intermedio})} = 60 \text{ J}$$
+
+\subsubsection*{Comprobación mediante la Fórmula de Velocidad}
+Para asegurar la consistencia del sistema físico, aplicamos la fórmula directa usando la rapidez al cuadrado exacta ($\sqrt{60}^2 = 60$) obtenida anteriormente:
+$$E_c = \frac{1}{2} \cdot m \cdot v^2$$
+$$E_c = \frac{1}{2} \cdot (2 \text{ kg}) \cdot (60 \text{ m}^2\text{/s}^2)$$
+$$E_c = 1 \text{ kg} \cdot 60 \text{ m}^2\text{/s}^2 = 60 \text{ J}$$
+Ambos métodos convergen al mismo resultado exacto.
+
+\subsubsection*{Conclusión}
+La energía cinética del carrito en ese punto es de 60 J.
+
+\newpage
+\subsection*{Enunciado}
+Un carrito de masa 2 kg parte del reposo desde una altura de 5 m sobre el suelo y desciende por una pista sin fricción. En cierto punto de la pista se encuentra a una altura de 2 m sobre el suelo. Considerando la aceleración de la gravedad $g = 10 \text{ m/s}^2$, ¿cuál es su energía potencial gravitatoria en ese punto?
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9, font=\sffamily]
+    \draw[thick, fill=gray!20] (0,0) -- (0,5) .. controls (2,5) and (3,2) .. (5,2) .. controls (6,2) and (7,0) .. (8,0) -- cycle;
+    \draw[dashed, gray] (0,5) -- (1.5,5);
+    \draw[dashed, gray] (5,2) -- (6.5,2);
+    
+    \draw[fill=blue!50, rounded corners=2pt] (0.2,5.1) rectangle (1.2, 5.7);
+    \fill[black] (0.4, 5.1) circle (0.15);
+    \fill[black] (1.0, 5.1) circle (0.15);
+    \node[above, font=\footnotesize] at (0.7, 5.8) {$v_0 = 0$ m/s};
+    
+    \draw[fill=blue!50, rounded corners=2pt] (4.8,2.1) rectangle (5.8, 2.7);
+    \fill[black] (5.0, 2.1) circle (0.15);
+    \fill[black] (5.6, 2.1) circle (0.15);
+    \node[above, font=\footnotesize, align=center] at (5.3, 2.8) {Punto intermedio\\$h=2$ m};
+    
+    \draw[<->] (-0.8,0) -- (-0.8,5) node[midway, fill=white] {$h_1=5$ m};
+    \draw[<->] (4.2,0) -- (4.2,2) node[midway, fill=white] {$h=2$ m};
+    \draw[thick, green!50!black] (-1.5,0) -- (9,0) node[below left, text=black] {Suelo (Referencia $h=0$)};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{Fundamento Conceptual: Altura Respecto al Nivel de Referencia}
+La energía potencial gravitatoria describe la capacidad de un objeto para realizar trabajo mecánico en virtud de su separación espacial respecto a una base estipulada como nivel cero. En la obra de Hewitt, se enfatiza que esta energía depende estrictamente de tres factores: la masa del objeto, la aceleración de la gravedad del entorno y la altura vertical relativa al suelo. No guarda ninguna relación con el recorrido horizontal ni con la inclinación de la pendiente de la pista, es una medida puramente geométrica de altura y gravedad.
+
+\subsubsection*{Cálculo de la Energía Potencial}
+La ecuación que define esta forma de energía es el producto directo de las tres magnitudes mencionadas:
+$$E_p = m \cdot g \cdot h$$
+En este caso, nos interesa calcular la energía cuando el carrito cruza el punto intermedio. Extraemos los datos precisos para este instante, donde la masa no ha cambiado ($m = 2 \text{ kg}$), la gravedad se asume constante ($g = 10 \text{ m/s}^2$) y la altura específica en este instante de evaluación es de $h = 2 \text{ m}$.
+Sustituimos los datos en la expresión matemática:
+$$E_p = (2 \text{ kg}) \cdot (10 \text{ m/s}^2) \cdot (2 \text{ m})$$
+Realizamos el producto escalar:
+$$E_p = 20 \text{ N} \cdot 2 \text{ m}$$
+$$E_p = 40 \text{ J}$$
+
+\subsubsection*{Verificación de la Energía Total}
+A modo de comprobación de la integridad analítica del problema, podemos sumar la energía cinética y la energía potencial recién calculadas en este punto intermedio:
+$$E_{m(\text{total})} = E_c + E_p = 60 \text{ J} + 40 \text{ J} = 100 \text{ J}$$
+Este valor de 100 Joules coincide milimétricamente con la energía potencial gravitatoria inicial máxima ($E_{p(\text{inicial})} = 2 \text{ kg} \cdot 10 \text{ m/s}^2 \cdot 5 \text{ m} = 100 \text{ J}$), lo que ratifica la vigencia plena de la conservación de la energía y confirma la validez de los tres literales.
+
+\subsubsection*{Conclusión}
+La energía potencial gravitatoria del carrito en ese punto intermedio es de 40 J.
+
+\newpage
+\subsection*{Enunciado}
+Un esquiador de masa 60 kg parte del reposo desde la cima de una colina de 12 m de altura y desciende sin fricción. Considerando la aceleración de la gravedad $g = 10 \text{ m/s}^2$, ¿cuál será su rapidez al llegar al pie de la colina?
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, font=\sffamily]
+    \draw[thick, fill=blue!5] (0,4) .. controls (2,4) and (4,0) .. (7,0) -- (9,0) -- (9,-1) -- (0,-1) -- cycle;
+    \draw[dashed, gray] (0,0) -- (7,0);
+    \draw[<->] (-0.5,0) -- (-0.5,4) node[midway, fill=white] {$h = 12$ m};
+    
+    \draw[fill=red!80, rounded corners=1pt] (0.2,4.1) rectangle (0.8,4.7);
+    \draw[thick] (0.1,4.0) -- (0.9,3.8);
+    \node[above, font=\footnotesize] at (0.5, 4.8) {$v_0 = 0$ m/s};
+    
+    \node[below] at (7,0) {Pie de la colina (Referencia $h=0$)};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{Fundamento Conceptual: Conservación de la Energía Mecánica}
+En el marco de la Física Conceptual, un sistema donde no intervienen fuerzas disipativas como la fricción se denomina sistema conservativo. En este tipo de sistemas, la energía mecánica total, que es la suma de la energía potencial gravitatoria y la energía cinética, se mantiene invariante a lo largo de toda la trayectoria. Al iniciar el movimiento desde el reposo en la cima, el esquiador posee una energía cinética nula; por ende, toda su energía mecánica inicial es puramente energía potencial gravitatoria dictada por su altura. A medida que desciende, pierde altura pero gana velocidad, lo que se traduce en una transformación perfecta de energía potencial a energía cinética.
+
+\subsubsection*{Visualización de la Transformación Energética}
+Para ilustrar esta transferencia total de energía sin pérdidas hacia el entorno, el siguiente código en Python genera un gráfico de barras comparativo entre el estado inicial en la cima y el estado final al pie de la colina.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+estados = ['Cima de la Colina', 'Pie de la Colina']
+energia_potencial = [7200, 0]
+energia_cinetica = [0, 7200]
+
+fig, ax = plt.subplots(figsize=(7, 5))
+ancho = 0.5
+
+ax.bar(estados, energia_potencial, ancho, label='Energia Potencial (Ep)', color='coral', edgecolor='black')
+ax.bar(estados, energia_cinetica, ancho, bottom=energia_potencial, label='Energia Cinetica (Ec)', color='skyblue', edgecolor='black')
+
+ax.set_ylabel('Energia (Joules)')
+ax.set_title('Transformacion de la Energia durante el Descenso')
+ax.legend(loc='center right')
+plt.grid(axis='y', linestyle='--', alpha=0.7)
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Planteamiento Matemático y Cálculo}
+Igualamos la energía mecánica en la cima con la energía mecánica al pie de la colina:
+$$E_{m(\text{cima})} = E_{m(\text{pie})}$$
+$$E_{p(\text{cima})} + E_{c(\text{cima})} = E_{p(\text{pie})} + E_{c(\text{pie})}$$
+Puesto que parte del reposo, $E_{c(\text{cima})} = 0$. Al llegar al pie de la colina, la altura es cero, por lo que $E_{p(\text{pie})} = 0$. La ecuación se reduce a:
+$$E_{p(\text{cima})} = E_{c(\text{pie})}$$
+Sustituimos las fórmulas correspondientes:
+$$m \cdot g \cdot h = \frac{1}{2} \cdot m \cdot v^2$$
+La masa $m$ aparece como factor en ambos miembros de la ecuación. Al simplificarla, demostramos un principio físico fundamental: en ausencia de fricción, la rapidez final de un objeto en caída o descenso por un plano inclinado es independiente de su masa.
+$$g \cdot h = \frac{1}{2} \cdot v^2$$
+Despejamos la rapidez final $v$:
+$$v^2 = 2 \cdot g \cdot h$$
+$$v = \sqrt{2 \cdot g \cdot h}$$
+Sustituimos los valores numéricos, asumiendo $g = 10 \text{ m/s}^2$ y $h = 12 \text{ m}$:
+$$v = \sqrt{2 \cdot (10 \text{ m/s}^2) \cdot (12 \text{ m})}$$
+$$v = \sqrt{240 \text{ m}^2\text{/s}^2}$$
+$$v \approx 15.4919 \text{ m/s}$$
+Para propósitos académicos y coincidir con la convención del problema original, redondeamos el resultado a un decimal.
+
+\subsubsection*{Conclusión}
+La rapidez del esquiador al llegar al pie de la colina será de aproximadamente 15.5 m/s.
+
+\newpage
+\subsection*{Enunciado}
+Un esquiador de masa 60 kg parte del reposo desde la cima de una colina de 12 m de altura y desciende sin fricción. Considerando la aceleración de la gravedad $g = 10 \text{ m/s}^2$, ¿cuál será su energía cinética en ese punto (al pie de la colina)?
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, font=\sffamily]
+    \draw[thick, fill=blue!5] (0,4) .. controls (2,4) and (4,0) .. (7,0) -- (9,0) -- (9,-1) -- (0,-1) -- cycle;
+    \draw[dashed, gray] (0,0) -- (7,0);
+    \draw[<->] (-0.5,0) -- (-0.5,4) node[midway, fill=white] {$h = 12$ m};
+    
+    \draw[fill=red!80, rounded corners=1pt] (7.2,0.1) rectangle (7.8,0.7);
+    \draw[thick] (7.1,0.0) -- (7.9,0.0);
+    \draw[->, thick, black] (8.0, 0.4) -- (9.0, 0.4) node[right] {$v = 15.5$ m/s};
+    
+    \node[below] at (7,0) {Pie de la colina (Referencia $h=0$)};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{Fundamento Conceptual: Equivalencia Energética}
+Para calcular la energía cinética en el punto más bajo, la pedagogía de la Física Conceptual sugiere dos vías. La primera es aplicar la fórmula directa de la energía cinética ($E_c = \frac{1}{2}mv^2$) utilizando la rapidez calculada en el inciso anterior. Sin embargo, la vía más elegante y menos propensa a propagación de errores por redondeo es utilizar el principio de conservación de la energía mecánica directamente. Dado que no hay fricción, el total de la energía potencial gravitatoria que el esquiador tenía en la cima se ha transformado íntegramente en energía cinética al llegar al pie de la colina.
+
+\subsubsection*{Cálculo Directo por Conservación}
+Calcularemos la energía utilizando la equivalencia demostrada previamente:
+$$E_{c(\text{pie})} = E_{p(\text{cima})}$$
+La ecuación de la energía potencial gravitatoria inicial es:
+$$E_{c(\text{pie})} = m \cdot g \cdot h_{\text{cima}}$$
+Procedemos a sustituir los datos proporcionados por el problema ($m = 60 \text{ kg}$, $g = 10 \text{ m/s}^2$, $h_{\text{cima}} = 12 \text{ m}$):
+$$E_{c(\text{pie})} = (60 \text{ kg}) \cdot (10 \text{ m/s}^2) \cdot (12 \text{ m})$$
+$$E_{c(\text{pie})} = 600 \text{ N} \cdot 12 \text{ m}$$
+$$E_{c(\text{pie})} = 7200 \text{ J}$$
+
+\subsubsection*{Verificación Cruzada}
+A modo de comprobación técnica, si utilizamos la rapidez exacta al cuadrado obtenida del literal anterior ($v^2 = 240 \text{ m}^2\text{/s}^2$), obtenemos el mismo resultado:
+$$E_c = \frac{1}{2} \cdot m \cdot v^2$$
+$$E_c = \frac{1}{2} \cdot (60 \text{ kg}) \cdot (240 \text{ m}^2\text{/s}^2)$$
+$$E_c = 30 \text{ kg} \cdot 240 \text{ m}^2\text{/s}^2 = 7200 \text{ J}$$
+
+\subsubsection*{Conclusión}
+La energía cinética del esquiador en el pie de la colina es de 7200 J.
+
+\newpage
+\subsection*{Enunciado}
+Un esquiador de masa 60 kg parte del reposo desde la cima de una colina de 12 m de altura y desciende sin fricción. Considerando la aceleración de la gravedad $g = 10 \text{ m/s}^2$. Si luego de llegar al pie de la colina sube por otra colina, ¿hasta qué altura máxima llegará?
+
+\begin{center}
+\begin{tikzpicture}[scale=0.7, font=\sffamily]
+    \draw[thick, fill=blue!5] (0,4) .. controls (2,4) and (3,0) .. (5,0) .. controls (7,0) and (8,5) .. (10,5) -- (10,-1) -- (0,-1) -- cycle;
+    \draw[dashed, gray] (0,0) -- (10,0);
+    \draw[dashed, gray] (0,4) -- (10,4);
+    
+    \draw[<->] (-0.5,0) -- (-0.5,4) node[midway, fill=white] {$h_1 = 12$ m};
+    \draw[<->, red] (9.5,0) -- (9.5,4) node[midway, fill=white] {$h_2 = ?$ m};
+    
+    \draw[fill=red!80, rounded corners=1pt] (0.2,4.1) rectangle (0.8,4.7);
+    \draw[thick] (0.1,4.0) -- (0.9,3.8);
+    \node[above] at (0.5, 4.8) {$v_0 = 0$};
+    
+    \node[below] at (5,0) {Pie de la colina};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{Fundamento Conceptual: Los Planos Inclinados de Galileo}
+Este problema constituye una representación clásica de los experimentos mentales y físicos de Galileo Galilei relativos a la inercia y la conservación de la energía. Hewitt expone que si una esfera (o un esquiador, asumiendo su modelo ideal de partículas) desciende por una pendiente sin fricción y luego sube por otra pendiente opuesta, continuará ascendiendo hasta que toda su energía cinética se transforme nuevamente en energía potencial. En un sistema estrictamente conservativo, este ascenso concluirá única y exclusivamente cuando el objeto alcance una altura idéntica a su altura de partida, sin importar el grado de inclinación de la segunda colina.
+
+\subsubsection*{Demostración Matemática de la Conservación}
+Establecemos la igualdad dictada por la conservación de la energía mecánica entre el estado inicial (cima de la primera colina) y el estado final (cima alcanzada en la segunda colina):
+$$E_{m(\text{colina 1})} = E_{m(\text{colina 2})}$$
+$$E_{p(\text{colina 1})} + E_{c(\text{colina 1})} = E_{p(\text{colina 2})} + E_{c(\text{colina 2})}$$
+En ambas cimas, el esquiador se encuentra en reposo absoluto o instantáneo, lo que significa que en ambos puntos su rapidez es cero y, por consiguiente, su energía cinética es nula ($E_{c(\text{colina 1})} = 0$ y $E_{c(\text{colina 2})} = 0$).
+La ecuación se simplifica a la equivalencia estricta de las energías potenciales:
+$$E_{p(\text{colina 1})} = E_{p(\text{colina 2})}$$
+Sustituyendo la definición matemática de la energía potencial gravitatoria:
+$$m \cdot g \cdot h_1 = m \cdot g \cdot h_2$$
+Dado que el esquiador mantiene su misma masa $m$ y se encuentra bajo el mismo campo gravitatorio $g$, podemos dividir ambos lados de la ecuación por el término $(m \cdot g)$:
+$$h_1 = h_2$$
+Sustituyendo el valor de la altura inicial:
+$$12 \text{ m} = h_2$$
+
+\subsubsection*{Conclusión}
+El esquiador llegará a una altura máxima de 12 metros en la segunda colina.
+
+\newpage
+\subsection*{Enunciado}
+Un trineo y su pasajero tienen una masa combinada de 125 kg y viajan sobre la superficie cubierta de hielo de una colina perfectamente lisa, como se muestra en la figura. ¿A qué distancia de la base del risco aterrizará el trineo?
+
+\begin{center}
+\begin{tikzpicture}[scale=0.6, font=\sffamily]
+    \draw[thick, fill=gray!20] (0,0) -- (4,0) .. controls (6,0) and (7,6) .. (9,6) -- (11,6) .. controls (11.5,6) and (11.8,0.5) .. (12,0) -- (16,0) -- (16,-1) -- (0,-1) -- cycle;
+    \draw[dashed, gray] (0,0) -- (16,0);
+    
+    \draw[<->] (10.5,0) -- (10.5,6) node[midway, fill=gray!20] {$11.0$ m};
+    \node[right] at (12,3) {Risco};
+    
+    \draw[fill=red!80, rounded corners=1pt] (1.5,0) rectangle (2.2,0.4);
+    \draw[fill=blue!70] (1.85,0.4) circle (0.25);
+    \draw[->, ultra thick, green!60!black] (1.0,0.8) -- (3.0,0.8) node[above, midway] {$22.5$ m/s};
+    
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{Fundamento Conceptual: Integración de Conservación de Energía y Movimiento de Proyectiles}
+Este problema constituye un excelente ejercicio integrador de la Física Conceptual, ya que requiere la combinación de dos principios fundamentales para su resolución. El evento físico se divide en dos etapas independientes. La primera etapa es el ascenso por la colina cubierta de hielo. La frase "perfectamente lisa" es la clave pedagógica que nos indica la ausencia total de fricción; por lo tanto, el sistema es conservativo y podemos aplicar el Principio de Conservación de la Energía Mecánica para descubrir con qué rapidez sale disparado el trineo en la cima del risco. La segunda etapa comienza en el instante en que el trineo abandona el risco horizontalmente, convirtiéndose en un proyectil en caída libre (bidimensional). Aquí aplicaremos el Principio de Independencia de los Movimientos de Galileo.
+
+\subsubsection*{Visualización del Modelo Físico}
+Para comprender cómo el trineo pasa de un movimiento guiado por la superficie a un movimiento parabólico libre, el siguiente código en Python modela la trayectoria exacta de la segunda etapa. Esto permite visualizar el alcance horizontal en función de la altura de caída y la velocidad de salida.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+import numpy as np
+
+velocidad_inicial_base = 22.5
+gravedad = 10
+altura_risco = 11
+
+velocidad_salida_risco = np.sqrt(velocidad_inicial_base**2 - 2 * gravedad * altura_risco)
+tiempo_vuelo = np.sqrt(2 * altura_risco / gravedad)
+
+tiempo = np.linspace(0, tiempo_vuelo, 50)
+posicion_x = velocidad_salida_risco * tiempo
+posicion_y = altura_risco - 0.5 * gravedad * tiempo**2
+
+fig, ax = plt.subplots(figsize=(8, 4))
+ax.plot([-5, 0], [altura_risco, altura_risco], color='gray', linewidth=4, label='Superficie del Risco')
+ax.plot([0, 0], [0, altura_risco], color='gray', linestyle='--', linewidth=2)
+ax.plot([-5, 30], [0, 0], color='black', linewidth=2, label='Nivel del Suelo')
+
+ax.plot(posicion_x, posicion_y, color='red', linestyle='--', linewidth=2.5, label='Trayectoria Parabolica')
+ax.scatter([posicion_x[-1]], [0], color='blue', s=80, zorder=5, label=f'Punto de Aterrizaje ({posicion_x[-1]:.2f} m)')
+
+ax.set_title('Modelo del Movimiento del Trineo como Proyectil')
+ax.set_xlabel('Distancia Horizontal desde el Risco (m)')
+ax.set_ylabel('Altura (m)')
+ax.legend()
+plt.grid(True, linestyle=':', alpha=0.6)
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Análisis de la Primera Etapa: Cálculo de la Velocidad de Salida}
+El trineo inicia su movimiento en el nivel de referencia ($h = 0$) con una rapidez de $22.5 \text{ m/s}$. Toda su energía inicial es cinética. Al subir la colina hasta los $11.0 \text{ m}$, parte de esa energía cinética realiza trabajo contra la gravedad y se almacena como energía potencial, provocando que el trineo pierda rapidez.
+Aplicamos la conservación de la energía mecánica (asumiendo nuevamente el valor didáctico $g = 10 \text{ m/s}^2$ congruente con el material):
+$$E_{m(\text{base})} = E_{m(\text{cima})}$$
+$$E_{c(\text{base})} + E_{p(\text{base})} = E_{c(\text{cima})} + E_{p(\text{cima})}$$
+$$\frac{1}{2} \cdot m \cdot v_{\text{base}}^2 + 0 = \frac{1}{2} \cdot m \cdot v_{\text{cima}}^2 + m \cdot g \cdot h_{\text{cima}}$$
+Es vital notar que la masa $m$ aparece en todos los términos algebraicos, por lo que puede factorizarse y simplificarse. El dato de "masa combinada de 125 kg" es un distractor conceptual; en caída libre y en sistemas conservativos sin fricción, la masa no altera la cinemática del objeto.
+$$\frac{1}{2} \cdot v_{\text{base}}^2 = \frac{1}{2} \cdot v_{\text{cima}}^2 + g \cdot h_{\text{cima}}$$
+Multiplicamos toda la ecuación por 2 para eliminar las fracciones:
+$$v_{\text{base}}^2 = v_{\text{cima}}^2 + 2 \cdot g \cdot h_{\text{cima}}$$
+Despejamos la rapidez en la cima ($v_{\text{cima}}$):
+$$v_{\text{cima}} = \sqrt{v_{\text{base}}^2 - 2 \cdot g \cdot h_{\text{cima}}}$$
+Sustituimos los valores numéricos:
+$$v_{\text{cima}} = \sqrt{(22.5 \text{ m/s})^2 - 2 \cdot (10 \text{ m/s}^2) \cdot (11.0 \text{ m})}$$
+$$v_{\text{cima}} = \sqrt{506.25 \text{ m}^2\text{/s}^2 - 220 \text{ m}^2\text{/s}^2}$$
+$$v_{\text{cima}} = \sqrt{286.25 \text{ m}^2\text{/s}^2} \approx 16.9189 \text{ m/s}$$
+Esta es la magnitud de la velocidad con la que el trineo sale disparado. Dado que la cima del risco es plana, esta velocidad es puramente horizontal ($v_x = 16.9189 \text{ m/s}$ y $v_{y\text{ inicial}} = 0 \text{ m/s}$).
+
+\subsubsection*{Análisis de la Segunda Etapa: Cinemática del Aterrizaje}
+De acuerdo con Galileo, el movimiento horizontal (constante) y el movimiento vertical (acelerado por la gravedad) ocurren de manera simultánea pero independiente. 
+Primero, calculamos cuánto tiempo permanece el trineo en el aire. Este tiempo depende exclusivamente de la altura de la que cae y de la aceleración de la gravedad. Usamos la ecuación de posición vertical:
+$$y = v_{y\text{ inicial}} \cdot t + \frac{1}{2} \cdot g \cdot t^2$$
+Como $v_{y\text{ inicial}} = 0$, la ecuación se reduce a la caída libre:
+$$h = \frac{1}{2} \cdot g \cdot t^2$$
+Despejamos el tiempo de vuelo ($t$):
+$$t = \sqrt{\frac{2 \cdot h}{g}}$$
+$$t = \sqrt{\frac{2 \cdot 11.0 \text{ m}}{10 \text{ m/s}^2}} = \sqrt{2.2 \text{ s}^2} \approx 1.4832 \text{ s}$$
+Finalmente, calculamos el alcance horizontal. Durante estos $1.4832$ segundos, el trineo avanza horizontalmente sin ninguna fuerza que lo frene, por lo que utilizamos la ecuación del movimiento rectilíneo uniforme ($d = v \cdot t$):
+$$d = v_x \cdot t$$
+$$d = 16.9189 \text{ m/s} \cdot 1.4832 \text{ s}$$
+$$d = 25.0941 \text{ m}$$
+Redondeando a dos decimales, confirmamos el resultado.
+
+\subsubsection*{Conclusión}
+El trineo aterrizará a una distancia de 25.09 m de la base del risco.
+
+\newpage
+
+\subsection*{Enunciado}
+Una pelota se deja caer desde una altura de 20 m sobre el suelo. Despreciando la resistencia del aire, determinar la rapidez de la pelota justo antes de tocar el suelo.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.6, font=\sffamily]
+    \draw[thick, fill=gray!20] (-3,0) rectangle (3,-0.5);
+    \node[below] at (0,-0.5) {Nivel del Suelo ($h_f=0$)};
+    
+    \draw[<->] (-1.5,0) -- (-1.5,8) node[midway, fill=white] {$h_0 = 20$ m};
+    \draw[fill=red!80] (0,8) circle (0.3);
+    \node[right] at (0.5, 8) {Reposo ($v_0 = 0$)};
+    
+    \draw[->, ultra thick, blue] (0,7.5) -- (0,5.5);
+    \node[right, blue] at (0.2, 6.5) {Gravedad ($g = 10 \text{ m/s}^2$)};
+    
+    \draw[dashed] (0,8) -- (-1.5,8);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{Fundamento Conceptual: Principio de Conservación de la Energía}
+De acuerdo con la Física Conceptual de Paul G. Hewitt, cuando se desprecia la resistencia del aire, la única fuerza que realiza trabajo sobre la pelota es la fuerza de gravedad terrestre, la cual es estrictamente una fuerza conservativa. Bajo estas condiciones ideales, la energía mecánica total del sistema permanece invariante durante todo el trayecto de caída. La energía mecánica se define macroscópicamente como la suma de la energía cinética (energía asociada al movimiento y la velocidad) y la energía potencial gravitatoria (energía asociada a la posición espacial respecto a un nivel de referencia determinado). Al dejarse caer desde una altura determinada, la pelota transforma de manera continua su energía potencial inicial en energía cinética.
+
+\subsubsection*{Visualización de la Transformación Energética}
+Para comprender la dinámica de esta conversión antes de manipular la ecuación algebraica, el siguiente código en Python genera un gráfico que ilustra cómo la energía potencial se agota por completo al llegar al nivel de referencia (el suelo), habiéndose transformado en un cien por ciento de energía cinética.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+estados = ['Inicio (Altura 20 m)', 'Final (Suelo 0 m)']
+energia_pot = [100, 0]
+energia_cin = [0, 100]
+
+plt.figure(figsize=(7, 4))
+ancho = 0.4
+
+plt.bar(estados, energia_pot, ancho, color='lightcoral', edgecolor='black', label='Energia Potencial')
+plt.bar(estados, energia_cin, ancho, bottom=energia_pot, color='skyblue', edgecolor='black', label='Energia Cinetica')
+
+plt.ylabel('Porcentaje de Energia Total')
+plt.title('Transformacion de Energia en Caida Libre')
+plt.legend(loc='center right')
+plt.grid(axis='y', linestyle='--', alpha=0.6)
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Planteamiento Matemático y Ejecución}
+Aplicamos la ecuación fundamental de conservación de la energía mecánica entre el estado inicial (el momento exacto en que se suelta la pelota) y el estado final (el instante infinitesimal justo antes de tocar el suelo):
+$$E_{m(\text{inicial})} = E_{m(\text{final})}$$
+$$E_{p(\text{inicial})} + E_{c(\text{inicial})} = E_{p(\text{final})} + E_{c(\text{final})}$$
+Procedemos a sustituir cada término por sus fórmulas correspondientes:
+$$m \cdot g \cdot h_0 + \frac{1}{2} \cdot m \cdot v_0^2 = m \cdot g \cdot h_f + \frac{1}{2} \cdot m \cdot v_f^2$$
+A continuación, analizamos las condiciones de frontera dictadas por el problema. El texto indica que la pelota "se deja caer", lo que implica axiomáticamente que parte del reposo y su rapidez inicial es nula ($v_0 = 0$). Además, hemos establecido nuestro nivel de referencia en el suelo, por lo que la altura final es cero ($h_f = 0$). Estas condiciones anulan la energía cinética inicial y la energía potencial final respectivamente:
+$$m \cdot g \cdot h_0 + 0 = 0 + \frac{1}{2} \cdot m \cdot v_f^2$$
+$$m \cdot g \cdot h_0 = \frac{1}{2} \cdot m \cdot v_f^2$$
+Notamos que la masa $m$ se encuentra como un factor multiplicativo en ambos lados de la igualdad. Al ser un valor distinto de cero, podemos cancelarla dividiendo toda la ecuación por $m$. Esto demuestra un postulado crucial de Galileo: la rapidez de impacto de un objeto en caída libre no depende de su masa.
+$$g \cdot h_0 = \frac{1}{2} \cdot v_f^2$$
+Despejamos la incógnita de interés, que es la rapidez final $v_f$:
+$$2 \cdot g \cdot h_0 = v_f^2$$
+Sustituimos los datos proporcionados, adoptando el valor práctico de aceleración gravitatoria $g = 10 \text{ m/s}^2$ (como se deduce de la resolución original) y la altura inicial $h_0 = 20 \text{ m}$:
+$$v_f^2 = 2 \cdot (10 \text{ m/s}^2) \cdot (20 \text{ m})$$
+$$v_f^2 = 20 \text{ m/s}^2 \cdot 20 \text{ m}$$
+$$v_f^2 = 400 \text{ m}^2\text{/s}^2$$
+Finalmente, extraemos la raíz cuadrada a ambos lados de la ecuación para obtener la magnitud de la rapidez:
+$$v_f = \sqrt{400 \text{ m}^2\text{/s}^2}$$
+$$v_f = 20 \text{ m/s}$$
+
+\subsubsection*{Conclusión}
+La rapidez de la pelota justo antes de tocar el suelo es de 20 m/s.
+
+\newpage
+
+\subsection*{Enunciado}
+Una piedra se lanza verticalmente hacia arriba con una rapidez inicial de 24 m/s. Despreciando la resistencia del aire, determinar la altura máxima que alcanza respecto al punto de lanzamiento.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, font=\sffamily]
+    \draw[thick, fill=gray!20] (-3,0) rectangle (3,-0.5);
+    \node[below] at (0,-0.5) {Punto de lanzamiento ($h_0=0$)};
+    
+    \draw[fill=gray!80] (0,0.3) circle (0.3);
+    \node[right] at (0.5, 0.5) {$v_0 = 24$ m/s};
+    
+    \draw[->, ultra thick, blue] (0,0.8) -- (0,3.5);
+    \node[right, blue] at (0.2, 2.5) {Ascenso};
+    
+    \draw[dashed, gray] (0,0) -- (-2.5,0);
+    \draw[dashed, gray] (0,5.5) -- (-2.5,5.5);
+    \draw[<->] (-2,0) -- (-2,5.5) node[midway, fill=white] {$h_f = ?$ };
+    
+    \draw[fill=gray!30, dashed] (0,5.5) circle (0.3);
+    \node[right] at (0.5, 5.5) {Altura máxima ($v_f = 0$ m/s)};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{Fundamento Conceptual: Intercambio Energético en el Tiro Vertical}
+Basándonos en la literatura de Física Conceptual de Paul G. Hewitt, lanzar un objeto hacia arriba implica dotarlo de una energía cinética inicial. A medida que la piedra asciende, se ve sometida a la fuerza de gravedad terrestre que realiza un trabajo negativo sobre ella, reduciendo paulatinamente su rapidez. De acuerdo con el Principio de Conservación de la Energía Mecánica en sistemas ideales (sin resistencia del aire), esta energía de movimiento no desaparece, sino que se transforma continuamente en energía potencial gravitatoria (energía de posición). El punto culminante de la trayectoria, definido topológicamente como la altura máxima, es el instante preciso donde la piedra agota toda su reserva de energía cinética. Por consecuencia, la piedra se detiene momentáneamente en el aire antes de iniciar su descenso, lo que implica que su rapidez final en ese punto es estrictamente cero.
+
+\subsubsection*{Modelado Computacional de la Transferencia de Energía}
+Para asegurar una comprensión visual de cómo evolucionan las energías en función de la altura alcanzada, se presenta el siguiente bloque de código en Python. Este script evidencia la relación inversamente proporcional entre la energía cinética y la potencial a medida que el objeto sube, manteniendo la energía mecánica total en un valor constante.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+import numpy as np
+
+altura_max = 28.8
+alturas = np.linspace(0, altura_max, 100)
+
+energia_total = 100 
+energia_potencial = (alturas / altura_max) * energia_total
+energia_cinetica = energia_total - energia_potencial
+
+plt.figure(figsize=(8, 5))
+plt.plot(alturas, energia_potencial, label='Energia Potencial (Ep)', color='coral', linewidth=2.5)
+plt.plot(alturas, energia_cinetica, label='Energia Cinetica (Ec)', color='skyblue', linewidth=2.5)
+plt.axhline(energia_total, label='Energia Mecanica Total', color='black', linestyle='--', linewidth=2)
+
+plt.xlabel('Altura (m)')
+plt.ylabel('Porcentaje de Energia Total')
+plt.title('Transformacion de la Energia durante el Ascenso')
+plt.legend(loc='center right')
+plt.grid(True, linestyle=':', alpha=0.7)
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Planteamiento Matemático y Resolución}
+Aplicamos la ecuación de conservación de la energía mecánica, estableciendo la igualdad entre el estado inicial (el punto de lanzamiento) y el estado final (la altura máxima):
+$$E_{m(\text{inicial})} = E_{m(\text{final})}$$
+$$E_{c(\text{inicial})} + E_{p(\text{inicial})} = E_{c(\text{final})} + E_{p(\text{final})}$$
+Desglosamos las energías en sus variables fundamentales:
+$$\frac{1}{2} \cdot m \cdot v_0^2 + m \cdot g \cdot h_0 = \frac{1}{2} \cdot m \cdot v_f^2 + m \cdot g \cdot h_f$$
+Tomamos el punto de lanzamiento como nuestro nivel de referencia geométrico, lo que significa que la altura inicial es nula ($h_0 = 0$). Como se fundamentó previamente, en la altura máxima la piedra se detiene momentáneamente, por lo que su rapidez final es nula ($v_f = 0$). Esto elimina la energía potencial en el primer miembro y la energía cinética en el segundo:
+$$\frac{1}{2} \cdot m \cdot v_0^2 + 0 = 0 + m \cdot g \cdot h_f$$
+Sustituimos los datos proporcionados, considerando la aceleración de la gravedad $g = 10 \text{ m/s}^2$ como indica la resolución base, y la rapidez inicial $v_0 = 24 \text{ m/s}$:
+$$\frac{1}{2} \cdot m \cdot (24 \text{ m/s})^2 = m \cdot (10 \text{ m/s}^2) \cdot h_f$$
+Desarrollamos el cuadrado de la rapidez inicial:
+$$\frac{1}{2} \cdot m \cdot (576 \text{ m}^2\text{/s}^2) = m \cdot (10 \text{ m/s}^2) \cdot h_f$$
+$$m \cdot (288 \text{ m}^2\text{/s}^2) = m \cdot (10 \text{ m/s}^2) \cdot h_f$$
+La masa $m$ se presenta como un factor a ambos lados de la ecuación y es distinta de cero. Al simplificarla, verificamos que la altura máxima alcanzada es independiente de la masa de la piedra:
+$$288 \text{ m}^2\text{/s}^2 = (10 \text{ m/s}^2) \cdot h_f$$
+Despejamos la altura máxima $h_f$:
+$$h_f = \frac{288 \text{ m}^2\text{/s}^2}{10 \text{ m/s}^2}$$
+$$h_f = 28.8 \text{ m}$$
+
+\subsubsection*{Conclusión}
+La altura máxima que alcanza la piedra respecto al punto de lanzamiento es de 28.8 m.
+
+\newpage
+
+\subsection*{Enunciado}
+Un carrito de masa 4 kg parte del reposo desde una altura de 9 m sobre el suelo y desciende por una pista sin fricción. En cierto punto de la pista se encuentra a una altura de 4 m sobre el suelo. Determinar la rapidez del carrito en ese punto.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, font=\sffamily]
+    \draw[thick, fill=gray!20] (0,0) -- (0,5) .. controls (2,5) and (3.5,2.2) .. (5,2.2) .. controls (6,2.2) and (7,1) .. (9,1) -- (9,0) -- cycle;
+    \draw[thick, fill=green!40!black] (0,0) rectangle (9,-0.3);
+    \node[below, text=black] at (4.5, -0.3) {Suelo (Nivel de Referencia $h=0$)};
+    
+    \draw[fill=blue!60, rounded corners=1pt] (0.5, 5.05) rectangle (1.5, 5.55);
+    \fill[black] (0.75, 5.05) circle (0.15);
+    \fill[black] (1.25, 5.05) circle (0.15);
+    \node[above, font=\footnotesize] at (1.0, 5.65) {$m=4$ kg};
+    \node[left, font=\footnotesize] at (0.4, 5.3) {$v_0=0$};
+    
+    \draw[fill=blue!60, rounded corners=1pt] (4.5, 2.25) rectangle (5.5, 2.75);
+    \fill[black] (4.75, 2.25) circle (0.15);
+    \fill[black] (5.25, 2.25) circle (0.15);
+    \draw[->, thick] (5.6, 2.5) -- (6.6, 2.5) node[right, font=\footnotesize] {$v_f = ?$};
+    
+    \draw[dashed, gray] (0,5) -- (-1.5,5);
+    \draw[dashed, gray] (5,2.2) -- (7.5,2.2);
+    
+    \draw[<->] (-1,0) -- (-1,5) node[midway, fill=white] {$h_0=9$ m};
+    \draw[<->] (7,0) -- (7,2.2) node[midway, fill=white] {$h_f=4$ m};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{Fundamento Conceptual: Conservación en Sistemas Ideales}
+De acuerdo con los principios de la Física Conceptual establecidos por Paul G. Hewitt, cuando un sistema se encuentra exento de fuerzas no conservativas (como la fricción térmica o la resistencia del aire), la energía mecánica total se mantiene constante. En este escenario, el carrito comienza su trayecto desde el reposo, lo que implica que toda su energía inicial es puramente energía potencial gravitatoria, dictada por su altura de 9 metros. Al deslizarse cuesta abajo, pierde altura pero gana velocidad. La disminución en la energía potencial se transforma exactamente en un aumento de la energía cinética, manteniendo intacto el inventario energético total del sistema.
+
+\subsubsection*{Visualización Analítica de la Energía}
+Para tener una perspectiva clara de cómo se distribuye esta energía antes de proceder con el cálculo numérico, el siguiente bloque de código en Python modela el estado inicial y final mediante un gráfico de barras apiladas. En él se evidencia la transferencia perfecta de un tipo de energía a otro.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+estados_trayectoria = ['Inicio (h = 9m)', 'Punto de Evaluacion (h = 4m)']
+energia_posicion = [360, 160]
+energia_movimiento = [0, 200]
+
+fig, ax = plt.subplots(figsize=(7, 5))
+grosor_barra = 0.4
+
+ax.bar(estados_trayectoria, energia_posicion, grosor_barra, label='Energia Potencial Gravitatoria', color='lightcoral', edgecolor='black')
+ax.bar(estados_trayectoria, energia_movimiento, grosor_barra, bottom=energia_posicion, label='Energia Cinetica', color='skyblue', edgecolor='black')
+
+ax.set_ylabel('Energia Mecanica Total (Joules)')
+ax.set_title('Distribucion y Conservacion Energetica del Carrito')
+ax.axhline(360, color='black', linestyle='--', linewidth=1.5, label='Inventario Energetico Total (360 J)')
+ax.legend(loc='center right')
+plt.grid(axis='y', linestyle=':', alpha=0.7)
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Desarrollo Matemático}
+Aplicamos la ecuación general de la conservación de la energía mecánica entre el punto inicial (cima) y el punto de evaluación (a 4 metros de altura):
+$$E_{m(\text{inicial})} = E_{m(\text{final})}$$
+$$E_{c(\text{inicial})} + E_{p(\text{inicial})} = E_{c(\text{final})} + E_{p(\text{final})}$$
+Dado que el carrito parte del reposo, su rapidez inicial es cero ($v_0 = 0$), lo que anula por completo la energía cinética en el primer miembro de la ecuación:
+$$0 + m \cdot g \cdot h_0 = \frac{1}{2} \cdot m \cdot v_f^2 + m \cdot g \cdot h_f$$
+Sustituimos los datos numéricos considerando la masa $m = 4 \text{ kg}$, las alturas $h_0 = 9 \text{ m}$ y $h_f = 4 \text{ m}$, y adoptando una aceleración gravitatoria de $g = 10 \text{ m/s}^2$ (por convención académica de este ejercicio):
+$$(4 \text{ kg}) \cdot (10 \text{ m/s}^2) \cdot (9 \text{ m}) = \frac{1}{2} \cdot (4 \text{ kg}) \cdot v_f^2 + (4 \text{ kg}) \cdot (10 \text{ m/s}^2) \cdot (4 \text{ m})$$
+Realizamos los productos correspondientes para obtener las energías en Joules:
+$$360 \text{ J} = 2 \text{ kg} \cdot v_f^2 + 160 \text{ J}$$
+Agrupamos términos semejantes restando la energía potencial final a la energía inicial total:
+$$360 - 160 = 2 \cdot v_f^2$$
+$$200 = 2 \cdot v_f^2$$
+Despejamos la rapidez al cuadrado:
+$$100 = v_f^2$$
+Finalmente, extraemos la raíz cuadrada a ambos lados para obtener la magnitud de la rapidez:
+$$v_f = \sqrt{100 \text{ m}^2\text{/s}^2}$$
+$$v_f = 10 \text{ m/s}$$
+
+\subsubsection*{Conclusión}
+La rapidez del carrito en ese punto intermedio es de 10 m/s.
+
+\newpage
+\subsection*{Enunciado}
+Un carrito de masa 4 kg parte del reposo desde una altura de 9 m sobre el suelo y desciende por una pista sin fricción. En cierto punto de la pista se encuentra a una altura de 4 m sobre el suelo. Determinar la energía cinética en ese punto.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, font=\sffamily]
+    \draw[thick, fill=gray!20] (0,0) -- (0,5) .. controls (2,5) and (3.5,2.2) .. (5,2.2) .. controls (6,2.2) and (7,1) .. (9,1) -- (9,0) -- cycle;
+    \draw[thick, fill=green!40!black] (0,0) rectangle (9,-0.3);
+    \node[below, text=black] at (4.5, -0.3) {Suelo (Nivel de Referencia $h=0$)};
+    
+    \draw[fill=blue!60, rounded corners=1pt] (0.5, 5.05) rectangle (1.5, 5.55);
+    \fill[black] (0.75, 5.05) circle (0.15);
+    \fill[black] (1.25, 5.05) circle (0.15);
+    \node[above, font=\footnotesize] at (1.0, 5.65) {$m=4$ kg};
+    \node[left, font=\footnotesize] at (0.4, 5.3) {$v_0=0$};
+    
+    \draw[fill=blue!60, rounded corners=1pt] (4.5, 2.25) rectangle (5.5, 2.75);
+    \fill[black] (4.75, 2.25) circle (0.15);
+    \fill[black] (5.25, 2.25) circle (0.15);
+    \draw[->, thick] (5.6, 2.5) -- (6.6, 2.5) node[right, font=\footnotesize] {$v_f = 10$ m/s};
+    
+    \draw[dashed, gray] (0,5) -- (-1.5,5);
+    \draw[dashed, gray] (5,2.2) -- (7.5,2.2);
+    
+    \draw[<->] (-1,0) -- (-1,5) node[midway, fill=white] {$h_0=9$ m};
+    \draw[<->] (7,0) -- (7,2.2) node[midway, fill=white] {$h_f=4$ m};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{Fundamento Conceptual: La Cuantificación del Movimiento}
+La energía cinética es la magnitud escalar que cuantifica la energía de un cuerpo originada exclusivamente por su movimiento relativo a un marco de referencia. Desde un enfoque pedagógico, esta energía representa el trabajo neto que fue necesario realizar sobre el carrito para acelerarlo desde el reposo hasta su rapidez actual. Matemáticamente se define de manera rigurosa como la mitad del producto de la masa del objeto por el cuadrado de su rapidez ($E_c = \frac{1}{2}mv^2$).
+
+\subsubsection*{Planteamiento y Cálculo}
+Para hallar la energía cinética en la altura de 4 metros, utilizamos directamente la fórmula con la rapidez calculada en el inciso previo ($v = 10 \text{ m/s}$) y la masa inercial del carrito ($m = 4 \text{ kg}$):
+$$E_c = \frac{1}{2} \cdot m \cdot v^2$$
+Sustituimos los valores correspondientes:
+$$E_c = \frac{1}{2} \cdot (4 \text{ kg}) \cdot (10 \text{ m/s})^2$$
+Resolvemos primero la potencia para respetar la jerarquía de operaciones:
+$$E_c = \frac{1}{2} \cdot (4 \text{ kg}) \cdot (100 \text{ m}^2\text{/s}^2)$$
+Multiplicamos los factores restantes:
+$$E_c = 2 \text{ kg} \cdot 100 \text{ m}^2\text{/s}^2$$
+$$E_c = 200 \text{ J}$$
+
+\subsubsection*{Verificación Pedagógica Alternativa}
+Como complemento analítico dictado por la ley de la conservación, la energía cinética adquirida debe ser idénticamente igual a la energía potencial que se perdió durante el descenso.
+Energía perdida = Energía inicial - Energía final evaluada:
+$$\Delta E_p = m \cdot g \cdot h_0 - m \cdot g \cdot h_f$$
+$$\Delta E_p = (4)(10)(9) - (4)(10)(4)$$
+$$\Delta E_p = 360 - 160 = 200 \text{ J}$$
+Esto confirma de manera rotunda que los 200 Joules de trabajo gravitacional se han transformado con perfecta eficacia en energía de movimiento.
+
+\subsubsection*{Conclusión}
+La energía cinética en ese punto es de 200 J.
+
+\newpage
+\subsection*{Enunciado}
+Un carrito de masa 4 kg parte del reposo desde una altura de 9 m sobre el suelo y desciende por una pista sin fricción. En cierto punto de la pista se encuentra a una altura de 4 m sobre el suelo. Determinar la energía potencial gravitatoria en ese punto.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, font=\sffamily]
+    \draw[thick, fill=gray!20] (0,0) -- (0,5) .. controls (2,5) and (3.5,2.2) .. (5,2.2) .. controls (6,2.2) and (7,1) .. (9,1) -- (9,0) -- cycle;
+    \draw[thick, fill=green!40!black] (0,0) rectangle (9,-0.3);
+    \node[below, text=black] at (4.5, -0.3) {Suelo (Nivel de Referencia $h=0$)};
+    
+    \draw[fill=blue!60, rounded corners=1pt] (0.5, 5.05) rectangle (1.5, 5.55);
+    \fill[black] (0.75, 5.05) circle (0.15);
+    \fill[black] (1.25, 5.05) circle (0.15);
+    \node[above, font=\footnotesize] at (1.0, 5.65) {$m=4$ kg};
+    \node[left, font=\footnotesize] at (0.4, 5.3) {$v_0=0$};
+    
+    \draw[fill=blue!60, rounded corners=1pt] (4.5, 2.25) rectangle (5.5, 2.75);
+    \fill[black] (4.75, 2.25) circle (0.15);
+    \fill[black] (5.25, 2.25) circle (0.15);
+    
+    \draw[dashed, gray] (0,5) -- (-1.5,5);
+    \draw[dashed, gray] (5,2.2) -- (7.5,2.2);
+    
+    \draw[<->] (-1,0) -- (-1,5) node[midway, fill=white] {$h_0=9$ m};
+    \draw[<->, ultra thick, red] (7,0) -- (7,2.2) node[midway, fill=white] {$h_f=4$ m};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{Fundamento Conceptual: La Geometría de la Energía}
+A diferencia de la energía cinética, que depende de un vector de velocidad dinámico, la energía potencial gravitatoria es una variable puramente posicional. Hewitt la define como la energía almacenada en un objeto como resultado de su posición vertical en un campo gravitatorio terrestre constante. Esta magnitud no se ve afectada en lo absoluto por la trayectoria sinuosa de la pista, la inclinación de las rampas o la distancia horizontal recorrida; su valor depende única y directamente de la distancia ortogonal (perpendicular) respecto al nivel de referencia cero ($h=0$).
+
+\subsubsection*{Planteamiento y Cálculo}
+La ecuación matemática para determinar esta reserva energética se plantea como el producto de la masa ($m$), la aceleración de la gravedad ($g$) y la altura local ($h$):
+$$E_{pg} = m \cdot g \cdot h$$
+Extraemos los datos exclusivos para este instante geométrico: el carrito mantiene su masa de $4 \text{ kg}$, está influenciado por la gravedad de $10 \text{ m/s}^2$ y se sitúa puntualmente a una altura $h = 4 \text{ m}$. Sustituimos estos valores en la expresión:
+$$E_{pg} = (4 \text{ kg}) \cdot (10 \text{ m/s}^2) \cdot (4 \text{ m})$$
+Efectuamos el producto escalar:
+$$E_{pg} = 40 \text{ N} \cdot 4 \text{ m}$$
+$$E_{pg} = 160 \text{ J}$$
+
+\subsubsection*{Comprobación Holística del Sistema}
+Para garantizar el rigor matemático y físico de la resolución completa de este ejercicio trilateral, podemos sumar las energías finales para verificar si igualan a la energía mecánica primaria.
+$$E_{m(\text{total final})} = E_c + E_{pg}$$
+$$E_{m(\text{total final})} = 200 \text{ J} + 160 \text{ J} = 360 \text{ J}$$
+Energía mecánica inicial:
+$$E_{m(\text{inicial})} = m \cdot g \cdot h_0 = (4)(10)(9) = 360 \text{ J}$$
+La igualdad ($360 \text{ J} = 360 \text{ J}$) avala que todo el marco analítico es impecable y la energía se ha conservado estrictamente.
+
+\subsubsection*{Conclusión}
+La energía potencial gravitatoria en ese punto es de 160 J.
+
+\newpage
+
+\subsection*{Enunciado}
+Un esquiador de masa 50 kg parte del reposo desde la cima de una colina de 15 m de altura y desciende sin fricción. Considerando la aceleración de la gravedad $g = 10 \text{ m/s}^2$, determinar la rapidez al llegar al pie de la colina.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.7, font=\sffamily]
+    \draw[thick, fill=blue!5] (0,5) .. controls (2,5) and (4,0) .. (7,0) -- (9,0) -- (9,-1) -- (0,-1) -- cycle;
+    \draw[dashed, gray] (0,0) -- (7,0);
+    \draw[<->] (-0.5,0) -- (-0.5,5) node[midway, fill=white] {$h_0 = 15$ m};
+    
+    \draw[fill=red!80, rounded corners=1pt] (0.2,5.1) rectangle (0.8,5.7);
+    \draw[thick] (0.1,5.0) -- (0.9,4.8);
+    \node[above, font=\footnotesize, align=center] at (0.5, 5.8) {$m = 50$ kg \\ $v_0 = 0$ m/s};
+    
+    \node[below] at (7,0) {Nivel del suelo ($h_f=0$)};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{Fundamento Conceptual: Conservación de la Energía Mecánica}
+Según los principios establecidos en la Física Conceptual de Paul G. Hewitt, la energía mecánica de un sistema aislado en el que solo actúan fuerzas conservativas (como la gravedad) se mantiene constante. En este escenario, la colina no presenta fricción, por lo que no hay fuerzas disipativas que transformen la energía mecánica en calor. Al inicio, en la cima de la colina, el esquiador se encuentra en reposo, lo que significa que su energía cinética es nula y la totalidad de su energía es potencial gravitatoria. A medida que desciende, pierde altura y su energía potencial disminuye, pero esta energía no desaparece, sino que se transforma íntegramente en energía cinética, provocando un aumento en su rapidez.
+
+\subsubsection*{Visualización de la Transformación Energética}
+Para ilustrar esta transferencia total de energía sin pérdidas, el siguiente script de Python genera un gráfico de barras comparativo. En él se evidencia que el cien por ciento del inventario energético inicial (potencial) se convierte en energía de movimiento (cinética) al llegar al nivel de referencia.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+estados = ['Cima de la colina', 'Pie de la colina']
+energia_potencial = [7500, 0]
+energia_cinetica = [0, 7500]
+
+fig, ax = plt.subplots(figsize=(7, 5))
+ancho_barra = 0.5
+
+ax.bar(estados, energia_potencial, ancho_barra, label='Energia Potencial (Ep)', color='coral', edgecolor='black')
+ax.bar(estados, energia_cinetica, ancho_barra, bottom=energia_potencial, label='Energia Cinetica (Ec)', color='skyblue', edgecolor='black')
+
+ax.set_ylabel('Energia (Joules)')
+ax.set_title('Transformacion Energetica durante el Descenso')
+ax.legend(loc='center right')
+plt.grid(axis='y', linestyle='--', alpha=0.7)
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Planteamiento Matemático y Cálculo}
+Igualamos la energía mecánica en la cima con la energía mecánica al pie de la colina:
+$$E_{m(\text{inicial})} = E_{m(\text{final})}$$
+$$E_{p(\text{inicial})} + E_{c(\text{inicial})} = E_{p(\text{final})} + E_{c(\text{final})}$$
+Dado que parte del reposo, la rapidez inicial es cero ($v_0 = 0$), lo que anula la energía cinética inicial. Al llegar al pie de la colina, la altura es nula respecto a nuestro nivel de referencia ($h_f = 0$), lo que anula la energía potencial final:
+$$m \cdot g \cdot h_0 + 0 = 0 + \frac{1}{2} \cdot m \cdot v_f^2$$
+$$m \cdot g \cdot h_0 = \frac{1}{2} \cdot m \cdot v_f^2$$
+La masa $m$ es un factor común en ambos miembros de la ecuación. Al cancelarla, demostramos que, en ausencia de fricción, la rapidez de caída libre o en un plano inclinado es independiente de la masa del objeto.
+$$g \cdot h_0 = \frac{1}{2} \cdot v_f^2$$
+Sustituimos los datos proporcionados, considerando $g = 10 \text{ m/s}^2$ y la altura $h_0 = 15 \text{ m}$:
+$$(10 \text{ m/s}^2) \cdot (15 \text{ m}) = \frac{1}{2} \cdot v_f^2$$
+$$150 \text{ m}^2\text{/s}^2 = \frac{1}{2} \cdot v_f^2$$
+Despejamos el cuadrado de la rapidez multiplicando por 2:
+$$300 \text{ m}^2\text{/s}^2 = v_f^2$$
+Finalmente, extraemos la raíz cuadrada:
+$$v_f = \sqrt{300 \text{ m}^2\text{/s}^2}$$
+$$v_f \approx 17.32 \text{ m/s}$$
+
+\subsubsection*{Conclusión}
+La rapidez del esquiador al llegar al pie de la colina es de 17.32 m/s.
+
+\newpage
+\subsection*{Enunciado}
+Un esquiador de masa 50 kg parte del reposo desde la cima de una colina de 15 m de altura y desciende sin fricción. Considerando la aceleración de la gravedad $g = 10 \text{ m/s}^2$, determinar la energía cinética en ese punto (el pie de la colina).
+
+\begin{center}
+\begin{tikzpicture}[scale=0.7, font=\sffamily]
+    \draw[thick, fill=blue!5] (0,5) .. controls (2,5) and (4,0) .. (7,0) -- (9,0) -- (9,-1) -- (0,-1) -- cycle;
+    \draw[dashed, gray] (0,0) -- (7,0);
+    \draw[<->] (-0.5,0) -- (-0.5,5) node[midway, fill=white] {$h_0 = 15$ m};
+    
+    \draw[fill=red!80, rounded corners=1pt] (7.2,0.1) rectangle (7.8,0.7);
+    \draw[thick] (7.1,0.0) -- (7.9,0.0);
+    \draw[->, thick, black] (8.0, 0.4) -- (9.5, 0.4) node[right] {$v_f = 17.32$ m/s};
+    
+    \node[below] at (7,0) {Nivel del suelo ($h_f=0$)};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{Fundamento Conceptual: Cálculo Directo y Equivalencia Energética}
+La energía cinética se define como la energía que posee un cuerpo a causa de su movimiento. La ecuación rigurosa para calcularla es la mitad de su masa multiplicada por el cuadrado de su rapidez ($E_c = \frac{1}{2}mv^2$). Sin embargo, basándonos en el principio de conservación de la energía explicado en la obra de Hewitt, existe un método conceptual más directo. Si el sistema es conservativo, toda la energía de posición (potencial) que el esquiador tenía en la cima se ha transformado en energía de movimiento (cinética) en la base. Ambos caminos analíticos deben conducir inexorablemente al mismo resultado.
+
+\subsubsection*{Cálculo Directo con la Fórmula de Energía Cinética}
+Utilizaremos la fórmula con la rapidez calculada previamente. La masa del esquiador es de $50 \text{ kg}$ y el cuadrado de su rapidez en la base es exactamente $300 \text{ m}^2\text{/s}^2$.
+$$E_c = \frac{1}{2} \cdot m \cdot v_f^2$$
+Sustituimos los valores:
+$$E_c = \frac{1}{2} \cdot (50 \text{ kg}) \cdot (17.32 \text{ m/s})^2$$
+Reemplazamos la aproximación por el valor exacto de la raíz cuadrada al cuadrado:
+$$E_c = \frac{1}{2} \cdot (50 \text{ kg}) \cdot (300 \text{ m}^2\text{/s}^2)$$
+Realizamos el producto:
+$$E_c = 25 \text{ kg} \cdot 300 \text{ m}^2\text{/s}^2$$
+$$E_c = 7500 \text{ J}$$
+
+\subsubsection*{Comprobación Mediante Conservación de Energía}
+Para confirmar la validez de este resultado sin depender del cálculo de la velocidad del inciso anterior, calculamos la energía potencial en el punto más alto, la cual debe ser igual a la energía cinética en el punto más bajo:
+$$E_{c(\text{base})} = E_{p(\text{cima})}$$
+$$E_{c(\text{base})} = m \cdot g \cdot h_0$$
+$$E_{c(\text{base})} = (50 \text{ kg}) \cdot (10 \text{ m/s}^2) \cdot (15 \text{ m})$$
+$$E_{c(\text{base})} = 500 \text{ N} \cdot 15 \text{ m} = 7500 \text{ J}$$
+La convergencia de ambos métodos valida la solidez de la resolución.
+
+\subsubsection*{Conclusión}
+La energía cinética del esquiador en el pie de la colina es de 7500 J.
+
+\newpage
+\subsection*{Enunciado}
+Un esquiador de masa 50 kg parte del reposo desde la cima de una colina de 15 m de altura y desciende sin fricción. Considerando la aceleración de la gravedad $g = 10 \text{ m/s}^2$. Si luego de llegar al pie de la colina sube por otra colina, ¿hasta qué altura máxima llegará?
+
+\begin{center}
+\begin{tikzpicture}[scale=0.7, font=\sffamily]
+    \draw[thick, fill=blue!5] (0,5) .. controls (2,5) and (3,0) .. (5,0) .. controls (7,0) and (8,5.5) .. (10,5.5) -- (10,-1) -- (0,-1) -- cycle;
+    \draw[dashed, gray] (0,0) -- (10,0);
+    \draw[dashed, gray] (0,5) -- (10,5);
+    
+    \draw[<->] (-0.5,0) -- (-0.5,5) node[midway, fill=white] {$h_0 = 15$ m};
+    \draw[<->, red] (9.5,0) -- (9.5,5) node[midway, fill=white] {$h_f = ?$ m};
+    
+    \draw[fill=red!80, rounded corners=1pt] (0.2,5.1) rectangle (0.8,5.7);
+    \draw[thick] (0.1,5.0) -- (0.9,4.8);
+    \node[above] at (0.5, 5.8) {$v_0 = 0$};
+    
+    \node[below] at (5,0) {Nivel del suelo};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{Fundamento Conceptual: Los Planos Inclinados de Galileo}
+El problema planteado es una representación moderna de los clásicos experimentos de Galileo Galilei sobre la inercia y conservación. Como explica Hewitt, si una esfera rueda por un plano inclinado hacia abajo y luego sube por un plano opuesto sin experimentar fricción, ascenderá hasta alcanzar exactamente su altura inicial, independientemente de la longitud o inclinación de la segunda rampa. Todo el trabajo realizado por la gravedad al bajar es devuelto al sistema al subir. La altura máxima se define físicamente como el punto donde la rapidez del objeto se reduce a cero, habiendo reconvertido toda su energía cinética a energía potencial gravitatoria.
+
+\subsubsection*{Demostración Matemática}
+Planteamos la conservación de la energía mecánica total comparando el instante en la primera cima y el instante en la segunda cima (altura máxima):
+$$E_{m(\text{cima 1})} = E_{m(\text{cima 2})}$$
+$$E_{c(\text{cima 1})} + E_{p(\text{cima 1})} = E_{c(\text{cima 2})} + E_{p(\text{cima 2})}$$
+En ambas cimas, el esquiador se encuentra en reposo momentáneo. En la primera porque "parte del reposo" ($v_0 = 0$) y en la segunda porque alcanza su "altura máxima", punto donde se detiene antes de volver a caer ($v_f = 0$). Esto anula la energía cinética en ambos extremos:
+$$0 + m \cdot g \cdot h_0 = 0 + m \cdot g \cdot h_f$$
+$$m \cdot g \cdot h_0 = m \cdot g \cdot h_f$$
+Como la masa $m$ y la aceleración de la gravedad $g$ son constantes para este sistema y diferentes de cero, podemos dividir ambos lados de la ecuación por el término $(m \cdot g)$:
+$$h_0 = h_f$$
+Sustituimos el valor de la altura inicial dada en el problema:
+$$15 \text{ m} = h_f$$
+$$h_f = 15 \text{ m}$$
+
+\subsubsection*{Conclusión}
+La altura máxima que el esquiador alcanzará en la otra colina es de 15 m.
+
+\newpage
+
+\subsection*{Enunciado}
+Diferenciación de Conceptos: Explique la diferencia fundamental entre una fuente de energía primaria (como el sol o el petróleo) y un vector energético (como la electricidad o el hidrógeno). ¿Por qué el hidrógeno, a pesar de contener energía química, no puede definirse como una fuente de energía primaria?
+
+\subsection*{Solución}
+
+\subsubsection*{Fundamento Conceptual: Fuentes vs. Vectores Energéticos}
+En el estudio conceptual de la energía y su aprovechamiento, es imperativo distinguir entre el origen termodinámico de la energía y el medio utilizado para su distribución. Una fuente de energía primaria es cualquier forma de energía disponible en la naturaleza antes de ser sometida a un proceso de conversión o transformación humana. Ejemplos intrínsecos incluyen la radiación solar, la energía cinética del viento, el calor geotérmico o la energía química inalterada en los depósitos de combustibles fósiles (carbón, petróleo). 
+Por el contrario, un vector energético (o portador de energía) es un medio o sustancia fabricada artificialmente que almacena y transporta energía de un lugar a otro. Los vectores energéticos no se extraen directamente del entorno natural en un estado listo para el consumo; deben ser producidos a expensas de una fuente primaria. Su propósito principal es facilitar el manejo, almacenamiento y uso final de la energía.
+
+\subsubsection*{Visualización de la Cadena Energética}
+Para ilustrar pedagógicamente que un vector energético es un producto y no un punto de origen, el siguiente script de Python genera un diagrama de flujo que evidencia la obligatoriedad del paso por un proceso de conversión antes de obtener el vector.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(10, 4))
+
+ax.add_patch(plt.Rectangle((0.5, 1.5), 2.5, 1, color='lightcoral', ec='black'))
+ax.add_patch(plt.Rectangle((4.5, 1.5), 2.5, 1, color='lightgray', ec='black'))
+ax.add_patch(plt.Rectangle((8.5, 1.5), 2.5, 1, color='skyblue', ec='black'))
+
+ax.text(1.75, 2, 'Fuente Primaria\n(Naturaleza)', ha='center', va='center', fontweight='bold')
+ax.text(5.75, 2, 'Proceso de\nConversion', ha='center', va='center', fontweight='bold')
+ax.text(9.75, 2, 'Vector Energetico\n(Uso/Transporte)', ha='center', va='center', fontweight='bold')
+
+ax.annotate('', xy=(4.5, 2), xytext=(3.0, 2), arrowprops=dict(arrowstyle='->', lw=2.5))
+ax.annotate('', xy=(8.5, 2), xytext=(7.0, 2), arrowprops=dict(arrowstyle='->', lw=2.5))
+
+ax.text(1.75, 1.2, 'Sol, Viento,\nPetroleo Crudo, Uranio', ha='center', va='top', fontsize=9)
+ax.text(5.75, 1.2, 'Panel Solar, Turbina,\nElectrolizador', ha='center', va='top', fontsize=9)
+ax.text(9.75, 1.2, 'Electricidad,\nHidrogeno Diatomico', ha='center', va='top', fontsize=9)
+
+ax.set_xlim(0, 11.5)
+ax.set_ylim(0, 3)
+ax.axis('off')
+plt.title('Cadena de Transformacion: De la Fuente al Vector', fontweight='bold')
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Análisis Termodinámico de la Naturaleza del Hidrógeno}
+El hidrógeno diatómico ($H_2$) posee una densidad de energía química excepcionalmente alta por unidad de masa. Sin embargo, para clasificarlo como fuente primaria, tendríamos que ser capaces de extraer gas hidrógeno libre directamente de la Tierra (como se extrae el gas natural de un pozo). 
+En nuestro planeta, el hidrógeno es altamente reactivo y se encuentra casi exclusivamente unido a otros elementos formando moléculas muy estables, como el agua ($H_2O$) o diversos compuestos orgánicos e hidrocarburos. Para obtener hidrógeno puro y utilizable, es estrictamente necesario romper estos fuertes enlaces químicos. De acuerdo con las leyes de la termodinámica, la ruptura de estos enlaces requiere un aporte de energía (por ejemplo, energía eléctrica para realizar la electrólisis del agua). Dado que debemos consumir energía de otras fuentes primarias para "fabricar" el hidrógeno puro, este se convierte en un portador de la energía invertida en él, no en el origen de la misma.
+
+\subsubsection*{Conclusión}
+La diferencia fundamental radica en que la fuente primaria se extrae directamente de la naturaleza, mientras que el vector energético es un medio fabricado para transportar o almacenar esa energía. El hidrógeno no puede definirse como fuente primaria porque no existen reservas naturales de hidrógeno puro aprovechables en la Tierra; siempre requiere un gasto previo de energía primaria para separarlo de otras moléculas, actuando únicamente como un transportador flexible de dicha energía.
+
+\newpage
+
+\subsection*{Enunciado}
+Diferenciación de Conceptos: Explique la diferencia fundamental entre una fuente de energía primaria (como el sol o el petróleo) y un vector energético (como la electricidad o el hidrógeno). ¿Por qué el hidrógeno, a pesar de contener energía química, no puede definirse como una fuente de energía primaria?
+
+\subsection*{Solución}
+
+\subsubsection*{Fundamento Conceptual: Fuentes vs. Vectores Energéticos}
+En el estudio conceptual de la energía y su aprovechamiento, es imperativo distinguir entre el origen termodinámico de la energía y el medio utilizado para su distribución. Una fuente de energía primaria es cualquier forma de energía disponible en la naturaleza antes de ser sometida a un proceso de conversión o transformación humana. Ejemplos intrínsecos incluyen la radiación solar, la energía cinética del viento, el calor geotérmico o la energía química inalterada en los depósitos de combustibles fósiles (carbón, petróleo). 
+Por el contrario, un vector energético (o portador de energía) es un medio o sustancia fabricada artificialmente que almacena y transporta energía de un lugar a otro. Los vectores energéticos no se extraen directamente del entorno natural en un estado listo para el consumo; deben ser producidos a expensas de una fuente primaria. Su propósito principal es facilitar el manejo, almacenamiento y uso final de la energía.
+
+\subsubsection*{Visualización de la Cadena Energética}
+Para ilustrar pedagógicamente que un vector energético es un producto y no un punto de origen, el siguiente script de Python genera un diagrama de flujo que evidencia la obligatoriedad del paso por un proceso de conversión antes de obtener el vector.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(10, 4))
+
+ax.add_patch(plt.Rectangle((0.5, 1.5), 2.5, 1, color='lightcoral', ec='black'))
+ax.add_patch(plt.Rectangle((4.5, 1.5), 2.5, 1, color='lightgray', ec='black'))
+ax.add_patch(plt.Rectangle((8.5, 1.5), 2.5, 1, color='skyblue', ec='black'))
+
+ax.text(1.75, 2, 'Fuente Primaria\n(Naturaleza)', ha='center', va='center', fontweight='bold')
+ax.text(5.75, 2, 'Proceso de\nConversion', ha='center', va='center', fontweight='bold')
+ax.text(9.75, 2, 'Vector Energetico\n(Uso/Transporte)', ha='center', va='center', fontweight='bold')
+
+ax.annotate('', xy=(4.5, 2), xytext=(3.0, 2), arrowprops=dict(arrowstyle='->', lw=2.5))
+ax.annotate('', xy=(8.5, 2), xytext=(7.0, 2), arrowprops=dict(arrowstyle='->', lw=2.5))
+
+ax.text(1.75, 1.2, 'Sol, Viento,\nPetroleo Crudo, Uranio', ha='center', va='top', fontsize=9)
+ax.text(5.75, 1.2, 'Panel Solar, Turbina,\nElectrolizador', ha='center', va='top', fontsize=9)
+ax.text(9.75, 1.2, 'Electricidad,\nHidrogeno Diatomico', ha='center', va='top', fontsize=9)
+
+ax.set_xlim(0, 11.5)
+ax.set_ylim(0, 3)
+ax.axis('off')
+plt.title('Cadena de Transformacion: De la Fuente al Vector', fontweight='bold')
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Análisis Termodinámico de la Naturaleza del Hidrógeno}
+El hidrógeno diatómico ($H_2$) posee una densidad de energía química excepcionalmente alta por unidad de masa. Sin embargo, para clasificarlo como fuente primaria, tendríamos que ser capaces de extraer gas hidrógeno libre directamente de la Tierra (como se extrae el gas natural de un pozo). 
+En nuestro planeta, el hidrógeno es altamente reactivo y se encuentra casi exclusivamente unido a otros elementos formando moléculas muy estables, como el agua ($H_2O$) o diversos compuestos orgánicos e hidrocarburos. Para obtener hidrógeno puro y utilizable, es estrictamente necesario romper estos fuertes enlaces químicos. De acuerdo con las leyes de la termodinámica, la ruptura de estos enlaces requiere un aporte de energía (por ejemplo, energía eléctrica para realizar la electrólisis del agua). Dado que debemos consumir energía de otras fuentes primarias para "fabricar" el hidrógeno puro, este se convierte en un portador de la energía invertida en él, no en el origen de la misma.
+
+\subsubsection*{Conclusión}
+La diferencia fundamental radica en que la fuente primaria se extrae directamente de la naturaleza, mientras que el vector energético es un medio fabricado para transportar o almacenar esa energía. El hidrógeno no puede definirse como fuente primaria porque no existen reservas naturales de hidrógeno puro aprovechables en la Tierra; siempre requiere un gasto previo de energía primaria para separarlo de otras moléculas, actuando únicamente como un transportador flexible de dicha energía.
+
+\newpage
+
+\subsection*{Enunciado}
+Reflexión Crítica (Termodinámica): Si la energía se conserva y nunca se "gasta", ¿por qué hablamos de "crisis energética" o de la necesidad de buscar nuevas fuentes? Relacione su respuesta con la degradación de la energía (entropía) y la capacidad de realizar trabajo.
+
+\subsection*{Solución}
+
+\subsubsection*{Fundamento Conceptual: Cantidad vs. Calidad de la Energía}
+Para resolver esta aparente paradoja, debemos recurrir a las Leyes de la Termodinámica, tal como se exponen en la obra de Paul G. Hewitt. La Primera Ley de la Termodinámica garantiza que la cantidad total de energía en el universo es constante; es decir, la energía nunca se destruye ni se gasta, simplemente cambia de forma. Sin embargo, la Segunda Ley de la Termodinámica impone una restricción direccional a estos cambios: establece que en cada transformación energética, una parte de la energía se degrada inevitablemente hacia una forma menos útil, perdiendo calidad.
+
+\subsubsection*{Entropía y la Capacidad de Realizar Trabajo}
+El concepto central para entender esta degradación es la entropía, que en este contexto mide el grado de dispersión o desorden de la energía. Las fuentes de energía primarias que utilizamos (como un barril de petróleo, carbón o luz solar concentrada) poseen energía altamente concentrada y estructurada, lo que se traduce en una baja entropía. Esta energía concentrada es altamente capaz de realizar trabajo útil, como mover un automóvil o generar electricidad. 
+No obstante, al utilizar esta energía, la Segunda Ley dicta que gran parte de ella se disipará en forma de calor térmico hacia el entorno. Este calor ambiental es energía dispersa, caótica y de alta entropía. Aunque la energía sigue existiendo en el ambiente, ya no existe el gradiente térmico (la diferencia de temperatura) necesario para canalizarla y obligarla a realizar un trabajo mecánico útil.
+
+\subsubsection*{Visualización de la Degradación Energética}
+Para ilustrar cómo el inventario total de energía se mantiene intacto mientras que la fracción capaz de realizar trabajo disminuye inexorablemente, el siguiente código en Python genera un gráfico de barras apiladas. Este modelo visualiza el aumento de la entropía a lo largo de sucesivas transformaciones.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+etapas_transformacion = ['Fuente Primaria', 'Conversion 1', 'Conversion 2', 'Calor Ambiental']
+energia_util_trabajo = [100, 55, 15, 0]
+energia_degradada_calor = [0, 45, 85, 100]
+
+fig, ax = plt.subplots(figsize=(8, 5))
+grosor = 0.45
+
+ax.bar(etapas_transformacion, energia_util_trabajo, grosor, label='Energia Util (Baja Entropia)', color='mediumseagreen', edgecolor='black')
+ax.bar(etapas_transformacion, energia_degradada_calor, grosor, bottom=energia_util_trabajo, label='Energia Disipada (Alta Entropia)', color='tomato', edgecolor='black')
+
+ax.set_ylabel('Proporcion de Energia Total (%)')
+ax.set_title('Degradacion de la Energia y Aumento de Entropia')
+ax.axhline(100, color='black', linestyle='--', linewidth=2, label='Energia Total (Primera Ley)')
+
+ax.legend(loc='center left')
+plt.grid(axis='y', linestyle=':', alpha=0.7)
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Análisis Termodinámico de la Crisis}
+Como demuestra el modelo, en la etapa final ("Calor Ambiental"), la línea punteada de los 100 por ciento se mantiene, lo que respeta la conservación. Sin embargo, la barra verde de energía útil ha desaparecido. La energía no se ha "gastado" en el sentido de haber desaparecido del universo, pero se ha vuelto inaccesible e inútil para la civilización humana. Cuando calentamos el aire exterior con el escape de un motor, no podemos recolectar ese aire tibio para volver a propulsar el motor; el proceso es irreversible.
+
+\subsubsection*{Conclusión}
+Hablamos de "crisis energética" no porque nos estemos quedando sin energía en términos absolutos, sino porque estamos agotando aceleradamente nuestras reservas de energía útil y concentrada (de baja entropía). La crisis radica en la pérdida irreversible de la capacidad de realizar trabajo, ya que cada proceso humano degrada energía organizada en calor ambiental inútil, forzándonos a buscar continuamente nuevas fuentes primarias de baja entropía para mantener el funcionamiento de la sociedad.
+
+\newpage
+
+\subsection*{Enunciado}
+¿Cuál es la fuente última de energía en los combustibles fósiles, presas y molinos de viento?
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9, font=\sffamily]
+    \node[draw, circle, fill=yellow!40, minimum size=2.5cm, thick] (sol) at (0,3) {Sol};
+    \node[draw, rectangle, fill=brown!40, rounded corners, minimum width=2.5cm, minimum height=1cm] (carbon) at (-3.5,0) {Combustibles Fósiles};
+    \node[draw, rectangle, fill=blue!30, rounded corners, minimum width=2.5cm, minimum height=1cm] (presa) at (0,0) {Presas Hidroeléctricas};
+    \node[draw, rectangle, fill=gray!20, rounded corners, minimum width=2.5cm, minimum height=1cm] (viento) at (3.5,0) {Molinos de Viento};
+    
+    \draw[->, ultra thick, orange] (sol) -- (carbon) node[midway, left, text=black, font=\footnotesize, align=right] {Fotosíntesis\\antigua};
+    \draw[->, ultra thick, orange] (sol) -- (presa) node[midway, fill=white, text=black, font=\footnotesize, align=center] {Ciclo del\\agua};
+    \draw[->, ultra thick, orange] (sol) -- (viento) node[midway, right, text=black, font=\footnotesize, align=left] {Calentamiento\\desigual};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{Fundamento Conceptual: La Radiación Solar como Motor Terrestre}
+De acuerdo con los postulados de la Física Conceptual de Paul G. Hewitt, la inmensa mayoría de la energía que utilizamos en la Tierra es, en su origen, energía solar almacenada o transformada. El Sol actúa como un gigantesco reactor de fusión nuclear que baña a nuestro planeta con radiación electromagnética constante. Esta energía es el motor primario que impulsa casi todos los fenómenos a gran escala en la biosfera y la atmósfera terrestre.
+
+\subsubsection*{Análisis de las Cadenas Energéticas}
+Para comprender esta afirmación, debemos trazar la cadena de transformaciones termodinámicas de cada recurso mencionado:
+1. Combustibles fósiles: El carbón, el petróleo y el gas natural son biomasa antigua fosilizada. Esta biomasa se formó a partir de plantas microscópicas y macroscópicas que capturaron la energía electromagnética del Sol mediante la fotosíntesis hace millones de años, almacenándola como energía potencial química. Al quemar un fósil, estamos liberando "luz solar fósil".
+2. Presas hidroeléctricas: Las presas aprovechan la energía potencial gravitatoria del agua almacenada en altura. Sin embargo, el agua llega a esas alturas gracias al ciclo hidrológico. El calor del Sol evapora el agua de los océanos contra la fuerza de gravedad y los vientos la transportan hacia las montañas, donde precipita. Por lo tanto, el Sol realiza el trabajo de elevar el agua.
+3. Molinos de viento: El viento es aire en movimiento (energía cinética). Las corrientes de aire se generan debido a las diferencias de presión atmosférica, las cuales son causadas directamente por el calentamiento desigual de la superficie terrestre por parte de la radiación solar.
+
+\subsubsection*{Conclusión}
+La fuente última de energía en los combustibles fósiles, las presas hidroeléctricas y los molinos de viento es el Sol.
+
+\newpage
+\subsection*{Enunciado}
+¿Cuál es la fuente última de energía geotérmica?
+
+\subsection*{Solución}
+
+\subsubsection*{Fundamento Conceptual: Calor Interno Terrestre}
+La energía geotérmica es una de las pocas excepciones en la Tierra cuya fuente primordial no es el Sol. Como su prefijo indica ("geo" significa Tierra y "termos" calor), se refiere a la energía térmica almacenada en el interior de nuestro planeta. Hewitt explica que, a medida que descendemos por la corteza terrestre hacia el manto, la temperatura aumenta de forma sostenida. 
+
+\subsubsection*{Orígenes Físicos del Calor Geotérmico}
+La inmensa cantidad de energía térmica que emana desde el núcleo hacia la superficie proviene fundamentalmente de dos procesos físicos distintos:
+1. El calor residual de formación: Una fracción de este calor es el remanente del inmenso trabajo gravitacional y de los impactos de asteroides y planetesimales que ocurrieron durante la acreción y formación de la Tierra hace unos 4.500 millones de años.
+2. El decaimiento radiactivo (Fuente Principal): La mayor parte del calor geotérmico continuo es suministrado por la desintegración nuclear espontánea de isótopos radiactivos pesados atrapados en las rocas de la corteza y el manto terrestre, principalmente Uranio-238, Torio-232 y Potasio-40. Cuando los núcleos de estos elementos decaen, la energía cinética de las partículas emitidas se transfiere a los átomos circundantes, elevando drásticamente la temperatura de la roca.
+
+\subsubsection*{Conclusión}
+La fuente última de la energía geotérmica es la radiactividad natural (decaimiento de isótopos inestables) en el interior de la Tierra, sumada al calor residual de la formación gravitacional del planeta.
+
+\newpage
+\subsection*{Enunciado}
+¿Puedes decir correctamente que el hidrógeno es una nueva fuente de energía? ¿Por qué sí o por qué no?
+
+\subsection*{Solución}
+
+\subsubsection*{Fundamento Conceptual: Rigor en la Nomenclatura Termodinámica}
+En el lenguaje cotidiano, es común escuchar que el hidrógeno salvará al mundo como una "nueva fuente" de combustible limpio. Sin embargo, desde la perspectiva rigurosa de la física y la termodinámica, esta afirmación es categóricamente falsa. Hewitt enfatiza la necesidad de distinguir entre una fuente primaria de energía y un vector o portador energético. Una fuente de energía primaria es aquella que se extrae directamente de la naturaleza en un estado listo para ser procesado o consumido, como un depósito de carbón, un pozo de petróleo o la radiación solar.
+
+\subsubsection*{Análisis del Hidrógeno como Medio de Almacenamiento}
+El hidrógeno es el elemento más abundante del universo, pero en la Tierra es extremadamente reactivo. No existen minas ni pozos de gas de hidrógeno diatómico ($H_2$) puro esperando ser extraído. Todo el hidrógeno terrestre está fuertemente enlazado a otros elementos, formando sustancias químicas de baja energía como el agua ($H_2O$) o hidrocarburos ($CH_4$). 
+Para obtener hidrógeno puro y útil, debemos romper estos fuertes enlaces químicos mediante procesos como la electrólisis. Las Leyes de la Termodinámica dictan que para romper estos enlaces se debe invertir una cantidad de energía igual o mayor a la que el hidrógeno liberará cuando vuelva a combinarse con el oxígeno. Por lo tanto, necesitamos usar electricidad de una central nuclear, solar o fósil para crear el hidrógeno. El hidrógeno simplemente "absorbe" esa energía primaria para ser transportada en forma de gas.
+
+\subsubsection*{Conclusión}
+No, no es correcto llamarlo fuente de energía. El hidrógeno es un vector energético; no existe puro en la naturaleza terrestre y siempre requiere el gasto previo de energía de una fuente primaria externa (solar, eólica, fósil o nuclear) para ser producido.
+
+\newpage
+\subsection*{Enunciado}
+La energía que necesitas para vivir proviene de la energía potencial químicamente almacenada en los alimentos, que se transforma en otras formas de energía durante el proceso de metabolismo. ¿Qué le ocurre a una persona cuya salida de trabajo y calor combinados es menor que la energía consumida? Defiende tu respuesta.
+
+\subsection*{Solución}
+
+\subsubsection*{Fundamento Conceptual: La Primera Ley en el Cuerpo Humano}
+El cuerpo humano, a pesar de su complejidad biológica, obedece estrictamente a la Primera Ley de la Termodinámica (Principio de Conservación de la Energía). Según este principio adaptado a los sistemas biológicos por la Física Conceptual, la energía total que ingresa al cuerpo debe ser igual a la energía que sale del cuerpo más la variación en la energía almacenada internamente. 
+Matemáticamente se expresa como: $\text{Energía Consumida} = \text{Trabajo Realizado} + \text{Calor Disipado} + \text{Cambio en Energía Almacenada}$.
+
+\subsubsection*{Visualización del Balance Positivo}
+Para comprender mecánicamente lo que ocurre bajo la premisa del enunciado, donde la entrada es mayor que la salida, el siguiente script en Python genera un gráfico de barras que evidencia a dónde se dirige el excedente energético. Dado que la energía no puede destruirse, la diferencia obliga al sistema a utilizar su mecanismo biológico de almacenamiento a largo plazo.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+variables = ['Energia Consumida (Alimentos)', 'Salida (Trabajo + Calor)', 'Energia Almacenada (Excedente)']
+valores = [3000, 2200, 800]
+colores = ['mediumseagreen', 'tomato', 'gold']
+
+plt.figure(figsize=(8, 4))
+plt.bar(variables, valores, color=colores, edgecolor='black', linewidth=1.5)
+plt.ylabel('Cantidad de Energia (Kilocalorias)')
+plt.title('Balance Termodinamico Positivo en el Organismo')
+plt.axhline(0, color='black', linewidth=1)
+plt.grid(axis='y', linestyle='--', alpha=0.5)
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Análisis Termodinámico}
+El enunciado establece que la "salida de trabajo y calor combinados" (la energía que el cuerpo gasta moviéndose, pensando y manteniendo su temperatura) es menor que la "energía consumida" (los alimentos ingeridos). Como la energía no puede desaparecer en la nada, el excedente energético debe depositarse en alguna parte. Evolutivamente, el cuerpo humano convierte esta energía excedente en nuevas moléculas ricas en enlaces químicos (principalmente triglicéridos o tejido adiposo) para guardarlas como reserva de energía potencial.
+
+\subsubsection*{Conclusión}
+La persona aumentará su masa corporal (engordará), porque la Primera Ley de la Termodinámica exige que la energía excedente no disipada como calor ni gastada como trabajo se convierta en energía potencial química almacenada como grasa en los tejidos.
+
+\newpage
+\subsection*{Enunciado}
+La energía que necesitas para vivir proviene de la energía potencial químicamente almacenada en los alimentos, que se transforma en otras formas de energía durante el proceso de metabolismo. ¿Qué ocurre cuando la salida de trabajo y calor de la persona es mayor que la energía consumida? Defiende tu respuesta.
+
+\subsection*{Solución}
+
+\subsubsection*{Fundamento Conceptual: Balance Energético Negativo}
+Retomando la aplicación de la Primera Ley de la Termodinámica expuesta en el inciso anterior, analizamos la ecuación base: $\text{Energía Consumida} = (\text{Trabajo} + \text{Calor}) + \Delta\text{Almacenamiento}$. En este caso, el escenario se invierte. El gasto energético (salida de trabajo y calor) es superior a la ingesta calórica proporcionada por los alimentos.
+
+\subsubsection*{Mecanismo de Compensación}
+En la física clásica, no es posible obtener más energía de la que se suministra; no se puede generar energía de la nada. Si una máquina realiza un trabajo de 2500 Julios pero solo recibe 2000 Julios de combustible externo, la máquina simplemente se detendría. Sin embargo, el cuerpo humano es un sistema dotado de baterías biológicas internas. Para poder satisfacer una salida mayor a la entrada, el organismo se ve obligado a recurrir a su término de $\Delta\text{Almacenamiento}$, extrayendo energía de sus propias reservas para cubrir el déficit. Al oxidar y romper los enlaces químicos del tejido adiposo (grasa) o del tejido muscular para liberar energía, la masa física de estos tejidos se degrada y abandona el cuerpo en forma de dióxido de carbono y agua.
+
+\subsubsection*{Conclusión}
+La persona perderá masa corporal (adelgazará), puesto que el organismo se ve forzado a metabolizar e incinerar sus propios tejidos de reserva química para compensar el déficit de energía y mantener la conservación termodinámica.
+
+\newpage
+\subsection*{Enunciado}
+La energía que necesitas para vivir proviene de la energía potencial químicamente almacenada en los alimentos, que se transforma en otras formas de energía durante el proceso de metabolismo. ¿Una persona desnutrida puede realizar trabajo adicional sin alimento adicional? Defiende tu respuesta.
+
+\subsection*{Solución}
+
+\subsubsection*{Fundamento Conceptual: El Límite de la Conservación de la Energía}
+La pregunta plantea el caso extremo del balance termodinámico en un sistema biológico. Según la obra de Hewitt, cualquier sistema material obedece a las inquebrantables leyes de conservación. Para realizar un "trabajo adicional", un objeto debe ejercer una fuerza a través de una distancia, lo cual exige inevitablemente un gasto de energía ($W = \Delta E$).
+
+\subsubsection*{Análisis del Estado de Desnutrición}
+Una persona severamente desnutrida se caracteriza físicamente por el agotamiento casi total de sus reservas internas de energía química (ha consumido su tejido adiposo y su tejido muscular catabolizable). Si a esta persona no se le suministra "alimento adicional" (energía externa), se encuentra ante la imposibilidad física de obtener energía. Sin entrada externa y sin reservas internas, la energía disponible del sistema tiende a cero. Permitir que la persona realice un trabajo mecánico adicional en estas condiciones equivaldría a crear energía de la nada, violando el pilar más fundamental de toda la física: la energía no se crea ni se destruye.
+
+\subsubsection*{Conclusión}
+No, es físicamente imposible. Realizar trabajo requiere un gasto de energía, y una persona desnutrida sin acceso a alimento carece tanto de suministro externo como de reservas internas; afirmar lo contrario violaría la Primera Ley de la Termodinámica.
+
+\newpage
+\subsection*{Enunciado}
+Cuando una compañía eléctrica no puede satisfacer la demanda de electricidad de sus clientes en un caluroso día de verano, ¿el problema debería llamarse "crisis energética" o "crisis de potencia"? Discute.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9, font=\sffamily]
+    \draw[thick, <->] (0,4) node[left] {Suministro} -- (0,0) -- (8,0) node[below] {Tiempo};
+    
+    \draw[ultra thick, blue] (0,2.5) -- (8,2.5) node[right, font=\footnotesize] {Límite de la infraestructura};
+    \draw[ultra thick, red] (0,1) .. controls (2,1) and (3,3.8) .. (4,3.8) .. controls (5,3.8) and (6,1) .. (8,1);
+    
+    \node[red, font=\footnotesize, align=center] at (4,4.2) {Pico de demanda por \\ Aire Acondicionado};
+    
+    \draw[fill=orange, opacity=0.3] (2.8,2.5) .. controls (3,3.8) and (5,3.8) .. (5.2,2.5) -- cycle;
+    \node[font=\footnotesize, align=center, font=\bfseries] at (4,3.1) {Zona de Fallo \\ (Crisis)};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{Fundamento Conceptual: Diferenciación entre Energía y Potencia}
+En la Física Conceptual, uno de los errores más comunes es confundir la energía con la potencia. 
+La energía es la capacidad de realizar un trabajo y se mide en Julios (J) o Kilovatios-hora (kWh). Representa una cantidad total disponible, como la cantidad de carbón en una mina o el volumen de agua en una presa.
+La potencia, por el contrario, es la tasa o rapidez con la que se transfiere, transforma o consume esa energía. Matemáticamente es Potencia = Energía / Tiempo, y se mide en Vatios (W) o Megavatios (MW).
+
+\subsubsection*{Análisis Gráfico de la Dinámica de Demanda}
+Para clarificar por qué las ciudades sufren apagones en verano, el siguiente script de Python modela una situación típica de la red eléctrica. Se observa que la crisis no ocurre porque falte área bajo la curva (energía total), sino porque la curva roja sobrepasa temporalmente el techo máximo azul.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+import numpy as np
+
+horas_dia = np.arange(0, 24, 1)
+demanda_instantanea = 40 + 55 * np.exp(-((horas_dia - 14)**2) / 10)
+capacidad_maxima_generadores = np.full_like(horas_dia, 80)
+
+fig, ax = plt.subplots(figsize=(8, 4))
+
+ax.plot(horas_dia, demanda_instantanea, color='crimson', linewidth=2.5, label='Demanda Requerida (Rapidez de consumo)')
+ax.plot(horas_dia, capacidad_maxima_generadores, color='royalblue', linestyle='--', linewidth=2.5, label='Capacidad de Potencia Instalada')
+ax.fill_between(horas_dia, demanda_instantanea, capacidad_maxima_generadores, where=(demanda_instantanea > capacidad_maxima_generadores), color='gold', alpha=0.6, label='Deficit de Suministro Instantaneo')
+
+ax.set_xlabel('Hora del Dia')
+ax.set_ylabel('Megavatios (MW) - Tasa de Energia')
+ax.set_title('Colapso de la Red por Saturacion de Capacidad')
+ax.set_xticks(np.arange(0, 25, 4))
+ax.legend(loc='upper left', fontsize=8)
+plt.grid(True, linestyle=':', alpha=0.7)
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Discusión de la Crisis del Sistema Eléctrico}
+En un día caluroso de verano, millones de personas encienden sus equipos de aire acondicionado simultáneamente. Esto genera un pico brutal en la tasa a la que se requiere extraer energía de la red eléctrica. La compañía eléctrica puede tener reservas masivas de agua en su represa o montañas de carbón listas para quemar (por lo que NO hay una falta de "energía total"). 
+El fallo sistémico radica en que las turbinas, los generadores electromagnéticos y las líneas de transmisión tienen un límite físico respecto a la cantidad de Julios que pueden empujar a través del cableado cada segundo. La demanda instantánea de Julios/segundo excede la capacidad de las máquinas para suministrarlos a esa velocidad.
+
+\subsubsection*{Conclusión}
+El problema debería llamarse rigurosamente una "crisis de potencia". La compañía no carece de la energía total necesaria para abastecer a la ciudad; carece de la infraestructura (potencia instalada) para entregar esa energía con la rapidez extrema que exige el pico de consumo simultáneo.
+
+\newpage
+
+\subsection*{Enunciado}
+El Origen Solar de los Hidrocarburos: ¿Por qué se afirma científicamente que la energía obtenida del petróleo, el carbón y el gas natural proviene originalmente del Sol?
+
+\subsection*{Solución}
+
+\subsubsection*{Fundamento Conceptual: La Radiación Solar como Batería Planetaria}
+Según la Física Conceptual de Paul G. Hewitt, la inmensa mayoría de las fuentes energéticas disponibles en la superficie terrestre son formas indirectas de energía solar. El Sol, al ser un reactor de fusión nuclear masivo, irradia continuamente energía electromagnética hacia el espacio. En la Tierra, ciertos organismos biológicos han evolucionado para actuar como recolectores naturales de esta radiación.
+
+\subsubsection*{Visualización del Flujo Energético Geológico}
+Para comprender por qué un barril de crudo es esencialmente "luz solar líquida", es útil trazar la cadena de transformaciones termodinámicas que sufre la energía desde su origen estelar hasta el tanque de combustible. El siguiente código en Python genera un diagrama de flujo que resume este proceso geológico y biológico a lo largo de eones.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+fig, ax = plt.subplots(figsize=(10, 4))
+
+ax.add_patch(patches.Rectangle((0, 1.5), 2.5, 1, color='gold', ec='black', lw=1.5))
+ax.add_patch(patches.Rectangle((3.8, 1.5), 2.5, 1, color='forestgreen', ec='black', lw=1.5))
+ax.add_patch(patches.Rectangle((7.6, 1.5), 2.4, 1, color='saddlebrown', ec='black', lw=1.5))
+
+ax.text(1.25, 2, 'Energia Solar\n(Radiacion EM)', ha='center', va='center', fontweight='bold', fontsize=10)
+ax.text(5.05, 2, 'Energia Quimica\n(Biomasa Antigüa)', ha='center', va='center', fontweight='bold', color='white', fontsize=10)
+ax.text(8.8, 2, 'Hidrocarburos\n(Energia Fosil)', ha='center', va='center', fontweight='bold', color='white', fontsize=10)
+
+ax.annotate('', xy=(3.8, 2), xytext=(2.5, 2), arrowprops=dict(facecolor='black', shrink=0.05, width=2, headwidth=8))
+ax.annotate('', xy=(7.6, 2), xytext=(6.3, 2), arrowprops=dict(facecolor='black', shrink=0.05, width=2, headwidth=8))
+
+ax.text(3.15, 1.3, 'Fotosintesis', ha='center', va='top', fontsize=9, color='dimgray', fontweight='bold')
+ax.text(6.95, 1.3, 'Presion, Temperatura\ny Tiempo Geologico', ha='center', va='top', fontsize=9, color='dimgray', fontweight='bold')
+
+ax.set_xlim(-0.5, 10.5)
+ax.set_ylim(0, 3.5)
+ax.axis('off')
+plt.title('Cadena de Transformacion: De Radiacion Estelar a Combustible Fosil', fontweight='bold')
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Análisis del Proceso: De la Fotosíntesis a la Fosilización}
+El proceso consta de dos fases principales. La primera es estrictamente biológica. Hace cientos de millones de años (durante eras como el Carbonífero), inmensas cantidades de plantas terrestres y fitoplancton oceánico captaron la energía radiante del Sol. Mediante el proceso de la fotosíntesis, utilizaron esta energía lumínica para sintetizar moléculas orgánicas complejas a partir de dióxido de carbono y agua. Físicamente, la energía lumínica fue transformada y almacenada como energía potencial en los enlaces químicos de estos tejidos orgánicos.
+
+La segunda fase es geológica. Generalmente, cuando la materia orgánica muere, se descompone rápidamente y devuelve esa energía al entorno en forma de calor. Sin embargo, una fracción de estos organismos muertos quedó sepultada bajo gruesas capas de sedimentos en ambientes carentes de oxígeno, lo que interrumpió la descomposición normal. A lo largo de eones, la extrema presión litostática y las altas temperaturas del interior de la corteza terrestre "cocinaron" literalmente esta materia orgánica. Las moléculas biológicas originales perdieron oxígeno y nitrógeno, reconfigurando sus enlaces para transformarse en cadenas altamente densas y estables de carbono e hidrógeno: los hidrocarburos (carbón, petróleo y gas natural). 
+
+\subsubsection*{Conclusión}
+Se afirma científicamente porque los combustibles fósiles son el resultado de procesos de fotosíntesis de hace millones de años. Quemar petróleo, carbón o gas natural es, en esencia, romper esos enlaces químicos para liberar la antigua energía solar que fue capturada y almacenada por las plantas y el fitoplancton en forma de tejido orgánico.
+
+\newpage
+
+\subsection*{Enunciado}
+Análisis de la Carga Base en Ecuador: Explique por qué una central hidroeléctrica de embalse se considera una fuente de energía más estable para la red nacional que un arreglo de celdas fotovoltaicas, considerando las condiciones climáticas.
+
+\subsection*{Solución}
+
+\subsubsection*{Fundamento Conceptual: La Naturaleza de las Fuentes y el Almacenamiento}
+De acuerdo con los principios abordados en la Física Conceptual de Paul G. Hewitt, la utilidad de una fuente de energía para sostener la civilización moderna no solo depende de su magnitud, sino de su disponibilidad temporal (despachabilidad). Ambas tecnologías, la solar fotovoltaica y la hidroeléctrica, derivan su energía última del Sol. Sin embargo, su interacción con la red eléctrica es diametralmente opuesta debido a su capacidad de almacenamiento físico.
+
+Las celdas fotovoltaicas dependen de la irradiación solar directa e instantánea. Su producción de energía es estrictamente esclava de los ciclos astronómicos (el día y la noche) y de las variables meteorológicas (nubosidad, lluvia). Sin sistemas masivos de baterías químicas de respaldo, la energía solar es intermitente; si una nube cubre el arreglo, la generación de potencia cae abruptamente.
+
+\subsubsection*{El Embalse como Batería Gravitacional}
+Por el contrario, una represa hidroeléctrica aprovecha el ciclo hidrológico, el cual es un proceso impulsado por el calor solar a escala planetaria. La presa actúa físicamente como una gigantesca "batería de energía potencial gravitatoria". Al acumular millones de metros cúbicos de agua a una altura elevada, el sistema almacena enormes cantidades de energía que no se ven afectadas por una nube pasajera o la llegada de la noche. Los operadores de la red eléctrica pueden abrir o cerrar las compuertas a voluntad, regulando el caudal que atraviesa las turbinas para generar electricidad de manera continua y rígidamente controlada, satisfaciendo lo que se conoce como la "carga base" (la demanda mínima ininterrumpida de un país).
+
+\subsubsection*{Modelado Computacional del Perfil de Generación}
+Para contrastar visualmente la estabilidad de ambas fuentes frente a las condiciones ambientales de un día típico, el siguiente modelo en Python simula la potencia entregada a la red nacional. El gráfico ilustra la invulnerabilidad de la hidroeléctrica frente a la intermitencia climática que afecta a los paneles solares.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+import numpy as np
+
+horas = np.arange(0, 24, 0.1)
+
+potencia_hidroelectrica = np.full_like(horas, 80)
+
+potencia_solar = np.zeros_like(horas)
+horas_luz = (horas > 6) & (horas < 18)
+potencia_solar[horas_luz] = 70 * np.sin(np.pi * (horas[horas_luz] - 6) / 12)
+
+potencia_solar[(horas > 11) & (horas < 12.5)] *= 0.3
+potencia_solar[(horas > 15) & (horas < 16)] *= 0.15
+
+fig, ax = plt.subplots(figsize=(9, 5))
+
+ax.plot(horas, potencia_hidroelectrica, label='Hidroelectrica de Embalse (Carga Base)', color='royalblue', linewidth=3)
+ax.fill_between(horas, potencia_hidroelectrica, color='royalblue', alpha=0.15)
+
+ax.plot(horas, potencia_solar, label='Arreglo Fotovoltaico (Intermitente)', color='orange', linewidth=3)
+ax.fill_between(horas, potencia_solar, color='orange', alpha=0.3)
+
+ax.text(11.75, 25, 'Paso de\nnubes', ha='center', fontsize=9, color='darkred')
+ax.text(15.5, 15, 'Tormenta', ha='center', fontsize=9, color='darkred')
+
+ax.set_title('Perfil de Generacion Electrica Diaria: Estabilidad vs Intermitencia')
+ax.set_xlabel('Hora del Dia')
+ax.set_ylabel('Potencia Generada (Megavatios)')
+ax.set_xticks(np.arange(0, 25, 4))
+ax.set_ylim(0, 100)
+ax.legend(loc='upper right')
+plt.grid(True, linestyle=':', alpha=0.7)
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+Una central hidroeléctrica de embalse es más estable porque el agua represada funciona como una inmensa batería de energía potencial gravitatoria, permitiendo una generación eléctrica constante y controlada a cualquier hora (carga base). En contraste, las celdas fotovoltaicas carecen de este almacenamiento inherente, haciendo que su producción sea altamente vulnerable e intermitente ante factores climáticos como las nubes y el ciclo nocturno.
+
+\newpage
+
+\subsection*{Enunciado}
+El Vector Hidrógeno vs. Fuente Primaria: Un estudiante afirma: "El hidrógeno es la mejor fuente de energía renovable porque no contamina". Corrija técnicamente esta afirmación basándose en el análisis de las fuentes primarias y los procesos de transformación energética.
+
+\subsection*{Solución}
+
+\subsubsection*{Fundamento Conceptual: La Ilusión de la Fuente Primaria}
+En el ámbito de la Física Conceptual, es imperativo utilizar el vocabulario termodinámico con rigurosa precisión. El error del estudiante radica en confundir el medio de transporte de la energía con su origen. Una fuente de energía primaria es un recurso que existe libremente en la naturaleza y puede ser extraído para su aprovechamiento directo o transformación, como la luz solar, el viento, el uranio o el petróleo. 
+El hidrógeno diatómico puro ($H_2$) prácticamente no existe en estado libre en nuestro planeta. Su inmensa reactividad química hace que siempre se encuentre fuertemente unido a otros elementos, como al oxígeno formando el agua oceánica, o al carbono formando hidrocarburos. 
+
+\subsubsection*{El Balance Termodinámico del Vector Energético}
+Para aislar el hidrógeno puro y utilizarlo en la pila de combustible ilustrada en el enunciado, es estrictamente obligatorio someter al agua o al metano a procesos industriales (como la electrólisis) que consumen enormes cantidades de energía externa. El hidrógeno es, por lo tanto, un "vector energético". Se comporta exactamente igual que una batería química recargable: debe ser "cargado" invirtiendo energía primaria en su producción, para luego "descargarse" liberando esa energía en el lugar y momento deseados.
+
+Para visualizar pedagógicamente por qué el hidrógeno no puede considerarse una fuente neta de energía, el siguiente script de Python genera un gráfico de barras que evidencia el déficit termodinámico dictado por la Segunda Ley de la Termodinámica.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+fases_proceso = ['Energia Invertida\n(Para aislar el Hidrogeno)', 'Energia Recuperada\n(Al usar el Hidrogeno)']
+unidades_energia = [100, 65] 
+
+fig, ax = plt.subplots(figsize=(8, 4.5))
+barras = ax.bar(fases_proceso, unidades_energia, color=['lightcoral', 'skyblue'], edgecolor='black', width=0.5)
+
+ax.set_ylabel('Unidades de Energia Arbitrarias')
+ax.set_title('El Hidrogeno como Bateria (Vector Energético)')
+ax.set_ylim(0, 130)
+
+for barra in barras:
+    altura = barra.get_height()
+    ax.text(barra.get_x() + barra.get_width()/2., altura + 3, f'{altura} Unidades', ha='center', fontweight='bold')
+
+ax.text(0.5, 115, 'La perdida de energia util demuestra que el hidrogeno\nes un consumidor neto de fuentes primarias.', 
+         ha='center', va='center', bbox=dict(facecolor='white', alpha=0.9, edgecolor='gray'))
+
+plt.grid(axis='y', linestyle='--', alpha=0.6)
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Análisis del Uso del Término "Renovable"}
+Adicionalmente, clasificar al hidrógeno intrínsecamente como "renovable" o "limpio" es una simplificación excesiva. Dado que el hidrógeno es solo un transportador, su nivel de contaminación y renovabilidad hereda directamente las características de la fuente primaria utilizada para fabricarlo. Si el hidrógeno se extrae del agua utilizando electricidad generada por paneles solares (hidrógeno verde), el ciclo es renovable. Sin embargo, si se extrae a partir del gas natural quemando combustibles fósiles (hidrógeno gris, que constituye la gran mayoría de la producción mundial actual), el proceso global es altamente contaminante.
+
+\subsubsection*{Conclusión}
+La afirmación es técnicamente incorrecta porque el hidrógeno no es una fuente de energía, sino un vector energético. No existe libre en la naturaleza en estado puro; debe ser fabricado gastando energía de una verdadera fuente primaria. Actúa únicamente como un medio para almacenar y transportar energía de un lugar a otro, análogo a una batería.
+
+\newpage
+
+\subsection*{Enunciado}
+La Geotermia de ``Roca Seca'': Describa el proceso físico mediante el cual se obtiene energía de la ``roca seca'' y explique por qué este mecanismo se considera un ciclo cerrado.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, font=\sffamily]
+    \draw[thick, fill=green!10] (0,0) rectangle (9,-0.5);
+    \node[above, font=\bfseries] at (4.5,0) {Planta de Generacion Geotermica};
+    
+    \draw[thick, fill=gray!20] (0,-0.5) rectangle (9,-3.5);
+    \node[font=\footnotesize] at (4.5,-2) {Estratos Geologicos Impermeables};
+    
+    \draw[thick, fill=red!30] (0,-3.5) rectangle (9,-7);
+    \node[white, font=\bfseries] at (4.5,-6.2) {Roca Solida Caliente (Roca Seca)};
+    
+    \draw[ultra thick, red!60!black] (2.5,-4.5) -- (3.5,-5.5) -- (5,-4) -- (6.5,-5.2) -- (7,-4.8);
+    \draw[ultra thick, red!60!black] (3.5,-5.5) -- (4.5,-6) -- (6.5,-5.2);
+    \node[fill=white, inner sep=1pt, font=\tiny] at (4.5,-4.8) {Red de Fracturas Artificiales};
+    
+    \draw[line width=3pt, blue] (2.5,0) -- (2.5,-4.5);
+    \draw[->, ultra thick, white] (2.5,-1) -- (2.5,-2.5);
+    \node[left, font=\footnotesize, fill=white] at (2.3,-1.75) {Pozo de Inyeccion (Agua Fria)};
+    
+    \draw[line width=3pt, red] (6.5,0) -- (6.5,-5.2);
+    \draw[<-, ultra thick, white] (6.5,-1) -- (6.5,-2.5);
+    \node[right, font=\footnotesize, fill=white] at (6.7,-1.75) {Pozo de Produccion (Vapor)};
+    
+    \draw[->, thick, dashed, blue!50!black] (3,-4.8) to[out=-30, in=210] (6,-5);
+    
+    \draw[thick, ->] (6.5, 0.5) -- (6.5, 1.5) -- (4.5, 1.5) node[midway, above, font=\footnotesize] {Turbina y Condensador} -- (2.5, 1.5) -- (2.5, 0.5);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{Fundamento Conceptual: Transferencia de Calor Geotérmico}
+La energía geotérmica convencional depende de la existencia natural de acuíferos subterráneos (agua caliente confinada). Sin embargo, en muchas regiones de la Tierra, el gradiente geotérmico ofrece altas temperaturas a profundidades accesibles, pero la roca carece de agua o de permeabilidad natural; a esto se le denomina ``roca seca caliente''. Para extraer esta inmensa reserva de energía térmica, la ingeniería humana debe crear un sistema hidrotermal artificial, basándose en los principios termodinámicos de conducción y convección descritos en la Física Conceptual.
+
+\subsubsection*{Descripción del Proceso Físico (Sistemas Geotérmicos Mejorados)}
+El proceso de extracción consta de una secuencia de ingeniería termodinámica precisa:
+1. Perforación Inicial: Se taladra un pozo de inyección hasta penetrar la capa de roca sólida y caliente.
+2. Estimulación Hidráulica (Fracturación): Se inyecta agua a presión extrema. Esta presión mecánica supera el esfuerzo litostático de la roca, creando o dilatando una red de fracturas subterráneas, lo que aumenta drásticamente la superficie de contacto disponible para la transferencia de calor.
+3. Pozo de Producción: Se perfora un segundo hoyo a una distancia calculada para intersectar la red de fracturas creada.
+4. Transferencia Térmica: Se bombea agua fría a través del pozo de inyección. A medida que el fluido circula por las fisuras, absorbe la energía térmica de la roca mediante conducción térmica. El agua, ahora supercalentada (a menudo convertida en vapor debido a las temperaturas que superan el punto de ebullición), asciende por el pozo de producción impulsada por su menor densidad y la presión del sistema. En la superficie, este vapor posee la energía cinética y térmica necesaria para hacer girar los álabes de una turbina electromagnética, generando electricidad.
+
+\subsubsection*{Visualización Termodinámica del Fluido de Trabajo}
+Para comprender por qué este proceso es eficiente, el siguiente código en Python modela el ciclo de temperatura del fluido de trabajo (el agua) a medida que recorre las distintas etapas del sistema geotérmico, evidenciando cómo actúa como un simple transportador de energía.
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+fases_ciclo = ['Inyeccion\n(Superficie)', 'Absorcion\n(Roca Fracturada)', 'Produccion\n(Ascenso Vapor)', 'Condensacion\n(Planta Termica)']
+perfil_temperatura = [25, 250, 210, 25] 
+
+fig, ax = plt.subplots(figsize=(8, 4.5))
+ax.plot(fases_ciclo, perfil_temperatura, marker='o', markersize=8, linestyle='-', linewidth=2.5, color='firebrick')
+ax.fill_between(fases_ciclo, perfil_temperatura, alpha=0.15, color='coral')
+
+ax.set_ylabel('Temperatura del Fluido (Celsius)')
+ax.set_title('Perfil Termico del Fluido en un Ciclo Geotermico Cerrado')
+ax.set_ylim(0, 300)
+
+for indice, valor in enumerate(perfil_temperatura):
+    ax.annotate(f'{valor} C', (fases_ciclo[indice], perfil_temperatura[indice]), textcoords="offset points", xytext=(0,10), ha='center', fontweight='bold')
+
+plt.grid(True, linestyle=':', alpha=0.6)
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Justificación del Ciclo Cerrado}
+En termodinámica, un ciclo cerrado es un proceso en el cual el fluido de trabajo experimenta una serie de transformaciones de estado (presión, volumen, temperatura) pero finalmente regresa a su estado termodinámico inicial para repetir el proceso de forma indefinida. En este sistema, la masa del fluido de trabajo se conserva estrictamente dentro de las fronteras del sistema. 
+Una vez que el vapor ha entregado su energía útil a la turbina en la superficie, pasa por un condensador donde libera su calor residual al ambiente, volviendo a su estado líquido original (como se observa en la caída de temperatura del gráfico). Esta misma agua fría es bombeada inmediatamente de regreso al pozo de inyección. Es un ciclo cerrado porque no hay intercambio de masa (el agua se recicla constantemente), minimizando el agotamiento de recursos hídricos locales y evitando la emisión de gases subterráneos a la atmósfera.
+
+\subsubsection*{Conclusión}
+El proceso físico consiste en inyectar agua a alta presión en roca caliente fracturada artificialmente, absorber el calor mediante conducción, y extraer el vapor resultante para mover turbinas. Se considera un ciclo cerrado porque el mismo volumen de agua (fluido de trabajo) es condensado y reinyectado continuamente, conservando la masa del sistema sin desperdiciar recursos hídricos.
+
+\end{document}

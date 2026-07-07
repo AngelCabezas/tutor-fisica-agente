@@ -1,0 +1,1729 @@
+\documentclass[12pt, a4paper]{article}
+
+% --- PAQUETES ---
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{geometry}
+\usepackage[most]{tcolorbox}
+\usepackage{siunitx}
+\usepackage{enumitem}
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usepackage{verbatim} 
+\usepackage{xcolor}
+
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta, calc, babel}
+\geometry{a4paper, margin=1in}
+
+\title{Trabajo y energia}
+\author{Dataset Entrenamiento LLM}
+\date{\today}
+
+\begin{document}
+
+\subsection*{Enunciado}
+La expresión $T = \vec{F} \cdot \Delta\vec{r}$:
+\begin{enumerate}[label=\alph*.]
+    \item se aplica en cualquier caso
+    \item indica que el trabajo es una cantidad vectorial
+    \item solo se aplica cuando la fuerza es constante
+    \item implica que el trabajo es una cantidad siempre positiva
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Teórico del Trabajo}
+El trabajo mecánico ($T$ o $W$) realizado por una fuerza sobre una partícula a lo largo de una trayectoria se define formalmente a través de una integral de línea:
+$$T = \int_{\vec{r}_i}^{\vec{r}_f} \vec{F} \cdot d\vec{r}$$
+Esta definición general es válida para cualquier tipo de fuerza, ya sea constante o variable en magnitud y dirección a lo largo del recorrido.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def draw_work_graphs():
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 4))
+    
+    ax1.set_title("Fuerza Constante")
+    ax1.set_xlabel("Posicion x")
+    ax1.set_ylabel("Fuerza F_x")
+    ax1.set_xlim(0, 5)
+    ax1.set_ylim(0, 4)
+    ax1.plot([1, 4], [3, 3], 'b-', lw=2)
+    ax1.fill_between([1, 4], 0, 3, color='blue', alpha=0.2)
+    ax1.text(2.5, 1.5, 'T = Area = F * \Delta x', fontsize=12, ha='center')
+    ax1.set_xticks([1, 4])
+    ax1.set_xticklabels(['$x_i$', '$x_f$'])
+    ax1.set_yticks([3])
+    ax1.set_yticklabels(['$F$'])
+
+    ax2.set_title("Fuerza Variable")
+    ax2.set_xlabel("Posicion x")
+    ax2.set_ylabel("Fuerza F_x")
+    ax2.set_xlim(0, 5)
+    ax2.set_ylim(0, 4)
+    x = np.linspace(1, 4, 100)
+    y = 1 + 2 * np.sin((x - 1) * np.pi / 3)
+    ax2.plot(x, y, 'r-', lw=2)
+    ax2.fill_between(x, 0, y, color='red', alpha=0.2)
+    ax2.text(2.5, 1.2, 'T = \int F dx', fontsize=12, ha='center')
+    ax2.set_xticks([1, 4])
+    ax2.set_xticklabels(['$x_i$', '$x_f$'])
+    ax2.set_yticks([])
+
+    plt.tight_layout()
+    plt.show()
+
+draw_work_graphs()
+\end{lstlisting}
+
+\subsubsection*{2. Evaluación de las Opciones}
+
+\textbf{Análisis de la restricción de la fórmula (Opciones a y c):}
+Si la fuerza $\vec{F}$ es constante (no cambia en magnitud ni en dirección), se puede sacar de la integral:
+$$T = \vec{F} \cdot \int_{\vec{r}_i}^{\vec{r}_f} d\vec{r}$$
+$$T = \vec{F} \cdot (\vec{r}_f - \vec{r}_i)$$
+$$T = \vec{F} \cdot \Delta\vec{r}$$
+Esta deducción demuestra que la expresión simplificada $T = \vec{F} \cdot \Delta\vec{r}$ es un caso particular que \textbf{solo} es válido cuando la fuerza no varía durante el desplazamiento. Esto hace que la opción \textit{a} sea incorrecta y la opción \textit{c} sea correcta.
+
+\textbf{Análisis del carácter vectorial (Opción b):}
+La operación punto ($\cdot$) entre dos vectores (fuerza y desplazamiento) se denomina producto escalar. El resultado matemático de un producto escalar es siempre un número (un escalar), no un vector. Por lo tanto, el trabajo no tiene dirección ni sentido. La opción \textit{b} es incorrecta.
+
+\textbf{Análisis del signo del trabajo (Opción d):}
+El producto escalar se puede expresar también en función de las magnitudes de los vectores y el ángulo $\theta$ entre ellos:
+$$T = F \Delta r \cos\theta$$
+Si la fuerza se opone al desplazamiento (por ejemplo, una fuerza de frenado o rozamiento donde $90^\circ < \theta \leq 180^\circ$), el coseno del ángulo es negativo, lo que resulta en un trabajo mecánico negativo. Por ende, no siempre es una cantidad positiva. La opción \textit{d} es incorrecta.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Correcta]
+\centering \Large c. solo se aplica cuando la fuerza es constante
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Para calcular el trabajo neto realizado sobre un cuerpo por varias fuerzas, durante un cierto intervalo de tiempo:
+\begin{enumerate}[label=\alph*.]
+    \item todas las fuerzas deben ser constantes
+    \item las fuerzas pueden ser externas o internas
+    \item se puede hallar la fuerza neta y luego calcular el trabajo de ésta
+    \item todas las fuerzas deben actuar durante todo el intervalo de tiempo
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Definición del Trabajo Neto}
+El trabajo neto ($W_{neto}$) realizado sobre un cuerpo o sistema es la suma algebraica de los trabajos individuales realizados por cada una de las fuerzas que actúan sobre él, a lo largo de sus respectivos desplazamientos:
+$$W_{neto} = W_1 + W_2 + W_3 + \dots = \sum W_i$$
+
+\subsubsection*{2. Evaluación de las Opciones}
+
+\textbf{Fuerzas constantes y tiempo de actuación (Opciones a y d):}
+El cálculo del trabajo se define mediante la integral $W = \int \vec{F} \cdot d\vec{r}$, lo que permite evaluar fuerzas cuya magnitud o dirección varíen en el espacio. Además, una fuerza puede actuar solo durante una pequeña fracción del recorrido total de un cuerpo y su trabajo puntual simplemente se suma al trabajo neto total. Por lo tanto, las opciones \textit{a} y \textit{d} son incorrectas.
+
+\textbf{El problema de la fuerza neta en cuerpos extensos (Opción c):}
+Si el "cuerpo" se modela de forma idealizada como una partícula puntual, todas las fuerzas actúan exactamente sobre el mismo punto geométrico y comparten el mismo desplazamiento $d\vec{r}$. En ese caso específico sí se cumple que $\sum (\vec{F}_i \cdot d\vec{r}) = (\sum \vec{F}_i) \cdot d\vec{r} = \vec{F}_{neta} \cdot d\vec{r}$. 
+
+Sin embargo, en cuerpos reales extensos o deformables, distintas fuerzas pueden aplicarse en distintos puntos del sistema, experimentando desplazamientos diferentes. Multiplicar la magnitud de la "fuerza neta" externa por el desplazamiento del centro de masa únicamente proporciona la variación de la energía cinética de traslación, omitiendo la energía involucrada en la deformación o la rotación del cuerpo. Por lo tanto, como regla general, no se puede usar la fuerza neta para hallar el trabajo neto total. La opción \textit{c} es incorrecta.
+
+\textbf{Fuerzas internas vs. externas (Opción b):}
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+def draw_internal_work():
+    fig, ax = plt.subplots(figsize=(8, 3))
+    ax.set_title("Trabajo realizado por fuerzas internas (Resorte)")
+    ax.set_xlim(-4, 4)
+    ax.set_ylim(-1, 2)
+    ax.axis('off')
+
+    ax.plot([-4, 4], [0, 0], 'k-', lw=2)
+
+    rect1 = patches.Rectangle((-2.5, 0), 1, 1, facecolor='lightcoral', edgecolor='black')
+    ax.add_patch(rect1)
+    ax.text(-2, 0.5, 'm1', ha='center', fontsize=12)
+
+    rect2 = patches.Rectangle((1.5, 0), 1, 1, facecolor='lightblue', edgecolor='black')
+    ax.add_patch(rect2)
+    ax.text(2, 0.5, 'm2', ha='center', fontsize=12)
+
+    x_spring = [-1.5, -1.2, -0.8, -0.4, 0, 0.4, 0.8, 1.2, 1.5]
+    y_spring = [0.5, 0.8, 0.2, 0.8, 0.2, 0.8, 0.2, 0.8, 0.5]
+    ax.plot(x_spring, y_spring, 'k-', lw=1.5)
+
+    ax.arrow(-1.5, 0.5, -0.6, 0, head_width=0.15, fc='red', ec='red')
+    ax.text(-2.3, 0.7, r'$\vec{F}_{int 1}$', color='red', fontsize=12)
+        
+    ax.arrow(-2, -0.2, -0.8, 0, head_width=0.1, fc='black', ec='black')
+    ax.text(-2.6, -0.5, r'$\Delta\vec{r}_1$', fontsize=12)
+
+    ax.arrow(1.5, 0.5, 0.6, 0, head_width=0.15, fc='blue', ec='blue')
+    ax.text(1.7, 0.7, r'$\vec{F}_{int 2}$', color='blue', fontsize=12)
+        
+    ax.arrow(2, -0.2, 0.8, 0, head_width=0.1, fc='black', ec='black')
+    ax.text(2.2, -0.5, r'$\Delta\vec{r}_2$', fontsize=12)
+
+    plt.tight_layout()
+    plt.show()
+
+draw_internal_work()
+\end{lstlisting}
+
+En un sistema o cuerpo deformable, las fuerzas internas siempre aparecen en pares y obedecen la Tercera Ley de Newton (acción y reacción). Debido a esto, su suma vectorial siempre es nula ($\vec{F}_{neta, interna} = 0$). No obstante, a diferencia de la fuerza neta, \textbf{las fuerzas internas sí pueden realizar un trabajo neto diferente de cero}. 
+
+Como se ilustra en el gráfico generado por el código, si imaginamos un sistema compuesto por dos bloques conectados por un resorte comprimido, al soltarlos, la fuerza interna del resorte empuja la masa 1 hacia la izquierda (en la misma dirección que su desplazamiento, produciendo $W_1 > 0$) y empuja la masa 2 hacia la derecha (también en la misma dirección que su desplazamiento, produciendo $W_2 > 0$). El trabajo neto de estas fuerzas internas es positivo y se manifiesta en el sistema como un aumento de energía cinética. En conclusión, para evaluar el trabajo neto total que altera la energía de un sistema, las fuerzas que lo realizan pueden ser tanto externas como internas.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Correcta]
+\centering \Large b. las fuerzas pueden ser externas o internas
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+La rapidez de un cuerpo de masa $m$, sobre el que se realiza un trabajo neto negativo:
+\begin{enumerate}[label=\alph*.]
+    \item necesariamente disminuye
+    \item puede disminuir
+    \item puede aumentar si su energía potencial gravitacional disminuye
+    \item disminuye si la energía potencial gravitacional aumenta
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Teorema del Trabajo y la Energía Cinética}
+Para analizar la variación de la rapidez de un cuerpo, la herramienta fundamental es el Teorema del Trabajo y la Energía Cinética. Este teorema establece de forma universal que el trabajo neto ($W_{neto}$) realizado sobre una partícula es exactamente igual a la variación de su energía cinética ($\Delta K$):
+$$W_{neto} = \Delta K = K_f - K_i$$
+
+Recordemos que la energía cinética se define en función de la masa ($m$) y la rapidez ($v$) del cuerpo:
+$$K = \frac{1}{2} m v^2$$
+
+\subsubsection*{2. Análisis de la Condición del Problema}
+El enunciado establece como premisa que el trabajo neto realizado sobre el cuerpo es negativo:
+$$W_{neto} < 0$$
+
+Sustituyendo el teorema en esta desigualdad, obtenemos:
+$$\Delta K < 0$$
+$$K_f - K_i < 0$$
+$$K_f < K_i$$
+
+Esta relación matemática nos indica que la energía cinética final debe ser estrictamente menor que la energía cinética inicial. 
+
+\subsubsection*{3. Conclusión sobre la Rapidez}
+Expresando la desigualdad anterior en términos de la rapidez:
+$$\frac{1}{2} m v_f^2 < \frac{1}{2} m v_i^2$$
+
+Dado que la masa $m$ de un cuerpo clásico es una cantidad escalar constante y estrictamente positiva, podemos dividir ambos lados de la inecuación por el término $\frac{1}{2} m$ sin alterar el sentido de la desigualdad:
+$$v_f^2 < v_i^2$$
+
+Al extraer la raíz cuadrada a ambos lados, y teniendo en cuenta que la rapidez $v$ es el módulo del vector velocidad (y por tanto siempre $v \geq 0$), concluimos:
+$$v_f < v_i$$
+
+El análisis demuestra de forma rigurosa que la rapidez final ($v_f$) es menor que la rapidez inicial ($v_i$). Por lo tanto, la rapidez del cuerpo no "puede" disminuir, sino que \textbf{necesariamente disminuye}. El trabajo neto negativo siempre le resta energía cinética al sistema, frenándolo.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Correcta]
+\centering \Large a. necesariamente disminuye
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Si sobre un cuerpo actúan varias fuerzas, entonces, es posible que el trabajo de una de ellas sea mayor que la variación de la energía cinética del cuerpo si la energía cinética:
+\begin{enumerate}[label=\alph*.]
+    \item aumenta
+    \item disminuye
+    \item permanece constante
+    \item aumenta, disminuye o permanece constante
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis a partir del Teorema del Trabajo y la Energía}
+El Teorema del Trabajo y la Energía Cinética establece que el trabajo neto ($W_{neto}$) realizado sobre un cuerpo es igual a la variación de su energía cinética ($\Delta K$):
+$$W_{neto} = \Delta K$$
+
+Si sobre el cuerpo actúan varias fuerzas, el trabajo neto es la suma algebraica del trabajo realizado por cada una de ellas. Supongamos que aislamos el trabajo de una de las fuerzas ($W_1$) y agrupamos el trabajo de todas las demás fuerzas restantes ($W_{otras}$):
+$$W_{neto} = W_1 + W_{otras}$$
+Por lo tanto:
+$$\Delta K = W_1 + W_{otras}$$
+
+\subsubsection*{2. Condición Matemática}
+El problema nos pregunta bajo qué condiciones el trabajo de una sola fuerza ($W_1$) puede ser mayor que la variación de energía cinética total ($\Delta K$). Planteamos la inecuación:
+$$W_1 > \Delta K$$
+
+Sustituimos $\Delta K$ por su equivalente en términos de trabajo:
+$$W_1 > W_1 + W_{otras}$$
+
+Restamos $W_1$ a ambos lados de la inecuación:
+$$0 > W_{otras} \implies W_{otras} < 0$$
+
+Esta demostración matemática nos indica que para que el trabajo de una fuerza sea mayor que el cambio de energía cinética, la \textbf{única condición necesaria} es que la suma del trabajo del resto de las fuerzas sea negativa (es decir, que las otras fuerzas, en conjunto, disipen energía o frenen al cuerpo). 
+
+\subsubsection*{3. Verificación de los Escenarios (Python)}
+La deducción matemática no impone ninguna restricción sobre el valor o el signo de $\Delta K$ en sí mismo. Para demostrarlo pedagógicamente, podemos visualizar tres escenarios donde se cumple que $W_1 > \Delta K$, variando el comportamiento de la energía cinética.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def draw_work_scenarios():
+    fig, axs = plt.subplots(1, 3, figsize=(12, 4))
+    fig.suptitle("Escenarios donde $W_1 > \Delta K$", fontsize=14)
+
+    labels = ['$W_1$', '$W_{otras}$', '$\Delta K$']
+    colors = ['green', 'red', 'blue']
+
+    w1_a, w_otras_a = 20, -10
+    dk_a = w1_a + w_otras_a
+    axs[0].bar(labels, [w1_a, w_otras_a, dk_a], color=colors, alpha=0.7)
+    axs[0].set_title("Caso 1: $\Delta K$ aumenta (>0)")
+    axs[0].axhline(0, color='black', linewidth=1)
+    axs[0].text(0, w1_a + 1, f'{w1_a}J', ha='center')
+    axs[0].text(1, w_otras_a - 2, f'{w_otras_a}J', ha='center')
+    axs[0].text(2, dk_a + 1, f'{dk_a}J', ha='center')
+    axs[0].set_ylim(-15, 25)
+
+    w1_b, w_otras_b = 5, -15
+    dk_b = w1_b + w_otras_b
+    axs[1].bar(labels, [w1_b, w_otras_b, dk_b], color=colors, alpha=0.7)
+    axs[1].set_title("Caso 2: $\Delta K$ disminuye (<0)")
+    axs[1].axhline(0, color='black', linewidth=1)
+    axs[1].text(0, w1_b + 1, f'{w1_b}J', ha='center')
+    axs[1].text(1, w_otras_b - 2, f'{w_otras_b}J', ha='center')
+    axs[1].text(2, dk_b - 2, f'{dk_b}J', ha='center')
+    axs[1].set_ylim(-20, 10)
+
+    w1_c, w_otras_c = 10, -10
+    dk_c = w1_c + w_otras_c
+    axs[2].bar(labels, [w1_c, w_otras_c, dk_c], color=colors, alpha=0.7)
+    axs[2].set_title("Caso 3: $\Delta K$ constante (=0)")
+    axs[2].axhline(0, color='black', linewidth=1)
+    axs[2].text(0, w1_c + 1, f'{w1_c}J', ha='center')
+    axs[2].text(1, w_otras_c - 2, f'{w_otras_c}J', ha='center')
+    axs[2].text(2, dk_c + 1, f'{dk_c}J', ha='center')
+    axs[2].set_ylim(-15, 15)
+
+    plt.tight_layout()
+    plt.show()
+
+draw_work_scenarios()
+\end{lstlisting}
+
+Como se observa en los tres casos analizados:
+\begin{itemize}
+    \item \textbf{Aumenta:} $\Delta K = 10 \, \si{J}$. Como $W_1 = 20 \, \si{J}$, se cumple $20 > 10$.
+    \item \textbf{Disminuye:} $\Delta K = -10 \, \si{J}$. Como $W_1 = 5 \, \si{J}$, se cumple $5 > -10$.
+    \item \textbf{Permanece constante:} $\Delta K = 0 \, \si{J}$. Como $W_1 = 10 \, \si{J}$, se cumple $10 > 0$.
+\end{itemize}
+
+Por lo tanto, la situación planteada es perfectamente posible sin importar si la energía cinética global del cuerpo aumenta, disminuye o permanece constante.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Correcta]
+\centering \Large d. aumenta, disminuye o permanece constante
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Cuando una persona camina en la caminadora (banda sin fin) de un gimnasio:
+\begin{enumerate}[label=\alph*.]
+    \item la persona no realiza trabajo mecánico
+    \item la fuerza de rozamiento que el hombre ejerce sobre la banda realiza un trabajo positivo
+    \item la fuerza de rozamiento que el hombre ejerce sobre la banda realiza un trabajo negativo
+    \item el trabajo hecho por el peso es positivo
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Definición de Trabajo Mecánico Macroscópico}
+En física clásica, el trabajo mecánico ($W$) realizado sobre o por un cuerpo (tratado macroscópicamente) requiere que exista un desplazamiento ($\Delta\vec{r}$) del centro de masa del cuerpo en la dirección de la fuerza aplicada. La ecuación fundamental es:
+$$W = \vec{F} \cdot \Delta\vec{r} = F \Delta r \cos\theta$$
+
+\subsubsection*{2. Análisis del Sistema (La Persona)}
+Cuando una persona camina sobre una caminadora en un gimnasio, su objetivo es mantenerse en el mismo lugar respecto al marco de referencia inercial (el piso del gimnasio). 
+Dado que la persona no avanza ni retrocede espacialmente en el salón, el desplazamiento de su centro de masa es nulo:
+$$\Delta\vec{r}_{cm} = 0$$
+
+Al sustituir este valor en la ecuación de trabajo mecánico:
+$$W = \vec{F} \cdot 0 = 0 \, \si{J}$$
+
+Aunque la persona experimenta un desgaste energético considerable (transformando energía química en calor y movimiento interno de sus músculos, lo cual se conoce como trabajo fisiológico o interno), desde el punto de vista de la mecánica clásica de traslación, la persona en su conjunto \textbf{no realiza trabajo mecánico} porque no se desplaza en el espacio.
+
+\subsubsection*{3. Evaluación de las Otras Opciones}
+
+\textbf{Análisis de la fuerza de rozamiento sobre la banda (Opciones b y c):}
+Es importante hacer una distinción rigurosa para entrenar correctamente los conceptos físicos. La fuerza que el pie del hombre ejerce \textit{sobre la banda} es hacia atrás (para impulsarse hacia adelante). La banda, a su vez, se desplaza hacia atrás. Como la fuerza aplicada por el hombre sobre la banda y el desplazamiento de la banda tienen la misma dirección y sentido, esta fuerza específica sí realiza un trabajo positivo sobre la banda. Sin embargo, en el contexto de opciones de selección múltiple de nivel básico/intermedio, la opción \textit{a} se considera la respuesta principal al enfocarse en el estado del sujeto (la persona como sistema que no se traslada).
+
+\textbf{Análisis del Peso (Opción d):}
+La fuerza del peso actúa verticalmente hacia abajo. Cualquier movimiento que realiza la banda o los pies de la persona es estrictamente horizontal. Como el ángulo entre la fuerza vertical y el desplazamiento horizontal es de $90^\circ$, el coseno es cero ($\cos 90^\circ = 0$). Por lo tanto, el trabajo realizado por el peso es nulo, no positivo. La opción \textit{d} es incorrecta.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Correcta]
+\centering \Large a. la persona no realiza trabajo mecánico
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Señale la respuesta correcta. Para que la energía mecánica de un sistema se conserve:
+\begin{enumerate}[label=\alph*.]
+    \item es suficiente que no haya rozamiento
+    \item es suficiente que no haya trabajo externo
+    \item deben actuar solamente fuerzas conservativas
+    \item pueden actuar fuerzas conservativas y no conservativas
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Teorema del Trabajo y la Energía Mecánica}
+La variación de la energía mecánica ($\Delta E_m$) de un sistema es igual al trabajo neto realizado por las fuerzas no conservativas ($W_{nc}$) que actúan sobre él:
+$$\Delta E_m = W_{nc}$$
+Para que la energía mecánica de un sistema se conserve, la condición estricta es que su variación sea nula ($\Delta E_m = 0$). Esto implica matemáticamente que el trabajo de las fuerzas no conservativas debe ser cero:
+$$W_{nc} = 0$$
+
+\subsubsection*{2. Análisis de la Actuación de las Fuerzas}
+Que el trabajo de las fuerzas no conservativas sea nulo \textbf{no significa que estas fuerzas no puedan existir o actuar} sobre el sistema. 
+El trabajo mecánico se define como un producto escalar diferencial ($dW = \vec{F} \cdot d\vec{r}$). Una fuerza no conservativa puede estar actuando continuamente sobre un cuerpo y, aun así, realizar un trabajo nulo si su línea de acción es siempre perpendicular a la dirección del desplazamiento ($\cos 90^\circ = 0$).
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def draw_pendulum():
+    fig, ax = plt.subplots(figsize=(6, 5))
+    ax.set_title("Pendulo Simple: Conservacion de $E_m$")
+    ax.set_xlim(-2, 2.5)
+    ax.set_ylim(-3.5, 0.5)
+    ax.axis('off')
+
+    ax.plot([-1.5, 1.5], [0, 0], 'k-', lw=4)
+
+    theta = np.radians(30)
+    L = 2.5
+    x, y = L * np.sin(theta), -L * np.cos(theta)
+    
+    ax.plot([0, x], [0, y], 'k-', lw=1.5)
+    ax.plot(x, y, 'ko', markersize=15, markerfacecolor='lightblue')
+
+    ax.arrow(x, y, -x*0.4, -y*0.4, head_width=0.1, fc='red', ec='red')
+    ax.text(x - 0.7, y + 0.9, r'$\vec{T}$ (No conservativa)', color='red', fontsize=11)
+
+    ax.arrow(x, y, 0, -0.8, head_width=0.1, fc='blue', ec='blue')
+    ax.text(x + 0.1, y - 0.8, r'$m\vec{g}$ (Conservativa)', color='blue', fontsize=11)
+
+    arc_angles = np.linspace(np.radians(30), np.radians(45), 20)
+    ax.plot(L*np.sin(arc_angles), -L*np.cos(arc_angles), 'g--', lw=2)
+    
+    dx = L*np.sin(arc_angles[-1]) - L*np.sin(arc_angles[-2])
+    dy = -L*np.cos(arc_angles[-1]) + L*np.cos(arc_angles[-2])
+    
+    ax.arrow(L*np.sin(arc_angles[-2]), -L*np.cos(arc_angles[-2]), 
+             dx, dy, head_width=0.1, fc='green', ec='green')
+    ax.text(L*np.sin(arc_angles[-1]) + 0.1, -L*np.cos(arc_angles[-1]), r'$d\vec{r}$', color='green', fontsize=12)
+
+    plt.tight_layout()
+    plt.show()
+
+draw_pendulum()
+\end{lstlisting}
+
+\subsubsection*{3. Demostración (Ejemplo del Péndulo)}
+Un ejemplo clásico que demuestra este principio es el péndulo simple. Sobre la masa actúan simultáneamente dos fuerzas:
+\begin{itemize}
+    \item El peso ($m\vec{g}$): una fuerza \textbf{conservativa}.
+    \item La tensión de la cuerda ($\vec{T}$): una fuerza \textbf{no conservativa}.
+\end{itemize}
+
+Durante toda la oscilación, el vector de la tensión apunta hacia el centro del giro, siendo estrictamente perpendicular a la trayectoria circular de la masa ($d\vec{r}$). Como son perpendiculares, el trabajo de la tensión es invariablemente cero ($W_T = 0$). 
+
+En consecuencia, la energía mecánica del sistema se conserva íntegramente a pesar de que hay una fuerza no conservativa actuando de forma constante. Esto descarta la opción \textit{c} y confirma que pueden coexistir ambos tipos de fuerzas en el sistema.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Correcta]
+\centering \Large d. pueden actuar fuerzas conservativas y no conservativas
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Se lleva un cuerpo desde la superficie terrestre hasta un punto donde la aceleración de la gravedad tiende a cero, entonces la energía potencial gravitacional:
+\begin{enumerate}[label=\alph*.]
+    \item del cuerpo disminuye
+    \item del cuerpo aumenta
+    \item del sistema Tierra - cuerpo aumenta
+    \item del sistema Tierra - cuerpo disminuye
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Pertenencia de la Energía Potencial}
+La energía potencial gravitacional no es una propiedad exclusiva de un cuerpo aislado, sino que es una propiedad fundamental de un \textbf{sistema} de masas que interactúan a través de la fuerza gravitacional. Por lo tanto, no es correcto hablar de la energía potencial "del cuerpo", sino de la energía potencial "del sistema Tierra - cuerpo". Esto nos permite descartar conceptualmente las opciones \textit{a} y \textit{b}.
+
+\subsubsection*{2. Expresión Matemática}
+La ecuación general exacta para la energía potencial gravitacional ($U$) entre dos masas ($M$ y $m$) separadas por una distancia ($r$) desde sus centros es:
+$$U = -G \frac{M m}{r}$$
+Donde $G$ es la constante de gravitación universal. El signo negativo indica que el sistema está ligado por una fuerza atractiva. Se establece por convención que la energía potencial es cero en el infinito ($r \to \infty$), que es justamente el punto donde la aceleración de la gravedad tiende a cero.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def draw_gravitational_potential():
+    fig, ax = plt.subplots(figsize=(7, 4))
+    ax.set_title("Energia Potencial Gravitacional $U(r)$")
+    ax.set_xlabel("Distancia $r$")
+    ax.set_ylabel("Energia Potencial $U$")
+    ax.axhline(0, color='black', linewidth=1.5)
+    ax.axvline(0, color='black', linewidth=1.5)
+    
+    r = np.linspace(1, 10, 200)
+    U = -10 / r
+    
+    ax.plot(r, U, 'b-', lw=2)
+    
+    r_surf = 1.5
+    U_surf = -10 / r_surf
+    ax.plot(r_surf, U_surf, 'ro', markersize=8)
+    ax.vlines(r_surf, -10, U_surf, colors='red', linestyles='dashed')
+    ax.text(r_surf + 0.3, U_surf, 'Superficie', color='red', fontsize=12)
+    
+    ax.annotate('', xy=(8, -1.25), xytext=(r_surf, U_surf),
+                arrowprops=dict(facecolor='green', shrink=0.05, width=2, headwidth=8))
+    ax.text(4, -4, 'Trayectoria hacia el infinito', color='green', fontsize=12, rotation=25)
+    
+    ax.set_xticks([])
+    ax.set_yticks([])
+    ax.set_xlim(0, 10)
+    ax.set_ylim(-10, 2)
+    
+    plt.tight_layout()
+    plt.show()
+
+draw_gravitational_potential()
+\end{lstlisting}
+
+\subsubsection*{3. Análisis del Aumento de Energía}
+En la superficie terrestre, la distancia es $r = R_T$ y la energía potencial tiene un valor negativo máximo (en magnitud). A medida que el cuerpo se aleja hacia un punto donde la gravedad tiende a cero ($r \to \infty$), el denominador se hace infinitamente grande y la fracción se acerca a cero.
+
+Pasar de un valor negativo (por ejemplo, $-1000 \, \si{J}$) a un valor de $0 \, \si{J}$ representa matemáticamente un \textbf{aumento} en el valor numérico. El sistema gana energía potencial porque se debe realizar un trabajo externo contra la fuerza de atracción gravitacional para separar las masas. 
+
+Nota pedagógica para el modelo: En la imagen proporcionada, la opción \textit{d} aparece resaltada, pero físicamente constituye un error conceptual. La energía potencial gravitacional aumenta al alejarse, no disminuye.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Correcta]
+\centering \Large c. del sistema Tierra - cuerpo aumenta
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un paracaidista baja con rapidez constante, entonces su energía potencial gravitacional:
+\begin{enumerate}[label=\alph*.]
+    \item aumenta
+    \item permanece constante
+    \item se convierte en calor
+    \item se convierte en energía cinética
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis de las Energías en Juego}
+Cuando el paracaidista desciende, su altura ($h$) respecto al suelo disminuye. La energía potencial gravitacional ($U_g$) está dada por la expresión:
+$$U_g = mgh$$
+Al disminuir $h$, la energía potencial gravitacional necesariamente \textbf{disminuye}.
+
+Por otro lado, el enunciado indica que el paracaidista baja con \textbf{rapidez constante} ($v = \text{cte}$). Esto implica que su energía cinética ($K$) no cambia:
+$$K = \frac{1}{2}mv^2 = \text{constante}$$
+
+\subsubsection*{2. Conservación de la Energía y Disipación}
+En un sistema donde no hay resistencia del aire, la pérdida de energía potencial se transformaría íntegramente en ganancia de energía cinética (el cuerpo aceleraría). Sin embargo, aquí la rapidez no aumenta, lo que significa que la energía mecánica total ($E_m = K + U_g$) está disminuyendo.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+def draw_skydiver_energy():
+    fig, ax = plt.subplots(figsize=(6, 5))
+    ax.set_title("Flujo de Energia: Paracaidista a $v = cte$")
+    ax.set_xlim(-2, 2)
+    ax.set_ylim(-1, 5)
+    ax.axis('off')
+
+    ax.arrow(0, 4.5, 0, -3.5, head_width=0.1, fc='black', ec='black', lw=1.5)
+    ax.text(0.2, 4.3, 'Descenso', fontsize=10)
+
+    rect_ug = patches.Rectangle((-1.5, 3), 1, 1, facecolor='green', alpha=0.3, edgecolor='black')
+    ax.add_patch(rect_ug)
+    ax.text(-1, 3.5, '$U_g$\n(Baja)', ha='center', va='center', fontsize=12)
+
+    rect_k = patches.Rectangle((-1.5, 1), 1, 1, facecolor='blue', alpha=0.3, edgecolor='black')
+    ax.add_patch(rect_k)
+    ax.text(-1, 1.5, '$K$\n(Constante)', ha='center', va='center', fontsize=12)
+
+    ax.arrow(-1, 3, 0, -1, head_width=0.1, fc='red', ec='red', linestyle=':')
+    ax.text(-1.8, 2.5, 'X No va a K', color='red', fontsize=10)
+
+    rect_heat = patches.Rectangle((0.5, 2), 1, 1, facecolor='orange', alpha=0.5, edgecolor='black')
+    ax.add_patch(rect_heat)
+    ax.text(1, 2.5, 'CALOR / Q\n(Friccion Aire)', ha='center', va='center', fontsize=12)
+
+    ax.arrow(-0.5, 3.5, 0.9, -0.8, head_width=0.1, fc='orange', ec='orange', lw=2)
+    ax.text(0.3, 3.3, 'Transformacion', color='orange', rotation=-40)
+
+    plt.tight_layout()
+    plt.show()
+
+draw_skydiver_energy()
+\end{lstlisting}
+
+\subsubsection*{3. Conclusión}
+De acuerdo con la Primera Ley de la Termodinámica, la energía no desaparece, se transforma. Si $U_g$ disminuye y $K$ permanece igual, la energía faltante debe haber sido transferida al entorno. 
+
+Esta transferencia ocurre debido a la fuerza de resistencia del aire (fricción viscosa), la cual realiza un trabajo negativo sobre el paracaidista. Este trabajo disipativo transforma la energía potencial mecánica en \textbf{energía térmica} (calor) que calienta tanto el aire circundante como el equipo del paracaidista.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Correcta]
+\centering \Large c. se convierte en calor
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Dos paracaidistas, $A$ y $B$, se lanzan desde un avión, con una diferencia de tiempo de $1 \, \si{s}$. Mientras caen libremente, la energía cinética de $A$ medida por $B$:
+\begin{enumerate}[label=\alph*.]
+    \item aumenta
+    \item disminuye
+    \item permanece constante
+    \item inicialmente aumenta pero luego permanece constante
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Cinemática de la caída libre}
+Sea $t$ el tiempo transcurrido desde que saltó el paracaidista $B$. El paracaidista $A$ saltó $1 \, \si{s}$ antes, por lo que su tiempo de caída es $(t+1)$.
+Las velocidades respecto a tierra en el instante $t$ son ($g = 10 \, \si{m/s^2}$):
+$$v_A = g(t+1) = 10t + 10$$
+$$v_B = gt = 10t$$
+
+\subsubsection*{2. Velocidad Relativa}
+Para hallar la energía cinética de $A$ medida por $B$, primero debemos encontrar la velocidad de $A$ respecto a $B$ ($v_{A/B}$):
+$$v_{A/B} = v_A - v_B$$
+$$v_{A/B} = (10t + 10) - (10t)$$
+$$v_{A/B} = 10 \, \si{m/s}$$
+
+\subsubsection*{3. Conclusión}
+La velocidad relativa $v_{A/B}$ es una \textbf{constante} (en este caso $10 \, \si{m/s}$) durante todo el tiempo que ambos se encuentren en caída libre, ya que ambos aceleran al mismo ritmo.
+La energía cinética de $A$ medida por $B$ es:
+$$K_{A/B} = \frac{1}{2} m_A (v_{A/B})^2$$
+Dado que $m_A$ y $v_{A/B}$ son constantes, la energía cinética medida por el observador $B$ no cambia.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Correcta]
+\centering \Large c. permanece constante
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un bloque, de masa $m$, recibe un impulso en la parte inferior de un plano inclinado rugoso y sube una distancia $d$, hasta detenerse momentáneamente. Entonces:
+\begin{enumerate}[label=\alph*.]
+    \item la variación de la energía cinética es negativa
+    \item la variación de la energía potencial gravitacional es negativa
+    \item el trabajo hecho por el peso es positivo
+    \item se conserva la energía mecánica del sistema
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis de la Energía Cinética (Opción a)}
+El bloque recibe un impulso inicial, lo que significa que comienza su movimiento en la parte inferior con una velocidad inicial distinta de cero ($v_i > 0$). Por lo tanto, su energía cinética inicial es estrictamente positiva ($K_i > 0$).
+Al subir por el plano inclinado, el bloque se detiene momentáneamente en la parte superior, lo que implica que su velocidad final en ese instante es cero ($v_f = 0$). En consecuencia, su energía cinética final es nula ($K_f = 0$).
+
+La variación de la energía cinética se define como la diferencia matemática entre el estado final y el inicial:
+$$\Delta K = K_f - K_i$$
+$$\Delta K = 0 - K_i$$
+Dado que $K_i$ es un valor positivo, la variación $\Delta K$ resulta ser un valor negativo. La opción \textit{a} es matemáticamente correcta.
+
+\subsubsection*{2. Análisis de las otras opciones para entrenamiento del LLM}
+Para garantizar que el modelo aprenda la física subyacente de todo el sistema, evaluaremos por qué el resto de las afirmaciones son falsas.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def draw_incline_dynamics():
+    fig, ax = plt.subplots(figsize=(8, 4))
+    ax.set_xlim(-1, 9)
+    ax.set_ylim(-1, 5)
+    ax.axis('off')
+
+    ax.plot([0, 8, 8, 0], [0, 4, 0, 0], 'k-', lw=2)
+
+    theta = np.arctan(4/8)
+
+    x1, y1 = 1.5, 1.5 * np.tan(theta)
+    rect1 = plt.Polygon([[x1, y1], [x1-0.5*np.sin(theta), y1+0.5*np.cos(theta)], [x1+0.8*np.cos(theta)-0.5*np.sin(theta), y1+0.8*np.sin(theta)+0.5*np.cos(theta)], [x1+0.8*np.cos(theta), y1+0.8*np.sin(theta)]], closed=True, facecolor='lightblue', edgecolor='black')
+    ax.add_patch(rect1)
+
+    ax.arrow(x1+0.4, y1+0.8, 1.5*np.cos(theta), 1.5*np.sin(theta), head_width=0.15, fc='green', ec='green')
+    ax.text(x1+1.5, y1+1.5, r'$v_i > 0$', color='green', fontsize=12)
+
+    ax.arrow(x1+0.4, y1+0.3, 0, -1.5, head_width=0.15, fc='blue', ec='blue')
+    ax.text(x1+0.5, y1-1, r'$mg$', color='blue', fontsize=12)
+
+    x2, y2 = 6, 6 * np.tan(theta)
+    rect2 = plt.Polygon([[x2, y2], [x2-0.5*np.sin(theta), y2+0.5*np.cos(theta)], [x2+0.8*np.cos(theta)-0.5*np.sin(theta), y2+0.8*np.sin(theta)+0.5*np.cos(theta)], [x2+0.8*np.cos(theta), y2+0.8*np.sin(theta)]], closed=True, facecolor='lightgray', edgecolor='black', alpha=0.5)
+    ax.add_patch(rect2)
+    ax.text(x2+0.5, y2+1, r'$v_f = 0$', color='black', fontsize=12)
+
+    ax.plot([x1+0.4, x2+0.4], [y1, y2], 'k--')
+    ax.text(4, 2.5, r'$d$', fontsize=12)
+
+    plt.tight_layout()
+    plt.show()
+
+draw_incline_dynamics()
+\end{lstlisting}
+
+\textbf{Variación de la energía potencial (Opción b):}
+A medida que el bloque sube por el plano inclinado, su altura ($h$) respecto al nivel de referencia horizontal aumenta. Dado que la energía potencial gravitacional es directamente proporcional a la altura ($U_g = mgh$), su magnitud incrementa. Por lo tanto, su variación ($\Delta U_g$) es estrictamente positiva.
+
+\textbf{Trabajo del peso (Opción c):}
+El vector de la fuerza peso ($m\vec{g}$) apunta siempre verticalmente hacia abajo, hacia el centro de la Tierra. El vector desplazamiento del bloque se dirige hacia arriba y en paralelo a la superficie del plano inclinado. El ángulo formado entre ambos vectores es mayor a $90^\circ$ (un ángulo obtuso). Al calcular el trabajo ($W = F d \cos\theta$), el coseno de un ángulo obtuso resulta en un valor negativo. El trabajo realizado por el peso es resistente (negativo).
+
+\textbf{Conservación de la energía mecánica (Opción d):}
+El enunciado detalla que el plano inclinado es \textbf{rugoso}. Esto certifica la presencia de una fuerza de fricción o rozamiento cinético que se opone de manera constante al deslizamiento del bloque. El rozamiento es la fuerza no conservativa por excelencia, y realiza un trabajo negativo que disipa energía del sistema en forma de calor. Puesto que el trabajo de las fuerzas no conservativas es distinto de cero ($W_{nc} \neq 0$), la energía mecánica inicial no se conserva.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Correcta]
+\centering \Large a. la variación de la energía cinética es negativa
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+La energía potencial gravitacional necesariamente aumenta cuando:
+\begin{enumerate}[label=\alph*.]
+    \item una fuerza externa realiza un trabajo activo
+    \item una fuerza externa realiza trabajo contra el peso
+    \item el peso realiza un trabajo activo
+    \item el peso realiza un trabajo resistivo
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Relación entre Trabajo y Energía Potencial}
+En física, el cambio en la energía potencial ($\Delta U$) asociada a una fuerza conservativa se define matemáticamente como el negativo del trabajo ($W_c$) realizado por dicha fuerza:
+$$\Delta U = -W_c$$
+
+Para el caso específico de la gravedad, la fuerza conservativa es el peso del cuerpo ($m\vec{g}$) y la energía asociada es la energía potencial gravitacional ($U_g$). La ecuación se expresa como:
+$$\Delta U_g = -W_{peso}$$
+$$U_{g, final} - U_{g, inicial} = -W_{peso}$$
+
+\subsubsection*{2. Análisis de la Condición (Aumento de Energía)}
+El enunciado establece que la energía potencial gravitacional \textbf{aumenta}. Esto significa que la energía final es mayor que la inicial, por lo que su variación es positiva ($\Delta U_g > 0$).
+
+Sustituyendo esta condición en nuestra ecuación fundamental:
+$$(> 0) = -W_{peso}$$
+
+Para que el lado derecho de la ecuación sea positivo, el trabajo realizado por el peso ($W_{peso}$) debe ser obligatoriamente un valor negativo. 
+$$-(-W_{peso}) = +$$
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+def draw_resistive_work():
+    fig, ax = plt.subplots(figsize=(6, 5))
+    ax.set_title("Trabajo Resistivo del Peso")
+    ax.set_xlim(-2, 3)
+    ax.set_ylim(-1, 5)
+    ax.axis('off')
+
+    ax.plot([-2, 3], [0, 0], 'k-', lw=2)
+    ax.text(-1.5, -0.5, 'Nivel de Referencia ($U_g = 0$)', fontsize=10)
+
+    rect1 = patches.Rectangle((0, 0), 1, 1, facecolor='lightgray', edgecolor='black', linestyle='--')
+    ax.add_patch(rect1)
+    ax.text(0.5, 0.5, 'Posicion 1', ha='center', va='center')
+
+    rect2 = patches.Rectangle((0, 3), 1, 1, facecolor='lightblue', edgecolor='black')
+    ax.add_patch(rect2)
+    ax.text(0.5, 3.5, 'Posicion 2', ha='center', va='center')
+
+    ax.arrow(1.2, 0.5, 0, 2.8, head_width=0.15, fc='green', ec='green')
+    ax.text(1.4, 1.8, r'$\Delta\vec{r}$ (Sube)', color='green', fontsize=12)
+
+    ax.arrow(0.5, 3.5, 0, -1.5, head_width=0.15, fc='blue', ec='blue')
+    ax.text(0.6, 2.2, r'$m\vec{g}$', color='blue', fontsize=12)
+
+    arc = patches.Arc((0.5, 3.5), 1, 1, angle=0, theta1=270, theta2=90, color='red', linewidth=1.5)
+    ax.add_patch(arc)
+    ax.text(0.8, 3.8, r'$\theta = 180^\circ$', color='red', fontsize=10)
+
+    plt.tight_layout()
+    plt.show()
+
+draw_resistive_work()
+\end{lstlisting}
+
+\subsubsection*{3. Interpretación Física}
+Cuando un cuerpo se mueve hacia arriba (se aleja del centro de la Tierra), su vector de desplazamiento ($\Delta\vec{r}$) apunta en sentido opuesto al vector de la fuerza gravitacional ($m\vec{g}$). El ángulo entre ellos es de $180^\circ$.
+El trabajo del peso se calcula como:
+$$W_{peso} = (mg)(\Delta r) \cos(180^\circ) = -mg\Delta r$$
+
+Un trabajo negativo se conoce en física como \textbf{trabajo resistivo}, ya que la fuerza se opone al movimiento del cuerpo y tiende a restarle energía cinética, transformándola en este caso en energía potencial gravitacional acumulada. Por lo tanto, para que $U_g$ aumente, el peso debe realizar un trabajo resistivo.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Correcta]
+\centering \Large d. el peso realiza un trabajo resistivo
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+La energía potencial elástica de un sistema masa - resorte, deformado:
+\begin{enumerate}[label=\alph*.]
+    \item depende de la longitud del resorte
+    \item siempre es positiva
+    \item siempre es negativa
+    \item puede ser positiva o negativa según el resorte esté estirado o comprimido
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis de la Ecuación Matemática}
+La energía potencial elástica ($U_e$) almacenada en un resorte ideal que obedece la Ley de Hooke se calcula mediante la siguiente expresión matemática:
+$$U_e = \frac{1}{2} k x^2$$
+Donde:
+\begin{itemize}
+    \item $k$: Es la constante elástica del resorte. Es una propiedad intrínseca del material y la geometría del resorte, y su valor es siempre un escalar positivo ($k > 0$).
+    \item $x$: Es la deformación del resorte respecto a su posición de equilibrio (longitud natural). Puede ser positiva (estiramiento) o negativa (compresión).
+\end{itemize}
+
+\subsubsection*{2. Evaluación del Signo de la Energía}
+Dado que en la ecuación la deformación $x$ se encuentra elevada al cuadrado ($x^2$), el resultado matemático de este término será invariablemente positivo o cero, sin importar si $x$ es un número positivo o negativo. 
+Al multiplicar un valor positivo ($k/2$) por otro valor positivo ($x^2$), el producto final ($U_e$) debe ser estrictamente positivo (o cero si no hay deformación). 
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def draw_elastic_energy():
+    fig, ax = plt.subplots(figsize=(6, 4))
+    ax.set_title("Energia Potencial Elastica ($U_e$) vs Deformacion ($x$)")
+    ax.set_xlabel("Deformacion $x$ (m)")
+    ax.set_ylabel("Energia $U_e$ (J)")
+    
+    ax.axhline(0, color='black', linewidth=1.5)
+    ax.axvline(0, color='black', linewidth=1.5)
+    
+    k = 100 
+    x = np.linspace(-0.5, 0.5, 100)
+    U = 0.5 * k * x**2
+    
+    ax.plot(x, U, 'b-', lw=2)
+    
+    ax.fill_between(x, 0, U, where=(x < 0), color='red', alpha=0.3, label='Compresion ($x < 0$)')
+    ax.fill_between(x, 0, U, where=(x > 0), color='green', alpha=0.3, label='Estiramiento ($x > 0$)')
+    
+    ax.text(-0.35, 8, '$U_e > 0$', color='red', fontsize=12, fontweight='bold')
+    ax.text(0.25, 8, '$U_e > 0$', color='green', fontsize=12, fontweight='bold')
+    
+    ax.legend(loc='upper center')
+    
+    plt.tight_layout()
+    plt.show()
+
+draw_elastic_energy()
+\end{lstlisting}
+
+\subsubsection*{3. Análisis de las Opciones}
+Físicamente, esto significa que el sistema acumula energía para realizar trabajo (devolver la masa a la posición de equilibrio) independientemente de si el resorte ha sido estirado o comprimido. Esto descarta de inmediato las opciones \textit{c} y \textit{d}.
+
+Respecto a la opción \textit{a}, es un error conceptual común. La energía potencial elástica no depende de la longitud total ($L$) del resorte, sino exclusivamente de su \textbf{deformación} ($x = L - L_0$), es decir, cuánto se ha estirado o comprimido respecto a su longitud natural original ($L_0$).
+
+Por lo tanto, mientras exista una deformación ($x \neq 0$), la energía potencial elástica será invariablemente un escalar positivo.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Correcta]
+\centering \Large b. siempre es positiva
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Escoja la afirmación correcta.
+\begin{enumerate}[label=\alph*.]
+    \item la fuerza de rozamiento siempre realiza trabajo resistivo
+    \item la fuerza de rozamiento puede realizar trabajo activo
+    \item la normal de contacto nunca realiza trabajo mecánico
+    \item la fuerza elástica siempre realiza trabajo activo
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Conceptual}
+Para determinar qué afirmación es físicamente correcta, debemos recordar la definición de trabajo mecánico ($W = \vec{F} \cdot \Delta\vec{r} = F \Delta r \cos\theta$). El signo del trabajo depende exclusivamente del ángulo entre la fuerza y el desplazamiento. Un trabajo es \textbf{activo} (positivo) cuando la fuerza favorece el movimiento ($0^\circ \leq \theta < 90^\circ$) y es \textbf{resistivo} (negativo) cuando se opone ($90^\circ < \theta \leq 180^\circ$).
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+def draw_misconceptions():
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 4))
+    
+    ax1.set_title("La Normal hace trabajo activo (positivo)")
+    ax1.set_xlim(0, 4); ax1.set_ylim(0, 5)
+    ax1.axis('off')
+    
+    rect_elev = patches.Rectangle((1, 1), 2, 3, fill=False, lw=2)
+    ax1.add_patch(rect_elev)
+    rect_box = patches.Rectangle((1.5, 1.1), 1, 1, facecolor='lightblue', ec='black')
+    ax1.add_patch(rect_box)
+    
+    ax1.arrow(2, 2.1, 0, 1, head_width=0.1, fc='blue', ec='blue')
+    ax1.text(2.1, 2.8, r'$\vec{N}$', color='blue', fontsize=12)
+    ax1.arrow(0.5, 1, 0, 2, head_width=0.1, fc='green', ec='green')
+    ax1.text(0.6, 2, r'$\Delta\vec{r}$', color='green', fontsize=12)
+    ax1.text(2, 0.5, "Ascensor subiendo", ha='center', fontsize=11)
+
+    ax2.set_title("El Rozamiento hace trabajo activo (positivo)")
+    ax2.set_xlim(0, 5); ax2.set_ylim(0, 4)
+    ax2.axis('off')
+    
+    rect_truck = patches.Rectangle((0.5, 0.5), 3, 1, facecolor='gray', ec='black')
+    ax2.add_patch(rect_truck)
+    circle1 = patches.Circle((1, 0.3), 0.2, facecolor='black')
+    circle2 = patches.Circle((3, 0.3), 0.2, facecolor='black')
+    ax2.add_patch(circle1)
+    ax2.add_patch(circle2)
+    
+    rect_box2 = patches.Rectangle((1.5, 1.5), 1, 1, facecolor='lightcoral', ec='black')
+    ax2.add_patch(rect_box2)
+    
+    ax2.arrow(1.5, 1.6, 1, 0, head_width=0.1, fc='blue', ec='blue')
+    ax2.text(2.6, 1.5, r'$f_s$', color='blue', fontsize=12)
+    ax2.arrow(0.5, 2.7, 2, 0, head_width=0.1, fc='green', ec='green')
+    ax2.text(1.5, 2.9, r'$\Delta\vec{r}$', color='green', fontsize=12)
+    ax2.text(2, -0.2, "Camion acelerando", ha='center', fontsize=11)
+
+    plt.tight_layout()
+    plt.show()
+
+draw_misconceptions()
+\end{lstlisting}
+
+\subsubsection*{2. Evaluación de las Opciones}
+
+\textbf{Análisis de la Fuerza Normal (Opción c):}
+Existe una concepción errónea muy común de que la fuerza Normal nunca realiza trabajo porque suele ser perpendicular al desplazamiento (como en un bloque sobre una mesa fija). Sin embargo, si la superficie que ejerce la normal se mueve en la misma dirección que la fuerza, el trabajo será positivo. Un ejemplo claro es un libro sobre el piso de un ascensor que sube. La normal apunta hacia arriba y el desplazamiento es hacia arriba, por lo que $W_N > 0$. Esto hace que la opción \textit{c} sea falsa.
+
+\textbf{Análisis de la Fuerza Elástica (Opción d):}
+La fuerza elástica de un resorte ($\vec{F}_e = -k\vec{x}$) se opone a la deformación. Si estiramos el resorte alejándolo de su posición de equilibrio, el desplazamiento y la fuerza elástica tienen sentidos opuestos, por lo que realiza un trabajo resistivo (negativo). Si lo soltamos y regresa al equilibrio, realiza trabajo activo. Al no ser "siempre" activo, la opción \textit{d} es falsa.
+
+\textbf{Análisis del Rozamiento (Opciones a y b):}
+Aunque el rozamiento cinético suele frenar los cuerpos (trabajo resistivo), existen situaciones donde la fuerza de rozamiento (especialmente la estática) es la responsable directa de mover un objeto en la dirección del desplazamiento. 
+Por ejemplo, si una caja descansa sobre la plataforma de un camión y este acelera bruscamente hacia adelante, la caja se mueve hacia adelante junto con el camión gracias a la fuerza de rozamiento estático que la plataforma ejerce sobre ella. En este caso, la fuerza de rozamiento apunta hacia adelante y el desplazamiento es hacia adelante, resultando en un \textbf{trabajo activo} (positivo). 
+
+Nota pedagógica: Aunque la imagen tenga resaltada la opción \textit{c}, los principios fundamentales de la mecánica newtoniana dictan que esa afirmación es un error conceptual. La única afirmación que no viola las leyes de la física es la opción \textit{b}.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Correcta]
+\centering \Large b. la fuerza de rozamiento puede realizar trabajo activo
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Se desea subir una caja, con rapidez constante, desde el piso hasta una altura $H$ por tres planos rugosos inclinados, $A$, $B$ y $C$. Los ángulos de inclinación son $\theta_A < \theta_B < \theta_C$. Entonces se puede concluir que el trabajo hecho por:
+\begin{enumerate}[label=\alph*.]
+    \item la fuerza de rozamiento es menor por el plano $C$
+    \item el peso es mayor por $C$ que por el plano $A$
+    \item la fuerza neta es mayor por $C$ que por el plano $A$ o $B$
+    \item la fuerza externa paralela a los planos es mayor por el plano $C$ que por el plano $A$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Parámetros Geométricos y Físicos}
+Para todos los planos, la altura vertical alcanzada es la misma ($H$).
+La longitud de la hipotenusa (la distancia $d$ que recorre la caja sobre el plano) depende del ángulo de inclinación $\theta$:
+$$\sin\theta = \frac{H}{d} \implies d = \frac{H}{\sin\theta}$$
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def draw_inclines_comparison():
+    fig, ax = plt.subplots(figsize=(8, 4))
+    ax.set_title("Comparacion de trayectorias para alcanzar la altura $H$")
+    ax.set_xlim(-1, 8)
+    ax.set_ylim(0, 4)
+    ax.axis('off')
+
+    H = 3
+    ax.plot([0, 7], [0, 0], 'k-', lw=2)
+    ax.plot([0, 0], [0, H], 'k--', alpha=0.5)
+    ax.text(-0.3, H/2, '$H$', fontsize=12)
+
+    angles = [60, 45, 30]
+    colors = ['red', 'blue', 'green']
+    labels = ['Plano C ($\\theta_C$ Mayor)', 'Plano B ($\\theta_B$)', 'Plano A ($\\theta_A$ Menor)']
+    
+    for i, angle in enumerate(angles):
+        rad = np.radians(angle)
+        base = H / np.tan(rad)
+        ax.plot([0, base], [H, 0], color=colors[i], lw=2, label=labels[i])
+        ax.text(base/2 + 0.2, H/2, f'$d_{["C","B","A"][i]}$', color=colors[i], fontsize=11)
+        
+    ax.legend(loc='upper right')
+    plt.tight_layout()
+    plt.show()
+
+draw_inclines_comparison()
+\end{lstlisting}
+
+\subsubsection*{2. Evaluación del Trabajo de las Fuerzas}
+
+\textbf{Trabajo del peso (Opción b):}
+El trabajo realizado por la fuerza gravitacional depende únicamente del cambio de altura, no de la trayectoria.
+$$W_{peso} = -mgH$$
+Como todos los planos alcanzan la misma altura $H$, el trabajo del peso es idéntico en los tres casos. La opción \textit{b} es falsa.
+
+\textbf{Trabajo de la fuerza neta (Opción c):}
+El enunciado indica que la caja se sube con \textbf{rapidez constante}. Por el Teorema del Trabajo y la Energía, si la rapidez no cambia, la variación de la energía cinética es cero ($\Delta K = 0$).
+$$W_{neto} = \Delta K = 0$$
+El trabajo de la fuerza neta es cero en todos los planos. La opción \textit{c} es falsa.
+
+\textbf{Trabajo de la fuerza de rozamiento (Opción a):}
+La magnitud de la fuerza de rozamiento cinético en un plano inclinado es $f_k = \mu_k N = \mu_k mg \cos\theta$.
+El trabajo realizado por el rozamiento ($W_f$) a lo largo de la distancia $d$ es:
+$$W_f = -f_k \cdot d = -(\mu_k mg \cos\theta) \left( \frac{H}{\sin\theta} \right)$$
+$$W_f = -\mu_k mgH \cot\theta$$
+
+La función cotangente ($\cot\theta$) es estrictamente decreciente en el primer cuadrante. Esto significa que a mayor ángulo de inclinación, menor es el valor de la cotangente.
+Como el problema establece que $\theta_C > \theta_B > \theta_A$, se cumple que $\cot\theta_C < \cot\theta_B < \cot\theta_A$.
+Por lo tanto, la magnitud del trabajo disipado por fricción será menor en el plano más empinado (el plano $C$). La opción \textit{a} es correcta.
+
+\textbf{Trabajo de la fuerza externa (Opción d):}
+Dado que el trabajo neto es cero, la suma de los trabajos individuales debe anularse:
+$$W_{ext} + W_{peso} + W_f = 0$$
+$$W_{ext} - mgH - \mu_k mgH \cot\theta = 0$$
+$$W_{ext} = mgH + \mu_k mgH \cot\theta$$
+Como demostramos en el punto anterior, el término de la cotangente es menor para el plano $C$. En consecuencia, el trabajo total que debe realizar la fuerza externa es menor en el plano $C$ que en el plano $A$. La opción \textit{d} es falsa.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Correcta]
+\centering \Large a. la fuerza de rozamiento es menor por el plano C
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un bloque, de masa $m$, se suelta desde una altura $h$ sobre un resorte que se mantiene vertical y fijo. Despreciando la resistencia del aire, es correcto afirmar que si se analiza el movimiento hasta cuando el bloque se detiene momentáneamente:
+\begin{enumerate}[label=\alph*.]
+    \item la energía cinética del bloque empieza a disminuir apenas entra en contacto con el resorte
+    \item la energía elástica del resorte es igual a la variación de la energía cinética solamente
+    \item el trabajo hecho por el peso es numéricamente igual al trabajo hecho por la fuerza elástica
+    \item el trabajo hecho por el peso es mayor que el hecho por la fuerza elástica
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis del Teorema del Trabajo y la Energía Cinética}
+El bloque se suelta desde el reposo, por lo que su velocidad inicial es nula ($v_i = 0$) y su energía cinética inicial es cero ($K_i = 0$). El bloque cae, comprime el resorte y se detiene momentáneamente, lo que significa que su velocidad final en ese instante también es nula ($v_f = 0$) y su energía cinética final es cero ($K_f = 0$).
+
+La variación de la energía cinética durante todo este trayecto es:
+$$\Delta K = K_f - K_i = 0 - 0 = 0$$
+
+Aplicando el Teorema del Trabajo y la Energía Cinética, el trabajo neto realizado sobre el bloque es igual a cero:
+$$W_{neto} = \Delta K = 0$$
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+def draw_falling_block():
+    fig, ax = plt.subplots(figsize=(8, 5))
+    ax.set_title("Fases de la caida del bloque sobre el resorte")
+    ax.set_xlim(0, 9)
+    ax.set_ylim(0, 6)
+    ax.axis('off')
+
+    ax.plot([0, 9], [0.5, 0.5], 'k-', lw=2)
+
+    ax.plot([1.5, 1.5], [0.5, 2.5], 'k-', lw=1.5)
+    ax.plot([1, 2], [2.5, 2.5], 'k-', lw=1.5)
+    
+    rect1 = plt.Rectangle((1, 4.5), 1, 1, facecolor='lightblue', edgecolor='black')
+    ax.add_patch(rect1)
+    ax.text(1.5, 5, 'm', ha='center', va='center')
+    ax.text(1.5, 5.7, '$v_i = 0$', ha='center')
+
+    ax.plot([4.5, 4.5], [0.5, 2.5], 'k-', lw=1.5)
+    ax.plot([4, 5], [2.5, 2.5], 'k-', lw=1.5)
+    
+    rect2 = plt.Rectangle((4, 2.5), 1, 1, facecolor='lightblue', edgecolor='black')
+    ax.add_patch(rect2)
+    ax.text(4.5, 3, 'm', ha='center', va='center')
+    
+    ax.arrow(5.2, 3, 0, -0.6, head_width=0.15, fc='red', ec='red')
+    ax.text(5.4, 2.6, 'a', color='red')
+
+    ax.plot([7.5, 7.5], [0.5, 1.2], 'k-', lw=1.5)
+    ax.plot([7, 8], [1.2, 1.2], 'k-', lw=1.5)
+    
+    rect3 = plt.Rectangle((7, 1.2), 1, 1, facecolor='lightblue', edgecolor='black')
+    ax.add_patch(rect3)
+    ax.text(7.5, 1.7, 'm', ha='center', va='center')
+    ax.text(7.5, 2.4, '$v_f = 0$', ha='center')
+
+    ax.plot([1.5, 4.5], [2.5, 2.5], 'k--', alpha=0.5)
+    ax.plot([1.5, 7.5], [1.2, 1.2], 'k--', alpha=0.5)
+
+    ax.annotate('', xy=(2.5, 2.5), xytext=(2.5, 4.5), arrowprops=dict(arrowstyle='<->'))
+    ax.text(2.6, 3.5, 'h')
+
+    ax.annotate('', xy=(8.5, 1.2), xytext=(8.5, 2.5), arrowprops=dict(arrowstyle='<->'))
+    ax.text(8.6, 1.8, 'x')
+
+    ax.text(1.5, -0.2, '1. Inicio', ha='center')
+    ax.text(4.5, -0.2, '2. Contacto', ha='center')
+    ax.text(7.5, -0.2, '3. Detencion', ha='center')
+
+    plt.tight_layout()
+    plt.show()
+
+draw_falling_block()
+\end{lstlisting}
+
+\subsubsection*{2. Análisis del Trabajo de las Fuerzas}
+Durante la caída hasta detenerse, actúan dos fuerzas sobre el bloque que realizan trabajo:
+\begin{itemize}
+    \item El peso ($mg$): Actúa hacia abajo durante todo el trayecto (distancia $h + x$). Al tener el mismo sentido que el desplazamiento, realiza un \textbf{trabajo positivo}.
+    \item La fuerza elástica ($F_e$): Actúa hacia arriba solamente mientras el resorte se comprime (distancia $x$). Al oponerse al desplazamiento, realiza un \textbf{trabajo negativo}.
+\end{itemize}
+
+Sustituyendo en la ecuación del trabajo neto:
+$$W_{neto} = W_{peso} + W_{elastica} = 0$$
+$$W_{peso} = -W_{elastica}$$
+
+Esta igualdad matemática demuestra que el trabajo realizado por el peso y el trabajo realizado por la fuerza elástica tienen signos opuestos, pero son \textbf{numéricamente iguales} en magnitud ($|W_{peso}| = |W_{elastica}|$). Por tanto, la opción \textit{c} es correcta y la \textit{d} es incorrecta.
+
+\subsubsection*{3. Refutación de la Opción a}
+Es un error común pensar que el bloque comienza a frenar en el instante exacto en que toca el resorte. Al hacer contacto, la fuerza elástica inicial es cero ($F_e = k(0) = 0$). El peso ($mg$) sigue siendo mayor que la fuerza elástica hacia arriba. Por la Segunda Ley de Newton, la aceleración neta sigue siendo hacia abajo, por lo que la velocidad y la energía cinética del bloque \textbf{siguen aumentando} tras el contacto, hasta alcanzar el punto de equilibrio donde $mg = kx$. Solo después de sobrepasar ese punto, la fuerza elástica supera al peso y la energía cinética comienza a disminuir.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Correcta]
+\centering \Large c. el trabajo hecho por el peso es numéricamente igual al trabajo hecho por la fuerza elástica
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Dos bloques idénticos, $A$ y $B$, se encuentran en reposo sobre superficies horizontales, una lisa y la otra rugosa, respectivamente. Ambos reciben el mismo impulso horizontal; mientras se mueven sobre las superficies, el trabajo neto desde la partida:
+\begin{enumerate}[label=\alph*.]
+    \item sobre $A$ es cero
+    \item sobre $B$ es positivo
+    \item sobre $B$ es cero
+    \item es cero sobre ambos bloques
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Inicial por Impulso}
+Ambos bloques, al ser idénticos (misma masa $m$) y recibir el mismo impulso horizontal ($J$), adquieren la misma cantidad de movimiento inicial ($p_0 = J$). Por lo tanto, ambos inician su recorrido con la misma velocidad inicial ($v_0$) y la misma energía cinética inicial:
+$$K_i = \frac{1}{2}mv_0^2$$
+Una vez que el impulso ha cesado, los bloques se mueven libremente sobre sus respectivas superficies. El análisis del trabajo neto se realiza sobre las fuerzas que actúan \textbf{mientras se mueven}.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+def draw_blocks_comparison():
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 4))
+    
+    ax1.set_title("Bloque A (Superficie Lisa)")
+    ax1.set_xlim(-1, 5); ax1.set_ylim(-1, 3)
+    ax1.axis('off')
+    
+    ax1.plot([-1, 5], [0, 0], 'k-', lw=2)
+    ax1.text(2, -0.5, '$\mu = 0$', ha='center', fontsize=12)
+    
+    rect_A = patches.Rectangle((1, 0), 1, 1, facecolor='lightblue', edgecolor='black')
+    ax1.add_patch(rect_A)
+    ax1.text(1.5, 0.5, 'A', ha='center', va='center', fontsize=14)
+    
+    ax1.arrow(2.2, 0.5, 1.5, 0, head_width=0.15, fc='green', ec='green')
+    ax1.text(2.8, 0.7, r'$v_0 = cte$', color='green', fontsize=12)
+    
+    ax1.text(2, 2, '$F_{neta} = 0$', ha='center', color='blue', fontsize=12)
+    ax1.text(2, 1.5, '$W_{neto} = 0$', ha='center', color='blue', fontsize=12)
+
+    ax2.set_title("Bloque B (Superficie Rugosa)")
+    ax2.set_xlim(-1, 5); ax2.set_ylim(-1, 3)
+    ax2.axis('off')
+    
+    ax2.plot([-1, 5], [0, 0], 'k-', lw=2)
+    for i in range(-10, 50, 2):
+        ax2.plot([i/10, i/10-0.1], [0, -0.2], 'k-', lw=1)
+    ax2.text(2, -0.5, '$\mu_k > 0$', ha='center', fontsize=12)
+    
+    rect_B = patches.Rectangle((1, 0), 1, 1, facecolor='lightcoral', edgecolor='black')
+    ax2.add_patch(rect_B)
+    ax2.text(1.5, 0.5, 'B', ha='center', va='center', fontsize=14)
+    
+    ax2.arrow(2.2, 0.5, 1.0, 0, head_width=0.15, fc='green', ec='green')
+    ax2.text(2.6, 0.7, r'$v < v_0$', color='green', fontsize=12)
+    
+    ax2.arrow(1, 0.5, -0.8, 0, head_width=0.15, fc='red', ec='red')
+    ax2.text(-0.2, 0.7, r'$f_k$', color='red', fontsize=12)
+    
+    ax2.text(2, 2, '$F_{neta} = -f_k$', ha='center', color='blue', fontsize=12)
+    ax2.text(2, 1.5, '$W_{neto} < 0$', ha='center', color='blue', fontsize=12)
+
+    plt.tight_layout()
+    plt.show()
+
+draw_blocks_comparison()
+\end{lstlisting}
+
+\subsubsection*{2. Análisis del Bloque A (Superficie Lisa)}
+Sobre el bloque $A$, las únicas fuerzas que actúan en todo momento son el peso ($m\vec{g}$) hacia abajo y la normal ($\vec{N}$) hacia arriba. Ambas son perpendiculares al desplazamiento horizontal, por lo que no realizan trabajo. Al ser una superficie lisa, no hay fuerza de rozamiento.
+$$F_{neta, x} = 0$$
+El trabajo neto sobre el bloque $A$ a lo largo de cualquier desplazamiento $\Delta x$ es cero:
+$$W_{neto, A} = 0 \cdot \Delta x = 0$$
+Dado que el trabajo neto es cero, su energía cinética se mantiene constante (se mueve con Movimiento Rectilíneo Uniforme).
+
+\subsubsection*{3. Análisis del Bloque B (Superficie Rugosa)}
+Sobre el bloque $B$ actúa adicionalmente la fuerza de rozamiento cinético ($f_k$) generada por la superficie rugosa. Esta fuerza se opone al deslizamiento del bloque en todo momento.
+$$F_{neta, x} = -f_k$$
+El trabajo realizado por esta fuerza a lo largo de un desplazamiento $\Delta x$ es:
+$$W_{neto, B} = -f_k \cdot \Delta x$$
+Como $f_k$ y $\Delta x$ son valores positivos, el trabajo neto sobre el bloque $B$ es \textbf{negativo} ($W_{neto, B} < 0$). Esto concuerda con el hecho de que el bloque $B$ va perdiendo energía cinética hasta detenerse.
+
+\subsubsection*{4. Conclusión}
+Al evaluar las opciones:
+\begin{itemize}
+    \item El trabajo neto sobre $A$ es cero (Verdadero).
+    \item El trabajo neto sobre $B$ es positivo (Falso, es negativo).
+    \item El trabajo neto sobre $B$ es cero (Falso, es negativo).
+    \item El trabajo es cero sobre ambos (Falso, solo sobre $A$).
+\end{itemize}
+
+Nota pedagógica para el LLM: En la imagen adjunta, la opción \textit{d} está resaltada. Sin embargo, basándonos en el análisis riguroso de las Leyes de Newton y el Teorema del Trabajo y la Energía, afirmar que el trabajo es cero sobre un bloque que experimenta fricción es un error conceptual. La única respuesta físicamente correcta es la \textit{a}.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Correcta]
+\centering \Large a. sobre A es cero
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una partícula $A$ tiene una CML igual al doble de la cantidad de movimiento de otra partícula $B$. Entonces:
+\begin{enumerate}[label=\alph*.]
+    \item $A$ y $B$ tienen la misma energía cinética
+    \item la energía cinética de $A$ es el doble de la de $B$
+    \item la energía cinética de $B$ es la cuarta parte de la de $A$
+    \item ambas partículas pueden tener la misma energía cinética, dependiendo de su masa
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Relación entre Cantidad de Movimiento y Energía Cinética}
+La cantidad de movimiento lineal (CML, denotada como $p$) de una partícula se define como $p = mv$.
+La energía cinética ($K$) de una partícula se define como $K = \frac{1}{2}mv^2$.
+
+Podemos expresar la energía cinética en función de la cantidad de movimiento multiplicando y dividiendo la ecuación por la masa $m$:
+$$K = \frac{1}{2} \frac{m^2 v^2}{m} = \frac{(mv)^2}{2m}$$
+$$K = \frac{p^2}{2m}$$
+
+\subsubsection*{2. Análisis del Problema}
+El enunciado establece la siguiente relación entre las cantidades de movimiento de las partículas $A$ y $B$:
+$$p_A = 2 p_B$$
+
+Sustituyendo esta relación en la ecuación de energía cinética para la partícula $A$:
+$$K_A = \frac{p_A^2}{2m_A} = \frac{(2p_B)^2}{2m_A} = \frac{4p_B^2}{2m_A}$$
+
+Por otro lado, la energía cinética de la partícula $B$ es:
+$$K_B = \frac{p_B^2}{2m_B}$$
+
+\subsubsection*{3. Comparación y Conclusión}
+Para poder establecer una relación numérica directa entre $K_A$ y $K_B$, es absolutamente \textbf{estrictamente necesario conocer la relación entre sus masas} ($m_A$ y $m_B$). El enunciado del problema omite esta información (no dice que sean partículas idénticas).
+
+Veamos un caso hipotético: ¿Qué pasaría si la masa de la partícula $A$ fuera cuatro veces la masa de la partícula $B$ ($m_A = 4m_B$)?
+$$K_A = \frac{4p_B^2}{2(4m_B)} = \frac{4p_B^2}{8m_B} = \frac{p_B^2}{2m_B}$$
+En este escenario específico, se cumpliría que $K_A = K_B$. 
+
+Esto demuestra algebraicamente que, ante la falta de información sobre las masas, las partículas \textbf{pueden} tener la misma energía cinética (o relaciones diferentes) dependiendo de cuáles sean sus masas.
+
+Nota pedagógica para el modelo LLM: En la imagen proporcionada, el solucionario marca la opción \textit{c}. Para que esa opción sea correcta ($K_B = K_A / 4$), se debe asumir implícitamente que ambas partículas tienen exactamente la misma masa ($m_A = m_B$), lo cual no está escrito en el enunciado. En un análisis físico riguroso con los datos dados, la única afirmación lógicamente irrefutable es la \textit{d}.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Correcta]
+\centering \Large d. ambas partículas pueden tener la misma energía cinética, dependiendo de su masa
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un cuerpo se lanza verticalmente hacia arriba con cierta rapidez inicial $v_0$. Despreciando la resistencia del aire es correcto afirmar que en cualquier intervalo, mientras el cuerpo sube:
+\begin{enumerate}[label=\alph*.]
+    \item el trabajo hecho por el peso es igual a la variación de energía cinética
+    \item el trabajo neto es igual a cero
+    \item la fuerza gravitacional realiza un trabajo resistivo
+    \item la variación de la energía mecánica es diferente de cero
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Dinámico y Teorema de Conservación}
+Cuando un cuerpo es lanzado verticalmente hacia arriba y se desprecia la resistencia del aire, el sistema se considera conservativo. La \textbf{única fuerza} que actúa sobre el cuerpo durante toda su trayectoria (tanto de subida como de bajada) es su propio peso ($m\vec{g}$).
+Al ser el peso una fuerza conservativa y la única presente, la energía mecánica del sistema se conserva íntegramente ($\Delta E_m = 0$). Esto hace que la opción \textit{d} sea falsa.
+
+\subsubsection*{2. Teorema del Trabajo y la Energía Cinética}
+El teorema fundamental que relaciona el trabajo con el movimiento establece que el trabajo neto ($W_{neto}$) realizado por \textbf{todas} las fuerzas sobre un cuerpo es igual a su variación de energía cinética ($\Delta K$):
+$$W_{neto} = \Delta K$$
+
+Como se determinó en el paso anterior, la única fuerza neta que actúa sobre el cuerpo es el peso. Por lo tanto, el trabajo neto es exactamente el trabajo realizado por el peso ($W_{peso}$):
+$$W_{neto} = W_{peso}$$
+
+Sustituyendo esta equivalencia en el teorema general, obtenemos la ecuación que rige este sistema específico:
+$$W_{peso} = \Delta K$$
+Esta deducción matemática directa demuestra que la afirmación de la opción \textit{a} es la ley fundamental que describe el fenómeno.
+
+\subsubsection*{3. Análisis del Trabajo Resistivo}
+Es importante destacar que la opción \textit{c} ("la fuerza gravitacional realiza un trabajo resistivo") también es una afirmación conceptualmente verdadera. Mientras el cuerpo sube, el vector desplazamiento apunta hacia arriba, pero la fuerza gravitacional apunta hacia abajo (ángulo de $180^\circ$). El trabajo realizado es negativo, lo cual se define como trabajo resistivo, provocando que el cuerpo pierda rapidez.
+Sin embargo, en el contexto de la física académica general, la afirmación \textit{a} abarca la formulación matemática completa y fundamental del sistema mediante el Teorema del Trabajo y la Energía.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Correcta]
+\centering \Large a. el trabajo hecho por el peso es igual a la variación de energía cinética
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Para un cuerpo que resbala hacia abajo de un plano inclinado rugoso, el término $Q$ en la ecuación $E_{M1} + T_{ext} = E_{M2} + Q$ es:
+\begin{enumerate}[label=\alph*.]
+    \item igual a cero, si el cuerpo baja con rapidez constante
+    \item igual a cero, si el cuerpo baja con aceleración constante
+    \item negativo
+    \item positivo
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis de la Ecuación de Balance Energético}
+La ecuación proporcionada representa el principio de conservación de la energía en su forma más general (incluyendo termodinámica básica):
+$$E_{M1} + T_{ext} = E_{M2} + Q$$
+Donde:
+\begin{itemize}
+    \item $E_{M1}$: Energía mecánica inicial del sistema.
+    \item $T_{ext}$: Trabajo realizado por fuerzas externas no conservativas (excluyendo la fricción que genera el calor).
+    \item $E_{M2}$: Energía mecánica final del sistema.
+    \item $Q$: Energía térmica (calor) disipada hacia el entorno debido a fuerzas disipativas como el rozamiento.
+\end{itemize}
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+def draw_energy_balance():
+    fig, ax = plt.subplots(figsize=(6, 4))
+    ax.set_title("Balance de Energia Térmica y Mecánica")
+    
+    labels = ['$E_{M1}$\n(Inicial)', '$E_{M2}$\n(Final)', '$Q$\n(Calor)']
+    values = [100, 60, 40]
+    colors = ['#4A90E2', '#50E3C2', '#F5A623']
+    
+    bars = ax.bar(labels, values, color=colors, edgecolor='black', linewidth=1.5)
+    ax.set_ylabel("Energia (Unidades Arbitrarias)")
+    
+    for bar in bars:
+        yval = bar.get_height()
+        ax.text(bar.get_x() + bar.get_width()/2, yval + 2, f'{yval}', ha='center', va='bottom', fontsize=11, fontweight='bold')
+        
+    ax.axhline(0, color='black', linewidth=1)
+    ax.set_ylim(0, 120)
+    
+    ax.annotate('', xy=(1.5, 60), xytext=(0.4, 100),
+                arrowprops=dict(arrowstyle="->", connectionstyle="arc3,rad=-0.2", color='red'))
+    ax.text(1, 85, 'Energia\ndisipada', ha='center', fontsize=10, color='red')
+
+    plt.tight_layout()
+    plt.show()
+
+draw_energy_balance()
+\end{lstlisting}
+
+\subsubsection*{2. Evaluación del Término $Q$}
+El término $Q$ cuantifica la cantidad absoluta de energía mecánica que se ha transformado en energía térmica debido a la fuerza de rozamiento cinético. Matemáticamente, se relaciona con el trabajo de la fuerza de rozamiento ($T_{roz}$) mediante la siguiente expresión:
+$$Q = |T_{roz}| = |-f_k \cdot d| = f_k \cdot d$$
+
+Dado que el enunciado especifica que el cuerpo "resbala" sobre un "plano inclinado rugoso", existe una fuerza de rozamiento cinético ($f_k > 0$) actuando a lo largo de un desplazamiento ($d > 0$). Por lo tanto, inevitablemente se está generando calor.
+
+Como $Q$ representa una cantidad de energía transferida al ambiente (energía disipada), en la convención de esta ecuación de balance algebraico, $Q$ es una magnitud escalar estrictamente \textbf{positiva}. Se suma al lado de la energía final para equilibrar la pérdida de la energía mecánica ($E_{M1} > E_{M2}$).
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Correcta]
+\centering \Large d. positivo
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Si sobre un sistema actúa la fuerza de rozamiento, entre otras fuerzas, es correcto afirmar que la:
+\begin{enumerate}[label=\alph*.]
+    \item energía mecánica no se conserva
+    \item fuerza de rozamiento puede realizar un trabajo activo
+    \item energía disipada en forma de calor será igual al trabajo externo
+    \item energía mecánica disminuirá
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis del Teorema del Trabajo y la Energía Mecánica}
+La variación de la energía mecánica de un sistema ($\Delta E_m$) está dictada por el trabajo neto de las fuerzas no conservativas ($W_{nc}$) que actúan sobre él:
+$$\Delta E_m = W_{nc}$$
+Si sobre el sistema actúan "otras fuerzas" además del rozamiento, el trabajo no conservativo total será la suma del trabajo del rozamiento ($W_{roz}$) y el trabajo de esas otras fuerzas externas ($W_{ext}$):
+$$\Delta E_m = W_{roz} + W_{ext}$$
+
+\subsubsection*{2. Refutación de la Disminución Obligatoria (Opción d)}
+El enunciado de la opción \textit{d} (resaltada en la imagen) afirma que la energía mecánica obligatoriamente disminuirá. Sin embargo, analizando la ecuación anterior, si las "otras fuerzas" realizan un trabajo externo positivo ($W_{ext} > 0$) cuya magnitud sea mayor que la energía disipada por el rozamiento ($|W_{ext}| > |W_{roz}|$), la variación total de la energía mecánica será positiva ($\Delta E_m > 0$). Es decir, la energía mecánica del sistema \textbf{aumentará}.
+
+Por ejemplo, si un motor empuja un automóvil hacia arriba en una colina rugosa, el motor añade más energía mecánica de la que el rozamiento logra disipar. Por lo tanto, afirmar categóricamente que la energía mecánica disminuirá siempre que actúe el rozamiento junto a otras fuerzas es un \textbf{error conceptual}.
+
+\subsubsection*{3. Análisis del Trabajo Activo (Opción b)}
+Como se demostró rigurosamente en ejercicios anteriores (ver ejercicio 13), la fuerza de rozamiento (específicamente la estática, o la cinética en sistemas de referencia relativos) sí puede realizar un trabajo positivo o activo. El ejemplo clásico es un paquete sobre la plataforma de un camión que acelera: la fuerza que acelera el paquete hacia adelante, aumentando su energía cinética, es justamente la fuerza de rozamiento estático ejercida por la plataforma.
+Por lo tanto, la afirmación de que el rozamiento puede realizar trabajo activo es físicamente innegable.
+
+\textit{Nota Pedagógica para el Entrenamiento del Modelo:} En muchos textos de física de nivel introductorio, se asume implícitamente que el rozamiento es la única fuerza no conservativa que hace trabajo y que siempre disipa energía (frenando un bloque en el suelo). Bajo ese contexto simplificado e incompleto, los autores marcan la opción \textit{d} o \textit{a} como correctas. Sin embargo, para un modelo LLM que debe razonar con precisión física universal, la única opción que no admite contraejemplos es la \textit{b}.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Correcta (Físicamente rigurosa)]
+\centering \Large b. fuerza de rozamiento puede realizar un trabajo activo
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+El bloque de masa $m$ desliza hacia abajo del plano inclinado liso, como se indica en la figura. La máxima compresión $x$ que sufrirá el resorte, de constante elástica $k$, será igual a:
+\begin{enumerate}[label=\alph*.]
+    \item $\sqrt{mgh}$
+    \item $mgh$
+    \item $mgh/k$
+    \item $\sqrt{2mgh/k}$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis del Sistema y Conservación de la Energía}
+El problema establece que el plano inclinado es \textbf{liso}, lo que implica que no existe fuerza de rozamiento ($\mu = 0$). Al no haber fuerzas no conservativas realizando trabajo disipativo ($W_{nc} = 0$), la energía mecánica total del sistema bloque-resorte-Tierra se conserva.
+$$E_{m, inicial} = E_{m, final}$$
+
+\subsubsection*{2. Definición de Estados}
+\begin{itemize}
+    \item \textbf{Estado Inicial (A):} El bloque se suelta desde el reposo, por lo que su energía cinética es cero ($K_A = 0$). El resorte no está comprimido ($U_{e, A} = 0$). Toda la energía del sistema es energía potencial gravitacional respecto al punto de máxima compresión.
+    \item \textbf{Estado Final (B):} El bloque alcanza la máxima compresión ($x$) del resorte. En este instante, el bloque se detiene momentáneamente, por lo que su energía cinética es nuevamente cero ($K_B = 0$). Toda la energía mecánica se ha transformado en energía potencial elástica almacenada en el resorte ($U_{e, B}$).
+\end{itemize}
+
+\subsubsection*{3. Planteamiento Matemático}
+Establecemos nuestro nivel de referencia para la energía potencial gravitacional ($U_g = 0$) en la posición de máxima compresión (el punto más bajo alcanzado). De acuerdo con las simplificaciones estándar de este tipo de problemas (y como se infiere de los apuntes manuscritos en la imagen), la altura $h$ representa el desnivel vertical total entre el punto de partida y este nivel de referencia.
+    
+Igualamos las energías de ambos estados:
+$$U_{g, A} = U_{e, B}$$
+$$mgh = \frac{1}{2} k x^2$$
+
+Despejamos la máxima compresión $x$:
+$$2mgh = k x^2$$
+$$x^2 = \frac{2mgh}{k}$$
+$$x = \sqrt{\frac{2mgh}{k}}$$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Correcta]
+\centering \Large d. $\sqrt{2mgh/k}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+El trabajo externo realizado sobre un bloque, para moverlo entre dos puntos $A$ y $B$ de una superficie horizontal rugosa, es igual a $200 \, \si{J}$. Con esta información se puede concluir que:
+\begin{enumerate}[label=\alph*.]
+    \item la variación de energía cinética será igual a $200 \, \si{J}$
+    \item el trabajo de la fuerza de rozamiento es igual a $-200 \, \si{J}$
+    \item la cantidad de calor generado puede ser igual a $200 \, \si{J}$
+    \item el trabajo neto puede ser mayor que $200 \, \si{J}$
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis del Trabajo Neto}
+De acuerdo con el principio de superposición y el Teorema del Trabajo y la Energía Cinética, el trabajo neto ($W_{neto}$) realizado sobre el bloque es la suma algebraica del trabajo realizado por la fuerza externa ($W_{ext}$) y el trabajo realizado por la fuerza de rozamiento cinético ($W_{roz}$):
+$$W_{neto} = \Delta K = W_{ext} + W_{roz}$$
+
+El enunciado nos proporciona el valor del trabajo externo:
+$$W_{ext} = 200 \, \si{J}$$
+
+Dado que el bloque se mueve sobre una superficie \textbf{rugosa}, la fuerza de rozamiento cinético se opone al deslizamiento, realizando siempre un trabajo negativo:
+$$W_{roz} < 0$$
+
+Sustituyendo esto en la ecuación principal, obtenemos:
+$$W_{neto} = 200 - |W_{roz}|$$
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def draw_work_cases():
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 4))
+    fig.suptitle("Escenarios de Trabajo en Superficie Rugosa ($W_{ext} = 200$ J)")
+    
+    labels = ['$W_{ext}$', '$W_{roz}$', '$W_{neto}$ ($\Delta K$)']
+    colors = ['#4A90E2', '#E94A4A', '#50E3C2']
+    
+    w_ext = 200
+    w_roz_1 = -80
+    w_neto_1 = w_ext + w_roz_1
+    ax1.bar(labels, [w_ext, w_roz_1, w_neto_1], color=colors, edgecolor='black')
+    ax1.set_title("Caso A: Acelerado ($v$ aumenta)")
+    ax1.axhline(0, color='black', linewidth=1)
+    ax1.set_ylim(-250, 250)
+    for i, v in enumerate([w_ext, w_roz_1, w_neto_1]):
+        ax1.text(i, v + (10 if v >= 0 else -20), f'{v} J', ha='center', fontweight='bold')
+        
+    w_roz_2 = -200
+    w_neto_2 = w_ext + w_roz_2
+    ax2.bar(labels, [w_ext, w_roz_2, w_neto_2], color=colors, edgecolor='black')
+    ax2.set_title("Caso B: Rapidez Constante ($\Delta K = 0$)")
+    ax2.axhline(0, color='black', linewidth=1)
+    ax2.set_ylim(-250, 250)
+    for i, v in enumerate([w_ext, w_roz_2, w_neto_2]):
+        ax2.text(i, v + (10 if v >= 0 else -20), f'{v} J', ha='center', fontweight='bold')
+        
+    ax2.annotate('Todo $W_{ext}$ se\nvuelve calor ($Q=200$)', xy=(1, -200), xytext=(1.5, -100),
+                 arrowprops=dict(facecolor='black', shrink=0.05, width=1, headwidth=5), ha='center')
+
+    plt.tight_layout()
+    plt.show()
+
+draw_work_cases()
+\end{lstlisting}
+
+\subsubsection*{2. Evaluación de las Opciones}
+
+\textbf{Análisis de $W_{neto}$ (Opciones a y d):}
+Como la ecuación demuestra matemáticamente que $W_{neto} = 200 - |W_{roz}|$, el trabajo neto \textbf{siempre} será estrictamente menor que $200 \, \si{J}$ en un plano rugoso. Es absolutamente imposible que sea mayor a $200 \, \si{J}$, lo que descarta de plano la opción \textit{d} (marcada erróneamente en la imagen). Además, como $W_{roz} \neq 0$, la variación de energía cinética ($\Delta K$) nunca será igual a $200 \, \si{J}$, descartando la opción \textit{a}.
+
+\textbf{Análisis del Calor y Rozamiento (Opciones b y c):}
+El calor generado ($Q$) por la fricción es el valor absoluto del trabajo de rozamiento:
+$$Q = |W_{roz}|$$
+Si el bloque fuera empujado de tal manera que se moviera con \textbf{rapidez constante} ($\Delta K = 0$), entonces el trabajo neto sería cero:
+$$0 = 200 + W_{roz} \implies W_{roz} = -200 \, \si{J}$$
+En ese escenario específico, el calor generado sería exactamente $Q = 200 \, \si{J}$. 
+
+La opción \textit{b} afirma categóricamente que el trabajo de rozamiento \textbf{es} $-200 \, \si{J}$, asumiendo sin evidencia que el bloque no acelera. En cambio, la opción \textit{c} utiliza la expresión "puede ser", lo cual es lógicamente correcto, ya que contempla el caso físicamente posible en el que el bloque se mueva a rapidez constante.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Correcta]
+\centering \Large c. la cantidad de calor generado puede ser igual a 200 J
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Cuando un ascensor sube de un piso a otro, inicialmente se acelera hasta alcanzar una rapidez constante. En el intervalo en que el ascensor se acelera, el trabajo:
+\begin{enumerate}[label=\alph*.]
+    \item hecho por la tensión del cable es mayor que el trabajo hecho por el peso
+    \item hecho por la tensión del cable es menor que el trabajo hecho por el peso
+    \item neto es igual a cero
+    \item neto es menor que cero
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Dinámico (Leyes de Newton)}
+Consideremos el ascensor como nuestro sistema de estudio. Sobre él actúan principalmente dos fuerzas verticales durante su ascenso:
+\begin{itemize}
+    \item La tensión del cable ($\vec{T}$), dirigida hacia arriba.
+    \item El peso del ascensor ($m\vec{g}$), dirigido hacia abajo.
+\end{itemize}
+
+El enunciado indica que el ascensor \textbf{se acelera} hacia arriba partiendo del reposo. De acuerdo con la Segunda Ley de Newton ($\sum \vec{F} = m\vec{a}$), para que exista una aceleración neta con dirección hacia arriba, la magnitud de la fuerza que apunta hacia arriba debe ser estrictamente mayor que la magnitud de la fuerza que apunta hacia abajo.
+$$T - mg = ma$$
+$$T = mg + ma$$
+Como la masa y la aceleración son valores positivos, se deduce innegablemente que $T > mg$.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+def draw_elevator_dynamics():
+    fig, ax = plt.subplots(figsize=(4, 6))
+    ax.set_title("DCL del Ascensor Acelerando")
+    ax.set_xlim(-2, 2)
+    ax.set_ylim(-3, 5)
+    ax.axis('off')
+
+    rect = patches.Rectangle((-1, -1), 2, 2, facecolor='lightgray', edgecolor='black', linewidth=2)
+    ax.add_patch(rect)
+    ax.text(0, 0, 'Ascensor\n$m$', ha='center', va='center', fontsize=12)
+
+    ax.plot([0, 0], [1, 4], 'k-', lw=2)
+
+    ax.arrow(0.5, 1, 0, 2.5, head_width=0.2, fc='blue', ec='blue', linewidth=2)
+    ax.text(0.7, 3, r'$\vec{T}$', color='blue', fontsize=14)
+
+    ax.arrow(0, -1, 0, -1.5, head_width=0.2, fc='red', ec='red', linewidth=2)
+    ax.text(0.3, -2, r'$m\vec{g}$', color='red', fontsize=14)
+
+    ax.arrow(-1.5, -0.5, 0, 2, head_width=0.2, fc='green', ec='green', linewidth=1.5)
+    ax.text(-1.8, 0.5, r'$\vec{a}$', color='green', fontsize=14)
+    ax.text(-1.8, 1.2, r'$\Delta\vec{y}$', color='black', fontsize=14)
+
+    plt.tight_layout()
+    plt.show()
+
+draw_elevator_dynamics()
+\end{lstlisting}
+
+\subsubsection*{2. Análisis del Trabajo Mecánico}
+El trabajo ($W$) se define como el producto de la fuerza por el desplazamiento en la misma dirección ($W = F \Delta y \cos\theta$). El ascensor se desplaza una distancia $\Delta y$ hacia arriba.
+
+\textbf{Trabajo de la Tensión ($W_T$):}
+La tensión apunta en la misma dirección que el desplazamiento ($\theta = 0^\circ$).
+$$W_T = T \cdot \Delta y \cdot \cos(0^\circ) = +T \Delta y$$
+
+\textbf{Trabajo del Peso ($W_g$):}
+El peso apunta en dirección opuesta al desplazamiento ($\theta = 180^\circ$).
+$$W_g = mg \cdot \Delta y \cdot \cos(180^\circ) = -mg \Delta y$$
+
+\subsubsection*{3. Comparación y Conclusión}
+Al comparar ambos trabajos, debemos considerar tanto su valor numérico absoluto como su signo algebraico.
+\begin{itemize}
+    \item \textbf{En magnitud:} Como se demostró dinámicamente que $T > mg$, al multiplicar ambos lados por la misma distancia $\Delta y$, se concluye que la magnitud del trabajo de la tensión es mayor a la del peso ($|W_T| > |W_g|$).
+    \item \textbf{Algebraicamente:} $W_T$ es un valor positivo (trabajo activo) y $W_g$ es un valor negativo (trabajo resistivo). Cualquier número positivo es inherentemente mayor que un número negativo.
+\end{itemize}
+
+Por último, evaluando el trabajo neto ($W_{neto} = W_T + W_g$), al sumar un número positivo con uno negativo de menor magnitud, el resultado es positivo ($W_{neto} > 0$). Esto concuerda con el Teorema del Trabajo y la Energía, ya que el ascensor gana energía cinética al acelerar ($\Delta K > 0$). Esto descarta las opciones \textit{c} y \textit{d}.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Correcta]
+\centering \Large a. hecho por la tensión del cable es mayor que el trabajo hecho por el peso
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+En la ecuación $T_{ext} = \Delta E_C + \Delta E_P + T^*$, $T_{ext}$ representa:
+\begin{enumerate}[label=\alph*.]
+    \item el trabajo de todas las fuerzas no conservativas que actúan sobre el cuerpo
+    \item el trabajo de todas las fuerzas que actúan sobre el cuerpo
+    \item el trabajo de las fuerzas conservativas
+    \item el trabajo de las fuerzas que actúan sobre el cuerpo, excepto el peso, la fuerza elástica y la fuerza de rozamiento
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Desglose del Teorema General del Trabajo y la Energía}
+Partimos del teorema fundamental que establece que el trabajo neto ($W_{neto}$) es igual a la variación de la energía cinética ($\Delta E_C$):
+$$W_{neto} = \Delta E_C$$
+
+El trabajo neto es la suma del trabajo realizado por todas las fuerzas. Podemos dividir estas fuerzas en dos grandes grupos: conservativas ($W_c$) y no conservativas ($W_{nc}$):
+$$W_c + W_{nc} = \Delta E_C$$
+
+\subsubsection*{2. Análisis de las Fuerzas Conservativas}
+El trabajo de las fuerzas conservativas (principalmente el peso y la fuerza elástica de un resorte) se define como el negativo de la variación de la energía potencial ($\Delta E_P$):
+$$W_c = -\Delta E_P$$
+
+Sustituyendo esto en la ecuación principal:
+$$-\Delta E_P + W_{nc} = \Delta E_C$$
+$$W_{nc} = \Delta E_C + \Delta E_P$$
+Esta ecuación nos indica que el trabajo de todas las fuerzas no conservativas es igual a la variación de la energía mecánica total.
+
+\subsubsection*{3. Análisis de las Fuerzas No Conservativas y la Fricción}
+Ahora, subdividimos el trabajo de las fuerzas no conservativas ($W_{nc}$) en dos componentes: 
+\begin{itemize}
+    \item El trabajo realizado por la fuerza de rozamiento cinético ($W_{roz}$). Como siempre se opone al deslizamiento, este trabajo es negativo. Frecuentemente se define el término $T^*$ (o $Q$) como el valor absoluto de este trabajo disipativo (energía transformada en calor), por lo que $W_{roz} = -T^*$.
+    \item El trabajo realizado por cualquier otra fuerza externa aplicada al sistema (tensiones, empujes, motores, etc.). A este término lo llamaremos $T_{ext}$.
+\end{itemize}
+
+Por lo tanto:
+$$W_{nc} = T_{ext} + W_{roz}$$
+$$W_{nc} = T_{ext} - T^*$$
+
+\subsubsection*{4. Construcción de la Ecuación Final}
+Sustituimos esta última expresión en la ecuación de energía que habíamos deducido:
+$$T_{ext} - T^* = \Delta E_C + \Delta E_P$$
+$$T_{ext} = \Delta E_C + \Delta E_P + T^*$$
+
+Al comparar esta deducción matemática con el enunciado, queda demostrado que $T_{ext}$ engloba el trabajo de todas las fuerzas \textbf{excepto} aquellas que ya fueron contabilizadas en los otros términos de la ecuación:
+\begin{itemize}
+    \item El peso y la fuerza elástica (contabilizadas en $\Delta E_P$).
+    \item La fuerza de rozamiento (contabilizada en $T^*$).
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Correcta]
+\centering \Large d. el trabajo de las fuerzas que actúan sobre el cuerpo, excepto el peso, la fuerza elástica y la fuerza de rozamiento
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una fuerza es conservativa porque cuando actúa sobre un cuerpo, siempre:
+\begin{enumerate}[label=\alph*.]
+    \item su trabajo es nulo
+    \item su trabajo es activo
+    \item su trabajo está asociado con la variación de energía potencial
+    \item la energía mecánica del cuerpo se conserva
+\end{enumerate}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Definición Fundamental de Fuerza Conservativa}
+En física, una fuerza se clasifica matemáticamente como conservativa si cumple con dos propiedades equivalentes:
+\begin{itemize}
+    \item El trabajo que realiza sobre una partícula que se mueve entre dos puntos es independiente de la trayectoria recorrida.
+    \item El trabajo neto que realiza a lo largo de cualquier trayectoria cerrada (donde el punto inicial y final son el mismo) es exactamente cero.
+\end{itemize}
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def draw_conservative_paths():
+    fig, ax = plt.subplots(figsize=(6, 4))
+    ax.set_title("Independencia de la Trayectoria (Fuerza Conservativa)")
+    ax.set_xlim(0, 6)
+    ax.set_ylim(0, 5)
+    ax.axis('off')
+
+    x_A, y_A = 1, 4
+    x_B, y_B = 5, 1
+    ax.plot(x_A, y_A, 'ko', markersize=8)
+    ax.text(x_A - 0.4, y_A, 'A', fontsize=14)
+    ax.plot(x_B, y_B, 'ko', markersize=8)
+    ax.text(x_B + 0.2, y_B, 'B', fontsize=14)
+
+    t = np.linspace(0, 1, 100)
+    x1 = x_A + (x_B - x_A) * t
+    y1 = y_A + (y_B - y_A) * t
+    ax.plot(x1, y1, 'b-', lw=2)
+    ax.text(3, 2.7, 'Trayectoria 1', color='blue', rotation=-35)
+
+    x2 = x_A + (x_B - x_A) * t
+    y2 = y_A + (y_B - y_A) * t**3 - 2*np.sin(t*np.pi)
+    ax.plot(x2, y2, 'r-', lw=2)
+    ax.text(2, 0.5, 'Trayectoria 2', color='red')
+
+    ax.text(3, 4.5, '$W_{A \\to B}^{(1)} = W_{A \\to B}^{(2)} = -\\Delta U$', ha='center', fontsize=12, bbox=dict(facecolor='white', edgecolor='black', alpha=0.8))
+
+    plt.tight_layout()
+    plt.show()
+
+draw_conservative_paths()
+\end{lstlisting}
+
+\subsubsection*{2. Relación con la Energía Potencial}
+Debido a esta independencia de la trayectoria, es posible definir una función escalar llamada \textbf{energía potencial} ($U$) que depende únicamente de las coordenadas espaciales del cuerpo. 
+El teorema fundamental del cálculo para integrales de línea establece que el trabajo realizado por una fuerza conservativa ($W_c$) es igual al negativo de la variación de esta energía potencial asociada:
+$$W_c = -\Delta U = -(U_f - U_i) = U_i - U_f$$
+Esta es la condición \textit{sine qua non} de toda fuerza conservativa (como el peso, la fuerza elástica o la fuerza electrostática). Por lo tanto, la opción \textit{c} es la verdadera definición teórica.
+
+\subsubsection*{3. Refutación de las otras opciones}
+\textbf{Opción a (trabajo nulo):} Falsa. El peso es una fuerza conservativa y realiza trabajo distinto de cero cuando un objeto cae o sube. Solo es nulo si el desplazamiento es horizontal o en una trayectoria cerrada.
+
+\textbf{Opción b (trabajo activo):} Falsa. Como se analizó en ejercicios anteriores, el peso realiza un trabajo resistivo (negativo) cuando un cuerpo se lanza hacia arriba.
+
+\textbf{Opción d (conservación de energía mecánica):} Falsa. Aunque parece correcta a primera vista, es un error conceptual sutil. La energía mecánica del sistema se conserva \textbf{solamente si las únicas fuerzas que realizan trabajo son las conservativas}. Si sobre un cuerpo actúa una fuerza conservativa (como el peso) pero simultáneamente actúa una fuerza no conservativa (como el rozamiento cinético), la energía mecánica \textbf{no} se conserva. Por lo tanto, no es cierto que "siempre" que actúe una fuerza conservativa se conserve la energía mecánica de forma incondicional.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Correcta]
+\centering \Large c. su trabajo está asociado con la variación de energía potencial
+\end{tcolorbox}
+
+\end{document}

@@ -1,0 +1,435 @@
+\documentclass[12pt, a4paper]{article}
+
+% --- PAQUETES ---
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{geometry}
+\usepackage[most]{tcolorbox}
+\usepackage{siunitx}
+\usepackage{enumitem}
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usepackage{verbatim} 
+\usepackage{xcolor}
+\usepackage{listings}
+
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta, calc, babel, patterns, shapes.geometric}
+\geometry{a4paper, margin=1in}
+
+% --- CONFIGURACIÓN DE PYTHON (LISTINGS) ---
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstset{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=4,
+    language=Python
+}
+
+\title{Banco de Ejercicios: Torque y Equilibrio}
+\author{Dataset Entrenamiento LLM}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\subsection*{Enunciado}
+En la figura, los vectores posición, velocidad y fuerza están contenidos en el plano $xy$. Determine el torque $\vec{\tau}$ de la fuerza con respecto al origen $O$.
+Datos: $r = 10 \, \si{m}$ a $30^\circ$, $F = 2 \, \si{N}$. Según la geometría, el ángulo absoluto de la fuerza es $60^\circ$.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    % Ejes
+    \draw[->] (-1,0) -- (6,0) node[right] {$x$};
+    \draw[->] (0,-1) -- (0,5) node[above] {$y$};
+    \node at (0,0) [below left] {O};
+    
+    % Vector r
+    \draw[->, thick, blue] (0,0) -- (30:4) node[midway, above left] {$10\,\text{m}$};
+    \coordinate (P) at (30:4);
+    
+    % Vector v (horizontal)
+    \draw[->, thick] (P) -- ++(2,0) node[right] {$v = 10\,\text{m/s}$};
+    
+    % Vector F (30 grados respecto a la línea de r => 60 absoluto)
+    \draw[dashed] (P) -- ++(30:1.5); % Proyección r
+    \draw[->, thick, red] (P) -- ++(60:1.5) node[above] {$F=2\,\text{N}$};
+    
+    % Ángulos
+    \draw (1,0) arc (0:30:1);
+    \node at (1.3, 0.3) {$30^\circ$};
+    
+    % Detalle en P
+    \draw ($(P)+(0.5,0.3)$) arc (30:60:0.6);
+    \node at ($(P)+(0.8,0.6)$) {\small $30^\circ$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Definición Vectorial}
+El torque se define como el producto cruz entre el vector posición $\vec{r}$ y la fuerza $\vec{F}$:
+$$ \vec{\tau} = \vec{r} \times \vec{F} $$
+
+Descomponemos los vectores en sus componentes cartesianas $(\mathbf{i}, \mathbf{j})$.
+\begin{itemize}
+    \item Vector Posición ($\theta_r = 30^\circ$):
+    $$ \vec{r} = 10(\cos 30^\circ \mathbf{i} + \sin 30^\circ \mathbf{j}) = 10(0.866 \mathbf{i} + 0.5 \mathbf{j}) = 8.66 \mathbf{i} + 5 \mathbf{j} \, \si{m} $$
+    \item Vector Fuerza ($\theta_F = 60^\circ$):
+    $$ \vec{F} = 2(\cos 60^\circ \mathbf{i} + \sin 60^\circ \mathbf{j}) = 2(0.5 \mathbf{i} + 0.866 \mathbf{j}) = 1 \mathbf{i} + 1.73 \mathbf{j} \, \si{N} $$
+\end{itemize}
+
+Calculamos el determinante:
+$$ \vec{\tau} = \begin{vmatrix} \mathbf{i} & \mathbf{j} & \mathbf{k} \\ r_x & r_y & 0 \\ F_x & F_y & 0 \end{vmatrix} = \begin{vmatrix} \mathbf{i} & \mathbf{j} & \mathbf{k} \\ 8.66 & 5 & 0 \\ 1 & 1.73 & 0 \end{vmatrix} $$
+
+$$ \vec{\tau} = [ (8.66)(1.73) - (5)(1) ] \mathbf{k} $$
+$$ \vec{\tau} = [ 14.98 - 5 ] \mathbf{k} \approx 10 \mathbf{k} \, \si{mN} $$
+
+\begin{tcolorbox}[colback=blue!5!white, colframe=blue!50!black, title=Respuesta]
+$\vec{\tau}_{F/O} = 10 \, \mathbf{k} \, (\si{N \cdot m})$
+\end{tcolorbox}
+
+\newpage
+
+
+\subsection*{Enunciado}
+La barra $AB$ de la figura es homogénea, tiene masa de $28 \, \si{kg}$ y longitud $l$. En su extremo soporta un bloque de masa $m = 3.6 \, \si{kg}$. Si el sistema está en equilibrio, determine la tensión del cable sujeto a la pared. El ángulo entre la barra y la cuerda es de $90^\circ$. La barra forma $37^\circ$ con la horizontal.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8]
+    % Pared y Suelo
+    \draw[thick] (2, 3) -- (2, 5); % Pared
+    \draw[thick] (-1, 0) -- (5, 0); % Suelo
+    \draw[fill=white] (0,0) circle (0.15); % Pivote A
+    \node at (-0.3, -0.3) {A};
+
+    % Barra (37 grados)
+    \draw[line width=4pt, gray] (0,0) -- (37:5) node[midway, above] {$l$};
+    \coordinate (B) at (37:5);
+    \node at (B) [right] {B};
+    
+    % Bloque m
+    \draw[thick] (B) -- ++(0,-1) node[midway] {}; % cuerda bloque
+    \draw[fill=gray!30] ($(B)+(0,-1)$) rectangle ++(0.8,-0.8);
+    \node at ($(B)+(0.4,-1.4)$) {$m$};
+    
+    % Cuerda T (Perpendicular a la barra)
+    % Si barra es 37, perpendicular es 37+90 = 127
+    \draw[thick] (B) -- (2, 4); % Cuerda visual
+    \node at (2.75, 4) {$T$};
+    
+    % Angulo
+    \draw (1,0) arc (0:37:1);
+    \node at (1.3, 0.3) {$37^\circ$};
+    
+    % Angulo recto cuerda-barra
+    \draw[rotate around={37:(B)}] (B) rectangle ++(-0.3, 0.3);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Diagrama de Cuerpo Libre}
+Identificamos las fuerzas que generan torque respecto al pivote $A$.
+\begin{itemize}
+    \item Peso de la barra ($W_{barra} = 280 \, \si{N}$) actúa en $l/2$.
+    \item Peso del bloque ($W_{bloque} = 36 \, \si{N}$) actúa en $l$.
+    \item Tensión ($T$) actúa en $l$, perpendicular a la barra.
+\end{itemize}
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def draw_dcl_bar():
+    fig, ax = plt.subplots(figsize=(6, 4))
+    ax.set_title("DCL Barra AB")
+    ax.set_aspect('equal')
+    ax.axis('off')
+    
+    # Barra
+    angle = np.radians(37)
+    L = 5
+    Bx, By = L*np.cos(angle), L*np.sin(angle)
+    ax.plot([0, Bx], [0, By], 'k-', lw=3)
+    ax.text(-0.2, -0.2, 'A')
+    ax.text(Bx, By, 'B')
+    
+    # Peso Barra (mitad)
+    Mx, My = Bx/2, By/2
+    ax.arrow(Mx, My, 0, -1.5, head_width=0.1, fc='blue', ec='blue')
+    ax.text(Mx, My-1.8, r'$W_{barra}$', color='blue')
+    
+    # Peso Bloque (extremo)
+    ax.arrow(Bx, By, 0, -1, head_width=0.1, fc='blue', ec='blue')
+    ax.text(Bx, By-1.3, r'$W_{bloque}$', color='blue')
+    
+    # Tensión (Perpendicular, 90 deg + 37 deg)
+    # Vector unitario perpendicular
+    perp_angle = angle + np.pi/2
+    Tx, Ty = np.cos(perp_angle), np.sin(perp_angle)
+    ax.arrow(Bx, By, Tx, Ty, head_width=0.1, fc='red', ec='red')
+    ax.text(Bx+Tx, By+Ty, r'$T$', color='red')
+    
+    plt.show()
+
+draw_dcl_bar()
+\end{lstlisting}
+
+\subsubsection*{2. Sumatoria de Torques}
+Aplicamos $\sum \tau_A = 0$ (sentido antihorario positivo).
+La Tensión es perpendicular, su brazo de palanca es $l$.
+Los pesos son verticales, sus brazos de palanca son las distancias horizontales ($d = r \cos 37^\circ$).
+
+$$ \tau_T - \tau_{barra} - \tau_{bloque} = 0 $$
+$$ (T \cdot l) - (W_{barra} \cdot \frac{l}{2} \cos 37^\circ) - (W_{bloque} \cdot l \cos 37^\circ) = 0 $$
+
+Eliminamos $l$ de toda la ecuación:
+$$ T - 280(0.5)(0.8) - 36(0.8) = 0 $$
+$$ T - 112 - 28.8 = 0 $$
+$$ T = 140.8 \, \si{N} $$
+$$ T = 140.8 (-sen (37) i + cos (37)j) \, \si{N} $$
+$$ T = -84,59 i + 112,26j \, \si{N} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta]
+$$ T = -84,59 i + 112,26j \, \si{N} $$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+El hombre $A$ pesa $888 \, \si{N}$ y $B$ pesa $600 \, \si{N}$. La viga pesa $250 \, \si{N}$. ¿Hasta dónde debe caminar el hombre $B$ (distancia $x$ desde el apoyo 2) para que la viga empiece a levantarse del apoyo 1? Determine también la reacción del apoyo 2 en ese instante.
+Distancias: Apoyo 1 a Apoyo 2 = $1 \, \si{m}$. Apoyo 1 está a $1 \, \si{m}$ del borde izquierdo.
+
+\begin{center}
+\begin{tikzpicture}[scale=1]
+    % Viga
+    \draw[thick, fill=gray!10] (0,0) rectangle (6, 0.3);
+    
+    % Apoyos (Triangulos)
+    % Borde izquierdo es 0. Apoyo 1 en x=1 (segun diagrama 1m). Apoyo 2 en x=2 (1+1).
+    \draw[thick] (1,0) -- (0.8,-0.4) -- (1.2,-0.4) -- cycle; % Apoyo 1
+    \node at (1,-0.6) {1};
+    \draw[thick] (2,0) -- (1.8,-0.4) -- (2.2,-0.4) -- cycle; % Apoyo 2
+    \node at (2,-0.6) {2};
+    
+    % Hombres (Esquematicos)
+    \node at (1, 0.8) {A}; % Sobre Apoyo 1
+    \draw[thick] (1, 0.3) -- (1, 0.6); % Cuerpo A
+    
+    \node at (3.5, 0.8) {B}; % Caminando
+    \draw[thick] (3.5, 0.3) -- (3.5, 0.6); % Cuerpo B
+    \draw[->] (3.5, 0.6) -- (4, 0.6); % Flecha mov
+    
+    % Cotas
+    \draw[<->] (0, -1) -- (1, -1) node[midway, above] {1m};
+    \draw[<->] (1, -1) -- (2, -1) node[midway, above] {1m};
+    \draw[<->] (2, -1) -- (6, -1) node[midway, above] {2m}; % Segun diagrama total parece mas largo, asumimos diagrama
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. DCL}
+Se separa la viga del sistema y se hace su D.C.L
+
+\begin{lstlisting}
+    import matplotlib.pyplot as plt
+
+def dibujar_diagrama():
+    # Crear figura y ejes
+    plt.figure(figsize=(8, 4))
+
+    # 1. Dibujar la viga (rectángulo) usando plt.plot
+    # Coordenadas de las esquinas: (0,0) -> (10,0) -> (10,1) -> (0,1) -> (0,0)
+    x_viga = [0, 10, 10, 0, 0]
+    y_viga = [0, 0, 1, 1, 0]
+    plt.plot(x_viga, y_viga, 'k-', linewidth=1.5)
+
+    # Configuración de flechas
+    arrow_params = {'head_width': 0.3, 'head_length': 0.4, 'fc': 'k', 'ec': 'k', 'length_includes_head': True}
+    largo_flecha = 1.5
+
+    # 2. Fuerzas SUPERIORES (Apuntan hacia abajo)
+    # P_A
+    plt.arrow(3.0, 1 + largo_flecha, 0, -largo_flecha, **arrow_params)
+    plt.text(3.0, 1 + largo_flecha + 0.2, "$P_A$", ha='center', fontsize=14)
+
+    # P_r
+    plt.arrow(5.5, 1 + largo_flecha, 0, -largo_flecha, **arrow_params)
+    plt.text(5.5, 1 + largo_flecha + 0.2, "$P_r$", ha='center', fontsize=14)
+
+    # P_B
+    plt.arrow(8.5, 1 + largo_flecha, 0, -largo_flecha, **arrow_params)
+    plt.text(8.5, 1 + largo_flecha + 0.2, "$P_B$", ha='center', fontsize=14)
+
+    # 3. Fuerzas INFERIORES (Apuntan hacia arriba)
+    # N_1
+    plt.arrow(1.5, 0 - largo_flecha, 0, largo_flecha, **arrow_params)
+    plt.text(1.5, 0 - largo_flecha - 0.4, "$N_1$", ha='center', fontsize=14)
+
+    # N_2 (Alineada con P_r)
+    plt.arrow(5.5, 0 - largo_flecha, 0, largo_flecha, **arrow_params)
+    plt.text(5.5, 0 - largo_flecha - 0.4, "$N_2$", ha='center', fontsize=14)
+
+    # 4. Etiqueta 'x'
+    plt.text(7.0, 1.2, "$x$", fontsize=12, style='italic')
+
+    # Configuración de visualización
+    plt.axis('equal')  # Mantener proporciones
+    plt.axis('off')    # Ocultar ejes
+    plt.tight_layout()
+    plt.show()
+
+if __name__ == "__main__":
+    dibujar_diagrama()
+\end{lstlisting}
+
+\subsubsection*{2. Condición Física}
+Cuando la viga empieza a levantarse del apoyo 1, significa que la viga está a punto de rotar sobre el apoyo 2.
+En este instante crítico, la fuerza normal en el apoyo 1 es nula:
+$$ N_1 = 0 $$
+
+\subsubsection*{2. Sumatoria de Torques}
+Hacemos pivote en el Apoyo 2 ($N_2$).
+Posiciones respecto al Apoyo 2 (tomando izquierda como negativo, derecha positivo):
+\begin{itemize}
+    \item Hombre A ($P_A = 888$): Está en el Apoyo 1, a $1 \, \si{m}$ a la izquierda. Brazo $= 1$. Giro antihorario (+).
+    \item Peso Viga ($P_V = 250$): Asumiendo viga homogénea de longitud total $4 \, \si{m}$ (según cotas $1+1+2$). El centro está a $2 \, \si{m}$ del borde izquierdo. El Apoyo 2 está a $2 \, \si{m}$ del borde izquierdo. ¡El peso de la viga cae exactamente sobre el Apoyo 2! Brazo $= 0$.
+    \item Hombre B ($P_B = 600$): Está a una distancia $x$ a la derecha. Giro horario (-).
+\end{itemize}
+
+$$ \sum \tau_{Apoyo2} = 0 $$
+$$ (P_A \cdot 1) - (P_B \cdot x) = 0 $$
+$$ 888(1) - 600(x) = 0 $$
+$$ x = \frac{888}{600} = 1.48 \, \si{m} $$
+
+B debe caminar 1,48 m a la derecha desde el punto 2.
+
+\subsubsection*{3. Reacción en Apoyo 2}
+Como la viga está en equilibrio; también se tiene que
+
+$$ \sum F_y = 0 $$
+$$ N_2 - P_A - P_B - P_{Viga} = 0 $$
+$$ N_2 = 888 + 600 + 250 = 1738 \, \si{N} $$
+
+\begin{tcolorbox}[colback=blue!5!white, colframe=blue!50!black, title=Respuesta]
+Distancia $x = 1.48 \, \si{m}$. Reacción $N_2 = 1738 \, \si{N}$.
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Calcule la máxima distancia $d$ a la que puede subir por la escalera una persona de $500 \, \si{N}$. La pared es lisa (sin fricción) y el piso ofrece una fuerza de rozamiento estática máxima de $300 \, \si{N}$.
+Geometría: Altura pared $4 \, \si{m}$, Base $3 \, \si{m}$ (Por Pitágoras, longitud escalera $L=5 \, \si{m}$).
+
+\begin{center}
+\begin{tikzpicture}[scale=0.7]
+    \draw[thick] (0,0) -- (4,0); % Piso
+    \draw[thick] (0,0) -- (0,5); % Pared
+    
+    % Escalera
+    \draw[line width=3pt, gray] (3,0) -- (0,4);
+    
+    % Cotas
+    \draw[<->] (-0.5,0) -- (-0.5,4) node[midway, left] {4 m};
+    \draw[<->] (0,-0.5) -- (3,-0.5) node[midway, below] {3 m};
+    
+    % Persona (punto)
+    \coordinate (P) at ($(3,0)!0.6!(0,4)$);
+    \draw[fill=black] (P) circle (0.15);
+    \node at ($(P)+(1.5,0.5)$) {Persona};
+    
+    % Distancia d
+    \draw[<->] ($(3,0)+(0.2,0.2)$) -- ($(P)+(0.2,0.2)$) node[midway, above right] {$d$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Equilibrio de Fuerzas}
+\begin{itemize}
+    \item Eje X: La Normal de la pared ($N_p$) se equilibra con la fricción del piso ($f_e$).
+    $$ N_p - f_e = 0 \Rightarrow N_p = 300 \, \si{N} $$
+    \item Eje Y: La Normal del piso ($N_s$) equilibra al peso de la persona ($P_h$). (Asumimos peso escalera despreciable o incluido, el enunciado solo menciona persona).
+    $$ N_s = P_h = 500 \, \si{N} $$
+\end{itemize}
+
+\subsubsection*{2. Equilibrio de Torques}
+Hacemos pivote en el punto de apoyo en el suelo ($A$) para eliminar $N_s$ y $f_e$.
+\begin{itemize}
+    \item Torque de la Normal de la Pared ($N_p$): Tiende a girar antihorario (+). Brazo de palanca vertical $= 4 \, \si{m}$.
+    \item Torque del Peso Persona ($P_h$): Tiende a girar horario (-). La fuerza es vertical hacia abajo. Su brazo de palanca es la distancia horizontal desde A: $x = d \cos \theta$.
+\end{itemize}
+Del triángulo 3-4-5: $\cos \theta = \frac{3}{5} = 0.6$.
+
+$$ \sum \tau_A = 0 $$
+$$ (N_p \cdot 4) - (P_h \cdot d \cos \theta) = 0 $$
+$$ (300 \cdot 4) - (500 \cdot d \cdot 0.6) = 0 $$
+$$ 1200 - 300d = 0 $$
+$$ 300d = 1200 \Rightarrow d = 4 \, \si{m} $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta]
+$d = 4 \, \si{m}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una viga uniforme de $50 \, \text{kg}$ y longitud $L$ está en reposo por una fuerza $F$. Ángulo con la vertical $60^\circ$. Determine el módulo de $F$ y la reacción en A.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8]
+    \draw[thick] (0,-2) -- (0,2); % Pared
+    \draw[fill=white] (0,0) circle (0.15) node[left] {A};
+    \draw[line width=4pt, gray] (0,0) -- (-30:4); % Barra
+    \draw[->, thick] (-30:4) -- ++(60:1.5) node[right] {F}; % F perpendicular
+    \draw (0,-1.5) arc (-90:-30:1.5); \node at (0.5, -1.2) {$60^\circ$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+\subsubsection*{a) Módulo de F}
+Torque en A (Pivote):
+$$ \sum \tau_A = 0 $$
+$$ F L - P (\sin 60^\circ)(L/2) = 0 $$
+(Nota: Usamos $\sin 60^\circ$ porque es el ángulo con la vertical, equivalente a $\cos 30^\circ$ con la horizontal).
+$$ F - \frac{500}{2} (0.866) = 0 $$
+$$ F = 216.5 \, \text{N} $$
+
+\subsubsection*{b) Reacción en A}
+Descomposición de fuerzas:
+$$ \sum F_x = 0 \Rightarrow F \cos 60^\circ - R_x = 0 $$
+$$ R_x = 216.5 (0.5) = 108.25 \, \text{N} $$
+
+$$ \sum F_y = 0 \Rightarrow R_y + F \sin 60^\circ - P = 0 $$
+$$ R_y = P - F \sin 60^\circ = 500 - 216.5 (0.866) = 312.5 \, \text{N} $$
+
+Vector Reacción:
+$$ \vec{R} = -108.25 \mathbf{i} + 312.5 \mathbf{j} \, \text{N} $$
+
+\begin{tcolorbox}[colback=blue!5!white, colframe=blue!50!black, title=Respuesta]
+$F = 216.5 \, \text{N}$; $\quad \vec{R} = -108.25 \mathbf{i} + 312.5 \mathbf{j} \, \text{N}$
+\end{tcolorbox}
+
+\end{document}

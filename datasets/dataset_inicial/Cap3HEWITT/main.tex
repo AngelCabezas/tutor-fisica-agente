@@ -1,0 +1,2711 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,shorthands=off]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\lstset{
+    language=Python,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    stringstyle=\color{red},
+    showstringspaces=false,
+    breaklines=true,
+    frame=lines
+}
+
+\begin{document}
+
+\subsection*{Enunciado}
+¿Fuerza o movimiento? Un automóvil se mueve con velocidad constante en línea recta. ¿Existe una fuerza neta actuando sobre él?
+
+\subsection*{Solución}
+
+\subsubsection*{Conceptos de la Primera Ley de Newton y Equilibrio Mecánico}
+De acuerdo con la conceptualización física, un objeto se encuentra en equilibrio mecánico cuando su estado de movimiento no presenta cambios. La Primera Ley de Newton, o Ley de la Inercia, establece que todo cuerpo preserva su estado de reposo o de movimiento rectilíneo uniforme a menos que se le aplique una fuerza neta que lo obligue a cambiar dicho estado. 
+
+\subsubsection*{Análisis del Estado de Movimiento}
+El enunciado especifica que el automóvil se mueve con "velocidad constante en línea recta". En física, la velocidad es una magnitud vectorial, lo que significa que posee tanto una magnitud (rapidez) como una dirección. Que la velocidad sea constante implica que el automóvil no acelera, no frena y no gira. Al no existir un cambio en la velocidad, la aceleración del sistema es exactamente cero.
+
+\subsubsection*{Relación con las Fuerzas Actuantes}
+Es pedagógicamente crucial no confundir "ausencia de fuerza neta" con "ausencia de fuerzas". Sobre un automóvil en movimiento actúan diversas fuerzas: el motor ejerce una fuerza de empuje hacia adelante, mientras que la fricción del aire y del pavimento ejercen una fuerza resistiva hacia atrás. Adicionalmente, el peso tira del automóvil hacia abajo y la fuerza normal del suelo lo empuja hacia arriba. Que no exista una fuerza neta significa que todas estas fuerzas se encuentran perfectamente equilibradas y se cancelan vectorialmente entre sí.
+
+\subsubsection*{Visualización del Diagrama de Fuerzas Equilibradas}
+Para ilustrar este equilibrio, a continuación se presenta un código en Python utilizando la biblioteca Matplotlib. Este script genera un Diagrama de Cuerpo Libre que demuestra cómo los vectores de fuerza opuestos poseen la misma magnitud, resultando en una suma vectorial nula.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(6, 6))
+
+ax.plot(0, 0, 'ko', markersize=10)
+
+ax.annotate('', xy=(0, 2), xytext=(0, 0.2), 
+            arrowprops=dict(facecolor='blue', shrink=0, width=2, headwidth=8))
+ax.text(0.1, 1.5, 'Fuerza Normal (N)', color='blue', fontsize=12)
+
+ax.annotate('', xy=(0, -2), xytext=(0, -0.2), 
+            arrowprops=dict(facecolor='red', shrink=0, width=2, headwidth=8))
+ax.text(0.1, -1.5, 'Peso (W)', color='red', fontsize=12)
+
+ax.annotate('', xy=(2.5, 0), xytext=(0.2, 0), 
+            arrowprops=dict(facecolor='green', shrink=0, width=2, headwidth=8))
+ax.text(1.2, 0.2, 'Empuje del Motor', color='green', fontsize=12)
+
+ax.annotate('', xy=(-2.5, 0), xytext=(-0.2, 0), 
+            arrowprops=dict(facecolor='orange', shrink=0, width=2, headwidth=8))
+ax.text(-2.4, 0.2, 'Friccion Total', color='orange', fontsize=12)
+
+ax.set_xlim(-3.5, 3.5)
+ax.set_ylim(-3.5, 3.5)
+ax.axhline(0, color='black', linewidth=0.5, linestyle='--')
+ax.axvline(0, color='black', linewidth=0.5, linestyle='--')
+ax.set_title('Diagrama de Cuerpo Libre: Fuerzas Equilibradas', fontsize=14)
+ax.axis('off')
+
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+No, no existe una fuerza neta actuando sobre el automóvil. Dado que el vehículo se mueve en línea recta y a velocidad constante, se encuentra en equilibrio dinámico y la suma vectorial de todas las fuerzas que actúan sobre él es cero.
+
+\newpage
+
+\subsection*{Enunciado}
+¿Fuerza o movimiento? Un automóvil se mueve con velocidad constante en línea recta. ¿Cómo lo explicarías usando la Segunda Ley de Newton?
+
+\subsection*{Solución}
+
+\subsubsection*{Definición de la Segunda Ley de Newton}
+La Segunda Ley de Newton establece la relación causa-efecto entre las fuerzas y los cambios en el movimiento. Matemáticamente, postula que la aceleración que experimenta un objeto es directamente proporcional a la fuerza neta que actúa sobre él, e inversamente proporcional a su masa. La ecuación fundamental se expresa como:
+\begin{equation}
+    \vec{F}_{\text{neta}} = m \cdot \vec{a}
+\end{equation}
+donde $\vec{F}_{\text{neta}}$ es la fuerza neta, $m$ es la masa del objeto y $\vec{a}$ es la aceleración.
+
+\subsubsection*{Análisis Cinemático de la Aceleración}
+Para aplicar la Segunda Ley de Newton, primero debemos determinar el valor de la aceleración del automóvil. La aceleración se define como la tasa de cambio de la velocidad respecto al tiempo:
+\begin{equation}
+    \vec{a} = \frac{\Delta \vec{v}}{\Delta t}
+\end{equation}
+El problema establece de manera explícita que la velocidad es constante. Un valor constante implica que no hay cambio o variación en el tiempo, por lo tanto, el diferencial de velocidad $\Delta \vec{v}$ es igual a cero.
+\begin{equation}
+    \vec{a} = \frac{0}{\Delta t} = 0 \, \text{m/s}^2
+\end{equation}
+
+\subsubsection*{Sustitución en la Ecuación Dinámica}
+Una vez establecido que la aceleración es vectorialmente nula debido al movimiento uniforme, procedemos a sustituir este valor cinemático en la ecuación dinámica de la Segunda Ley de Newton:
+\begin{equation}
+    \vec{F}_{\text{neta}} = m \cdot (0 \, \text{m/s}^2)
+\end{equation}
+\begin{equation}
+    \vec{F}_{\text{neta}} = 0 \, \text{N}
+\end{equation}
+Cualquier masa finita multiplicada por cero resulta en cero. Esto demuestra de forma matemática y rigurosa que, independientemente de la masa del automóvil, la fuerza neta requerida para mantener una velocidad constante es estrictamente nula.
+
+\subsubsection*{Conclusión}
+Usando la Segunda Ley de Newton, la explicación radica en que la aceleración es el cambio de velocidad. Al ser la velocidad constante, la aceleración es nula ($a = 0$). Sustituyendo este valor en la fórmula $\Sigma F = m \cdot a$, el producto resulta en cero, demostrando matemáticamente que la fuerza neta es igual a cero.
+
+\newpage
+
+\subsection*{Enunciado}
+Empujas una caja y esta no se mueve. ¿Existe fuerza aplicada?
+
+\subsection*{Solución}
+
+\subsubsection*{Concepto de Fuerza como Interacción}
+En el estudio de la física conceptual, una fuerza se define en sus términos más simples como un empuje o un tirón ejercido sobre un objeto. Las fuerzas no existen de forma aislada, sino que son el resultado directo de una interacción entre dos cuerpos. En este escenario, los dos cuerpos que interactúan son la persona y la caja.
+
+\subsubsection*{Naturaleza de la Acción Descrita}
+El enunciado menciona explícitamente la acción de "empujar". Fisiológicamente, para que una persona pueda empujar un objeto, debe contraer sus músculos y ejercer una presión de contacto contra la superficie de dicho objeto. Esta acción muscular se traduce mecánicamente en la transmisión de energía y la aplicación de un vector de fuerza dirigido hacia la caja.
+
+\subsubsection*{Independencia entre Fuerza y Movimiento}
+Es un error común en la pedagogía de la física asociar obligatoriamente la existencia de una fuerza con la existencia de movimiento. Una fuerza puede aplicarse sobre un objeto sin lograr deformarlo ni alterar su estado de reposo, dependiendo de si existen otras fuerzas que la contrarresten. Por lo tanto, el hecho de que la caja no se mueva no anula la existencia de la acción de empuje inicial.
+
+\subsubsection*{Conclusión}
+Sí, existe una fuerza aplicada. Al realizar la acción de "empujar", por definición física, estás ejerciendo una fuerza muscular de contacto sobre la caja, independientemente de si esta fuerza logra generar movimiento o no.
+
+\newpage
+
+\subsection*{Enunciado}
+Empujas una caja y esta no se mueve. ¿Qué otras fuerzas actúan?
+
+\subsection*{Solución}
+
+\subsubsection*{Interacciones Gravitacionales y de Soporte}
+Todo objeto con masa que se encuentre cerca de la superficie terrestre experimenta una fuerza de atracción debido a la gravedad. Esta fuerza de acción a distancia se denomina Peso y actúa verticalmente hacia abajo. Sin embargo, como la caja no cae a través del suelo, debe existir una fuerza de contacto que la soporte. El piso ejerce una fuerza de repulsión hacia arriba perpendicular a la superficie, conocida como Fuerza Normal.
+
+\subsubsection*{La Fuerza de Fricción Estática}
+Si existe una fuerza aplicada horizontalmente y la caja no experimenta aceleración, la Primera Ley de Newton dicta que debe haber una fuerza en dirección opuesta que la cancele. Esta es la fuerza de fricción estática. La fricción surge de las irregularidades microscópicas entre la superficie inferior de la caja y el suelo. Al intentar deslizar la caja, estas irregularidades se "enganchan", generando una fuerza paralela a las superficies en contacto y en sentido contrario al empuje.
+
+\subsubsection*{Visualización del Sistema de Fuerzas}
+Para una mejor comprensión pedagógica de todas las fuerzas involucradas simultáneamente, se presenta el código en Python para generar el Diagrama de Cuerpo Libre de la caja.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(6, 6))
+
+ax.plot(0, 0, 's', color='gray', markersize=20)
+
+ax.annotate('', xy=(2, 0), xytext=(0.3, 0), 
+            arrowprops=dict(facecolor='green', shrink=0, width=2, headwidth=8))
+ax.text(1.0, 0.2, 'Fuerza Aplicada', color='green', fontsize=12)
+
+ax.annotate('', xy=(-2, 0), xytext=(-0.3, 0), 
+            arrowprops=dict(facecolor='orange', shrink=0, width=2, headwidth=8))
+ax.text(-2.8, 0.2, 'Friccion Estatica', color='orange', fontsize=12)
+
+ax.annotate('', xy=(0, 2), xytext=(0, 0.3), 
+            arrowprops=dict(facecolor='blue', shrink=0, width=2, headwidth=8))
+ax.text(0.1, 1.5, 'Fuerza Normal', color='blue', fontsize=12)
+
+ax.annotate('', xy=(0, -2), xytext=(0, -0.3), 
+            arrowprops=dict(facecolor='red', shrink=0, width=2, headwidth=8))
+ax.text(0.1, -1.5, 'Peso', color='red', fontsize=12)
+
+ax.set_xlim(-4, 4)
+ax.set_ylim(-4, 4)
+ax.axhline(0, color='black', linewidth=0.5, linestyle='--')
+ax.axvline(0, color='black', linewidth=0.5, linestyle='--')
+ax.set_title('Diagrama de Cuerpo Libre: Caja en Reposo', fontsize=14)
+ax.axis('off')
+
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+Además de la fuerza aplicada, actúan tres fuerzas adicionales: el Peso (atracción gravitacional hacia el centro de la Tierra), la Fuerza Normal (fuerza de soporte perpendicular ejercida por el suelo) y la Fuerza de Fricción Estática (fuerza resistiva paralela al suelo que se opone al intento de movimiento).
+
+\newpage
+
+\subsection*{Enunciado}
+Empujas una caja y esta no se mueve. ¿Por qué no hay movimiento?
+
+\subsection*{Solución}
+
+\subsubsection*{Condición de Equilibrio Estático}
+De acuerdo con la mecánica newtoniana, el cambio en el estado de movimiento (aceleración) es dictado únicamente por la fuerza neta, no por fuerzas individuales. Si un cuerpo se mantiene en reposo, significa que su aceleración es cero. Aplicando la Segunda Ley de Newton, si la aceleración es nula, la suma vectorial de todas las fuerzas que actúan sobre el sistema también debe ser nula. Este estado se conoce como equilibrio estático.
+
+\subsubsection*{Análisis del Eje Vertical y Horizontal}
+En el eje vertical, el Peso de la caja es contrarrestado exactamente por la Fuerza Normal, resultando en una fuerza neta vertical de cero. En el eje horizontal, la fuerza de fricción estática tiene una propiedad particular: es una fuerza reactiva e "inteligente" que ajusta su magnitud para igualar exactamente la fuerza aplicada, hasta un límite máximo permisible por los materiales.
+
+\subsubsection*{Demostración Matemática del Reposo}
+Al establecer el sistema de referencia, tomamos la dirección del empuje como positiva. La sumatoria de fuerzas horizontales se plantea de la siguiente manera:
+\begin{equation}
+    \Sigma F_x = F_{\text{aplicada}} - f_{\text{estática}}
+\end{equation}
+Dado que la caja no se mueve, la fricción estática ha igualado a la fuerza aplicada ($F_{\text{aplicada}} = f_{\text{estática}}$). Por lo tanto:
+\begin{equation}
+    \Sigma F_x = 0
+\end{equation}
+Como la fuerza neta horizontal es cero, no existe un estímulo mecánico capaz de vencer la inercia de la masa de la caja para iniciar el movimiento.
+
+\subsubsection*{Conclusión}
+No hay movimiento porque la caja se encuentra en un estado de equilibrio estático. La fuerza de fricción estática se ha ajustado para igualar en magnitud, pero en dirección opuesta, a la fuerza que estás aplicando. Al cancelarse mutuamente, la fuerza neta sobre la caja es cero, lo que impide cualquier aceleración o cambio en su estado de reposo.
+
+\newpage
+
+\subsection*{Enunciado}
+Comparación de masa. Se aplica la misma fuerza a: a) un objeto ligero, y b) un objeto pesado. ¿Cuál acelera más? ¿Por qué?
+
+\subsection*{Solución}
+
+\subsubsection*{El Concepto de Inercia y la Masa}
+Para abordar este problema desde la física conceptual, primero debemos comprender qué representa la masa de un objeto. Según la literatura de Paul G. Hewitt, la masa es una medida cuantitativa de la inercia de un cuerpo. La inercia es la propiedad fundamental de la materia que describe su resistencia a cualquier cambio en su estado de movimiento. Por lo tanto, un objeto "pesado" (con mayor masa) presenta una mayor resistencia a ser acelerado que un objeto "ligero" (con menor masa), independientemente de la gravedad.
+
+\subsubsection*{Análisis de la Segunda Ley de Newton}
+La Segunda Ley de Newton establece la relación exacta entre la fuerza aplicada, la masa del objeto y la aceleración resultante. La ecuación se expresa de la siguiente manera:
+\begin{equation}
+    a = \frac{F_{\text{neta}}}{m}
+\end{equation}
+Esta formulación matemática nos indica que la aceleración $a$ es directamente proporcional a la fuerza neta $F_{\text{neta}}$ e inversamente proporcional a la masa $m$. 
+
+\subsubsection*{Proporcionalidad Inversa a Fuerza Constante}
+El enunciado establece una condición crucial: "Se aplica la misma fuerza". Esto significa que el numerador en nuestra ecuación de Newton se mantiene constante para ambos casos. Al mantener constante la fuerza, la relación matemática dicta que la aceleración dependerá exclusivamente del valor que tome el denominador (la masa).
+En una relación inversamente proporcional, si el denominador disminuye, el resultado global aumenta. Matemáticamente:
+\begin{equation}
+    m_{\text{ligero}} < m_{\text{pesado}} \implies \frac{F}{m_{\text{ligero}}} > \frac{F}{m_{\text{pesado}}}
+\end{equation}
+Por ende, al dividir la misma cantidad de fuerza entre una masa más pequeña, el cociente (la aceleración) será indiscutiblemente mayor.
+
+\subsubsection*{Visualización de la Relación Inversa}
+Para solidificar este concepto pedagógicamente, el siguiente código en Python genera una representación visual. Muestra cómo vectores de fuerza idénticos producen vectores de aceleración drásticamente diferentes dependiendo de la masa (representada por el tamaño del bloque).
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 4))
+
+rect1 = patches.Rectangle((0.2, 0.2), 0.2, 0.2, linewidth=1, edgecolor='black', facecolor='lightblue')
+ax1.add_patch(rect1)
+ax1.text(0.3, 0.3, 'm', fontsize=14, ha='center', va='center')
+
+ax1.annotate('', xy=(0.8, 0.3), xytext=(0.4, 0.3), 
+             arrowprops=dict(facecolor='green', shrink=0, width=2, headwidth=8))
+ax1.text(0.6, 0.35, 'F (Constante)', color='green', fontsize=10, ha='center')
+
+ax1.annotate('', xy=(0.9, 0.6), xytext=(0.3, 0.6), 
+             arrowprops=dict(facecolor='purple', shrink=0, width=4, headwidth=10))
+ax1.text(0.6, 0.65, 'Aceleracion (Grande)', color='purple', fontsize=10, ha='center')
+
+ax1.set_xlim(0, 1)
+ax1.set_ylim(0, 1)
+ax1.axis('off')
+ax1.set_title('Objeto Ligero', fontsize=12, fontweight='bold')
+
+rect2 = patches.Rectangle((0.1, 0.1), 0.4, 0.4, linewidth=1, edgecolor='black', facecolor='salmon')
+ax2.add_patch(rect2)
+ax2.text(0.3, 0.3, 'M', fontsize=18, ha='center', va='center', fontweight='bold')
+
+ax2.annotate('', xy=(0.9, 0.3), xytext=(0.5, 0.3), 
+             arrowprops=dict(facecolor='green', shrink=0, width=2, headwidth=8))
+ax2.text(0.7, 0.35, 'F (Constante)', color='green', fontsize=10, ha='center')
+
+ax2.annotate('', xy=(0.7, 0.6), xytext=(0.3, 0.6), 
+             arrowprops=dict(facecolor='purple', shrink=0, width=1.5, headwidth=6))
+ax2.text(0.5, 0.65, 'a (Pequena)', color='purple', fontsize=10, ha='center')
+
+ax2.set_xlim(0, 1)
+ax2.set_ylim(0, 1)
+ax2.axis('off')
+ax2.set_title('Objeto Pesado', fontsize=12, fontweight='bold')
+
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+El objeto ligero acelera más. La explicación radica en la Segunda Ley de Newton, la cual demuestra que, ante una misma fuerza neta aplicada, la aceleración es inversamente proporcional a la masa del cuerpo; por lo tanto, el objeto con menor masa (menor inercia) experimentará el mayor cambio en su velocidad.
+
+\newpage
+
+\subsection*{Enunciado}
+Fuerza y dirección. Un objeto se mueve hacia la derecha, pero la fuerza neta actúa hacia la izquierda. ¿Qué ocurre con el movimiento?
+
+\subsection*{Solución}
+
+\subsubsection*{Relación Vectorial entre Fuerza y Aceleración}
+Para comprender el efecto de una fuerza sobre el movimiento, es imperativo recurrir a la Segunda Ley de Newton. Esta ley dicta que la aceleración de un objeto es directamente proporcional a la fuerza neta que actúa sobre él y ocurre en la misma dirección que dicha fuerza. Matemáticamente, esto se expresa como $\vec{a} = \frac{\vec{F}_{\text{neta}}}{m}$. Puesto que la fuerza neta actúa hacia la izquierda, la aceleración resultante también será un vector dirigido estrictamente hacia la izquierda.
+
+\subsubsection*{Interacción entre Velocidad y Aceleración}
+En cinemática, el estado de movimiento actual está definido por el vector velocidad. El problema establece que el objeto se mueve hacia la derecha, por lo que su vector velocidad apunta hacia la derecha. Sin embargo, como determinamos en el paso anterior, el vector aceleración apunta hacia la izquierda. Cuando los vectores de velocidad y aceleración tienen direcciones opuestas (antiparalelos), la aceleración está trabajando en contra del movimiento actual. 
+
+\subsubsection*{Efecto Físico de la Aceleración Opuesta}
+Una aceleración en dirección contraria a la velocidad no cambia inmediatamente la dirección del objeto, sino que reduce progresivamente la magnitud de su velocidad (su rapidez). En términos físicos conceptuales, el objeto experimenta un proceso de frenado o desaceleración.
+
+\subsubsection*{Visualización Cinemática y Dinámica}
+A continuación, se presenta un código en Python (utilizando Matplotlib) que genera un diagrama ilustrando la contraposición de los vectores. Esta visualización pedagógica es clave para separar mentalmente la dirección del movimiento (velocidad) de la dirección de la interacción (fuerza).
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(8, 3))
+
+ax.plot(0, 0, 's', color='skyblue', markersize=40)
+
+ax.annotate('', xy=(2.5, 0.3), xytext=(0.5, 0.3), 
+            arrowprops=dict(facecolor='blue', shrink=0, width=2, headwidth=8))
+ax.text(1.0, 0.5, 'Velocidad (Hacia la derecha)', color='blue', fontsize=11)
+
+ax.annotate('', xy=(-2.5, -0.3), xytext=(-0.5, -0.3), 
+            arrowprops=dict(facecolor='red', shrink=0, width=3, headwidth=10))
+ax.text(-2.8, -0.7, 'Fuerza Neta / Aceleracion (Izquierda)', color='red', fontsize=11)
+
+ax.set_xlim(-4, 4)
+ax.set_ylim(-1.5, 1.5)
+ax.axhline(0, color='black', linewidth=0.5, linestyle='--')
+ax.set_title('Vectores Antiparalelos: Desaceleracion', fontsize=14)
+ax.axis('off')
+
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+El objeto experimenta una desaceleración. Dado que la fuerza neta (y por consiguiente, la aceleración) actúa en dirección opuesta a su movimiento actual, la rapidez del objeto disminuirá gradualmente mientras continúe moviéndose hacia la derecha.
+
+\newpage
+
+\subsection*{Enunciado}
+Fuerza y dirección. Un objeto se mueve hacia la derecha, pero la fuerza neta actúa hacia la izquierda. ¿Se detiene inmediatamente?
+
+\subsection*{Solución}
+
+\subsubsection*{El Principio de Inercia}
+La Primera Ley de Newton, o Ley de la Inercia, establece que todo objeto masivo posee una resistencia inherente a cambiar su estado de movimiento. Un objeto que ya se encuentra en movimiento requiere una interacción sostenida para que dicho estado se altere. La inercia garantiza que los cambios en la velocidad no ocurren de forma instantánea, sino que son procesos continuos.
+
+\subsubsection*{Análisis del Cambio en el Tiempo}
+La definición fundamental de la aceleración es la tasa de cambio de la velocidad en un intervalo de tiempo. La ecuación cinemática básica que relaciona estas variables es:
+\begin{equation}
+    \vec{v}_f = \vec{v}_i + \vec{a} \cdot \Delta t
+\end{equation}
+Para que el objeto se detenga, su velocidad final ($\vec{v}_f$) debe llegar a cero. Despejando el intervalo de tiempo ($\Delta t$), obtenemos:
+\begin{equation}
+    \Delta t = \frac{\vec{v}_f - \vec{v}_i}{\vec{a}}
+\end{equation}
+Dado que el objeto tiene una velocidad inicial $\vec{v}_i$ finita y la fuerza (y aceleración $\vec{a}$) aplicada es finita, el resultado de esta división siempre será un valor de tiempo mayor que cero ($\Delta t > 0$). Matemáticamente es imposible que un valor finito se reduzca a cero si el denominador no es infinito. 
+
+\subsubsection*{Implicación Física del Tiempo Finito}
+Puesto que se requiere un tiempo de magnitud mayor a cero ($\Delta t > 0$) para que la velocidad cambie, el proceso de frenado toma tiempo. Una fuerza infinitamente grande sería requerida para detener un objeto con masa de manera instantánea ($\Delta t = 0$), lo cual es físicamente imposible en la mecánica clásica.
+
+\subsubsection*{Conclusión}
+No, no se detiene inmediatamente. Debido a su inercia, el objeto requiere que la fuerza neta actúe durante un intervalo de tiempo finito para ir restando magnitud a la velocidad hasta que esta llegue a cero.
+
+\newpage
+
+\subsection*{Enunciado}
+Empujas una caja y esta comienza a moverse. Describe todas las fuerzas que intervienen.
+
+\subsection*{Solución}
+
+\subsubsection*{Interacciones Fundamentales en el Sistema}
+Para comprender el estado dinámico de la caja, es necesario identificar todas las interacciones mecánicas entre ella y su entorno físico. Según la física conceptual, estas interacciones se manifiestan como fuerzas. Al analizar una caja que se desliza sobre una superficie, debemos evaluar sistemáticamente las fuerzas que operan tanto en el eje vertical como en el eje horizontal.
+
+\subsubsection*{Fuerzas en el Eje Vertical}
+En la dimensión vertical, intervienen dos fuerzas que se equilibran mutuamente, lo que explica por qué la caja no se eleva por el aire ni atraviesa el suelo. La primera de estas es el Peso, que corresponde a la fuerza de atracción gravitacional que la Tierra ejerce sobre la masa de la caja, apuntando siempre hacia el centro del planeta (hacia abajo). La segunda es la Fuerza Normal, una fuerza de soporte perpendicular que la superficie plana ejerce sobre la caja empujándola hacia arriba, como reacción directa al contacto entre ambos cuerpos.
+
+\subsubsection*{Fuerzas en el Eje Horizontal}
+En la dimensión horizontal, paralela a la superficie y donde ocurre el movimiento, actúan dos fuerzas en direcciones opuestas. En primer lugar, existe la Fuerza Aplicada, que es el esfuerzo muscular directo o el empuje ejercido sobre la caja en la dirección en la que se desea el movimiento. Opuesta a esta, actúa la Fuerza de Fricción Cinética (o fricción por deslizamiento). Cuando la caja ya se encuentra en movimiento, las irregularidades microscópicas de las superficies en contacto continúan interactuando, ofreciendo una resistencia dinámica al deslizamiento.
+
+\subsubsection*{Visualización del Diagrama de Cuerpo Libre}
+Para estructurar visualmente estas interacciones dinámicas, el siguiente código en Python utiliza la biblioteca Matplotlib para generar un Diagrama de Cuerpo Libre. Es pedagógicamente importante notar que, a diferencia del estado de reposo, el vector de la fuerza aplicada es de mayor longitud que el vector de fricción cinética, ilustrando así la ruptura del equilibrio.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(7, 5))
+
+ax.plot(0, 0, 's', color='tan', markersize=35)
+
+ax.annotate('', xy=(3, 0), xytext=(0.4, 0),
+            arrowprops=dict(facecolor='green', shrink=0, width=3, headwidth=10))
+ax.text(1.5, 0.3, 'Fuerza Aplicada', color='green', fontsize=12)
+
+ax.annotate('', xy=(-1.5, 0), xytext=(-0.4, 0),
+            arrowprops=dict(facecolor='orange', shrink=0, width=2, headwidth=8))
+ax.text(-2.5, 0.3, 'Friccion Cinetica', color='orange', fontsize=12)
+
+ax.annotate('', xy=(0, 2), xytext=(0, 0.4),
+            arrowprops=dict(facecolor='blue', shrink=0, width=2, headwidth=8))
+ax.text(0.1, 1.5, 'Fuerza Normal', color='blue', fontsize=12)
+
+ax.annotate('', xy=(0, -2), xytext=(0, -0.4),
+            arrowprops=dict(facecolor='red', shrink=0, width=2, headwidth=8))
+ax.text(0.1, -1.5, 'Peso', color='red', fontsize=12)
+
+ax.set_xlim(-4, 4)
+ax.set_ylim(-3, 3)
+ax.axhline(0, color='black', linewidth=0.5, linestyle='--')
+ax.axvline(0, color='black', linewidth=0.5, linestyle='--')
+ax.set_title('Diagrama de Cuerpo Libre: Caja en Movimiento', fontsize=14)
+ax.axis('off')
+
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+En este escenario intervienen cuatro fuerzas principales: el Peso (fuerza gravitacional hacia abajo), la Fuerza Normal (fuerza de soporte de la superficie hacia arriba), la Fuerza Aplicada (el empuje en la dirección del movimiento) y la Fuerza de Fricción Cinética (la resistencia de la superficie opuesta a la dirección del deslizamiento).
+
+\newpage
+
+\subsection*{Enunciado}
+Empujas una caja y esta comienza a moverse. Explica por qué cambia su movimiento.
+
+\subsection*{Solución}
+
+\subsubsection*{Concepto de Fuerza Neta y Desequilibrio}
+De acuerdo con los postulados de la Primera Ley de Newton, un objeto que se encuentra en estado de reposo permanecerá indefinidamente en dicho estado a menos que una fuerza neta no nula actúe sobre él. El simple hecho de observar un cambio en el estado de movimiento (es decir, la transición del reposo al deslizamiento) es la evidencia empírica directa de que las fuerzas que actúan sobre la caja han dejado de estar en equilibrio.
+
+\subsubsection*{El Umbral de la Fricción Estática}
+Mientras la caja permanecía estática, la fuerza de fricción ejercida por el suelo se ajustaba para igualar exactamente la magnitud del empuje. No obstante, esta fricción estática posee un límite superior bien definido, que depende de la rugosidad de los materiales en contacto y de la magnitud de la fuerza normal. El cambio en el movimiento se desencadena en el instante matemático y físico en el que la fuerza muscular aplicada logra superar este umbral máximo de resistencia estática.
+
+\subsubsection*{Aplicación Analítica de la Segunda Ley de Newton}
+Una vez que se rompe el agarre estático inicial, la caja entra en un régimen dinámico. En este punto, la resistencia mecánica pasa a ser regida por la fricción cinética, la cual requiere menos fuerza para ser vencida que la fricción estática máxima. La ecuación que describe la sumatoria de fuerzas horizontales se plantea como:
+\begin{equation}
+    \Sigma F_x = F_{\text{aplicada}} - f_{\text{cinética}}
+\end{equation}
+Puesto que se ha superado la resistencia, la magnitud de $F_{\text{aplicada}}$ es estrictamente mayor que la de $f_{\text{cinética}}$. Consecuentemente, el resultado de esta diferencia vectorial arroja un valor positivo:
+\begin{equation}
+    \Sigma F_x > 0
+\end{equation}
+Esta sumatoria resultante, diferente de cero, es lo que en mecánica clásica se denomina Fuerza Neta.
+
+\subsubsection*{La Aceleración como Agente de Cambio}
+La Segunda Ley de Newton establece el vínculo causa-efecto entre esta fuerza neta y la cinemática del objeto mediante la ecuación $\Sigma F = m \cdot a$. Al existir una fuerza neta dirigida hacia adelante, la masa de la caja experimenta inevitablemente una aceleración en esa misma dirección. Cinemáticamente, la aceleración se define como la tasa de cambio de la velocidad respecto al tiempo. Al inducir una aceleración sobre una velocidad inicial nula ($v_i = 0$), la velocidad comienza a aumentar, materializando físicamente el cambio en el estado de movimiento.
+
+\subsubsection*{Conclusión}
+El movimiento de la caja cambia porque la magnitud de la fuerza aplicada por el empuje supera el límite máximo de la fuerza de fricción estática. Esta superación rompe el equilibrio mecánico y genera una fuerza neta no nula en la dirección del empuje, lo cual produce una aceleración que obliga a la caja a abandonar su estado de reposo.
+
+\newpage
+
+\subsection*{Enunciado}
+Una persona afirma: ``Si un objeto se mueve, necesariamente hay una fuerza en esa dirección''. ¿Es correcta esta afirmación? Justifica.
+
+\subsection*{Solución}
+
+\subsubsection*{Veredicto Inicial}
+La afirmación es completamente incorrecta. Desde el punto de vista analítico y físico, no es un requisito indispensable que exista una fuerza aplicada en la dirección del movimiento para que un objeto logre desplazarse.
+
+\subsubsection*{La Inercia como Contexto Establecido}
+La afirmación evaluada es un rezago de la noción aristotélica del movimiento, la cual dictaba erróneamente que todo objeto requería un "motor" constante. El marco teórico validado por Galileo Galilei e Isaac Newton establece la Primera Ley de la Dinámica (Ley de la Inercia). Esta ley decreta que la materia presenta una inercia intrínseca, lo que significa que el movimiento a velocidad constante (Movimiento Rectilíneo Uniforme) es un estado natural de equilibrio que se sostiene a sí mismo. No requiere intervención energética para mantenerse.
+
+\subsubsection*{El Salto Dinámico: Aceleración vs. Velocidad}
+Para refutar definitivamente la aseveración, pasamos directamente a la Segunda Ley de Newton matemática: $\Sigma \vec{F} = m \cdot \vec{a}$. 
+La fuerza neta es el agente generador de la aceleración (el cambio en el movimiento), no el generador de la velocidad. 
+Si lanzamos un disco sobre una pista de hielo ideal sin fricción, una vez que abandona la mano, la fuerza impulsora desaparece ($\Sigma \vec{F}_x = 0$). Sin embargo, la velocidad en el eje horizontal ($\vec{v}_x$) se mantiene finita y constante. El objeto se mueve hacia adelante con una sumatoria de fuerzas horizontales rigurosamente nula. Peor aún para la afirmación original, en el mundo real con fricción, un objeto que se desliza libremente solo experimenta fuerza en dirección opuesta a su movimiento, comprobando que el vector fuerza y el vector velocidad pueden estar completamente divorciados.
+
+\subsubsection*{Separación Vectorial Asimétrica}
+Para erradicar la confusión pedagógica entre "hacia dónde se mueve" y "hacia dónde se le empuja", el siguiente script en Python de Matplotlib renderiza un sistema inercial. Demuestra gráficamente que el vector cinemático que define el desplazamiento opera independientemente de las fuerzas dinámicas aplicadas.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(8, 4))
+
+ax.plot(0, 0, 's', color='silver', markersize=50)
+
+ax.annotate('', xy=(3, 0.4), xytext=(0.6, 0.4), 
+            arrowprops=dict(facecolor='blue', shrink=0, width=3, headwidth=10))
+ax.text(1.2, 0.6, 'Velocidad (Desplazamiento)', color='blue', fontsize=12)
+
+ax.annotate('', xy=(-2, -0.4), xytext=(-0.6, -0.4), 
+            arrowprops=dict(facecolor='red', shrink=0, width=2, headwidth=8))
+ax.text(-2.5, -0.8, 'Fuerza Neta (Friccion)', color='red', fontsize=12)
+
+ax.set_xlim(-4, 4)
+ax.set_ylim(-2, 2)
+ax.axhline(0, color='black', linewidth=1, linestyle='--')
+ax.set_title('Independencia entre Cinematica y Dinamica', fontsize=14, fontweight='bold')
+ax.axis('off')
+
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+La afirmación no es correcta. De acuerdo con los principios de la física conceptual y la inercia, un objeto en movimiento se mantendrá en desplazamiento constante sin la necesidad de que una fuerza lo impulse a favor. La fuerza es el requerimiento exclusivo para alterar el movimiento, no para perpetuarlo.
+
+\newpage
+
+\subsection*{Enunciado}
+Dos bloques están unidos por una cuerda ligera. El bloque A, de 4 kg, está sobre una mesa horizontal sin rozamiento. El bloque B, de 2 kg, cuelga verticalmente del borde de la mesa. ¿Qué fuerzas actúan sobre cada bloque?
+
+\subsection*{Solución}
+
+\subsubsection*{Identificación del Sistema Físico}
+Para realizar un análisis dinámico riguroso basado en la física conceptual de Newton, debemos aislar mentalmente cada objeto de interés e identificar todas las interacciones mecánicas (fuerzas) que su entorno ejerce sobre él. Estas interacciones pueden ser de contacto (superficies, cuerdas) o a distancia (gravedad).
+
+\subsubsection*{Análisis Dinámico del Bloque A (Mesa)}
+El bloque A se encuentra apoyado sobre una superficie horizontal, lo que restringe su movimiento vertical. En el eje vertical (y), experimenta la fuerza de gravedad terrestre que tira de él hacia abajo, denominada Peso ($W_A$). Como respuesta y soporte, la mesa ejerce una fuerza perpendicular hacia arriba, conocida como Fuerza Normal ($N_A$). En el eje horizontal (x), la única fuerza que actúa es la Tensión ($T$) ejercida por la cuerda que tira del bloque hacia la derecha. El enunciado especifica explícitamente "sin rozamiento", por lo que no existe fuerza de fricción oponiéndose al posible movimiento.
+
+\subsubsection*{Análisis Dinámico del Bloque B (Colgante)}
+El bloque B se encuentra suspendido en el aire, por lo que carece de interacciones con superficies (no hay Fuerza Normal ni Fricción). En el eje vertical, experimenta su propio Peso ($W_B$) que lo atrae hacia el centro de la Tierra. Simultáneamente, la cuerda a la que está atado ejerce una fuerza de Tensión ($T$) dirigida hacia arriba, oponiéndose parcialmente a la caída libre.
+
+\subsubsection*{Diagramas de Cuerpo Libre (DCL)}
+Para visualizar estas interacciones de forma simultánea e independiente, a continuación se proporciona el código en Python (utilizando Matplotlib) que renderiza los Diagramas de Cuerpo Libre para ambos bloques.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 4.5))
+
+ax1.plot(0, 0, 's', color='lightblue', markersize=40)
+ax1.annotate('', xy=(0, 2), xytext=(0, 0.4), arrowprops=dict(facecolor='blue', shrink=0, width=2, headwidth=8))
+ax1.text(0.1, 1.5, 'Normal (N_A)', color='blue')
+ax1.annotate('', xy=(0, -2), xytext=(0, -0.4), arrowprops=dict(facecolor='red', shrink=0, width=2, headwidth=8))
+ax1.text(0.1, -1.5, 'Peso (W_A)', color='red')
+ax1.annotate('', xy=(2.5, 0), xytext=(0.4, 0), arrowprops=dict(facecolor='purple', shrink=0, width=2, headwidth=8))
+ax1.text(1.2, 0.2, 'Tension (T)', color='purple')
+ax1.set_xlim(-3, 3)
+ax1.set_ylim(-3, 3)
+ax1.axhline(0, color='black', linewidth=0.5, linestyle='--')
+ax1.axvline(0, color='black', linewidth=0.5, linestyle='--')
+ax1.set_title('DCL: Bloque A', fontsize=12)
+ax1.axis('off')
+
+ax2.plot(0, 0, 's', color='salmon', markersize=30)
+ax2.annotate('', xy=(0, 2), xytext=(0, 0.3), arrowprops=dict(facecolor='purple', shrink=0, width=2, headwidth=8))
+ax2.text(0.1, 1.5, 'Tension (T)', color='purple')
+ax2.annotate('', xy=(0, -2.5), xytext=(0, -0.3), arrowprops=dict(facecolor='red', shrink=0, width=3, headwidth=10))
+ax2.text(0.1, -2.0, 'Peso (W_B)', color='red')
+ax2.set_xlim(-3, 3)
+ax2.set_ylim(-3, 3)
+ax2.axhline(0, color='black', linewidth=0.5, linestyle='--')
+ax2.axvline(0, color='black', linewidth=0.5, linestyle='--')
+ax2.set_title('DCL: Bloque B', fontsize=12)
+ax2.axis('off')
+
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+Sobre el bloque A actúan tres fuerzas: el Peso hacia abajo, la Fuerza Normal hacia arriba y la Tensión hacia la derecha. Sobre el bloque B actúan dos fuerzas: el Peso hacia abajo y la Tensión de la cuerda hacia arriba.
+
+\newpage
+
+\subsection*{Enunciado}
+Dos bloques están unidos por una cuerda ligera. El bloque A, de 4 kg, está sobre una mesa horizontal sin rozamiento. El bloque B, de 2 kg, cuelga verticalmente del borde de la mesa. ¿Por qué ambos bloques tienen la misma aceleración en magnitud?
+
+\subsection*{Solución}
+
+\subsubsection*{La Restricción Cinemática de la Cuerda}
+En los problemas de mecánica clásica, la frase "cuerda ligera" conlleva dos suposiciones ideales fundamentales: la masa de la cuerda es despreciable (por lo que la tensión es uniforme en toda su longitud) y la cuerda es inextensible (no se estira como un elástico). Esta segunda suposición es la clave para responder a la pregunta.
+
+\subsubsection*{Relación de Posición, Velocidad y Aceleración}
+Al ser una cuerda inextensible, la distancia total de la cuerda que separa al bloque A del bloque B permanece constante en todo momento. Esto establece una ligadura geométrica: por cada centímetro que el bloque B descienda verticalmente, la cuerda arrastrará al bloque A obligándolo a desplazarse exactamente un centímetro hacia la derecha. 
+Dado que sus posiciones están rígidamente vinculadas, sus tasas de cambio también lo están. Si recorren la misma distancia en el mismo intervalo de tiempo, sus rapideces (magnitud de la velocidad) son idénticas. En consecuencia, la tasa a la que cambia esa rapidez (la aceleración) debe ser matemáticamente y físicamente idéntica en magnitud para ambos objetos.
+
+\subsubsection*{Conclusión}
+Ambos bloques poseen la misma aceleración en magnitud porque están conectados por una cuerda inextensible. Esta conexión impone una restricción geométrica que obliga a que ambos cuerpos recorran distancias idénticas en intervalos de tiempo idénticos, compartiendo así la misma cinemática escalar a pesar de moverse en diferentes ejes.
+
+\newpage
+
+\subsection*{Enunciado}
+Dos bloques están unidos por una cuerda ligera. El bloque A, de 4 kg, está sobre una mesa horizontal sin rozamiento. El bloque B, de 2 kg, cuelga verticalmente del borde de la mesa. Calcule la aceleración del sistema.
+
+\subsection*{Solución}
+
+\subsubsection*{Planteamiento de Ecuaciones: Segunda Ley de Newton}
+Aplicaremos la ecuación de la Segunda Ley de Newton ($\Sigma F = m \cdot a$) para cada bloque de forma independiente, definiendo como dirección positiva la dirección del movimiento inminente (hacia la derecha para el bloque A, y hacia abajo para el bloque B). Utilizaremos $g = 9.8 \, \text{m/s}^2$ como aceleración de la gravedad.
+
+\subsubsection*{Ecuación para el Bloque A}
+Para el bloque A ($m_A = 4 \, \text{kg}$), el movimiento solo ocurre en el eje horizontal (x). Las fuerzas verticales (Peso y Normal) se anulan entre sí ($\Sigma F_y = 0$). En la horizontal, la única fuerza que genera aceleración es la tensión de la cuerda.
+\begin{equation}
+    \Sigma F_{xA} = m_A \cdot a
+\end{equation}
+\begin{equation}
+    T = 4 \cdot a 
+\end{equation}
+
+\subsubsection*{Ecuación para el Bloque B}
+Para el bloque B ($m_B = 2 \, \text{kg}$), el movimiento ocurre en el eje vertical (y). Las fuerzas actuantes son su Peso ($W_B$) a favor del movimiento y la Tensión ($T$) en contra. Calculamos primero el peso de B:
+\begin{equation}
+    W_B = m_B \cdot g = 2 \, \text{kg} \cdot 9.8 \, \text{m/s}^2 = 19.6 \, \text{N}
+\end{equation}
+La sumatoria de fuerzas verticales se expresa como:
+\begin{equation}
+    \Sigma F_{yB} = m_B \cdot a
+\end{equation}
+\begin{equation}
+    19.6 - T = 2 \cdot a
+\end{equation}
+
+\subsubsection*{Resolución del Sistema de Ecuaciones Matemáticas}
+Ahora disponemos de un sistema de dos ecuaciones con dos incógnitas ($T$ y $a$):
+1) $T = 4a$
+2) $19.6 - T = 2a$
+
+Para resolver, sustituimos la ecuación (1) en la ecuación (2):
+\begin{equation}
+    19.6 - (4a) = 2a
+\end{equation}
+Sumamos $4a$ a ambos lados de la igualdad para despejar la variable de aceleración:
+\begin{equation}
+    19.6 = 2a + 4a
+\end{equation}
+\begin{equation}
+    19.6 = 6a
+\end{equation}
+\begin{equation}
+    a = \frac{19.6}{6} = 3.267 \, \text{m/s}^2
+\end{equation}
+
+\subsubsection*{Conclusión}
+La aceleración del sistema de bloques es de $3.27 \, \text{m/s}^2$.
+
+\newpage
+
+\subsection*{Enunciado}
+Dos bloques están unidos por una cuerda ligera. El bloque A, de 4 kg, está sobre una mesa horizontal sin rozamiento. El bloque B, de 2 kg, cuelga verticalmente del borde de la mesa. Calcule la tensión en la cuerda.
+
+\subsection*{Solución}
+
+\subsubsection*{Selección de la Ecuación Dinámica}
+Para determinar el valor de la tensión ($T$), podemos utilizar cualquiera de las dos ecuaciones obtenidas durante el análisis dinámico previo en la aplicación de la Segunda Ley de Newton. Por razones de simplicidad algebraica y menor margen de error operativo, utilizaremos la ecuación del bloque A, ya que la tensión ya se encuentra despejada.
+
+\subsubsection*{Cálculo Directo por Sustitución}
+Del análisis anterior sabemos que la aceleración del sistema es $a = 3.267 \, \text{m/s}^2$ y que la ecuación del bloque sobre la mesa es:
+\begin{equation}
+    T = m_A \cdot a
+\end{equation}
+Sustituimos la masa del bloque A ($4 \, \text{kg}$) y la aceleración calculada:
+\begin{equation}
+    T = 4 \, \text{kg} \cdot 3.267 \, \text{m/s}^2
+\end{equation}
+\begin{equation}
+    T = 13.068 \, \text{N}
+\end{equation}
+
+\subsubsection*{Comprobación mediante el Bloque B}
+Para garantizar la solidez pedagógica y la exactitud matemática del resultado, podemos verificar sustituyendo el valor en la ecuación del bloque B:
+\begin{equation}
+    W_B - T = m_B \cdot a
+\end{equation}
+\begin{equation}
+    19.6 - 13.068 = 2 \cdot 3.267
+\end{equation}
+\begin{equation}
+    6.532 = 6.534
+\end{equation}
+La mínima discrepancia numérica en la última cifra decimal corresponde al redondeo intrínseco de arrastrar la fracción periódica de la aceleración ($19.6/6$), confirmando que el valor de la tensión es rigurosamente correcto.
+
+\subsubsection*{Conclusión}
+La tensión en la cuerda que une ambos bloques tiene una magnitud de $13.07 \, \text{N}$.
+
+\newpage
+
+\subsection*{Enunciado}
+Dos bloques están unidos por una cuerda ligera. El bloque A, de 4 kg, está sobre una mesa horizontal sin rozamiento. El bloque B, de 2 kg, cuelga verticalmente del borde de la mesa. Explique por qué la tensión no es igual al peso del bloque colgante.
+
+\subsection*{Solución}
+
+\subsubsection*{El Requisito de la Fuerza Neta para la Aceleración}
+Este es uno de los conceptos más propensos a confusión en el estudio de la dinámica de Newton. Existe la intuición incorrecta de que la cuerda debe soportar todo el peso del objeto. Si analizamos la suma vectorial de fuerzas sobre el bloque colgante (B), encontramos que las fuerzas son su peso ($W_B = 19.6 \, \text{N}$) apuntando hacia abajo y la Tensión ($T$) apuntando hacia arriba.
+
+\subsubsection*{La Condición Hipotética de Equilibrio}
+Si la tensión fuera exactamente igual al peso del bloque B ($T = 19.6 \, \text{N}$), estas dos fuerzas se cancelarían mutuamente por completo. Matemáticamente tendríamos $\Sigma F = 19.6 \, \text{N} - 19.6 \, \text{N} = 0$. Según la Primera Ley de Newton, si la fuerza neta es cero, el objeto se encuentra en equilibrio mecánico, lo que significa que su aceleración sería cero ($a = 0$). El sistema permanecería en reposo estático inamovible o caería a una velocidad terminal constante.
+
+\subsubsection*{La Realidad del Sistema Físico}
+Sabemos empírica y analíticamente que el sistema no está en equilibrio; está acelerando de manera conjunta y constante, y el bloque B se acelera específicamente hacia abajo. Para que un objeto masivo acelere en una dirección particular, debe existir una "Fuerza Neta" sobrante o no equilibrada en esa misma dirección. Por lo tanto, es absolutamente imperativo que la magnitud de la fuerza que apunta hacia abajo (el Peso) sea numéricamente mayor que la magnitud de la fuerza que retiene al bloque hacia arriba (la Tensión).
+
+\subsubsection*{Conclusión}
+La tensión no es igual al peso porque el bloque colgante está acelerando hacia abajo. Para que esto sea físicamente posible según la Segunda Ley de Newton, el peso (fuerza hacia abajo) debe ser mayor que la tensión (fuerza hacia arriba) para generar una fuerza neta desequilibrada en la dirección de caída libre.
+
+\newpage
+
+\subsection*{Enunciado}
+Una caja de 15 kg está sobre una superficie horizontal rugosa ($\mu = 0.20$). Primero, una persona la empuja con una fuerza horizontal de 80 N. Después de unos segundos, deja de empujarla y la caja continúa deslizándose hasta detenerse. Mientras la persona empuja, ¿qué fuerzas actúan sobre la caja?
+
+\subsection*{Solución}
+
+\subsubsection*{Análisis de las Interacciones en el Eje Vertical}
+Para comprender el estado dinámico de la caja, es indispensable catalogar todas las interacciones físicas con su entorno. En el eje vertical, intervienen dos fuerzas fundamentales que mantienen a la caja en equilibrio perpendicular a la superficie. La primera es el Peso, que es la fuerza de atracción gravitacional que la Tierra ejerce sobre la masa de 15 kg, dirigida hacia el centro del planeta. Como respuesta a esta compresión, la superficie horizontal ejerce una Fuerza Normal, que es una fuerza de soporte ortogonal que empuja la caja hacia arriba, impidiendo que atraviese el suelo.
+
+\subsubsection*{Análisis de las Interacciones en el Eje Horizontal}
+En el eje horizontal, donde se define el movimiento, encontramos dos fuerzas en conflicto durante esta etapa específica. A favor de la intención de movimiento actúa la Fuerza Aplicada, que corresponde al empuje externo de 80 N ejercido por la persona. En oposición directa a este empuje se encuentra la Fuerza de Fricción Cinética (o de rozamiento), la cual surge por la interacción de las irregularidades microscópicas entre la base de la caja y la superficie rugosa.
+
+\subsubsection*{Visualización Mediante Diagrama de Cuerpo Libre}
+Para estructurar visualmente estas cuatro interacciones, se proporciona el siguiente código en Python utilizando Matplotlib. El diagrama evidencia cómo la magnitud de la fuerza aplicada supera visualmente a la de la fricción, indicando un desequilibrio.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(7, 5))
+
+ax.plot(0, 0, 's', color='saddlebrown', markersize=45)
+
+ax.annotate('', xy=(3.5, 0), xytext=(0.5, 0), 
+            arrowprops=dict(facecolor='green', shrink=0, width=3, headwidth=10))
+ax.text(1.5, 0.3, 'Empuje (80 N)', color='green', fontsize=12)
+
+ax.annotate('', xy=(-1.5, 0), xytext=(-0.5, 0), 
+            arrowprops=dict(facecolor='orange', shrink=0, width=2, headwidth=8))
+ax.text(-2.8, 0.3, 'Friccion', color='orange', fontsize=12)
+
+ax.annotate('', xy=(0, 2.2), xytext=(0, 0.5), 
+            arrowprops=dict(facecolor='blue', shrink=0, width=2, headwidth=8))
+ax.text(0.1, 1.7, 'Fuerza Normal', color='blue', fontsize=12)
+
+ax.annotate('', xy=(0, -2.2), xytext=(0, -0.5), 
+            arrowprops=dict(facecolor='red', shrink=0, width=2, headwidth=8))
+ax.text(0.1, -1.7, 'Peso', color='red', fontsize=12)
+
+ax.set_xlim(-4, 4)
+ax.set_ylim(-3, 3)
+ax.axhline(0, color='black', linewidth=0.5, linestyle='--')
+ax.axvline(0, color='black', linewidth=0.5, linestyle='--')
+ax.set_title('DCL: Caja durante el empuje', fontsize=14)
+ax.axis('off')
+
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+Mientras la persona empuja, actúan cuatro fuerzas sobre la caja: el Peso (hacia abajo), la Fuerza Normal (hacia arriba), la Fuerza Aplicada de 80 N (hacia adelante) y la Fuerza de Fricción Cinética (hacia atrás).
+
+\newpage
+
+\subsection*{Enunciado}
+Una caja de 15 kg está sobre una superficie horizontal rugosa ($\mu = 0.20$). Primero, una persona la empuja con una fuerza horizontal de 80 N. Después de unos segundos, deja de empujarla y la caja continúa deslizándose hasta detenerse. ¿Cuál es la fuerza de rozamiento?
+
+\subsection*{Solución}
+
+\subsubsection*{Naturaleza Matemática de la Fricción Cinética}
+La fuerza de rozamiento o fricción cinética ($f_k$) no es una constante arbitraria; depende directamente de dos factores mecánicos. El primero es la naturaleza de las superficies en contacto, cuantificada por el coeficiente de fricción cinética ($\mu = 0.20$). El segundo factor es cuán fuertemente están presionadas ambas superficies entre sí, lo cual está representado por la Fuerza Normal ($N$). El modelo matemático es:
+\begin{equation}
+    f_k = \mu \cdot N
+\end{equation}
+
+\subsubsection*{Cálculo de la Fuerza Normal}
+Para determinar la Fuerza Normal, aplicamos la Primera Ley de Newton en el eje vertical. Dado que la caja no vuela ni se hunde, no existe aceleración vertical ($\Sigma F_y = 0$). Esto implica que la Fuerza Normal equilibra exactamente al Peso ($W$) de la caja. Procedemos a calcular el peso considerando una gravedad $g = 9.8 \, \text{m/s}^2$:
+\begin{equation}
+    W = m \cdot g = 15 \, \text{kg} \cdot 9.8 \, \text{m/s}^2 = 147 \, \text{N}
+\end{equation}
+Por el equilibrio vertical, deducimos de manera directa:
+\begin{equation}
+    N = W = 147 \, \text{N}
+\end{equation}
+
+\subsubsection*{Determinación Numérica del Rozamiento}
+Con el valor de la Fuerza Normal y el coeficiente de rugosidad proporcionado en el enunciado, procedemos a realizar la sustitución en la ecuación del modelo de fricción:
+\begin{equation}
+    f_k = 0.20 \cdot 147 \, \text{N}
+\end{equation}
+\begin{equation}
+    f_k = 29.4 \, \text{N}
+\end{equation}
+Este resultado representa la magnitud de la fuerza resistiva constante que el suelo ejerce en contra del deslizamiento de la caja.
+
+\subsubsection*{Conclusión}
+La fuerza de rozamiento cinético que actúa sobre la caja tiene una magnitud de 29.4 N.
+
+\newpage
+
+\subsection*{Enunciado}
+Una caja de 15 kg está sobre una superficie horizontal rugosa ($\mu = 0.20$). Primero, una persona la empuja con una fuerza horizontal de 80 N. Después de unos segundos, deja de empujarla y la caja continúa deslizándose hasta detenerse. ¿Cuál es la fuerza resultante mientras la persona empuja?
+
+\subsection*{Solución}
+
+\subsubsection*{El Concepto de Fuerza Resultante}
+En la mecánica vectorial, la fuerza resultante (o fuerza neta) es la sumatoria algebraica de todas las interacciones individuales que actúan sobre un cuerpo en un eje específico. Determina si el objeto se encuentra en equilibrio o si experimentará una alteración en su movimiento. 
+
+\subsubsection*{Establecimiento de las Condiciones Direccionales}
+En el eje vertical, como se demostró previamente, la suma del Peso y la Fuerza Normal es exactamente cero debido al equilibrio estático en dicha dimensión ($\Sigma F_y = 0$). Por lo tanto, el cálculo de la fuerza resultante recae exclusivamente en el análisis de las fuerzas colineales que actúan sobre el eje horizontal (x). Establecemos la convención de signos tomando la dirección del empuje como positiva.
+
+\subsubsection*{Planteamiento y Resolución del Desequilibrio Horizontal}
+Las fuerzas involucradas en la dimensión del movimiento son la fuerza aplicada por la persona ($F_{\text{aplicada}} = 80 \, \text{N}$) apuntando en la dirección positiva, y la fuerza de fricción cinética calculada en el inciso anterior ($f_k = 29.4 \, \text{N}$) apuntando en la dirección negativa. La ecuación se plantea como:
+\begin{equation}
+    \Sigma F_x = F_{\text{aplicada}} - f_k
+\end{equation}
+\begin{equation}
+    \Sigma F_x = 80 \, \text{N} - 29.4 \, \text{N}
+\end{equation}
+\begin{equation}
+    \Sigma F_x = 50.6 \, \text{N}
+\end{equation}
+Al obtener un valor positivo y mayor que cero, comprobamos analíticamente que las fuerzas se encuentran desequilibradas a favor de la dirección del empuje.
+
+\subsubsection*{Conclusión}
+La fuerza resultante mientras la persona empuja la caja es de 50.6 N en la misma dirección del empuje.
+
+\newpage
+
+\subsection*{Enunciado}
+Una caja de 15 kg está sobre una superficie horizontal rugosa ($\mu = 0.20$). Primero, una persona la empuja con una fuerza horizontal de 80 N. Después de unos segundos, deja de empujarla y la caja continúa deslizándose hasta detenerse. ¿Cuál es la aceleración en esa etapa de empuje?
+
+\subsection*{Solución}
+
+\subsubsection*{El Vínculo Dinámico: La Segunda Ley de Newton}
+Una vez determinada la fuerza neta que rompe el equilibrio del sistema, debemos recurrir a la Segunda Ley de Newton para traducir esa interacción dinámica en una consecuencia cinemática. Esta ley decreta de forma precisa que la aceleración es el resultado de dividir la fuerza resultante total entre la masa inercial del objeto. La expresión matemática fundamental es:
+\begin{equation}
+    a = \frac{\Sigma F}{m}
+\end{equation}
+
+\subsubsection*{Sustitución y Ejecución del Cálculo}
+Extraemos los datos consolidados de nuestros análisis previos. Sabemos que la masa de la caja es $m = 15 \, \text{kg}$ y que, durante la etapa en la que la persona ejerce el empuje, existe un desequilibrio horizontal favorable cuantificado como una fuerza resultante de $\Sigma F_x = 50.6 \, \text{N}$. Sustituyendo estos valores en la ecuación:
+\begin{equation}
+    a = \frac{50.6 \, \text{N}}{15 \, \text{kg}}
+\end{equation}
+\begin{equation}
+    a \approx 3.373 \, \text{m/s}^2
+\end{equation}
+Este valor positivo indica que la magnitud de la velocidad de la caja (su rapidez) está aumentando a una tasa constante de 3.373 metros por segundo, en cada segundo que transcurre bajo la influencia sostenida de este empuje de 80 N.
+
+\subsubsection*{Conclusión}
+La aceleración de la caja durante la etapa de empuje es de aproximadamente $3.37 \, \text{m/s}^2$.
+
+\newpage
+
+\subsection*{Enunciado}
+Una caja de 15 kg está sobre una superficie horizontal rugosa ($\mu = 0.20$). Primero, una persona la empuja con una fuerza horizontal de 80 N. Después de unos segundos, deja de empujarla y la caja continúa deslizándose hasta detenerse. Cuando la persona deja de empujar, ¿qué fuerza horizontal queda actuando?
+
+\subsection*{Solución}
+
+\subsubsection*{El Principio de Interacción por Contacto}
+En la física de fuerzas macroscópicas, interacciones como el empuje muscular humano son estrictamente dependientes del contacto físico continuo y la transferencia de energía mecánica. En el preciso instante milisegundo en el que las manos de la persona pierden contacto con la caja, la fuerza aplicada de 80 N desaparece por completo. La fuerza no es algo que se "guarde" o se adhiera al objeto; la interacción ha cesado.
+
+\subsubsection*{La Persistencia de la Fricción Dinámica}
+A pesar de que el empuje propulsor ha desaparecido, la caja sigue en movimiento relativo respecto a la superficie horizontal. Debido a que las dos superficies masivas siguen deslizando una sobre la otra bajo los efectos del peso y la normal, el enganche de sus irregularidades microscópicas se mantiene activo. Por lo tanto, la interacción resistiva persiste inalterada.
+
+\subsubsection*{Nuevo Diagrama Vectorial}
+Para destacar el drástico cambio en las condiciones del sistema una vez que el empuje cesa, el siguiente script de Python genera un Diagrama de Cuerpo Libre. En esta etapa, observamos la aparición de un desequilibrio invertido.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(7, 4))
+
+ax.plot(0, 0, 's', color='saddlebrown', markersize=45)
+
+ax.annotate('', xy=(-2.0, 0), xytext=(-0.5, 0), 
+            arrowprops=dict(facecolor='orange', shrink=0, width=3, headwidth=10))
+ax.text(-3.0, 0.3, 'Friccion (29.4 N)', color='orange', fontsize=12)
+
+ax.annotate('', xy=(2.5, 1.5), xytext=(0.8, 1.5), 
+            arrowprops=dict(facecolor='gray', shrink=0, width=1, headwidth=6, linestyle='dashed'))
+ax.text(1.0, 1.8, 'Velocidad (Inercia)', color='gray', fontsize=10)
+
+ax.annotate('', xy=(0, 2), xytext=(0, 0.5), 
+            arrowprops=dict(facecolor='blue', shrink=0, width=1, headwidth=6))
+ax.text(0.1, 1.5, 'Normal', color='blue', fontsize=10)
+
+ax.annotate('', xy=(0, -2), xytext=(0, -0.5), 
+            arrowprops=dict(facecolor='red', shrink=0, width=1, headwidth=6))
+ax.text(0.1, -1.7, 'Peso', color='red', fontsize=10)
+
+ax.set_xlim(-4, 4)
+ax.set_ylim(-2.5, 2.5)
+ax.axhline(0, color='black', linewidth=0.5, linestyle='--')
+ax.axvline(0, color='black', linewidth=0.5, linestyle='--')
+ax.set_title('DCL: Caja deslizandose sin empuje', fontsize=14)
+ax.axis('off')
+
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+Cuando la persona deja de empujar, la única fuerza horizontal que queda actuando sobre el sistema es la fuerza de rozamiento cinético (fricción), la cual tiene una magnitud de 29.4 N y opera en dirección contraria al deslizamiento.
+
+\newpage
+
+\subsection*{Enunciado}
+Una caja de 15 kg está sobre una superficie horizontal rugosa ($\mu = 0.20$). Primero, una persona la empuja con una fuerza horizontal de 80 N. Después de unos segundos, deja de empujarla y la caja continúa deslizándose hasta detenerse. Explique por qué la caja sigue moviéndose, aunque ya no exista fuerza aplicada.
+
+\subsection*{Solución}
+
+\subsubsection*{La Inercia como Propiedad Intrínseca}
+Para dar respuesta a este fenómeno, debemos abandonar la falsa noción de que se requiere una fuerza impulsora para sostener el movimiento. El concepto central aquí es la Inercia, formalizada en la Primera Ley de Newton. La inercia dictamina que la materia se resiste inherentemente a cualquier alteración en su estado cinemático actual. En el momento exacto en que la persona deja de empujar, la caja ya posee una velocidad finita, y su masa de 15 kg luchará por preservar esa velocidad hacia adelante de manera indefinida.
+
+\subsubsection*{El Rol Exclusivo de las Fuerzas como Agentes de Cambio}
+En la física newtoniana, las fuerzas no son la causa del movimiento, sino la causa del cambio del movimiento (aceleración). Al desaparecer el empuje, la única fuerza horizontal restante es la fricción en dirección opuesta ($\Sigma F_x = -29.4 \, \text{N}$). De acuerdo con la Segunda Ley de Newton, esta fuerza neta negativa generará una aceleración estrictamente negativa (desaceleración):
+\begin{equation}
+    a = \frac{-29.4 \, \text{N}}{15 \, \text{kg}} = -1.96 \, \text{m/s}^2
+\end{equation}
+
+\subsubsection*{La Variable del Tiempo en la Desaceleración}
+Esta aceleración negativa entra en conflicto con el vector de velocidad actual. No obstante, una desaceleración finita no puede aniquilar una velocidad de forma instantánea. Se requiere de un intervalo de tiempo ($t = \Delta v / a$) para que la fuerza de fricción logre agotar por completo la energía cinética acumulada durante la etapa de empuje. Mientras este proceso gradual de frenado ocurra, la caja seguirá desplazándose hacia adelante impulsada por su propia inercia, deteniéndose solo cuando la fricción reduzca la magnitud de la velocidad a cero absoluto.
+
+\subsubsection*{Conclusión}
+La caja sigue moviéndose debido a su inercia. Las leyes de Newton establecen que no se necesita una fuerza para que un objeto mantenga su movimiento; por el contrario, la inercia hace que la caja tienda a continuar moviéndose hacia adelante, y requiere tiempo para que la única fuerza restante (la fricción contraria) logre reducir su velocidad hasta frenarla por completo.
+
+\newpage
+
+\subsection*{Enunciado}
+Un bloque de 8 kg está sobre una superficie horizontal. Sobre él actúan dos fuerzas horizontales: una de 30 N hacia la derecha y otra de 18 N hacia la izquierda. No existe rozamiento. ¿Las fuerzas están equilibradas?
+
+\subsection*{Solución}
+
+\subsubsection*{Condición de Equilibrio Mecánico}
+De acuerdo con los principios de la física conceptual, el equilibrio mecánico de un objeto se alcanza únicamente cuando la sumatoria vectorial de todas las fuerzas que actúan sobre él es exactamente cero. En este estado de equilibrio, el objeto no experimenta cambios en su estado de movimiento; es decir, permanece en reposo o continúa moviéndose con velocidad constante en línea recta.
+
+\subsubsection*{Análisis de las Fuerzas Actuantes}
+Para determinar si existe equilibrio, debemos evaluar las fuerzas horizontales que actúan sobre el bloque de 8 kg. Se nos indica que operan dos vectores de fuerza en direcciones diametralmente opuestas sobre el mismo eje (el eje horizontal). Si bien poseen direcciones opuestas, sus magnitudes son diferentes: la fuerza que tira hacia la derecha tiene una magnitud de 30 N, mientras que la fuerza que tira hacia la izquierda tiene una magnitud de 18 N.
+
+\subsubsection*{Ruptura del Equilibrio}
+Para que estas dos fuerzas se anularan mutuamente y el sistema estuviera en equilibrio, tendrían que poseer la misma magnitud (por ejemplo, 30 N hacia la derecha y 30 N hacia la izquierda). Como 30 N es estrictamente mayor que 18 N, la cancelación vectorial es incompleta, dejando un remanente neto de fuerza que altera el estado de movimiento del bloque.
+
+\subsubsection*{Conclusión}
+No, las fuerzas no están equilibradas. Al tener magnitudes diferentes y actuar en sentidos opuestos, la sumatoria de estas fuerzas no es nula, lo que rompe cualquier estado de equilibrio mecánico en el eje horizontal.
+
+\newpage
+
+\subsection*{Enunciado}
+Un bloque de 8 kg está sobre una superficie horizontal. Sobre él actúan dos fuerzas horizontales: una de 30 N hacia la derecha y otra de 18 N hacia la izquierda. No existe rozamiento. ¿Cuál es la fuerza resultante?
+
+\subsection*{Solución}
+
+\subsubsection*{Definición de Fuerza Resultante}
+La fuerza resultante, también conocida como fuerza neta, es el vector único que produce el mismo efecto dinámico que el sistema de todas las fuerzas reales que actúan sobre un cuerpo de forma simultánea. Se obtiene mediante la suma vectorial algebraica de las fuerzas individuales.
+
+\subsubsection*{Convención de Signos y Planteamiento Matemático}
+Para realizar la suma vectorial en una sola dimensión (el eje horizontal o eje x), es metodológicamente necesario establecer un sistema de referencia. Convencionalmente, tomaremos la dirección hacia la derecha como el sentido positivo (+), y la dirección hacia la izquierda como el sentido negativo (-). 
+Bajo esta convención, nuestras fuerzas se expresan como:
+\begin{align*}
+    F_1 &= +30 \, \text{N} \\
+    F_2 &= -18 \, \text{N}
+\end{align*}
+
+\subsubsection*{Cálculo de la Sumatoria de Fuerzas}
+Procedemos a plantear la sumatoria algebraica de las fuerzas en el eje horizontal ($\Sigma F_x$):
+\begin{equation}
+    \Sigma F_x = F_1 + F_2
+\end{equation}
+\begin{equation}
+    \Sigma F_x = 30 \, \text{N} + (-18 \, \text{N})
+\end{equation}
+\begin{equation}
+    \Sigma F_x = 30 \, \text{N} - 18 \, \text{N}
+\end{equation}
+\begin{equation}
+    \Sigma F_x = 12 \, \text{N}
+\end{equation}
+Nota pedagógica: En algunas documentaciones erróneas se suele transcribir la resta como $30 - 28$, lo cual es un error tipográfico, ya que la magnitud de la fuerza izquierda dictada por el problema es claramente de 18 N, y la diferencia matemática correcta es 12.
+
+\subsubsection*{Visualización del Diagrama de Cuerpo Libre}
+Para estructurar visualmente este análisis vectorial, el siguiente script en Python mediante la biblioteca Matplotlib genera el Diagrama de Cuerpo Libre exacto del problema, demostrando las magnitudes relativas de los vectores en conflicto.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(8, 5))
+
+ax.plot(0, 0, 's', color='cornflowerblue', markersize=60, markeredgecolor='black')
+ax.plot(0, 0, 'ko', markersize=4) 
+
+ax.annotate('', xy=(3.5, 0), xytext=(0.7, 0), 
+            arrowprops=dict(facecolor='black', shrink=0, width=1.5, headwidth=7))
+ax.text(3.7, -0.1, '30 N', fontsize=12, fontweight='bold', fontstyle='italic')
+
+ax.annotate('', xy=(-2.5, 0), xytext=(-0.7, 0), 
+            arrowprops=dict(facecolor='black', shrink=0, width=1.5, headwidth=7))
+ax.text(-3.8, -0.1, '18 N', fontsize=12, fontweight='bold', fontstyle='italic')
+
+ax.annotate('', xy=(0, 2.5), xytext=(0, 0.7), 
+            arrowprops=dict(facecolor='black', shrink=0, width=1.5, headwidth=7))
+ax.text(-0.2, 2.7, r'$\vec{N}$', fontsize=14, fontweight='bold')
+
+ax.annotate('', xy=(0, -2.5), xytext=(0, -0.7), 
+            arrowprops=dict(facecolor='black', shrink=0, width=1.5, headwidth=7))
+ax.text(-0.2, -3.1, r'$\vec{P}$', fontsize=14, fontweight='bold')
+
+ax.set_xlim(-5, 5)
+ax.set_ylim(-4, 4)
+ax.axhline(0, color='gray', linewidth=0.5, linestyle='--', zorder=0)
+ax.axvline(0, color='gray', linewidth=0.5, linestyle='--', zorder=0)
+ax.set_title('Diagrama de Cuerpo Libre', fontsize=14)
+ax.axis('off')
+
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+La fuerza resultante (o fuerza neta) que actúa sobre el bloque es de 12 N. Al obtener un valor numérico con signo positivo, determinamos que esta fuerza resultante apunta hacia la derecha.
+
+\newpage
+
+\subsection*{Enunciado}
+Un bloque de 8 kg está sobre una superficie horizontal. Sobre él actúan dos fuerzas horizontales: una de 30 N hacia la derecha y otra de 18 N hacia la izquierda. No existe rozamiento. ¿Cuál es la aceleración del bloque?
+
+\subsection*{Solución}
+
+\subsubsection*{El Vínculo Dinámico: La Segunda Ley de Newton}
+Una vez que hemos determinado que existe una fuerza resultante no nula sobre el bloque, sabemos con certeza que su estado de movimiento cambiará. La Segunda Ley de Newton es el principio físico que cuantifica exactamente este cambio, vinculando la dinámica (fuerzas) con la cinemática (movimiento). Matemáticamente, establece que la aceleración de un objeto es directamente proporcional a la fuerza neta que actúa sobre él, e inversamente proporcional a su masa.
+
+\subsubsection*{Planteamiento de la Ecuación Dinámica}
+En el eje horizontal ($x$), la ecuación fundamental de la Segunda Ley de Newton se expresa como:
+\begin{equation}
+    \Sigma F_x = m \cdot a_x
+\end{equation}
+Donde $\Sigma F_x$ es la sumatoria de fuerzas horizontales (fuerza resultante), $m$ es la masa del bloque, y $a_x$ es la aceleración en el eje horizontal. 
+Para calcular la aceleración, despejamos algebraicamente $a_x$ dividiendo ambos lados de la ecuación entre la masa $m$:
+\begin{equation}
+    a_x = \frac{\Sigma F_x}{m}
+\end{equation}
+
+\subsubsection*{Sustitución y Cálculo Analítico}
+Del inciso anterior, obtuvimos que la fuerza resultante horizontal es $\Sigma F_x = 12 \, \text{N}$. El problema establece de manera explícita que la masa del bloque inercial es $m = 8 \, \text{kg}$. Sustituyendo estos valores en nuestra ecuación despejada:
+\begin{equation}
+    a_x = \frac{12 \, \text{N}}{8 \, \text{kg}}
+\end{equation}
+Recordando que la unidad Newton (N) equivale a $\text{kg} \cdot \text{m/s}^2$, al realizar la división los kilogramos se simplifican, dejando el resultado puramente en unidades de aceleración:
+\begin{equation}
+    a_x = 1.5 \, \text{m/s}^2
+\end{equation}
+
+\subsubsection*{Conclusión}
+La magnitud de la aceleración que experimenta el bloque de masa 8 kg es de $1.5 \, \text{m/s}^2$.
+
+\newpage
+
+\subsection*{Enunciado}
+Un bloque de 8 kg está sobre una superficie horizontal. Sobre él actúan dos fuerzas horizontales: una de 30 N hacia la derecha y otra de 18 N hacia la izquierda. No existe rozamiento. ¿Hacia dónde acelera?
+
+\subsection*{Solución}
+
+\subsubsection*{Carácter Vectorial de la Dinámica Newtoniana}
+En el estudio de la física conceptual, es fundamental comprender que tanto la fuerza como la aceleración son magnitudes vectoriales; esto significa que no solo poseen un valor numérico (magnitud), sino que actúan en una dirección y sentido espaciales específicos.
+
+\subsubsection*{La Relación Direccional entre Fuerza y Aceleración}
+Al observar detenidamente la ecuación de la Segunda Ley de Newton expresada en su forma vectorial ($\vec{a} = \frac{\vec{F}_{\text{neta}}}{m}$), notamos un postulado matemático irrefutable: debido a que la masa ($m$) es siempre una magnitud escalar positiva, el vector de aceleración ($\vec{a}$) es un simple múltiplo escalar del vector de fuerza neta ($\vec{F}_{\text{neta}}$). Por definición geométrica, esto obliga a que la aceleración siempre adquiera exactamente la misma dirección y sentido que la fuerza neta que la produce.
+
+\subsubsection*{Interpretación del Signo y el Sistema de Referencia}
+Durante el análisis de las fuerzas, establecimos que el vector resultante apuntaba hacia la derecha (dominado por la fuerza mayor de 30 N). Algebraicamente, la fuerza neta resultó en un valor positivo de $+12 \, \text{N}$. Al dividir este valor positivo entre la masa positiva, el resultado cinemático de la aceleración ($+1.5 \, \text{m/s}^2$) conserva el signo positivo. Dentro de nuestro sistema de referencia, este signo positivo es la confirmación matemática de que el vector se dirige hacia la derecha.
+
+\subsubsection*{Conclusión}
+El bloque acelera hacia la derecha. Puesto que la fuerza neta resultante empuja hacia la derecha, la Segunda Ley de Newton garantiza que la aceleración producida debe ocurrir inexorablemente en esa misma dirección.
+
+\newpage
+
+\subsection*{Enunciado}
+Dos cajas, A y B, se empujan sobre una superficie sin rozamiento con la misma fuerza de 24 N. La caja A tiene una masa de 4 kg y la caja B una masa de 12 kg. ¿Cuál caja acelera más?
+
+\subsection*{Solución}
+
+\subsubsection*{El Concepto de Inercia y la Resistencia al Cambio}
+Para analizar este sistema desde la física conceptual, nos basamos en la definición de la masa como una medida cuantitativa de la inercia. La inercia es la resistencia intrínseca que presenta cualquier objeto material a cambiar su estado de movimiento. Al comparar ambas cajas, la caja B (12 kg) posee el triple de masa que la caja A (4 kg). Esto significa que la caja B presenta una resistencia tres veces mayor a ser acelerada bajo la influencia de cualquier interacción mecánica.
+
+\subsubsection*{La Relación Inversa en la Dinámica}
+La Segunda Ley de Newton establece matemáticamente que la aceleración es inversamente proporcional a la masa cuando la fuerza neta se mantiene constante ($a \propto 1/m$). El problema estipula que ambas cajas son sometidas exactamente a la misma fuerza impulsora de 24 N. Dado que el numerador (fuerza) es idéntico para ambas, el sistema que posea el denominador más pequeño (menor masa) resultará matemáticamente en un cociente mayor (mayor aceleración).
+
+\subsubsection*{Visualización Comparativa de la Aceleración}
+Para ilustrar pedagógicamente cómo una misma fuerza produce efectos cinemáticos distintos dependiendo de la inercia del cuerpo, el siguiente código en Python utiliza Matplotlib para contrastar gráficamente la magnitud de los vectores resultantes.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 4))
+
+rectA = patches.Rectangle((0.2, 0.2), 0.2, 0.2, linewidth=1, edgecolor='black', facecolor='lightblue')
+ax1.add_patch(rectA)
+ax1.text(0.3, 0.3, 'A (4 kg)', fontsize=12, ha='center', va='center')
+ax1.annotate('', xy=(0.8, 0.3), xytext=(0.4, 0.3), 
+             arrowprops=dict(facecolor='green', shrink=0, width=2, headwidth=8))
+ax1.text(0.6, 0.35, 'F = 24 N', color='green', fontsize=10, ha='center')
+ax1.annotate('', xy=(0.9, 0.6), xytext=(0.3, 0.6), 
+             arrowprops=dict(facecolor='purple', shrink=0, width=4, headwidth=10))
+ax1.text(0.6, 0.65, 'Aceleracion Mayor', color='purple', fontsize=10, ha='center')
+ax1.set_xlim(0, 1)
+ax1.set_ylim(0, 1)
+ax1.axis('off')
+ax1.set_title('Caja A (Menor Inercia)', fontsize=12, fontweight='bold')
+
+rectB = patches.Rectangle((0.1, 0.1), 0.4, 0.4, linewidth=1, edgecolor='black', facecolor='salmon')
+ax2.add_patch(rectB)
+ax2.text(0.3, 0.3, 'B (12 kg)', fontsize=12, ha='center', va='center')
+ax2.annotate('', xy=(0.9, 0.3), xytext=(0.5, 0.3), 
+             arrowprops=dict(facecolor='green', shrink=0, width=2, headwidth=8))
+ax2.text(0.7, 0.35, 'F = 24 N', color='green', fontsize=10, ha='center')
+ax2.annotate('', xy=(0.7, 0.6), xytext=(0.3, 0.6), 
+             arrowprops=dict(facecolor='purple', shrink=0, width=1.5, headwidth=6))
+ax2.text(0.5, 0.65, 'Aceleracion Menor', color='purple', fontsize=10, ha='center')
+ax2.set_xlim(0, 1)
+ax2.set_ylim(0, 1)
+ax2.axis('off')
+ax2.set_title('Caja B (Mayor Inercia)', fontsize=12, fontweight='bold')
+
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+La caja A acelera más. Al tener la misma fuerza aplicada, el objeto con menor masa (menor inercia) experimentará la mayor aceleración de acuerdo con los principios de Newton.
+
+\newpage
+
+\subsection*{Enunciado}
+Dos cajas, A y B, se empujan sobre una superficie sin rozamiento con la misma fuerza de 24 N. La caja A tiene una masa de 4 kg y la caja B una masa de 12 kg. Calcule la aceleración de cada una.
+
+\subsection*{Solución}
+
+\subsubsection*{Condiciones Dinámicas del Sistema}
+Para proceder con el cálculo analítico, primero verificamos las fuerzas netas. El enunciado establece explícitamente que el movimiento ocurre "sobre una superficie sin rozamiento". Esta condición idealizada implica que la fuerza de fricción cinética es cero ($f_k = 0$). Por lo tanto, en el eje horizontal, la única fuerza que actúa sobre cada caja es la fuerza de empuje aplicada. La fuerza neta para ambos casos es de 24 N.
+
+\subsubsection*{Cálculo de la Aceleración para la Caja A}
+Utilizamos la ecuación de la Segunda Ley de Newton, despejando la aceleración ($a = \frac{F}{m}$). Para la caja A, sustituimos su masa específica ($m_A = 4 \, \text{kg}$) y la fuerza aplicada ($F = 24 \, \text{N}$):
+\begin{equation}
+    a_A = \frac{F}{m_A}
+\end{equation}
+\begin{equation}
+    a_A = \frac{24 \, \text{N}}{4 \, \text{kg}}
+\end{equation}
+\begin{equation}
+    a_A = 6 \, \text{m/s}^2
+\end{equation}
+
+\subsubsection*{Cálculo de la Aceleración para la Caja B}
+Aplicamos el mismo razonamiento analítico para la caja B, utilizando su masa correspondiente ($m_B = 12 \, \text{kg}$) e idéntica fuerza neta:
+\begin{equation}
+    a_B = \frac{F}{m_B}
+\end{equation}
+\begin{equation}
+    a_B = \frac{24 \, \text{N}}{12 \, \text{kg}}
+\end{equation}
+\begin{equation}
+    a_B = 2 \, \text{m/s}^2
+\end{equation}
+
+\subsubsection*{Conclusión}
+Las magnitudes calculadas demuestran que la aceleración de la caja A es de $6 \, \text{m/s}^2$, mientras que la aceleración de la caja B es de $2 \, \text{m/s}^2$.
+
+\newpage
+
+\subsection*{Enunciado}
+Dos cajas, A y B, se empujan sobre una superficie sin rozamiento con la misma fuerza de 24 N. La caja A tiene una masa de 4 kg y la caja B una masa de 12 kg. ¿Cómo se relaciona este resultado con la segunda ley de Newton?
+
+\subsection*{Solución}
+
+\subsubsection*{Análisis de Proporcionalidad}
+La potencia explicativa de la Segunda Ley de Newton radica en su rigor proporcional. No solo nos dice cualitativamente que un objeto más pesado acelera menos, sino que cuantifica exactamente esa relación mediante la fórmula $a = \frac{\Sigma F}{m}$. Para entender la relación de nuestros resultados numéricos con la teoría, debemos analizar los factores de escala entre ambos sistemas.
+
+\subsubsection*{El Factor de Escala de la Masa}
+Si comparamos las propiedades inerciales de ambos objetos, podemos establecer una razón matemática entre sus masas:
+\begin{equation}
+    \text{Relación de Masas} = \frac{m_B}{m_A} = \frac{12 \, \text{kg}}{4 \, \text{kg}} = 3
+\end{equation}
+Esto demuestra que la caja B tiene exactamente 3 veces más masa que la caja A.
+
+\subsubsection*{El Factor de Escala de la Aceleración}
+Si la Segunda Ley de Newton predice una "proporcionalidad inversa" perfecta cuando la fuerza es constante, un aumento en la masa por un factor de 3 debería resultar en una reducción de la aceleración exactamente por un factor de 3 (es decir, una tercera parte). Comprobamos la razón de las aceleraciones calculadas:
+\begin{equation}
+    \text{Relación de Aceleraciones} = \frac{a_A}{a_B} = \frac{6 \, \text{m/s}^2}{2 \, \text{m/s}^2} = 3
+\end{equation}
+El resultado de $6 \, \text{m/s}^2$ dividido para 3 arroja exactamente el valor de $2 \, \text{m/s}^2$. 
+
+\subsubsection*{Conclusión}
+El resultado confirma de manera empírica y matemática el postulado central de la Segunda Ley de Newton: para una fuerza neta constante (24 N), la aceleración es estrictamente inversamente proporcional a la masa del objeto. Al triplicar la masa (de 4 kg a 12 kg), la aceleración resultante se redujo exactamente a la tercera parte (de 6 m/s² a 2 m/s²).
+
+\newpage
+
+\subsection*{Enunciado}
+Una caja de 11 kg se desliza sobre una superficie horizontal. El coeficiente de rozamiento es $\mu = 0.20$. Una persona la empuja con una fuerza horizontal de 50 N. Use $g = 10 \, \text{m/s}^2$. ¿Cuál es el peso de la caja?
+
+\begin{center}
+\begin{tikzpicture}[>=latex, scale=1.0]
+    \draw[->] (-4,0) -- (-3,0) node[below] {$x$};
+    \draw[->] (-4,0) -- (-4,1.5) node[left] {$y$};
+    \node at (-4.2,-0.2) {$O$};
+    
+    \draw[fill=cyan!40, thick] (-1.5,-0.6) rectangle (1.5,0.6);
+    \node at (0,0) {\textbf{11 kg}};
+    
+    \draw[->, thick] (0,0.6) -- (0,2) node[above] {$\vec{N}$};
+    \draw[->, thick] (0,-0.6) -- (0,-2) node[below] {$\vec{P}$};
+    \draw[->, thick] (1.5,0) -- (3,0) node[right] {$50 \, \text{N}$};
+    \draw[->, thick] (-1.5,0) -- (-3,0) node[left] {$\mu N$};
+    
+    \filldraw (0,0) circle (1pt);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{El Concepto de Peso en la Dinámica}
+De acuerdo con la física conceptual, es fundamental no confundir la masa (la cantidad de materia y medida de inercia) con el peso. El peso es una fuerza; específicamente, es la fuerza de atracción gravitacional que ejerce la Tierra sobre la masa de un objeto. Al ser una fuerza, se rige por la Segunda Ley de Newton y posee un carácter vectorial, apuntando siempre hacia el centro del planeta (hacia abajo en nuestro sistema de referencia).
+
+\subsubsection*{Cálculo de la Magnitud del Peso}
+La magnitud de esta fuerza gravitacional se calcula multiplicando la masa inercial del cuerpo ($m$) por la aceleración de la gravedad local ($g$). La ecuación vectorial es $\vec{P} = m \cdot \vec{g}$.
+Sustituyendo los valores proporcionados explícitamente en el enunciado:
+\begin{equation}
+    P = 11 \, \text{kg} \cdot 10 \, \text{m/s}^2
+\end{equation}
+\begin{equation}
+    P = 110 \, \text{N}
+\end{equation}
+
+\subsubsection*{Conclusión}
+El peso de la caja es de 110 N, dirigido verticalmente hacia abajo.
+
+\newpage
+
+\subsection*{Enunciado}
+Una caja de 11 kg se desliza sobre una superficie horizontal. El coeficiente de rozamiento es $\mu = 0.20$. Una persona la empuja con una fuerza horizontal de 50 N. Use $g = 10 \, \text{m/s}^2$. ¿Cuál es la fuerza normal?
+
+\begin{center}
+\begin{tikzpicture}[>=latex, scale=1.0]
+    \draw[->] (-4,0) -- (-3,0) node[below] {$x$};
+    \draw[->] (-4,0) -- (-4,1.5) node[left] {$y$};
+    \node at (-4.2,-0.2) {$O$};
+    
+    \draw[fill=cyan!40, thick] (-1.5,-0.6) rectangle (1.5,0.6);
+    \node at (0,0) {\textbf{11 kg}};
+    
+    \draw[->, thick] (0,0.6) -- (0,2) node[above] {$\vec{N}$};
+    \draw[->, thick] (0,-0.6) -- (0,-2) node[below] {$\vec{P}$};
+    \draw[->, thick] (1.5,0) -- (3,0) node[right] {$50 \, \text{N}$};
+    \draw[->, thick] (-1.5,0) -- (-3,0) node[left] {$\mu N$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{Condición de Equilibrio Mecánico Vertical}
+Para determinar la fuerza normal, debemos analizar el estado de movimiento en el eje vertical ($y$). La caja se desliza exclusivamente sobre la superficie horizontal; no está levitando ni hundiéndose en el suelo. Esta falta de cambio en el movimiento vertical implica que la aceleración en el eje $y$ es exactamente cero ($a_y = 0$). Según la Primera Ley de Newton, esto garantiza que el objeto se encuentra en equilibrio estático en dicha dimensión.
+
+\subsubsection*{Aplicación Analítica de la Sumatoria de Fuerzas}
+Al estar en equilibrio, la sumatoria algebraica de todas las fuerzas en el eje vertical debe anularse mutuamente. Las dos fuerzas que actúan en este eje son la Fuerza Normal ($N$) apuntando hacia arriba (positiva) y el Peso ($P$) apuntando hacia abajo (negativa).
+\begin{equation}
+    \Sigma F_y = 0
+\end{equation}
+\begin{equation}
+    N - P = 0
+\end{equation}
+Despejando matemáticamente, demostramos que la superficie debe ejercer una fuerza reactiva que iguale exactamente el peso de la caja para sostenerla:
+\begin{equation}
+    N = P
+\end{equation}
+Como calculamos en el inciso anterior que el peso es de 110 N, se deduce directamente el valor de la normal.
+\begin{equation}
+    N = 110 \, \text{N}
+\end{equation}
+
+\subsubsection*{Conclusión}
+La fuerza normal ejercida por la superficie sobre la caja es de 110 N, dirigida verticalmente hacia arriba.
+
+\newpage
+
+\subsection*{Enunciado}
+Una caja de 11 kg se desliza sobre una superficie horizontal. El coeficiente de rozamiento es $\mu = 0.20$. Una persona la empuja con una fuerza horizontal de 50 N. Use $g = 10 \, \text{m/s}^2$. ¿Cuál es la fuerza de rozamiento?
+
+\begin{center}
+\begin{tikzpicture}[>=latex, scale=1.0]
+    \draw[->] (-4,0) -- (-3,0) node[below] {$x$};
+    \draw[->] (-4,0) -- (-4,1.5) node[left] {$y$};
+    \node at (-4.2,-0.2) {$O$};
+    
+    \draw[fill=cyan!40, thick] (-1.5,-0.6) rectangle (1.5,0.6);
+    \node at (0,0) {\textbf{11 kg}};
+    
+    \draw[->, thick] (0,0.6) -- (0,2) node[above] {$\vec{N}$};
+    \draw[->, thick] (0,-0.6) -- (0,-2) node[below] {$\vec{P}$};
+    \draw[->, thick] (1.5,0) -- (3,0) node[right] {$50 \, \text{N}$};
+    \draw[->, thick] (-1.5,0) -- (-3,0) node[left] {$\mu N$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{La Naturaleza de la Fricción Cinética}
+La fuerza de rozamiento o fricción cinética ($f_c$) surge de la interacción mecánica electromagnética entre las asperezas microscópicas de las superficies que se deslizan una contra la otra. En la física newtoniana, esta fuerza disipativa se modela como el producto de dos variables: cuán rugosas son las superficies (representado por el coeficiente de fricción, $\mu$) y cuán fuertemente están presionadas entre sí (representado por la Fuerza Normal, $N$).
+
+\subsubsection*{Cálculo Analítico del Rozamiento}
+El modelo matemático que define esta fuerza resistiva paralela al movimiento es:
+\begin{equation}
+    f_c = \mu \cdot N
+\end{equation}
+A partir de los datos del problema y nuestros análisis previos, sabemos que el coeficiente de fricción es $\mu = 0.20$ y la fuerza normal que soporta a la caja es $N = 110 \, \text{N}$. Sustituyendo estos valores:
+\begin{equation}
+    f_c = 0.20 \cdot 110 \, \text{N}
+\end{equation}
+\begin{equation}
+    f_c = 22 \, \text{N}
+\end{equation}
+
+\subsubsection*{Conclusión}
+La magnitud de la fuerza de rozamiento cinético que se opone al deslizamiento de la caja es de 22 N.
+
+\newpage
+
+\subsection*{Enunciado}
+Una caja de 11 kg se desliza sobre una superficie horizontal. El coeficiente de rozamiento es $\mu = 0.20$. Una persona la empuja con una fuerza horizontal de 50 N. Use $g = 10 \, \text{m/s}^2$. ¿Cuál es la fuerza resultante?
+
+\begin{center}
+\begin{tikzpicture}[>=latex, scale=1.0]
+    \draw[->] (-4,0) -- (-3,0) node[below] {$x$};
+    \draw[->] (-4,0) -- (-4,1.5) node[left] {$y$};
+    \node at (-4.2,-0.2) {$O$};
+    
+    \draw[fill=cyan!40, thick] (-1.5,-0.6) rectangle (1.5,0.6);
+    \node at (0,0) {\textbf{11 kg}};
+    
+    \draw[->, thick] (0,0.6) -- (0,2) node[above] {$\vec{N}$};
+    \draw[->, thick] (0,-0.6) -- (0,-2) node[below] {$\vec{P}$};
+    \draw[->, thick] (1.5,0) -- (3,0) node[right] {$50 \, \text{N}$};
+    \draw[->, thick] (-1.5,0) -- (-3,0) node[left] {$\mu N$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{Evaluación del Desequilibrio en el Eje de Movimiento}
+La fuerza resultante (o fuerza neta) dicta el comportamiento dinámico del sistema. Puesto que en el eje vertical existe un equilibrio perfecto ($\Sigma F_y = 0$), toda la fuerza resultante provendrá del desbalance en el eje horizontal ($x$). En este eje operan dos fuerzas diametralmente opuestas: el empuje de la persona a favor del movimiento y la fricción cinética en contra.
+
+\subsubsection*{Corrección Pedagógica del Modelo Vectorial}
+Es vital hacer una corrección conceptual respecto a algunos esquemas de resolución erróneos que plantean la ecuación como $P - f_c = m \vec{a}$. La variable $P$ representa el Peso, el cual actúa en un eje perpendicular y no afecta directamente la suma horizontal. La ecuación rigurosa para la fuerza neta horizontal es la diferencia entre la fuerza aplicada ($F$) y la fuerza de fricción ($f_c$).
+Tomando la dirección del empuje como el sentido positivo:
+\begin{equation}
+    \Sigma F_x = F - f_c
+\end{equation}
+
+\subsubsection*{Cálculo y Visualización de la Resultante}
+Sustituyendo los valores de 50 N para el empuje y 22 N para el rozamiento:
+\begin{equation}
+    \Sigma F_x = 50 \, \text{N} - 22 \, \text{N}
+\end{equation}
+\begin{equation}
+    \Sigma F_x = 28 \, \text{N}
+\end{equation}
+Para consolidar este concepto físicamente, el siguiente script en Python genera un Diagrama de Cuerpo Libre preciso, demostrando visualmente el desequilibrio favorable hacia la derecha que produce esta fuerza neta.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+fig, ax = plt.subplots(figsize=(8, 4.5))
+
+rect = patches.Rectangle((-1.5, -0.75), 3, 1.5, linewidth=1.5, edgecolor='black', facecolor='skyblue')
+ax.add_patch(rect)
+ax.text(0, 0, '11 kg', ha='center', va='center', fontsize=14, fontweight='bold')
+
+ax.annotate('', xy=(4.5, 0), xytext=(1.5, 0), 
+            arrowprops=dict(facecolor='green', shrink=0, width=3, headwidth=10))
+ax.text(3.0, 0.3, 'Empuje (50 N)', color='green', fontsize=12, ha='center')
+
+ax.annotate('', xy=(-3.5, 0), xytext=(-1.5, 0), 
+            arrowprops=dict(facecolor='red', shrink=0, width=2, headwidth=8))
+ax.text(-2.5, 0.3, 'Friccion (22 N)', color='red', fontsize=12, ha='center')
+
+ax.annotate('', xy=(0, 2.5), xytext=(0, 0.75), 
+            arrowprops=dict(facecolor='blue', shrink=0, width=2, headwidth=8))
+ax.text(0.1, 1.8, 'Normal (110 N)', color='blue', fontsize=12)
+
+ax.annotate('', xy=(0, -2.5), xytext=(0, -0.75), 
+            arrowprops=dict(facecolor='purple', shrink=0, width=2, headwidth=8))
+ax.text(0.1, -1.8, 'Peso (110 N)', color='purple', fontsize=12)
+
+ax.set_xlim(-5, 5)
+ax.set_ylim(-3.5, 3.5)
+ax.axhline(0, color='gray', linestyle='--', linewidth=0.5, zorder=0)
+ax.axvline(0, color='gray', linestyle='--', linewidth=0.5, zorder=0)
+ax.set_title('Diagrama de Cuerpo Libre: Desequilibrio Horizontal', fontsize=14, fontweight='bold')
+ax.axis('off')
+
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+La fuerza resultante que actúa sobre la caja es de 28 N, dirigida hacia la derecha en la dirección del empuje.
+
+\newpage
+
+\subsection*{Enunciado}
+Una caja de 11 kg se desliza sobre una superficie horizontal. El coeficiente de rozamiento es $\mu = 0.20$. Una persona la empuja con una fuerza horizontal de 50 N. Use $g = 10 \, \text{m/s}^2$. ¿Cuál es la aceleración de la caja?
+
+\begin{center}
+\begin{tikzpicture}[>=latex, scale=1.0]
+    \draw[->] (-4,0) -- (-3,0) node[below] {$x$};
+    \draw[->] (-4,0) -- (-4,1.5) node[left] {$y$};
+    \node at (-4.2,-0.2) {$O$};
+    
+    \draw[fill=cyan!40, thick] (-1.5,-0.6) rectangle (1.5,0.6);
+    \node at (0,0) {\textbf{11 kg}};
+    
+    \draw[->, thick] (0,0.6) -- (0,2) node[above] {$\vec{N}$};
+    \draw[->, thick] (0,-0.6) -- (0,-2) node[below] {$\vec{P}$};
+    \draw[->, thick] (1.5,0) -- (3,0) node[right] {$50 \, \text{N}$};
+    \draw[->, thick] (-1.5,0) -- (-3,0) node[left] {$\mu N$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{El Vínculo Dinámico: La Segunda Ley de Newton}
+Una vez establecida la existencia de una fuerza neta desequilibrada, la Segunda Ley de Newton nos permite calcular la consecuencia cinemática directa: la aceleración. La ecuación fundamental establece que la aceleración es directamente proporcional a la fuerza resultante e inversamente proporcional a la inercia (masa) del cuerpo.
+\begin{equation}
+    a_x = \frac{\Sigma F_x}{m}
+\end{equation}
+
+\subsubsection*{Aclaración Pedagógica y Corrección del Cálculo}
+Es pedagógicamente fundamental señalar un error aritmético común que a veces ocurre en las resoluciones guiadas, donde se utiliza inadvertidamente una masa de $10 \, \text{kg}$ como sustituto de la masa real, dividiendo $28 / 10$ para forzar un resultado de $2.8 \, \text{m/s}^2$. Para mantener la coherencia y el rigor físico de nuestro sistema, debemos utilizar la masa explícita proporcionada en el problema, la cual rige toda la interacción inercial y que ya hemos validado en cálculos previos (como el peso). La masa inercial real de la caja es de $11 \, \text{kg}$.
+
+Procedemos a realizar el cálculo correcto aplicando la fuerza resultante de 28 N obtenida en la etapa anterior:
+\begin{equation}
+    a_x = \frac{28 \, \text{N}}{11 \, \text{kg}}
+\end{equation}
+\begin{equation}
+    a_x \approx 2.545 \, \text{m/s}^2
+\end{equation}
+
+\subsubsection*{Conclusión}
+Al corregir las magnitudes para respetar la inercia real dictada por el sistema, se concluye que la aceleración de la caja es de aproximadamente $2.55 \, \text{m/s}^2$ dirigida hacia la derecha.
+
+\newpage
+
+\subsection*{Enunciado}
+Un estudiante empuja una caja sobre el piso y logra que se mueva con velocidad constante. La fuerza aplicada horizontalmente es de 35 N. ¿La caja acelera?
+
+\subsection*{Solución}
+
+\subsubsection*{Concepto Cinemático de Aceleración}
+En la física conceptual, la aceleración se define estrictamente como la tasa temporal de cambio de la velocidad. Para que exista aceleración, un objeto debe experimentar al menos uno de los siguientes cambios: un aumento en su rapidez, una disminución en su rapidez, o un cambio en la dirección de su movimiento. 
+
+\subsubsection*{Análisis del Estado de Movimiento}
+El enunciado establece explícitamente que la caja se mueve con "velocidad constante". Esta condición cinemática es de vital importancia. Que la velocidad sea constante implica que el vector velocidad no sufre ninguna alteración en el tiempo; la caja mantiene una rapidez uniforme y viaja en una trayectoria rectilínea inalterable. 
+
+\subsubsection*{Formulación Matemática}
+Matemáticamente, si la velocidad inicial y la velocidad final en cualquier intervalo de tiempo son idénticas ($\vec{v}_f = \vec{v}_i$), el diferencial de velocidad es nulo ($\Delta \vec{v} = 0$). Aplicando la fórmula de la aceleración media:
+\begin{equation}
+    \vec{a} = \frac{\Delta \vec{v}}{\Delta t} = \frac{0}{\Delta t} = \vec{0}
+\end{equation}
+
+\subsubsection*{Conclusión}
+No, la caja no acelera. Dado que se mueve con velocidad constante, no experimenta ningún cambio en su estado de movimiento, por lo que su aceleración es exactamente igual a cero ($\vec{a} = \vec{0}$).
+
+\newpage
+
+\subsection*{Enunciado}
+Un estudiante empuja una caja sobre el piso y logra que se mueva con velocidad constante. La fuerza aplicada horizontalmente es de 35 N. ¿Cuál debe ser la magnitud de la fuerza de rozamiento?
+
+\subsection*{Solución}
+
+\subsubsection*{La Primera Ley de Newton y el Equilibrio Dinámico}
+Para comprender el comportamiento dinámico de la caja, debemos recurrir a la Ley de la Inercia. Todo cuerpo preserva su estado de reposo o de movimiento rectilíneo uniforme a menos que una fuerza neta no nula actúe sobre él. El estado de "movimiento rectilíneo uniforme" (velocidad constante) significa que el sistema se encuentra en un estado de equilibrio dinámico. En cualquier tipo de equilibrio mecánico (estático o dinámico), la suma vectorial de todas las fuerzas actuantes (fuerza neta) debe ser estrictamente cero.
+
+\subsubsection*{Análisis de las Fuerzas Horizontales mediante la Segunda Ley}
+La Segunda Ley de Newton cuantifica lo anterior afirmando que $\Sigma \vec{F} = m \cdot \vec{a}$. Como demostramos en el inciso previo que la aceleración es nula ($\vec{a} = \vec{0}$), la ecuación se reduce a:
+\begin{equation}
+    \Sigma F_x = 0
+\end{equation}
+En el eje horizontal, donde ocurre el deslizamiento, intervienen dos fuerzas contrapuestas: la fuerza aplicada por el estudiante ($F = 35 \, \text{N}$) apuntando en la dirección del movimiento, y la fuerza de rozamiento cinético ($f_k$) oponiéndose a dicho avance.
+
+\subsubsection*{Planteamiento Analítico}
+Estableciendo la dirección del avance como positiva, desarrollamos la sumatoria de fuerzas:
+\begin{equation}
+    \Sigma F_x = F - f_k
+\end{equation}
+Sustituyendo la condición de equilibrio:
+\begin{equation}
+    0 = F - f_k
+\end{equation}
+Al despejar la fuerza de rozamiento, obtenemos una relación de igualdad directa:
+\begin{equation}
+    f_k = F
+\end{equation}
+\begin{equation}
+    f_k = 35 \, \text{N}
+\end{equation}
+Para que el objeto no acelere ni decelere, la superficie debe ejercer una resistencia exacta que cancele el empuje del estudiante.
+
+\subsubsection*{Visualización del Equilibrio Vectorial}
+Para consolidar este principio pedagógicamente, se presenta un código en Python (utilizando Matplotlib) que genera un Diagrama de Cuerpo Libre. En un estado de equilibrio dinámico, el vector de la fuerza de empuje y el vector de la fuerza de fricción poseen idéntica longitud pero apuntan en sentidos opuestos.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(7, 4))
+
+ax.plot(0, 0, 's', color='burlywood', markersize=45)
+
+ax.annotate('', xy=(3, 0), xytext=(0.5, 0), 
+            arrowprops=dict(facecolor='green', shrink=0, width=3, headwidth=10))
+ax.text(1.5, 0.3, 'Empuje (35 N)', color='green', fontsize=12, ha='center')
+
+ax.annotate('', xy=(-3, 0), xytext=(-0.5, 0), 
+            arrowprops=dict(facecolor='red', shrink=0, width=3, headwidth=10))
+ax.text(-2.0, 0.3, 'Rozamiento (35 N)', color='red', fontsize=12, ha='center')
+
+ax.annotate('', xy=(0, 2), xytext=(0, 0.5), 
+            arrowprops=dict(facecolor='blue', shrink=0, width=2, headwidth=8))
+ax.text(0.1, 1.5, 'Normal', color='blue', fontsize=10)
+
+ax.annotate('', xy=(0, -2), xytext=(0, -0.5), 
+            arrowprops=dict(facecolor='purple', shrink=0, width=2, headwidth=8))
+ax.text(0.1, -1.5, 'Peso', color='purple', fontsize=10)
+
+ax.set_xlim(-4, 4)
+ax.set_ylim(-2.5, 2.5)
+ax.axhline(0, color='gray', linestyle='--', linewidth=0.5)
+ax.axvline(0, color='gray', linestyle='--', linewidth=0.5)
+ax.set_title('Diagrama de Cuerpo Libre: Equilibrio Dinamico', fontsize=14, fontweight='bold')
+ax.axis('off')
+
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+La magnitud de la fuerza de rozamiento debe ser de 35 N. Al encontrarse el sistema en equilibrio dinámico (velocidad constante y aceleración cero), la fuerza de rozamiento debe igualar de manera exacta la magnitud de la fuerza aplicada para que ambas se anulen y la fuerza neta sea cero.
+
+\newpage
+
+\subsection*{Enunciado}
+Se dejan caer al mismo tiempo dos esferas desde la misma altura, una de 1 kg y otra de 5 kg. Desprecie la resistencia del aire. ¿Cuál esfera tiene mayor peso?
+
+\subsection*{Solución}
+
+\subsubsection*{Diferenciación entre Masa y Peso}
+En la física conceptual, es fundamental establecer la diferencia absoluta entre la masa y el peso de un objeto. La masa es una propiedad intrínseca del cuerpo que mide su inercia (la cantidad de materia), expresada en kilogramos (kg). Por otro lado, el peso no es una propiedad del objeto en sí, sino una fuerza: es la magnitud de la atracción gravitacional que la Tierra ejerce sobre esa masa en un lugar determinado.
+
+\subsubsection*{El Modelo Matemático del Peso}
+Al ser una fuerza, el peso se rige por la Segunda Ley de Newton y se calcula multiplicando la masa inercial del cuerpo por la aceleración local de la gravedad. Utilizaremos el valor aproximado de la gravedad $g = 10 \, \text{m/s}^2$ para simplificar el cálculo analítico.
+La ecuación vectorial para la magnitud del peso ($P$) es:
+\begin{equation}
+    P = m \cdot g
+\end{equation}
+
+\subsubsection*{Cálculo para la Esfera Ligera}
+Para la primera esfera, sustituimos su masa de 1 kg en nuestra ecuación:
+\begin{equation}
+    P_1 = 1 \, \text{kg} \cdot 10 \, \text{m/s}^2
+\end{equation}
+\begin{equation}
+    P_1 = 10 \, \text{N}
+\end{equation}
+La Tierra atrae a la esfera de 1 kg con una fuerza de 10 Newtons.
+
+\subsubsection*{Cálculo para la Esfera Pesada}
+Repetimos el procedimiento analítico para la segunda esfera, cuya masa es de 5 kg:
+\begin{equation}
+    P_2 = 5 \, \text{kg} \cdot 10 \, \text{m/s}^2
+\end{equation}
+\begin{equation}
+    P_2 = 50 \, \text{N}
+\end{equation}
+La Tierra atrae a la esfera de 5 kg con una fuerza de 50 Newtons. Al tener cinco veces más masa, experimenta cinco veces más fuerza de atracción gravitacional.
+
+\subsubsection*{Conclusión}
+La esfera de 5 kg tiene un peso notablemente mayor. Su peso es de 50 N, en comparación con los 10 N de la esfera de 1 kg.
+
+\newpage
+
+\subsection*{Enunciado}
+Se dejan caer al mismo tiempo dos esferas desde la misma altura, una de 1 kg y otra de 5 kg. Desprecie la resistencia del aire. ¿Cuál esfera tiene mayor aceleración?
+
+\subsection*{Solución}
+
+\subsubsection*{Análisis Dinámico de la Caída Libre}
+El enunciado establece una condición crucial: "Desprecie la resistencia del aire". Cuando un objeto masivo se mueve bajo la influencia exclusiva de la gravedad terrestre, sin que ninguna otra fuerza interactúe con él (como la fricción aerodinámica), se dice que se encuentra en un estado de caída libre ideal. En esta condición, la única fuerza que compone la fuerza neta resultante es el propio peso del objeto.
+\begin{equation}
+    \Sigma \vec{F} = \vec{P}
+\end{equation}
+
+\subsubsection*{Aplicación Analítica de la Segunda Ley de Newton}
+Para determinar la aceleración cinemática ($\vec{a}$), recurrimos a la ecuación de la Segunda Ley de Newton ($\Sigma \vec{F} = m \cdot \vec{a}$). Sustituyendo la sumatoria de fuerzas por el peso, obtenemos:
+\begin{equation}
+    \vec{P} = m \cdot \vec{a}
+\end{equation}
+Como establecimos en el inciso anterior, el modelo matemático del peso es $\vec{P} = m \cdot \vec{g}$. Sustituimos esto en la ecuación:
+\begin{equation}
+    m \cdot \vec{g} = m \cdot \vec{a}
+\end{equation}
+
+\subsubsection*{La Independencia de la Masa Inercial}
+Para despejar la aceleración del cuerpo, dividimos ambos lados de la ecuación entre la masa ($m$):
+\begin{equation}
+    \vec{a} = \frac{m \cdot \vec{g}}{m}
+\end{equation}
+De manera rigurosamente matemática, la variable de la masa ($m$) se simplifica o cancela del numerador y del denominador. El resultado arroja una identidad universal para objetos en el vacío:
+\begin{equation}
+    \vec{a} = \vec{g} = 10 \, \text{m/s}^2
+\end{equation}
+La aceleración no depende de cuánta masa tenga el objeto, ya que el aumento en la fuerza de atracción se cancela exactamente con el aumento en la inercia del cuerpo.
+
+\subsubsection*{Visualización de la Proporcionalidad Fuerza/Masa}
+Para ilustrar cómo una fuerza cinco veces mayor no produce una aceleración mayor si la inercia también es cinco veces mayor, el siguiente script en Python genera una comparativa gráfica de los vectores utilizando Matplotlib.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+fig, ax = plt.subplots(figsize=(8, 5))
+
+circle1 = patches.Circle((2, 3), 0.3, linewidth=1, edgecolor='black', facecolor='lightblue')
+ax.add_patch(circle1)
+ax.text(2, 3, '1 kg', ha='center', va='center')
+ax.annotate('', xy=(2, 1.5), xytext=(2, 2.7), 
+            arrowprops=dict(facecolor='red', shrink=0, width=1.5, headwidth=6))
+ax.text(2.2, 2.0, 'Fuerza Grav. = 10 N', color='red')
+ax.annotate('', xy=(1.2, 1.5), xytext=(1.2, 2.7), 
+            arrowprops=dict(facecolor='purple', shrink=0, width=1.5, headwidth=6))
+ax.text(0.1, 2.0, 'a = 10 m/s^2', color='purple')
+
+circle2 = patches.Circle((6, 3), 0.7, linewidth=1, edgecolor='black', facecolor='salmon')
+ax.add_patch(circle2)
+ax.text(6, 3, '5 kg', ha='center', va='center')
+ax.annotate('', xy=(6, -0.5), xytext=(6, 2.3), 
+            arrowprops=dict(facecolor='red', shrink=0, width=4.5, headwidth=10))
+ax.text(6.3, 0.5, 'Fuerza Grav. = 50 N', color='red')
+ax.annotate('', xy=(4.8, 1.5), xytext=(4.8, 2.7), 
+            arrowprops=dict(facecolor='purple', shrink=0, width=1.5, headwidth=6))
+ax.text(3.7, 2.0, 'a = 10 m/s^2', color='purple')
+
+ax.set_xlim(0, 9)
+ax.set_ylim(-1, 5)
+ax.axis('off')
+ax.set_title('Proporcionalidad: Aceleracion identica a pesar de distinto peso', fontsize=14, fontweight='bold')
+
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+Ambas esferas tienen exactamente la misma aceleración. Al encontrarse en caída libre y despreciando la resistencia del aire, la aceleración se vuelve completamente independiente de su masa y es igual a la gravedad de la Tierra ($10 \, \text{m/s}^2$).
+
+\newpage
+
+\subsection*{Enunciado}
+Se dejan caer al mismo tiempo dos esferas desde la misma altura, una de 1 kg y otra de 5 kg. Desprecie la resistencia del aire. ¿Cuál llega primero al suelo? Explique por qué este resultado no contradice la segunda ley de Newton.
+
+\subsection*{Solución}
+
+\subsubsection*{Análisis Cinemático del Desplazamiento}
+Para determinar cuál de los objetos toca el suelo primero, debemos evaluar las condiciones cinemáticas iniciales de su movimiento. El enunciado afirma que se "dejan caer", lo que implica que la velocidad inicial de ambas esferas es cero ($v_0 = 0$). Además, parten "al mismo tiempo" y "desde la misma altura" ($h$). 
+En la cinemática de la aceleración constante, el tiempo ($t$) requerido para cubrir una distancia ($h$) partiendo del reposo se modela mediante la ecuación $h = \frac{1}{2} \cdot a \cdot t^2$. Despejando el tiempo obtenemos $t = \sqrt{\frac{2h}{a}}$. Dado que la distancia ($h$) y la aceleración ($a = g$) son idénticas para ambas esferas, el tiempo de caída debe ser matemáticamente igual.
+
+\subsubsection*{La Falsa Intuición vs. La Segunda Ley de Newton}
+Existe un sesgo intuitivo, heredado de la física aristotélica, que sugiere que los objetos más pesados (como la esfera de 5 kg) deberían acelerar más rápido y llegar primero al suelo debido a que existe una mayor fuerza jalándolos hacia abajo. Es legítimo preguntarse: ¿Por qué la Segunda Ley de Newton, que establece que a mayor fuerza mayor aceleración, no predice esto?
+
+\subsubsection*{La Resolución Analítica de la Paradoja}
+La paradoja se resuelve al comprender de manera integral la formulación completa de la Segunda Ley: $a = \frac{F}{m}$. La aceleración no es dictada únicamente por la fuerza, sino por la razón (el cociente) entre la fuerza aplicada y la masa inercial.
+En el estudio pedagógico guiado por Paul G. Hewitt, se aclara que, aunque la esfera pesada tiene 5 veces más fuerza atractiva gravitacional ($50 \, \text{N}$ frente a $10 \, \text{N}$), también tiene 5 veces más masa inercial ($5 \, \text{kg}$ frente a $1 \, \text{kg}$). La inercia es la resistencia de la materia a ser acelerada. 
+Evaluando ambos cocientes:
+\begin{align*}
+    a_{\text{ligera}} &= \frac{10 \, \text{N}}{1 \, \text{kg}} = 10 \, \text{m/s}^2 \\
+    a_{\text{pesada}} &= \frac{50 \, \text{N}}{5 \, \text{kg}} = 10 \, \text{m/s}^2
+\end{align*}
+La proporción entre el peso de un objeto y su propia masa es constante y rigurosamente idéntica para cualquier objeto que se encuentre en el mismo campo gravitacional, anulando la supuesta ventaja del mayor peso.
+
+\subsubsection*{Conclusión}
+Ambas esferas llegan al suelo exactamente al mismo tiempo. Este resultado empírico no contradice la Segunda Ley de Newton, la valida. La ley predice que la esfera de 5 kg, a pesar de experimentar una fuerza de peso cinco veces mayor, posee una masa (inercia) cinco veces más grande que se resiste a ese estímulo. Esta compensación perfectamente proporcional resulta en una aceleración neta idéntica para ambas.
+
+\newpage
+
+\subsection*{Enunciado}
+Una caja de 6 kg está sobre una superficie horizontal rugosa. El coeficiente de rozamiento es $\mu = 0.30$. Se aplica una fuerza horizontal de 25 N hacia la derecha. Use $g = 10 \, \text{m/s}^2$. Dibuje el diagrama de cuerpo libre e identifique todas las fuerzas que actúan.
+
+\begin{center}
+\begin{tikzpicture}[>=latex, scale=1.0]
+    \draw[thick] (-2,0) -- (4,0);
+    \draw[fill=cyan!30, thick] (0,0) rectangle (2,1.5);
+    \node at (1,0.75) {\textbf{6 kg}};
+    \draw[->, thick, green!50!black] (2,0.75) -- (3.5,0.75) node[right] {$25 \, \text{N}$};
+    \node at (1,-0.4) {$\mu = 0.30$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{Identificación de Interacciones en el Sistema}
+Para realizar un análisis dinámico preciso, el primer paso pedagógico es aislar el objeto de estudio (la caja de 6 kg) e identificar todas las interacciones físicas que tiene con su entorno inmediato. Según la física conceptual, cada interacción macroscópica se modela como un vector de fuerza. 
+
+\subsubsection*{Fuerzas en el Eje Vertical}
+En la dimensión perpendicular al suelo, la masa de la caja interactúa a distancia con el campo gravitacional de la Tierra, generando una fuerza dirigida hacia abajo denominada Peso. Debido a que la caja descansa sobre una superficie sólida y no la atraviesa, la Tercera Ley de Newton nos indica que la superficie reacciona ejerciendo una fuerza de contacto ortogonal hacia arriba, conocida como Fuerza Normal, la cual soporta la integridad del sistema vertical.
+
+\subsubsection*{Fuerzas en el Eje Horizontal}
+En la dimensión paralela al suelo (donde se sitúa el eje de movimiento), el problema nos indica la existencia de una Fuerza Aplicada de 25 N dirigida hacia la derecha. Simultáneamente, como la superficie se describe explícitamente como "rugosa" con un coeficiente $\mu = 0.30$, existe una interacción resistiva entre las irregularidades de la caja y el suelo. Esta interacción se manifiesta como una Fuerza de Rozamiento (o fricción) que apunta hacia la izquierda, oponiéndose a la dirección del estímulo aplicado.
+
+\subsubsection*{Construcción del Diagrama de Cuerpo Libre (DCL)}
+Para abstraer el objeto real a un modelo matemático, representamos la caja como una masa puntual en el origen de un plano cartesiano. El siguiente código en Python, utilizando Matplotlib, renderiza este modelo idealizado para visualizar la disposición vectorial de las cuatro fuerzas identificadas.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+fig, ax = plt.subplots(figsize=(7, 5))
+
+rect = patches.Rectangle((-1.5, -1), 3, 2, linewidth=1.5, edgecolor='black', facecolor='lightsteelblue')
+ax.add_patch(rect)
+ax.text(0, 0, '6 kg', ha='center', va='center', fontsize=14, fontweight='bold', color='white')
+
+ax.annotate('', xy=(3.5, 0), xytext=(1.5, 0), 
+            arrowprops=dict(facecolor='black', shrink=0, width=1.5, headwidth=7))
+ax.text(3.7, -0.1, '25 N', fontsize=12, fontweight='bold')
+
+ax.annotate('', xy=(-3.5, 0), xytext=(-1.5, 0), 
+            arrowprops=dict(facecolor='black', shrink=0, width=1.5, headwidth=7))
+ax.text(-5.0, -0.1, r'$f = \mu N$', fontsize=12, fontweight='bold')
+
+ax.annotate('', xy=(0, 3), xytext=(0, 1), 
+            arrowprops=dict(facecolor='black', shrink=0, width=1.5, headwidth=7))
+ax.text(-0.2, 3.2, r'$\vec{N}$', fontsize=14, fontweight='bold')
+
+ax.annotate('', xy=(0, -3), xytext=(0, -1), 
+            arrowprops=dict(facecolor='black', shrink=0, width=1.5, headwidth=7))
+ax.text(-0.2, -3.5, r'$\vec{P}$', fontsize=14, fontweight='bold')
+
+ax.set_xlim(-6, 6)
+ax.set_ylim(-4, 4)
+ax.axhline(0, color='gray', linestyle='--', linewidth=0.5, zorder=0)
+ax.axvline(0, color='gray', linestyle='--', linewidth=0.5, zorder=0)
+ax.set_title('Diagrama de Cuerpo Libre', fontsize=14, fontweight='bold')
+ax.axis('off')
+
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+Actúan cuatro fuerzas sobre la caja: El Peso y la Fuerza Normal en el eje vertical, y la Fuerza Aplicada y la Fuerza de Rozamiento en el eje horizontal.
+
+\newpage
+
+\subsection*{Enunciado}
+Una caja de 6 kg está sobre una superficie horizontal rugosa. El coeficiente de rozamiento es $\mu = 0.30$. Se aplica una fuerza horizontal de 25 N hacia la derecha. Use $g = 10 \, \text{m/s}^2$. Calcule la fuerza normal.
+
+\begin{center}
+\begin{tikzpicture}[>=latex, scale=1.0]
+    \draw[->] (-4,0) -- (-3,0) node[below] {$x$};
+    \draw[->] (-4,0) -- (-4,1.5) node[left] {$y$};
+    \node at (-4.2,-0.2) {$O$};
+    
+    \draw[fill=cyan!30, thick] (-1.5,-0.75) rectangle (1.5,0.75);
+    \node at (0,0) {\textbf{6 kg}};
+    
+    \draw[->, thick] (0,0.75) -- (0,2.5) node[above] {$\vec{N}$};
+    \draw[->, thick] (0,-0.75) -- (0,-2.5) node[below] {$\vec{P}$};
+    \draw[->, thick] (1.5,0) -- (3.5,0) node[right] {$25 \, \text{N}$};
+    \draw[->, thick] (-1.5,0) -- (-3.5,0) node[left] {$f$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{Determinación del Peso del Objeto}
+El primer componente para analizar el eje vertical es cuantificar la fuerza de atracción gravitacional. El modelo dinámico del peso relaciona la masa del objeto con la aceleración de la gravedad local mediante el producto $\vec{P} = m \cdot \vec{g}$. Sustituyendo la masa de la caja ($6 \, \text{kg}$) y el valor de la gravedad propuesto para el modelo ($10 \, \text{m/s}^2$):
+\begin{equation}
+    P = 6 \, \text{kg} \cdot 10 \, \text{m/s}^2
+\end{equation}
+\begin{equation}
+    P = 60 \, \text{N}
+\end{equation}
+
+\subsubsection*{Condición de Equilibrio Estático Transversal}
+En el plano de movimiento descrito, la caja se traslada exclusivamente sobre la superficie horizontal. No existe ningún desplazamiento en el eje vertical ($y$), lo que garantiza cinemáticamente que la aceleración vertical es estrictamente cero ($a_y = 0$). 
+Por la Segunda Ley de Newton, una aceleración nula implica invariablemente una fuerza neta nula. Se plantea la sumatoria de fuerzas verticales:
+\begin{equation}
+    \Sigma F_y = m \cdot a_y
+\end{equation}
+\begin{equation}
+    \Sigma F_y = 0
+\end{equation}
+
+\subsubsection*{Despeje Analítico de la Fuerza Normal}
+Sustituyendo los vectores que actúan en este eje, considerando la Normal ($N$) hacia arriba como positiva y el Peso ($P$) hacia abajo como negativo:
+\begin{equation}
+    N - P = 0
+\end{equation}
+De esta relación de equilibrio deducimos que la magnitud de la fuerza de soporte de la superficie debe ser idéntica a la fuerza con la que la caja es empujada contra ella por la gravedad:
+\begin{equation}
+    N = P
+\end{equation}
+\begin{equation}
+    N = 60 \, \text{N}
+\end{equation}
+
+\subsubsection*{Conclusión}
+La magnitud de la fuerza normal ejercida por el suelo sobre la caja es de 60 N.
+
+\newpage
+
+\subsection*{Enunciado}
+Una caja de 6 kg está sobre una superficie horizontal rugosa. El coeficiente de rozamiento es $\mu = 0.30$. Se aplica una fuerza horizontal de 25 N hacia la derecha. Use $g = 10 \, \text{m/s}^2$. Calcule la fuerza de rozamiento.
+
+\begin{center}
+\begin{tikzpicture}[>=latex, scale=1.0]
+    \draw[thick] (-2,0) -- (4,0);
+    \draw[fill=cyan!30, thick] (0,0) rectangle (2,1.5);
+    \node at (1,0.75) {\textbf{6 kg}};
+    \draw[->, thick, green!50!black] (2,0.75) -- (3.5,0.75) node[right] {$25 \, \text{N}$};
+    \draw[->, thick, red!70!black] (0,0.2) -- (-1.5,0.2) node[left] {$f = \mu N$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{El Modelo Empírico de Fricción Seca}
+En la mecánica clásica, la fuerza de rozamiento o fricción generada por el deslizamiento de superficies sólidas (fricción de Coulomb) se modela de manera proporcional a la fuerza de contacto ortogonal entre dichas superficies. El factor de proporcionalidad es una constante adimensional dictada por la textura y composición de los materiales involucrados.
+La ecuación que rige esta interacción es:
+\begin{equation}
+    f = \mu \cdot N
+\end{equation}
+Donde $f$ es la magnitud de la fuerza de rozamiento, $\mu$ es el coeficiente de rozamiento y $N$ es la magnitud de la fuerza normal.
+
+\subsubsection*{Sustitución y Cálculo Directo}
+Del análisis previo del equilibrio vertical, establecimos que la Fuerza Normal requerida para sostener la estructura es $N = 60 \, \text{N}$. El enunciado nos provee directamente el índice de rugosidad de la superficie, siendo $\mu = 0.30$. 
+Procedemos a introducir estos valores en el modelo matemático:
+\begin{equation}
+    f = 0.30 \cdot 60 \, \text{N}
+\end{equation}
+Para facilitar el cálculo mental sin calculadora, podemos abstraer $0.30$ como $\frac{3}{10}$. Multiplicar $60$ por $3$ es $180$, y dividido para $10$ arroja el resultado escalar:
+\begin{equation}
+    f = 18 \, \text{N}
+\end{equation}
+Esta es la resistencia máxima constante que la superficie opone a la dirección del deslizamiento de la masa de 6 kg.
+
+\subsubsection*{Conclusión}
+La fuerza de rozamiento entre la caja y la superficie rugosa tiene una magnitud de 18 N.
+
+\newpage
+
+\subsection*{Enunciado}
+Una caja de 6 kg está sobre una superficie horizontal rugosa. El coeficiente de rozamiento es $\mu = 0.30$. Se aplica una fuerza horizontal de 25 N hacia la derecha. Use $g = 10 \, \text{m/s}^2$. Determine si la caja acelera o no. Si acelera, calcule la aceleración.
+
+\begin{center}
+\begin{tikzpicture}[>=latex, scale=1.0]
+    \draw[->] (-4,0) -- (-3,0) node[below] {$x$};
+    \draw[->] (-4,0) -- (-4,1.5) node[left] {$y$};
+    \node at (-4.2,-0.2) {$O$};
+    
+    \draw[fill=cyan!30, thick] (-1.5,-0.75) rectangle (1.5,0.75);
+    \node at (0,0) {\textbf{6 kg}};
+    
+    \draw[->, thick, blue] (0,0.75) -- (0,2.5) node[above] {$60 \, \text{N}$};
+    \draw[->, thick, purple] (0,-0.75) -- (0,-2.5) node[below] {$60 \, \text{N}$};
+    \draw[->, thick, green!50!black] (1.5,0) -- (3.5,0) node[right] {$25 \, \text{N}$};
+    \draw[->, thick, red] (-1.5,0) -- (-3.0,0) node[left] {$18 \, \text{N}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{Evaluación del Estado Dinámico}
+Para determinar si un sistema masivo experimenta una alteración cinemática (aceleración), debemos calcular la fuerza neta en su eje de desplazamiento. Según el Principio de Inercia, solo una sumatoria de fuerzas distinta de cero ($\Sigma F \neq 0$) tiene la capacidad de vencer la resistencia inherente de la materia a ser acelerada.
+
+Establecemos la sumatoria de fuerzas horizontales tomando hacia la derecha como el sentido algebraico positivo:
+\begin{equation}
+    \Sigma F_x = F_{\text{aplicada}} - f_{\text{rozamiento}}
+\end{equation}
+Sustituyendo los valores consolidados en los incisos anteriores:
+\begin{equation}
+    \Sigma F_x = 25 \, \text{N} - 18 \, \text{N}
+\end{equation}
+\begin{equation}
+    \Sigma F_x = 7 \, \text{N}
+\end{equation}
+Dado que el resultado analítico de la fuerza neta es $7 \, \text{N}$ (un valor diferente de cero), confirmamos de manera irrefutable que el equilibrio dinámico se ha roto. La fuerza impulsora sobrepasa la fuerza disipativa de fricción, asegurando que la caja sí acelera en la dirección de la fuerza dominante.
+
+\subsubsection*{Cálculo Cuantitativo de la Aceleración}
+Habiendo comprobado la existencia de la aceleración, utilizamos la ecuación matemática de la Segunda Ley de Newton para cuantificar exactamente dicha magnitud. La ley establece que $\Sigma F_x = m \cdot a_x$.
+Despejamos la variable de la aceleración ($a_x$):
+\begin{equation}
+    a_x = \frac{\Sigma F_x}{m}
+\end{equation}
+Introducimos el valor de la fuerza neta resultante y la masa inercial del bloque ($6 \, \text{kg}$):
+\begin{equation}
+    a_x = \frac{7 \, \text{N}}{6 \, \text{kg}}
+\end{equation}
+Procedemos a realizar la división aritmética:
+\begin{equation}
+    a_x = 1.1666... \, \text{m/s}^2
+\end{equation}
+Por convenciones estándar en el modelado numérico y reporte académico, redondeamos el resultado a dos cifras decimales.
+
+\subsubsection*{Conclusión}
+Sí, la caja acelera debido a que existe una fuerza resultante no equilibrada. La magnitud de su aceleración es de $1.17 \, \text{m/s}^2$ en la dirección del empuje (hacia la derecha).
+
+\newpage
+
+\subsection*{Enunciado}
+Dos objetos de distinta masa se sueltan desde la misma altura. ¿Cuál llega primero al suelo?
+
+\subsection*{Solución}
+
+\subsubsection*{Condición Ideal de Caída Libre}
+Al abordar problemas conceptuales sobre la caída de los cuerpos sin que se especifique la presencia de resistencia del aire (fricción aerodinámica), asumimos que el experimento se realiza en el vacío o bajo condiciones donde dicha resistencia es matemáticamente despreciable. Esta idealización física, establecida inicialmente por Galileo Galilei, se conoce como "caída libre".
+
+\subsubsection*{Cinemática del Desplazamiento Uniformemente Acelerado}
+Para determinar el tiempo que un objeto tarda en tocar el suelo, utilizamos las ecuaciones de la cinemática para un movimiento con aceleración constante. Si un objeto "se suelta", significa que su velocidad inicial es cero ($v_i = 0$). La altura desde la que cae se define como $h$, y la aceleración experimentada es la aceleración gravitacional local, denotada como $g$.
+La ecuación que relaciona estas variables es:
+\begin{equation}
+    h = \frac{1}{2} \cdot g \cdot t^2
+\end{equation}
+Despejando analíticamente la variable del tiempo ($t$):
+\begin{equation}
+    t = \sqrt{\frac{2h}{g}}
+\end{equation}
+
+\subsubsection*{Independencia de las Propiedades del Objeto}
+Al observar detenidamente la ecuación final para el tiempo de caída, notamos que depende exclusivamente de dos variables: la altura inicial ($h$) y la aceleración de la gravedad ($g$). La masa inercial ($m$) del objeto **no** aparece en la ecuación cinemática. 
+Dado que el enunciado establece que ambos objetos, independientemente de que posean "distinta masa", se sueltan desde "la misma altura" (mismo valor de $h$), y ambos experimentan el mismo campo gravitacional (mismo valor de $g$), el resultado de la ecuación será matemáticamente idéntico para los dos.
+
+\subsubsection*{Conclusión}
+Ambos objetos llegan al suelo exactamente al mismo tiempo. En condiciones ideales (sin resistencia del aire), todos los cuerpos en caída libre descienden con la misma aceleración gravitacional, independientemente de su masa, tamaño o composición.
+
+\newpage
+
+\subsection*{Enunciado}
+Dos objetos de distinta masa se sueltan desde la misma altura. Explica tu respuesta con base en la fuerza gravitacional y la Segunda Ley de Newton.
+
+\subsection*{Solución}
+
+\subsubsection*{El Conflicto Intuitivo}
+La conclusión de que ambos objetos llegan al mismo tiempo suele generar un profundo conflicto cognitivo en el aprendizaje de la física. La intuición cotidiana sugiere, incorrectamente, que un objeto con mayor masa debe caer más rápido porque es "jalado" con mayor fuerza hacia la Tierra. Esta noción intuitiva no es falsa en su premisa (sí es jalado con más fuerza), pero es incompleta en su análisis dinámico.
+
+\subsubsection*{Análisis de la Fuerza Gravitacional (Peso)}
+Es un hecho irrefutable que el objeto con mayor masa experimenta una fuerza gravitacional proporcionalmente mayor. El peso, que es la fuerza de atracción, se define como $\vec{P} = m \cdot \vec{g}$. 
+Si un objeto A tiene el doble de masa que un objeto B ($m_A = 2m_B$), el objeto A pesará exactamente el doble que el objeto B ($P_A = 2P_B$). Hasta aquí, la intuición de que el objeto masivo sufre un "jalón" más fuerte es totalmente correcta.
+
+\subsubsection*{La Intervención de la Segunda Ley de Newton}
+Para resolver la aparente paradoja, introducimos la Segunda Ley de Newton ($\vec{a} = \frac{\Sigma \vec{F}}{m}$). La aceleración, que es la tasa a la que cambia la velocidad (y por ende, lo que determina quién llega primero), no depende únicamente de cuán grande sea la fuerza que empuja, sino que está dividida por la masa inercial del objeto. La masa es una medida directa de la inercia, la cual se opone a cualquier cambio de movimiento.
+
+\subsubsection*{Cancelación Proporcional (Fuerza vs Inercia)}
+Sustituyendo la fuerza neta por el peso en la ecuación de Newton:
+\begin{equation}
+    \vec{a} = \frac{\vec{P}}{m} = \frac{m \cdot \vec{g}}{m}
+\end{equation}
+Evaluemos el objeto masivo (A). Es jalado hacia abajo con el doble de fuerza, lo que intentaría hacerlo caer más rápido. Sin embargo, al poseer el doble de masa inercial, también presenta exactamente el doble de resistencia (pereza) a ser movido. 
+\begin{equation}
+    \vec{a}_A = \frac{2P_B}{2m_B} = \frac{P_B}{m_B} = \vec{a}_B
+\end{equation}
+El aumento en la fuerza motriz se cancela perfectamente con el aumento proporcional en la inercia resistiva. Matemáticamente, las masas se simplifican de la ecuación, demostrando que la relación entre la fuerza gravitacional y la masa es una constante universal ($g$) para todos los cuerpos.
+
+\subsubsection*{Conclusión}
+La explicación radica en la naturaleza dual de la masa. Aunque el objeto de mayor masa es atraído hacia la Tierra con una fuerza gravitacional mayor (mayor peso), también posee una mayor inercia que se resiste a ser acelerada. Según la Segunda Ley de Newton, la aceleración es la razón entre la fuerza y la masa. Dado que el peso es estrictamente proporcional a la masa, esta razón siempre resulta en una constante ($g$), produciendo idéntica aceleración y tiempo de caída para ambos cuerpos.
+
+\newpage
+
+\subsection*{Enunciado}
+¿Por qué un astronauta flota en la Estación Espacial Internacional si la gravedad allí no es cero?
+
+\subsection*{Solución}
+
+\subsubsection*{El Mito de la Ausencia de Gravedad}
+En el estudio de la física conceptual, un error sumamente frecuente es asumir que en el espacio exterior inmediato no existe gravedad (fenómeno mal llamado "gravedad cero"). La Estación Espacial Internacional (EEI) orbita a una altitud aproximada de 400 km sobre la superficie de la Tierra. A esta distancia, la fuerza de atracción gravitacional terrestre no desaparece; de hecho, su magnitud es de aproximadamente un 90\% de la fuerza que experimentamos al nivel del mar. Es esta misma y poderosa fuerza de gravedad la que atrapa a la estación y la obliga a mantenerse en órbita, evitando que escape en línea recta hacia el espacio profundo.
+
+\subsubsection*{El Concepto de Caída Libre Continua}
+Para entender el fenómeno de la flotabilidad, debemos analizar la cinemática orbital propuesta por Isaac Newton (el experimento mental del "Cañón de Newton"). La nave espacial viaja con una velocidad tangencial extremadamente alta (alrededor de 28,000 km/h). A medida que la gravedad tira de la estación hacia abajo, su inmensa velocidad lateral provoca que la trayectoria parabólica de su caída coincida exactamente con la curvatura del planeta. La Tierra "se curva y se aleja" por debajo de la nave al mismo ritmo al que esta cae. Por lo tanto, la nave espacial se encuentra en un estado ininterrumpido y perpetuo de caída libre.
+
+\subsubsection*{La Fuerza Normal y la Ingravidez Aparente}
+Fisiológicamente, nosotros no sentimos la fuerza de gravedad en sí misma. Lo que nuestro cuerpo interpreta como "peso" es la Fuerza Normal; es decir, la fuerza de soporte que ejerce el piso, la silla o la cama contra nosotros para evitar que caigamos. 
+Dado que el astronauta se encuentra dentro de la nave, y ambos (astronauta y nave) están cayendo hacia la Tierra simultáneamente con exactamente la misma aceleración gravitacional, el suelo de la estación se aparta del astronauta al mismo ritmo al que él cae hacia el suelo. Al no existir una superficie que presione contra el astronauta ofreciendo resistencia, la Fuerza Normal es absolutamente nula. Esta ausencia total de una fuerza de soporte es lo que genera la condición de "ingravidez aparente".
+
+\subsubsection*{Visualización del Movimiento Orbital}
+Para clarificar este escenario dinámico donde la gravedad interactúa con la inercia, el siguiente código en Python (utilizando Matplotlib) ilustra cómo el vector de velocidad lateral y el vector de aceleración en caída libre producen la órbita.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+fig, ax = plt.subplots(figsize=(6, 6))
+
+earth = patches.Circle((0, 0), 6.37, color='dodgerblue', alpha=0.6)
+ax.add_patch(earth)
+ax.text(0, 0, 'Tierra', ha='center', va='center', fontsize=12, fontweight='bold', color='white')
+
+orbit = patches.Circle((0, 0), 8.0, color='gray', fill=False, linestyle='--')
+ax.add_patch(orbit)
+
+ax.plot(0, 8.0, 'ks', markersize=10)
+ax.text(0.5, 8.5, 'Nave y Astronauta', fontsize=10, fontweight='bold')
+
+ax.annotate('', xy=(4, 8.0), xytext=(0.3, 8.0), 
+            arrowprops=dict(facecolor='green', shrink=0, width=2, headwidth=8))
+ax.text(2.0, 8.3, 'Inercia (Velocidad lateral)', color='green', fontsize=10)
+
+ax.annotate('', xy=(0, 5.0), xytext=(0, 7.7), 
+            arrowprops=dict(facecolor='red', shrink=0, width=2, headwidth=8))
+ax.text(0.2, 6.0, 'Gravedad (Caida libre)', color='red', fontsize=10)
+
+ax.set_xlim(-10, 10)
+ax.set_ylim(-10, 10)
+ax.axis('off')
+ax.set_title('Orbita: Caida libre continua sin tocar el suelo', fontsize=14, fontweight='bold')
+
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+El astronauta flota porque tanto él como la estación espacial se encuentran en un estado de caída libre continua. Al caer ambos hacia la Tierra a la misma velocidad y con la misma aceleración, no existe ninguna fuerza de soporte (Fuerza Normal) del suelo empujando contra el astronauta, lo que elimina su peso aparente a pesar de que la fuerza gravitacional real sigue siendo muy intensa.
+
+\newpage
+
+\subsection*{Enunciado}
+¿Por qué los pasajeros de los aviones a gran altitud tienen la sensación de peso en tanto que los pasajeros de un vehículo espacial en órbita, como el transbordador espacial, no la tienen?
+
+\subsection*{Solución}
+
+\subsubsection*{El Origen de la Sensación de Peso}
+Para abordar este fenómeno desde la física conceptual, es vital comprender qué es exactamente lo que el cuerpo humano percibe como "peso". Fisiológicamente, nosotros no sentimos la fuerza de gravedad tirando de nuestras células hacia abajo; lo que sentimos es la compresión de nuestro cuerpo contra una superficie de soporte. Esta fuerza de soporte se conoce en mecánica como Fuerza Normal. La sensación de peso existe siempre que haya una superficie interrumpiendo nuestra caída libre hacia el centro de la Tierra.
+
+\subsubsection*{El Caso del Avión a Gran Altitud}
+Un avión comercial vuela a una altitud aproximada de 10 a 12 kilómetros. A esta distancia, la fuerza de gravedad de la Tierra es casi idéntica a la que existe al nivel del mar (apenas un ligero porcentaje menor). El avión no cae debido a que sus alas generan una fuerza aerodinámica de sustentación que contrarresta la gravedad. Al estar el avión sostenido en el aire, el piso de la cabina y los asientos empujan activamente hacia arriba a los pasajeros. Esta Fuerza Normal constante es lo que los pasajeros interpretan como su peso normal.
+
+\subsubsection*{El Caso del Vehículo Espacial en Órbita}
+El transbordador espacial orbita a una altitud de unos cientos de kilómetros, donde la fuerza gravitacional sigue siendo sumamente fuerte (aproximadamente un 90\% de la intensidad en la superficie). El factor clave no es la ausencia de gravedad, sino el estado de movimiento: la nave está en órbita. Estar en órbita significa estar en un estado de caída libre ininterrumpida, donde la inmensa velocidad lateral de la nave hace que su trayectoria de caída coincida con la curvatura de la Tierra.
+Al caer la nave y los astronautas a exactamente la misma aceleración gravitacional, el suelo de la nave no puede empujar contra los pies de los pasajeros. Al desaparecer la Fuerza Normal, desaparece por completo la sensación física de peso (estado de ingravidez aparente).
+
+\subsubsection*{Visualización de la Fuerza Normal}
+Para ilustrar pedagógicamente la presencia y ausencia de esta fuerza de soporte, el siguiente código en Python genera un diagrama comparativo entre ambos escenarios utilizando Matplotlib.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 4.5))
+
+ax1.plot(0, 0, 's', color='tan', markersize=40)
+ax1.plot([-2, 2], [-0.5, -0.5], color='black', linewidth=4) 
+ax1.text(0, -1, 'Piso del Avion', ha='center', fontweight='bold')
+ax1.annotate('', xy=(0, 1.5), xytext=(0, 0.5), arrowprops=dict(facecolor='blue', shrink=0, width=2, headwidth=8))
+ax1.text(0.2, 1.0, 'Fuerza Normal', color='blue', fontweight='bold')
+ax1.annotate('', xy=(0, -2.5), xytext=(0, -0.5), arrowprops=dict(facecolor='red', shrink=0, width=2, headwidth=8))
+ax1.text(0.2, -2.0, 'Gravedad', color='red', fontweight='bold')
+ax1.set_xlim(-3, 3)
+ax1.set_ylim(-3, 3)
+ax1.axis('off')
+ax1.set_title('Pasajero en Avion (Sustentado)', fontsize=12)
+
+ax2.plot(0, 0, 's', color='lightblue', markersize=40)
+ax2.plot([-2, 2], [-1.5, -1.5], color='gray', linewidth=4, linestyle='--') 
+ax2.text(0, -2, 'Piso de la Nave (Cayendo)', ha='center', fontweight='bold', color='gray')
+ax2.annotate('', xy=(0, -2.5), xytext=(0, -0.5), arrowprops=dict(facecolor='red', shrink=0, width=2, headwidth=8))
+ax2.text(0.2, -1.5, 'Gravedad', color='red', fontweight='bold')
+ax2.text(0, 1.0, 'Fuerza Normal = 0', color='blue', ha='center', fontweight='bold')
+ax2.set_xlim(-3, 3)
+ax2.set_ylim(-3, 3)
+ax2.axis('off')
+ax2.set_title('Astronauta en Orbita (Caida Libre)', fontsize=12)
+
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+Los pasajeros de un avión sienten peso porque el avión genera sustentación aerodinámica, permitiendo que los asientos ejerzan una Fuerza Normal hacia arriba contra ellos. Los pasajeros de un vehículo orbital no sienten peso porque tanto ellos como la nave se encuentran en estado de caída libre continua hacia la Tierra; sin una superficie que se oponga a su caída, la Fuerza Normal es nula, generando ingravidez aparente.
+
+\newpage
+
+\subsection*{Enunciado}
+Supón que estás de pie en lo alto de una escalera tan alta que te encuentras tres veces más lejos del centro de la Tierra de lo que estás en la actualidad. Demuestra que tu peso sería 1/9 de su valor actual.
+
+\subsection*{Solución}
+
+\subsubsection*{La Ley de Gravitación Universal de Newton}
+Para resolver este problema, debemos aplicar la Ley de Gravitación Universal propuesta por Isaac Newton. Esta ley establece que la fuerza de atracción gravitacional ($F$) entre dos masas es directamente proporcional al producto de sus masas e inversamente proporcional al cuadrado de la distancia geométrica que separa sus centros de masa.
+El modelo matemático se expresa como:
+\begin{equation}
+    F = G \frac{m_1 \cdot m_2}{d^2}
+\end{equation}
+Donde $G$ es la constante de gravitación universal, $m_1$ es tu masa, $m_2$ es la masa de la Tierra y $d$ es la distancia desde tu centro de masa hasta el centro de la Tierra.
+
+\subsubsection*{Definición del Peso Actual en la Superficie}
+El peso que experimentas en la actualidad ($P_1$) ocurre cuando estás en la superficie de la Tierra. En este punto, la distancia $d$ es equivalente al radio de la Tierra ($R$). Sustituyendo en la ecuación general:
+\begin{equation}
+    P_1 = G \frac{m_{\text{persona}} \cdot M_{\text{Tierra}}}{R^2}
+\end{equation}
+
+\subsubsection*{Cálculo del Nuevo Peso en la Escalera}
+El enunciado nos pide suponer un nuevo escenario donde nos encontramos en lo alto de una escalera inmensa. La condición clave es que nos encontramos "tres veces más lejos del centro de la Tierra". Esto significa que la nueva distancia no es $R$, sino $3R$.
+Sustituyendo esta nueva distancia en nuestra ecuación para encontrar el nuevo peso ($P_2$):
+\begin{equation}
+    P_2 = G \frac{m_{\text{persona}} \cdot M_{\text{Tierra}}}{(3R)^2}
+\end{equation}
+Aplicando las propiedades algebraicas de la potenciación en el denominador:
+\begin{equation}
+    P_2 = G \frac{m_{\text{persona}} \cdot M_{\text{Tierra}}}{9 R^2}
+\end{equation}
+
+\subsubsection*{Demostración Analítica de la Relación}
+Podemos reescribir la expresión del nuevo peso extrayendo el factor numérico del denominador para hacer evidente la relación con el peso original:
+\begin{equation}
+    P_2 = \frac{1}{9} \left( G \frac{m_{\text{persona}} \cdot M_{\text{Tierra}}}{R^2} \right)
+\end{equation}
+Dado que todo el término dentro del paréntesis es exactamente la definición de nuestro peso actual ($P_1$), realizamos la sustitución final:
+\begin{equation}
+    P_2 = \frac{1}{9} P_1
+\end{equation}
+
+\subsubsection*{Visualización de la Ley de la Inversa del Cuadrado}
+La gravedad obedece a una geometría de expansión esférica, conocida como la ley de la inversa del cuadrado. Para demostrar visualmente cómo decae rápidamente la fuerza con la distancia, el siguiente script en Python grafica la función $1/d^2$.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+distancias = np.linspace(0.8, 3.5, 100)
+fuerzas = 1 / (distancias**2)
+
+fig, ax = plt.subplots(figsize=(7, 4.5))
+
+ax.plot(distancias, fuerzas, color='purple', linewidth=2.5, label=r'$F \propto 1/d^2$')
+ax.plot(1, 1, 'ko', markersize=8)
+ax.text(1.1, 0.95, 'Distancia Actual (R)\nPeso = 1', fontsize=10)
+
+ax.plot(3, 1/9, 'ro', markersize=8)
+ax.text(3.1, 0.15, 'Distancia = 3R\nPeso = 1/9', fontsize=10, color='red')
+
+ax.axhline(0, color='black', linewidth=1)
+ax.axvline(0, color='black', linewidth=1)
+ax.set_xlim(0, 4)
+ax.set_ylim(0, 1.5)
+ax.set_xlabel('Distancia al Centro de la Tierra (Multiplos de R)', fontsize=12)
+ax.set_ylabel('Fuerza Gravitacional Relativa', fontsize=12)
+ax.set_title('Ley de la Inversa del Cuadrado de la Gravedad', fontsize=14, fontweight='bold')
+ax.grid(True, linestyle='--', alpha=0.6)
+ax.legend()
+
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+Ha quedado demostrado matemáticamente. Al regirse la gravedad por la ley de la inversa del cuadrado de la distancia, triplicar la distancia ($3$) produce que la fuerza se divida por el cuadrado de ese factor ($3^2 = 9$). Por consiguiente, tu peso en lo alto de la escalera sería exactamente $1/9$ de su valor en la superficie.
+
+\newpage
+
+\subsection*{Enunciado}
+Si la masa de la Tierra aumentara, tu peso aumentaría en correspondencia. Pero, si la masa del Sol aumentara, tu peso no cambiaría en absoluto. Justifica esta afirmación.
+
+\subsection*{Solución}
+
+\subsubsection*{El Campo Gravitacional Local (La Tierra)}
+La primera parte de la afirmación es una consecuencia directa de la Ley de Gravitación Universal de Newton ($F = G \frac{m_1 m_2}{d^2}$). El peso que marca una báscula bajo tus pies es la medida directa de la fuerza electromagnética de soporte (Fuerza Normal) que la corteza terrestre debe ejercer para evitar que te hundas hacia el núcleo del planeta. Si la masa de la Tierra ($M_{\text{Tierra}}$) aumentara mágicamente, la fuerza de atracción gravitacional sobre tu cuerpo crecería en proporción directa. Al ser jalado con más fuerza contra el suelo, el suelo tendría que devolver una Fuerza Normal mayor, resultando en un aumento inmediato de tu peso empírico.
+
+\subsubsection*{El Campo Gravitacional Global (El Sol)}
+La segunda parte de la afirmación aborda la influencia de cuerpos celestes externos. Es un hecho innegable que el Sol ejerce una fuerza gravitacional colosal sobre todos los objetos en la Tierra, incluyendo nuestro cuerpo. Si la masa del Sol aumentara, la fuerza gravitacional que el Sol ejerce sobre nosotros aumentaría de forma drástica. ¿Por qué entonces no pesamos más?
+
+\subsubsection*{La Inercia, la Órbita y el Principio de Equivalencia}
+La respuesta radica en el estado de movimiento relativo. El Sol no nos empuja contra la superficie de la Tierra. El Sol atrae a la Tierra en su totalidad y, simultáneamente, nos atrae a nosotros con idéntica aceleración. Todo el planeta Tierra, junto con todos sus habitantes, edificios y océanos, se encuentra en un estado de caída libre continua hacia el Sol (este movimiento de caída libre lateral es lo que llamamos órbita).
+
+Dado que nosotros y el suelo bajo nuestros pies estamos cayendo hacia el Sol a la misma tasa de aceleración dictada por la gravedad solar, no se genera ninguna compresión relativa entre nuestros pies y el suelo debido al Sol. Es el mismo principio por el cual los astronautas flotan en la Estación Espacial Internacional (ingravidez). Si la masa del Sol aumentara, la Tierra entera "caería" más rápido (su órbita se cerraría y aceleraría), y nosotros caeríamos más rápido junto con ella. Sin embargo, en nuestro marco de referencia local en la superficie, la compresión contra la báscula (que solo depende de la gravedad terrestre local) permanecería absolutamente inalterada.
+
+\subsubsection*{Conclusión}
+Tu peso no cambiaría al aumentar la masa del Sol porque tanto tú como el planeta Tierra se encuentran en un estado de caída libre continua (órbita) hacia el Sol. Dado que ambos aceleran hacia el Sol a la misma tasa, la gravedad solar no genera ninguna fuerza de compresión relativa (Fuerza Normal) entre tus pies y el suelo terrestre, que es lo que físicamente constituye la medición del peso.
+
+\newpage
+
+\subsection*{Enunciado}
+¿Por qué un objeto pesa menos en la cima de una montaña que al nivel del mar?
+
+\subsection*{Solución}
+
+\subsubsection*{La Definición de Peso}
+Para entender este fenómeno, primero debemos recurrir a la definición física conceptual del peso. El peso no es una propiedad intrínseca de la materia como lo es la masa; el peso es una fuerza. Específicamente, es la fuerza de atracción gravitacional que la Tierra ejerce sobre la masa de un objeto. 
+
+\subsubsection*{La Ley de Gravitación Universal}
+Isaac Newton formalizó el modelo matemático de esta fuerza de atracción mediante su Ley de Gravitación Universal. La ecuación establece que la fuerza de gravedad ($F$) es directamente proporcional al producto de las masas que interactúan ($m_1$ y $m_2$) e inversamente proporcional al cuadrado de la distancia ($d$) que separa sus centros geométricos:
+\begin{equation}
+    F = G \frac{m_1 \cdot m_2}{d^2}
+\end{equation}
+En nuestro contexto, $m_1$ es la masa del objeto, $m_2$ es la masa de la Tierra, y $d$ es la distancia desde el centro de la Tierra hasta el centro de masa del objeto.
+
+\subsubsection*{El Efecto de la Altitud sobre la Distancia}
+Dado que la Tierra es un cuerpo esférico, un objeto que se encuentra al nivel del mar está situado a una distancia del centro de la Tierra equivalente a un radio terrestre ($R$). Sin embargo, cuando ese mismo objeto es trasladado hasta la cima de una montaña, su elevación física lo aleja del centro del planeta. La nueva distancia al centro de gravedad de la Tierra se convierte en el radio terrestre más la altura de la montaña ($R + h$). 
+
+\subsubsection*{La Relación Inversamente Proporcional}
+Al analizar la ecuación matemática, notamos que la distancia ($d$) se encuentra en el denominador y, además, está elevada al cuadrado. En una relación inversamente proporcional, si el valor del denominador aumenta, el resultado global de la fracción disminuye. Por lo tanto, al aumentar la distancia de separación entre el objeto y el núcleo terrestre al subir a la montaña, la fuerza de atracción gravitacional se debilita. 
+
+\subsubsection*{Visualización Geométrica del Sistema}
+Para ilustrar pedagógicamente cómo la altitud incrementa el vector de distancia, el siguiente código en Python genera un esquema del perfil topográfico en relación con el centro del planeta.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+fig, ax = plt.subplots(figsize=(7, 8))
+
+earth = patches.Circle((0, -6), 6, color='dodgerblue', alpha=0.5)
+ax.add_patch(earth)
+ax.plot(0, -6, 'ko', markersize=6)
+ax.text(0.3, -6.1, 'Centro de la Tierra', fontsize=12, fontweight='bold')
+
+ax.plot(2, 0, 'ks', markersize=8, color='navy')
+ax.text(2.3, 0, 'Nivel del mar (Distancia d)', fontsize=11)
+
+mountain = patches.Polygon([(-2.5, 0), (1.5, 0), (-0.5, 3)], color='saddlebrown')
+ax.add_patch(mountain)
+
+ax.plot(-0.5, 3, 'ro', markersize=8)
+ax.text(-0.2, 3.2, 'Cima de la montana (Distancia d + h)', fontsize=11, color='red')
+
+ax.annotate('', xy=(1.9, -0.2), xytext=(0, -5.8), arrowprops=dict(arrowstyle='<->', color='navy', lw=2))
+ax.annotate('', xy=(-0.5, 2.8), xytext=(0, -5.8), arrowprops=dict(arrowstyle='<->', color='red', lw=2, linestyle='dashed'))
+
+ax.set_xlim(-5, 7)
+ax.set_ylim(-7, 5)
+ax.axis('off')
+ax.set_title('Aumento de Distancia al Centro de Gravedad', fontsize=14, fontweight='bold')
+
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+Un objeto pesa menos en la cima de una montaña porque se encuentra a una mayor distancia del centro de masa de la Tierra que cuando está al nivel del mar. De acuerdo con la Ley de Gravitación Universal, la fuerza gravitacional (el peso) disminuye a medida que aumenta la distancia de separación entre los cuerpos.
+
+\newpage
+
+\subsection*{Enunciado}
+Compare la fuerza gravitacional entre dos personas separadas 1 m.
+
+\subsection*{Solución}
+
+\subsubsection*{La Universalidad de la Gravedad}
+De acuerdo con la Ley de Gravitación Universal postulada por Isaac Newton, la gravedad no es un fenómeno exclusivo de los planetas y las estrellas; es una interacción fundamental que ocurre entre cualquier par de objetos que posean masa en el universo. Matemáticamente, esta fuerza de atracción es directamente proporcional al producto de ambas masas e inversamente proporcional al cuadrado de la distancia que las separa ($F = G \frac{m_1 \cdot m_2}{d^2}$). Por lo tanto, dos personas separadas por un metro se atraen gravitacionalmente entre sí.
+
+\subsubsection*{El Rol de la Constante Gravitacional}
+El factor que determina la intensidad empírica de esta fuerza es la Constante de Gravitación Universal ($G$). Esta constante fue medida experimentalmente por Henry Cavendish y su valor es extraordinariamente pequeño: $G = 6.67 \times 10^{-11} \, \text{N}\cdot\text{m}^2/\text{kg}^2$. Este valor infinitesimal nos revela que, a escala fundamental, la gravedad es la fuerza más débil de la naturaleza.
+
+\subsubsection*{Interacción Numérica entre Humanos}
+Si consideramos a dos personas promedio, cada una con una masa aproximada de $70 \, \text{kg}$, separadas por una distancia de $1 \, \text{m}$, podemos estimar la magnitud de esta interacción:
+\begin{equation}
+    F = (6.67 \times 10^{-11}) \frac{70 \cdot 70}{1^2}
+\end{equation}
+\begin{equation}
+    F \approx 0.000000327 \, \text{N}
+\end{equation}
+Esta fuerza equivale a fracciones microscópicas de un Newton (aproximadamente tres diezmillonésimas). Si bien la fuerza existe y es teóricamente medible con instrumentos de altísima precisión (como una balanza de torsión en el vacío), en el entorno biológico y físico del ser humano es absolutamente imperceptible. Cualquier intento de percibir este "tirón" es abrumadoramente cancelado por la inmensa fuerza de fricción estática de los zapatos contra el suelo.
+
+\subsubsection*{Conclusión}
+La fuerza gravitacional entre dos personas separadas por 1 metro existe, pero es microscópicamente débil (del orden de $10^{-7}$ Newtons). Debido a que la constante gravitacional $G$ es extremadamente pequeña, las masas de dos seres humanos no son suficientes para generar una atracción que sea biológica o macroscópicamente perceptible frente a otras fuerzas como la fricción.
+
+\newpage
+
+\subsection*{Enunciado}
+Compare la fuerza gravitacional entre la Tierra y una persona.
+
+\subsection*{Solución}
+
+\subsubsection*{Interacción a Escala Planetaria}
+Siguiendo la misma Ley de Gravitación Universal ($F = G \frac{m_1 \cdot m_2}{d^2}$), ahora analizamos el escenario donde una de las masas interactuantes es el planeta Tierra ($m_1 = M_{\text{Tierra}}$) y la otra es una persona ($m_2 = m_{\text{persona}}$). La distancia geométrica de separación es el radio desde el centro de la Tierra hasta su superficie ($d = R_{\text{Tierra}}$).
+
+\subsubsection*{La Compensación de la Constante $G$}
+Como establecimos previamente, la constante $G$ es minúscula ($10^{-11}$). Sin embargo, para que esta fuerza adquiera relevancia a nivel macroscópico, al menos uno de los cuerpos debe poseer una masa colosal. La Tierra cumple sobradamente con este requisito. Su masa inercial es de aproximadamente $5.97 \times 10^{24} \, \text{kg}$. Este valor hipermasivo contrarresta matemáticamente la pequeñez de la constante gravitacional.
+
+\subsubsection*{El Concepto Físico de Peso}
+La fuerza de atracción gravitacional específica entre un cuerpo celeste masivo (como la Tierra) y un objeto ubicado cerca de su superficie es lo que en física conceptual denominamos "peso" ($P = m \cdot g$). Al agrupar las constantes de la Tierra ($G$, $M_{\text{Tierra}}$ y $R_{\text{Tierra}}^2$), obtenemos la aceleración de la gravedad $g = 9.8 \, \text{m/s}^2$. 
+Si calculamos esta fuerza para una persona de $70 \, \text{kg}$:
+\begin{equation}
+    P = 70 \, \text{kg} \cdot 9.8 \, \text{m/s}^2 \approx 686 \, \text{N}
+\end{equation}
+A diferencia de la interacción entre dos humanos, esta es una fuerza enorme y dominante. Es la fuerza que dicta la biomecánica terrestre, mantiene nuestra atmósfera anclada y nos obliga a desarrollar estructuras óseas robustas.
+
+\subsubsection*{Conclusión}
+La fuerza gravitacional entre la Tierra y una persona es macroscópica, enorme y fisiológicamente dominante (del orden de cientos de Newtons para un adulto promedio). A esta interacción específica se le denomina "peso", y es inmensa porque la masa de la Tierra es lo suficientemente grande como para contrarrestar la debilidad intrínseca de la gravedad.
+
+\newpage
+
+\subsection*{Enunciado}
+Al comparar la fuerza gravitacional entre dos personas separadas 1 m y la fuerza entre la Tierra y una persona, ¿cuál es mayor y por qué?
+
+\subsection*{Solución}
+
+\subsubsection*{Comparación Directa de Magnitudes}
+Basándonos en los análisis individuales de los dos escenarios regidos por la Segunda Ley de Newton y la Gravitación Universal, la disparidad es absoluta. La fuerza entre dos personas es de fracciones millonésimas de un Newton, mientras que la fuerza entre la Tierra y una persona es de cientos de Newtons. Es incuestionable que la fuerza de gravedad ejercida por la Tierra sobre la persona es exponencialmente mayor.
+
+\subsubsection*{La Explicación Matemática de la Asimetría}
+El "por qué" radica exclusivamente en la variable de la masa. La ecuación gravitacional ($F = G \frac{m_1 \cdot m_2}{d^2}$) dictamina que la fuerza es un reflejo directo de la cantidad de materia de los cuerpos involucrados. 
+En el primer escenario, multiplicamos dos masas humanas ($70 \cdot 70 = 4900 \, \text{kg}^2$). 
+En el segundo escenario, multiplicamos una masa humana por la masa planetaria ($70 \cdot 6 \times 10^{24} = 4.2 \times 10^{26} \, \text{kg}^2$). 
+La diferencia entre el término de masas de ambos sistemas es de aproximadamente veintidós órdenes de magnitud. 
+
+\subsubsection*{Visualización Logarítmica de las Interacciones}
+Para ilustrar esta disparidad tan extrema de una manera pedagógicamente comprensible, se recurre a una escala logarítmica. El siguiente código en Python, mediante Matplotlib, renderiza un gráfico de barras que evidencia cómo la fuerza planetaria eclipsa por completo a la atracción interpersonal.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+escenarios = ['Entre dos\nPersonas (1 m)', 'Entre Persona\ny la Tierra']
+fuerzas = [3.27e-7, 686] 
+
+fig, ax = plt.subplots(figsize=(7, 5))
+barras = ax.bar(escenarios, fuerzas, color=['orange', 'dodgerblue'], edgecolor='black')
+
+ax.set_yscale('log')
+
+ax.set_ylabel('Fuerza de Atraccion Gravitacional (Newtons)\n[Escala Logaritmica]', fontsize=11, fontweight='bold')
+ax.set_title('Asimetria de la Gravedad de Newton', fontsize=14, fontweight='bold')
+
+ax.text(0, fuerzas[0] * 2, f'~ {fuerzas[0]} N\n(Imperceptible)', ha='center', va='bottom', fontsize=10, color='saddlebrown')
+ax.text(1, fuerzas[1] * 2, f'~ {fuerzas[1]} N\n(Peso Macroscopico)', ha='center', va='bottom', fontsize=10, color='navy')
+
+ax.spines['top'].set_visible(False)
+ax.spines['right'].set_visible(False)
+ax.grid(axis='y', linestyle='--', alpha=0.5)
+
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+La fuerza gravitacional entre la Tierra y una persona es inmensamente mayor. Esto ocurre porque la gravedad es directamente proporcional al producto de las masas; dado que la masa de la Tierra (aproximadamente $6 \times 10^{24} \, \text{kg}$) es inconmensurablemente mayor que la masa de una segunda persona, la fuerza de atracción que genera el planeta eclipsa por completo cualquier interacción gravitacional entre cuerpos de escala humana.
+
+\newpage
+
+\subsection*{Enunciado}
+Relacione la gravedad con el movimiento de los satélites.
+
+\subsection*{Solución}
+
+\subsubsection*{El Principio de Inercia y la Trayectoria Rectilínea}
+Para comprender el movimiento de los satélites, primero debemos analizar qué sucedería si la gravedad no existiera. De acuerdo con la Primera Ley de Newton (la ley de la inercia), un objeto en movimiento sobre el cual no actúa ninguna fuerza neta continuará viajando en línea recta y a velocidad constante. Un satélite posee una inmensa velocidad tangencial (velocidad horizontal paralela a la superficie). Si repentinamente se "apagara" la gravedad de la Tierra, la inercia del satélite haría que saliera disparado en línea recta perdiéndose en el espacio profundo.
+
+\subsubsection*{La Gravedad como Fuerza Centrípeta Desviadora}
+Para que el satélite no escape en su trayectoria rectilínea, requiere de una fuerza constante que lo desvíe hacia el centro. Esa es precisamente la función de la gravedad. La fuerza gravitacional actúa como una fuerza centrípeta, tirando implacablemente del satélite hacia el centro de la masa terrestre. Esta interacción dinámica entre la tendencia inercial de ir en línea recta y el tirón gravitacional hacia adentro es lo que curva la trayectoria del objeto.
+
+\subsubsection*{El Cañón de Newton y la Caída Libre Perpetua}
+El modelo pedagógico de la física conceptual para explicar esto es el ``Cañón de Newton''. Si se lanza un proyectil horizontalmente desde una montaña muy alta con poca velocidad, la gravedad lo arrastrará curvando su trayectoria hasta chocar contra el suelo. 
+Sin embargo, si la velocidad de lanzamiento es lo suficientemente grande (aproximadamente 8 kilómetros por segundo para una órbita baja), ocurre un fenómeno geométrico fascinante: por cada metro que el satélite cae verticalmente atraído por la gravedad, la superficie esférica de la Tierra se curva hacia abajo alejándose exactamente la misma distancia. El satélite cae continuamente, pero el suelo se curva apartándose de su camino al mismo ritmo. En consecuencia, el satélite se encuentra en un estado de caída libre perpetua alrededor del planeta.
+
+\subsubsection*{Visualización del Modelo Orbital}
+Para ilustrar esta magistral interacción entre la inercia y la fuerza gravitacional, el siguiente script en Python mediante Matplotlib renderiza el modelo del experimento mental de Newton, contrastando las trayectorias resultantes.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+import numpy as np
+
+fig, ax = plt.subplots(figsize=(7, 7))
+
+tierra = patches.Circle((0, 0), 6.37, color='dodgerblue', alpha=0.6)
+ax.add_patch(tierra)
+ax.text(0, 0, 'Tierra', ha='center', va='center', fontsize=12, fontweight='bold', color='white')
+
+ax.plot([0, 0], [6.37, 8.0], color='gray', linewidth=3)
+ax.plot(0, 8.0, 'ks', markersize=6)
+ax.text(0.3, 8.3, 'Satelite', fontsize=10, fontweight='bold')
+
+ax.annotate('', xy=(5, 8.0), xytext=(0, 8.0),
+            arrowprops=dict(facecolor='green', shrink=0, width=2, headwidth=8))
+ax.text(2.0, 8.3, 'Inercia (Sin Gravedad)', color='green', fontsize=10)
+
+x_caida = np.linspace(0, 4, 50)
+y_caida = 8.0 - 0.4 * x_caida**2
+ax.plot(x_caida, y_caida, color='red', linestyle='--', linewidth=2)
+ax.text(3.5, 4.0, 'Gravedad +\nBaja Velocidad', color='red', fontsize=10, fontweight='bold')
+
+orbita = patches.Circle((0, 0), 8.0, color='purple', fill=False, linestyle='-', linewidth=2.5)
+ax.add_patch(orbita)
+ax.annotate('', xy=(-8.0, -0.5), xytext=(-8.0, 0.5),
+            arrowprops=dict(facecolor='purple', shrink=0, width=2, headwidth=8))
+ax.text(-5.5, -6.5, 'Gravedad + Alta Velocidad\n(Caida Libre Perpetua = Orbita)', color='purple', fontsize=10, ha='center', fontweight='bold')
+
+ax.set_xlim(-10, 10)
+ax.set_ylim(-10, 10)
+ax.axis('off')
+ax.set_title('El Canon de Newton: La Gravedad en Orbita', fontsize=14, fontweight='bold')
+
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+La relación radica en que la gravedad es la fuerza responsable de mantener al satélite atrapado en su trayectoria. El satélite es un proyectil moviéndose a una velocidad horizontal tan elevada que la fuerza gravitacional solo logra curvar su camino para igualar la curvatura de la Tierra, manteniéndolo en una caída libre perpetua que denominamos órbita, en lugar de hacerlo estrellar contra la superficie.
+
+\newpage
+
+\subsection*{Enunciado}
+Un satélite artificial de masa $m = 1000 \, \text{kg}$ se encuentra orbitando la Tierra a una altura donde la aceleración gravitacional es $g = 8.7 \, \text{m/s}^2$. Calcule el peso del satélite en ese punto.
+
+\subsection*{Solución}
+
+\subsubsection*{El Concepto de Peso Orbital}
+En la física conceptual, es indispensable distinguir que la gravedad no se limita a la superficie de la Tierra; su influencia se extiende hacia el espacio infinito, aunque su intensidad disminuye con la distancia. El peso de un objeto, por definición, es la fuerza de atracción gravitacional que el planeta ejerce sobre su masa. Dado que a esa altitud orbital la aceleración gravitacional aún posee un valor considerable ($8.7 \, \text{m/s}^2$, en comparación con los $9.8 \, \text{m/s}^2$ de la superficie), el satélite experimenta un peso real y medible.
+
+\subsubsection*{Cálculo de la Fuerza Gravitacional}
+El modelo dinámico para calcular la magnitud del peso ($\vec{P}$) se deriva de la Segunda Ley de Newton, multiplicando la masa inercial del cuerpo ($m$) por la aceleración gravitacional local en ese punto del espacio ($\vec{g}$):
+\begin{equation}
+    P = m \cdot g
+\end{equation}
+Sustituyendo los valores proporcionados en el planteamiento:
+\begin{equation}
+    P = 1000 \, \text{kg} \cdot 8.7 \, \text{m/s}^2
+\end{equation}
+\begin{equation}
+    P = 8700 \, \text{N}
+\end{equation}
+
+\subsubsection*{Conclusión}
+El peso del satélite en ese punto de su órbita es de 8700 N, dirigido hacia el centro de la Tierra.
+
+\newpage
+
+\subsection*{Enunciado}
+Un satélite artificial de masa $m = 1000 \, \text{kg}$ se encuentra orbitando la Tierra a una altura donde la aceleración gravitacional es $g = 8.7 \, \text{m/s}^2$. Explique si el satélite se encuentra o no en estado de ingravidez, justificando físicamente su respuesta.
+
+\subsection*{Solución}
+
+\subsubsection*{La Diferencia entre Gravedad Cero y Sensación de Peso}
+El término "ingravidez" suele ser fuente de confusiones pedagógicas. Como demostramos en el inciso anterior, el satélite posee un peso real de 8700 N. Por lo tanto, no se encuentra en un entorno de "gravedad cero". La gravedad está presente y actúa fuertemente sobre él. Lo que desaparece en órbita no es la gravedad, sino la sensación física del peso. Fisiológica y mecánicamente, el "peso" se percibe cuando una superficie de soporte (Fuerza Normal) presiona contra el objeto ocluyendo su caída.
+
+\subsubsection*{La Dinámica de la Caída Libre Continua}
+El satélite orbita la Tierra debido a que posee una velocidad tangencial (horizontal) extraordinariamente alta. La gravedad (esos 8700 N) actúa como una fuerza centrípeta perpendicular a su velocidad, curvando su trayectoria. Por cada metro que el satélite cae atraído por la gravedad, la superficie esférica del planeta se curva alejándose un metro. Esto significa que el satélite y todo lo que contiene en su interior están en un régimen de caída libre perpetua y continua.
+
+\subsubsection*{Ausencia de Fuerza de Sostén}
+Dado que el piso del satélite está cayendo hacia la Tierra exactamente con la misma aceleración gravitacional ($8.7 \, \text{m/s}^2$) que sus componentes internos o posibles tripulantes, no existe una compresión relativa entre ellos. Al no haber ninguna superficie que se resista a la caída para proporcionar una Fuerza Normal hacia arriba, se anula la sensación de peso. Este estado físico preciso se define como "ingravidez aparente".
+
+\subsubsection*{Visualización del Equilibrio Orbital}
+Para solidificar este concepto, a continuación se proporciona un modelo programado en Python (Matplotlib) que ilustra cómo el peso actúa exclusivamente como agente desviador (fuerza centrípeta) frente a la velocidad inercial, garantizando la caída libre sin impacto.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+fig, ax = plt.subplots(figsize=(7, 7))
+
+tierra = patches.Circle((0, 0), 6.37, color='royalblue', alpha=0.8)
+ax.add_patch(tierra)
+ax.text(0, 0, 'Tierra', ha='center', va='center', fontsize=12, fontweight='bold', color='white')
+
+orbita = patches.Circle((0, 0), 8.5, color='gray', fill=False, linestyle='dashed')
+ax.add_patch(orbita)
+
+ax.plot(0, 8.5, 's', color='silver', markersize=14, markeredgecolor='black')
+ax.text(0.6, 9.0, 'Satelite', fontsize=11, fontweight='bold')
+
+ax.annotate('', xy=(4.5, 8.5), xytext=(0.5, 8.5),
+            arrowprops=dict(facecolor='green', shrink=0, width=2, headwidth=8))
+ax.text(1.5, 8.8, 'Velocidad Inercial', color='green', fontsize=10, fontweight='bold')
+
+ax.annotate('', xy=(0, 5.0), xytext=(0, 8.2),
+            arrowprops=dict(facecolor='red', shrink=0, width=3, headwidth=10))
+ax.text(0.2, 6.2, 'Peso (8700 N)\nFuerza Centripeta', color='red', fontsize=10, fontweight='bold')
+
+ax.set_xlim(-10, 10)
+ax.set_ylim(-10, 10)
+ax.axis('off')
+ax.set_title('Ingravidez Aparente por Caida Libre Continua', fontsize=14, fontweight='bold')
+
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+El satélite se encuentra en estado de ingravidez aparente. Aunque tiene un peso real considerable dictado por la gravedad terrestre, la ausencia total de una fuerza normal de sostén, provocada por su estado cinemático de caída libre continua en órbita, elimina cualquier percepción física de peso.
+
+\newpage
+
+\subsection*{Enunciado}
+Dos cuerpos de masas $m_1 = 5 \, \text{kg}$ y $m_2 = 10 \, \text{kg}$ se encuentran separados por una distancia de $2 \, \text{m}$. Dato: $G = 6.67 \times 10^{-11} \, \text{N}\cdot\text{m}^2/\text{kg}^2$. Calcule la fuerza gravitacional entre ellos.
+
+\subsection*{Solución}
+
+\subsubsection*{La Ley de Gravitación Universal}
+Para cuantificar la interacción gravitacional entre dos cuerpos masivos, recurrimos a la Ley de Gravitación Universal de Isaac Newton. Este postulado físico establece que todo objeto en el universo atrae a cualquier otro objeto con una fuerza dirigida a lo largo de la línea que une sus centros. La magnitud de esta fuerza es directamente proporcional al producto de sus masas e inversamente proporcional al cuadrado de la distancia que los separa.
+
+\subsubsection*{Planteamiento del Modelo Matemático}
+La formulación analítica de esta ley se expresa mediante la siguiente ecuación:
+\begin{equation}
+    F = G \frac{m_1 \cdot m_2}{d^2}
+\end{equation}
+Donde $F$ es la magnitud de la fuerza gravitacional, $G$ es la constante de gravitación universal, $m_1$ y $m_2$ son las masas de los cuerpos, y $d$ es la distancia de separación.
+
+\subsubsection*{Sustitución y Desarrollo Aritmético}
+Extraemos los datos proporcionados por el enunciado: $m_1 = 5 \, \text{kg}$, $m_2 = 10 \, \text{kg}$, $d = 2 \, \text{m}$, y la constante $G$. Procedemos a sustituir estos valores exactos dentro de nuestra ecuación:
+\begin{equation}
+    F = 6.67 \times 10^{-11} \frac{(5)(10)}{(2)^2}
+\end{equation}
+Resolvemos primero las operaciones aritméticas de la fracción (multiplicación en el numerador y potenciación en el denominador):
+\begin{equation}
+    F = 6.67 \times 10^{-11} \left( \frac{50}{4} \right)
+\end{equation}
+Dividimos $50$ entre $4$ para obtener el factor escalar de las masas respecto a la distancia:
+\begin{equation}
+    F = 6.67 \times 10^{-11} (12.5)
+\end{equation}
+Finalmente, multiplicamos el valor de la constante gravitacional por este factor. $6.67 \times 12.5 = 83.375$. Ajustando la notación científica para dejar un solo dígito entero:
+\begin{equation}
+    F = 8.3375 \times 10^{-10} \, \text{N}
+\end{equation}
+Redondeando a dos cifras decimales como dicta el estándar académico de presentación de resultados:
+\begin{equation}
+    F \approx 8.34 \times 10^{-10} \, \text{N}
+\end{equation}
+
+\subsubsection*{Conclusión}
+La fuerza gravitacional de atracción mutua entre ambos cuerpos es de $8.34 \times 10^{-10} \, \text{N}$.
+
+\newpage
+
+\subsection*{Enunciado}
+Dos cuerpos de masas $m_1 = 5 \, \text{kg}$ y $m_2 = 10 \, \text{kg}$ se encuentran separados por una distancia de $2 \, \text{m}$. Indique cuál masa experimenta mayor fuerza.
+
+\subsection*{Solución}
+
+\subsubsection*{El Principio de Interacción Mutua}
+Existe una concepción errónea y muy común en la intuición de la física que sugiere que un objeto más masivo (el de $10 \, \text{kg}$) debe tirar del objeto menos masivo (el de $5 \, \text{kg}$) con más fuerza de la que este último tira de él. Para desmentir esto, debemos recurrir a la Tercera Ley de Newton (Principio de Acción y Reacción). 
+
+\subsubsection*{Análisis de la Tercera Ley de Newton}
+La Tercera Ley decreta irrefutablemente que las fuerzas no existen de manera aislada; son interacciones mutuas entre dos cuerpos. Si el cuerpo A ejerce una fuerza sobre el cuerpo B, el cuerpo B debe ejercer simultáneamente una fuerza de idéntica magnitud y dirección opuesta sobre el cuerpo A. Es físicamente imposible que un objeto "tire" de otro con mayor intensidad de la que es "tirado".
+
+\subsubsection*{La Simetría en la Ecuación Gravitacional}
+Desde la perspectiva analítica, la propia ecuación de la Ley de Gravitación Universal ($F = G \frac{m_1 m_2}{d^2}$) garantiza esta igualdad. El numerador contiene el producto de ambas masas ($m_1 \cdot m_2$). De acuerdo con la propiedad conmutativa de la multiplicación, el orden de los factores no altera el producto ($5 \times 10 = 10 \times 5 = 50$). La fuerza calculada es una única magnitud compartida por el sistema; es la tensión invisible que existe entre ambos.
+
+\subsubsection*{Visualización de la Simetría de Fuerzas}
+Para consolidar pedagógicamente que la disparidad de masas no altera la simetría de las fuerzas, el siguiente código en Python, mediante Matplotlib, ilustra los vectores de fuerza operando sobre los cuerpos. 
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+fig, ax = plt.subplots(figsize=(8, 4))
+
+m1 = patches.Circle((2.5, 0), 0.5, linewidth=1.5, edgecolor='black', facecolor='lightblue')
+ax.add_patch(m1)
+ax.text(2.5, 0, '5 kg', ha='center', va='center', fontweight='bold', fontsize=12)
+
+m2 = patches.Circle((7.5, 0), 0.8, linewidth=1.5, edgecolor='black', facecolor='salmon')
+ax.add_patch(m2)
+ax.text(7.5, 0, '10 kg', ha='center', va='center', fontweight='bold', fontsize=12)
+
+ax.annotate('', xy=(4.5, 0), xytext=(3.1, 0), 
+            arrowprops=dict(facecolor='red', shrink=0, width=2.5, headwidth=9))
+ax.text(3.8, 0.3, 'F', color='red', fontweight='bold', ha='center', fontsize=12)
+
+ax.annotate('', xy=(5.5, 0), xytext=(6.6, 0), 
+            arrowprops=dict(facecolor='red', shrink=0, width=2.5, headwidth=9))
+ax.text(6.1, 0.3, '-F', color='red', fontweight='bold', ha='center', fontsize=12)
+
+ax.annotate('', xy=(7.5, -1.3), xytext=(2.5, -1.3), 
+            arrowprops=dict(arrowstyle='<->', color='navy', lw=2))
+ax.text(5, -1.6, 'Distancia = 2 m', color='navy', fontweight='bold', ha='center', fontsize=11)
+
+ax.set_xlim(0, 10)
+ax.set_ylim(-2.5, 1.5)
+ax.axis('off')
+ax.set_title('Tercera Ley de Newton: Interaccion Mutua y Simetrica', fontsize=14, fontweight='bold')
+
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+Ambos cuerpos experimentan exactamente la misma magnitud de fuerza gravitacional ($8.34 \times 10^{-10} \, \text{N}$). Según la Tercera Ley de Newton, la gravedad es una interacción mutua en la que la fuerza de acción es obligatoriamente igual a la fuerza de reacción, independientemente de la diferencia de sus masas.
+
+\newpage
+
+\subsection*{Enunciado}
+Dos cuerpos de masas $m_1 = 5 \, \text{kg}$ y $m_2 = 10 \, \text{kg}$ se encuentran separados por una distancia de $2 \, \text{m}$. Explique por qué ambos cuerpos aceleran de forma distinta, a pesar de experimentar la misma fuerza.
+
+\subsection*{Solución}
+
+\subsubsection*{Diferenciación Conceptual: Fuerza vs. Aceleración}
+El error más arraigado en el estudio de la dinámica newtoniana es confundir la fuerza (la causa) con la aceleración (el efecto). Haber demostrado que ambos objetos sufren un "tirón" idéntico (misma fuerza) no significa que vayan a responder de la misma manera a dicho tirón. 
+
+\subsubsection*{El Rol de la Masa como Inercia}
+La Segunda Ley de Newton es el puente matemático entre la interacción y el movimiento resultante. Establece que la aceleración ($\vec{a}$) es el resultado de dividir la fuerza neta aplicada ($\vec{F}$) entre la masa inercial del objeto ($m$).
+\begin{equation}
+    \vec{a} = \frac{\vec{F}}{m}
+\end{equation}
+La masa es una medida cuantitativa de la inercia, que es la pereza o resistencia intrínseca de la materia a ser movida. Un objeto masivo se resistirá más a la fuerza que un objeto ligero.
+
+\subsubsection*{Comparación Analítica de las Aceleraciones}
+Sometamos ambos cuerpos a la Segunda Ley de Newton sabiendo que la fuerza gravitacional $F$ es una constante idéntica para ambos:
+
+Para el cuerpo de menor masa ($m_1 = 5 \, \text{kg}$):
+\begin{equation}
+    a_1 = \frac{F}{5}
+\end{equation}
+
+Para el cuerpo de mayor masa ($m_2 = 10 \, \text{kg}$):
+\begin{equation}
+    a_2 = \frac{F}{10}
+\end{equation}
+
+Es matemáticamente evidente que dividir una misma cantidad ($F$) entre un número pequeño ($5$) resultará en un cociente mayor que al dividirla entre un número grande ($10$). Específicamente, como $m_2$ es el doble de $m_1$, la inercia del cuerpo de $10 \, \text{kg}$ es el doble, lo que ahogará el efecto de la fuerza, resultando en exactamente la mitad de la aceleración experimentada por el cuerpo de $5 \, \text{kg}$.
+
+\subsubsection*{Conclusión}
+Ambos cuerpos aceleran de forma distinta porque la aceleración depende inversamente de la masa. Aunque la fuerza de tracción es matemáticamente igual, el cuerpo de $10 \, \text{kg}$ posee el doble de masa (inercia) que el cuerpo de $5 \, \text{kg}$, lo que significa que opondrá una resistencia mucho mayor. En consecuencia, el cuerpo de menor masa experimentará una aceleración significativamente mayor bajo la influencia de la misma fuerza.
+
+\newpage
+
+\subsection*{Enunciado}
+Un amigo dice que arriba de la atmósfera, en territorio del transbordador espacial, el campo gravitacional de la Tierra es cero. Discute la mala interpretación de tu amigo usando la ecuación de la fuerza gravitacional en tu explicación.
+
+\subsection*{Solución}
+
+\subsubsection*{Análisis del Error Conceptual}
+La afirmación de tu amigo se basa en una de las confusiones más extendidas en la cultura popular: asociar la falta de atmósfera o el estar en el "espacio exterior" con la ausencia de gravedad. La atmósfera terrestre es simplemente una capa de gases retenida por la propia gravedad del planeta; no actúa como un escudo que bloquea o contiene la fuerza gravitacional. Salir de la atmósfera no significa salir del alcance gravitacional de la Tierra. 
+
+\subsubsection*{La Ecuación de la Gravitación Universal}
+Para demostrar analíticamente el error, recurrimos a la ecuación de la Ley de Gravitación Universal propuesta por Newton:
+\begin{equation}
+    F = G \frac{M_{\text{Tierra}} \cdot m_{\text{amigo}}}{d^2}
+\end{equation}
+En esta fórmula matemática, $F$ representa la fuerza gravitacional, $M_{\text{Tierra}}$ es la masa del planeta y $m_{\text{amigo}}$ es la masa de tu amigo. La variable crítica aquí es $d$, que representa la distancia desde el centro de la Tierra.
+Para que la fuerza de gravedad ($F$) sea exactamente cero, la distancia ($d$) tendría que ser matemáticamente infinita. En cualquier distancia finita, por muy grande que sea, la gravedad puede debilitarse debido al cuadrado del denominador, pero nunca desaparece por completo.
+
+\subsubsection*{La Verdadera Dinámica del Transbordador}
+El transbordador espacial orbita a una altitud de aproximadamente 400 kilómetros sobre la superficie terrestre. Si sumamos esto al radio de la Tierra (unos 6370 km), notamos que la distancia al centro de la Tierra ($d$) solo ha aumentado levemente (alrededor de un 6\%). Al sustituir este pequeño aumento en la ecuación de la gravitación, encontramos que la fuerza gravitacional a esa altitud sigue siendo aproximadamente el 90\% de la fuerza que experimentamos al nivel del mar.
+La razón por la que los astronautas flotan no es porque la gravedad sea cero, sino porque el transbordador y todo su contenido se encuentran viajando a una velocidad horizontal tan inmensa que entran en un régimen de caída libre perpetua alrededor de la curvatura del planeta. A esto se le denomina ingravidez aparente.
+
+\subsubsection*{Visualización de la Atenuación Gravitacional}
+Para ilustrar pedagógicamente cómo la gravedad se atenúa pero no se anula al llegar a la órbita baja terrestre, el siguiente código en Python grafica el comportamiento de la fuerza según la ley de la inversa del cuadrado.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+radio_tierra = 6371
+altitud_orbita = 400
+distancia_orbita = radio_tierra + altitud_orbita
+
+d_relativa = np.linspace(1, 2.5, 100)
+gravedad_relativa = 1 / d_relativa**2
+
+fig, ax = plt.subplots(figsize=(8, 5))
+ax.plot(d_relativa, gravedad_relativa, color='navy', linewidth=2.5, label='Atenuacion (1/d^2)')
+
+ax.plot(1, 1, 'ro', markersize=8)
+ax.text(1.05, 0.95, 'Superficie Terrestre (100%)', fontsize=10, color='red', fontweight='bold')
+
+d_transbordador = distancia_orbita / radio_tierra
+g_transbordador = 1 / d_transbordador**2
+ax.plot(d_transbordador, g_transbordador, 'go', markersize=8)
+ax.text(d_transbordador + 0.05, g_transbordador + 0.02, f'Transbordador (~{g_transbordador*100:.0f}% de G)', fontsize=10, color='green', fontweight='bold')
+
+ax.set_xlim(0.9, 2.5)
+ax.set_ylim(0, 1.2)
+ax.set_xlabel('Distancia al Centro (Multiplos del Radio Terrestre)', fontsize=12)
+ax.set_ylabel('Fuerza Gravitacional Relativa', fontsize=12)
+ax.set_title('Gravedad Terrestre: Superficie vs. Orbita Baja', fontsize=14, fontweight='bold')
+ax.grid(True, linestyle='--', alpha=0.6)
+ax.legend()
+
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+La afirmación es incorrecta porque confunde el vacío atmosférico con un vacío gravitacional. La ecuación de Newton ($F = G \frac{Mm}{d^2}$) demuestra que la gravedad se extiende infinitamente y solo disminuye con el cuadrado de la distancia. A la altitud del transbordador, la gravedad sigue siendo casi del 90\%, y lo que tu amigo percibe como "cero gravedad" es en realidad el efecto físico de estar en caída libre continua (ingravidez aparente).
+
+\newpage
+
+\subsection*{Enunciado}
+Dos cuerpos tienen masas diferentes. ¿Actúa la misma fuerza gravitacional sobre ambos al caer?
+
+\subsection*{Solución}
+
+\subsubsection*{Diferenciación entre Fuerza Gravitacional y Aceleración}
+Para abordar este problema desde la física conceptual, es estrictamente necesario separar dos conceptos que la intuición suele mezclar: la fuerza que actúa sobre el objeto y la forma en la que el objeto responde a dicha fuerza. La fuerza gravitacional que actúa sobre un cuerpo en las cercanías de la superficie terrestre recibe un nombre específico: el peso. 
+
+\subsubsection*{Análisis Proporcional de la Fuerza}
+El peso de un objeto se define matemáticamente mediante la ecuación $\vec{P} = m \cdot \vec{g}$. En un mismo lugar físico, la aceleración de la gravedad ($\vec{g}$) es una constante idéntica para cualquier cuerpo. Por lo tanto, la magnitud de la fuerza gravitacional depende directa y exclusivamente de la masa ($m$) del objeto. Si los dos cuerpos tienen masas diferentes ($m_1 \neq m_2$), el resultado de multiplicar sus masas por la constante gravitacional producirá inevitablemente valores diferentes. La Tierra atrae con una fuerza mucho mayor al objeto que posee mayor cantidad de materia.
+
+\subsubsection*{La Paradoja de la Caída Libre}
+A pesar de que el cuerpo más masivo experimenta un "tirón" gravitacional más fuerte, no cae más rápido. La Segunda Ley de Newton nos enseña que la aceleración es la razón entre la fuerza aplicada y la inercia del objeto ($\vec{a} = \frac{\vec{F}}{m}$). Al sustituir la fuerza por el peso obtenemos $\vec{a} = \frac{m \cdot \vec{g}}{m}$. La variable de la masa se cancela matemáticamente tanto en el numerador como en el denominador. Esto demuestra que la mayor inercia del objeto masivo compensa exactamente la mayor fuerza gravitacional que experimenta, resultando en que ambos cuerpos caigan con la misma aceleración.
+
+\subsubsection*{Visualización de la Relación Dinámica}
+Para erradicar la confusión pedagógica, el siguiente código en Python utiliza Matplotlib para contrastar gráficamente cómo varían los vectores de fuerza mientras los vectores de aceleración se mantienen inmutables.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+fig, ax = plt.subplots(figsize=(8, 4.5))
+
+circle1 = patches.Circle((2.5, 3), 0.4, linewidth=1.5, edgecolor='black', facecolor='lightblue')
+ax.add_patch(circle1)
+ax.text(2.5, 3, 'm', ha='center', va='center', fontsize=12, fontweight='bold')
+
+ax.annotate('', xy=(2.5, 1.5), xytext=(2.5, 2.6), 
+            arrowprops=dict(facecolor='red', shrink=0, width=2, headwidth=8))
+ax.text(1.7, 2.0, 'Peso (F)', color='red', fontsize=11, fontweight='bold')
+
+ax.annotate('', xy=(3.5, 1.5), xytext=(3.5, 2.6), 
+            arrowprops=dict(facecolor='purple', shrink=0, width=2, headwidth=8))
+ax.text(3.7, 2.0, 'a = g', color='purple', fontsize=11, fontweight='bold')
+
+circle2 = patches.Circle((6.5, 3), 0.8, linewidth=1.5, edgecolor='black', facecolor='salmon')
+ax.add_patch(circle2)
+ax.text(6.5, 3, '2m', ha='center', va='center', fontsize=12, fontweight='bold')
+
+ax.annotate('', xy=(6.5, 0.2), xytext=(6.5, 2.2), 
+            arrowprops=dict(facecolor='red', shrink=0, width=4, headwidth=12))
+ax.text(5.2, 1.2, 'Peso (2F)', color='red', fontsize=11, fontweight='bold')
+
+ax.annotate('', xy=(7.7, 1.5), xytext=(7.7, 2.6), 
+            arrowprops=dict(facecolor='purple', shrink=0, width=2, headwidth=8))
+ax.text(7.9, 2.0, 'a = g', color='purple', fontsize=11, fontweight='bold')
+
+ax.set_xlim(0, 10)
+ax.set_ylim(0, 4.5)
+ax.axis('off')
+ax.set_title('Desacople entre Fuerza Gravitacional y Aceleracion', fontsize=14, fontweight='bold')
+
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{Conclusión}
+No, no actúa la misma fuerza. El cuerpo de mayor masa experimenta una fuerza gravitacional proporcionalmente mayor. Sin embargo, ambos cuerpos tienen exactamente la misma aceleración al caer, debido a que el objeto más masivo también posee una mayor inercia que se resiste a dicha fuerza en la misma proporción.
+
+\end{document}

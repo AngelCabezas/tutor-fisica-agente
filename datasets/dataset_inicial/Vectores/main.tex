@@ -1,0 +1,321 @@
+\documentclass[12pt, a4paper]{article}
+
+% --- LENGUAJE Y FORMATO ---
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage[margin=1in]{geometry}
+
+% --- MATEMÁTICAS Y CIENCIA ---
+\usepackage{amsmath, amssymb} 
+\usepackage{siunitx}          
+
+% --- GRÁFICOS Y CAJAS ---
+\usepackage{tikz}             
+% La librería 'babel' en TikZ soluciona el error [>=Stealth] con babel-spanish
+\usetikzlibrary{arrows.meta, calc, 3d, babel} 
+\usepackage[most]{tcolorbox}  
+
+% --- CÓDIGO PYTHON (Listings) ---
+\usepackage{listings}
+\usepackage{xcolor}
+
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{backcolour}{rgb}{0.96,0.96,0.96}
+
+\lstset{
+    backgroundcolor=\color{backcolour},
+    basicstyle=\ttfamily\footnotesize,
+    breaklines=true,
+    keywordstyle=\color{blue},
+    numberstyle=\tiny\color{codegray},
+    numbers=left,
+    showstringspaces=false,
+    language=Python
+}
+
+\title{Guía de Ejercicios: Vectores en $\mathbb{R}^3$}
+\author{Angel Cabezas}
+\date{\today}
+
+\begin{document}
+
+\subsection*{Enunciado }
+Utilice el producto vectorial para encontrar el ángulo formado por los vectores $\vec{C}$ y $\vec{D}$. El vector $\vec{C}$ comienza en el punto $S(1, 9, -5) \, \si{m}$ y termina en el punto $T(5, -4, -8) \, \si{m}$. El vector $\vec{D}$ es igual a $15(a\vec{i} - 0.7\vec{j} - 0.4\vec{k}) \, \si{m}$, donde $\alpha < 90^\circ$. (Respuesta: $24.6^\circ$).
+
+\begin{center}
+\begin{tikzpicture}[x={(0.5cm,0.5cm)}, y={(1cm,0cm)}, z={(0cm,1cm)}, >=Latex]
+    % Ejes coordenados 3D
+    \draw[->] (0,0,0) -- (5,0,0) node[left] {$x$};
+    \draw[->] (0,0,0) -- (0,5,0) node[right] {$y$};
+    \draw[->] (0,0,0) -- (0,0,5) node[above] {$z$};
+
+    % Puntos S y T para el vector C
+    \coordinate (S) at (0.1, 0.9, -0.5); 
+    \coordinate (T) at (0.5, -0.4, -0.8);
+    
+    % Vector C
+    \draw[->, ultra thick, blue] (S) -- (T) node[midway, right] {$\vec{C}$};
+    \filldraw[blue] (S) circle (1.5pt) node[above] {$S$};
+    \filldraw[blue] (T) circle (1.5pt) node[below] {$T$};
+
+    % Vector D conceptual
+    \coordinate (D_dir) at (1.5, -2, -1.2);
+    \draw[->, ultra thick, red] (0,0,0) -- (D_dir) node[below right] {$\vec{D}$};
+    
+    % Arco del producto vectorial (normal)
+    \draw[->, bend left, gray, thin] (0.5,-0.5,-0.3) to (0.1,-0.7,-0.5);
+    \node[gray] at (0.8,-1.2,-0.4) {$\vec{C} \times \vec{D}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Determinación de los Vectores}
+
+\textbf{Vector $\vec{C}$:}
+Calculamos sus componentes restando las coordenadas del punto final ($T$) menos el inicial ($S$):
+\begin{align*}
+    \vec{C} &= T - S = (5 - 1)\vec{i} + (-4 - 9)\vec{j} + (-8 - (-5))\vec{k} \\
+    \vec{C} &= 4\vec{i} - 13\vec{j} - 3\vec{k} \, \si{m}
+\end{align*}
+Su magnitud es: $|\vec{C}| = \sqrt{4^2 + (-13)^2 + (-3)^2} = \sqrt{16 + 169 + 9} = \sqrt{194} \approx 13.93 \, \si{m}$.
+
+\textbf{Vector $\vec{D}$:}
+Sabemos que $\vec{D} = 15 \vec{u}_D$. Por la propiedad de los cosenos directores de un vector unitario ($a^2 + \cos^2 \beta + \cos^2 \gamma = 1$):
+\begin{align*}
+    a^2 + (-0.7)^2 + (-0.4)^2 &= 1 \\
+    a^2 + 0.49 + 0.16 &= 1 \implies a^2 = 0.35
+\end{align*}
+Como $\alpha < 90^\circ$, el coseno director $a$ es positivo: $a = \sqrt{0.35} \approx 0.5916$.
+\begin{equation*}
+    \vec{D} = 15(0.5916\vec{i} - 0.7\vec{j} - 0.4\vec{k}) \approx 8.874\vec{i} - 10.5\vec{j} - 6\vec{k} \, \si{m}
+\end{equation*}
+Nota: El módulo $|\vec{D}|$ es exactamente $15 \, \si{m}$.
+
+\subsubsection*{2. Cálculo del Producto Vectorial $\vec{C} \times \vec{D}$}
+Utilizamos el determinante:
+\begin{equation*}
+    \vec{C} \times \vec{D} = \begin{vmatrix} \vec{i} & \vec{j} & \vec{k} \\ 4 & -13 & -3 \\ 8.874 & -10.5 & -6 \end{vmatrix}
+\end{equation*}
+\begin{align*}
+    \vec{C} \times \vec{D} &= \vec{i}[(-13)(-6) - (-3)(-10.5)] - \vec{j}[(4)(-6) - (-3)(8.874)] + \vec{k}[(4)(-10.5) - (-13)(8.874)] \\
+    \vec{C} \times \vec{D} &= \vec{i}[78 - 31.5] - \vec{j}[-24 + 26.622] + \vec{k}[-42 + 115.362] \\
+    \vec{C} \times \vec{D} &\approx 46.5\vec{i} - 2.62\vec{j} + 73.36\vec{k}
+\end{align*}
+Magnitud: $|\vec{C} \times \vec{D}| = \sqrt{46.5^2 + (-2.62)^2 + 73.36^2} \approx 86.88$.
+
+\subsubsection*{3. Cálculo del Ángulo $\theta$}
+Utilizamos la relación: $|\vec{C} \times \vec{D}| = |\vec{C}| |\vec{D}| \sin \theta$.
+\begin{align*}
+    \sin \theta &= \frac{86.88}{(13.93)(15)} \approx \frac{86.88}{208.95} \approx 0.4158 \\
+    \theta &= \arcsin(0.4158) \approx 24.57^\circ
+\end{align*}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\theta \approx 24.6^\circ$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Encuentre un vector $\vec{C}$ de magnitud $10 \, \si{m}$, que al mismo tiempo sea perpendicular a los vectores $\vec{A}$ (de magnitud $3.61 \, \si{m}$, en la dirección S $33.7^\circ$ E) y $\vec{B}$ (de magnitud $2.45 \, \si{m}$, en la dirección N $26.6^\circ$ O, con un ángulo de elevación de $65.9^\circ$).
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2, >=Latex, x={(0.8cm,0.4cm)}, y={(0cm,1cm)}, z={(1cm,-0.2cm)}]
+    % Ejes coordenados (Convenio: x=Este, y=Vertical, z=Sur)
+    \draw[->, thick] (0,0,0) -- (4,0,0) node[right] {E ($+x$)};
+    \draw[->, thick] (0,0,0) -- (0,4,0) node[above] {Up ($+y$)};
+    \draw[->, thick] (0,0,0) -- (0,0,4) node[below left] {S ($+z$)};
+    
+    % Vector A (S 33.7 E)
+    \draw[->, ultra thick, blue] (0,0,0) -- ({3.61*sin(33.7)}, 0, {3.61*cos(33.7)}) node[below] {$\vec{A}$};
+    
+    % Vector B (N 26.6 W, Elev 65.9)
+    % Bh = B*cos(65.9), By = B*sin(65.9)
+    \draw[->, ultra thick, red] (0,0,0) -- ({-1.0*sin(26.6)}, 2.24, {-1.0*cos(26.6)}) node[above left] {$\vec{B}$};
+    
+    % Arcos y ángulos conceptuales
+    \draw (0,0,1) arc (0:33.7:1);
+    \node at (0.4, 0, 1.2) {\small $33.7^\circ$};
+\end{tikzpicture}
+\end{center}
+
+% --- SOLUCIÓN (ASSISTANT) ---
+\subsection*{Solución}
+
+\subsubsection*{1. Definición del Sistema de Referencia}
+Para resolver problemas espaciales con rumbos y elevaciones, establecemos un sistema de coordenadas cartesianas:
+\begin{itemize}
+    \item \textbf{Eje $+x$:} Dirección Este (E).
+    \item \textbf{Eje $+y$:} Dirección Vertical (Arriba/Cénit).
+    \item \textbf{Eje $+z$:} Dirección Sur (S). Por lo tanto, el Norte (N) es $-z$ y el Oeste (O/W) es $-x$.
+\end{itemize}
+
+\subsubsection*{2. Descomposición del Vector $\vec{A}$}
+El vector $\vec{A}$ tiene magnitud $3.61 \, \si{m}$ y dirección S $33.7^\circ$ E en el plano horizontal ($y=0$).
+\begin{itemize}
+    \item $A_z = 3.61 \cos(33.7^\circ) \approx 3.00 \, \si{m}$ (Componente Sur)
+    \item $A_x = 3.61 \sin(33.7^\circ) \approx 2.00 \, \si{m}$ (Componente Este)
+    \item $A_y = 0 \, \si{m}$
+\end{itemize}
+$$\vec{A} = 2\vec{i} + 3\vec{k} \, \si{m}$$
+
+\subsubsection*{3. Descomposición del Vector $\vec{B}$}
+El vector $\vec{B}$ tiene magnitud $2.45 \, \si{m}$. Interpretando el ángulo de elevación respecto a la vertical según los resultados esperados:
+\begin{itemize}
+    \item $B_y = 2.45 \cos(65.9^\circ) \approx 1.00 \, \si{m}$
+    \item Proyección horizontal $B_h = 2.45 \sin(65.9^\circ) \approx 2.24 \, \si{m}$
+    \item Rumbo N $26.6^\circ$ O: $B_z = -2.24 \cos(26.6^\circ) \approx -2.00 \, \si{m}$ y $B_x = -2.24 \sin(26.6^\circ) \approx -1.00 \, \si{m}$
+\end{itemize}
+$$\vec{B} = -1\vec{i} + 1\vec{j} - 2\vec{k} \, \si{m}$$
+
+\subsubsection*{4. Determinación de la Dirección de $\vec{C}$}
+Como $\vec{C}$ es perpendicular a $\vec{A}$ y $\vec{B}$, su dirección está dada por el producto vectorial $\vec{R} = \vec{A} \times \vec{B}$:
+\begin{equation*}
+\vec{R} = \begin{vmatrix} 
+\vec{i} & \vec{j} & \vec{k} \\ 
+2 & 0 & 3 \\ 
+-1 & 1 & -2 
+\end{vmatrix}
+\end{equation*}
+
+\begin{align*}
+    \vec{R} &= \vec{i}[(0)(-2) - (3)(1)] - \vec{j}[(2)(-2) - (3)(-1)] + \vec{k}[(2)(1) - (0)(-1)] \\
+    \vec{R} &= -3\vec{i} + 1\vec{j} + 2\vec{k}
+\end{align*}
+
+\subsubsection*{5. Ajuste de Magnitud}
+Calculamos el módulo de $\vec{R}$: $|\vec{R}| = \sqrt{(-3)^2 + 1^2 + 2^2} = \sqrt{14} \approx 3.7416 \, \si{m}$.
+Buscamos un vector $\vec{C}$ con magnitud $10 \, \si{m}$:
+$$ \vec{C} = \frac{10}{|\vec{R}|} \vec{R} = \frac{10}{3.7416} (-3\vec{i} + 1\vec{j} + 2\vec{k}) $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{C} = (-8.02\vec{i} + 2.67\vec{j} + 5.35\vec{k}) \, \si{m}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Determine un vector tal que su módulo sea $20 \, \text{u}$, su componente en $y$ sea positiva y sea perpendicular al plano formado por los vectores $\vec{A} = 2\vec{i} + 3\vec{j} - \vec{k}$ y $\vec{B} = 3\vec{i} + 2\vec{j} + 4\vec{k}$. (R: $-15.14\vec{i} + 12.00\vec{j} + 5.40\vec{k} \, \text{u}$).
+
+\begin{center}
+\begin{tikzpicture}[x={(0.5cm,0.5cm)}, y={(1cm,0cm)}, z={(0cm,1cm)}, >=Latex]
+    % Ejes coordenados 3D
+    \draw[->] (0,0,0) -- (4,0,0) node[left] {$x$};
+    \draw[->] (0,0,0) -- (0,4,0) node[right] {$y$};
+    \draw[->] (0,0,0) -- (0,0,4) node[above] {$z$};
+
+    % Vectores A y B (escalados para visualización)
+    \coordinate (A) at (1, 1.5, -0.5); 
+    \coordinate (B) at (1.5, 1, 2);
+    
+    \draw[->, ultra thick, blue] (0,0,0) -- (A) node[midway, left] {$\vec{A}$};
+    \draw[->, ultra thick, red] (0,0,0) -- (B) node[midway, right] {$\vec{B}$};
+
+    % Representación del plano (paralelogramo punteado)
+    \draw[dashed, gray] (A) -- ($(A)+(B)$) -- (B);
+    
+    % Vector Normal conceptual (hacia arriba)
+    \draw[->, thick, orange] (0.2, 0.2, 0.2) -- (-0.8, 1, 0.5) node[above] {$\vec{n}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis del Problema}
+Para que un vector sea perpendicular al plano formado por $\vec{A}$ y $\vec{B}$, este debe ser paralelo al vector resultante del **producto vectorial** ($\vec{A} \times \vec{B}$). Además, debemos asegurar que su magnitud sea de $20 \, \text{u}$ y su componente en el eje $y$ sea positiva.
+
+\subsubsection*{2. Cálculo del Vector Normal ($\vec{N}$)}
+Realizamos el producto cruz entre los vectores dados:
+\begin{equation*}
+    \vec{N} = \vec{A} \times \vec{B} = \begin{vmatrix} 
+    \vec{i} & \vec{j} & \vec{k} \\ 
+    2 & 3 & -1 \\ 
+    3 & 2 & 4 
+    \end{vmatrix}
+\end{equation*}
+
+Calculamos el determinante:
+\begin{align*}
+    \vec{N} &= \vec{i}[(3)(4) - (-1)(2)] - \vec{j}[(2)(4) - (-1)(3)] + \vec{k}[(2)(2) - (3)(3)] \\
+    \vec{N} &= \vec{i}[12 + 2] - \vec{j}[8 + 3] + \vec{k}[4 - 9] \\
+    \vec{N} &= 14\vec{i} - 11\vec{j} - 5\vec{k}
+\end{align*}
+
+\subsubsection*{3. Selección del Sentido y Normalización}
+El vector $\vec{N}$ obtenido tiene una componente en $y$ negativa ($-11$). Para cumplir con la restricción de **componente en $y$ positiva**, invertimos el sentido del vector:
+$$ \vec{N}' = -14\vec{i} + 11\vec{j} + 5\vec{k} $$
+
+Calculamos el módulo de $\vec{N}'$:
+$$ |\vec{N}'| = \sqrt{(-14)^2 + 11^2 + 5^2} = \sqrt{196 + 121 + 25} = \sqrt{342} \approx 18.4932 $$
+
+\subsubsection*{4. Determinación del Vector Final $\vec{C}$}
+El vector $\vec{C}$ es el vector unitario de $\vec{N}'$ escalado por la magnitud deseada ($20 \, \text{u}$):
+\begin{align*}
+    \vec{C} &= 20 \cdot \frac{\vec{N}'}{|\vec{N}'|} = \frac{20}{18.4932} (-14\vec{i} + 11\vec{j} + 5\vec{k}) \\
+    \vec{C} &\approx 1.08148 (-14\vec{i} + 11\vec{j} + 5\vec{k}) \\
+    \vec{C} &\approx -15.14\vec{i} + 11.90\vec{j} + 5.41\vec{k}
+\end{align*}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{C} = -15.14\vec{i} + 11.90\vec{j} + 5.41\vec{k} \, \text{u}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Encuentre un vector $\vec{V}$ de magnitud $10 \, \si{m}$, cuya coordenada en $y$ sea negativa y que al mismo tiempo sea perpendicular al plano $ABC$ de la figura. (R: $-5.77\vec{i} - 5.77\vec{j} - 5.77\vec{k} \, \si{m}$).
+
+\subsection*{Solución}
+
+\subsubsection*{1. Identificación de Coordenadas y Vectores}
+A partir de la figura, observamos que el plano $ABC$ corta a los ejes coordenados en el valor $1$. Las coordenadas de los vértices son:
+\begin{itemize}
+    \item $A = (0, 1, 0)$
+    \item $B = (1, 0, 0)$
+    \item $C = (0, 0, 1)$
+\end{itemize}
+
+Definimos dos vectores que pertenezcan al plano para encontrar la normal:
+\begin{align*}
+    \vec{AB} &= B - A = (1 - 0)\vec{i} + (0 - 1)\vec{j} + (0 - 0)\vec{k} = \vec{i} - \vec{j} \\
+    \vec{AC} &= C - A = (0 - 0)\vec{i} + (0 - 1)\vec{j} + (1 - 0)\vec{k} = -\vec{j} + \vec{k}
+\end{align*}
+
+\subsubsection*{2. Cálculo del Vector Normal ($\vec{n}$)}
+El vector perpendicular al plano se obtiene mediante el producto vectorial:
+\begin{equation*}
+    \vec{n} = \vec{AB} \times \vec{AC} = \begin{vmatrix} 
+    \vec{i} & \vec{j} & \vec{k} \\ 
+    1 & -1 & 0 \\ 
+    0 & -1 & 1 
+    \end{vmatrix}
+\end{equation*}
+
+Calculamos el determinante:
+\begin{align*}
+    \vec{n} &= \vec{i}[(-1)(1) - (0)(-1)] - \vec{j}[(1)(1) - (0)(0)] + \vec{k}[(1)(-1) - (-1)(0)] \\
+    \vec{n} &= -\vec{i} - \vec{j} - \vec{k}
+\end{align*}
+
+\subsubsection*{3. Verificación de Condiciones y Normalización}
+El enunciado exige que la \textbf{coordenada en $y$ sea negativa}. En nuestro vector $\vec{n}$, la componente $j$ es $-1$, por lo que el sentido es correcto.
+
+Calculamos el módulo de $\vec{n}$:
+\begin{equation*}
+    |\vec{n}| = \sqrt{(-1)^2 + (-1)^2 + (-1)^2} = \sqrt{3} \approx 1.732
+\end{equation*}
+
+\subsubsection*{4. Determinación del Vector Final $\vec{V}$}
+Escalamos el vector unitario de $\vec{n}$ por la magnitud deseada ($10 \, \si{m}$):
+\begin{align*}
+    \vec{V} &= 10 \cdot \frac{\vec{n}}{|\vec{n}|} = \frac{10}{\sqrt{3}} (-\vec{i} - \vec{j} - \vec{k}) \\
+    \vec{V} &\approx 5.7735 (-\vec{i} - \vec{j} - \vec{k}) \\
+    \vec{V} &\approx -5.77\vec{i} - 5.77\vec{j} - 5.77\vec{k} \, \si{m}
+\end{align*}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{V} = (-5.77\vec{i} - 5.77\vec{j} - 5.77\vec{k}) \, \si{m}$
+\end{tcolorbox}
+
+\end{document}

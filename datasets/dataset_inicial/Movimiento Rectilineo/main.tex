@@ -1,0 +1,2226 @@
+\documentclass[12pt, a4paper]{article}
+
+% --- PAQUETES NECESARIOS ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}      % MEJORA: Codificación de fuente para español
+\usepackage[spanish, es-tabla]{babel} % es-tabla usa "Tabla" en lugar de "Cuadro"
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+\usepackage{tikz}             % Gráficos vectoriales
+\usetikzlibrary{babel}   % <--- AGREGA ESTA LÍNEA
+\usepackage{siunitx}          % Unidades del SI
+\usepackage[most]{tcolorbox}  % Cuadros de respuesta
+\usepackage{geometry}         % Márgenes
+\usepackage{verbatim}
+\usepackage{xcolor}           % Necesario para colorear código
+
+\geometry{margin=1in}
+
+% --- CONFIGURACIÓN DE SIUNITX ---
+% Para que use punto decimal (.) en lugar de coma (,) si así lo prefieres en física
+\sisetup{output-decimal-marker = {.}} 
+
+% --- CONFIGURACIÓN PARA CÓDIGO PYTHON (LISTINGS) ---
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+\lstset{style=mystyle}
+
+% --- DATOS DEL DOCUMENTO ---
+\title{Movimiento Parabólico y Relativo}
+\author{Angel Cabezas}
+\date{Diciembre 2025}
+
+\begin{document}
+
+\maketitle
+
+\subsection*{Enunciado}
+Una partícula B se mueve con Movimiento Rectilíneo Uniforme (MRU). Se conoce que:
+\begin{itemize}
+    \item Al instante $t_1 = \SI{5}{s}$, se encuentra en el punto $Q(3, 5)\,\si{m}$.
+    \item Al instante $t_2 = \SI{10}{s}$, se encuentra en el punto $R(-5, -7)\,\si{m}$.
+\end{itemize}
+Determine el vector velocidad de la partícula B ($\vec{v}_B$).
+
+\begin{center}
+\begin{tikzpicture}[scale=0.4]
+    % Ejes
+    \draw[->, gray] (-6,0) -- (4,0) node[right] {$x$};
+    \draw[->, gray] (0,-8) -- (0,6) node[above] {$y$};
+    
+    % Rejilla
+    \draw[dashed, gray!50] (-6,-8) grid (4,6);
+    
+    % Puntos
+    \filldraw[blue] (3,5) circle (3pt) node[above right] {$Q (t=\SI{5}{s})$};
+    \filldraw[red] (-5,-7) circle (3pt) node[below left] {$R (t=\SI{10}{s})$};
+    
+    % Trayectoria
+    \draw[->, thick, black] (3,5) -- (-5,-7) node[midway, above left] {$\Delta \vec{r}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{Concepto Fundamental}
+Dado que la partícula B se mueve con \textbf{Movimiento Rectilíneo Uniforme (MRU)}, su velocidad es constante. La velocidad media es igual a la velocidad instantánea y se calcula como el cociente entre el vector desplazamiento ($\Delta \vec{r}$) y el intervalo de tiempo ($\Delta t$):
+\begin{equation}
+    \vec{v}_B = \frac{\Delta \vec{r}}{\Delta t} = \frac{\vec{r}_f - \vec{r}_o}{t_f - t_o}
+\end{equation}
+
+\subsubsection*{Datos del Problema}
+\begin{itemize}
+    \item Posición inicial ($t_o = \SI{5}{s}$): $\vec{r}_o = 3\hat{\imath} + 5\hat{\jmath} \, \si{m}$
+    \item Posición final ($t_f = \SI{10}{s}$): $\vec{r}_f = -5\hat{\imath} - 7\hat{\jmath} \, \si{m}$
+\end{itemize}
+
+\subsubsection*{Paso 1: Calcular el desplazamiento vectorial $\Delta \vec{r}$}
+Restamos la posición final menos la inicial componente a componente:
+\begin{align*}
+    \Delta \vec{r} &= \vec{r}_f - \vec{r}_o \\
+    &= (-5\hat{\imath} - 7\hat{\jmath}) - (3\hat{\imath} + 5\hat{\jmath}) \\
+    &= (-5 - 3)\hat{\imath} + (-7 - 5)\hat{\jmath} \\
+    &= -8\hat{\imath} - 12\hat{\jmath} \, \si{m}
+\end{align*}
+
+\subsubsection*{Paso 2: Calcular el intervalo de tiempo $\Delta t$}
+\begin{equation*}
+    \Delta t = 10 - 5 = \SI{5}{s}
+\end{equation*}
+
+\subsubsection*{Paso 3: Calcular el vector velocidad}
+Dividimos el vector desplazamiento para el escalar de tiempo:
+\begin{align*}
+    \vec{v}_B &= \frac{-8\hat{\imath} - 12\hat{\jmath}}{5} \\
+    &= \frac{-8}{5}\hat{\imath} - \frac{12}{5}\hat{\jmath} \\
+    &= -1.6\hat{\imath} - 2.4\hat{\jmath} \, \si{m/s}
+\end{align*}
+
+\begin{tcolorbox}[colback=blue!5!white, colframe=blue!75!black, title=Respuesta Final]
+    \centering
+    \Large $\vec{v}_B = -1.6\hat{\imath} - 2.4\hat{\jmath} \, \si{m/s}$
+\end{tcolorbox}
+
+\subsubsection*{Código de Visualización (Python)}
+
+\begin{verbatim}[language=Python, caption=Código para graficar el MRU]
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Configuración del gráfico
+plt.figure(figsize=(6, 6))
+plt.title(r'Desplazamiento y Velocidad de la Partícula B', fontsize=12)
+plt.xlabel('x (m)')
+plt.ylabel('y (m)')
+plt.grid(True, linestyle='--', alpha=0.6)
+plt.axhline(0, color='black', linewidth=1)
+plt.axvline(0, color='black', linewidth=1)
+
+# Datos
+t1_pos = np.array([3, 5])    # Punto Q
+t2_pos = np.array([-5, -7])  # Punto R
+
+# Graficar puntos
+plt.scatter(t1_pos[0], t1_pos[1], color='blue', label='Q (t=5s)', zorder=5)
+plt.scatter(t2_pos[0], t2_pos[1], color='red', label='R (t=10s)', zorder=5)
+
+# Graficar vector desplazamiento (Flecha)
+plt.arrow(t1_pos[0], t1_pos[1], 
+          t2_pos[0] - t1_pos[0], t2_pos[1] - t1_pos[1], 
+          head_width=0.5, head_length=0.7, fc='black', ec='black', 
+          length_includes_head=True, label=r'Trayectoria (MRU)')
+
+# Anotación de la velocidad calculada
+plt.text(0, 0, r'$\vec{v}_B = -1.6\hat{i} - 2.4\hat{j}$ m/s', 
+         fontsize=10, bbox=dict(facecolor='white', alpha=0.8), ha='center')
+
+plt.xlim(-8, 6)
+plt.ylim(-10, 8)
+plt.legend()
+plt.tight_layout()
+plt.show()
+\end{verbatim}
+
+\newpage
+
+\subsection*{Enunciado}
+Considere dos partículas A y B que se mueven con Movimiento Rectilíneo Uniforme (MRU) en el plano $xy$.
+\begin{itemize}
+    \item \textbf{Partícula A:} Al instante $t = \SI{2}{s}$ está en $P(4, 5)\,\si{m}$ y tiene una velocidad constante $\vec{v}_A = -2\hat{\imath} + 3\hat{\jmath} \, \si{m/s}$.
+    \item \textbf{Partícula B:} Al instante $t = \SI{5}{s}$ está en $Q(3, 5)\,\si{m}$ y su velocidad es $\vec{v}_B = -1.6\hat{\imath} - 2.4\hat{\jmath} \, \si{m/s}$ (calculada previamente).
+\end{itemize}
+Determine la posición de la partícula A respecto a la partícula B ($\vec{r}_{A/B}$) en el instante $t = \SI{20}{s}$.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.5]
+    % Esquema conceptual
+    \draw[->] (-3,0) -- (5,0) node[right] {$x$};
+    \draw[->] (0,-1) -- (0,6) node[above] {$y$};
+    
+    % Posiciones iniciales conocidas
+    \filldraw[blue] (4,5) circle (3pt) node[above right] {$A (t=2)$};
+    \filldraw[red] (3,5) circle (3pt) node[below left] {$B (t=5)$};
+    
+    % Vectores velocidad (indicativos)
+    \draw[->, blue, thick] (4,5) -- (3, 6.5) node[above] {$\vec{v}_A$};
+    \draw[->, red, thick] (3,5) -- (2.2, 3.8) node[below] {$\vec{v}_B$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{Concepto Fundamental}
+Para encontrar la posición relativa de A respecto a B ($\vec{r}_{A/B}$) en un instante dado, primero debemos encontrar la posición absoluta de cada partícula en ese instante usando la ecuación de movimiento del MRU:
+\begin{equation}
+    \vec{r}_f = \vec{r}_o + \vec{v}(t_f - t_o)
+\end{equation}
+Posteriormente, aplicamos la definición de posición relativa:
+\begin{equation}
+    \vec{r}_{A/B} = \vec{r}_A - \vec{r}_B
+\end{equation}
+
+\subsubsection*{Paso 1: Posición de A en $t = \SI{20}{s}$}
+\begin{itemize}
+    \item Datos: $\vec{r}_{Ao} = 4\hat{\imath} + 5\hat{\jmath}$, $\vec{v}_A = -2\hat{\imath} + 3\hat{\jmath}$, $t_o = 2$, $t_f = 20$.
+    \item Intervalo $\Delta t_A = 20 - 2 = \SI{18}{s}$.
+\end{itemize}
+Calculamos:
+\begin{align*}
+    \vec{r}_A(20) &= (4\hat{\imath} + 5\hat{\jmath}) + (-2\hat{\imath} + 3\hat{\jmath})(18) \\
+    &= 4\hat{\imath} + 5\hat{\jmath} - 36\hat{\imath} + 54\hat{\jmath} \\
+    &= (4 - 36)\hat{\imath} + (5 + 54)\hat{\jmath} \\
+    &= -32\hat{\imath} + 59\hat{\jmath} \, \si{m}
+\end{align*}
+
+\subsubsection*{Paso 2: Posición de B en $t = \SI{20}{s}$}
+\begin{itemize}
+    \item Datos: $\vec{r}_{Bo} = 3\hat{\imath} + 5\hat{\jmath}$, $\vec{v}_B = -1.6\hat{\imath} - 2.4\hat{\jmath}$, $t_o = 5$, $t_f = 20$.
+    \item Intervalo $\Delta t_B = 20 - 5 = \SI{15}{s}$.
+\end{itemize}
+Calculamos:
+\begin{align*}
+    \vec{r}_B(20) &= (3\hat{\imath} + 5\hat{\jmath}) + (-1.6\hat{\imath} - 2.4\hat{\jmath})(15) \\
+    &= 3\hat{\imath} + 5\hat{\jmath} + [(-1.6 \times 15)\hat{\imath} + (-2.4 \times 15)\hat{\jmath}] \\
+    &= 3\hat{\imath} + 5\hat{\jmath} - 24\hat{\imath} - 36\hat{\jmath} \\
+    &= (3 - 24)\hat{\imath} + (5 - 36)\hat{\jmath} \\
+    &= -21\hat{\imath} - 31\hat{\jmath} \, \si{m}
+\end{align*}
+
+\subsubsection*{Paso 3: Calcular la Posición Relativa $\vec{r}_{A/B}$}
+Restamos la posición de B de la posición de A:
+\begin{align*}
+    \vec{r}_{A/B} &= \vec{r}_A - \vec{r}_B \\
+    &= (-32\hat{\imath} + 59\hat{\jmath}) - (-21\hat{\imath} - 31\hat{\jmath}) \\
+    &= (-32 + 21)\hat{\imath} + (59 + 31)\hat{\jmath} \\
+    &= -11\hat{\imath} + 90\hat{\jmath} \, \si{m}
+\end{align*}
+
+\textit{Interpretación:} Si un observador estuviera parado sobre la partícula B en $t=20$, vería a la partícula A en la posición $(-11, 90)$ metros respecto a él.
+
+\begin{tcolorbox}[colback=blue!5!white, colframe=blue!75!black, title=Respuesta Final]
+    \centering
+    \Large $\vec{r}_{A/B} = -11\hat{\imath} + 90\hat{\jmath} \, \si{m}$
+\end{tcolorbox}
+
+\subsubsection*{Código de Visualización (Python)}
+\begin{verbatim}[language=Python, caption=Código para graficar posición relativa]
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Datos calculados
+rA_final = np.array([-32, 59])
+rB_final = np.array([-21, -31])
+
+# Vector relativo (De B hacia A)
+r_rel = rA_final - rB_final
+
+plt.figure(figsize=(7, 10))
+plt.title(r'Posición Relativa en $t=20$ s', fontsize=12)
+
+# Graficar posiciones finales absolutas
+plt.scatter(rA_final[0], rA_final[1], color='blue', s=100, label=r'Posición A ($t=20$)')
+plt.scatter(rB_final[0], rB_final[1], color='red', s=100, label=r'Posición B ($t=20$)')
+
+# Graficar vector relativo
+plt.quiver(rB_final[0], rB_final[1], r_rel[0], r_rel[1], 
+           angles='xy', scale_units='xy', scale=1, 
+           color='purple', width=0.015, label=r'$\vec{r}_{A/B}$')
+
+# Etiquetas de coordenadas
+plt.text(rA_final[0], rA_final[1] + 2, f'A({rA_final[0]}, {rA_final[1]})', ha='center', color='blue')
+plt.text(rB_final[0], rB_final[1] - 5, f'B({rB_final[0]}, {rB_final[1]})', ha='center', color='red')
+
+plt.xlabel('x (m)')
+plt.ylabel('y (m)')
+plt.grid(True, linestyle=':')
+plt.axhline(0, color='gray')
+plt.axvline(0, color='gray')
+
+# Ajustar límites para ver todo
+plt.xlim(-40, 10)
+plt.ylim(-40, 70)
+plt.legend()
+plt.tight_layout()
+plt.show()
+\end{verbatim}
+
+\newpage
+
+\subsection*{Enunciado}
+Una partícula se mueve en el plano $xy$ de acuerdo con las siguientes ecuaciones paramétricas de posición (donde $t$ está en segundos y la posición en metros):
+\begin{align*}
+    x(t) &= -t^2 + 2t + 10 \\
+    y(t) &= 0.5t^2 - t + 20
+\end{align*}
+Determine el vector velocidad instantánea $\vec{v}$ en el instante $t = \SI{10}{s}$.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8]
+    % Ejes
+    \draw[->, gray] (-4,0) -- (4,0) node[right] {$x$};
+    \draw[->, gray] (0,-1) -- (0,4) node[above] {$y$};
+    
+    % Trayectoria genérica (curva)
+    \draw[thick, blue, domain=-2:2] plot (\x, {0.5*\x*\x + 1});
+    
+    % Punto y vector incógnita
+    \filldraw[black] (1.5, 2.125) circle (2pt) node[above left] {Partícula};
+    \draw[->, red, thick] (1.5, 2.125) -- (2.5, 2.8) node[right] {$\vec{v}(10) = ?$};
+    
+    \node[align=center, font=\small] at (0, -1.5) {Trayectoria Curvilínea\\definida por $x(t)$ y $y(t)$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{Concepto Fundamental}
+La velocidad instantánea $\vec{v}(t)$ se define como la derivada temporal del vector posición $\vec{r}(t)$. Si conocemos las funciones de posición para cada eje, derivamos cada una independientemente:
+\begin{equation}
+    \vec{v}(t) = \frac{d\vec{r}}{dt} = \frac{dx}{dt}\hat{\imath} + \frac{dy}{dt}\hat{\jmath}
+\end{equation}
+
+\subsubsection*{Paso 1: Determinar las componentes de la velocidad}
+Dadas las ecuaciones de posición:
+$$ x(t) = -t^2 + 2t + 10 \quad \text{y} \quad y(t) = 0.5t^2 - t + 20 $$
+
+Calculamos la derivada respecto al tiempo para la componente en $x$ ($v_x$):
+\begin{align*}
+    v_x(t) &= \frac{d}{dt}(-t^2 + 2t + 10) \\
+    &= -2t + 2 \quad \si{m/s}
+\end{align*}
+
+Calculamos la derivada respecto al tiempo para la componente en $y$ ($v_y$):
+\begin{align*}
+    v_y(t) &= \frac{d}{dt}(0.5t^2 - t + 20) \\
+    &= 2(0.5t) - 1 \\
+    &= t - 1 \quad \si{m/s}
+\end{align*}
+
+\textit{Nota:} Al ser las derivadas funciones lineales del tiempo ($t^1$), confirmamos que se trata de un movimiento con aceleración constante (MRUV).
+
+\subsubsection*{Paso 2: Evaluar la velocidad en $t = \SI{10}{s}$}
+Sustituimos $t = 10$ en las expresiones obtenidas:
+
+Para $v_x$:
+\begin{align*}
+    v_x(10) &= -2(10) + 2 \\
+    &= -20 + 2 \\
+    &= \SI{-18}{m/s}
+\end{align*}
+
+Para $v_y$:
+\begin{align*}
+    v_y(10) &= (10) - 1 \\
+    &= \SI{9}{m/s}
+\end{align*}
+
+\subsubsection*{Paso 3: Expresar el vector final}
+Combinamos las componentes calculadas:
+\begin{equation*}
+    \vec{v}_{10} = v_x\hat{\imath} + v_y\hat{\jmath}
+\end{equation*}
+
+\begin{tcolorbox}[colback=blue!5!white, colframe=blue!75!black, title=Respuesta Final]
+    \centering
+    \Large $\vec{v}(10) = -18\hat{\imath} + 9\hat{\jmath} \, \si{m/s}$
+\end{tcolorbox}
+
+\newpage
+\subsection*{Enunciado}
+Una partícula se mueve a lo largo del eje $x$ con Movimiento Rectilíneo Uniformemente Variado (MRUV). Se conocen las siguientes condiciones de su movimiento:
+\begin{itemize}
+    \item En $t = \SI{0}{s}$, pasa por el origen ($x=0$).
+    \item En $t = \SI{1}{s}$, se encuentra en la posición $x = \SI{5}{m}$.
+    \item En $t = \SI{5}{s}$, se encuentra en la posición $x = \SI{15}{m}$.
+\end{itemize}
+Determine después de cuántos segundos de haber pasado por el origen retorna a este.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8]
+    % Eje X
+    \draw[->, gray] (-2,0) -- (16,0) node[right] {$x$ (m)};
+    
+    % Marcas de posición importantes
+    \foreach \x in {0, 5, 15}
+        \draw (\x, 0.1) -- (\x, -0.1) node[below] {\small $\x$};
+        
+    % Partícula en diferentes instantes (simulación visual)
+    \filldraw[blue] (0, 0.3) circle (3pt) node[above] {$t=0$};
+    \filldraw[black!60] (5, 0.3) circle (2pt) node[above] {$t=1$};
+    \filldraw[black!60] (15, 0.3) circle (2pt) node[above] {$t=5$};
+    
+    % Flechas indicando movimiento
+    \draw[->, thick, blue] (0,0.3) -- (2,0.3) node[midway, above] {$\vec{v}_0$};
+    
+    % Interrogación de retorno
+    \draw[->, red, dashed, bend left=45] (15, 0.5) to node[midway, above] {¿Retorno?} (0, 0.5);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{Concepto Fundamental}
+La ecuación de posición para un MRUV, partiendo del origen ($x_0 = 0$), es:
+\begin{equation}
+    x(t) = v_0 t + \frac{1}{2} a t^2
+\end{equation}
+Como tenemos dos incógnitas ($v_0$ y $a$) y dos puntos conocidos adicionales al origen, podemos plantear un sistema de ecuaciones $2 \times 2$.
+
+\subsubsection*{Paso 1: Plantear el Sistema de Ecuaciones}
+
+\textbf{Para $t = \SI{1}{s}$ ($x = 5$):}
+\begin{align*}
+    5 &= v_0(1) + \frac{1}{2}a(1)^2 \\
+    5 &= v_0 + 0.5a \\
+    10 &= 2v_0 + a \quad \dots \text{(Ecuación 1)}
+\end{align*}
+
+\textbf{Para $t = \SI{5}{s}$ ($x = 15$):}
+\begin{align*}
+    15 &= v_0(5) + \frac{1}{2}a(5)^2 \\
+    15 &= 5v_0 + 12.5a \quad (\text{Dividimos todo por 5}) \\
+    3 &= v_0 + 2.5a \\
+    6 &= 2v_0 + 5a \quad \dots \text{(Ecuación 2)}
+\end{align*}
+
+\subsubsection*{Paso 2: Resolver el Sistema}
+Restamos la (Ecuación 1) de la (Ecuación 2):
+\begin{align*}
+    (2v_0 + 5a) - (2v_0 + a) &= 6 - 10 \\
+    4a &= -4 \\
+    a &= \SI{-1}{m/s^2}
+\end{align*}
+
+Sustituimos $a$ en la (Ecuación 1) para hallar $v_0$:
+\begin{align*}
+    10 &= 2v_0 + (-1) \\
+    11 &= 2v_0 \\
+    v_0 &= \SI{5.5}{m/s}
+\end{align*}
+
+La ecuación de movimiento es: $x(t) = 5.5t - 0.5t^2$.
+
+\subsubsection*{Paso 3: Determinar el tiempo de retorno}
+El retorno al origen implica que la posición final sea nuevamente cero ($x(t) = 0$).
+\begin{align*}
+    0 &= 5.5t - 0.5t^2 \\
+    0 &= t(5.5 - 0.5t)
+\end{align*}
+Esta ecuación tiene dos soluciones:
+\begin{itemize}
+    \item $t = 0$ (El instante de partida)
+    \item $5.5 - 0.5t = 0 \Rightarrow 0.5t = 5.5 \Rightarrow t = \SI{11}{s}$
+\end{itemize}
+
+\begin{tcolorbox}[colback=blue!5!white, colframe=blue!75!black, title=Respuesta Final]
+    La partícula retorna al origen a los \textbf{11 segundos}.
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Dos partículas A y B tienen la misma posición inicial en el instante $t = \SI{0}{s}$ ($x_{0A} = x_{0B} = 0$). Ambas se mueven con Movimiento Rectilíneo Uniformemente Variado (MRUV) de acuerdo con el gráfico de velocidad ($v_x$) contra tiempo ($t$) que se muestra a continuación.
+
+Determine el tiempo $t$ en el cual las partículas vuelven a encontrarse.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.10]
+    % Ejes
+    \draw[->, thick] (0,0) -- (60,0) node[right] {$t$ (s)};
+    \draw[->, thick] (0,-5) -- (0,50) node[above] {$v_x$ (m/s)};
+    
+    % Líneas de las partículas
+    % Partícula A: Pasa por (0,30) y (32,43)
+    \draw[thick, blue] (0,30) -- (80, 63.28) node[right] {$A$};
+    
+    % Partícula B: Pasa por (0,0) y (17,14)
+    \draw[thick, red] (0,0) -- (78, 65) node[right] {$B$};
+    
+    % Líneas auxiliares y etiquetas
+    % Para A
+    \draw[dashed] (32,0) -- (32,43) -- (0,43);
+    \node[below] at (32,0) {32};
+    \node[left] at (0,43) {43};
+    \node[left] at (0,30) {30};
+    
+    % Para B
+    \draw[dashed] (17,0) -- (17,14) -- (0,14);
+    \node[below] at (17,0) {17};
+    \node[left] at (0,14) {14};
+    
+    \node[below left] at (0,0) {0};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{Concepto Fundamental}
+Para que dos partículas que parten del mismo punto se vuelvan a encontrar, sus **desplazamientos** deben ser iguales ($\Delta x_A = \Delta x_B$) en el mismo intervalo de tiempo $t$.
+En un gráfico de velocidad vs. tiempo, el desplazamiento es numéricamente igual al **área bajo la curva**.
+Alternativamente, podemos encontrar las ecuaciones de posición $x(t) = x_0 + v_0 t + \frac{1}{2}at^2$ y resolver $x_A(t) = x_B(t)$.
+
+\subsubsection*{Paso 1: Determinar la aceleración de cada partícula}
+La aceleración es la pendiente ($m$) de la recta en el gráfico $v$ vs $t$: $a = \frac{\Delta v}{\Delta t}$.
+
+\textbf{Para la partícula A:}
+Pasa por los puntos $(0, 30)$ y $(32, 43)$.
+\begin{align*}
+    a_A &= \frac{43 - 30}{32 - 0} \\
+    &= \frac{13}{32} \, \si{m/s^2} \approx \SI{0.406}{m/s^2}
+\end{align*}
+Su velocidad inicial es $v_{0A} = \SI{30}{m/s}$.
+
+\textbf{Para la partícula B:}
+Pasa por los puntos $(0, 0)$ y $(17, 14)$.
+\begin{align*}
+    a_B &= \frac{14 - 0}{17 - 0} \\
+    &= \frac{14}{17} \, \si{m/s^2} \approx \SI{0.824}{m/s^2}
+\end{align*}
+Su velocidad inicial es $v_{0B} = \SI{0}{m/s}$.
+
+\subsubsection*{Paso 2: Plantear las ecuaciones de posición}
+Dado que $x_0 = 0$ para ambas:
+
+\textbf{Posición de A:}
+\begin{equation}
+    x_A(t) = 30t + \frac{1}{2}\left(\frac{13}{32}\right)t^2 = 30t + \frac{13}{64}t^2
+\end{equation}
+
+\textbf{Posición de B:}
+\begin{equation}
+    x_B(t) = 0t + \frac{1}{2}\left(\frac{14}{17}\right)t^2 = \frac{7}{17}t^2
+\end{equation}
+
+\subsubsection*{Paso 3: Igualar las posiciones ($x_A = x_B$)}
+\begin{align*}
+    30t + \frac{13}{64}t^2 &= \frac{7}{17}t^2
+\end{align*}
+Como buscamos $t > 0$, podemos dividir toda la ecuación por $t$:
+\begin{align*}
+    30 + \frac{13}{64}t &= \frac{7}{17}t \\
+    30 &= \left( \frac{7}{17} - \frac{13}{64} \right) t
+\end{align*}
+
+Resolvemos la resta de fracciones o usamos decimales:
+\begin{align*}
+    \frac{7}{17} &\approx 0.41176 \\
+    \frac{13}{64} &\approx 0.20312 \\
+    \text{Diferencia} &\approx 0.20864
+\end{align*}
+
+Despejamos $t$:
+\begin{align*}
+    30 &= 0.20864 \, t \\
+    t &= \frac{30}{0.20864} \\
+    t &\approx \SI{143.79}{s}
+\end{align*}
+
+Redondeando a un decimal como en el ejercicio original:
+
+\begin{tcolorbox}[colback=blue!5!white, colframe=blue!75!black, title=Respuesta Final]
+    Las partículas se vuelven a encontrar a los \textbf{143.8 segundos}.
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Desde un globo aerostático que asciende verticalmente con una rapidez constante de $v_G = \SI{6}{m/s}$, se realizan dos lanzamientos:
+\begin{enumerate}
+    \item Un cuerpo \textbf{A} se lanza verticalmente hacia arriba con una rapidez de $\SI{3}{m/s}$ respecto al globo.
+    \item Un segundo más tarde ($t = \SI{1}{s}$), se lanza un cuerpo \textbf{B} verticalmente hacia abajo con una rapidez de $\SI{2}{m/s}$ respecto al globo.
+\end{enumerate}
+Determine la posición del cuerpo B respecto al cuerpo A ($\vec{r}_{B/A}$) dos segundos después de que fue lanzado el cuerpo B. (Considere $g = \SI{10}{m/s^2}$).
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8]
+    % Suelo
+    \draw[thick] (-3,0) -- (3,0) node[right] {Suelo};
+    \foreach \x in {-3,-2.5,...,3} \draw (\x,0) -- (\x,-0.2);
+
+    % Globo (representación esquemática)
+    \draw[fill=gray!10] (0,4) circle (1cm);
+    \draw (0,3) -- (0,2.5); % Cuerda
+    \draw[fill=brown] (-0.5,2) rectangle (0.5,2.5); % Canasta
+    
+    % Vector Velocidad Globo
+    \draw[->, thick, blue] (1.2, 4) -- (1.2, 5.5) node[right] {$\vec{v}_G = \SI{6}{m/s}$};
+
+    % Cuerpo A
+    \filldraw[red] (-0.8, 2.5) circle (3pt) node[left] {A};
+    \draw[->, red, thick] (-0.8, 2.5) -- (-0.8, 3.5) node[left] {$\vec{v}_{A/G}$};
+
+    % Cuerpo B (dibujado desplazado para claridad)
+    \filldraw[blue] (0.8, 2.5) circle (3pt) node[right] {B};
+    \draw[->, blue, thick] (0.8, 2.5) -- (0.8, 1.5) node[right] {$\vec{v}_{B/G}$};
+
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{Concepto Fundamental}
+Para resolver este problema, es conveniente trabajar con las **velocidades absolutas** (respecto a tierra). La velocidad absoluta de un objeto lanzado desde un móvil es la suma vectorial de la velocidad del móvil y la velocidad de lanzamiento relativa:
+\begin{equation}
+    \vec{v}_{abs} = \vec{v}_{globo} + \vec{v}_{rel}
+\end{equation}
+
+Una vez lanzados, ambos cuerpos se comportan como proyectiles en caída libre bajo la acción de la gravedad ($\vec{g} = -10\hat{\jmath} \, \si{m/s^2}$).
+
+\subsubsection*{Paso 1: Análisis del Cuerpo A (Lanzado en $t=0$)}
+\begin{itemize}
+    \item Velocidad del globo: $\vec{v}_G = 6\hat{\jmath}$.
+    \item Velocidad relativa de lanzamiento: $\vec{v}_{A/G} = 3\hat{\jmath}$.
+    \item Velocidad absoluta inicial: $\vec{v}_{0A} = 6\hat{\jmath} + 3\hat{\jmath} = 9\hat{\jmath} \, \si{m/s}$.
+    \item Posición inicial: $y_{0A} = 0$ (tomamos el punto de lanzamiento en $t=0$ como origen).
+\end{itemize}
+La ecuación de posición para A es:
+$$ \vec{r}_A(t) = (9t - 5t^2)\hat{\jmath} $$
+
+Nos piden evaluar 2 segundos después del lanzamiento de B. Como B se lanza en $t=1$, el tiempo total transcurrido es $t = 1 + 2 = \SI{3}{s}$.
+$$ \vec{r}_A(3) = (9(3) - 5(3)^2)\hat{\jmath} = (27 - 45)\hat{\jmath} = -18\hat{\jmath} \, \si{m} $$
+\textit{(Nota: Esto significa que A está 18 metros por debajo del punto donde se encontraba el globo al inicio)}.
+
+\subsubsection*{Paso 2: Análisis del Cuerpo B (Lanzado en $t=1$)}
+Primero determinamos dónde está el globo en $t=1$:
+$$ \vec{r}_{globo}(1) = 6(1)\hat{\jmath} = 6\hat{\jmath} \, \si{m} $$
+Esa será la posición inicial de B ($y_{0B} = 6$).
+
+Ahora, su velocidad absoluta:
+\begin{itemize}
+    \item Velocidad relativa: $\vec{v}_{B/G} = -2\hat{\jmath}$.
+    \item Velocidad absoluta inicial: $\vec{v}_{0B} = 6\hat{\jmath} + (-2\hat{\jmath}) = 4\hat{\jmath} \, \si{m/s}$.
+\end{itemize}
+
+El tiempo de vuelo de B es $\Delta t_B = \SI{2}{s}$. Usamos la ecuación de caída libre:
+$$ \vec{r}_B = \vec{r}_{0B} + \vec{v}_{0B}(\Delta t) + \frac{1}{2}\vec{g}(\Delta t)^2 $$
+$$ \vec{r}_B(t=3) = 6\hat{\jmath} + 4\hat{\jmath}(2) - 5(2)^2\hat{\jmath} $$
+$$ \vec{r}_B = (6 + 8 - 20)\hat{\jmath} = -6\hat{\jmath} \, \si{m} $$
+
+\subsubsection*{Paso 3: Posición Relativa de B respecto a A}
+La posición relativa se define como:
+\begin{equation}
+    \vec{r}_{B/A} = \vec{r}_B - \vec{r}_A
+\end{equation}
+
+Sustituyendo los valores calculados:
+\begin{align*}
+    \vec{r}_{B/A} &= (-6\hat{\jmath}) - (-18\hat{\jmath}) \\
+    &= (-6 + 18)\hat{\jmath} \\
+    &= 12\hat{\jmath} \, \si{m}
+\end{align*}
+
+\textit{Interpretación:} El cuerpo B se encuentra \textbf{12 metros por encima} del cuerpo A en ese instante.
+
+\begin{tcolorbox}[colback=blue!5!white, colframe=blue!75!black, title=Respuesta Final]
+    \centering
+    \Large $\vec{r}_{B/A} = 12\hat{\jmath} \, \si{m}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un avión aterriza con una rapidez inicial de $71.5 \, \si{m/s}$ y luego de $1 \, \si{s}$ frena desacelerando a razón de $-4.47 \, \si{m/s^2}$ hasta detenerse. Determine la distancia total recorrida por el avión sobre la pista hasta detenerse.
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis del Movimiento}
+El aterrizaje del avión se compone de dos etapas distintas:
+\begin{itemize}
+\item \textbf{Etapa 1 (MRU):} Durante el primer segundo de aterrizaje, el avión no frena, manteniendo su velocidad constante.
+\item \textbf{Etapa 2 (MRUV):} A partir del primer segundo, se aplican los frenos produciendo una desaceleración constante hasta que el avión se detiene completamente.
+\end{itemize}
+
+Para visualizar mejor estas etapas y entender que la distancia total corresponde al área bajo la curva, generamos la gráfica velocidad versus tiempo.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+t_mru = 1
+v_0 = 71.5
+a = -4.47
+t_frenado = -v_0 / a
+t_total = t_mru + t_frenado
+
+t_val1 = np.array([0, t_mru])
+v_val1 = np.array([v_0, v_0])
+
+t_val2 = np.array([t_mru, t_total])
+v_val2 = np.array([v_0, 0])
+
+plt.figure(figsize=(6, 4))
+plt.plot(t_val1, v_val1, 'b-', linewidth=2)
+plt.plot(t_val2, v_val2, 'r-', linewidth=2)
+plt.fill_between(t_val1, v_val1, color='blue', alpha=0.2)
+plt.fill_between(t_val2, v_val2, color='red', alpha=0.2)
+
+plt.text(0.5, 35, 'd_1 (MRU)', ha='center', fontsize=10)
+plt.text(t_mru + t_frenado/2, 20, 'd_2 (MRUV)', ha='center', fontsize=10)
+plt.xlabel('Tiempo (s)')
+plt.ylabel('Velocidad (m/s)')
+plt.grid(True, linestyle='--', alpha=0.7)
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{2. Cálculo de la Etapa 1 (Movimiento Rectilíneo Uniforme)}
+En esta etapa inicial, la aceleración es nula. Calculamos la distancia $d_1$ recorrida en el tiempo $t_1 = 1 \, \si{s}$ con la rapidez constante $v_0 = 71.5 \, \si{m/s}$.
+
+\begin{align*}
+d_1 &= v_0 \cdot t_1 \\
+d_1 &= 71.5 \cdot 1 \\
+d_1 &= 71.5 \, \si{m}
+\end{align*}
+
+\subsubsection*{3. Cálculo de la Etapa 2 (Movimiento Rectilíneo Uniformemente Variado)}
+En la fase de frenado, la velocidad inicial es $v_0 = 71.5 \, \si{m/s}$, la velocidad final es $v_f = 0 \, \si{m/s}$ y la aceleración es $a = -4.47 \, \si{m/s^2}$. Primero determinamos el tiempo $t_2$ que tarda en detenerse.
+
+\begin{align*}
+v_f &= v_0 + a \cdot t_2 \\
+0 &= 71.5 - 4.47 \cdot t_2 \\
+4.47 \cdot t_2 &= 71.5 \\
+t_2 &= \frac{71.5}{4.47} \\
+t_2 &\approx 15.99 \, \si{s} \approx 16 \, \si{s}
+\end{align*}
+
+Ahora calculamos la distancia de frenado $d_2$ utilizando el tiempo redondeado, tal como plantea el desarrollo del ejercicio original.
+
+\begin{align*}
+d_2 &= \left( \frac{v_0 + v_f}{2} \right) \cdot t_2 \\
+d_2 &= \left( \frac{71.5 + 0}{2} \right) \cdot 16 \\
+d_2 &= 35.75 \cdot 16 \\
+d_2 &= 572 \, \si{m}
+\end{align*}
+
+\subsubsection*{4. Distancia Total Recorrida}
+La distancia total $D$ es la suma de las distancias parciales de ambas etapas.
+
+\begin{align*}
+D &= d_1 + d_2 \\
+D &= 71.5 + 572 \\
+D &= 643.5 \, \si{m}
+\end{align*}
+
+Redondeando a un número entero, tal como lo hace la resolución original, obtenemos la respuesta final.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $D \approx 644 \, \si{m}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Sobre un río que fluye en dirección este, con rapidez de $2 \, \si{m/s}$, se desplaza una lancha $A$, cuyo velocímetro marca $10 \, \si{m/s}$, hacia el oeste; otra lancha $B$, cuyo velocímetro marca $16 \, \si{m/s}$, navega hacia el este. Determine la distancia de separación entre las lanchas luego de $10 \, \si{s}$ de haberse cruzado.
+
+\subsection*{Solución}
+
+\subsubsection*{1. Definición de Sistemas de Referencia y Velocidades Relativas}
+Para resolver este problema de cinemática bidimensional (en un solo eje horizontal), debemos considerar que las velocidades que marcan los velocímetros de las lanchas son relativas al agua del río, no a un observador estático en la orilla (la Tierra).
+Definimos el eje positivo hacia el este ($\vec{i}$).
+
+Velocidad del río respecto a la Tierra:
+$$ \vec{v}_{R/T} = 2\vec{i} \, \si{m/s} $$
+
+Velocidad de la lancha A respecto al río (hacia el oeste):
+$$ \vec{v}_{A/R} = -10\vec{i} \, \si{m/s} $$
+
+Velocidad de la lancha B respecto al río (hacia el este):
+$$ \vec{v}_{B/R} = 16\vec{i} \, \si{m/s} $$
+
+\subsubsection*{2. Cálculo de Velocidades Respecto a la Tierra}
+Aplicamos la ecuación de velocidad relativa ($\vec{v}_{Objeto/Tierra} = \vec{v}_{Objeto/Medio} + \vec{v}_{Medio/Tierra}$) para hallar la velocidad real de cada lancha respecto a la orilla.
+
+Para la lancha A:
+\begin{align*}
+\vec{v}_{A/T} &= \vec{v}_{A/R} + \vec{v}_{R/T} \\
+\vec{v}_{A/T} &= -10\vec{i} + 2\vec{i} \\
+\vec{v}_{A/T} &= -8\vec{i} \, \si{m/s}
+\end{align*}
+
+Para la lancha B:
+\begin{align*}
+\vec{v}_{B/T} &= \vec{v}_{B/R} + \vec{v}_{R/T} \\
+\vec{v}_{B/T} &= 16\vec{i} + 2\vec{i} \\
+\vec{v}_{B/T} &= 18\vec{i} \, \si{m/s}
+\end{align*}
+
+\subsubsection*{3. Cálculo de Posiciones y Distancia de Separación}
+Ambas lanchas se mueven con Movimiento Rectilíneo Uniforme (MRU) respecto a la Tierra. Determinamos la posición de cada una después de $t = 10 \, \si{s}$, asumiendo que el punto donde se cruzaron es el origen ($x_0 = 0$).
+
+Posición de la lancha A:
+\begin{align*}
+\vec{r}_A &= \vec{v}_{A/T} \cdot t \\
+\vec{r}_A &= (-8\vec{i}) \cdot 10 \\
+\vec{r}_A &= -80\vec{i} \, \si{m}
+\end{align*}
+
+Posición de la lancha B:
+\begin{align*}
+\vec{r}_B &= \vec{v}_{B/T} \cdot t \\
+\vec{r}_B &= (18\vec{i}) \cdot 10 \\
+\vec{r}_B &= 180\vec{i} \, \si{m}
+\end{align*}
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+x_A = -80
+x_B = 180
+
+plt.figure(figsize=(8, 2.5))
+plt.axhline(0, color='black', linewidth=1.5)
+plt.plot(0, 0, 'ko', markersize=6)
+plt.text(0, 0.4, 'Origen\n(Cruce)', ha='center', fontsize=10)
+
+plt.plot(x_A, 0, 'ro', markersize=8)
+plt.text(x_A, 0.4, 'Lancha A', ha='center', color='red', weight='bold')
+plt.text(x_A, -0.6, '-80 m', ha='center')
+
+plt.plot(x_B, 0, 'bo', markersize=8)
+plt.text(x_B, 0.4, 'Lancha B', ha='center', color='blue', weight='bold')
+plt.text(x_B, -0.6, '180 m', ha='center')
+
+plt.annotate('', xy=(x_B, 1.2), xytext=(x_A, 1.2), arrowprops=dict(arrowstyle='<->', color='green', lw=1.5))
+plt.text((x_A + x_B) / 2, 1.4, 'Distancia de Separacion', ha='center', color='green', weight='bold')
+
+plt.xlim(-120, 220)
+plt.ylim(-1.5, 2.5)
+plt.axis('off')
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+La distancia de separación $d$ es el módulo del vector diferencia entre ambas posiciones:
+\begin{align*}
+d &= |\vec{r}_B - \vec{r}_A| \\
+d &= |180\vec{i} - (-80\vec{i})| \\
+d &= |180 + 80| \\
+d &= 260 \, \si{m}
+\end{align*}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $d = 260 \, \si{m}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un auto deportivo acelera, a partir del reposo, a razón de $5 \, \si{m/s^2}$. Determine el tiempo que tarda en alcanzar una marca a $30.5 \, \si{m}$ del punto de partida.
+
+\subsection*{Solución}
+
+\subsubsection*{1. Identificación de Datos y Movimiento}
+El auto parte del reposo y mantiene una aceleración constante, por lo que se trata de un Movimiento Rectilíneo Uniformemente Variado (MRUV).
+
+Datos iniciales:
+\begin{itemize}
+\item Velocidad inicial ($v_0$) = $0 \, \si{m/s}$
+\item Aceleración ($a$) = $5 \, \si{m/s^2}$
+\item Distancia ($d$) = $30.5 \, \si{m}$
+\end{itemize}
+
+\subsubsection*{2. Cálculo del Tiempo}
+Utilizamos la ecuación de posición del MRUV que relaciona la distancia con el tiempo y la aceleración.
+
+\begin{align*}
+d &= v_0 t + \frac{1}{2} a t^2
+\end{align*}
+
+Dado que el auto parte del reposo ($v_0 = 0$), el primer término se anula:
+
+\begin{align*}
+d &= \frac{1}{2} a t^2
+\end{align*}
+
+Despejamos el tiempo ($t$):
+
+\begin{align*}
+2d &= a t^2 \\
+t^2 &= \frac{2d}{a} \\
+t &= \sqrt{\frac{2d}{a}}
+\end{align*}
+
+Sustituimos los valores numéricos:
+
+\begin{align*}
+t &= \sqrt{\frac{2(30.5)}{5}} \\
+t &= \sqrt{\frac{61}{5}} \\
+t &= \sqrt{12.2} \\
+t &\approx 3.49 \, \si{s}
+\end{align*}
+
+Aproximando al primer decimal, obtenemos el resultado esperado.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $t \approx 3.5 \, \si{s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un auto deportivo acelera, a partir del reposo, a razón de $5 \, \si{m/s^2}$. Determine la rapidez con que alcanza una marca a $30.5 \, \si{m}$ del punto de partida.
+
+\subsection*{Solución}
+
+\subsubsection*{1. Identificación de Datos y Movimiento}
+Se trata de un Movimiento Rectilíneo Uniformemente Variado (MRUV). Tomamos los datos proporcionados y el tiempo calculado en la parte anterior, utilizando el valor redondeado para mantener la consistencia con la solución esperada.
+
+Datos iniciales:
+\begin{itemize}
+\item Velocidad inicial ($v_0$) = $0 \, \si{m/s}$
+\item Aceleración ($a$) = $5 \, \si{m/s^2}$
+\item Tiempo ($t$) = $3.5 \, \si{s}$
+\end{itemize}
+
+\subsubsection*{2. Cálculo de la Rapidez Final}
+Para determinar la velocidad final ($v_f$), utilizamos la ecuación de velocidad del MRUV.
+
+\begin{align*}
+v_f &= v_0 + a t
+\end{align*}
+
+Como el auto parte del reposo, $v_0 = 0$:
+
+\begin{align*}
+v_f &= a t
+\end{align*}
+
+Sustituimos los valores numéricos:
+
+\begin{align*}
+v_f &= (5) (3.5) \\
+v_f &= 17.5 \, \si{m/s}
+\end{align*}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $v_f = 17.5 \, \si{m/s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+La distancia mínima de frenado para un auto sobre pista húmeda es de $80 \, \si{m}$, cuando su rapidez es de $80 \, \si{km/h}$. Determine la mínima distancia de frenado cuando la rapidez del auto sea de $100 \, \si{km/h}$ sobre la misma pista húmeda.
+
+\subsection*{Solución}
+
+\subsubsection*{1. Conversión de Unidades}
+Para trabajar de manera estandarizada en el Sistema Internacional, primero convertimos las rapideces iniciales de $\si{km/h}$ a $\si{m/s}$. Trabajaremos con fracciones exactas para no perder precisión en el cálculo.
+
+\begin{align*}
+v_1 &= 80 \, \si{km/h} \cdot \left( \frac{1000 \, \si{m}}{1 \, \si{km}} \right) \cdot \left( \frac{1 \, \si{h}}{3600 \, \si{s}} \right) = \frac{200}{9} \, \si{m/s} \\
+v_2 &= 100 \, \si{km/h} \cdot \left( \frac{1000 \, \si{m}}{1 \, \si{km}} \right) \cdot \left( \frac{1 \, \si{h}}{3600 \, \si{s}} \right) = \frac{250}{9} \, \si{m/s}
+\end{align*}
+
+\subsubsection*{2. Cálculo de la Desaceleración}
+Sabemos que en ambas situaciones el auto frena hasta detenerse por completo, por lo que su velocidad final será nula ($v_f = 0$). Asumimos que la fricción de la pista húmeda provee una aceleración constante $a$. 
+
+Utilizamos la ecuación cinemática independiente del tiempo con los datos del primer caso para encontrar esta aceleración.
+
+\begin{align*}
+v_f^2 &= v_1^2 + 2 a d_1 \\
+0 &= \left( \frac{200}{9} \right)^2 + 2 a (80) \\
+0 &= \frac{40000}{81} + 160 a \\
+-160 a &= \frac{40000}{81} \\
+a &= -\frac{40000}{81 \cdot 160} \\
+a &= -\frac{250}{81} \, \si{m/s^2}
+\end{align*}
+
+\subsubsection*{3. Cálculo de la Nueva Distancia de Frenado}
+Con la aceleración constante ya definida, aplicamos nuevamente la ecuación para la segunda rapidez inicial ($v_2$) y despejamos la nueva distancia de frenado ($d_2$).
+
+\begin{align*}
+v_f^2 &= v_2^2 + 2 a d_2 \\
+0 &= \left( \frac{250}{9} \right)^2 + 2 \left( -\frac{250}{81} \right) d_2 \\
+0 &= \frac{62500}{81} - \frac{500}{81} d_2 \\
+\frac{500}{81} d_2 &= \frac{62500}{81}
+\end{align*}
+
+Simplificando los denominadores y despejando $d_2$:
+
+\begin{align*}
+500 d_2 &= 62500 \\
+d_2 &= \frac{62500}{500} \\
+d_2 &= 125 \, \si{m}
+\end{align*}
+
+\subsubsection*{Nota Adicional: Relación de Proporcionalidad}
+Este problema también puede resolverse directamente por proporcionalidad. De la ecuación $0 = v_0^2 + 2ad$, se deduce que la distancia de frenado es directamente proporcional al cuadrado de la rapidez inicial ($d \propto v_0^2$), ya que la aceleración es constante.
+
+\begin{align*}
+\frac{d_2}{d_1} &= \left( \frac{v_2}{v_1} \right)^2 \\
+d_2 &= d_1 \left( \frac{v_2}{v_1} \right)^2 \\
+d_2 &= 80 \left( \frac{100}{80} \right)^2 \\
+d_2 &= 80 \left( \frac{5}{4} \right)^2 \\
+d_2 &= 80 \left( \frac{25}{16} \right) \\
+d_2 &= 125 \, \si{m}
+\end{align*}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $d = 125 \, \si{m}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Al realizar las pruebas de desempeño de un nuevo auto se tiene que este acelera de $0$ a $10 \, \si{m/s}$, en $2$ segundos, y puede desacelerar a razón de $10 \, \si{m/s}$, cada $4 \, \si{s}$. Si el auto aceleró desde el reposo los $4$ primeros segundos, mantuvo su rapidez durante los $10$ siguientes segundos y luego desaceleró hasta detenerse, determine la velocidad media del auto para todo el recorrido. (R: $14.54 \, \si{m/s}$)
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis de las Tasas de Aceleración}
+Primero, determinamos las capacidades mecánicas del auto a partir de los datos de prueba suministrados.
+
+Aceleración ($a_1$):
+\begin{align*}
+a_1 &= \frac{\Delta v}{\Delta t} \\
+a_1 &= \frac{10 - 0}{2} \\
+a_1 &= 5 \, \si{m/s^2}
+\end{align*}
+
+Desaceleración ($a_3$):
+\begin{align*}
+a_3 &= \frac{\Delta v}{\Delta t} \\
+a_3 &= \frac{-10}{4} \\
+a_3 &= -2.5 \, \si{m/s^2}
+\end{align*}
+
+\subsubsection*{2. Gráfico del Movimiento}
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+t_val = [0, 4, 14, 22]
+v_val = [0, 20, 20, 0]
+
+plt.figure(figsize=(8, 4))
+plt.plot(t_val, v_val, 'k-', linewidth=2)
+
+plt.fill_between(t_val[:2], v_val[:2], color='blue', alpha=0.2)
+plt.fill_between(t_val[1:3], v_val[1:3], color='green', alpha=0.2)
+plt.fill_between(t_val[2:], v_val[2:], color='red', alpha=0.2)
+
+plt.text(2, 6, 'd_1\n(MRUV)', ha='center', fontsize=10)
+plt.text(9, 10, 'd_2\n(MRU)', ha='center', fontsize=10)
+plt.text(18, 6, 'd_3\n(MRUV)', ha='center', fontsize=10)
+
+plt.xlabel('Tiempo (s)')
+plt.ylabel('Velocidad (m/s)')
+plt.xticks(t_val)
+plt.yticks([0, 10, 20])
+plt.grid(True, linestyle='--', alpha=0.6)
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{3. Análisis del Recorrido por Tramos}
+
+\textbf{Tramo 1: Aceleración (MRUV)}
+El auto parte del reposo ($v_0 = 0$) y acelera durante $t_1 = 4 \, \si{s}$.
+\begin{align*}
+v_{f1} &= v_0 + a_1 t_1 \\
+v_{f1} &= 0 + 5(4) = 20 \, \si{m/s}
+\end{align*}
+\begin{align*}
+d_1 &= v_0 t_1 + \frac{1}{2} a_1 t_1^2 \\
+d_1 &= \frac{1}{2}(5)(4)^2 \\
+d_1 &= 40 \, \si{m}
+\end{align*}
+
+\textbf{Tramo 2: Rapidez Constante (MRU)}
+El auto mantiene la velocidad alcanzada ($v = 20 \, \si{m/s}$) durante $t_2 = 10 \, \si{s}$.
+\begin{align*}
+d_2 &= v \cdot t_2 \\
+d_2 &= 20(10) \\
+d_2 &= 200 \, \si{m}
+\end{align*}
+
+\textbf{Tramo 3: Desaceleración (MRUV)}
+El auto frena desde $v_{03} = 20 \, \si{m/s}$ hasta detenerse ($v_{f3} = 0$). Calculamos el tiempo de frenado $t_3$.
+\begin{align*}
+v_{f3} &= v_{03} + a_3 t_3 \\
+0 &= 20 - 2.5 t_3 \\
+2.5 t_3 &= 20 \\
+t_3 &= 8 \, \si{s}
+\end{align*}
+Calculamos la distancia $d_3$:
+\begin{align*}
+d_3 &= \left( \frac{v_{03} + v_{f3}}{2} \right) t_3 \\
+d_3 &= \left( \frac{20 + 0}{2} \right) (8) \\
+d_3 &= 10(8) \\
+d_3 &= 80 \, \si{m}
+\end{align*}
+
+\subsubsection*{4. Cálculo de la Velocidad Media}
+La velocidad media se define como la distancia total recorrida dividida para el tiempo total empleado.
+
+\begin{align*}
+d_{total} &= d_1 + d_2 + d_3 \\
+d_{total} &= 40 + 200 + 80 \\
+d_{total} &= 320 \, \si{m}
+\end{align*}
+
+\begin{align*}
+t_{total} &= t_1 + t_2 + t_3 \\
+t_{total} &= 4 + 10 + 8 \\
+t_{total} &= 22 \, \si{s}
+\end{align*}
+
+\begin{align*}
+v_m &= \frac{d_{total}}{t_{total}} \\
+v_m &= \frac{320}{22} \\
+v_m &\approx 14.5454 \, \si{m/s}
+\end{align*}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $v_m \approx 14.54 \, \si{m/s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+La posición de una partícula está dada por $\vec{x} = (-15 + 10t + 3t^2)\vec{i} \, \si{m}$, determine el desplazamiento y la velocidad de la partícula a los $5 \, \si{s}$ de iniciado el movimiento.
+
+\subsection*{Solución}
+
+\subsubsection*{1. Cálculo del Desplazamiento}
+El desplazamiento $\Delta\vec{x}$ se define como el cambio de posición de la partícula entre el instante inicial ($t_0 = 0 \, \si{s}$) y el instante final ($t = 5 \, \si{s}$).
+
+Evaluamos la posición inicial:
+\begin{align*}
+\vec{x}(0) &= (-15 + 10(0) + 3(0)^2)\vec{i} \\
+\vec{x}(0) &= -15\vec{i} \, \si{m}
+\end{align*}
+
+Evaluamos la posición a los $5 \, \si{s}$:
+\begin{align*}
+\vec{x}(5) &= (-15 + 10(5) + 3(5)^2)\vec{i} \\
+\vec{x}(5) &= (-15 + 50 + 3(25))\vec{i} \\
+\vec{x}(5) &= (-15 + 50 + 75)\vec{i} \\
+\vec{x}(5) &= 110\vec{i} \, \si{m}
+\end{align*}
+
+Calculamos el vector desplazamiento:
+\begin{align*}
+\Delta\vec{x} &= \vec{x}(5) - \vec{x}(0) \\
+\Delta\vec{x} &= 110\vec{i} - (-15\vec{i}) \\
+\Delta\vec{x} &= 110\vec{i} + 15\vec{i} \\
+\Delta\vec{x} &= 125\vec{i} \, \si{m}
+\end{align*}
+
+\subsubsection*{2. Cálculo de la Velocidad Instantánea}
+La velocidad instantánea $\vec{v}(t)$ se define físicamente como la derivada de la posición con respecto al tiempo. Derivamos la función dada:
+
+\begin{align*}
+\vec{v}(t) &= \frac{d\vec{x}(t)}{dt} \\
+\vec{v}(t) &= \frac{d}{dt} (-15 + 10t + 3t^2)\vec{i} \\
+\vec{v}(t) &= (0 + 10 + 6t)\vec{i} \\
+\vec{v}(t) &= (10 + 6t)\vec{i} \, \si{m/s}
+\end{align*}
+
+Evaluamos la función de velocidad para el instante $t = 5 \, \si{s}$:
+\begin{align*}
+\vec{v}(5) &= (10 + 6(5))\vec{i} \\
+\vec{v}(5) &= (10 + 30)\vec{i} \\
+\vec{v}(5) &= 40\vec{i} \, \si{m/s}
+\end{align*}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering
+Desplazamiento: $\Delta\vec{x} = 125\vec{i} \, \si{m}$ \\
+Velocidad: $\vec{v} = 40\vec{i} \, \si{m/s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un policía motorizado, que está al costado de la vía, observa pasar un auto a exceso de velocidad, $24 \, \si{m/s}$. Un segundo después, el motorizado persigue al auto acelerando desde el reposo a razón de $3 \, \si{m/s^2}$. Determine el tiempo que tarda en darle alcance.
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis de los Movimientos}
+Tenemos dos cuerpos con comportamientos cinemáticos distintos:
+\begin{itemize}
+\item \textbf{Auto:} Se mueve con velocidad constante (MRU). Su rapidez es $v_A = 24 \, \si{m/s}$.
+\item \textbf{Motorizado:} Parte del reposo ($v_{0M} = 0$) y acelera (MRUV) con $a_M = 3 \, \si{m/s^2}$.
+\end{itemize}
+
+\subsubsection*{2. Relación de Tiempos y Distancias}
+Establecemos un sistema de referencia común. Definimos $t$ como el tiempo que el motorizado está en movimiento. Dado que el policía reacciona un segundo después de que pasa el auto, el auto ha estado en movimiento durante un tiempo $t + 1$.
+Para que ocurra el alcance, ambos deben recorrer la misma distancia respecto al punto de partida:
+$$ d_A = d_M $$
+
+\subsubsection*{3. Gráfica de Posición vs Tiempo}
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+t_moto = np.linspace(0, 20, 100)
+t_auto = t_moto + 1
+
+d_auto = 24 * t_auto
+d_moto = 0.5 * 3 * t_moto**2
+
+plt.figure(figsize=(8, 5))
+plt.plot(t_auto, d_auto, 'b-', label='Auto (MRU)', linewidth=2)
+plt.plot(t_moto, d_moto, 'r-', label='Moto (MRUV)', linewidth=2)
+
+t_alcance = 8 + np.sqrt(80)
+d_alcance = 24 * (t_alcance + 1)
+
+plt.plot(t_alcance, d_alcance, 'ko', markersize=8)
+plt.axvline(x=t_alcance, color='k', linestyle='--', alpha=0.5)
+plt.axhline(y=d_alcance, color='k', linestyle='--', alpha=0.5)
+
+plt.text(t_alcance - 1, d_alcance + 30, 'Punto de\nalcance', ha='right', fontsize=11)
+
+plt.xlabel('Tiempo de la moto (s)')
+plt.ylabel('Posicion (m)')
+plt.legend()
+plt.grid(True, linestyle='--', alpha=0.6)
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{4. Planteamiento y Resolución}
+Expresamos las distancias en función del tiempo para cada vehículo:
+
+\begin{align*}
+d_A &= v_A (t + 1) \\
+d_A &= 24(t + 1)
+\end{align*}
+
+\begin{align*}
+d_M &= v_{0M} t + \frac{1}{2} a_M t^2 \\
+d_M &= 0 + \frac{1}{2}(3) t^2 \\
+d_M &= 1.5 t^2
+\end{align*}
+
+Igualamos ambas expresiones de distancia:
+\begin{align*}
+24(t + 1) &= 1.5 t^2 \\
+24t + 24 &= 1.5 t^2
+\end{align*}
+
+Dividimos toda la ecuación para $1.5$ para simplificar, y ordenamos para formar una ecuación cuadrática:
+\begin{align*}
+16t + 16 &= t^2 \\
+t^2 - 16t - 16 &= 0
+\end{align*}
+
+Aplicamos la fórmula general para ecuaciones de segundo grado:
+\begin{align*}
+t &= \frac{-(-16) \pm \sqrt{(-16)^2 - 4(1)(-16)}}{2(1)} \\
+t &= \frac{16 \pm \sqrt{256 + 64}}{2} \\
+t &= \frac{16 \pm \sqrt{320}}{2}
+\end{align*}
+
+Simplificando el radical ($\sqrt{320} = \sqrt{64 \cdot 5} = 8\sqrt{5}$):
+\begin{align*}
+t &= \frac{16 \pm 8\sqrt{5}}{2} \\
+t &= 8 \pm 4\sqrt{5}
+\end{align*}
+
+Como el tiempo debe ser una cantidad positiva, tomamos la raíz con el signo de suma:
+\begin{align*}
+t &= 8 + 4\sqrt{5} \\
+t &\approx 8 + 8.944 \\
+t &\approx 16.944 \, \si{s}
+\end{align*}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $t \approx 16.9 \, \si{s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un policía motorizado, que está al costado de la vía, observa pasar un auto a exceso de velocidad, $24 \, \si{m/s}$. Un segundo después, el motorizado persigue al auto acelerando desde el reposo a razón de $3 \, \si{m/s^2}$. Determine la rapidez con que lo hace en el momento de darle alcance.
+
+\subsection*{Solución}
+
+\subsubsection*{1. Identificación de Datos de la Moto}
+Para determinar la rapidez del policía motorizado en el momento exacto del alcance, nos enfocamos únicamente en su movimiento (MRUV) utilizando el tiempo calculado previamente.
+\begin{itemize}
+\item Velocidad inicial ($v_{0M}$) = $0 \, \si{m/s}$
+\item Aceleración ($a_M$) = $3 \, \si{m/s^2}$
+\item Tiempo de persecución ($t$) = $16.944 \, \si{s}$
+\end{itemize}
+
+\subsubsection*{2. Cálculo de la Rapidez Final}
+Utilizamos la ecuación fundamental de velocidad para el Movimiento Rectilíneo Uniformemente Variado:
+
+\begin{align*}
+v_{fM} &= v_{0M} + a_M t
+\end{align*}
+
+Sustituyendo los valores:
+
+\begin{align*}
+v_{fM} &= 0 + (3)(16.944) \\
+v_{fM} &= 50.832 \, \si{m/s}
+\end{align*}
+
+\subsubsection*{Nota Analítica sobre la Solución del Texto}
+Es importante notar que el texto o solucionario original reporta una respuesta de $50.7 \, \si{m/s}$. Esto se debe a un error por arrastre de redondeo. Si se utiliza el tiempo truncado o redondeado a un solo decimal ($16.9 \, \si{s}$) en el cálculo final, se obtiene:
+$$ v = 3 \cdot 16.9 = 50.7 \, \si{m/s} $$
+Sin embargo, al mantener mayor precisión decimal durante los cálculos intermedios, el valor matemáticamente correcto es aproximadamente $50.83 \, \si{m/s}$.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $v_{f} \approx 50.8 \, \si{m/s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una partícula se mueve, desde el origen, en línea recta en dirección $x$, con velocidad inicial $-12\vec{i} \, \si{m/s}$ y con la aceleración mostrada en la figura. Para el intervalo de $0$ a $10 \, \si{s}$, realice el gráfico $v_x - t$.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    \draw[->] (-1,0) -- (11,0) node[right] {$t \, (\si{s})$};
+    \draw[->] (0,-5) -- (0,10) node[above] {$a_x \, (\si{m/s^2})$};
+    
+    \foreach \x in {1,2,3,4,5,6,7,8,9,10} \draw (\x,0.1) -- (\x,-0.1) node[below] {\small \x};
+    \foreach \y in {-4, 4, 8} \draw (0.1,\y) -- (-0.1,\y) node[left] {\small \y};
+    
+    \draw[thick, black] (0,4) -- (3,4);
+    \draw[dashed] (3,4) -- (3,0);
+    
+    \draw[thick, black] (3,8) -- (6,8);
+    \draw[dashed] (3,0) -- (3,8);
+    \draw[dashed] (6,8) -- (6,0);
+    
+    \draw[thick, black] (6,-4) -- (10,-4);
+    \draw[dashed] (6,0) -- (6,-4);
+    \draw[dashed] (10,0) -- (10,-4);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Cálculo de Velocidades por Intervalo}
+Sabemos que el cambio de velocidad es igual al área bajo la curva del gráfico de aceleración versus tiempo, o aplicando la ecuación cinemática $v_f = v_0 + a \Delta t$. Partimos con $v_0 = -12 \, \si{m/s}$.
+
+\textbf{Intervalo de 0 a 3 s:}
+La aceleración es constante $a_1 = 4 \, \si{m/s^2}$.
+\begin{align*}
+v(3) &= v(0) + a_1 \Delta t_1 \\
+v(3) &= -12 + (4)(3) \\
+v(3) &= -12 + 12 \\
+v(3) &= 0 \, \si{m/s}
+\end{align*}
+
+\textbf{Intervalo de 3 a 6 s:}
+La aceleración es constante $a_2 = 8 \, \si{m/s^2}$.
+\begin{align*}
+v(6) &= v(3) + a_2 \Delta t_2 \\
+v(6) &= 0 + (8)(3) \\
+v(6) &= 24 \, \si{m/s}
+\end{align*}
+
+\textbf{Intervalo de 6 a 10 s:}
+La aceleración es constante $a_3 = -4 \, \si{m/s^2}$.
+\begin{align*}
+v(10) &= v(6) + a_3 \Delta t_3 \\
+v(10) &= 24 + (-4)(4) \\
+v(10) &= 24 - 16 \\
+v(10) &= 8 \, \si{m/s}
+\end{align*}
+
+\subsubsection*{2. Gráfico $v_x - t$}
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+t = [0, 3, 6, 10]
+v = [-12, 0, 24, 8]
+
+plt.figure(figsize=(8, 5))
+plt.plot(t, v, 'b-', marker='o', linewidth=2)
+plt.axhline(0, color='black', linewidth=1.2)
+plt.axvline(0, color='black', linewidth=1.2)
+plt.grid(True, linestyle='--', alpha=0.6)
+plt.xlabel('Tiempo (s)', fontsize=12)
+plt.ylabel('Velocidad (m/s)', fontsize=12)
+plt.xticks(range(0, 12))
+plt.yticks(range(-12, 28, 4))
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\newpage
+
+\subsection*{Enunciado}
+Una partícula se mueve, desde el origen, en línea recta en dirección $x$, con velocidad inicial $-12\vec{i} \, \si{m/s}$ y con la aceleración mostrada en la figura. Para el intervalo de $0$ a $10 \, \si{s}$, calcule la distancia total recorrida por la partícula.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    \draw[->] (-1,0) -- (11,0) node[right] {$t \, (\si{s})$};
+    \draw[->] (0,-5) -- (0,10) node[above] {$a_x \, (\si{m/s^2})$};
+    
+    \foreach \x in {1,2,3,4,5,6,7,8,9,10} \draw (\x,0.1) -- (\x,-0.1) node[below] {\small \x};
+    \foreach \y in {-4, 4, 8} \draw (0.1,\y) -- (-0.1,\y) node[left] {\small \y};
+    
+    \draw[thick, black] (0,4) -- (3,4);
+    \draw[dashed] (3,4) -- (3,0);
+    
+    \draw[thick, black] (3,8) -- (6,8);
+    \draw[dashed] (3,0) -- (3,8);
+    \draw[dashed] (6,8) -- (6,0);
+    
+    \draw[thick, black] (6,-4) -- (10,-4);
+    \draw[dashed] (6,0) -- (6,-4);
+    \draw[dashed] (10,0) -- (10,-4);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Relación entre Velocidad y Distancia}
+La distancia total recorrida corresponde a la suma de los valores absolutos de las áreas bajo la curva en el gráfico de velocidad versus tiempo. Utilizaremos las velocidades calculadas en cada punto de transición: $v(0)=-12$, $v(3)=0$, $v(6)=24$ y $v(10)=8$.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+t1, v1 = [0, 3], [-12, 0]
+t2, v2 = [3, 6], [0, 24]
+t3, v3 = [6, 10], [24, 8]
+
+plt.figure(figsize=(8, 5))
+plt.plot(t1 + t2[1:] + t3[1:], v1 + v2[1:] + v3[1:], 'b-', marker='o', linewidth=2)
+plt.fill_between(t1, v1, color='red', alpha=0.2)
+plt.fill_between(t2, v2, color='green', alpha=0.2)
+plt.fill_between(t3, v3, color='orange', alpha=0.2)
+
+plt.axhline(0, color='black', linewidth=1.2)
+plt.axvline(0, color='black', linewidth=1.2)
+
+plt.text(1.5, -4, '$d_1$', ha='center', fontsize=12, weight='bold')
+plt.text(4.5, 6, '$d_2$', ha='center', fontsize=12, weight='bold')
+plt.text(8, 8, '$d_3$', ha='center', fontsize=12, weight='bold')
+
+plt.grid(True, linestyle='--', alpha=0.6)
+plt.xlabel('Tiempo (s)', fontsize=12)
+plt.ylabel('Velocidad (m/s)', fontsize=12)
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{2. Cálculo de Áreas (Distancias Parciales)}
+
+\textbf{Tramo 1 (0 a 3 s):}
+El área forma un triángulo debajo del eje temporal. Al pedir distancia, tomamos el valor absoluto.
+\begin{align*}
+d_1 &= \left| \frac{\text{base} \cdot \text{altura}}{2} \right| \\
+d_1 &= \left| \frac{3 \cdot (-12)}{2} \right| \\
+d_1 &= \left| -18 \right| \\
+d_1 &= 18 \, \si{m}
+\end{align*}
+
+\textbf{Tramo 2 (3 a 6 s):}
+El área forma un triángulo sobre el eje temporal.
+\begin{align*}
+d_2 &= \frac{\text{base} \cdot \text{altura}}{2} \\
+d_2 &= \frac{3 \cdot 24}{2} \\
+d_2 &= 36 \, \si{m}
+\end{align*}
+
+\textbf{Tramo 3 (6 a 10 s):}
+El área forma un trapecio.
+\begin{align*}
+d_3 &= \left( \frac{\text{Base mayor} + \text{Base menor}}{2} \right) \cdot \text{altura} \\
+d_3 &= \left( \frac{24 + 8}{2} \right) \cdot 4 \\
+d_3 &= \left( \frac{32}{2} \right) \cdot 4 \\
+d_3 &= 16 \cdot 4 \\
+d_3 &= 64 \, \si{m}
+\end{align*}
+
+\subsubsection*{3. Distancia Total}
+Sumamos las distancias parciales calculadas.
+\begin{align*}
+D_{total} &= d_1 + d_2 + d_3 \\
+D_{total} &= 18 + 36 + 64 \\
+D_{total} &= 118 \, \si{m}
+\end{align*}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $D = 118 \, \si{m}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Se dispara verticalmente hacia arriba una flecha $A$ con rapidez $30 \, \si{m/s}$ y, luego de $3 \, \si{s}$, otra $B$ con $20 \, \si{m/s}$. Determine a qué altura se cruzan las flechas.
+
+\subsection*{Solución}
+
+\subsubsection*{1. Ecuaciones de Posición}
+Establecemos el nivel del suelo como nuestro sistema de referencia ($y_0 = 0$). Para que los cálculos coincidan con la respuesta esperada, utilizaremos la aceleración de la gravedad como $g = 10 \, \si{m/s^2}$. 
+
+Definimos $t$ como el tiempo transcurrido desde que se dispara la flecha $A$. La flecha $B$ se dispara $3 \, \si{s}$ después, por lo que su tiempo de vuelo será $(t - 3)$.
+
+Ecuación para la flecha $A$:
+\begin{align*}
+y_A &= v_{0A}t - \frac{1}{2}gt^2 \\
+y_A &= 30t - \frac{1}{2}(10)t^2 \\
+y_A &= 30t - 5t^2
+\end{align*}
+
+Ecuación para la flecha $B$:
+\begin{align*}
+y_B &= v_{0B}(t - 3) - \frac{1}{2}g(t - 3)^2 \\
+y_B &= 20(t - 3) - 5(t - 3)^2
+\end{align*}
+
+\subsubsection*{2. Gráfico del Movimiento}
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+t_A = np.linspace(0, 6, 100)
+y_A = 30 * t_A - 5 * t_A**2
+
+t_B = np.linspace(3, 6, 50)
+y_B = 20 * (t_B - 3) - 5 * (t_B - 3)**2
+
+plt.figure(figsize=(8, 5))
+plt.plot(t_A, y_A, 'b-', linewidth=2)
+plt.plot(t_B, y_B, 'r-', linewidth=2)
+
+t_cruce = 5.25
+y_cruce = 19.6875
+
+plt.plot(t_cruce, y_cruce, 'ko', markersize=8)
+plt.axvline(x=t_cruce, color='k', linestyle='--', alpha=0.5)
+plt.axhline(y=y_cruce, color='k', linestyle='--', alpha=0.5)
+
+plt.text(t_cruce - 0.2, y_cruce + 3, 'Punto de\ncruce', ha='right', fontsize=10)
+plt.text(1.5, 40, 'Flecha A', color='blue', fontsize=12, weight='bold')
+plt.text(4.5, 25, 'Flecha B', color='red', fontsize=12, weight='bold')
+
+plt.xlabel('Tiempo (s)')
+plt.ylabel('Altura (m)')
+plt.grid(True, linestyle='--', alpha=0.6)
+plt.xlim(0, 6)
+plt.ylim(0, 50)
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{3. Cálculo del Tiempo de Cruce}
+El cruce ocurre cuando ambas flechas se encuentran a la misma altura respecto al suelo. Igualamos sus ecuaciones de posición:
+$$ y_A = y_B $$
+
+\begin{align*}
+30t - 5t^2 &= 20(t - 3) - 5(t - 3)^2
+\end{align*}
+
+Desarrollamos el binomio al cuadrado en el lado derecho:
+\begin{align*}
+30t - 5t^2 &= 20t - 60 - 5(t^2 - 6t + 9) \\
+30t - 5t^2 &= 20t - 60 - 5t^2 + 30t - 45
+\end{align*}
+
+Simplificamos términos semejantes. Notemos que el término $-5t^2$ se cancela en ambos lados de la ecuación:
+\begin{align*}
+30t &= 50t - 105 \\
+105 &= 50t - 30t \\
+105 &= 20t \\
+t &= \frac{105}{20} \\
+t &= 5.25 \, \si{s}
+\end{align*}
+
+\subsubsection*{4. Cálculo de la Altura}
+Sustituimos el tiempo encontrado en la ecuación de la flecha $A$ (es más sencilla de operar matemáticamente) para encontrar la altura exacta del cruce.
+
+\begin{align*}
+y_A &= 30(5.25) - 5(5.25)^2 \\
+y_A &= 157.5 - 5(27.5625) \\
+y_A &= 157.5 - 137.8125 \\
+y_A &= 19.6875 \, \si{m}
+\end{align*}
+
+Redondeando a dos decimales, obtenemos el valor del solucionario.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $h \approx 19.69 \, \si{m}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Desde un ascensor, que se encuentra a $25 \, \si{m}$ de altura sobre el piso y que baja con rapidez de $1.5 \, \si{m/s}$, se desprende un tornillo. Determine la velocidad con la que el tornillo llega al piso medida por una persona en el ascensor. 
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis de Sistemas de Referencia y Condiciones Iniciales}
+En este problema de movimiento relativo establecemos la Tierra (el piso) como el sistema de referencia inercial. Definimos el eje vertical con dirección positiva hacia arriba ($+\vec{j}$). Para que los cálculos numéricos coincidan con la respuesta del solucionario, utilizaremos la aceleración de la gravedad como $g = 10 \, \si{m/s^2}$.
+
+En el instante en que el tornillo se desprende, comparte la velocidad del ascensor. 
+\begin{align*}
+\vec{v}_{0\_tornillo} &= -1.5\vec{j} \, \si{m/s}
+\end{align*}
+
+Se asume que el ascensor continúa bajando con velocidad constante durante el tiempo de caída del tornillo, por lo que la velocidad de la persona (ascensor) respecto a la Tierra es:
+\begin{align*}
+\vec{v}_{persona/Tierra} &= -1.5\vec{j} \, \si{m/s}
+\end{align*}
+
+\subsubsection*{2. Velocidad del Tornillo respecto a la Tierra}
+El tornillo experimenta un movimiento de caída libre (MRUV). Calculamos su velocidad final justo antes de tocar el piso utilizando la ecuación cinemática independiente del tiempo. El desplazamiento es $\Delta y = -25 \, \si{m}$ y la aceleración es $\vec{g} = -10\vec{j} \, \si{m/s^2}$.
+
+\begin{align*}
+v_f^2 &= v_0^2 + 2g\Delta y \\
+v_f^2 &= (-1.5)^2 + 2(-10)(-25) \\
+v_f^2 &= 2.25 + 500 \\
+v_f^2 &= 502.25 \\
+v_f &= \sqrt{502.25} \\
+v_f &\approx 22.411 \, \si{m/s}
+\end{align*}
+
+Como el tornillo se mueve hacia abajo, su vector velocidad respecto a la Tierra es:
+\begin{align*}
+\vec{v}_{tornillo/Tierra} &= -22.411\vec{j} \, \si{m/s}
+\end{align*}
+
+\subsubsection*{3. Cálculo de la Velocidad Relativa}
+Se nos pide la velocidad del tornillo medida por la persona en el ascensor ($\vec{v}_{tornillo/persona}$). Aplicamos la ecuación de velocidad relativa por sustracción de vectores:
+
+\begin{align*}
+\vec{v}_{tornillo/persona} &= \vec{v}_{tornillo/Tierra} - \vec{v}_{persona/Tierra}
+\end{align*}
+
+Sustituimos los vectores previamente definidos:
+\begin{align*}
+\vec{v}_{tornillo/persona} &= (-22.411\vec{j}) - (-1.5\vec{j}) \\
+\vec{v}_{tornillo/persona} &= -22.411\vec{j} + 1.5\vec{j} \\
+\vec{v}_{tornillo/persona} &= -20.911\vec{j} \, \si{m/s}
+\end{align*}
+
+Redondeando a dos decimales, obtenemos el valor exacto del solucionario.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{v}_{tornillo/persona} = -20.91\vec{j} \, \si{m/s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un obrero de la construcción se encuentra en el piso 5 de un edificio en obra. Si cada piso tiene $3 \, \si{m}$ de alto y el obrero observa durante $0.2 \, \si{s}$ pasar por su piso un martillo en caída libre, determine desde qué piso se dejó caer el martillo.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    \draw[thick] (0, 0) rectangle (2, 6);
+    \draw[thick] (-1, 0) -- (3, 0);
+    \draw[->, thick] (2.5, 5) -- (2.5, 3.5);
+    \draw[|<->|] (2.2, 3) -- (2.2, 4) node[midway, right] {$3 \, \si{m}$};
+    \fill (2, 4) circle (0.05);
+    \fill (2, 3) circle (0.05);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Cálculo de la Velocidad al Ingresar al Piso 5}
+El martillo atraviesa el piso 5, que tiene una altura $h = 3 \, \si{m}$, en un tiempo $t = 0.2 \, \si{s}$. Usaremos este tramo de caída libre para determinar la velocidad $v_0$ que tenía el martillo justo en el instante en que entró a la visión del obrero (techo del piso 5). Consideramos la aceleración de la gravedad como $g = 9.8 \, \si{m/s^2}$.
+
+\begin{align*}
+h &= v_0 t + \frac{1}{2} g t^2 \\
+3 &= v_0(0.2) + \frac{1}{2}(9.8)(0.2)^2 \\
+3 &= 0.2 v_0 + 4.9(0.04) \\
+3 &= 0.2 v_0 + 0.196 \\
+0.2 v_0 &= 3 - 0.196 \\
+0.2 v_0 &= 2.804 \\
+v_0 &= \frac{2.804}{0.2} \\
+v_0 &= 14.02 \, \si{m/s}
+\end{align*}
+
+\subsubsection*{2. Gráfico del Sistema de Referencia}
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+pisos = range(1, 10)
+alturas = [p * 3 for p in pisos]
+
+plt.figure(figsize=(4, 6))
+for i, h in enumerate(alturas):
+    plt.axhline(y=h, color='gray', linestyle='--', alpha=0.5)
+    plt.text(-0.5, h - 1.5, f'Piso {i+1}', va='center')
+
+plt.axhline(y=0, color='black', linewidth=2)
+plt.plot([1, 1], [15, 12], 'b-', linewidth=4)
+plt.text(1.2, 13.5, 'Piso 5\n(t = 0.2 s)', color='blue', va='center')
+
+plt.plot([1, 1], [25.03, 15], 'r--', linewidth=2)
+plt.plot(1, 25.03, 'ko', markersize=8)
+plt.text(1.2, 25.03, 'Punto de\ncaida', va='center')
+
+plt.ylabel('Altura (m)')
+plt.xlim(-1, 3)
+plt.ylim(0, 30)
+plt.xticks([])
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{3. Altura de Caída Libre Inicial}
+El martillo se soltó desde el reposo ($v_i = 0$) y alcanzó una velocidad de $v_f = 14.02 \, \si{m/s}$ justo al llegar al techo del piso 5. Calculamos la distancia $d$ que cayó durante ese trayecto previo.
+
+\begin{align*}
+v_f^2 &= v_i^2 + 2 g d \\
+(14.02)^2 &= 0 + 2(9.8) d \\
+196.5604 &= 19.6 d \\
+d &= \frac{196.5604}{19.6} \\
+d &\approx 10.03 \, \si{m}
+\end{align*}
+
+\subsubsection*{4. Determinación del Piso de Origen}
+El martillo cayó aproximadamente $10 \, \si{m}$ antes de llegar al nivel superior del piso 5. Calculamos a cuántos pisos equivalen esos $10 \, \si{m}$:
+\begin{align*}
+\text{Número de pisos} &= \frac{10 \, \si{m}}{3 \, \si{m/piso}} \approx 3.33 \, \text{pisos}
+\end{align*}
+
+Sabiendo que el análisis del obrero inicia en el límite superior del piso 5, sumamos esta cantidad de pisos hacia arriba para encontrar el punto de origen:
+\begin{align*}
+\text{Piso de origen} &= 5 + 3.33 = 8.33
+\end{align*}
+
+Físicamente, estar en la posición relativa $8.33$ significa que la altura de lanzamiento superó el límite superior del piso 8 (posición $8.0$), ubicándose exactamente dentro del espacio que corresponde al noveno piso.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large El martillo se dejó caer desde el noveno piso.
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Desde el borde de la terraza de un edificio de $50 \, \si{m}$ de altura, se lanza una pelota verticalmente hacia arriba, con una rapidez inicial de $20 \, \si{m/s}$. Despreciando la resistencia del aire, determine el tiempo en que llega a su altura máxima.
+
+\subsection*{Solución}
+
+\subsubsection*{1. Condiciones Iniciales y Sistema de Referencia}
+Establecemos el nivel del suelo como el origen de coordenadas ($y = 0$).
+La posición inicial de la pelota es la terraza del edificio: $y_0 = 50 \, \si{m}$.
+La velocidad inicial es hacia arriba: $v_0 = 20 \, \si{m/s}$.
+La aceleración es la de la gravedad, dirigida hacia abajo: $g = -9.8 \, \si{m/s^2}$.
+
+\subsubsection*{2. Gráfico del Movimiento}
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+t = np.linspace(0, 5.83, 100)
+y = 50 + 20*t - 4.9*t**2
+
+plt.figure(figsize=(6, 5))
+plt.plot(t, y, 'b-', linewidth=2)
+plt.axhline(50, color='gray', linestyle='--')
+plt.axhline(0, color='black', linewidth=1.5)
+
+plt.plot(0, 50, 'ko')
+plt.text(0.2, 52, 'Lanzamiento\n(y = 50 m)', fontsize=10)
+
+t_max = 20/9.8
+y_max = 50 + 20*t_max - 4.9*t_max**2
+plt.plot(t_max, y_max, 'ro')
+plt.text(t_max + 0.2, y_max - 2, 'Altura Maxima\n(v = 0)', fontsize=10, color='red')
+
+plt.plot(5.83, 0, 'go')
+plt.text(5.0, 3, 'Suelo\n(y = 0 m)', fontsize=10)
+
+plt.xlabel('Tiempo (s)')
+plt.ylabel('Posicion Vertical (m)')
+plt.grid(True, linestyle='--', alpha=0.6)
+plt.xlim(-0.5, 6.5)
+plt.ylim(-5, 80)
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{3. Cálculo del Tiempo a la Altura Máxima}
+En el punto de altura máxima, la velocidad instantánea de la pelota se vuelve cero ($v_f = 0$) justo antes de comenzar a descender. Aplicamos la ecuación de velocidad del movimiento uniformemente variado:
+
+\begin{align*}
+v_f &= v_0 + a t \\
+0 &= v_0 - g t
+\end{align*}
+
+Despejamos el tiempo $t$:
+
+\begin{align*}
+g t &= v_0 \\
+t &= \frac{v_0}{g}
+\end{align*}
+
+Sustituimos los valores numéricos:
+
+\begin{align*}
+t &= \frac{20}{9.8} \\
+t &\approx 2.0408 \, \si{s}
+\end{align*}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $t \approx 2.04 \, \si{s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Desde el borde de la terraza de un edificio de $50 \, \si{m}$ de altura, se lanza una pelota verticalmente hacia arriba, con una rapidez inicial de $20 \, \si{m/s}$. Despreciando la resistencia del aire, determine la rapidez de la pelota al llegar al suelo.
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis del Desplazamiento}
+Para resolver este problema de forma directa e independiente del tiempo, definimos el desplazamiento total ($\Delta y$) de la pelota. 
+Si consideramos el nivel de la terraza como el origen ($y_0 = 0$), el suelo se encuentra a $50 \, \si{m}$ por debajo del punto de lanzamiento. Por lo tanto, el desplazamiento es negativo:
+$$ \Delta y = -50 \, \si{m} $$
+
+Los demás parámetros cinemáticos son:
+Velocidad inicial: $v_0 = 20 \, \si{m/s}$
+Aceleración de la gravedad: $a = -9.8 \, \si{m/s^2}$
+
+\subsubsection*{2. Cálculo de la Rapidez Final}
+Utilizamos la ecuación cinemática que relaciona la velocidad con el desplazamiento:
+
+\begin{align*}
+v_f^2 &= v_0^2 + 2 a \Delta y
+\end{align*}
+
+Sustituimos los valores con sus respectivos signos:
+
+\begin{align*}
+v_f^2 &= (20)^2 + 2 (-9.8) (-50) \\
+v_f^2 &= 400 + 2 (490) \\
+v_f^2 &= 400 + 980 \\
+v_f^2 &= 1380
+\end{align*}
+
+Extraemos la raíz cuadrada para encontrar la magnitud de la velocidad, es decir, la rapidez:
+
+\begin{align*}
+v_f &= \sqrt{1380} \\
+v_f &\approx 37.148 \, \si{m/s}
+\end{align*}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $v_f \approx 37.1 \, \si{m/s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+De acuerdo con las gráficas velocidad - tiempo de 2 partículas $A$ y $B$, que se mueven a lo largo del eje $x$, determine el instante en que $A$ alcanza a $B$, considerando que $A$ parte $20 \, \si{m}$ atrás de donde parte $B$.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    \draw[->, thick] (-1,0) -- (6,0) node[right] {$t \, (\si{s})$};
+    \draw[->, thick] (0,-3) -- (0,5) node[above] {$v_x \, (\si{m/s})$};
+    
+    \foreach \x in {1,2,3,4,5} \draw (\x,0.1) -- (\x,-0.1) node[below] {\small \x};
+    
+    \draw (0.1,4) -- (-0.1,4) node[left] {\small 40};
+    \draw (0.1,-2) -- (-0.1,-2) node[left] {\small -20};
+    \node[below left] at (0,0) {\small 0};
+    
+    \draw[thick, black] (0,-2) -- (3.5,5) node[right] {$A$};
+    \draw[thick, black] (0,4) -- (3.5,-3) node[right] {$B$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Cálculo de Aceleraciones}
+A partir del gráfico velocidad - tiempo, determinamos la aceleración de cada partícula calculando la pendiente de su respectiva recta.
+
+Para la partícula $A$, tomamos los puntos $(0, -20)$ y $(1, 0)$:
+\begin{align*}
+a_A &= \frac{\Delta v_A}{\Delta t} \\
+a_A &= \frac{0 - (-20)}{1 - 0} \\
+a_A &= 20 \, \si{m/s^2}
+\end{align*}
+
+Para la partícula $B$, tomamos los puntos $(0, 40)$ y $(2, 0)$:
+\begin{align*}
+a_B &= \frac{\Delta v_B}{\Delta t} \\
+a_B &= \frac{0 - 40}{2 - 0} \\
+a_B &= -20 \, \si{m/s^2}
+\end{align*}
+
+\subsubsection*{2. Ecuaciones de Posición}
+Establecemos un sistema de referencia espacial. Si la partícula $B$ parte del origen ($x_{0B} = 0 \, \si{m}$), la partícula $A$ arranca $20 \, \si{m}$ atrás, es decir, su posición inicial es $x_{0A} = -20 \, \si{m}$.
+Ambas partículas describen un Movimiento Rectilíneo Uniformemente Variado (MRUV).
+
+Ecuación de posición para $A$:
+\begin{align*}
+x_A &= x_{0A} + v_{0A}t + \frac{1}{2}a_At^2 \\
+x_A &= -20 - 20t + \frac{1}{2}(20)t^2 \\
+x_A &= -20 - 20t + 10t^2
+\end{align*}
+
+Ecuación de posición para $B$:
+\begin{align*}
+x_B &= x_{0B} + v_{0B}t + \frac{1}{2}a_Bt^2 \\
+x_B &= 0 + 40t + \frac{1}{2}(-20)t^2 \\
+x_B &= 40t - 10t^2
+\end{align*}
+
+\subsubsection*{3. Gráfico de Posición vs Tiempo}
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+t = np.linspace(0, 4.5, 100)
+x_A = 10*t**2 - 20*t - 20
+x_B = -10*t**2 + 40*t
+
+plt.figure(figsize=(7, 5))
+plt.plot(t, x_A, 'b-', linewidth=2, label='Particula A')
+plt.plot(t, x_B, 'r-', linewidth=2, label='Particula B')
+
+t_cruce = (3 + np.sqrt(13)) / 2
+x_cruce = 10*t_cruce**2 - 20*t_cruce - 20
+
+plt.plot(t_cruce, x_cruce, 'ko', markersize=6)
+plt.axvline(x=t_cruce, color='k', linestyle='--', alpha=0.5)
+
+plt.text(t_cruce - 0.2, x_cruce + 10, 'Punto de alcance\n(t = 3.3 s)', ha='right', fontsize=10)
+
+plt.xlabel('Tiempo (s)')
+plt.ylabel('Posicion (m)')
+plt.axhline(0, color='black', linewidth=1)
+plt.axvline(0, color='black', linewidth=1)
+plt.legend()
+plt.grid(True, linestyle='--', alpha=0.6)
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{4. Cálculo del Instante de Alcance}
+El alcance ocurre cuando ambas partículas ocupan la misma posición en el espacio en el mismo instante de tiempo. Igualamos sus ecuaciones:
+\begin{align*}
+x_A &= x_B \\
+-20 - 20t + 10t^2 &= 40t - 10t^2
+\end{align*}
+
+Agrupamos todos los términos a un solo lado para formar una ecuación cuadrática igualada a cero:
+\begin{align*}
+10t^2 + 10t^2 - 20t - 40t - 20 &= 0 \\
+20t^2 - 60t - 20 &= 0
+\end{align*}
+
+Dividimos toda la ecuación para 20 con el fin de simplificarla:
+\begin{align*}
+t^2 - 3t - 1 &= 0
+\end{align*}
+
+Aplicamos la fórmula general:
+\begin{align*}
+t &= \frac{-(-3) \pm \sqrt{(-3)^2 - 4(1)(-1)}}{2(1)} \\
+t &= \frac{3 \pm \sqrt{9 + 4}}{2} \\
+t &= \frac{3 \pm \sqrt{13}}{2}
+\end{align*}
+
+Dado que el tiempo debe ser positivo, tomamos la solución con el signo positivo:
+\begin{align*}
+t &= \frac{3 + 3.6055}{2} \\
+t &= \frac{6.6055}{2} \\
+t &\approx 3.3027 \, \si{s}
+\end{align*}
+
+Aproximando a un decimal, obtenemos la respuesta esperada.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $t \approx 3.3 \, \si{s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+De acuerdo con las gráficas velocidad - tiempo de 2 partículas $A$ y $B$, determine la posición relativa de $A$ con respecto a $B$ al instante $6 \, \si{s}$ de iniciado el movimiento. Considere que las 2 parten desde el origen de coordenadas.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    \draw[->, thick] (-1,0) -- (8,0) node[right] {$t \, (\si{s})$};
+    \draw[->, thick] (0,-5) -- (0,5) node[above] {$v_x \, (\si{m/s})$};
+    
+    \foreach \x in {1,2,3,4,5,6,7} \draw (\x,0.1) -- (\x,-0.1) node[below] {\small \x};
+    
+    \draw (0.1,4) -- (-0.1,4) node[left] {\small 40};
+    \draw (0.1,2.5) -- (-0.1,2.5) node[left] {\small 25};
+    \draw (0.1,-4.5) -- (-0.1,-4.5) node[left] {\small -45};
+    \node[below left] at (0,0) {\small 0};
+    
+    \draw[dashed] (0,2.5) -- (3,2.5) -- (3,0);
+    
+    \draw[thick, black] (0,-4.5) -- (3,2.5) -- (7,2.5) node[right] {$A$};
+    
+    \draw[thick, black] (0,4) -- (4,-4) node[right] {$B$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis del Movimiento de la Partícula A}
+La partícula $A$ parte del origen ($x_{0A} = 0$). Su desplazamiento hasta los $6 \, \si{s}$ se calcula sumando las áreas bajo la curva de su gráfica velocidad-tiempo. Podemos dividir esta área en tres secciones geométricas.
+
+\begin{itemize}
+    \item \textbf{Tramo 1 (0 a 2 s):} Triángulo por debajo del eje temporal.
+    $$ \Delta x_{A1} = \frac{b \cdot h}{2} = \frac{2 \cdot (-45)}{2} = -45 \, \si{m} $$
+    \item \textbf{Tramo 2 (2 a 3 s):} Triángulo por encima del eje temporal.
+    $$ \Delta x_{A2} = \frac{b \cdot h}{2} = \frac{1 \cdot 25}{2} = 12.5 \, \si{m} $$
+    \item \textbf{Tramo 3 (3 a 6 s):} Rectángulo (velocidad constante).
+    $$ \Delta x_{A3} = b \cdot h = 3 \cdot 25 = 75 \, \si{m} $$
+\end{itemize}
+
+Sumamos los desplazamientos parciales para obtener la posición de $A$ a los $6 \, \si{s}$:
+\begin{align*}
+x_A &= x_{0A} + \Delta x_{A1} + \Delta x_{A2} + \Delta x_{A3} \\
+x_A &= 0 - 45 + 12.5 + 75 \\
+x_A &= 42.5 \, \si{m}
+\end{align*}
+
+\subsubsection*{2. Análisis del Movimiento de la Partícula B}
+La partícula $B$ también parte del origen ($x_{0B} = 0$). Su gráfica es una recta inclinada continua, lo que indica una aceleración constante. Calculamos primero su aceleración usando los puntos $(0, 40)$ y $(2, 0)$.
+
+\begin{align*}
+a_B &= \frac{\Delta v_B}{\Delta t} \\
+a_B &= \frac{0 - 40}{2 - 0} \\
+a_B &= -20 \, \si{m/s^2}
+\end{align*}
+
+Calculamos su posición a los $6 \, \si{s}$ utilizando la ecuación cinemática de posición:
+\begin{align*}
+x_B &= x_{0B} + v_{0B}t + \frac{1}{2}a_Bt^2 \\
+x_B &= 0 + 40(6) + \frac{1}{2}(-20)(6)^2 \\
+x_B &= 240 - 10(36) \\
+x_B &= 240 - 360 \\
+x_B &= -120 \, \si{m}
+\end{align*}
+
+\subsubsection*{3. Visualización de los Desplazamientos (Áreas)}
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+t_A1 = np.array([0, 2])
+v_A1 = np.array([-45, 0])
+t_A2 = np.array([2, 3])
+v_A2 = np.array([0, 25])
+t_A3 = np.array([3, 6])
+v_A3 = np.array([25, 25])
+
+t_B = np.array([0, 6])
+v_B = 40 - 20 * t_B
+
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 4))
+
+ax1.plot(np.concatenate((t_A1, t_A2[1:], t_A3[1:])), np.concatenate((v_A1, v_A2[1:], v_A3[1:])), 'b-', lw=2)
+ax1.fill_between(t_A1, v_A1, color='blue', alpha=0.2)
+ax1.fill_between(t_A2, v_A2, color='blue', alpha=0.4)
+ax1.fill_between(t_A3, v_A3, color='blue', alpha=0.6)
+ax1.axhline(0, color='black', lw=1)
+ax1.set_title('Desplazamiento Particula A')
+ax1.set_xlabel('Tiempo (s)')
+ax1.set_ylabel('Velocidad (m/s)')
+
+ax2.plot(t_B, v_B, 'r-', lw=2)
+ax2.fill_between([0, 2], [40, 0], color='red', alpha=0.3)
+ax2.fill_between([2, 6], [0, -80], color='red', alpha=0.6)
+ax2.axhline(0, color='black', lw=1)
+ax2.set_title('Desplazamiento Particula B')
+ax2.set_xlabel('Tiempo (s)')
+
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{4. Cálculo de la Posición Relativa}
+Se solicita determinar la posición relativa de $A$ con respecto a $B$ ($\vec{r}_{A/B}$). Esto se define vectorialmente como la diferencia entre la posición de $A$ y la posición de $B$.
+
+\begin{align*}
+\vec{r}_{A/B} &= \vec{r}_A - \vec{r}_B
+\end{align*}
+
+Sustituimos las posiciones escalares calculadas, añadiendo el vector unitario $\vec{i}$ para indicar que el movimiento es a lo largo del eje $x$:
+\begin{align*}
+\vec{r}_{A/B} &= 42.5\vec{i} - (-120\vec{i}) \\
+\vec{r}_{A/B} &= 42.5\vec{i} + 120\vec{i} \\
+\vec{r}_{A/B} &= 162.5\vec{i} \, \si{m}
+\end{align*}
+
+La magnitud de la posición relativa es $162.5 \, \si{m}$.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $r_{A/B} = 162.5 \, \si{m}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un cohete despega verticalmente con una aceleración constante de $29.4 \, \si{m/s^2}$ debido a la quema de su poco combustible (masa despreciable), el mismo que dura $4 \, \si{s}$ y se agota. Determine la velocidad del cohete a los $4 \, \si{s}$. 
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis de la Etapa Propulsada}
+El cohete parte desde el reposo en el suelo. Definimos nuestro sistema de referencia con el eje vertical positivo hacia arriba ($+\vec{j}$). Durante los primeros $4 \, \si{s}$, el motor proporciona una aceleración neta constante hacia arriba.
+
+\begin{itemize}
+\item Velocidad inicial ($\vec{v}_0$) = $0 \, \si{m/s}$
+\item Aceleración neta ($\vec{a}$) = $29.4\vec{j} \, \si{m/s^2}$
+\item Tiempo ($t$) = $4 \, \si{s}$
+\end{itemize}
+
+\subsubsection*{2. Cálculo de la Velocidad}
+Utilizamos la ecuación cinemática de velocidad para el Movimiento Rectilíneo Uniformemente Variado (MRUV):
+
+\begin{align*}
+\vec{v}_f &= \vec{v}_0 + \vec{a}t
+\end{align*}
+
+Sustituimos los valores correspondientes:
+
+\begin{align*}
+\vec{v}_f &= 0\vec{j} + (29.4\vec{j})(4) \\
+\vec{v}_f &= 117.6\vec{j} \, \si{m/s}
+\end{align*}
+
+Al redondear el resultado al entero más cercano, obtenemos exactamente el valor indicado en el solucionario del texto.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{v}_f \approx 118\vec{j} \, \si{m/s}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un cohete despega verticalmente con una aceleración constante de $29.4 \, \si{m/s^2}$ debido a la quema de su poco combustible (masa despreciable), el mismo que dura $4 \, \si{s}$ y se agota. Determine la altura máxima alcanzada.
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis del Movimiento en Dos Etapas}
+El vuelo del cohete se divide físicamente en dos fases distintas que deben calcularse por separado:
+\begin{itemize}
+\item \textbf{Etapa 1 (Propulsión):} Aceleración hacia arriba ($29.4 \, \si{m/s^2}$) durante $4 \, \si{s}$.
+\item \textbf{Etapa 2 (Vuelo libre):} Al agotarse el combustible, el cohete sigue subiendo por inercia, pero ahora bajo el efecto de la gravedad ($g = -9.8 \, \si{m/s^2}$), hasta que su velocidad se hace cero.
+\end{itemize}
+
+\subsubsection*{2. Gráfico de la Trayectoria Vertical}
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+t1 = np.linspace(0, 4, 50)
+y1 = 0.5 * 29.4 * t1**2
+
+t2 = np.linspace(4, 16, 100)
+y2 = 235.2 + 117.6 * (t2 - 4) - 4.9 * (t2 - 4)**2
+
+plt.figure(figsize=(7, 5))
+plt.plot(t1, y1, 'b-', linewidth=2)
+plt.plot(t2, y2, 'r-', linewidth=2)
+
+plt.axvline(x=4, color='gray', linestyle='--')
+plt.axhline(y=235.2, color='gray', linestyle='--')
+plt.plot(4, 235.2, 'ko')
+
+plt.plot(16, 940.8, 'ko')
+plt.axhline(y=940.8, color='gray', linestyle='--')
+
+plt.text(1.5, 300, 'Motor\nencendido', color='blue', ha='center')
+plt.text(10, 500, 'Caida libre\n(apagado)', color='red', ha='center')
+plt.text(16, 960, 'y_max = 940.8 m', ha='center', weight='bold')
+plt.text(4.2, 210, 'Apagado\ny = 235.2 m')
+
+plt.xlabel('Tiempo (s)')
+plt.ylabel('Altura (m)')
+plt.grid(True, linestyle='--', alpha=0.6)
+plt.xlim(0, 18)
+plt.ylim(0, 1050)
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsubsection*{3. Cálculo de la Etapa 1}
+Calculamos la altura $\Delta y_1$ alcanzada mientras el motor estuvo encendido:
+
+\begin{align*}
+\Delta y_1 &= v_0t + \frac{1}{2}at^2 \\
+\Delta y_1 &= 0 + \frac{1}{2}(29.4)(4)^2 \\
+\Delta y_1 &= 14.7(16) \\
+\Delta y_1 &= 235.2 \, \si{m}
+\end{align*}
+
+La velocidad al finalizar esta etapa es $v_1 = 117.6 \, \si{m/s}$.
+
+\subsubsection*{4. Cálculo de la Etapa 2}
+El cohete inicia su vuelo libre con $v_{02} = 117.6 \, \si{m/s}$ y alcanza su altura máxima cuando su velocidad final es $v_{f2} = 0 \, \si{m/s}$. La aceleración es $a = -9.8 \, \si{m/s^2}$.
+
+\begin{align*}
+v_{f2}^2 &= v_{02}^2 + 2a\Delta y_2 \\
+0 &= (117.6)^2 + 2(-9.8)\Delta y_2 \\
+0 &= 13829.76 - 19.6\Delta y_2 \\
+19.6\Delta y_2 &= 13829.76 \\
+\Delta y_2 &= \frac{13829.76}{19.6} \\
+\Delta y_2 &= 705.6 \, \si{m}
+\end{align*}
+
+\subsubsection*{5. Altura Máxima Total}
+Sumamos los desplazamientos de ambas etapas:
+
+\begin{align*}
+y_{max} &= \Delta y_1 + \Delta y_2 \\
+y_{max} &= 235.2 + 705.6 \\
+y_{max} &= 940.8 \, \si{m}
+\end{align*}
+
+\subsubsection*{Nota Analítica}
+El valor físicamente correcto derivado de las condiciones iniciales es $940.8 \, \si{m}$. El resultado de $931.2 \, \si{m}$ proporcionado por el texto base contiene una inconsistencia matemática respecto a la aceleración neta planteada en el enunciado original, por lo que se prioriza la resolución analítica demostrada.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $h_{max} = 940.8 \, \si{m}$
+\end{tcolorbox}
+
+\end{document}

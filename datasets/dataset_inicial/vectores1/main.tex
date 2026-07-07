@@ -1,0 +1,3496 @@
+\documentclass[12pt, a4paper]{article}
+
+% --- LENGUAJE Y FORMATO ---
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage[margin=1in]{geometry}
+
+% --- MATEMÁTICAS Y CIENCIA ---
+\usepackage{amsmath, amssymb} 
+\usepackage{siunitx}          
+
+% --- GRÁFICOS Y CAJAS ---
+\usepackage{tikz}             
+% La librería 'babel' en TikZ soluciona el error [>=Stealth] con babel-spanish
+\usetikzlibrary{arrows.meta, calc, 3d, babel} 
+\usepackage[most]{tcolorbox}  
+
+% --- CÓDIGO PYTHON (Listings) ---
+\usepackage{listings}
+\usepackage{xcolor}
+
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{backcolour}{rgb}{0.96,0.96,0.96}
+
+\lstset{
+    backgroundcolor=\color{backcolour},
+    basicstyle=\ttfamily\footnotesize,
+    breaklines=true,
+    keywordstyle=\color{blue},
+    numberstyle=\tiny\color{codegray},
+    numbers=left,
+    showstringspaces=false,
+    language=Python
+}
+
+\title{Guía de Ejercicios: Vectores en $\mathbb{R}^3$}
+\author{Angel Cabezas}
+\date{\today}
+
+\begin{document}
+
+% --- ENUNCIADO ---
+\subsection*{Enunciado}
+Dado el vector $\vec{A} = (4\mathbf{i} + 5\mathbf{j} - 2\mathbf{k}) \text{ m}$ y conociendo que la magnitud del vector $\vec{B}$ es $|\vec{B}| = 10 \text{ m}$ y que sus ángulos directores son $\alpha = 60^\circ$, $\beta > 90^\circ$ y $\gamma = 120^\circ$, determine el ángulo que forma el vector $(\vec{A} - \vec{B})$ con el vector $\vec{B}$.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.5, >=Stealth]
+    % Ejes coordenados
+    \draw[->, thick] (0,0) -- (2,0) node[right] {$y$};
+    \draw[->, thick] (0,0) -- (0,2) node[above] {$z$};
+    \draw[->, thick] (0,0) -- (-0.7,-0.7) node[below left] {$x$};
+
+    % Vector B representativo
+    \draw[->, ultra thick, blue] (0,0) -- (1.2, -0.8) node[right] {$\vec{B}$};
+    
+    % Arco de ángulo alfa (esquemático)
+    \draw[blue, bend right, ->] (-0.3, -0.3) to [out=-45, in=180] (0.4, -0.3);
+    \node[blue] at (0.1, -0.5) {\small $\alpha$};
+\end{tikzpicture}
+\end{center}
+
+\hr
+
+% --- SOLUCIÓN ---
+\subsection*{Solucion}
+
+\subsubsection*{1. Cálculo de Componentes de $\vec{B}$}
+Para hallar los componentes, utilizamos la identidad de los cosenos directores:
+\begin{equation}
+    \cos^2 \alpha + \cos^2 \beta + \cos^2 \gamma = 1
+\end{equation}
+
+Sustituyendo los datos:
+\begin{align*}
+    \cos^2(60^\circ) + \cos^2 \beta + \cos^2(120^\circ) &= 1 \\
+    (0.5)^2 + \cos^2 \beta + (-0.5)^2 &= 1 \\
+    0.25 + \cos^2 \beta + 0.25 &= 1 \implies \cos^2 \beta = 0.5
+\end{align*}
+
+Como $\beta > 90^\circ$, el coseno debe ser negativo ($\cos \beta = -0.707$). Los componentes son:
+\begin{itemize}
+    \item $B_x = 10 \cos(60^\circ) = 5$
+    \item $B_y = 10 (-0.707) = -7.07$
+    \item $B_z = 10 \cos(120^\circ) = -5$
+\end{itemize}
+$\vec{B} = (5\mathbf{i} - 7.07\mathbf{j} - 5\mathbf{k}) \text{ m}$.
+
+\subsubsection*{2. Vector Diferencia $\vec{C} = \vec{A} - \vec{B}$}
+Restamos componente a componente:
+\begin{align*}
+    \vec{C} &= (4 - 5)\mathbf{i} + (5 - (-7.07))\mathbf{j} + (-2 - (-5))\mathbf{k} \\
+    \vec{C} &= (-1\mathbf{i} + 12.07\mathbf{j} + 3\mathbf{k}) \text{ m}
+\end{align*}
+
+\subsubsection*{3. Diagrama de Vectores (Python)}
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def plot_vectors():
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+    # B = [5, -7.07, -5], C = [-1, 12.07, 3]
+    ax.quiver(0, 0, 0, 5, -7.07, -5, color='blue', label='Vector B')
+    ax.quiver(0, 0, 0, -1, 12.07, 3, color='red', label='Vector C (A-B)')
+    ax.set_xlabel('X'); ax.set_ylabel('Y'); ax.set_zlabel('Z')
+    ax.legend(); plt.show()
+plot_vectors()
+\end{lstlisting}
+
+\subsubsection*{4. Ángulo entre $\vec{C}$ y $\vec{B}$}
+Usamos el producto escalar: $\cos \theta = \frac{\vec{C} \cdot \vec{B}}{|\vec{C}| |\vec{B}|}$.
+\begin{itemize}
+    \item $\vec{C} \cdot \vec{B} = (-1)(5) + (12.07)(-7.07) + (3)(-5) = -105.33$
+    \item $|\vec{C}| = \sqrt{(-1)^2 + (12.07)^2 + 3^2} \approx 12.48 \text{ m}$
+\end{itemize}
+
+$$\theta = \arccos\left( \frac{-105.33}{12.48 \cdot 10} \right) \approx 147.58^\circ$$
+
+\begin{tcolorbox}[colback=green!5, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\theta \approx 147.58^\circ$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Dados los vectores $\mathbf{A} = -2\mathbf{i} + 3\mathbf{j} - \mathbf{k}$, $\mathbf{B} = \mathbf{i} - 3\mathbf{j} + \mathbf{k}$ y $\mathbf{C} = 3\mathbf{i} + 2\mathbf{j} - 2\mathbf{k}$, determine el vector unitario del vector $\mathbf{P} = \mathbf{A} + \mathbf{B} - \mathbf{C}$.
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Stealth, perspective, babel]
+    % Ejes coordenados
+    \draw[->, thick] (0,0,0) -- (1,0,0) node[right] {$\mathbf{j}$};
+    \draw[->, thick] (0,0,0) -- (0,1,0) node[above] {$\mathbf{k}$};
+    \draw[->, thick] (0,0,0) -- (-1,-1,0) node[below left] {$\mathbf{i}$};
+
+    % Vector P resultante
+    \draw[->, ultra thick, red] (0,0,0) -- (-1.2, -0.6, 0.6) node[left] {$\mathbf{P}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solucion}
+
+\subsubsection*{1. Determinación del Vector $\mathbf{P}$}
+Agrupamos los componentes rectangulares de cada vector para realizar la suma y resta correspondiente:
+\begin{align*}
+    \mathbf{P} &= \mathbf{A} + \mathbf{B} - \mathbf{C} \\
+    \mathbf{P} &= (-2\mathbf{i} + 3\mathbf{j} - \mathbf{k}) + (\mathbf{i} - 3\mathbf{j} + \mathbf{k}) - (3\mathbf{i} + 2\mathbf{j} - 2\mathbf{k}) \\
+    \mathbf{P} &= (-2 + 1 - 3)\mathbf{i} + (3 - 3 - 2)\mathbf{j} + (-1 + 1 - (-2))\mathbf{k} \\
+    \mathbf{P} &= -4\mathbf{i} - 2\mathbf{j} + 2\mathbf{k}
+\end{align*}
+
+\subsubsection*{2. Visualización Espacial (Python)}
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def plot_vectors():
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+    P = np.array([-4, -2, 2])
+    ax.quiver(0, 0, 0, P[0], P[1], P[2], color='red', label='P')
+    ax.set_xlabel('i'); ax.set_ylabel('j'); ax.set_zlabel('k')
+    plt.show()
+plot_vectors()
+\end{lstlisting}
+
+\subsubsection*{3. Cálculo del Vector Unitario}
+Primero obtenemos la magnitud del vector resultante:
+\begin{equation*}
+    |\mathbf{P}| = \sqrt{(-4)^2 + (-2)^2 + 2^2} = \sqrt{24}
+\end{equation*}
+
+Normalizamos el vector dividiendo cada componente por el módulo:
+\begin{equation*}
+    \mathbf{u}_P = \frac{\mathbf{P}}{|\mathbf{P}|} = \frac{-4\mathbf{i} - 2\mathbf{j} + 2\mathbf{k}}{\sqrt{24}}
+\end{equation*}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\mathbf{u}_P \approx -0.82\mathbf{i} - 0.41\mathbf{j} + 0.41\mathbf{k}$
+\end{tcolorbox}
+
+
+
+\newpage
+
+\subsection*{Enunciado}
+Dados los vectores $\mathbf{A} = 2\mathbf{i} + 3\mathbf{j} - \mathbf{k} \text{ m}$, $\mathbf{B} = 4\mathbf{i} - \mathbf{j} + 5\mathbf{k} \text{ m}$ y $\mathbf{C} = -4\mathbf{i} - 6\mathbf{j} + 2\mathbf{k} \text{ m}$, determine: ¿Qué vectores son perpendiculares? Justifique analíticamente.
+\begin{center}
+\begin{tikzpicture}[scale=1.2, >=Stealth, perspective, babel]
+    \draw[->, thick] (0,0,0) -- (2,0,0) node[right]{$y$};
+    \draw[->, thick] (0,0,0) -- (0,2,0) node[above]{$z$};
+    \draw[->, thick] (0,0,0) -- (-1,-1,0) node[below left]{$x$};
+    
+    \draw[->, ultra thick, blue] (0,0,0) -- (0.4, 0.6, -0.2) node[anchor=south]{$\mathbf{A}$};
+    \draw[->, ultra thick, red] (0,0,0) -- (0.8, -0.2, 1) node[anchor=west]{$\mathbf{B}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+Para que dos vectores sean perpendiculares, su producto punto debe ser cero.
+
+\begin{itemize}
+    \item $\mathbf{A} \cdot \mathbf{B} = (2)(4) + (3)(-1) + (-1)(5) = 8 - 3 - 5 = 0 \implies \mathbf{A} \perp \mathbf{B}$.
+    \item $\mathbf{A} \cdot \mathbf{C} = (2)(-4) + (3)(-6) + (-1)(2) = -28 \neq 0$.
+    \item $\mathbf{B} \cdot \mathbf{C} = (4)(-4) + (-1)(-6) + (5)(2) = -16 + 6 + 10 = 0 \implies \mathbf{B} \perp \mathbf{C}$.
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5, colframe=green!50!black, title=Respuesta Final]
+Vectores perpendiculares: $(\mathbf{A}, \mathbf{B})$ y $(\mathbf{B}, \mathbf{C})$. \\
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Dados los vectores $\mathbf{A} = 2\mathbf{i} + 3\mathbf{j} - \mathbf{k} \text{ m}$, $\mathbf{B} = 4\mathbf{i} - \mathbf{j} + 5\mathbf{k} \text{ m}$ y $\mathbf{C} = -4\mathbf{i} - 6\mathbf{j} + 2\mathbf{k} \text{ m}$, determine:¿Qué vectores son paralelos? Justifique analíticamente.
+
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2, >=Stealth, perspective, babel]
+    \draw[->, thick] (0,0,0) -- (2,0,0) node[right]{$y$};
+    \draw[->, thick] (0,0,0) -- (0,2,0) node[above]{$z$};
+    \draw[->, thick] (0,0,0) -- (-1,-1,0) node[below left]{$x$};
+    
+    \draw[->, ultra thick, blue] (0,0,0) -- (0.4, 0.6, -0.2) node[anchor=south]{$\mathbf{A}$};
+    \draw[->, ultra thick, red] (0,0,0) -- (0.8, -0.2, 1) node[anchor=west]{$\mathbf{B}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solucion}
+Dos vectores son paralelos si sus componentes son proporcionales. Al comparar $\mathbf{C}$ con $\mathbf{A}$:
+\begin{equation*}
+    \frac{-4}{2} = -2; \quad \frac{-6}{3} = -2; \quad \frac{2}{-1} = -2
+\end{equation*}
+Como la razón es constante ($k = -2$), los vectores $\mathbf{A}$ y $\mathbf{C}$ son paralelos (antiparalelos).
+
+\begin{tcolorbox}[colback=green!5, colframe=green!50!black, title=Respuesta Final]
+Vectores paralelos: $(\mathbf{A}, \mathbf{C})$.
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Dados los puntos $B (3, 3, 5) \, \si{m}$ y $C (-2, 3, 2) \, \si{m}$ y el vector posición de $B$ con respecto a $A$ que es $\vec{AB} = (4\mathbf{i} - 2\mathbf{k}) \, \si{m}$, determine un vector $\mathbf{M}$ de magnitud $10 \, \si{m}$ y perpendicular al plano que contiene a los puntos $A, B$ y $C$.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.5, >=Stealth, perspective, babel]
+    \draw[->, thick] (0,0,0) -- (2,0,0) node[right]{$y$};
+    \draw[->, thick] (0,0,0) -- (0,2,0) node[above]{$z$};
+    \draw[->, thick] (0,0,0) -- (-1,-1,0) node[below left]{$x$};
+    
+    \coordinate (B) at (1, 1, 1);
+    \coordinate (C) at (-0.5, 1, 0.2);
+    \coordinate (A) at (0.2, 1, 1.4);
+    
+    \filldraw (B) circle (1pt) node[above right]{$B$};
+    \filldraw (C) circle (1pt) node[below left]{$C$};
+    \draw[->, thick, blue] (A) -- (B) node[midway, above left]{$\vec{AB}$};
+    \draw[->, thick, green!60!black] (B) -- (C) node[midway, right]{$\vec{BC}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solucion}
+
+\subsubsection*{1. Cálculo del vector $\vec{BC}$}
+El vector que une los puntos $B$ y $C$ es:
+\begin{equation*}
+    \vec{BC} = C - B = (-2-3)\mathbf{i} + (3-3)\mathbf{j} + (2-5)\mathbf{k} = -5\mathbf{i} - 3\mathbf{k} \text{}
+\end{equation*}
+
+\subsubsection*{2. Producto Vectorial para hallar la Normal}
+El vector perpendicular al plano se obtiene mediante $\vec{AB} \times \vec{BC}$:
+\begin{equation*}
+    \vec{AB} \times \vec{BC} = (4\mathbf{i} - 2\mathbf{k}) \times (-5\mathbf{i} - 3\mathbf{k}) = 22\mathbf{j} \text{}
+\end{equation*}
+
+\subsubsection*{3. Definición del vector $\mathbf{M}$}
+El vector resultante tiene dirección $\mathbf{j}$. Para que su magnitud sea $10$, escalamos el unitario:
+\begin{equation*}
+    \mathbf{M} = \pm 10\mathbf{j} \, \si{m}
+\end{equation*}
+
+\begin{tcolorbox}[colback=green!5, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\mathbf{M} = \pm 10\mathbf{j} \, \si{m}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Dos cubos de lados $12\,\si{cm}$ y $20\,\si{cm}$ están colocados según la figura. El cubo mayor tiene su base en el plano $XY$. Determine analíticamente los vectores $\vec{AJ}$ y $\vec{NB}$.
+
+\begin{center}
+\begin{tikzpicture}[
+    x={(1cm,0cm)}, 
+    y={(0cm,1cm)}, 
+    z={(-0.5cm,-0.5cm)}, % Define el ángulo y la escala de la profundidad (proyección oblicua)
+    scale=1.2,
+    >=Straight Barb, % Estilo de flecha similar a la imagen
+    semithick
+]
+    % --- DIMENSIONES ---
+    \def\X{5}     % Ancho del bloque inferior (eje x)
+    \def\Y{3.5}   % Alto del bloque inferior (eje y)
+    \def\Z{4}     % Profundidad del bloque inferior (eje z)
+    \def\tx{2.5}  % Ancho del bloque superior
+    \def\ty{2.5}  % Alto del bloque superior
+    \def\tz{2}    % Profundidad del bloque superior
+
+    % --- COORDENADAS ---
+    % Bloque inferior
+    \coordinate (O) at (0,0,0);
+    \coordinate (A) at (0,0,\Z);
+    \coordinate (B) at (\X,0,\Z);
+    \coordinate (F) at (\X,0,0);
+    \coordinate (C) at (0,\Y,\Z);
+    \coordinate (D) at (\X,\Y,\Z);
+    \coordinate (E) at (\X,\Y,0);
+    \coordinate (G) at (0,\Y,0);
+
+    % Bloque superior
+    \coordinate (H) at (0,\Y,\tz);
+    \coordinate (I) at (\tx,\Y,\tz);
+    \coordinate (J) at (\tx,\Y,0);
+    \coordinate (M) at (0,\Y+\ty,\tz);
+    \coordinate (L) at (\tx,\Y+\ty,\tz);
+    \coordinate (K) at (\tx,\Y+\ty,0);
+    \coordinate (N) at (0,\Y+\ty,0);
+
+    % --- EJES ---
+    \draw[->] (O) -- (\X+1.2, 0, 0) node[below] {$x$};
+    \draw[->] (O) -- (0, \Y+\ty+1.2, 0) node[left] {$y$};
+    \draw[->] (O) -- (0, 0, \Z+1.5) node[below] {$z$};
+
+    % --- DIBUJO DE LAS LÍNEAS ---
+    % Bloque inferior (caras visibles)
+    \draw (A) -- (B) -- (F);
+    \draw (A) -- (C);
+    \draw (B) -- (D);
+    \draw (F) -- (E);
+    \draw (C) -- (D) -- (E);
+
+    % Intersección / cara superior del bloque inferior
+    \draw (C) -- (H);
+    \draw (H) -- (I) -- (J) -- (E);
+
+    % Bloque superior (caras visibles)
+    \draw (H) -- (M);
+    \draw (I) -- (L);
+    \draw (J) -- (K);
+    \draw (M) -- (L) -- (K);
+    \draw (M) -- (N) -- (K);
+
+    % --- ETIQUETAS ---
+    \node[left, inner sep=2pt] at (0, 0.4, 0) {$0$};
+    \node[above right, inner sep=1pt] at (A) {$A$};
+    \node[right, inner sep=2pt] at (B) {$B$};
+    \node[left, inner sep=2pt] at (C) {$C$};
+    \node[below right, inner sep=1pt] at (D) {$D$};
+    \node[above left, inner sep=1pt] at (F) {$F$};
+    \node[above right, inner sep=2pt] at (E) {$E$};
+    \node[below left, inner sep=1pt] at (G) {$G$};
+    \node[left, inner sep=2pt] at (H) {$H$};
+    \node[below right, inner sep=1pt] at (I) {$I$};
+    \node[above left, inner sep=1pt] at (J) {$J$};
+    \node[left, inner sep=2pt] at (M) {$M$};
+    \node[above left, inner sep=1pt] at (L) {$L$};
+    \node[above right, inner sep=2pt] at (K) {$K$};
+    \node[above right, inner sep=2pt] at (N) {$N$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Identificación de Coordenadas}
+Primero, definimos las coordenadas de los vértices basándonos en las dimensiones de los lados ($20$ y $12\,\si{cm}$):
+\begin{itemize}
+    \item $A = (0, 0, 20)$
+    \item $B = (20, 0, 20)$
+    \item $J = (12, 20, 0)$
+    \item $N = (0, 32, 0)$
+\end{itemize}
+
+\subsubsection*{2. Cálculo de Vectores}
+El vector se halla restando el punto final menos el inicial:
+\begin{equation*}
+    \vec{AJ} = (12-0)\mathbf{i} + (20-0)\mathbf{j} + (0-20)\mathbf{k} = (12\mathbf{i} + 20\mathbf{j} - 20\mathbf{k}) \, \si{cm} \text{}
+\end{equation*}
+\begin{equation*}
+    \vec{NB} = (20-0)\mathbf{i} + (0-32)\mathbf{j} + (20-0)\mathbf{k} = (20\mathbf{i} - 32\mathbf{j} + 20\mathbf{k}) \, \si{cm} \text{}
+\end{equation*}
+
+\subsubsection*{3. Visualización de los Vectores (Python)}
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def plot_vectors():
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+    # Vector AJ
+    ax.quiver(0, 0, 20, 12, 20, -20, color='blue', label='AJ')
+    # Vector NB
+    ax.quiver(0, 32, 0, 20, -32, 20, color='red', label='NB')
+    ax.set_xlabel('X'); ax.set_ylabel('Y'); ax.set_zlabel('Z')
+    ax.legend(); plt.show()
+plot_vectors()
+\end{lstlisting}
+
+\begin{tcolorbox}[colback=green!5, colframe=green!50!black, title=Respuesta Final]
+$\vec{AJ} = 12\mathbf{i} + 20\mathbf{j} - 20\mathbf{k} \, \si{cm}$ \\
+$\vec{NB} = 20\mathbf{i} - 32\mathbf{j} + 20\mathbf{k} \, \si{cm}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Dados los vectores $\vec{JM} = (-12\mathbf{i} + 12\mathbf{j} + 12\mathbf{k}) \, \si{cm}$ y $\vec{GF} = (20\mathbf{i} - 20\mathbf{j}) \, \si{cm}$, determine el ángulo formado entre ellos.
+
+\subsection*{Solución}
+
+\subsubsection*{1. Fundamento Teórico}
+El ángulo $\theta$ entre dos vectores se obtiene mediante el producto escalar:
+\begin{equation*}
+    \cos \theta = \frac{\vec{JM} \cdot \vec{GF}}{|\vec{JM}| |\vec{GF}|}
+\end{equation*}
+
+\subsubsection*{2. Cálculos Analíticos}
+\begin{itemize}
+    \item \textbf{Producto Escalar:} $\vec{JM} \cdot \vec{GF} = (-12)(20) + (12)(-20) + (12)(0) = -480$.
+    \item \textbf{Magnitud de JM:} $|\vec{JM}| = \sqrt{(-12)^2 + 12^2 + 12^2} = \sqrt{432} \approx 20.78$.
+    \item \textbf{Magnitud de GF:} $|\vec{GF}| = \sqrt{20^2 + (-20)^2} = \sqrt{800} \approx 28.28$.
+\end{itemize}
+
+\subsubsection*{3. Determinación del Ángulo}
+\begin{equation*}
+    \theta = \arccos\left( \frac{-480}{20.78 \cdot 28.28} \right) \approx 144.74^\circ \text{}
+\end{equation*}
+
+\begin{tcolorbox}[colback=green!5, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\theta \approx 144.74^\circ$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Dos cubos de lados $12\,\si{cm}$ y $20\,\si{cm}$ están colocados según la figura. El cubo mayor tiene su base en el plano $XY$. Determine la proyección del vector $\vec{HK} = (12\mathbf{i} + 12\mathbf{j} - 12\mathbf{k}) \, \si{cm}$ sobre el vector $\vec{GF} = (20\mathbf{i} - 20\mathbf{j}) \, \si{cm}$.
+
+\begin{center}
+\begin{tikzpicture}[
+    x={(1cm,0cm)}, 
+    y={(0cm,1cm)}, 
+    z={(-0.5cm,-0.5cm)}, % Define el ángulo y la escala de la profundidad (proyección oblicua)
+    scale=1.2,
+    >=Straight Barb, % Estilo de flecha similar a la imagen
+    semithick
+]
+    % --- DIMENSIONES ---
+    \def\X{5}     % Ancho del bloque inferior (eje x)
+    \def\Y{3.5}   % Alto del bloque inferior (eje y)
+    \def\Z{4}     % Profundidad del bloque inferior (eje z)
+    \def\tx{2.5}  % Ancho del bloque superior
+    \def\ty{2.5}  % Alto del bloque superior
+    \def\tz{2}    % Profundidad del bloque superior
+
+    % --- COORDENADAS ---
+    % Bloque inferior
+    \coordinate (O) at (0,0,0);
+    \coordinate (A) at (0,0,\Z);
+    \coordinate (B) at (\X,0,\Z);
+    \coordinate (F) at (\X,0,0);
+    \coordinate (C) at (0,\Y,\Z);
+    \coordinate (D) at (\X,\Y,\Z);
+    \coordinate (E) at (\X,\Y,0);
+    \coordinate (G) at (0,\Y,0);
+
+    % Bloque superior
+    \coordinate (H) at (0,\Y,\tz);
+    \coordinate (I) at (\tx,\Y,\tz);
+    \coordinate (J) at (\tx,\Y,0);
+    \coordinate (M) at (0,\Y+\ty,\tz);
+    \coordinate (L) at (\tx,\Y+\ty,\tz);
+    \coordinate (K) at (\tx,\Y+\ty,0);
+    \coordinate (N) at (0,\Y+\ty,0);
+
+    % --- EJES ---
+    \draw[->] (O) -- (\X+1.2, 0, 0) node[below] {$x$};
+    \draw[->] (O) -- (0, \Y+\ty+1.2, 0) node[left] {$y$};
+    \draw[->] (O) -- (0, 0, \Z+1.5) node[below] {$z$};
+
+    % --- DIBUJO DE LAS LÍNEAS ---
+    % Bloque inferior (caras visibles)
+    \draw (A) -- (B) -- (F);
+    \draw (A) -- (C);
+    \draw (B) -- (D);
+    \draw (F) -- (E);
+    \draw (C) -- (D) -- (E);
+
+    % Intersección / cara superior del bloque inferior
+    \draw (C) -- (H);
+    \draw (H) -- (I) -- (J) -- (E);
+
+    % Bloque superior (caras visibles)
+    \draw (H) -- (M);
+    \draw (I) -- (L);
+    \draw (J) -- (K);
+    \draw (M) -- (L) -- (K);
+    \draw (M) -- (N) -- (K);
+
+    % --- ETIQUETAS ---
+    \node[left, inner sep=2pt] at (0, 0.4, 0) {$0$};
+    \node[above right, inner sep=1pt] at (A) {$A$};
+    \node[right, inner sep=2pt] at (B) {$B$};
+    \node[left, inner sep=2pt] at (C) {$C$};
+    \node[below right, inner sep=1pt] at (D) {$D$};
+    \node[above left, inner sep=1pt] at (F) {$F$};
+    \node[above right, inner sep=2pt] at (E) {$E$};
+    \node[below left, inner sep=1pt] at (G) {$G$};
+    \node[left, inner sep=2pt] at (H) {$H$};
+    \node[below right, inner sep=1pt] at (I) {$I$};
+    \node[above left, inner sep=1pt] at (J) {$J$};
+    \node[left, inner sep=2pt] at (M) {$M$};
+    \node[above left, inner sep=1pt] at (L) {$L$};
+    \node[above right, inner sep=2pt] at (K) {$K$};
+    \node[above right, inner sep=2pt] at (N) {$N$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Definición de Proyección}
+La proyección de un vector $\vec{A}$ sobre $\vec{B}$ se calcula como:
+\begin{equation*}
+    \text{proj}_{\vec{B}} \vec{A} = \left( \frac{\vec{A} \cdot \vec{B}}{|\vec{B}|^2} \right) \vec{B}
+\end{equation*}
+
+\subsubsection*{2. Verificación de Ortogonalidad}
+Calculamos el producto punto entre $\vec{HK}$ y $\vec{GF}$:
+\begin{equation*}
+    \vec{HK} \cdot \vec{GF} = (12)(20) + (12)(-20) + (-12)(0) = 240 - 240 = 0 \text{}
+\end{equation*}
+
+\subsubsection*{3. Conclusión Física}
+Puesto que el producto escalar es cero, los vectores son **perpendiculares**. Físicamente, esto significa que el vector $\vec{HK}$ no posee componente alguna en la dirección de $\vec{GF}$. Por lo tanto, su proyección es el vector nulo.
+
+\begin{tcolorbox}[colback=green!5, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{\text{proj}}_{\vec{GF}} \vec{HK} = \vec{0}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Dado el vector $\vec{A} = 2\vec{i} - 3\vec{j} + \sqrt{3} \vec{k}$, determine una expresión de otro vector $\vec{B}$, de módulo $8$, que cumpla la siguiente proposición:
+\begin{equation*}
+    \vec{u}_A - \vec{u}_B = 0
+\end{equation*}
+
+\begin{center}
+\begin{tikzpicture}[x={(0.5cm,0.5cm)}, y={(1cm,0cm)}, z={(0cm,1cm)}, >=Latex]
+    % Ejes
+    \draw[->] (0,0,0) -- (3,0,0) node[left] {$x$};
+    \draw[->] (0,0,0) -- (0,-4,0) node[right] {$y$};
+    \draw[->] (0,0,0) -- (0,0,3) node[above] {$z$};
+    
+    % Vector A
+    \draw[->, thick, blue] (0,0,0) -- (2,-3,1.732) node[above right] {$\vec{A}$};
+    
+    % Proyecciones punteadas
+    \draw[dashed, gray] (2,0,0) -- (2,-3,0) -- (0,-3,0);
+    \draw[dashed, gray] (2,-3,0) -- (2,-3,1.732);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Teórico}
+La condición $\vec{u}_A - \vec{u}_B = 0$ implica que $\vec{u}_A = \vec{u}_B$. Esto significa que el vector $\vec{B}$ debe tener la \textbf{misma dirección y el mismo sentido} que el vector $\vec{A}$. Físicamente, esto implica que $\vec{B}$ es un múltiplo escalar positivo de $\vec{A}$.
+
+\subsubsection*{2. Cálculo del módulo de $\vec{A}$}
+Para obtener el vector unitario $\vec{u}_A$, primero calculamos la magnitud del vector original:
+\begin{align*}
+    |\vec{A}| &= \sqrt{A_x^2 + A_y^2 + A_z^2} \\
+    |\vec{A}| &= \sqrt{(2)^2 + (-3)^2 + (\sqrt{3})^2} \\
+    |\vec{A}| &= \sqrt{4 + 9 + 3} = \sqrt{16} = 4
+\end{align*}
+
+\subsubsection*{3. Determinación de $\vec{B}$}
+Como $\vec{u}_B = \vec{u}_A$, podemos expresar a $\vec{B}$ como el producto de su módulo por el unitario de $A$:
+\begin{equation*}
+    \vec{B} = |\vec{B}| \cdot \vec{u}_A = 8 \cdot \left( \frac{\vec{A}}{4} \right) = 2\vec{A}
+\end{equation*}
+
+Sustituyendo los componentes de $\vec{A}$:
+\begin{align*}
+    \vec{B} &= 2(2\vec{i} - 3\vec{j} + \sqrt{3}\vec{k}) \\
+    \vec{B} &= 4\vec{i} - 6\vec{j} + 2\sqrt{3}\vec{k}
+\end{align*}
+
+\subsubsection*{4. Visualización de Vectores (Python)}
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def draw_vectors_a():
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+    
+    # Vector A y B
+    A = np.array([2, -3, np.sqrt(3)])
+    B = np.array([4, -6, 2*np.sqrt(3)])
+    origin = np.array([0, 0, 0])
+    
+    ax.quiver(*origin, *B, color='red', label='Vector B (Modulo 8)', alpha=0.5)
+    ax.quiver(*origin, *A, color='blue', label='Vector A (Modulo 4)')
+    
+    ax.set_xlim([0, 5]); ax.set_ylim([-7, 0]); ax.set_zlim([0, 4])
+    ax.set_xlabel('X'); ax.set_ylabel('Y'); ax.set_zlabel('Z')
+    ax.legend()
+    plt.show()
+\end{lstlisting}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{B} = 4\vec{i} - 6\vec{j} + 2\sqrt{3}\vec{k}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Dado el vector $\vec{A} = 2\vec{i} - 3\vec{j} + \sqrt{3} \vec{k}$, determine una expresión de otro vector $\vec{B}$, de módulo $8$, que cumpla la siguiente proposición:
+\begin{equation*}
+    \vec{u}_A + \vec{u}_B = 0
+\end{equation*}
+
+\begin{center}
+\begin{tikzpicture}[x={(0.5cm,0.5cm)}, y={(1cm,0cm)}, z={(0cm,1cm)}, >=Latex]
+    % Ejes
+    \draw[->] (0,0,0) -- (3,0,0) node[left] {$x$};
+    \draw[->] (0,0,0) -- (0,-4,0) node[right] {$y$};
+    \draw[->] (0,0,0) -- (0,0,3) node[above] {$z$};
+    
+    % Vector A
+    \draw[->, thick, blue] (0,0,0) -- (2,-3,1.732) node[above right] {$\vec{A}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Teórico}
+La condición $\vec{u}_A + \vec{u}_B = 0$ se traduce en $\vec{u}_B = -\vec{u}_A$. Esto indica que el vector $\vec{B}$ tiene la misma dirección que $\vec{A}$, pero el \textbf{sentido opuesto} (son antiparalelos).
+
+\subsubsection*{2. Relación de Módulos}
+Sabemos del literal anterior que $|\vec{A}| = 4$. Para obtener un vector $\vec{B}$ con módulo $8$ en sentido opuesto a $\vec{A}$, la relación escalar debe ser:
+\begin{equation*}
+    \vec{B} = |\vec{B}| \cdot \vec{u}_B = 8 \cdot (-\vec{u}_A) = 8 \cdot \left( -\frac{\vec{A}}{4} \right) = -2\vec{A}
+\end{equation*}
+
+\subsubsection*{3. Cálculo de Componentes}
+Multiplicamos el vector $\vec{A}$ por el escalar $-2$:
+\begin{align*}
+    \vec{B} &= -2(2\vec{i} - 3\vec{j} + \sqrt{3}\vec{k}) \\
+    \vec{B} &= -4\vec{i} + 6\vec{j} - 2\sqrt{3}\vec{k}
+\end{align*}
+
+\subsubsection*{4. Visualización de Vectores Antiparalelos (Python)}
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def draw_vectors_b():
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+    
+    A = np.array([2, -3, np.sqrt(3)])
+    B = np.array([-4, 6, -2*np.sqrt(3)])
+    origin = np.array([0, 0, 0])
+    
+    ax.quiver(*origin, *A, color='blue', label='Vector A')
+    ax.quiver(*origin, *B, color='green', label='Vector B (Opuesto)')
+    
+    ax.set_xlim([-5, 5]); ax.set_ylim([-7, 7]); ax.set_zlim([-4, 4])
+    ax.set_xlabel('X'); ax.set_ylabel('Y'); ax.set_zlabel('Z')
+    ax.legend()
+    plt.show()
+\end{lstlisting}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{B} = -4\vec{i} + 6\vec{j} - 2\sqrt{3}\vec{k}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Compruebe que los puntos $A(7, -3)$, $B(3, 5)$, $C(5, 4)$ y $D(9, -4)$ se encuentran en los vértices del paralelogramo $ABCD$.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    % Grilla y Ejes
+    \draw[help lines, gray!20, thin] (2,-5) grid (10,6);
+    \draw[->, thick] (2,0) -- (10.5,0) node[right] {$x$};
+    \draw[->, thick] (0,-5) -- (0,6.5) node[above] {$y$};
+
+    % Definición de Puntos
+    \coordinate (A) at (7,-3);
+    \coordinate (B) at (3,5);
+    \coordinate (C) at (5,4);
+    \coordinate (D) at (9,-4);
+
+    % Dibujo del paralelogramo con flechas vectoriales
+    \draw[thick, blue, ->] (A) -- (B) node[midway, left, black] {$\vec{AB}$};
+    \draw[thick, blue, ->] (B) -- (C) node[midway, above, black] {$\vec{BC}$};
+    \draw[thick, blue, ->] (D) -- (C) node[midway, left, black] {$\vec{DC}$};
+    \draw[thick, blue, ->] (A) -- (D) node[midway, below, black] {$\vec{AD}$};
+
+    % Puntos y Etiquetas
+    \filldraw (A) circle (2pt) node[below left] {$A(7,-3)$};
+    \filldraw (B) circle (2pt) node[above left] {$B(3,5)$};
+    \filldraw (C) circle (2pt) node[above right] {$C(5,4)$};
+    \filldraw (D) circle (2pt) node[below right] {$D(9,-4)$};
+
+    % Marcas de ejes
+    \foreach \x in {3,5,7,9} \draw (\x,0.1) -- (\x,-0.1) node[below] {\small $\x$};
+    \foreach \y in {-4,4} \draw (0.1,\y) -- (-0.1,\y) node[left] {\small $\y$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis del Concepto}
+Para demostrar que los puntos forman el paralelogramo $ABCD$, debemos verificar que los lados opuestos sean paralelos y de igual magnitud. Vectorialmente, esto se traduce en que:
+\begin{itemize}
+    \item El vector $\vec{AB}$ debe ser igual al vector $\vec{DC}$.
+    \item El vector $\vec{BC}$ debe ser igual al vector $\vec{AD}$.
+\end{itemize}
+
+\subsubsection*{2. Cálculo de Vectores de los Lados}
+Utilizamos la fórmula del vector entre dos puntos $\vec{P_1P_2} = (x_2 - x_1)\vec{i} + (y_2 - y_1)\vec{j}$:
+
+\textbf{Lado Superior e Inferior:}
+\begin{align*}
+    \vec{AB} &= \vec{r}_B - \vec{r}_A = (3 - 7)\vec{i} + (5 - (-3))\vec{j} = -4\vec{i} + 8\vec{j} \\
+    \vec{DC} &= \vec{r}_C - \vec{r}_D = (5 - 9)\vec{i} + (4 - (-4))\vec{j} = -4\vec{i} + 8\vec{j}
+\end{align*}
+Como $\vec{AB} = \vec{DC}$, el primer par de lados es paralelo y de igual medida.
+
+\textbf{Lados Laterales:}
+\begin{align*}
+    \vec{BC} &= \vec{r}_C - \vec{r}_B = (5 - 3)\vec{i} + (4 - 5)\vec{j} = 2\vec{i} - 1\vec{j} \\
+    \vec{AD} &= \vec{r}_D - \vec{r}_A = (9 - 7)\vec{i} + (-4 - (-3))\vec{j} = 2\vec{i} - 1\vec{j}
+\end{align*}
+Como $\vec{BC} = \vec{AD}$, el segundo par de lados también cumple la condición.
+
+\subsubsection*{3. Comprobación de Magnitudes}
+Calculamos la longitud de los lados (módulo de los vectores):
+$$ |\vec{AB}| = \sqrt{(-4)^2 + 8^2} = \sqrt{16 + 64} = \sqrt{80} \approx 8.94 $$
+$$ |\vec{BC}| = \sqrt{2^2 + (-1)^2} = \sqrt{4 + 1} = \sqrt{5} \approx 2.24 $$
+
+\subsubsection*{4. Verificación con Python (Matplotlib)}
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+def check_parallelogram():
+    # Definición de puntos según el enunciado
+    points = {'A': (7, -3), 'B': (3, 5), 'C': (5, 4), 'D': (9, -4)}
+    
+    # Vectores para comprobación
+    AB = (points['B'][0]-points['A'][0], points['B'][1]-points['A'][1])
+    DC = (points['C'][0]-points['D'][0], points['C'][1]-points['D'][1])
+    
+    print(f"Vector AB: {AB}")
+    print(f"Vector DC: {DC}")
+    
+    # Graficación
+    plt.figure(figsize=(6,6))
+    x_vals = [points['A'][0], points['B'][0], points['C'][0], points['D'][0], points['A'][0]]
+    y_vals = [points['A'][1], points['B'][1], points['C'][1], points['D'][1], points['A'][1]]
+    
+    plt.plot(x_vals, y_vals, 'b-o', label='Paralelogramo ABCD')
+    for label, (px, py) in points.items():
+        plt.text(px, py, f' {label}', fontsize=12)
+        
+    plt.grid(True)
+    plt.axhline(0, color='black', lw=1)
+    plt.axvline(0, color='black', lw=1)
+    plt.title("Comprobación de Vértices de Paralelogramo")
+    plt.show()
+
+check_parallelogram()
+\end{lstlisting}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering
+Se ha comprobado que $\vec{AB} = \vec{DC} = -4\vec{i} + 8\vec{j}$ y que $\vec{BC} = \vec{AD} = 2\vec{i} - \vec{j}$. Al ser los vectores de los lados opuestos idénticos en magnitud y dirección, los puntos $A, B, C, D$ forman el paralelogramo solicitado.
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Dados los puntos $A(2, -3)$, $B(-2, 5)$ y $C(0, 4)$, deduzca analíticamente las coordenadas de un cuarto punto $D$, de modo que el cuadrilátero $ABCD$ sea un paralelogramo.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.6, >=Latex]
+    % Grilla de fondo
+    \draw[help lines, gray!20, thin] (-4,-5) grid (6,7);
+    
+    % Ejes coordenados
+    \draw[->, thick] (-4.5,0) -- (6.5,0) node[right] {$x$};
+    \draw[->, thick] (0,-5.5) -- (0,7.5) node[above] {$y$};
+    
+    % Puntos conocidos
+    \coordinate (A) at (2,-3);
+    \coordinate (B) at (-2,5);
+    \coordinate (C) at (0,4);
+    
+    % Dibujo de los segmentos conocidos
+    \draw[thick, blue] (A) -- (B) -- (C);
+    
+    % Puntos y etiquetas
+    \filldraw (A) circle (2.5pt) node[below right] {$A(2,-3)$};
+    \filldraw (B) circle (2.5pt) node[above left] {$B(-2,5)$};
+    \filldraw (C) circle (2.5pt) node[above right] {$C(0,4)$};
+    
+    % Nodo sugerido para D (punteado para indicar que es la incógnita)
+    \node[gray] at (4,-4) {?};
+    \draw[dashed, gray] (C) -- (4,-4) -- (A);
+
+    % Marcas de escala
+    \foreach \x in {-2,2,4} \draw (\x,0.1) -- (\x,-0.1) node[below] {\small $\x$};
+    \foreach \y in {-4,4} \draw (0.1,\y) -- (-0.1,\y) node[left] {\small $\y$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Fundamento Físico-Matemático}
+En un paralelogramo definido por los vértices en orden consecutivo $A \to B \to C \to D$, los lados opuestos no solo son paralelos, sino que definen **vectores idénticos** (mismo módulo, dirección y sentido). Por lo tanto, se debe cumplir la condición de igualdad vectorial:
+\begin{equation*}
+    \vec{AB} = \vec{DC}
+\end{equation*}
+Es fundamental notar que el vector es $\vec{DC}$ (de $D$ hacia $C$) y no $\vec{CD}$, para mantener el sentido correcto del recorrido del paralelogramo.
+
+\subsubsection*{2. Cálculo del Vector Conocido $\vec{AB}$}
+Calculamos las componentes del vector que va desde el punto $A$ hasta el punto $B$:
+\begin{align*}
+    \vec{AB} &= (x_B - x_A)\vec{i} + (y_B - y_A)\vec{j} \\
+    \vec{AB} &= (-2 - 2)\vec{i} + (5 - (-3))\vec{j} \\
+    \vec{AB} &= -4\vec{i} + 8\vec{j}
+\end{align*}
+
+\subsubsection*{3. Determinación de las coordenadas de $D(x, y)$}
+Sea $D(x, y)$ el punto desconocido. El vector $\vec{DC}$ se define como:
+\begin{equation*}
+    \vec{DC} = (x_C - x_D)\vec{i} + (y_C - y_D)\vec{j} = (0 - x)\vec{i} + (4 - y)\vec{j}
+\end{equation*}
+
+Igualamos componente a componente con $\vec{AB}$:
+\begin{itemize}
+    \item **En el eje X:** $-x = -4 \implies x = 4$
+    \item **En el eje Y:** $4 - y = 8 \implies -y = 4 \implies y = -4$
+\end{itemize}
+
+Por lo tanto, las coordenadas del punto son $D(4, -4)$.
+
+\subsubsection*{4. Verificación Gráfica (Python)}
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+def plot_parallelogram_check():
+    # Puntos definidos
+    A, B, C = (2, -3), (-2, 5), (0, 4)
+    D = (4, -4) # Punto calculado
+    
+    # Lista de puntos para cerrar la figura A-B-C-D-A
+    pts = [A, B, C, D, A]
+    x, y = zip(*pts)
+    
+    plt.figure(figsize=(6, 7))
+    plt.plot(x, y, 'r-o', label='Paralelogramo ABCD')
+    
+    # Etiquetas
+    labels = ['A', 'B', 'C', 'D']
+    coords = [A, B, C, D]
+    for i, label in enumerate(labels):
+        plt.text(coords[i][0]+0.2, coords[i][1], f'{label}{coords[i]}', fontsize=12)
+        
+    plt.grid(True, linestyle='--')
+    plt.axhline(0, color='black', lw=1)
+    plt.axvline(0, color='black', lw=1)
+    plt.title("Verificación de Coordenadas del Punto D")
+    plt.legend()
+    plt.show()
+
+plot_parallelogram_check()
+\end{lstlisting}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering
+Utilizando la igualdad vectorial $\vec{AB} = \vec{DC}$, las coordenadas del cuarto punto son: \\
+\Large \textbf{$D(4, -4)$}
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Encuentre el vector unitario del vector $\vec{V} = \vec{A} + \vec{B} - \vec{C}$, donde los vectores están definidos por:
+\begin{itemize}
+    \item $\vec{A} = -2\vec{i} + 3\vec{j} - \vec{k} \text{ m}$
+    \item $\vec{B} = \vec{i} - 3\vec{j} + \vec{k} \text{ m}$
+    \item $\vec{C} = 3\vec{i} + 2\vec{j} - 2\vec{k} \text{ m}$
+\end{itemize}
+
+\begin{center}
+\begin{tikzpicture}[x={(0.5cm,0.5cm)}, y={(1cm,0cm)}, z={(0cm,1cm)}, >=Latex]
+    % Ejes 3D conceptuales
+    \draw[->] (0,0,0) -- (2,0,0) node[left] {$x$};
+    \draw[->] (0,0,0) -- (0,2,0) node[right] {$y$};
+    \draw[->] (0,0,0) -- (0,0,2) node[above] {$z$};
+    
+    % Representación conceptual de la suma (Polígono)
+    \coordinate (O) at (0,0,0);
+    \coordinate (VA) at (-0.8, 1.2, -0.4);
+    \coordinate (VB) at (0.4, -1.2, 0.4);
+    \coordinate (VnegC) at (-1.2, -0.8, 0.8);
+    
+    \draw[->, thick, blue] (O) -- (VA) node[midway, left] {$\vec{A}$};
+    \draw[->, thick, green!60!black] (VA) -- ($(VA)+(VB)$) node[midway, above] {$\vec{B}$};
+    \draw[->, thick, red] ($(VA)+(VB)$) -- ($(VA)+(VB)+(VnegC)$) node[midway, right] {$-\vec{C}$};
+    \draw[->, ultra thick, purple] (O) -- ($(VA)+(VB)+(VnegC)$) node[below] {$\vec{V}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Cálculo del Vector Resultante $\vec{V}$}
+Para hallar $\vec{V}$, realizamos la operación componente a componente. Es importante notar que el vector $\vec{C}$ resta, por lo que invertimos sus signos:
+\begin{equation*}
+    \vec{V} = (-2\vec{i} + 3\vec{j} - \vec{k}) + (1\vec{i} - 3\vec{j} + 1\vec{k}) - (3\vec{i} + 2\vec{j} - 2\vec{k})
+\end{equation*}
+
+Sumamos las componentes:
+\begin{itemize}
+    \item **Eje X ($i$):** $-2 + 1 - 3 = -4$
+    \item **Eje Y ($j$):** $3 - 3 - 2 = -2$
+    \item **Eje Z ($k$):** $-1 + 1 - (-2) = 2$
+\end{itemize}
+Obtenemos el vector resultante: $\vec{V} = (-4\vec{i} - 2\vec{j} + 2\vec{k}) \text{ m}$.
+
+\subsubsection*{2. Determinación del Módulo $|\vec{V}|$}
+El módulo es la raíz cuadrada de la suma de los cuadrados de sus componentes:
+\begin{align*}
+    |\vec{V}| &= \sqrt{(-4)^2 + (-2)^2 + (2)^2} \\
+    |\vec{V}| &= \sqrt{16 + 4 + 4} = \sqrt{24} \text{ m}
+\end{align*}
+Valor decimal aproximado: $|\vec{V}| \approx 4.8989 \text{ m}$.
+
+\subsubsection*{3. Obtención del Vector Unitario $\vec{u}_V$}
+El vector unitario se define como el vector original dividido por su propio módulo:
+\begin{equation*}
+    \vec{u}_V = \frac{\vec{V}}{|\vec{V}|} = \frac{-4}{\sqrt{24}}\vec{i} + \frac{-2}{\sqrt{24}}\vec{j} + \frac{2}{\sqrt{24}}\vec{k}
+\end{equation*}
+
+Calculando los valores decimales (típicos para entrenamiento de modelos):
+\begin{equation*}
+    \vec{u}_V = -0.8165\vec{i} - 0.4082\vec{j} + 0.4082\vec{k}
+\end{equation*}
+
+\subsubsection*{4. Visualización del Vector en 3D (Python)}
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def plot_resultant_vector():
+    fig = plt.figure(figsize=(8, 6))
+    ax = fig.add_subplot(111, projection='3d')
+    
+    # Vector V calculado
+    V = np.array([-4, -2, 2])
+    origin = np.array([0, 0, 0])
+    
+    # Graficar vector resultante
+    ax.quiver(*origin, *V, color='purple', label=r'Vector $\vec{V}$', arrow_length_ratio=0.1)
+    
+    # Ejes y limites
+    ax.set_xlim([-5, 0]); ax.set_ylim([-3, 0]); ax.set_zlim([0, 3])
+    ax.set_xlabel('X (i)'); ax.set_ylabel('Y (j)'); ax.set_zlabel('Z (k)')
+    ax.set_title("Vector Resultante V en el Espacio")
+    plt.legend()
+    plt.show()
+
+plot_resultant_vector()
+\end{lstlisting}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{u}_V = (-0.817\vec{i} - 0.408\vec{j} + 0.408\vec{k})$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Se conoce que los módulos de dos vectores son $A = 8 \, \text{u}$ y $B = 3 \, \text{u}$. Determine la magnitud del vector resultante $|\vec{A} + 2\vec{B}|$ si los vectores $\vec{A}$ y $\vec{B}$ forman un ángulo de $120^\circ$.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.6, >=Latex]
+    % Ejes
+    \draw[->] (-5,0) -- (10,0) node[right] {$x$};
+    \draw[->] (0,-1) -- (0,5) node[above] {$y$};
+    
+    % Vector A (en el eje x)
+    \draw[->, ultra thick, blue] (0,0) -- (8,0) node[midway, below] {$\vec{A}$};
+    
+    % Vector B (a 120 grados)
+    % 120 grados respecto a +x es 30 grados respecto a +y
+    \draw[->, ultra thick, red] (0,0) -- ({3*cos(120)}, {3*sin(120)}) node[left] {$\vec{B}$};
+    
+    % Angulo
+    \draw (1.5,0) arc (0:120:1.5);
+    \node at (1.2,1.2) {$120^\circ$};
+    
+    % Etiquetas de magnitud
+    \node[blue] at (4,-0.6) {$A=8$};
+    \node[red] at (-1,2.5) {$B=3$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis por Componentes}
+Para resolver el problema, primero descomponemos los vectores en sus componentes rectangulares. Ubicamos al vector $\vec{A}$ sobre el eje de las abscisas ($x$).
+
+\begin{itemize}
+    \item \textbf{Vector $\vec{A}$:} $\vec{A} = (8\vec{i} + 0\vec{j}) \, \text{u}$
+    \item \textbf{Vector $\vec{B}$:} Usamos funciones trigonométricas con el ángulo de $120^\circ$.
+    \begin{align*}
+        B_x &= B \cos(120^\circ) = 3(-0.5) = -1.5 \\
+        B_y &= B \sin(120^\circ) = 3(0.866) \approx 2.598
+    \end{align*}
+    Por lo tanto: $\vec{B} = (-1.5\vec{i} + 2.598\vec{j}) \, \text{u}$
+\end{itemize}
+
+\subsubsection*{2. Operación Vectorial $\vec{R} = \vec{A} + 2\vec{B}$}
+Multiplicamos el vector $\vec{B}$ por el escalar 2 y sumamos al vector $\vec{A}$:
+\begin{align*}
+    2\vec{B} &= 2(-1.5\vec{i} + 2.598\vec{j}) = (-3\vec{i} + 5.196\vec{j}) \\
+    \vec{R} &= (8 - 3)\vec{i} + (0 + 5.196)\vec{j} \\
+    \vec{R} &= (5\vec{i} + 5.196\vec{j}) \, \text{u}
+\end{align*}
+
+\subsubsection*{3. Cálculo de la Magnitud}
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def plot_vector_sum():
+    # Definicion de vectores
+    A = np.array([8, 0])
+    B2 = np.array([-3, 5.196])
+    R = A + B2
+    
+    origin = np.array([0, 0])
+    
+    plt.figure(figsize=(7, 5))
+    plt.quiver(*origin, *A, color='b', units='xy', scale=1, label=r'$\vec{A}$')
+    plt.quiver(*origin, *B2, color='r', units='xy', scale=1, label=r'$2\vec{B}$')
+    plt.quiver(*origin, *R, color='purple', units='xy', scale=1, label=r'$\vec{R} = \vec{A}+2\vec{B}$')
+    
+    # Lineas guia para paralelogramo
+    plt.plot([A[0], R[0]], [A[1], R[1]], 'k--', alpha=0.3)
+    plt.plot([B2[0], R[0]], [B2[1], R[1]], 'k--', alpha=0.3)
+    
+    plt.xlim(-4, 10); plt.ylim(-1, 7)
+    plt.axhline(0, color='black', lw=1); plt.axvline(0, color='black', lw=1)
+    plt.grid(True, linestyle=':')
+    plt.legend()
+    plt.title("Suma Vectorial A + 2B")
+    plt.show()
+
+plot_vector_sum()
+\end{lstlisting}
+
+Calculamos el módulo del vector resultante:
+\begin{equation*}
+    |\vec{R}| = \sqrt{5^2 + 5.196^2} = \sqrt{25 + 26.998} = \sqrt{51.998} \approx 7.21 \, \text{u}
+\end{equation*}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $|\vec{A} + 2\vec{B}| \approx 7.21 \, \text{u}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Se conoce que los módulos de dos vectores son $A = 8 \, \text{u}$ y $B = 3 \, \text{u}$. Determine la magnitud del vector resultante $|\vec{A} - 2\vec{B}|$ si los vectores $\vec{A}$ y $\vec{B}$ forman un ángulo de $120^\circ$.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.6, >=Latex]
+    \draw[->] (-5,0) -- (10,0) node[right] {$x$};
+    \draw[->] (0,-1) -- (0,5) node[above] {$y$};
+    \draw[->, ultra thick, blue] (0,0) -- (8,0) node[midway, below] {$\vec{A}$};
+    \draw[->, ultra thick, red] (0,0) -- ({3*cos(120)}, {3*sin(120)}) node[left] {$\vec{B}$};
+    \draw (1.5,0) arc (0:120:1.5);
+    \node at (1.2,1.2) {$120^\circ$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis por Componentes}
+Utilizamos los vectores calculados en el literal anterior:
+\begin{itemize}
+    \item $\vec{A} = (8\vec{i} + 0\vec{j}) \, \text{u}$
+    \item $\vec{B} = (-1.5\vec{i} + 2.598\vec{j}) \, \text{u}$
+\end{itemize}
+
+\subsubsection*{2. Operación Vectorial $\vec{R} = \vec{A} - 2\vec{B}$}
+Para la resta, multiplicamos $\vec{B}$ por $-2$:
+\begin{align*}
+    -2\vec{B} &= -2(-1.5\vec{i} + 2.598\vec{j}) = (3\vec{i} - 5.196\vec{j}) \\
+    \vec{R} &= (8 + 3)\vec{i} + (0 - 5.196)\vec{j} \\
+    \vec{R} &= (11\vec{i} - 5.196\vec{j}) \, \text{u}
+\end{align*}
+
+\subsubsection*{3. Cálculo de la Magnitud}
+Visualizamos la resta como la suma del vector $\vec{A}$ con el opuesto de $2\vec{B}$:
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def plot_vector_subtraction():
+    A = np.array([8, 0])
+    minus2B = np.array([3, -5.196])
+    R = A + minus2B
+    
+    origin = np.array([0, 0])
+    
+    plt.figure(figsize=(7, 5))
+    plt.quiver(*origin, *A, color='b', units='xy', scale=1, label=r'$\vec{A}$')
+    plt.quiver(*origin, *minus2B, color='r', units='xy', scale=1, label=r'$-2\vec{B}$')
+    plt.quiver(*origin, *R, color='purple', units='xy', scale=1, label=r'$\vec{R} = \vec{A}-2\vec{B}$')
+    
+    plt.xlim(-1, 13); plt.ylim(-6, 2)
+    plt.axhline(0, color='black', lw=1); plt.axvline(0, color='black', lw=1)
+    plt.grid(True, linestyle=':')
+    plt.legend()
+    plt.title("Resta Vectorial A - 2B")
+    plt.show()
+
+plot_vector_subtraction()
+\end{lstlisting}
+
+Calculamos el módulo resultante:
+\begin{equation*}
+    |\vec{R}| = \sqrt{11^2 + (-5.196)^2} = \sqrt{121 + 26.998} = \sqrt{147.998} \approx 12.17 \, \text{u}
+\end{equation*}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $|\vec{A} - 2\vec{B}| \approx 12.17 \, \text{u}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+¿Qué medida debe tener el ángulo $\theta$, comprendido entre los vectores $\vec{A}$ y $\vec{B}$, para que se cumpla la relación $|\vec{A} + \vec{B}| > |\vec{A} - \vec{B}|$?
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2, >=Latex]
+    % Vectores con ángulo agudo
+    \coordinate (O) at (0,0);
+    \coordinate (A) at (2,0);
+    \coordinate (B) at (1,1.5);
+    \coordinate (Sum) at (3,1.5);
+    \coordinate (Diff) at (1,-1.5); % Representación visual de resta
+
+    % Dibujo de vectores base
+    \draw[->, thick, blue] (O) -- (A) node[midway, below] {$\vec{A}$};
+    \draw[->, thick, red] (O) -- (B) node[midway, left] {$\vec{B}$};
+    
+    % Diagonales (Suma y Resta)
+    \draw[->, thick, purple] (O) -- (Sum) node[right] {$\vec{A}+\vec{B}$};
+    \draw[dashed, gray] (A) -- (Sum) -- (B);
+    
+    % Angulo theta
+    \draw (0.5,0) arc (0:56:0.5);
+    \node at (0.7,0.3) {$\theta$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Analítico}
+Para comparar las magnitudes, elevamos ambos miembros al cuadrado utilizando la Ley de los Cosenos para vectores:
+\begin{align*}
+    |\vec{A} + \vec{B}|^2 &> |\vec{A} - \vec{B}|^2 \\
+    A^2 + B^2 + 2AB\cos\theta &> A^2 + B^2 - 2AB\cos\theta
+\end{align*}
+
+Simplificando los términos comunes ($A^2$ y $B^2$):
+\begin{align*}
+    2AB\cos\theta &> -2AB\cos\theta \\
+    4AB\cos\theta &> 0
+\end{align*}
+
+\subsubsection*{2. Condición del Ángulo}
+Dado que los módulos $A$ y $B$ son siempre positivos, la desigualdad depende únicamente del coseno:
+\begin{equation*}
+    \cos\theta > 0 \implies 0^\circ \le \theta < 90^\circ
+\end{equation*}
+Esto significa que el ángulo debe ser **agudo**.
+
+\subsubsection*{3. Verificación Gráfica (Python)}
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def plot_magnitudes():
+    theta = np.linspace(0, 180, 100)
+    theta_rad = np.radians(theta)
+    A, B = 5, 3 # Valores de ejemplo
+    
+    sum_mag = np.sqrt(A**2 + B**2 + 2*A*B*np.cos(theta_rad))
+    diff_mag = np.sqrt(A**2 + B**2 - 2*A*B*np.cos(theta_rad))
+    
+    plt.figure(figsize=(7, 4))
+    plt.plot(theta, sum_mag, 'purple', label=r'$|\vec{A}+\vec{B}|$')
+    plt.plot(theta, diff_mag, 'orange', label=r'$|\vec{A}-\vec{B}|$')
+    
+    plt.axvspan(0, 90, color='green', alpha=0.1, label='Región Aguda')
+    plt.xlabel('Ángulo $\theta$ (grados)'); plt.ylabel('Magnitud')
+    plt.title("Comparación de Magnitudes: Suma vs Resta")
+    plt.legend(); plt.grid(True)
+    plt.show()
+
+plot_magnitudes()
+\end{lstlisting}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\theta < 90^\circ$ (Ángulo Agudo)
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+¿Qué medida debe tener el ángulo $\theta$, comprendido entre los vectores $\vec{A}$ y $\vec{B}$, para que se cumpla la relación $|\vec{A} + \vec{B}| = |\vec{A} - \vec{B}|$?
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2, >=Latex]
+    % Vectores perpendiculares
+    \coordinate (O) at (0,0);
+    \coordinate (A) at (2,0);
+    \coordinate (B) at (0,1.5);
+    \coordinate (Sum) at (2,1.5);
+
+    \draw[->, thick, blue] (O) -- (A) node[midway, below] {$\vec{A}$};
+    \draw[->, thick, red] (O) -- (B) node[midway, left] {$\vec{B}$};
+    \draw[->, thick, purple] (O) -- (Sum) node[right] {$\vec{A}+\vec{B}$};
+    \draw[->, thick, orange] (A) -- (B) node[midway, above right] {$\vec{A}-\vec{B}$};
+    
+    % Cuadradito de angulo recto
+    \draw (0.2,0) -- (0.2,0.2) -- (0,0.2);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Analítico}
+Igualamos los cuadrados de las magnitudes:
+\begin{equation*}
+    A^2 + B^2 + 2AB\cos\theta = A^2 + B^2 - 2AB\cos\theta
+\end{equation*}
+
+Cancelando términos:
+\begin{align*}
+    4AB\cos\theta &= 0 \\
+    \cos\theta &= 0
+\end{align*}
+
+\subsubsection*{2. Conclusión Geométrica}
+La función coseno es cero cuando el ángulo es de $90^\circ$. Geométricamente, esto corresponde al Teorema de Pitágoras, donde las diagonales de un rectángulo (formado por vectores perpendiculares) son iguales.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\theta = 90^\circ$ (Vectores Perpendiculares)
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+¿Qué medida debe tener el ángulo $\theta$, comprendido entre los vectores $\vec{A}$ y $\vec{B}$, para que se cumpla la relación $|\vec{A} + \vec{B}| < |\vec{A} - \vec{B}|$?
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2, >=Latex]
+    % Vectores con ángulo obtuso
+    \coordinate (O) at (0,0);
+    \coordinate (A) at (2,0);
+    \coordinate (B) at (-1,1.2);
+    \coordinate (Sum) at (1,1.2);
+
+    \draw[->, thick, blue] (O) -- (A) node[midway, below] {$\vec{A}$};
+    \draw[->, thick, red] (O) -- (B) node[midway, left] {$\vec{B}$};
+    \draw[->, thick, purple] (O) -- (Sum) node[above right] {$\vec{A}+\vec{B}$};
+    
+    % Angulo obtuso
+    \draw (0.5,0) arc (0:130:0.5);
+    \node at (0.4,0.6) {$\theta$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis por Desigualdad}
+Partimos de la relación:
+\begin{equation*}
+    4AB\cos\theta < 0
+\end{equation*}
+
+Como $4AB$ es positivo, la desigualdad se mantiene si:
+\begin{equation*}
+    \cos\theta < 0
+\end{equation*}
+
+\subsubsection*{2. Rango del Ángulo}
+Para que el coseno de un ángulo entre vectores sea negativo, el ángulo debe estar en el segundo cuadrante:
+\begin{equation*}
+    90^\circ < \theta \le 180^\circ
+\end{equation*}
+Por lo tanto, el ángulo debe ser **obtuso**.
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\theta > 90^\circ$ (Ángulo Obtuso)
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Encuentre un vector perpendicular al vector $\vec{A} = 3\vec{i} - 5\vec{j}$ m, de manera que su módulo sea $17$ m y cuya coordenada en $y$ sea positiva.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.6, >=Latex]
+    % Ejes
+    \draw[->] (-2,0) -- (6,0) node[right] {$x$};
+    \draw[->] (0,-6) -- (0,2) node[above] {$y$};
+    \draw[help lines, gray!20] (-2,-6) grid (6,2);
+    
+    % Vector A
+    \draw[->, ultra thick, blue] (0,0) -- (3,-5) node[midway, left] {$\vec{A}$};
+    \filldraw[blue] (3,-5) circle (2pt) node[below right] {$(3, -5)$};
+    
+    % Indicación de perpendicularidad (línea punteada conceptual)
+    \draw[dashed, gray] (0,0) -- (5,3) node[above] {$\vec{B} \perp \vec{A}$?};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Planteamiento de Condiciones}
+Sea el vector buscado $\vec{B} = B_x\vec{i} + B_y\vec{j}$. Para resolver el problema, debemos satisfacer dos condiciones matemáticas:
+
+\begin{itemize}
+    \item \textbf{Perpendicularidad:} El producto escalar entre $\vec{A}$ y $\vec{B}$ debe ser cero ($\vec{A} \cdot \vec{B} = 0$).
+    \item \textbf{Magnitud:} El módulo de $\vec{B}$ debe ser exactamente $17$ m ($|\vec{B}| = 17$).
+    \item \textbf{Restricción adicional:} La componente $B_y$ debe ser mayor que cero ($B_y > 0$).
+\end{itemize}
+
+\subsubsection*{2. Relación de Componentes (Producto Escalar)}
+Aplicamos la definición de producto escalar:
+\begin{align*}
+    (3\vec{i} - 5\vec{j}) \cdot (B_x\vec{i} + B_y\vec{j}) &= 0 \\
+    3B_x - 5B_y &= 0
+\end{align*}
+Despejamos $B_x$ en función de $B_y$:
+\begin{equation} \label{eq:relacion}
+    B_x = \frac{5}{3}B_y
+\end{equation}
+
+\subsubsection*{3. Aplicación del Módulo}
+Sustituimos la relación \eqref{eq:relacion} en la fórmula de la magnitud:
+\begin{align*}
+    B_x^2 + B_y^2 &= 17^2 \\
+    \left( \frac{5}{3}B_y \right)^2 + B_y^2 &= 289 \\
+    \frac{25}{9}B_y^2 + B_y^2 &= 289
+\end{align*}
+
+Sumamos las fracciones:
+\begin{align*}
+    \frac{34}{9}B_y^2 &= 289 \\
+    B_y^2 &= \frac{289 \cdot 9}{34} = \frac{2601}{34} = 76.5
+\end{align*}
+
+\subsubsection*{4. Selección de Componentes}
+Calculamos los valores posibles para $B_y$:
+\begin{equation*}
+    B_y = \pm \sqrt{76.5} \approx \pm 8.746
+\end{equation*}
+Dado que el enunciado exige que \textbf{la coordenada en $y$ sea positiva}, tomamos $B_y \approx 8.75$ m.
+
+Ahora calculamos $B_x$:
+\begin{equation*}
+    B_x = \frac{5(8.746)}{3} \approx 14.58 \text{ m}
+\end{equation*}
+
+\subsubsection*{5. Verificación Gráfica (Python)}
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def plot_perpendicular():
+    A = np.array([3, -5])
+    B = np.array([14.58, 8.75])
+    
+    origin = [0], [0]
+    plt.figure(figsize=(6, 6))
+    plt.quiver(*origin, A[0], A[1], color='b', angles='xy', scale_units='xy', scale=1, label='Vector A')
+    plt.quiver(*origin, B[0], B[1], color='r', angles='xy', scale_units='xy', scale=1, label='Vector B')
+    
+    plt.xlim(-5, 17); plt.ylim(-7, 10)
+    plt.axhline(0, color='black', lw=1); plt.axvline(0, color='black', lw=1)
+    plt.grid(True, linestyle=':')
+    plt.gca().set_aspect('equal')
+    plt.title("Comprobación de Perpendicularidad")
+    plt.legend()
+    plt.show()
+
+plot_perpendicular()
+\end{lstlisting}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{B} = (14.58\vec{i} + 8.75\vec{j}) \text{ m}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Encuentre el ángulo que forma el vector $\vec{A} = 2\vec{i} + 3\vec{j} - 2\sqrt{3}\vec{k}$ y un vector cuyos ángulos directores son $\alpha = 45^\circ$, $\beta = 60^\circ$, con $\gamma < 90^\circ$. (Respuesta esperada: $76.3^\circ$).
+
+\begin{center}
+\begin{tikzpicture}[x={(0.5cm,0.5cm)}, y={(1cm,0cm)}, z={(0cm,1cm)}, >=Latex]
+    % Ejes coordenados
+    \draw[->] (0,0,0) -- (4,0,0) node[left] {$x$};
+    \draw[->] (0,0,0) -- (0,4,0) node[right] {$y$};
+    \draw[->] (0,0,0) -- (0,0,4) node[above] {$z$};
+
+    % Vector B conceptual (unitario)
+    \coordinate (B) at (2.12, 1.5, 1.5); % Proporcional a cos45, cos60, cos60
+    \draw[->, ultra thick, red] (0,0,0) -- (B) node[above right] {$\vec{u}_B$};
+
+    % Ángulos directores (arcos conceptuales)
+    \draw[red, thin] (0.8,0,0) arc (0:35:1.2) node[midway, below right] {$\alpha$};
+    \draw[red, thin] (0,0.8,0) arc (90:50:1.5) node[midway, above] {$\beta$};
+    \draw[red, thin] (0,0,0.8) arc (90:40:1.2) node[midway, left] {$\gamma$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis del Vector $\vec{B}$ mediante Ángulos Directores}
+Para cualquier vector en el espacio, se cumple la identidad fundamental de los cosenos directores:
+\begin{equation} \label{eq:identidad_directores}
+    \cos^2 \alpha + \cos^2 \beta + \cos^2 \gamma = 1
+\end{equation}
+
+Sustituimos los valores conocidos ($\alpha = 45^\circ$, $\beta = 60^\circ$):
+\begin{align*}
+    \cos^2(45^\circ) + \cos^2(60^\circ) + \cos^2 \gamma &= 1 \\
+    \left( \frac{\sqrt{2}}{2} \right)^2 + \left( \frac{1}{2} \right)^2 + \cos^2 \gamma &= 1 \\
+    \frac{2}{4} + \frac{1}{4} + \cos^2 \gamma &= 1 \implies \cos^2 \gamma = \frac{1}{4}
+\end{align*}
+
+Obtenemos dos posibles valores para $\cos \gamma = \pm 0.5$. Dado que el enunciado especifica que $\gamma < 90^\circ$, el coseno debe ser positivo:
+\begin{equation*}
+    \cos \gamma = 0.5 \implies \gamma = 60^\circ
+\end{equation*}
+
+Definimos el vector unitario $\vec{u}_B$ (que tiene la misma dirección que $\vec{B}$):
+\begin{equation*}
+    \vec{u}_B = \cos 45^\circ \vec{i} + \cos 60^\circ \vec{j} + \cos 60^\circ \vec{k} = (0.707\vec{i} + 0.5\vec{j} + 0.5\vec{k})
+\end{equation*}
+
+\subsubsection*{2. Normalización del Vector $\vec{A}$}
+Calculamos el módulo de $\vec{A} = 2\vec{i} + 3\vec{j} - 2\sqrt{3}\vec{k}$:
+\begin{equation*}
+    |\vec{A}| = \sqrt{2^2 + 3^2 + (-2\sqrt{3})^2} = \sqrt{4 + 9 + 12} = \sqrt{25} = 5
+\end{equation*}
+
+El vector unitario $\vec{u}_A$ es:
+\begin{equation*}
+    \vec{u}_A = \frac{\vec{A}}{5} = \frac{2}{5}\vec{i} + \frac{3}{5}\vec{j} - \frac{2\sqrt{3}}{5}\vec{k} = (0.4\vec{i} + 0.6\vec{j} - 0.6928\vec{k})
+\end{equation*}
+
+\subsubsection*{3. Cálculo del Ángulo entre Vectores}
+Utilizamos la propiedad del producto escalar para vectores unitarios: $\vec{u}_A \cdot \vec{u}_B = \cos \theta$.
+\begin{align*}
+    \cos \theta &= (0.4)(0.7071) + (0.6)(0.5) + (-0.6928)(0.5) \\
+    \cos \theta &= 0.2828 + 0.3 - 0.3464 \\
+    \cos \theta &= 0.2364
+\end{align*}
+
+Finalmente, despejamos el ángulo:
+\begin{equation*}
+    \theta = \arccos(0.2364) \approx 76.32^\circ
+\end{equation*}
+
+\subsubsection*{4. Representación en el Espacio (Python)}
+
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def plot_vector_angle():
+    fig = plt.figure(figsize=(8, 6))
+    ax = fig.add_subplot(111, projection='3d')
+    
+    # Vectores Unitarios
+    uA = np.array([0.4, 0.6, -0.6928])
+    uB = np.array([0.7071, 0.5, 0.5])
+    origin = np.array([0, 0, 0])
+    
+    # Graficar vectores
+    ax.quiver(*origin, *uA, color='blue', label=r'Unitario $\vec{u}_A$', arrow_length_ratio=0.1)
+    ax.quiver(*origin, *uB, color='red', label=r'Unitario $\vec{u}_B$', arrow_length_ratio=0.1)
+    
+    # Limites y etiquetas
+    ax.set_xlim([-1, 1]); ax.set_ylim([-1, 1]); ax.set_zlim([-1, 1])
+    ax.set_xlabel('X (i)'); ax.set_ylabel('Y (j)'); ax.set_zlabel('Z (k)')
+    ax.set_title("Visualización de Vectores A y B en 3D")
+    ax.legend()
+    plt.show()
+
+plot_vector_angle()
+\end{lstlisting}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\theta \approx 76.3^\circ$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Dados los vectores $\vec{A} = 2\vec{i} - \vec{j} + 2\sqrt{3} \vec{k}$ y $\vec{B} = -3\vec{i} + 3\vec{j} + 5\vec{k}$, encuentre la proyección del vector $\vec{A}$ en la línea de acción del vector $\vec{B}$.
+
+\begin{center}
+\begin{tikzpicture}[x={(0.5cm,0.5cm)}, y={(1.2cm,0cm)}, z={(0cm,1.2cm)}, >=Latex]
+    % Ejes
+    \draw[->] (0,0,0) -- (1,0,0) node[left] {$x$};
+    \draw[->] (0,0,0) -- (0,1,0) node[right] {$y$};
+    \draw[->] (0,0,0) -- (0,0,1) node[above] {$z$};
+
+    % Vectores conceptuales
+    \coordinate (O) at (0,0,0);
+    \coordinate (B) at (3,2,1); % Vector B (linea de accion)
+    \coordinate (A) at (1.5,3,2); % Vector A
+    
+    % Proyeccion (punto mas cercano en B desde A)
+    \coordinate (P) at (2.14, 1.43, 0.71); 
+
+    \draw[->, thick, blue] (O) -- (A) node[above] {$\vec{A}$};
+    \draw[->, thick, gray] (O) -- (B) node[right] {Línea de acción $\vec{B}$};
+    
+    % Proyeccion vectorial
+    \draw[->, ultra thick, purple] (O) -- (P) node[midway, below right] {$\vec{A}_B$};
+    \draw[dashed] (A) -- (P); % Linea de proyeccion ortogonal
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Teórico}
+La proyección vectorial de $\vec{A}$ sobre $\vec{B}$ ($\vec{A}_B$) representa la "sombra" ortogonal que el vector $\vec{A}$ proyecta sobre la dirección de $\vec{B}$. Matemáticamente se define como:
+\begin{equation*}
+    \vec{A}_B = \text{proj}_{\vec{B}} \vec{A} = \left( \frac{\vec{A} \cdot \vec{B}}{|\vec{B}|^2} \right) \vec{B} = (\vec{A} \cdot \vec{u}_B) \vec{u}_B
+\end{equation*}
+
+\subsubsection*{2. Cálculo de Magnitudes y Producto Escalar}
+Calculamos el módulo de $\vec{B}$ y el producto escalar $\vec{A} \cdot \vec{B}$:
+\begin{align*}
+    |\vec{B}| &= \sqrt{(-3)^2 + 3^2 + 5^2} = \sqrt{9 + 9 + 25} = \sqrt{43} \approx 6.557 \\
+    \vec{A} \cdot \vec{B} &= (2)(-3) + (-1)(3) + (2\sqrt{3})(5) \\
+    \vec{A} \cdot \vec{B} &= -6 - 3 + 10\sqrt{3} \approx -9 + 17.32 = 8.32
+\end{align*}
+
+\subsubsection*{3. Determinación de la Proyección}
+Sustituimos en la fórmula:
+\begin{equation*}
+    \vec{A}_B = \frac{8.32}{43} (-3\vec{i} + 3\vec{j} + 5\vec{k}) \approx 0.1935 (-3\vec{i} + 3\vec{j} + 5\vec{k})
+\end{equation*}
+Realizando la multiplicación escalar:
+\begin{equation*}
+    \vec{A}_B = -0.58\vec{i} + 0.58\vec{j} + 0.97\vec{k}
+\end{equation*}
+
+\subsubsection*{4. Visualización de la Proyección (Python)}
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def plot_projection_a():
+    fig = plt.figure(figsize=(8, 6))
+    ax = fig.add_subplot(111, projection='3d')
+    
+    A = np.array([2, -1, 3.46]) # 2*sqrt(3) approx 3.46
+    B = np.array([-3, 3, 5])
+    projA_B = np.array([-0.58, 0.58, 0.97])
+    
+    origin = np.array([0, 0, 0])
+    
+    ax.quiver(*origin, *A, color='blue', label=r'$\vec{A}$')
+    ax.quiver(*origin, *B, color='gray', alpha=0.5, label=r'$\vec{B}$')
+    ax.quiver(*origin, *projA_B, color='purple', linewidth=3, label=r'Proj $\vec{A}_B$')
+    
+    # Linea de proyeccion
+    ax.plot([A[0], projA_B[0]], [A[1], projA_B[1]], [A[2], projA_B[2]], 'k--')
+    
+    ax.set_xlabel('X'); ax.set_ylabel('Y'); ax.set_zlabel('Z')
+    ax.legend(); plt.show()
+
+plot_projection_a()
+\end{lstlisting}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{A}_B = (-0.58\vec{i} + 0.58\vec{j} + 0.97\vec{k})$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Dados los vectores $\vec{A} = 2\vec{i} - \vec{j} + 2\sqrt{3} \vec{k}$ y $\vec{B} = -3\vec{i} + 3\vec{j} + 5\vec{k}$, encuentre la proyección del vector $\vec{B}$ en la línea de acción del vector $\vec{A}$.
+
+\begin{center}
+\begin{tikzpicture}[x={(0.5cm,0.5cm)}, y={(1.2cm,0cm)}, z={(0cm,1.2cm)}, >=Latex]
+    % Ejes
+    \draw[->] (0,0,0) -- (1,0,0) node[left] {$x$};
+    \draw[->] (0,0,0) -- (0,1,0) node[right] {$y$};
+    \draw[->] (0,0,0) -- (0,0,1) node[above] {$z$};
+
+    % Vectores conceptuales invertidos
+    \coordinate (O) at (0,0,0);
+    \coordinate (A) at (1.5,1,3); 
+    \coordinate (B) at (3,2.5,1.5); 
+    
+    % Proyeccion de B en A
+    \coordinate (P) at (0.9, 0.6, 1.8); 
+
+    \draw[->, thick, gray] (O) -- (A) node[above] {Línea de acción $\vec{A}$};
+    \draw[->, thick, red] (O) -- (B) node[right] {$\vec{B}$};
+    
+    % Proyeccion vectorial
+    \draw[->, ultra thick, purple] (O) -- (P) node[midway, left] {$\vec{B}_A$};
+    \draw[dashed] (B) -- (P);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Cálculo de la Magnitud de $\vec{A}$}
+Para este literal, necesitamos el módulo de la base de proyección, que es el vector $\vec{A}$:
+\begin{equation*}
+    |\vec{A}| = \sqrt{2^2 + (-1)^2 + (2\sqrt{3})^2} = \sqrt{4 + 1 + 12} = \sqrt{17} \approx 4.123
+\end{equation*}
+
+\subsubsection*{2. Determinación de la Proyección $\vec{B}_A$}
+Utilizamos la fórmula de proyección vectorial de $\vec{B}$ sobre $\vec{A}$:
+\begin{equation*}
+    \vec{B}_A = \left( \frac{\vec{B} \cdot \vec{A}}{|\vec{A}|^2} \right) \vec{A}
+\end{equation*}
+
+Ya conocemos que el producto escalar es commutativo, por tanto $\vec{B} \cdot \vec{A} = \vec{A} \cdot \vec{B} = 8.32$. Sustituimos los valores:
+\begin{align*}
+    \vec{B}_A &= \frac{8.32}{17} (2\vec{i} - \vec{j} + 2\sqrt{3}\vec{k}) \\
+    \vec{B}_A &\approx 0.4894 (2\vec{i} - \vec{j} + 3.464\vec{k})
+\end{align*}
+
+Realizando el cálculo por componentes:
+\begin{itemize}
+    \item $B_{Ax} = 0.4894 \times 2 = 0.978 \approx 0.98$
+    \item $B_{Ay} = 0.4894 \times (-1) = -0.489 \approx -0.49$
+    \item $B_{Az} = 0.4894 \times 3.464 = 1.695 \approx 1.70$
+\end{itemize}
+
+\subsubsection*{3. Resultado Final}
+El vector proyección es: $\vec{B}_A = 0.98\vec{i} - 0.49\vec{j} + 1.70\vec{k}$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{B}_A = (0.98\vec{i} - 0.49\vec{j} + 1.70\vec{k})$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Los ángulos directores del vector $\vec{B}$ son $\beta = 70^\circ$, $\gamma = 40^\circ$, con $\alpha > 90^\circ$. Determine la proyección del vector $\vec{A} = 4\vec{i} - 7\vec{j} - 4\vec{k}$, sobre la línea de acción de $\vec{B}$.
+
+\begin{center}
+\begin{tikzpicture}[x={(0.5cm,0.5cm)}, y={(1cm,0cm)}, z={(0cm,1cm)}, >=Latex]
+    % Ejes coordenados 3D
+    \draw[->] (0,0,0) -- (5,0,0) node[left] {$x$};
+    \draw[->] (0,0,0) -- (0,5,0) node[right] {$y$};
+    \draw[->] (0,0,0) -- (0,0,5) node[above] {$z$};
+
+    % Vector B conceptual (línea de acción)
+    \coordinate (B) at (-2.17, 1.36, 3.06); 
+    \draw[thick, gray, dashed] ($(B)*-0.5$) -- ($(B)*1.2$) node[above] {Línea de acción $\vec{B}$};
+    
+    % Vector A
+    \coordinate (A) at (2,-3.5,-2); % Escala reducida para visualización
+    \draw[->, ultra thick, blue] (0,0,0) -- (A) node[below] {$\vec{A}$};
+
+    % Arcos para ángulos directores de B (conceptuales)
+    \draw[red, thin] (0.8,0,0) arc (0:120:0.8) node[midway, below] {$\alpha$};
+    \draw[red, thin] (0,0.8,0) arc (90:50:1.2) node[midway, right] {$\beta$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Determinación del Vector Unitario $\vec{u}_B$}
+Para construir el vector unitario que define la línea de acción de $\vec{B}$, utilizamos la propiedad de los cosenos directores:
+\begin{equation}
+    \cos^2 \alpha + \cos^2 \beta + \cos^2 \gamma = 1
+\end{equation}
+
+Sustituimos los valores conocidos:
+\begin{align*}
+    \cos^2 \alpha + \cos^2(70^\circ) + \cos^2(40^\circ) &= 1 \\
+    \cos^2 \alpha + (0.3420)^2 + (0.7660)^2 &= 1 \\
+    \cos^2 \alpha + 0.1170 + 0.5868 &= 1 \\
+    \cos^2 \alpha &= 1 - 0.7038 = 0.2962
+\end{align*}
+
+Calculamos el valor de $\cos \alpha$. El enunciado especifica que $\alpha > 90^\circ$, por lo tanto, el coseno debe ser negativo:
+\begin{equation*}
+    \cos \alpha = -\sqrt{0.2962} \approx -0.5442
+\end{equation*}
+
+El vector unitario es:
+\begin{equation*}
+    \vec{u}_B = -0.5442\vec{i} + 0.3420\vec{j} + 0.7660\vec{k}
+\end{equation*}
+
+\subsubsection*{2. Cálculo de la Proyección Escalar ($m$)}
+La componente del vector $\vec{A}$ sobre la dirección de $\vec{B}$ se obtiene mediante el producto escalar:
+\begin{align*}
+    m = \vec{A} \cdot \vec{u}_B &= (4)(-0.5442) + (-7)(0.3420) + (-4)(0.7660) \\
+    m &= -2.1768 - 2.3940 - 3.0640 \\
+    m &= -7.6348
+\end{align*}
+
+\subsubsection*{3. Determinación del Vector Proyección ($\vec{A}_B$)}
+Finalmente, multiplicamos la proyección escalar por el vector unitario de la línea de acción:
+\begin{align*}
+    \vec{A}_B &= m \cdot \vec{u}_B \\
+    \vec{A}_B &= -7.6348 (-0.5442\vec{i} + 0.3420\vec{j} + 0.7660\vec{k}) \\
+    \vec{A}_B &= 4.154\vec{i} - 2.611\vec{j} - 5.848\vec{k}
+\end{align*}
+
+\subsubsection*{4. Verificación Gráfica (Python)}
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def plot_projection_10():
+    fig = plt.figure(figsize=(8, 6))
+    ax = fig.add_subplot(111, projection='3d')
+    
+    A = np.array([4, -7, -4])
+    uB = np.array([-0.5442, 0.3420, 0.7660])
+    proj = -7.6348 * uB
+    
+    origin = np.array([0, 0, 0])
+    
+    # Graficar vectores
+    ax.quiver(*origin, *A, color='blue', label=r'Vector $\vec{A}$')
+    ax.quiver(*origin, *proj, color='purple', linewidth=3, label=r'Proyección $\vec{A}_B$')
+    
+    # Línea de acción de B
+    line_B = np.outer(np.linspace(-10, 5, 10), uB)
+    ax.plot(line_B[:,0], line_B[:,1], line_B[:,2], 'gray', linestyle='--', alpha=0.5)
+    
+    ax.set_xlabel('X'); ax.set_ylabel('Y'); ax.set_zlabel('Z')
+    ax.set_title("Proyección de A sobre la línea de acción de B")
+    ax.legend()
+    plt.show()
+
+plot_projection_10()
+\end{lstlisting}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{A}_B = (4.15\vec{i} - 2.61\vec{j} - 5.85\vec{k})$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Dados los vectores $\vec{A} = 3\vec{i} - 2\vec{j} + \vec{k}$ y $\vec{B} = -2\vec{i} + \vec{j} + 2\vec{k}$, realice el producto vectorial $\vec{C} = \vec{A} \times \vec{B}$.
+
+\begin{center}
+\begin{tikzpicture}[x={(0.5cm,0.5cm)}, y={(1cm,0cm)}, z={(0cm,1cm)}, >=Latex]
+    % Ejes coordenados conceptuales
+    \draw[->] (0,0,0) -- (3,0,0) node[left] {$x$};
+    \draw[->] (0,0,0) -- (0,3,0) node[right] {$y$};
+    \draw[->] (0,0,0) -- (0,0,3) node[above] {$z$};
+
+    % Vectores A y B (escalados para visualización)
+    \draw[->, thick, blue] (0,0,0) -- (1.5, -1, 0.5) node[right] {$\vec{A}$};
+    \draw[->, thick, red] (0,0,0) -- (-1, 0.5, 1) node[above left] {$\vec{B}$};
+    
+    % Arco de producto (regla de la mano derecha)
+    \draw[->, bend left, gray, thin] (0.5,-0.3,0.1) to (-0.3,0.1,0.3);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Fundamento Teórico}
+El producto vectorial o "producto cruz" genera un tercer vector $\vec{C}$ que es perpendicular al plano formado por $\vec{A}$ y $\vec{B}$. El método más común para calcularlo es mediante el desarrollo del determinante de una matriz de $3 \times 3$.
+
+\subsubsection*{2. Planteamiento de la Matriz}
+Colocamos los vectores unitarios en la primera fila y las componentes de los vectores $\vec{A}$ y $\vec{B}$ en las filas siguientes:
+\begin{equation*}
+\vec{A} \times \vec{B} = \begin{vmatrix} 
+\vec{i} & \vec{j} & \vec{k} \\ 
+3 & -2 & 1 \\ 
+-2 & 1 & 2 
+\end{vmatrix}
+\end{equation*}
+
+\subsubsection*{3. Resolución por Menores}
+Expandimos el determinante:
+\begin{align*}
+    \vec{C} &= \vec{i} \begin{vmatrix} -2 & 1 \\ 1 & 2 \end{vmatrix} - \vec{j} \begin{vmatrix} 3 & 1 \\ -2 & 2 \end{vmatrix} + \vec{k} \begin{vmatrix} 3 & -2 \\ -2 & 1 \end{vmatrix} \\
+    \vec{C} &= \vec{i} [(-2)(2) - (1)(1)] - \vec{j} [(3)(2) - (1)(-2)] + \vec{k} [(3)(1) - (-2)(-2)] \\
+    \vec{C} &= \vec{i} [-4 - 1] - \vec{j} [6 + 2] + \vec{k} [3 - 4]
+\end{align*}
+
+\subsubsection*{4. Resultado Vectorial}
+\begin{equation*}
+    \vec{C} = -5\vec{i} - 8\vec{j} - \vec{k}
+\end{equation*}
+
+\subsubsection*{5. Visualización 3D (Python)}
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def plot_cross_product():
+    fig = plt.figure(figsize=(8, 6))
+    ax = fig.add_subplot(111, projection='3d')
+    
+    # Vectores originales y resultado
+    A = np.array([3, -2, 1])
+    B = np.array([-2, 1, 2])
+    C = np.cross(A, B)
+    
+    origin = np.array([0, 0, 0])
+    
+    ax.quiver(*origin, *A, color='blue', label=r'$\vec{A}$')
+    ax.quiver(*origin, *B, color='red', label=r'$\vec{B}$')
+    ax.quiver(*origin, *C, color='purple', label=r'$\vec{C} = \vec{A} \times \vec{B}$')
+    
+    ax.set_xlim([-6, 6]); ax.set_ylim([-9, 1]); ax.set_zlim([-2, 3])
+    ax.set_xlabel('X'); ax.set_ylabel('Y'); ax.set_zlabel('Z')
+    ax.legend()
+    plt.show()
+
+plot_cross_product()
+\end{lstlisting}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{C} = -5\vec{i} - 8\vec{j} - \vec{k}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Dados los vectores $\vec{A} = 3\vec{i} - 2\vec{j} + \vec{k}$, $\vec{B} = -2\vec{i} + \vec{j} + 2\vec{k}$ y el vector resultante de su producto cruz $\vec{C} = -5\vec{i} - 8\vec{j} - \vec{k}$, realice los productos escalares $\vec{C} \cdot \vec{A}$ y $\vec{C} \cdot \vec{B}$.
+
+\subsection*{Solución}
+
+\subsubsection*{1. Propiedad Física Relevante}
+Una propiedad fundamental del producto vectorial es que el vector resultante $\vec{C}$ es **ortogonal** (perpendicular) tanto a $\vec{A}$ como a $\vec{B}$. Para demostrarlo analíticamente, el producto escalar entre ellos debe ser igual a cero ($0$).
+
+\subsubsection*{2. Producto Escalar $\vec{C} \cdot \vec{A}$}
+Utilizamos la suma de los productos de sus componentes:
+\begin{align*}
+    \vec{C} \cdot \vec{A} &= (-5)(3) + (-8)(-2) + (-1)(1) \\
+    \vec{C} \cdot \vec{A} &= -15 + 16 - 1 \\
+    \vec{C} \cdot \vec{A} &= 0
+\end{align*}
+
+\subsubsection*{3. Producto Escalar $\vec{C} \cdot \vec{B}$}
+\begin{align*}
+    \vec{C} \cdot \vec{B} &= (-5)(-2) + (-8)(1) + (-1)(2) \\
+    \vec{C} \cdot \vec{B} &= 10 - 8 - 2 \\
+    \vec{C} \cdot \vec{B} &= 0
+\end{align*}
+
+\subsubsection*{4. Conclusión}
+Ambos resultados son iguales a cero, lo cual confirma que el vector $\vec{C}$ es perpendicular a los vectores que le dieron origen.
+
+\subsubsection*{5. Gráfico de Verificación (Python)}
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def verify_orthogonality():
+    # Vectores
+    A = np.array([3, -2, 1])
+    B = np.array([-2, 1, 2])
+    C = np.array([-5, -8, -1])
+    
+    # Calculo de angulos (deberian ser 90 grados)
+    cos_theta_AC = np.dot(C, A) / (np.linalg.norm(C) * np.linalg.norm(A))
+    cos_theta_BC = np.dot(C, B) / (np.linalg.norm(C) * np.linalg.norm(B))
+    
+    print(f"Producto Escalar C.A = {np.dot(C,A)}")
+    print(f"Producto Escalar C.B = {np.dot(C,B)}")
+    print(f"Angulo C-A: {np.degrees(np.arccos(cos_theta_AC)):.1f} grados")
+    print(f"Angulo C-B: {np.degrees(np.arccos(cos_theta_BC)):.1f} grados")
+
+verify_orthogonality()
+\end{lstlisting}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{C} \cdot \vec{A} = 0 \quad \text{y} \quad \vec{C} \cdot \vec{B} = 0$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Dado el vector $\vec{A} = 2\vec{i} - 3\vec{j} + \sqrt{3} \vec{k}$, determine una expresión de otro vector $\vec{B}$, de módulo $4$, que cumpla la siguiente proposición:
+\begin{equation*}
+    \vec{u}_A \cdot \vec{u}_B = 0
+\end{equation*}
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex, x={(0.5cm,0.5cm)}, y={(1cm,0cm)}, z={(0cm,1cm)}]
+    % Ejes
+    \draw[->] (0,0,0) -- (4,0,0) node[left] {$x$};
+    \draw[->] (0,0,0) -- (0,-4,0) node[right] {$y$};
+    \draw[->] (0,0,0) -- (0,0,3) node[above] {$z$};
+
+    % Vector A
+    \draw[->, thick, blue] (0,0,0) -- (2,-3,1.732) node[anchor=south west] {$\vec{A}$};
+    
+    % Vector B (perpendicular en el plano xy)
+    \draw[->, thick, red] (0,0,0) -- (3.33, 2.22, 0) node[anchor=north] {$\vec{B}$};
+    
+    % Símbolo de perpendicularidad conceptual
+    \draw[thin, gray] (0.4, -0.2, 0.1) -- (0.5, 0.1, 0.1) -- (0.1, 0.3, 0.1);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Físico-Matemático}
+La condición $\vec{u}_A \cdot \vec{u}_B = 0$ indica que los vectores unitarios, y por ende los vectores originales $\vec{A}$ y $\vec{B}$, son **perpendiculares** entre sí ($\vec{A} \perp \vec{B}$). Existen infinitos vectores que cumplen esto, pero buscaremos uno que simplifique el cálculo (por ejemplo, en el plano $xy$).
+
+\subsubsection*{2. Cálculo del Módulo de $\vec{A}$}
+Primero verificamos la magnitud del vector dado:
+\begin{align*}
+    |\vec{A}| &= \sqrt{2^2 + (-3)^2 + (\sqrt{3})^2} \\
+    |\vec{A}| &= \sqrt{4 + 9 + 3} = \sqrt{16} = 4
+\end{align*}
+
+\subsubsection*{3. Determinación del Vector $\vec{B}$}
+Sea $\vec{B} = x\vec{i} + y\vec{j} + z\vec{k}$. Debemos cumplir:
+\begin{enumerate}
+    \item \textbf{Perpendicularidad:} $\vec{A} \cdot \vec{B} = 0 \implies 2x - 3y + \sqrt{3}z = 0$
+    \item \textbf{Magnitud:} $x^2 + y^2 + z^2 = 4^2 = 16$
+\end{enumerate}
+
+Si asumimos que $\vec{B}$ está en el plano $xy$ ($z=0$):
+\begin{itemize}
+    \item $2x - 3y = 0 \implies x = 1.5y$
+    \item $(1.5y)^2 + y^2 = 16 \implies 2.25y^2 + y^2 = 16 \implies 3.25y^2 = 16$
+    \item $y = \sqrt{16/3.25} \approx 2.22$
+    \item $x = 1.5(2.22) \approx 3.33$
+\end{itemize}
+
+Por lo tanto: $\vec{B} = 3.33\vec{i} + 2.22\vec{j} + 0\vec{k}$
+
+\subsubsection*{4. Representación en Python}
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def plot_perpendicular_vectors():
+    fig = plt.figure(figsize=(8, 6))
+    ax = fig.add_subplot(111, projection='3d')
+    
+    A = np.array([2, -3, np.sqrt(3)])
+    B = np.array([3.33, 2.22, 0])
+    origin = np.array([0, 0, 0])
+    
+    ax.quiver(*origin, *A, color='blue', label=r'$\vec{A}$')
+    ax.quiver(*origin, *B, color='red', label=r'$\vec{B}$')
+    
+    # Verificacion producto punto
+    print(f"Producto punto A.B: {np.dot(A, B):.4f}")
+    
+    ax.set_xlim([-4, 4]); ax.set_ylim([-4, 4]); ax.set_zlim([0, 4])
+    ax.set_xlabel('X'); ax.set_ylabel('Y'); ax.set_zlabel('Z')
+    ax.legend()
+    plt.show()
+
+plot_perpendicular_vectors()
+\end{lstlisting}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{B} = 3.33\vec{i} + 2.22\vec{j} + 0\vec{k}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Dado el vector $\vec{A} = 2\vec{i} - 3\vec{j} + \sqrt{3} \vec{k}$, determine una expresión de otro vector $\vec{B}$, de módulo $4$, que cumpla la siguiente proposición:
+\begin{equation*}
+    \vec{u}_A \times \vec{u}_B = 0
+\end{equation*}
+
+\begin{center}
+\begin{tikzpicture}[scale=1, >=Latex, x={(0.5cm,0.5cm)}, y={(1cm,0cm)}, z={(0cm,1cm)}]
+    % Ejes
+    \draw[->] (0,0,0) -- (4,0,0) node[left] {$x$};
+    \draw[->] (0,0,0) -- (0,-4,0) node[right] {$y$};
+    \draw[->] (0,0,0) -- (0,0,3) node[above] {$z$};
+
+    % Vector A
+    \draw[->, thick, blue] (0,0,0) -- (2,-3,1.732) node[anchor=south west] {$\vec{A}$};
+    
+    % Vector B (antiparalelo)
+    \draw[->, thick, red] (0,0,0) -- (-2,3,-1.732) node[anchor=north east] {$\vec{B}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Físico-Matemático}
+La proposición $\vec{u}_A \times \vec{u}_B = 0$ indica que el seno del ángulo entre los vectores unitarios es cero. Esto ocurre cuando los vectores son **paralelos** ($\theta = 0^\circ$) o **antiparalelos** ($\theta = 180^\circ$).
+
+\subsubsection*{2. Relación de Magnitudes}
+Sabemos que $|\vec{A}| = 4$ y el enunciado requiere que $|\vec{B}| = 4$. Al tener el mismo módulo y la misma línea de acción, la relación vectorial es simplemente:
+\begin{equation*}
+    \vec{B} = \pm \vec{A}
+\end{equation*}
+
+\subsubsection*{3. Obtención de Componentes}
+Aplicando la relación anterior a los componentes de $\vec{A}$:
+\begin{itemize}
+    \item \textbf{Opción paralela:} $\vec{B} = 2\vec{i} - 3\vec{j} + \sqrt{3}\vec{k}$
+    \item \textbf{Opción antiparalela:} $\vec{B} = -2\vec{i} + 3\vec{j} - \sqrt{3}\vec{k}$
+\end{itemize}
+
+Utilizando la notación combinada: $\vec{B} = \mp 2\vec{i} \pm 3\vec{j} \mp \sqrt{3}\vec{k}$.
+
+\subsubsection*{4. Representación en Python}
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def plot_parallel_vectors():
+    fig = plt.figure(figsize=(8, 6))
+    ax = fig.add_subplot(111, projection='3d')
+    
+    A = np.array([2, -3, np.sqrt(3)])
+    B = -1 * A # Caso antiparalelo
+    origin = np.array([0, 0, 0])
+    
+    ax.quiver(*origin, *A, color='blue', label=r'$\vec{A}$')
+    ax.quiver(*origin, *B, color='red', label=r'$\vec{B}$ (opuesto)')
+    
+    ax.set_xlim([-4, 4]); ax.set_ylim([-4, 4]); ax.set_zlim([-2, 2])
+    ax.set_xlabel('X'); ax.set_ylabel('Y'); ax.set_zlabel('Z')
+    ax.legend()
+    plt.show()
+
+plot_parallel_vectors()
+\end{lstlisting}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{B} = \mp 2\vec{i} \pm 3\vec{j} \mp \sqrt{3} \vec{k}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Dados los vectores $\vec{A} = a_1\vec{i} + a_2\vec{j} + a_3\vec{k}$ y $\vec{B} = b_1\vec{i} + b_2\vec{j} + b_3\vec{k}$, encuentre analíticamente el vector proyección del vector $\vec{B}$ sobre el vector $\vec{A}$.
+
+\begin{center}
+\begin{tikzpicture}[x={(0.5cm,0.5cm)}, y={(1.2cm,0cm)}, z={(0cm,1.2cm)}, >=Latex]
+    % Ejes conceptuales
+    \draw[->] (0,0,0) -- (1,0,0) node[left] {$x$};
+    \draw[->] (0,0,0) -- (0,1,0) node[right] {$y$};
+    \draw[->] (0,0,0) -- (0,0,1) node[above] {$z$};
+
+    % Puntos para vectores
+    \coordinate (O) at (0,0,0);
+    \coordinate (A) at (3,2,1); % Vector de referencia A
+    \coordinate (B) at (1.5,3,2); % Vector B a proyectar
+    
+    % Punto de proyección P
+    % P = (B . A / |A|^2) * A
+    \coordinate (P) at (2.14, 1.43, 0.71); 
+
+    % Dibujo de vectores
+    \draw[->, thick, blue] (O) -- (A) node[anchor=north west] {$\vec{A}$};
+    \draw[->, thick, red] (O) -- (B) node[anchor=south west] {$\vec{B}$};
+    
+    % Proyección vectorial resaltada
+    \draw[->, ultra thick, purple] (O) -- (P) node[midway, below right] {$\vec{B}_A$};
+    
+    % Línea de proyección ortogonal
+    \draw[dashed, gray] (B) -- (P);
+    
+    % Ángulo recto conceptual
+    \draw[gray, thin] ($(P)!0.2!(B)$) -- ($(P)!0.2!(B)+(P)!-0.2!(O)$) -- ($(P)!0.2!(O)$);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Fundamento Geométrico}
+El vector proyección de $\vec{B}$ sobre $\vec{A}$ ($\vec{B}_A$) se define como el producto de la componente escalar de $\vec{B}$ en la dirección de $\vec{A}$ por el vector unitario de $\vec{A}$ ($\vec{u}_A$).
+\begin{equation*}
+    \vec{B}_A = (\vec{B} \cdot \vec{u}_A) \vec{u}_A
+\end{equation*}
+
+\subsubsection*{2. Desarrollo Analítico}
+Expresamos el vector unitario $\vec{u}_A$ en términos de sus componentes:
+\begin{equation*}
+    \vec{u}_A = \frac{\vec{A}}{|\vec{A}|} = \frac{a_1\vec{i} + a_2\vec{j} + a_3\vec{k}}{\sqrt{a_1^2 + a_2^2 + a_3^2}}
+\end{equation*}
+
+Calculamos el producto escalar $\vec{B} \cdot \vec{A}$:
+\begin{equation*}
+    \vec{B} \cdot \vec{A} = (b_1\vec{i} + b_2\vec{j} + b_3\vec{k}) \cdot (a_1\vec{i} + a_2\vec{j} + a_3\vec{k}) = a_1b_1 + a_2b_2 + a_3b_3
+\end{equation*}
+
+\subsubsection*{3. Construcción de la Fórmula Final}
+Sustituyendo en la definición de proyección:
+\begin{equation*}
+    \vec{B}_A = \frac{\vec{B} \cdot \vec{A}}{|\vec{A}|} \cdot \frac{\vec{A}}{|\vec{A}|} = \frac{\vec{B} \cdot \vec{A}}{|\vec{A}|^2} \vec{A}
+\end{equation*}
+
+Al expandir con las componentes algebraicas dadas:
+\begin{equation*}
+    \vec{B}_A = \frac{a_1b_1 + a_2b_2 + a_3b_3}{a_1^2 + a_2^2 + a_3^2} (a_1\vec{i} + a_2\vec{j} + a_3\vec{k})
+\end{equation*}
+
+\subsubsection*{4. Simulación de Proyección (Python)}
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def plot_generic_projection():
+    fig = plt.figure(figsize=(8, 6))
+    ax = fig.add_subplot(111, projection='3d')
+    
+    # Valores de ejemplo para las componentes algebraicas
+    a = np.array([4, 1, 2])
+    b = np.array([2, 3, 4])
+    
+    # Calculo analitico
+    dot_product = np.dot(a, b)
+    mag_a_sq = np.dot(a, a)
+    projection = (dot_product / mag_a_sq) * a
+    
+    origin = np.array([0, 0, 0])
+    
+    # Graficar vectores
+    ax.quiver(*origin, *a, color='blue', label=r'Vector $\vec{A}$')
+    ax.quiver(*origin, *b, color='red', label=r'Vector $\vec{B}$')
+    ax.quiver(*origin, *projection, color='purple', linewidth=3, label=r'Proyección $\vec{B}_A$')
+    
+    # Linea de ortogonalidad
+    ax.plot([b[0], projection[0]], [b[1], projection[1]], [b[2], projection[2]], 'k--')
+    
+    ax.set_xlabel('i'); ax.set_ylabel('j'); ax.set_zlabel('k')
+    ax.legend()
+    plt.title("Visualización Geométrica de la Proyección Vectorial")
+    plt.show()
+
+plot_generic_projection()
+\end{lstlisting}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{B}_A = \frac{a_1b_1 + a_2b_2 + a_3b_3}{a_1^2 + a_2^2 + a_3^2} (a_1\vec{i} + a_2\vec{j} + a_3\vec{k})$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Calcule el ángulo que forman los vectores $\vec{A} = 2\vec{i} - \vec{j} + 2\vec{k}$ y $\vec{B} = -3\vec{i} - \sqrt{3}\vec{j} + 2\vec{k}$.
+
+\begin{center}
+\begin{tikzpicture}[x={(0.5cm,0.5cm)}, y={(1cm,0cm)}, z={(0cm,1cm)}, >=Latex]
+    % Ejes coordenados
+    \draw[->] (0,0,0) -- (4,0,0) node[left] {$x$};
+    \draw[->] (0,0,0) -- (0,4,0) node[right] {$y$};
+    \draw[->] (0,0,0) -- (0,0,4) node[above] {$z$};
+
+    % Vectores A y B (escalados para visualización)
+    \coordinate (A) at (2,-1,2);
+    \coordinate (B) at (-3,-1.732,2);
+    
+    \draw[->, ultra thick, blue] (0,0,0) -- (A) node[anchor=north west] {$\vec{A}$};
+    \draw[->, ultra thick, red] (0,0,0) -- (B) node[anchor=south east] {$\vec{B}$};
+    
+    % Arco del ángulo theta
+    \tdplotsetmaincoords{70}{135}
+    \draw[thick, bend right=20] (0.8, -0.4, 0.8) to node[midway, above] {$\theta$} (-0.6, -0.34, 0.4);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Cálculo de los Módulos}
+Primero determinamos la magnitud de cada vector:
+\begin{itemize}
+    \item \textbf{Módulo de $\vec{A}$:}
+    \begin{equation*}
+        |\vec{A}| = \sqrt{2^2 + (-1)^2 + 2^2} = \sqrt{4 + 1 + 4} = \sqrt{9} = 3
+    \end{equation*}
+    \item \textbf{Módulo de $\vec{B}$:}
+    \begin{equation*}
+        |\vec{B}| = \sqrt{(-3)^2 + (-\sqrt{3})^2 + 2^2} = \sqrt{9 + 3 + 4} = \sqrt{16} = 4
+    \end{equation*}
+\end{itemize}
+
+\subsubsection*{2. Producto Escalar ($\vec{A} \cdot \vec{B}$)}
+Calculamos el producto punto multiplicando las componentes correspondientes:
+\begin{align*}
+    \vec{A} \cdot \vec{B} &= (2)(-3) + (-1)(-\sqrt{3}) + (2)(2) \\
+    \vec{A} \cdot \vec{B} &= -6 + \sqrt{3} + 4 \\
+    \vec{A} \cdot \vec{B} &= \sqrt{3} - 2
+\end{align*}
+Utilizando el valor aproximado de $\sqrt{3} \approx 1.73205$:
+\begin{equation*}
+    \vec{A} \cdot \vec{B} \approx 1.73205 - 2 = -0.26795
+\end{equation*}
+
+\subsubsection*{3. Determinación del Ángulo $\theta$}
+Utilizamos la definición geométrica del producto escalar:
+\begin{equation*}
+    \vec{A} \cdot \vec{B} = |\vec{A}| |\vec{B}| \cos \theta \implies \cos \theta = \frac{\vec{A} \cdot \vec{B}}{|\vec{A}| |\vec{B}|}
+\end{equation*}
+
+Sustituyendo los valores:
+\begin{align*}
+    \cos \theta &= \frac{-0.26795}{(3)(4)} = \frac{-0.26795}{12} \\
+    \cos \theta &\approx -0.022329
+\end{align*}
+
+Finalmente, despejamos el ángulo:
+\begin{equation*}
+    \theta = \arccos(-0.022329) \approx 91.28^\circ
+\end{equation*}
+
+\subsubsection*{4. Verificación Gráfica (Python)}
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def calculate_vector_angle():
+    # Definicion de vectores
+    A = np.array([2, -1, 2])
+    B = np.array([-3, -np.sqrt(3), 2])
+    
+    # Calculo del producto escalar y normas
+    dot_product = np.dot(A, B)
+    norm_A = np.linalg.norm(A)
+    norm_B = np.linalg.norm(B)
+    
+    # Calculo del angulo en radianes y grados
+    cos_theta = dot_product / (norm_A * norm_B)
+    theta_rad = np.arccos(cos_theta)
+    theta_deg = np.degrees(theta_rad)
+    
+    print(f"Producto Escalar: {dot_product:.4f}")
+    print(f"Angulo calculado: {theta_deg:.2f} grados")
+
+calculate_vector_angle()
+\end{lstlisting}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\theta \approx 91.3^\circ$
+\end{tcolorbox}
+
+\newpage
+
+
+\subsection*{Enunciado}
+Determine la proyección del vector $\vec{a}$ (de magnitud $\sqrt{61}$ unidades, en la dirección S $63.43^\circ$ E, con un ángulo de elevación de $30.8^\circ$) sobre el vector $\vec{v} = 8\vec{i} - 10\vec{j} + 6\vec{k}$. 
+
+Considere las siguientes convenciones para el sistema de referencia:
+\begin{itemize}
+    \item El eje $+z$ coincide con la dirección Sur.
+    \item El eje $+x$ coincide con la dirección Este.
+    \item El eje $+y$ coincide con la dirección vertical (Cénit).
+\end{itemize}
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2, >=Latex, x={(0.8cm,0.4cm)}, y={(0cm,1cm)}, z={(1cm,-0.2cm)}]
+    % Ejes coordenados
+    \draw[->, thick] (0,0,0) -- (4,0,0) node[right] {E ($+x$)};
+    \draw[->, thick] (0,0,0) -- (0,4,0) node[above] {Up ($+y$)};
+    \draw[->, thick] (0,0,0) -- (0,0,4) node[below left] {S ($+z$)};
+    
+    % Proyección en el plano horizontal (xz)
+    \draw[dashed, gray] (0,0,0) -- ({3.5*cos(26.57)}, 0, {3.5*sin(26.57)}) node[below] {$a_h$};
+    
+    % Vector a (representación visual)
+    \draw[->, ultra thick, blue] (0,0,0) -- (1.5, 2, 3) node[above right] {$\vec{a}$};
+    \draw[dashed] (1.5, 2, 3) -- (1.5, 0, 3);
+    
+    % Arcos de ángulos
+    % Elevación (respecto al plano horizontal)
+    \draw (1,0,2) arc (0:30:1.5);
+    \node at (1.4, 0.4, 1.8) {\small $30.8^\circ$};
+    % Rumbo (desde el Este hacia el Sur)
+    \draw (1,0,0) arc (0:63.43:1);
+    \node at (1.2, 0, 0.8) {\small $63.43^\circ$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Descomposición del Vector $\vec{a}$}
+Para trabajar con la proyección, primero debemos convertir las coordenadas geográficas del vector $\vec{a}$ a sus componentes cartesianas $(a_x, a_y, a_z)$.
+
+\begin{itemize}
+    \item \textbf{Módulo:} $|\vec{a}| = \sqrt{61} \approx 7.81$ unidades.
+    \item \textbf{Componente vertical ($a_y$):} Utilizando el ángulo de elevación:
+    $$ a_y = |\vec{a}| \sin(30.8^\circ) = \sqrt{61} \cdot 0.512 \approx 4 $$
+    \item \textbf{Proyección horizontal ($a_h$):} Es la magnitud del vector en el plano horizontal $xz$:
+    $$ a_h = |\vec{a}| \cos(30.8^\circ) = \sqrt{61} \cdot 0.859 \approx 6.708 $$
+    \item \textbf{Componentes $x$ y $z$:} Basándonos en la dirección S $63.43^\circ$ E (medida desde el Este hacia el Sur):
+    $$ a_x = a_h \cos(63.43^\circ) = 6.708 \cdot 0.447 \approx 3 $$
+    $$ a_z = a_h \sin(63.43^\circ) = 6.708 \cdot 0.894 \approx 6 $$
+\end{itemize}
+
+Por lo tanto, el vector resultante es: $\vec{a} = 3\vec{i} + 4\vec{j} + 6\vec{k}$.
+
+\subsubsection*{2. Cálculo de la Proyección Vectorial}
+La proyección de un vector $\vec{a}$ sobre un vector $\vec{v}$ se calcula con la fórmula:
+$$ \text{proj}_{\vec{v}} \vec{a} = \left( \frac{\vec{a} \cdot \vec{v}}{|\vec{v}|^2} \right) \vec{v} $$
+
+\textbf{Paso 2.1: Producto Escalar ($\vec{a} \cdot \vec{v}$)}
+Utilizando $\vec{v} = 8\vec{i} - 10\vec{j} + 6\vec{k}$:
+$$ \vec{a} \cdot \vec{v} = (3)(8) + (4)(-10) + (6)(6) = 24 - 40 + 36 = 20 $$
+
+\textbf{Paso 2.2: Magnitud al cuadrado de $\vec{v}$}
+$$ |\vec{v}|^2 = (8)^2 + (-10)^2 + (6)^2 = 64 + 100 + 36 = 200 $$
+
+\textbf{Paso 2.3: Aplicación de la fórmula}
+$$ \vec{a}_v = \frac{20}{200} \vec{v} = 0.1 \cdot (8\vec{i} - 10\vec{j} + 6\vec{k}) $$
+
+\subsubsection*{3. Verificación con Python (Matplotlib)}
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Definición de vectores
+a = np.array([3, 4, 6])
+v = np.array([8, -10, 6])
+
+# Cálculo de la proyección
+dot_product = np.dot(a, v)
+v_norm_sq = np.dot(v, v)
+projection = (dot_product / v_norm_sq) * v
+
+# Configuración del gráfico 3D
+fig = plt.figure(figsize=(8, 8))
+ax = fig.add_subplot(111, projection='3d')
+origin = [0, 0, 0]
+
+# Graficar vectores
+ax.quiver(*origin, *a, color='blue', label='Vector a')
+ax.quiver(*origin, *v, color='red', label='Vector v')
+ax.quiver(*origin, *projection, color='green', linewidth=3, label='Proyección de a sobre v')
+
+# Línea de proyección ortogonal
+ax.plot([a[0], projection[0]], [a[1], projection[1]], [a[2], projection[2]], 'k--')
+
+ax.set_xlabel('Este (X)')
+ax.set_ylabel('Vertical (Y)')
+ax.set_zlabel('Sur (Z)')
+ax.legend()
+plt.show()
+\end{lstlisting}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\text{}_{\vec{v}} \vec{a} = 0.8\vec{i} - 1.0\vec{j} + 0.6\vec{k}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Encuentre el vector proyección del vector $\vec{a} = 6\vec{i} - 2\vec{j} \, \si{m/s^2}$ en la dirección paralela al vector $\vec{v} = 2\vec{i} + \vec{j} \, \si{m/s}$.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    % Ejes
+    \draw[->] (-1,0) -- (7,0) node[right] {$x$};
+    \draw[->] (0,-3) -- (0,3) node[above] {$y$};
+    \draw[help lines, gray!20] (-1,-3) grid (7,3);
+
+    % Vectores
+    \draw[->, ultra thick, blue] (0,0) -- (6,-2) node[below] {$\vec{a}$};
+    \draw[->, ultra thick, red] (0,0) -- (2,1) node[above] {$\vec{v}$};
+    
+    % Ángulo entre ellos (conceptual)
+    \draw[gray] (0.8,0.4) arc (26:-18:0.8);
+    \node at (1.2,0.1) {$\theta$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Físico}
+La proyección paralela de un vector $\vec{a}$ sobre otro vector $\vec{v}$ representa la componente de $\vec{a}$ que actúa en la misma línea de acción que $\vec{v}$. Físicamente, esto nos dice cuánta aceleración se alinea con la dirección de la velocidad.
+
+\subsubsection*{2. Cálculo del Vector Unitario $\vec{u}_v$}
+Para proyectar, primero necesitamos la dirección de $\vec{v}$ expresada como un unitario:
+\begin{align*}
+    |\vec{v}| &= \sqrt{2^2 + 1^2} = \sqrt{5} \, \si{m/s} \\
+    \vec{u}_v &= \frac{\vec{v}}{|\vec{v}|} = \frac{2}{\sqrt{5}}\vec{i} + \frac{1}{\sqrt{5}}\vec{j}
+\end{align*}
+
+\subsubsection*{3. Determinación de la Proyección Paralela ($\vec{a}_{\|}$)}
+La fórmula es $\vec{a}_{\|} = (\vec{a} \cdot \vec{u}_v) \vec{u}_v$. Calculamos primero el producto escalar:
+\begin{align*}
+    \vec{a} \cdot \vec{v} &= (6)(2) + (-2)(1) = 12 - 2 = 10 \\
+    \vec{a}_{\|} &= \left( \frac{\vec{a} \cdot \vec{v}}{|\vec{v}|^2} \right) \vec{v} = \frac{10}{5} (2\vec{i} + \vec{j}) \\
+    \vec{a}_{\|} &= 2(2\vec{i} + \vec{j}) = 4\vec{i} + 2\vec{j} \, \si{m/s^2}
+\end{align*}
+
+\subsubsection*{4. Gráfico de la Proyección (Python)}
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def plot_parallel_projection():
+    # Vectores
+    a = np.array([6, -2])
+    v = np.array([2, 1])
+    # Proyeccion calculada
+    a_par = np.array([4, 2])
+    
+    plt.figure(figsize=(6, 6))
+    origin = [0], [0]
+    plt.quiver(*origin, a[0], a[1], color='b', angles='xy', scale_units='xy', scale=1, label=r'$\vec{a}$')
+    plt.quiver(*origin, v[0], v[1], color='r', angles='xy', scale_units='xy', scale=1, label=r'$\vec{v}$')
+    plt.quiver(*origin, a_par[0], a_par[1], color='g', angles='xy', scale_units='xy', scale=1, label=r'$\vec{a}_{\|}$')
+    
+    # Linea de proyeccion ortogonal
+    plt.plot([a[0], a_par[0]], [a[1], a_par[1]], 'k--', alpha=0.5)
+    
+    plt.xlim(-1, 7); plt.ylim(-3, 3)
+    plt.axhline(0, color='black', lw=1); plt.axvline(0, color='black', lw=1)
+    plt.grid(True, linestyle=':')
+    plt.legend()
+    plt.title("Proyección Paralela de A sobre V")
+    plt.show()
+
+plot_parallel_projection()
+\end{lstlisting}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{a}_{\|} = (4\vec{i} + 2\vec{j}) \, \si{m/s^2}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Encuentre la proyección del vector $\vec{a} = 6\vec{i} - 2\vec{j} \, \si{m/s^2}$ en la dirección perpendicular al vector $\vec{v} = 2\vec{i} + \vec{j} \, \si{m/s}$.
+
+\subsection*{Solución}
+
+\subsubsection*{1. Concepto de Descomposición Vectorial}
+Todo vector $\vec{a}$ puede descomponerse en una suma de dos componentes ortogonales respecto a una dirección de referencia $\vec{v}$:
+\begin{equation*}
+    \vec{a} = \vec{a}_{\|} + \vec{a}_{\perp}
+\end{equation*}
+Donde $\vec{a}_{\|}$ es la componente paralela y $\vec{a}_{\perp}$ es la componente perpendicular.
+
+\subsubsection*{2. Cálculo de la Componente Perpendicular ($\vec{a}_{\perp}$)}
+Utilizando el resultado del literal anterior donde hallamos $\vec{a}_{\|} = 4\vec{i} + 2\vec{j} \, \si{m/s^2}$, despejamos la componente perpendicular:
+\begin{align*}
+    \vec{a}_{\perp} &= \vec{a} - \vec{a}_{\|} \\
+    \vec{a}_{\perp} &= (6\vec{i} - 2\vec{j}) - (4\vec{i} + 2\vec{j}) \\
+    \vec{a}_{\perp} &= (6 - 4)\vec{i} + (-2 - 2)\vec{j} \\
+    \vec{a}_{\perp} &= 2\vec{i} - 4\vec{j} \, \si{m/s^2}
+\end{align*}
+
+\subsubsection*{3. Verificación de Ortogonalidad}
+Para asegurar que el resultado es correcto, el producto escalar entre $\vec{a}_{\perp}$ y el vector de referencia $\vec{v}$ debe ser cero:
+\begin{equation*}
+    \vec{a}_{\perp} \cdot \vec{v} = (2)(2) + (-4)(1) = 4 - 4 = 0
+\end{equation*}
+
+\subsubsection*{4. Visualización de Componentes (Python)}
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def plot_perpendicular_projection():
+    a = np.array([6, -2])
+    a_par = np.array([4, 2])
+    a_perp = np.array([2, -4])
+    
+    plt.figure(figsize=(6, 6))
+    origin = [0], [0]
+    plt.quiver(*origin, a[0], a[1], color='b', angles='xy', scale_units='xy', scale=1, label=r'$\vec{a}$')
+    plt.quiver(*origin, a_par[0], a_par[1], color='g', alpha=0.5, angles='xy', scale_units='xy', scale=1, label=r'$\vec{a}_{\|}$')
+    plt.quiver(*origin, a_perp[0], a_perp[1], color='orange', angles='xy', scale_units='xy', scale=1, label=r'$\vec{a}_{\perp}$')
+    
+    # Regla del paralelogramo (suma visual)
+    plt.plot([a_par[0], a[0]], [a_par[1], a[1]], 'k:', alpha=0.5)
+    plt.plot([a_perp[0], a[0]], [a_perp[1], a[1]], 'k:', alpha=0.5)
+    
+    plt.xlim(-1, 7); plt.ylim(-5, 3)
+    plt.axhline(0, color='black', lw=1); plt.axvline(0, color='black', lw=1)
+    plt.grid(True, linestyle=':')
+    plt.legend()
+    plt.show()
+
+plot_perpendicular_projection()
+\end{lstlisting}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{a}_{\perp} = (2\vec{i} - 4\vec{j}) \, \si{m/s^2}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+El lado del cubo de la figura mide $20$ cm. Determine el producto escalar $\vec{AB} \cdot \vec{CD}$.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.5, >=Latex, x={(0.5cm,0.5cm)}, y={(1cm,0cm)}, z={(0cm,1cm)}]
+    % Coordenadas de los vértices (20 cm -> 2 unidades)
+    \coordinate (O) at (0,0,0);
+    \coordinate (X) at (3,0,0);
+    \coordinate (Y) at (0,3,0);
+    \coordinate (Z) at (0,0,3);
+    
+    \coordinate (A) at (2,0,0); % Punto A en eje X
+    \coordinate (C) at (0,2,0); % Punto C en eje Y
+    \coordinate (P1) at (2,2,0);
+    \coordinate (P2) at (2,2,2);
+    \coordinate (B) at (0,2,2); % Punto B
+    \coordinate (D) at (2,0,2); % Punto D
+    \coordinate (P3) at (0,0,2);
+    
+    % Ejes
+    \draw[->] (O) -- (X) node[right] {$x$};
+    \draw[->] (O) -- (Y) node[above] {$y$};
+    \draw[->] (O) -- (Z) node[left] {$z$};
+    
+    % Cubo (Aristas visibles)
+    \draw[thick] (A) -- (P1) -- (C) -- (B) -- (P2) -- (D) -- (A);
+    \draw[thick] (P1) -- (P2);
+    \draw[thick] (B) -- (P3) -- (D);
+    \draw[dashed] (O) -- (A);
+    \draw[dashed] (O) -- (C);
+    \draw[dashed] (O) -- (P3);
+
+    % Vectores
+    \draw[->, ultra thick, blue] (A) -- (B) node[midway, left] {$\vec{AB}$};
+    \draw[->, ultra thick, red] (C) -- (D) node[midway, right] {$\vec{CD}$};
+    
+    % Etiquetas
+    \node at (A) [below right] {$A$};
+    \node at (B) [left] {$B$};
+    \node at (C) [above left] {$C$};
+    \node at (D) [below] {$D$};
+    \node at (O) [below left] {$O$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Identificación de Coordenadas}
+De acuerdo con la figura y considerando que el lado del cubo es $L = 20$ cm, definimos las coordenadas de los puntos involucrados:
+\begin{itemize}
+    \item $A = (20, 0, 0)$ cm
+    \item $B = (0, 20, 20)$ cm
+    \item $C = (0, 20, 0)$ cm
+    \item $D = (20, 0, 20)$ cm
+\end{itemize}
+
+\subsubsection*{2. Definición de Vectores}
+Calculamos los vectores restando las coordenadas de sus puntos:
+\begin{align*}
+    \vec{AB} &= B - A = (0-20)\vec{i} + (20-0)\vec{j} + (20-0)\vec{k} = -20\vec{i} + 20\vec{j} + 20\vec{k} \\
+    \vec{CD} &= D - C = (20-0)\vec{i} + (0-20)\vec{j} + (20-0)\vec{k} = 20\vec{i} - 20\vec{j} + 20\vec{k}
+\end{align*}
+
+\subsubsection*{3. Cálculo del Producto Escalar}
+Aplicamos la definición: $\vec{V}_1 \cdot \vec{V}_2 = x_1x_2 + y_1y_2 + z_1z_2$
+\begin{align*}
+    \vec{AB} \cdot \vec{CD} &= (-20)(20) + (20)(-20) + (20)(20) \\
+    \vec{AB} \cdot \vec{CD} &= -400 - 400 + 400 \\
+    \vec{AB} \cdot \vec{CD} &= -400 \, \text{cm}^2
+\end{align*}
+
+\subsubsection*{4. Verificación con Python}
+\begin{lstlisting}
+import numpy as np
+
+def calculate_dot_product():
+    # Vectores definidos en el cubo
+    AB = np.array([-20, 20, 20])
+    CD = np.array([20, -20, 20])
+    
+    dot_prod = np.dot(AB, CD)
+    print(f"Producto Escalar AB . CD = {dot_prod} cm^2")
+
+calculate_dot_product()
+\end{lstlisting}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{AB} \cdot \vec{CD} = -400 \, \text{cm}^2$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+El lado del cubo de la figura mide $20$ cm. Determine el ángulo formado entre los vectores $\vec{AB}$ y $\vec{CD}$ .
+
+\begin{center}
+\begin{tikzpicture}[scale=1.5, >=Latex, x={(0.5cm,0.5cm)}, y={(1cm,0cm)}, z={(0cm,1cm)}]
+    % Coordenadas de los vértices (20 cm -> 2 unidades)
+    \coordinate (O) at (0,0,0);
+    \coordinate (X) at (3,0,0);
+    \coordinate (Y) at (0,3,0);
+    \coordinate (Z) at (0,0,3);
+    
+    \coordinate (A) at (2,0,0); % Punto A en eje X
+    \coordinate (C) at (0,2,0); % Punto C en eje Y
+    \coordinate (P1) at (2,2,0);
+    \coordinate (P2) at (2,2,2);
+    \coordinate (B) at (0,2,2); % Punto B
+    \coordinate (D) at (2,0,2); % Punto D
+    \coordinate (P3) at (0,0,2);
+    
+    % Ejes
+    \draw[->] (O) -- (X) node[right] {$x$};
+    \draw[->] (O) -- (Y) node[above] {$y$};
+    \draw[->] (O) -- (Z) node[left] {$z$};
+    
+    % Cubo (Aristas visibles)
+    \draw[thick] (A) -- (P1) -- (C) -- (B) -- (P2) -- (D) -- (A);
+    \draw[thick] (P1) -- (P2);
+    \draw[thick] (B) -- (P3) -- (D);
+    \draw[dashed] (O) -- (A);
+    \draw[dashed] (O) -- (C);
+    \draw[dashed] (O) -- (P3);
+
+    % Etiquetas
+    \node at (A) [below right] {$A$};
+    \node at (B) [left] {$B$};
+    \node at (C) [above left] {$C$};
+    \node at (D) [below] {$D$};
+    \node at (O) [below left] {$O$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Cálculo de Módulos}
+Para hallar el ángulo, primero necesitamos las magnitudes de ambos vectores:
+\begin{align*}
+    |\vec{AB}| &= \sqrt{(-20)^2 + 20^2 + 20^2} = \sqrt{400 + 400 + 400} = \sqrt{1200} = 20\sqrt{3} \approx 34.64 \, \text{cm} \\
+    |\vec{CD}| &= \sqrt{20^2 + (-20)^2 + 20^2} = \sqrt{400 + 400 + 400} = \sqrt{1200} = 20\sqrt{3} \approx 34.64 \, \text{cm}
+\end{align*}
+
+\subsubsection*{2. Aplicación de la Fórmula del Ángulo}
+Utilizamos la relación del producto escalar:
+\begin{equation*}
+    \cos \theta = \frac{\vec{AB} \cdot \vec{CD}}{|\vec{AB}| |\vec{CD}|} = \frac{-400}{(34.64)(34.64)} \approx \frac{-400}{1200} = -\frac{1}{3}
+\end{equation*}
+
+Calculamos el arco coseno:
+\begin{equation*}
+    \theta = \arccos(-1/3) \approx 109.47^\circ
+\end{equation*}
+
+\subsubsection*{3. Verificación con Python}
+\begin{lstlisting}
+import numpy as np
+
+def calculate_angle():
+    AB = np.array([-20, 20, 20])
+    CD = np.array([20, -20, 20])
+    
+    # Cos theta = (AB . CD) / (|AB| * |CD|)
+    cos_theta = np.dot(AB, CD) / (np.linalg.norm(AB) * np.linalg.norm(CD))
+    angle_deg = np.degrees(np.arccos(cos_theta))
+    
+    print(f"Angulo entre vectores: {angle_deg:.2f} grados")
+
+calculate_angle()
+\end{lstlisting}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\theta \approx 109.5^\circ$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+El lado del cubo de la figura mide $20$ cm. Determine la proyección del vector $\vec{AB}$ sobre el vector $\vec{CD}$.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.5, >=Latex, x={(0.5cm,0.5cm)}, y={(1cm,0cm)}, z={(0cm,1cm)}]
+    % Coordenadas de los vértices (20 cm -> 2 unidades)
+    \coordinate (O) at (0,0,0);
+    \coordinate (X) at (3,0,0);
+    \coordinate (Y) at (0,3,0);
+    \coordinate (Z) at (0,0,3);
+    
+    \coordinate (A) at (2,0,0); % Punto A en eje X
+    \coordinate (C) at (0,2,0); % Punto C en eje Y
+    \coordinate (P1) at (2,2,0);
+    \coordinate (P2) at (2,2,2);
+    \coordinate (B) at (0,2,2); % Punto B
+    \coordinate (D) at (2,0,2); % Punto D
+    \coordinate (P3) at (0,0,2);
+    
+    % Ejes
+    \draw[->] (O) -- (X) node[right] {$x$};
+    \draw[->] (O) -- (Y) node[above] {$y$};
+    \draw[->] (O) -- (Z) node[left] {$z$};
+    
+    % Cubo (Aristas visibles)
+    \draw[thick] (A) -- (P1) -- (C) -- (B) -- (P2) -- (D) -- (A);
+    \draw[thick] (P1) -- (P2);
+    \draw[thick] (B) -- (P3) -- (D);
+    \draw[dashed] (O) -- (A);
+    \draw[dashed] (O) -- (C);
+    \draw[dashed] (O) -- (P3);
+
+    % Etiquetas
+    \node at (A) [below right] {$A$};
+    \node at (B) [left] {$B$};
+    \node at (C) [above left] {$C$};
+    \node at (D) [below] {$D$};
+    \node at (O) [below left] {$O$};
+\end{tikzpicture}
+\end{center}
+
+
+\subsection*{Solución}
+
+\subsubsection*{1. Fórmula de Proyección Vectorial}
+La proyección de $\vec{AB}$ sobre $\vec{CD}$ ($\vec{P}$) se calcula como:
+\begin{equation*}
+    \vec{P} = \left( \frac{\vec{AB} \cdot \vec{CD}}{|\vec{CD}|^2} \right) \vec{CD}
+\end{equation*}
+
+\subsubsection*{2. Cálculo Numérico}
+Sustituimos los valores obtenidos previamente:
+\begin{align*}
+    \vec{P} &= \left( \frac{-400}{1200} \right) (20\vec{i} - 20\vec{j} + 20\vec{k}) \\
+    \vec{P} &= -\frac{1}{3} (20\vec{i} - 20\vec{j} + 20\vec{k}) \\
+    \vec{P} &= -6.67\vec{i} + 6.67\vec{j} - 6.67\vec{k} \, \text{cm}
+\end{align*}
+
+\subsubsection*{3. Visualización 3D (Python)}
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def plot_projection():
+    AB = np.array([-20, 20, 20])
+    CD = np.array([20, -20, 20])
+    
+    # Proyeccion
+    proj = (np.dot(AB, CD) / np.dot(CD, CD)) * CD
+    
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+    origin = [0,0,0]
+    
+    ax.quiver(*origin, *AB, color='b', label='Vector AB')
+    ax.quiver(*origin, *CD, color='r', label='Vector CD')
+    ax.quiver(*origin, *proj, color='g', linewidth=3, label='Proyeccion')
+    
+    ax.set_xlim([-20, 20]); ax.set_ylim([-20, 20]); ax.set_zlim([0, 25])
+    ax.legend(); plt.show()
+\end{lstlisting}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{P} = (-6.67\vec{i} + 6.67\vec{j} - 6.67\vec{k}) \, \text{cm}$
+\end{tcolorbox}
+
+\newpage
+
+
+\subsection*{Enunciado}
+En el sistema de prismas de la figura, determine el vector resultante de la operación: $2 \vec{NP} + 3 \vec{IB} - 4 \vec{CF}$.
+
+\begin{center}
+\begin{tikzpicture}[
+    x={(1cm,0cm)}, 
+    y={(0cm,1cm)}, 
+    z={(-0.5cm,-0.6cm)},
+    scale=0.2, 
+    >=stealth, 
+    thick
+]
+    \draw[->] (0,0,0) -- (30,0,0) node[right] {$x$};
+    \draw[->] (0,0,0) -- (0,40,0) node[right] {$y$};
+    \draw[->] (0,0,0) -- (0,0,30) node[below left] {$z$};
+
+    \draw (0,0,20) -- (20,0,20) -- (20,15,20) -- (0,15,20) -- cycle;
+    \draw (20,0,0) -- (20,0,20);
+    \draw (20,15,0) -- (20,15,20);
+    \draw (0,15,0) -- (0,15,20);
+    \draw (20,0,0) -- (20,15,0) -- (0,15,0);
+
+    \draw (0,15,15) -- (15,15,15) -- (15,30,15) -- (0,30,15) -- cycle;
+    \draw (15,15,0) -- (15,15,15);
+    \draw (15,30,0) -- (15,30,15);
+    \draw (0,30,0) -- (0,30,15);
+    \draw (15,15,0) -- (15,30,0) -- (0,30,0);
+
+    \node[above left] at (0,0.5,0) {$O$};
+    \node[above] at (20,0,0) {$A$};
+    \node[below right] at (20,0,20) {$N$};
+    \node[right] at (20,15,0) {$B$};
+    \node[left] at (0,15,15) {$F$};
+    \node[left] at (0,30,0) {$P$};
+    \node[left] at (0,30,15) {$I$};
+    \node[right] at (15,30,0) {$C$};
+    \node[left] at (15,22.5,15) {$D$}; 
+
+    \node[below] at (10,0,20) {20 u};
+    \node[below right] at (20,0,10) {20 u};
+    \node[right] at (20,7.5,0) {15 u};
+    
+    \node[above left] at (0,30,7.5) {15 u};
+    \node[above] at (7.5,30,0) {15 u};
+    \node[right] at (15,22.5,0) {15 u};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Identificación de Coordenadas}
+De acuerdo a las dimensiones y etiquetas de la figura, establecemos las coordenadas de los puntos necesarios:
+\begin{itemize}
+    \item $N = (20, 0, 20)$
+    \item $P = (0, 30, 0)$ (Vértice superior-trasero-izquierdo)
+    \item $I = (0, 30, 15)$ (Vértice superior-frontal-izquierdo de la caja superior)
+    \item $B = (20, 15, 0)$ (Vértice superior-trasero-derecho de la caja inferior)
+    \item $C = (15, 30, 0)$ (Vértice superior-trasero-derecho de la caja superior)
+    \item $F = (0, 15, 20)$ (Vértice superior-frontal-izquierdo de la caja inferior)
+\end{itemize}
+
+\subsubsection*{2. Definición de Vectores}
+Calculamos los vectores restando las coordenadas (Final - Inicial):
+\begin{align*}
+    \vec{NP} &= (0-20)\vec{i} + (30-0)\vec{j} + (0-20)\vec{k} = -20\vec{i} + 30\vec{j} - 20\vec{k} \\
+    \vec{IB} &= (20-0)\vec{i} + (15-30)\vec{j} + (0-15)\vec{k} = 20\vec{i} - 15\vec{j} - 15\vec{k} \\
+    \vec{CF} &= (0-15)\vec{i} + (15-30)\vec{j} + (20-0)\vec{k} = -15\vec{i} - 15\vec{j} + 20\vec{k}
+\end{align*}
+
+\subsubsection*{3. Operación Resultante $\vec{R}$}
+Sustituimos y resolvemos componente a componente:
+\begin{align*}
+    \vec{R} &= 2(-20, 30, -20) + 3(20, -15, -15) - 4(-15, -15, 20) \\
+    \vec{R} &= (-40+60+60)\vec{i} + (60-45+60)\vec{j} + (-40-45-80)\vec{k} \\
+    \vec{R} &= 80\vec{i} + 75\vec{j} - 165\vec{k} \, \text{u}
+\end{align*}
+
+\subsubsection*{4. Verificación con Python}
+\begin{lstlisting}
+import numpy as np
+
+def solve_part_a():
+    NP = np.array([-20, 30, -20])
+    IB = np.array([20, -15, -15])
+    CF = np.array([-15, -15, 20])
+    
+    R = 2*NP + 3*IB - 4*CF
+    print(f"Vector Resultante: {R}")
+
+solve_part_a()
+\end{lstlisting}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{R} = 80\vec{i} + 75\vec{j} - 165\vec{k} \, \text{u}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Determine el vector proyección del vector $\vec{NI}$ sobre el vector $\vec{AD}$.
+
+\begin{center}
+\begin{tikzpicture}[
+    x={(1cm,0cm)}, 
+    y={(0cm,1cm)}, 
+    z={(-0.5cm,-0.6cm)},
+    scale=0.2, 
+    >=stealth, 
+    thick
+]
+    \draw[->] (0,0,0) -- (30,0,0) node[right] {$x$};
+    \draw[->] (0,0,0) -- (0,40,0) node[right] {$y$};
+    \draw[->] (0,0,0) -- (0,0,30) node[below left] {$z$};
+
+    \draw (0,0,20) -- (20,0,20) -- (20,15,20) -- (0,15,20) -- cycle;
+    \draw (20,0,0) -- (20,0,20);
+    \draw (20,15,0) -- (20,15,20);
+    \draw (0,15,0) -- (0,15,20);
+    \draw (20,0,0) -- (20,15,0) -- (0,15,0);
+
+    \draw (0,15,15) -- (15,15,15) -- (15,30,15) -- (0,30,15) -- cycle;
+    \draw (15,15,0) -- (15,15,15);
+    \draw (15,30,0) -- (15,30,15);
+    \draw (0,30,0) -- (0,30,15);
+    \draw (15,15,0) -- (15,30,0) -- (0,30,0);
+
+    \node[above left] at (0,0.5,0) {$O$};
+    \node[above] at (20,0,0) {$A$};
+    \node[below right] at (20,0,20) {$N$};
+    \node[right] at (20,15,0) {$B$};
+    \node[left] at (0,15,15) {$F$};
+    \node[left] at (0,30,0) {$P$};
+    \node[left] at (0,30,15) {$I$};
+    \node[right] at (15,30,0) {$C$};
+    \node[left] at (15,22.5,15) {$D$}; 
+
+    \node[below] at (10,0,20) {20 u};
+    \node[below right] at (20,0,10) {20 u};
+    \node[right] at (20,7.5,0) {15 u};
+    
+    \node[above left] at (0,30,7.5) {15 u};
+    \node[above] at (7.5,30,0) {15 u};
+    \node[right] at (15,22.5,0) {15 u};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Coordenadas y Vectores de Interés}
+Identificamos los puntos para formar los vectores:
+\begin{itemize}
+    \item $N = (20, 0, 20)$, $I = (0, 30, 15) \implies \vec{NI} = -20\vec{i} + 30\vec{j} - 5\vec{k}$
+    \item $A = (20, 0, 0)$, $D = (15, 30, 15) \implies \vec{AD} = -5\vec{i} + 30\vec{j} + 15\vec{k}$
+\end{itemize}
+
+\subsubsection*{2. Cálculo de la Proyección}
+Aplicamos la fórmula: $\text{proj}_{\vec{AD}} \vec{NI} = \left( \frac{\vec{NI} \cdot \vec{AD}}{|\vec{AD}|^2} \right) \vec{AD}$
+
+\begin{itemize}
+    \item \textbf{Producto Escalar:} $\vec{NI} \cdot \vec{AD} = (-20)(-5) + (30)(30) + (-5)(15) = 100 + 900 - 75 = 925$
+    \item \textbf{Magnitud de $\vec{AD}$ al cuadrado:} $|\vec{AD}|^2 = (-5)^2 + 30^2 + 15^2 = 25 + 900 + 225 = 1150$
+\end{itemize}
+
+Sustituyendo:
+\begin{align*}
+    \vec{P} &= \frac{925}{1150} (-5, 30, 15) \approx 0.8043 (-5, 30, 15) \\
+    \vec{P} &\approx -4.02\vec{i} + 24.13\vec{j} + 12.06\vec{k} \, \text{u}
+\end{align*}
+
+\subsubsection*{3. Verificación con Python}
+\begin{lstlisting}
+def solve_part_b():
+    NI = np.array([-20, 30, -5])
+    AD = np.array([-5, 30, 15])
+    
+    proj = (np.dot(NI, AD) / np.dot(AD, AD)) * AD
+    print(f"Vector Proyección: {proj}")
+
+solve_part_b()
+\end{lstlisting}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{P} = -4.02\vec{i} + 24.13\vec{j} + 12.06\vec{k} \, \text{u}$
+\end{tcolorbox}
+
+\newpage
+
+
+\subsection*{Enunciado}
+Determine las coordenadas del punto medio del segmento $\vec{AD}$.
+
+\begin{center}
+\begin{tikzpicture}[
+    x={(1cm,0cm)}, 
+    y={(0cm,1cm)}, 
+    z={(-0.5cm,-0.6cm)},
+    scale=0.2, 
+    >=stealth, 
+    thick
+]
+    \draw[->] (0,0,0) -- (30,0,0) node[right] {$x$};
+    \draw[->] (0,0,0) -- (0,40,0) node[right] {$y$};
+    \draw[->] (0,0,0) -- (0,0,30) node[below left] {$z$};
+
+    \draw (0,0,20) -- (20,0,20) -- (20,15,20) -- (0,15,20) -- cycle;
+    \draw (20,0,0) -- (20,0,20);
+    \draw (20,15,0) -- (20,15,20);
+    \draw (0,15,0) -- (0,15,20);
+    \draw (20,0,0) -- (20,15,0) -- (0,15,0);
+
+    \draw (0,15,15) -- (15,15,15) -- (15,30,15) -- (0,30,15) -- cycle;
+    \draw (15,15,0) -- (15,15,15);
+    \draw (15,30,0) -- (15,30,15);
+    \draw (0,30,0) -- (0,30,15);
+    \draw (15,15,0) -- (15,30,0) -- (0,30,0);
+
+    \node[above left] at (0,0.5,0) {$O$};
+    \node[above] at (20,0,0) {$A$};
+    \node[below right] at (20,0,20) {$N$};
+    \node[right] at (20,15,0) {$B$};
+    \node[left] at (0,15,15) {$F$};
+    \node[left] at (0,30,0) {$P$};
+    \node[left] at (0,30,15) {$I$};
+    \node[right] at (15,30,0) {$C$};
+    \node[left] at (15,22.5,15) {$D$}; 
+
+    \node[below] at (10,0,20) {20 u};
+    \node[below right] at (20,0,10) {20 u};
+    \node[right] at (20,7.5,0) {15 u};
+    
+    \node[above left] at (0,30,7.5) {15 u};
+    \node[above] at (7.5,30,0) {15 u};
+    \node[right] at (15,22.5,0) {15 u};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Coordenadas de los Extremos}
+Como se estableció previamente:
+\begin{itemize}
+    \item $A = (20, 0, 0)$
+    \item $D = (15, 30, 15)$
+\end{itemize}
+
+\subsubsection*{2. Cálculo del Punto Medio ($M$)}
+Utilizamos la fórmula: $M = \left( \frac{x_A+x_D}{2}, \frac{y_A+y_D}{2}, \frac{z_A+z_D}{2} \right)$
+\begin{align*}
+    M &= \left( \frac{20+15}{2}, \frac{0+30}{2}, \frac{0+15}{2} \right) \\
+    M &= (17.5, 15.0, 7.5) \, \text{u}
+\end{align*}
+
+\subsubsection*{3. Verificación Visual (Python)}
+\begin{lstlisting}
+def solve_part_c():
+    A = np.array([20, 0, 0])
+    D = np.array([15, 30, 15])
+    midpoint = (A + D) / 2
+    print(f"Punto Medio: {midpoint}")
+
+solve_part_c()
+\end{lstlisting}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $M = (17.5, 15.0, 7.5) \, \text{u}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+En el sistema de la figura, el lado de los cubos mide $10 \, \si{cm}$. Determine el vector resultante de la operación: $\vec{GK} + \vec{JA}$.
+
+\begin{center}
+\begin{tikzpicture}[
+    x={(1cm,0cm)}, 
+    y={(0cm,1cm)}, 
+    z={(-0.6cm,-0.5cm)},
+    scale=0.8, 
+    >=stealth, 
+    thick
+]
+    \draw[->] (0,0,0) -- (6,0,0) node[below] {$x$};
+    \draw[->] (0,0,0) -- (0,8,0) node[left] {$y$};
+    \draw[->] (0,0,0) -- (0,0,6) node[below] {$z$};
+
+    \draw (0,0,0) -- (4,0,0) -- (4,0,4) -- (0,0,4) -- cycle;
+    \draw (0,3.5,0) -- (4,3.5,0) -- (4,3.5,4) -- (0,3.5,4) -- cycle;
+    \draw (0,7,0) -- (4,7,0) -- (4,7,4) -- (0,7,4) -- cycle;
+
+    \draw (0,0,0) -- (0,7,0);
+    \draw (4,0,0) -- (4,7,0);
+    \draw (4,0,4) -- (4,7,4);
+    \draw (0,0,4) -- (0,7,4);
+
+    \node[above left] at (0,7,0) {$A$};
+    \node[above right] at (4,7,0) {$B$};
+    \node[below left] at (4,7,4) {$C$};
+    \node[left] at (0,7,4) {$D$};
+
+    \node[above left] at (0,3.5,0) {$E$};
+    \node[right] at (4,3.5,0) {$F$};
+    \node[below left] at (4,3.5,4) {$G$};
+    \node[left] at (0,3.5,4) {$H$};
+
+    \node[above left] at (0,0,0) {$O$};
+    \node[above left] at (4,0,0) {$I$};
+    \node[below right] at (4,0,4) {$J$};
+    \node[above left] at (0,0,4) {$K$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Definición de Coordenadas}
+Considerando el origen en el punto $O$ y un lado de $10 \, \si{cm}$, los puntos de interés son:
+\begin{itemize}
+    \item $O = (0, 0, 0)$
+    \item $G = (10, 10, 10)$
+    \item $K = (0, 0, 10)$ (según el sistema $z$ diagonal en la base)
+    \item $J = (10, 0, 10)$
+    \item $A = (0, 20, 0)$ (eje vertical $y$)
+\end{itemize}
+
+\subsubsection*{2. Cálculo de los Vectores}
+Restamos las coordenadas de los puntos (Final - Inicial):
+\begin{align*}
+    \vec{GK} &= K - G = (0-10)\vec{i} + (0-10)\vec{j} + (10-10)\vec{k} = -10\vec{i} - 10\vec{j} + 0\vec{k} \\
+    \vec{JA} &= A - J = (0-10)\vec{i} + (20-0)\vec{j} + (0-10)\vec{k} = -10\vec{i} + 20\vec{j} - 10\vec{k}
+\end{align*}
+
+\subsubsection*{3. Suma Resultante}
+\begin{align*}
+    \vec{R} &= \vec{GK} + \vec{JA} = (-10-10)\vec{i} + (-10+20)\vec{j} + (0-10)\vec{k} \\
+    \vec{R} &= -20\vec{i} + 10\vec{j} - 10\vec{k} \, \si{cm}
+\end{align*}
+
+\subsubsection*{4. Verificación Visual (Python)}
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def plot_vector_sum():
+    GK = np.array([-10, -10, 0])
+    JA = np.array([-10, 20, -10])
+    R = GK + JA
+    
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+    ax.quiver(0, 0, 0, GK[0], GK[1], GK[2], color='b', label='GK')
+    ax.quiver(GK[0], GK[1], GK[2], JA[0], JA[1], JA[2], color='r', label='JA')
+    ax.quiver(0, 0, 0, R[0], R[1], R[2], color='g', label='Resultante')
+    
+    ax.set_xlabel('X'); ax.set_ylabel('Y'); ax.set_zlabel('Z')
+    ax.legend(); plt.show()
+
+plot_vector_sum()
+\end{lstlisting}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{R} = -20\vec{i} + 10\vec{j} - 10\vec{k} \, \si{cm}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado }
+Determine el ángulo que forman los vectores $\vec{AJ}$ y $\vec{KG}$.
+
+\begin{center}
+\begin{tikzpicture}[
+    x={(1cm,0cm)}, 
+    y={(0cm,1cm)}, 
+    z={(-0.6cm,-0.5cm)},
+    scale=0.8, 
+    >=stealth, 
+    thick
+]
+    \draw[->] (0,0,0) -- (6,0,0) node[below] {$x$};
+    \draw[->] (0,0,0) -- (0,8,0) node[left] {$y$};
+    \draw[->] (0,0,0) -- (0,0,6) node[below] {$z$};
+
+    \draw (0,0,0) -- (4,0,0) -- (4,0,4) -- (0,0,4) -- cycle;
+    \draw (0,3.5,0) -- (4,3.5,0) -- (4,3.5,4) -- (0,3.5,4) -- cycle;
+    \draw (0,7,0) -- (4,7,0) -- (4,7,4) -- (0,7,4) -- cycle;
+
+    \draw (0,0,0) -- (0,7,0);
+    \draw (4,0,0) -- (4,7,0);
+    \draw (4,0,4) -- (4,7,4);
+    \draw (0,0,4) -- (0,7,4);
+
+    \node[above left] at (0,7,0) {$A$};
+    \node[above right] at (4,7,0) {$B$};
+    \node[below left] at (4,7,4) {$C$};
+    \node[left] at (0,7,4) {$D$};
+
+    \node[above left] at (0,3.5,0) {$E$};
+    \node[right] at (4,3.5,0) {$F$};
+    \node[below left] at (4,3.5,4) {$G$};
+    \node[left] at (0,3.5,4) {$H$};
+
+    \node[above left] at (0,0,0) {$O$};
+    \node[above left] at (4,0,0) {$I$};
+    \node[below right] at (4,0,4) {$J$};
+    \node[above left] at (0,0,4) {$K$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Definición de Vectores}
+A partir de las coordenadas del sistema anterior:
+\begin{align*}
+    \vec{AJ} &= J - A = (10-0)\vec{i} + (0-20)\vec{j} + (10-0)\vec{k} = 10\vec{i} - 20\vec{j} + 10\vec{k} \\
+    \vec{KG} &= G - K = (10-0)\vec{i} + (10-0)\vec{j} + (10-10)\vec{k} = 10\vec{i} + 10\vec{j} + 0\vec{k}
+\end{align*}
+
+\subsubsection*{2. Cálculo de Módulos y Producto Escalar}
+\begin{itemize}
+    \item $|\vec{AJ}| = \sqrt{10^2 + (-20)^2 + 10^2} = \sqrt{100 + 400 + 100} = \sqrt{600} \approx 24.49$
+    \item $|\vec{KG}| = \sqrt{10^2 + 10^2 + 0^2} = \sqrt{200} \approx 14.14$
+    \item $\vec{AJ} \cdot \vec{KG} = (10)(10) + (-20)(10) + (10)(0) = 100 - 200 = -100$
+\end{itemize}
+
+\subsubsection*{3. Determinación del Ángulo}
+$$ \cos \theta = \frac{\vec{AJ} \cdot \vec{KG}}{|\vec{AJ}| |\vec{KG}|} = \frac{-100}{(24.49)(14.14)} \approx -0.2887 $$
+$$ \theta = \arccos(-0.2887) \approx 106.8^\circ $$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\theta = 106.8^\circ$
+\end{tcolorbox}
+
+\newpage
+
+
+\subsection*{Enunciado}
+Determine la proyección del vector $\vec{KG}$ sobre el vector $\vec{AJ}$.
+
+\begin{center}
+\begin{tikzpicture}[
+    x={(1cm,0cm)}, 
+    y={(0cm,1cm)}, 
+    z={(-0.6cm,-0.5cm)},
+    scale=0.8, 
+    >=stealth, 
+    thick
+]
+    \draw[->] (0,0,0) -- (6,0,0) node[below] {$x$};
+    \draw[->] (0,0,0) -- (0,8,0) node[left] {$y$};
+    \draw[->] (0,0,0) -- (0,0,6) node[below] {$z$};
+
+    \draw (0,0,0) -- (4,0,0) -- (4,0,4) -- (0,0,4) -- cycle;
+    \draw (0,3.5,0) -- (4,3.5,0) -- (4,3.5,4) -- (0,3.5,4) -- cycle;
+    \draw (0,7,0) -- (4,7,0) -- (4,7,4) -- (0,7,4) -- cycle;
+
+    \draw (0,0,0) -- (0,7,0);
+    \draw (4,0,0) -- (4,7,0);
+    \draw (4,0,4) -- (4,7,4);
+    \draw (0,0,4) -- (0,7,4);
+
+    \node[above left] at (0,7,0) {$A$};
+    \node[above right] at (4,7,0) {$B$};
+    \node[below left] at (4,7,4) {$C$};
+    \node[left] at (0,7,4) {$D$};
+
+    \node[above left] at (0,3.5,0) {$E$};
+    \node[right] at (4,3.5,0) {$F$};
+    \node[below left] at (4,3.5,4) {$G$};
+    \node[left] at (0,3.5,4) {$H$};
+
+    \node[above left] at (0,0,0) {$O$};
+    \node[above left] at (4,0,0) {$I$};
+    \node[below right] at (4,0,4) {$J$};
+    \node[above left] at (0,0,4) {$K$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Aplicación de la Fórmula}
+La proyección de $\vec{KG}$ sobre $\vec{AJ}$ se define como:
+$$ \vec{P} = \left( \frac{\vec{KG} \cdot \vec{AJ}}{|\vec{AJ}|^2} \right) \vec{AJ} $$
+
+\subsubsection*{2. Cálculo Numérico}
+Utilizando los valores obtenidos previamente:
+\begin{itemize}
+    \item $\vec{KG} \cdot \vec{AJ} = -100$
+    \item $|\vec{AJ}|^2 = 600$
+\end{itemize}
+
+Sustituimos:
+\begin{align*}
+    \vec{P} &= \frac{-100}{600} (10\vec{i} - 20\vec{j} + 10\vec{k}) \\
+    \vec{P} &= -\frac{1}{6} (10\vec{i} - 20\vec{j} + 10\vec{k}) \\
+    \vec{P} &= -1.67\vec{i} + 3.33\vec{j} - 1.67\vec{k} \, \si{cm}
+\end{align*}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{P} = -1.67\vec{i} + 3.33\vec{j} - 1.67\vec{k} \, \si{cm}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Determine un vector de magnitud $10 \, \si{cm}$, que tenga su componente en $y$ positiva y que sea perpendicular al plano $BCAD$ en el sistema de la figura.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.15, >=Latex, x={(0.8cm,-0.2cm)}, y={(0cm,1.2cm)}, z={(-0.6cm,-0.4cm)}]
+    % Coordenadas del prisma (20x15x20)
+    \coordinate (O) at (0,0,0);
+    \coordinate (D) at (20,0,0);
+    \coordinate (C) at (0,15,0);
+    \coordinate (A) at (20,0,0); % Punto proyectado en base
+    \coordinate (B_base) at (0,0,20);
+    
+    % Vértices del plano BCAD
+    \coordinate (C_p) at (0,15,0);
+    \coordinate (B_p) at (0,15,20);
+    \coordinate (A_p) at (20,0,0);
+    \coordinate (D_p) at (20,0,20);
+
+    % Ejes
+    \draw[->, thick] (0,0,0) -- (30,0,0) node[right] {$x$};
+    \draw[->, thick] (0,0,0) -- (0,25,0) node[above] {$y$};
+    \draw[->, thick] (0,0,0) -- (0,0,30) node[below left] {$z$};
+
+    % Caras del prisma (Líneas visibles)
+    \draw[thick] (0,15,0) -- (20,15,0) -- (20,15,20) -- (0,15,20) -- cycle; % Techo
+    \draw[thick] (20,15,0) -- (20,0,0) -- (20,0,20) -- (20,15,20); % Lateral derecho
+    \draw[thick] (0,15,20) -- (0,0,20) -- (20,0,20); % Frontal inferior
+    
+    % Líneas punteadas (Ocultas)
+    \draw[dashed] (0,0,0) -- (20,0,0);
+    \draw[dashed] (0,0,0) -- (0,15,0);
+    \draw[dashed] (0,0,0) -- (0,0,20);
+
+    % Etiquetas de puntos del plano
+    \node at (0,15,20) [above left] {$B$};
+    \node at (0,15,0) [above left] {$C$};
+    \node at (20,0,0) [below right] {$A$};
+    \node at (20,0,20) [below right] {$D$};
+    \node at (0,0,0) [below left] {$O$};
+
+    % Acotaciones
+    \node at (10,0,0) [below] {$20 \, \si{cm}$};
+    \node at (0,7.5,0) [left] {$15 \, \si{cm}$};
+    \node at (0,0,10) [below left] {$20 \, \si{cm}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Identificación de Vértices y Plano}
+A partir de las dimensiones del prisma, definimos las coordenadas de los puntos que conforman el plano $BCAD$:
+\begin{itemize}
+    \item $C = (0, 15, 0)$
+    \item $A = (20, 0, 0)$
+    \item $B = (0, 15, 20)$
+    \item $D = (20, 0, 20)$
+\end{itemize}
+
+Observamos que el plano es una superficie inclinada que cruza el prisma. Para encontrar el vector perpendicular (normal), necesitamos dos vectores que pertenezcan al plano.
+
+\subsubsection*{2. Determinación de Vectores Directores}
+Calculamos los vectores $\vec{AC}$ y $\vec{AD}$:
+\begin{align*}
+    \vec{AC} &= C - A = (0 - 20)\vec{i} + (15 - 0)\vec{j} + (0 - 0)\vec{k} = -20\vec{i} + 15\vec{j} \\
+    \vec{AD} &= D - A = (20 - 20)\vec{i} + (0 - 0)\vec{j} + (20 - 0)\vec{k} = 20\vec{k}
+\end{align*}
+
+\subsubsection*{3. Cálculo del Vector Normal ($\vec{n}$)}
+El vector perpendicular al plano se obtiene mediante el producto vectorial:
+\begin{equation*}
+    \vec{n} = \vec{AC} \times \vec{AD} = \begin{vmatrix} 
+    \vec{i} & \vec{j} & \vec{k} \\ 
+    -20 & 15 & 0 \\ 
+    0 & 0 & 20 
+    \end{vmatrix}
+\end{equation*}
+
+\begin{align*}
+    \vec{n} &= \vec{i}(15 \cdot 20 - 0) - \vec{j}(-20 \cdot 20 - 0) + \vec{k}(0) \\
+    \vec{n} &= 300\vec{i} + 400\vec{j} + 0\vec{k}
+\end{align*}
+
+Simplificando por el factor común $100$, obtenemos la dirección base: $\vec{d} = 3\vec{i} + 4\vec{j}$.
+
+\subsubsection*{4. Ajuste de Magnitud y Condición}
+Buscamos un vector $\vec{R} = k(3\vec{i} + 4\vec{j})$ tal que su módulo sea $10$:
+\begin{align*}
+    |\vec{R}| &= \sqrt{(3k)^2 + (4k)^2} = 10 \\
+    \sqrt{25k^2} &= 10 \implies 5k = 10 \implies k = 2
+\end{align*}
+
+Verificamos la condición de la componente $y$: $R_y = 4(2) = 8$, la cual es positiva.
+
+\subsubsection*{5. Visualización con Python}
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def plot_perpendicular_vector():
+    # Vector resultante
+    R = np.array([6, 8, 0])
+    
+    fig = plt.figure(figsize=(8, 6))
+    ax = fig.add_subplot(111, projection='3d')
+    origin = np.array([0, 0, 0])
+    
+    # Dibujar vector normal
+    ax.quiver(10, 7.5, 10, R[0], R[1], R[2], color='r', length=1, normalize=False, label='Vector R (6i + 8j)')
+    
+    # Configuración de ejes
+    ax.set_xlim([0, 20]); ax.set_ylim([0, 15]); ax.set_zlim([0, 20])
+    ax.set_xlabel('X'); ax.set_ylabel('Y'); ax.set_zlabel('Z')
+    ax.set_title("Vector Normal al Plano BCAD")
+    ax.legend()
+    plt.show()
+
+plot_perpendicular_vector()
+\end{lstlisting}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{R} = (6\vec{i} + 8\vec{j}) \, \si{cm}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Utilice el producto escalar para encontrar el ángulo formado por los vectores $\vec{A}$ y $\vec{B}$. El vector $\vec{A}$ comienza en el punto $P(3, 4, -2) \, \si{m}$ y termina en el punto $Q(7, -9, -5) \, \si{m}$. El vector $\vec{B}$ es igual a $15(0.6\vec{i} + b\vec{j} - 0.4\vec{k}) \, \si{m}$, donde $\beta > 90^\circ$. (Respuesta: $25.2^\circ$).
+
+\subsection*{Solución}
+
+\subsubsection*{1. Identificación del Vector $\vec{A}$}
+El vector $\vec{A}$ se define como el desplazamiento desde el punto inicial $P$ hasta el punto final $Q$:
+\begin{align*}
+    \vec{A} &= Q - P \\
+    \vec{A} &= (7 - 3)\vec{i} + (-9 - 4)\vec{j} + (-5 - (-2))\vec{k} \\
+    \vec{A} &= 4\vec{i} - 13\vec{j} - 3\vec{k} \, \si{m}
+\end{align*}
+
+Calculamos su magnitud:
+\begin{equation*}
+    |\vec{A}| = \sqrt{4^2 + (-13)^2 + (-3)^2} = \sqrt{16 + 169 + 9} = \sqrt{194} \approx 13.92 \, \si{m}
+\end{equation*}
+
+\subsubsection*{2. Determinación de la Componente $b$ del Vector $\vec{B}$}
+El vector $\vec{B}$ se define a partir de un vector unitario $\vec{u}_B = (0.6, b, -0.4)$. Para que sea unitario, la suma de los cuadrados de sus componentes debe ser igual a 1:
+\begin{align*}
+    (0.6)^2 + b^2 + (-0.4)^2 &= 1 \\
+    0.36 + b^2 + 0.16 &= 1 \\
+    b^2 &= 1 - 0.52 = 0.48
+\end{align*}
+Obtenemos $b = \pm \sqrt{0.48} \approx \pm 0.6928$. El enunciado indica que el ángulo director $\beta > 90^\circ$, lo cual implica que su coseno ($b$) debe ser negativo:
+\begin{equation*}
+    b \approx -0.69 \implies \vec{B} = 15(0.6\vec{i} - 0.69\vec{j} - 0.4\vec{k}) = 9\vec{i} - 10.35\vec{j} - 6\vec{k} \, \si{m}
+\end{equation*}
+
+\subsubsection*{3. Cálculo del Ángulo mediante Producto Escalar}
+Aplicamos la fórmula: $\vec{A} \cdot \vec{B} = |\vec{A}| |\vec{B}| \cos \theta$
+\begin{itemize}
+    \item \textbf{Producto Escalar:} $\vec{A} \cdot \vec{B} = (4)(9) + (-13)(-10.35) + (-3)(-6) = 36 + 134.55 + 18 = 188.55$
+    \item \textbf{Cálculo del Coseno:}
+    $$ \cos \theta = \frac{188.55}{(13.92)(15)} \approx \frac{188.55}{208.8} \approx 0.9030 $$
+\end{itemize}
+
+Despejamos el ángulo:
+\begin{equation*}
+    \theta = \arccos(0.9030) \approx 25.4^\circ
+\end{equation*}
+
+\subsubsection*{4. Verificación Gráfica (Python)}
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def plot_vector_angle_21():
+    A = np.array([4, -13, -3])
+    B = np.array([9, -10.35, -6])
+    
+    fig = plt.figure(figsize=(8, 6))
+    ax = fig.add_subplot(111, projection='3d')
+    origin = np.array([0, 0, 0])
+    
+    ax.quiver(*origin, *A, color='blue', label=r'Vector $\vec{A}$')
+    ax.quiver(*origin, *B, color='red', label=r'Vector $\vec{B}$')
+    
+    # Calculo para el titulo
+    angle = np.degrees(np.arccos(np.dot(A, B) / (np.linalg.norm(A) * np.linalg.norm(B))))
+    
+    ax.set_xlabel('X'); ax.set_ylabel('Y'); ax.set_zlabel('Z')
+    ax.set_title(f"Ángulo entre Vectores: {angle:.2f}°")
+    ax.legend(); plt.show()
+
+plot_vector_angle_21()
+\end{lstlisting}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\theta \approx 25.4^\circ$
+\end{tcolorbox}
+
+\end{document}

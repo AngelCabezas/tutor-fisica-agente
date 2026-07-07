@@ -1,0 +1,3147 @@
+\documentclass[12pt, a4paper]{article}
+
+% --- PAQUETES ---
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{geometry}
+\usepackage[most]{tcolorbox}
+\usepackage{siunitx}
+\usepackage{enumitem}
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usepackage{verbatim} 
+\usepackage{xcolor}
+
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta, calc, babel}
+\geometry{a4paper, margin=1in}
+
+\title{Ejercicios Teóricos: Torque y Equilibrio}
+\author{Dataset Entrenamiento LLM}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\subsection*{Enunciado}
+Si la barra homogénea en forma de "L", que se muestra en la figura, está en equilibrio. Determine la longitud de $OM$, si $OA = OB = 20 \, \si{cm}$.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.15, >=Latex]
+    \draw[thick] (2, 4) -- (8, 4);
+    \draw[thick] (5, 4) -- (5, 1);
+    
+    \draw[thick, fill=white] (0, 1) rectangle (20, 0);
+    \draw[thick, fill=white] (0, 0) rectangle (1, -20);
+    
+    \node[left] at (0, 1) {$O$};
+    \node[right] at (20, 0.5) {$A$};
+    \node[below] at (0.5, -20) {$B$};
+    \node[below] at (5, 0) {$M$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Físico y Centros de Gravedad}
+Dado que la barra es homogénea y las longitudes de los brazos son iguales ($OA = OB = 20 \, \si{cm}$), podemos deducir que la masa de la sección $OA$ ($m_a$) es igual a la masa de la sección $OB$ ($m_b$).
+$$m_a = m_b = m$$
+
+El peso de cada sección actúa en su respectivo centro de gravedad, el cual se ubica en el punto medio geométrico de cada brazo:
+\begin{itemize}
+    \item El peso de $OA$ ($W_a = m_a g$) actúa a $10 \, \si{cm}$ del punto $O$ sobre el eje horizontal.
+    \item El peso de $OB$ ($W_b = m_b g$) actúa a $10 \, \si{cm}$ del punto $O$ sobre el eje vertical, pero su línea de acción horizontal se encuentra exactamente en $x = 0$.
+\end{itemize}
+
+\subsubsection*{2. Diagrama de Cuerpo Libre (Python)}
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+def draw_dcl_l_bar():
+    fig, ax = plt.subplots(figsize=(6, 5))
+    ax.set_xlim(-5, 25)
+    ax.set_ylim(-25, 5)
+    ax.axis('off')
+    
+    ax.plot([0, 20], [0, 0], lw=4, color='black')
+    ax.plot([0, 0], [0, -20], lw=4, color='black')
+    
+    ax.plot(5, 0, '^', markersize=12, color='red')
+    ax.text(5, 1.5, 'M', fontsize=12, ha='center', color='red')
+    ax.text(-1.5, 1, 'O', fontsize=12)
+    ax.text(21, 0, 'A', fontsize=12)
+    ax.text(-1.5, -21, 'B', fontsize=12)
+    
+    ax.arrow(0, -10, 0, -5, head_width=0.5, fc='blue', ec='blue')
+    ax.text(-3.5, -12, '$m_b g$', color='blue', fontsize=12)
+    
+    ax.arrow(10, 0, 0, -5, head_width=0.5, fc='blue', ec='blue')
+    ax.text(11, -2, '$m_a g$', color='blue', fontsize=12)
+    
+    ax.annotate('', xy=(0, -2), xytext=(5, -2), arrowprops=dict(arrowstyle='<->', color='gray'))
+    ax.text(2.5, -4, '$OM$', color='gray', fontsize=12, ha='center')
+    
+    ax.annotate('', xy=(5, -2), xytext=(10, -2), arrowprops=dict(arrowstyle='<->', color='gray'))
+    ax.text(7.5, -4, '$10 - OM$', color='gray', fontsize=12, ha='center')
+
+    plt.tight_layout()
+    plt.show()
+
+draw_dcl_l_bar()
+\end{lstlisting}
+
+\subsubsection*{3. Equilibrio Rotacional}
+Para que el sistema se encuentre en equilibrio, la suma de los torques respecto al punto de apoyo $M$ debe ser igual a cero.
+$$\sum \tau_M = 0$$
+
+Definimos los brazos de palanca (distancias perpendiculares desde $M$ a las líneas de acción de las fuerzas):
+\begin{itemize}
+    \item Para $W_b$: La distancia horizontal desde $M$ a la línea de acción del peso $OB$ es exactamente $OM$. Este torque intenta rotar la barra en sentido antihorario (positivo).
+    \item Para $W_a$: La distancia desde $O$ hasta el centro de gravedad de $OA$ es $10 \, \si{cm}$. Como $M$ está entre $O$ y el centro de gravedad, la distancia desde $M$ es $(10 - OM)$. Este torque intenta rotar la barra en sentido horario (negativo).
+\end{itemize}
+
+Planteamos la ecuación de torques:
+$$W_b (OM) - W_a (10 - OM) = 0$$
+$$m_b g (OM) - m_a g (10 - OM) = 0$$
+
+\subsubsection*{4. Resolución}
+Sustituimos la condición de masas iguales ($m_a = m_b = m$) y simplificamos la gravedad ($g$):
+$$m g (OM) - m g (10 - OM) = 0$$
+$$OM - (10 - OM) = 0$$
+$$OM - 10 + OM = 0$$
+$$2(OM) = 10$$
+$$OM = 5 \, \si{cm}$$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $OM = 5 \, \si{cm}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+La viga uniforme $AB$, de la figura, tiene una masa de $100 \, \si{kg}$. Si la máxima tensión del cable $BC$ es de $2000 \, \si{N}$, determine la máxima distancia $AD$ donde se podrá suspender un cuerpo de $2000 \, \si{N}$, sin que el cable se rompa. La distancia $AB$ es de $2 \, \si{m}$. (Considere $g=10\,\si{m/s^2}$).
+
+\begin{center}
+\begin{tikzpicture}[scale=1.5, >=Latex]
+    \draw[thick, fill=gray!20] (-0.2, -0.5) rectangle (0, 2);
+    \draw[thick] (0, 0) -- (4, 0) -- (4, -0.2) -- (0, -0.2) -- cycle;
+    \draw[thick] (0, 1.5) -- (4, 0);
+    
+    \draw[fill=white] (0, -0.1) circle (0.15);
+    \fill (0, -0.1) circle (0.05);
+    
+    \draw (3.5, 0) arc (180:158:0.5);
+    \node at (3.1, 0.15) {$30^\circ$};
+    
+    \draw[thick] (1.2, -0.2) -- (1.2, -0.8);
+    \draw[thick, fill=white] (0.9, -0.8) rectangle (1.5, -1.2);
+    
+    \node[left] at (-0.2, -0.1) {$A$};
+    \node[right] at (4, -0.1) {$B$};
+    \node[above left] at (0, 1.5) {$C$};
+    \node[above] at (1.2, 0) {$D$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Datos y Diagrama de Cuerpo Libre}
+Primero, calculamos los pesos involucrados usando $g = 10 \, \si{m/s^2}$.
+$$W_{AB} = m_{AB} \cdot g = 100 \cdot 10 = 1000 \, \si{N}$$
+$$W_C = 2000 \, \si{N}$$
+$$T_{BC} = 2000 \, \si{N}$$
+
+Como la viga es uniforme, su peso $W_{AB}$ actúa exactamente en su centro de gravedad, es decir, a la mitad de su longitud. Dado que $AB = 2 \, \si{m}$, el peso de la viga actúa a $1 \, \si{m}$ del punto $A$.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+import numpy as np
+
+def draw_dcl_beam():
+    fig, ax = plt.subplots(figsize=(8, 5))
+    ax.set_xlim(-1, 5)
+    ax.set_ylim(-3, 3)
+    ax.axis('off')
+    
+    rect = patches.Rectangle((0, -0.1), 4, 0.2, linewidth=2, edgecolor='black', facecolor='none')
+    ax.add_patch(rect)
+    
+    ax.plot(0, 0, 'ko', markersize=8)
+    ax.text(-0.3, 0.2, 'A', fontsize=12)
+    ax.text(4, -0.4, 'B', fontsize=12)
+    
+    ax.arrow(0, 0, 0.5, 0, head_width=0.1, head_length=0.1, fc='blue', ec='blue')
+    ax.text(0.6, -0.1, '$R_x$', color='blue', fontsize=12)
+    ax.arrow(0, 0, 0, 0.5, head_width=0.1, head_length=0.1, fc='blue', ec='blue')
+    ax.text(-0.2, 0.6, '$R_y$', color='blue', fontsize=12)
+    
+    ax.arrow(2, 0, 0, -1.5, head_width=0.15, head_length=0.2, fc='red', ec='red')
+    ax.text(2.1, -1, '$W_{AB}=1000$ N', color='red', fontsize=12)
+    
+    ax.arrow(1.2, 0, 0, -2, head_width=0.15, head_length=0.2, fc='red', ec='red')
+    ax.text(1.3, -1.8, '$W_C=2000$ N', color='red', fontsize=12)
+    
+    ax.arrow(4, 0, -1.5, 0.866, head_width=0.15, head_length=0.2, fc='green', ec='green')
+    ax.text(2.5, 0.8, '$T=2000$ N', color='green', fontsize=12)
+    
+    ax.arrow(4, 0, 0, 0.866, head_width=0.1, head_length=0.1, fc='purple', ec='purple', linestyle='--')
+    ax.text(4.1, 0.4, '$T_y = T \\sin(30^\\circ)$', color='purple', fontsize=12)
+
+    ax.annotate('', xy=(0, 0.5), xytext=(2, 0.5), arrowprops=dict(arrowstyle='<->'))
+    ax.text(1, 0.6, '1 m', fontsize=10, ha='center')
+    
+    ax.annotate('', xy=(0, -0.5), xytext=(1.2, -0.5), arrowprops=dict(arrowstyle='<->'))
+    ax.text(0.6, -0.8, 'AD', fontsize=10, ha='center')
+
+    plt.tight_layout()
+    plt.show()
+
+draw_dcl_beam()
+\end{lstlisting}
+
+\subsubsection*{2. Planteamiento de Ecuaciones}
+Para que el sistema esté en equilibrio y el cable no se rompa, la sumatoria de torques respecto al punto $A$ (la bisagra) debe ser nula. Elegimos el punto $A$ porque allí actúan las reacciones $R_x$ y $R_y$, las cuales no conocemos y al medir el torque desde allí, su brazo de palanca es cero.
+$$\sum \tau_A = 0$$
+
+Las fuerzas que generan torque respecto al punto $A$ son:
+\begin{itemize}
+    \item El peso del cuerpo suspendido ($W_C$): Genera un torque horario (negativo). Su brazo de palanca es la distancia $AD$.
+    \item El peso de la viga ($W_{AB}$): Genera un torque horario (negativo). Su brazo de palanca es la mitad de la viga ($1 \, \si{m}$).
+    \item La componente vertical de la tensión del cable ($T_y$): Genera un torque antihorario (positivo). Su brazo de palanca es la longitud total de la viga ($2 \, \si{m}$). La componente horizontal de la tensión no genera torque porque su línea de acción pasa por el punto $A$.
+\end{itemize}
+
+Calculamos la componente vertical de la tensión:
+$$T_y = T_{BC} \sin(30^\circ) = 2000 \cdot 0.5 = 1000 \, \si{N}$$
+
+\subsubsection*{3. Resolución}
+Sustituimos los valores en la ecuación de sumatoria de torques:
+$$- W_C (AD) - W_{AB} (1) + T_y (2) = 0$$
+$$- 2000 \cdot AD - 1000 (1) + 1000 (2) = 0$$
+$$- 2000 \cdot AD - 1000 + 2000 = 0$$
+$$- 2000 \cdot AD + 1000 = 0$$
+$$2000 \cdot AD = 1000$$
+$$AD = \frac{1000}{2000}$$
+$$AD = 0.5 \, \si{m}$$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $AD = 0.5 \, \si{m}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Calcule la magnitud de la fuerza que debe aplicarse a la barra homogénea de la figura de $20 \, \si{kg}$ y su punto de aplicación, respecto al extremo $A$, para que se mantenga horizontal. Considere que $AB = 6 \, \si{m}$, $BC = 8 \, \si{m}$, $CD = 5 \, \si{m}$. (Considere $g = 10 \, \si{m/s^2}$).
+
+\begin{center}
+\begin{tikzpicture}[scale=0.6, >=Latex]
+    \draw[thick, fill=white] (0, 0) rectangle (19, 0.4);
+    
+    \draw[->, thick] (0, 0) -- (0, -2) node[below] {$196 \, \si{N}$};
+    \node[left] at (0, 0.2) {$A$};
+    
+    \draw[->, thick] (6, 0.4) -- (6, 2.5) node[above] {$294 \, \si{N}$};
+    \node[below] at (6, 0) {$B$};
+    
+    \draw[->, thick] (14, 0.4) -- (14, 1.5) node[above] {$50 \, \si{N}$};
+    \node[below] at (14, 0) {$C$};
+    
+    \draw[->, thick] (19, 0) -- (19, -2) node[below] {$392 \, \si{N}$};
+    \node[right] at (19, 0.2) {$D$};
+    
+    \draw[->, thick, dashed] (15.5, 0.4) -- (15.5, 1.5) node[right] {$F_E$};
+    \node[below] at (15.5, 0) {$E$};
+    
+    \draw[|<->|] (0, -0.8) -- (6, -0.8) node[midway, below] {$6 \, \si{m}$};
+    \draw[|<->|] (6, -0.8) -- (14, -0.8) node[midway, below] {$8 \, \si{m}$};
+    \draw[|<->|] (14, -0.8) -- (19, -0.8) node[midway, below] {$5 \, \si{m}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Físico y Datos Previos}
+Para que la barra se mantenga en posición horizontal, el sistema debe encontrarse en equilibrio estático. Esto implica dos condiciones:
+\begin{enumerate}
+    \item Equilibrio traslacional: La fuerza neta debe ser nula ($\sum F_y = 0$).
+    \item Equilibrio rotacional: El torque neto respecto a cualquier punto debe ser nulo ($\sum \tau = 0$).
+\end{enumerate}
+
+Calculamos la longitud total de la barra sumando los tramos:
+$$L = AB + BC + CD = 6 + 8 + 5 = 19 \, \si{m}$$
+
+Al ser una barra homogénea, su centro de gravedad se encuentra en el punto medio geométrico:
+$$x_{cg} = \frac{19}{2} = 9.5 \, \si{m}$$
+
+Calculamos el peso de la barra, el cual actuará en su centro de gravedad hacia abajo:
+$$W = m \cdot g = 20 \cdot 10 = 200 \, \si{N}$$
+
+\subsubsection*{2. Diagrama de Cuerpo Libre (Python)}
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+def draw_dcl_forces_bar():
+    fig, ax = plt.subplots(figsize=(10, 4))
+    ax.set_xlim(-2, 21)
+    ax.set_ylim(-3, 3)
+    ax.axis('off')
+
+    rect = patches.Rectangle((0, -0.1), 19, 0.2, linewidth=1.5, edgecolor='black', facecolor='white')
+    ax.add_patch(rect)
+
+    ax.text(0, 0.4, 'A', fontsize=12, ha='center')
+    ax.text(6, -0.5, 'B', fontsize=12, ha='center')
+    ax.text(9.5, 0.4, 'CG', fontsize=12, ha='center')
+    ax.text(14, -0.5, 'C', fontsize=12, ha='center')
+    ax.text(19, 0.4, 'D', fontsize=12, ha='center')
+
+    ax.arrow(0, 0, 0, -1.5, head_width=0.3, head_length=0.3, fc='black', ec='black')
+    ax.text(0, -2, '196 N', ha='center', fontsize=10)
+
+    ax.arrow(6, 0, 0, 1.5, head_width=0.3, head_length=0.3, fc='black', ec='black')
+    ax.text(6, 2, '294 N', ha='center', fontsize=10)
+
+    ax.arrow(9.5, 0, 0, -1.5, head_width=0.3, head_length=0.3, fc='red', ec='red')
+    ax.text(9.5, -2, 'W=200 N', ha='center', color='red', fontsize=10)
+
+    ax.arrow(14, 0, 0, 1.0, head_width=0.3, head_length=0.3, fc='black', ec='black')
+    ax.text(14, 1.5, '50 N', ha='center', fontsize=10)
+
+    ax.arrow(15.5, 0, 0, 1.5, head_width=0.3, head_length=0.3, fc='blue', ec='blue')
+    ax.text(15.5, 2, '$F_E$', ha='center', color='blue', fontsize=10)
+
+    ax.arrow(19, 0, 0, -1.5, head_width=0.3, head_length=0.3, fc='black', ec='black')
+    ax.text(19, -2, '392 N', ha='center', fontsize=10)
+
+    plt.tight_layout()
+    plt.show()
+
+draw_dcl_forces_bar()
+\end{lstlisting}
+
+\subsubsection*{3. Equilibrio Traslacional (Cálculo de Magnitud)}
+Asumiremos inicialmente que la fuerza desconocida $F_E$ apunta hacia arriba. Tomamos hacia arriba como positivo.
+$$\sum F_y = 0$$
+$$F_B + F_C + F_E - F_A - W - F_D = 0$$
+$$294 + 50 + F_E - 196 - 200 - 392 = 0$$
+$$344 + F_E - 788 = 0$$
+$$F_E = 788 - 344$$
+$$F_E = 444 \, \si{N}$$
+
+Como el resultado es positivo, se confirma que la fuerza debe aplicarse hacia arriba.
+
+\subsubsection*{4. Equilibrio Rotacional (Cálculo del Punto de Aplicación)}
+Para encontrar la posición de $F_E$, establecemos la suma de torques respecto al extremo $A$ igual a cero. Consideramos los giros en sentido antihorario como positivos.
+$$\sum \tau_A = 0$$
+$$\tau_B - \tau_W + \tau_C - \tau_D + \tau_E = 0$$
+
+Evaluamos el torque individual de cada fuerza multiplicando su magnitud por su distancia respecto al punto $A$:
+\begin{align*}
+    (294)(6) - (200)(9.5) + (50)(14) - (392)(19) + F_E \cdot d &= 0 \\
+    1764 - 1900 + 700 - 7448 + 444 \cdot d &= 0 \\
+    2464 - 9348 + 444 \cdot d &= 0 \\
+    -6884 + 444 \cdot d &= 0 \\
+    444 \cdot d &= 6884 \\
+    d &= \frac{6884}{444} \\
+    d &= 15.5 \, \si{m}
+\end{align*}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering 
+Magnitud: $F_E = 444 \, \si{N}$ (hacia arriba) \\
+Punto de aplicación: $d = 15.5 \, \si{m}$ respecto al extremo $A$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un tablón uniforme, de $5 \, \si{m}$ de longitud, se encuentra sobre una superficie horizontal de la que sobresale $2 \, \si{m}$, como se indica en la figura. Se conoce que el tablón se empieza a volcar cuando un niño de $20 \, \si{kg}$ se para $1 \, \si{m}$ a la derecha de $B$. Determine la masa del tablón. (Considere $g=10\,\si{m/s^2}$).
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2, >=Latex]
+    \draw[thick] (-3, -1) -- (-3, 0) -- (0, 0);
+    \draw[thick, fill=white] (-4, 0) rectangle (2, 0.2);
+    
+    \node[below] at (-4, -0.1) {$A$};
+    \node[below right] at (0, -0.1) {$B$};
+    \node[below] at (2, -0.1) {$C$};
+    
+    \draw[|<->|] (-4, -0.6) -- (0, -0.6) node[midway, below] {$AB = 3 \, \si{m}$};
+    \draw[|<->|] (0, -0.6) -- (2, -0.6) node[midway, below] {$BC = 2 \, \si{m}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Físico del Volcamiento}
+El tablón es uniforme, por lo que su peso ($W_T$) se concentra en su centro de gravedad. Al tener una longitud total de $5 \, \si{m}$, el centro de gravedad está en la mitad, es decir, a $2.5 \, \si{m}$ del extremo $A$.
+Dado que la distancia $AB$ es de $3 \, \si{m}$, el centro de gravedad se ubica a $0.5 \, \si{m}$ a la izquierda del borde $B$ ($3 \, \si{m} - 2.5 \, \si{m} = 0.5 \, \si{m}$).
+
+La frase clave es \textbf{"se empieza a volcar"}. En el instante inminente al volcamiento, el tablón pierde contacto con el resto de la superficie horizontal y se apoya únicamente en el borde $B$. Por tanto, la fuerza Normal ($N$) de la superficie actúa exactamente en el punto $B$, convirtiéndose en el eje de rotación.
+
+Calculamos el peso del niño ($m_n = 20 \, \si{kg}$):
+$$W_n = m_n g = 20(10) = 200 \, \si{N}$$
+
+\subsubsection*{2. Diagrama de Cuerpo Libre (Python)}
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+def draw_dcl_tipping():
+    fig, ax = plt.subplots(figsize=(8, 4))
+    ax.set_xlim(-4.5, 2.5)
+    ax.set_ylim(-3, 3)
+    ax.axis('off')
+
+    rect = patches.Rectangle((-4, 0), 6, 0.2, linewidth=1.5, edgecolor='black', facecolor='white')
+    ax.add_patch(rect)
+
+    ax.plot(0, 0, '^', markersize=15, color='gray')
+    ax.text(0.2, -0.5, 'B (Pivote)', fontsize=12)
+
+    ax.arrow(-0.5, 0.1, 0, -1.5, head_width=0.15, fc='red', ec='red')
+    ax.text(-1.2, -1.8, '$W_T$', color='red', fontsize=12)
+    
+    ax.arrow(1, 0.1, 0, -1.5, head_width=0.15, fc='blue', ec='blue')
+    ax.text(0.8, -1.8, '$W_n = 200$ N', color='blue', fontsize=12)
+
+    ax.arrow(0, 0.2, 0, 1.5, head_width=0.15, fc='green', ec='green')
+    ax.text(0.1, 1.8, '$N$', color='green', fontsize=12)
+
+    ax.annotate('', xy=(0, 0.8), xytext=(-0.5, 0.8), arrowprops=dict(arrowstyle='<->'))
+    ax.text(-0.25, 1, '0.5 m', ha='center')
+
+    ax.annotate('', xy=(0, 0.8), xytext=(1, 0.8), arrowprops=dict(arrowstyle='<->'))
+    ax.text(0.5, 1, '1 m', ha='center')
+
+    plt.tight_layout()
+    plt.show()
+
+draw_dcl_tipping()
+\end{lstlisting}
+
+\subsubsection*{3. Equilibrio Rotacional}
+Para que el sistema esté en equilibrio inminente, la sumatoria de torques respecto al pivote $B$ debe ser cero. 
+$$\sum \tau_B = 0$$
+
+\begin{itemize}
+    \item El peso del tablón ($W_T$) genera un torque antihorario (positivo).
+    \item El peso del niño ($W_n$) genera un torque horario (negativo).
+    \item La Normal ($N$) no genera torque porque su línea de acción pasa por $B$.
+\end{itemize}
+
+$$\tau_{W_T} - \tau_{W_n} = 0$$
+$$W_T (0.5) - W_n (1) = 0$$
+$$W_T (0.5) = 200(1)$$
+$$W_T = \frac{200}{0.5}$$
+$$W_T = 400 \, \si{N}$$
+
+Conociendo el peso, calculamos la masa del tablón ($m_T$):
+$$m_T = \frac{W_T}{g} = \frac{400}{10}$$
+$$m_T = 40 \, \si{kg}$$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $m_T = 40 \, \si{kg}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un tablón uniforme, de $5 \, \si{m}$ de longitud y $40 \, \si{kg}$ de masa, se encuentra sobre una superficie horizontal de la que sobresale $2 \, \si{m}$, como se indica en la figura. Determine la posición de la línea de acción de la normal que ejerce la superficie horizontal sobre el tablón, respecto al punto $B$, cuando un niño de $20 \, \si{kg}$ se para $25 \, \si{cm}$ a la derecha de $B$. (Considere $g=10\,\si{m/s^2}$).
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2, >=Latex]
+    \draw[thick] (-3, -1) -- (-3, 0) -- (0, 0);
+    \draw[thick, fill=white] (-4, 0) rectangle (2, 0.2);
+    
+    \node[below] at (-4, -0.1) {$A$};
+    \node[below right] at (0, -0.1) {$B$};
+    \node[below] at (2, -0.1) {$C$};
+    
+    \draw[|<->|] (-4, -0.6) -- (0, -0.6) node[midway, below] {$AB = 3 \, \si{m}$};
+    \draw[|<->|] (0, -0.6) -- (2, -0.6) node[midway, below] {$BC = 2 \, \si{m}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Físico}
+Cuando el niño se acerca al punto $B$ (se para a $0.25 \, \si{m}$ en lugar de $1 \, \si{m}$), el torque que ejerce disminuye, por lo que el tablón ya no está a punto de volcar. La superficie horizontal vuelve a ejercer la fuerza Normal distribuida, la cual podemos representar como una única fuerza puntual $N$ ubicada a una distancia desconocida $x$ a la izquierda del borde $B$.
+
+Datos:
+$$W_T = 400 \, \si{N} \quad \text{(a } 0.5 \, \si{m} \text{ a la izquierda de } B \text{)}$$
+$$W_n = 20(10) = 200 \, \si{N} \quad \text{(a } 0.25 \, \si{m} \text{ a la derecha de } B \text{)}$$
+
+\subsubsection*{2. Equilibrio Traslacional}
+Calculamos la magnitud de la fuerza Normal ($N$) aplicando sumatoria de fuerzas en el eje vertical:
+$$\sum F_y = 0$$
+$$N - W_T - W_n = 0$$
+$$N = 400 + 200$$
+$$N = 600 \, \si{N}$$
+
+\subsubsection*{3. Diagrama de Cuerpo Libre (Python)}
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+def draw_dcl_normal():
+    fig, ax = plt.subplots(figsize=(8, 4))
+    ax.set_xlim(-2, 1.5)
+    ax.set_ylim(-3, 3)
+    ax.axis('off')
+
+    rect = patches.Rectangle((-1.5, 0), 2.5, 0.2, linewidth=1.5, edgecolor='black', facecolor='white')
+    ax.add_patch(rect)
+
+    ax.plot(0, 0, 'ko', markersize=6)
+    ax.text(0.1, -0.2, 'B', fontsize=12)
+
+    ax.arrow(-0.5, 0.1, 0, -1.5, head_width=0.08, fc='red', ec='red')
+    ax.text(-0.8, -1.8, '$W_T=400$ N', color='red')
+    
+    ax.arrow(0.25, 0.1, 0, -1.0, head_width=0.08, fc='blue', ec='blue')
+    ax.text(0.3, -1.2, '$W_n=200$ N', color='blue')
+
+    ax.arrow(-0.25, 0.2, 0, 2.0, head_width=0.08, fc='green', ec='green')
+    ax.text(-0.5, 2.3, '$N=600$ N', color='green')
+
+    ax.annotate('', xy=(0, -0.5), xytext=(-0.25, -0.5), arrowprops=dict(arrowstyle='<->'))
+    ax.text(-0.125, -0.8, '$x$', ha='center')
+
+    plt.tight_layout()
+    plt.show()
+
+draw_dcl_normal()
+\end{lstlisting}
+
+\subsubsection*{4. Equilibrio Rotacional}
+Para hallar la distancia $x$, aplicamos sumatoria de torques tomando como pivote el punto $B$.
+
+$$\sum \tau_B = 0$$
+
+\begin{itemize}
+    \item El peso del tablón genera torque positivo: $400(0.5)$
+    \item El peso del niño genera torque negativo: $-200(0.25)$
+    \item La Normal empuja hacia arriba a la izquierda de $B$, por lo que genera un torque negativo (horario): $-600(x)$
+\end{itemize}
+
+$$400(0.5) - 200(0.25) - 600(x) = 0$$
+$$200 - 50 - 600x = 0$$
+$$150 = 600x$$
+$$x = \frac{150}{600}$$
+$$x = 0.25 \, \si{m}$$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $x = 0.25 \, \si{m}$ a la izquierda de $B$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+La barra uniforme, de masa $30 \, \si{kg}$ y de longitud $L$, se encuentra en reposo, como se indica en la figura. Si $BC = 0.6 L$ y la masa colgante es $m = 60 \, \si{kg}$, determine la magnitud de la fuerza normal que actúa sobre la barra en el punto $C$. (Considere $g = 10 \, \si{m/s^2}$).
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    \draw[thick, fill=gray!20] (-0.5, -2) rectangle (0, 3);
+    
+    \draw[thick] (0, 0) -- (6.93, 4);
+    \draw[thick] (0, -0.4) -- (6.93, 3.6);
+    \draw[thick] (6.93, 4) -- (6.93, 3.6);
+    \draw[fill=white] (0, -0.2) circle (0.3);
+    \fill (0, -0.2) circle (0.1);
+    
+    \draw[thick] (2.77, 1.4) -- (2.77, -2);
+    \draw[thick] (2.77, 1.6) -- (2.5, 1.6) -- (2.5, 1.4);
+    
+    \draw[thick] (6.93, 3.8) -- (6.93, 1.5);
+    \draw[thick, fill=white] (6.13, 1.5) rectangle (7.73, 0) node[midway] {$m$};
+    
+    \draw (2.77, 1.6) arc (180:210:1);
+    \draw (1.5, -0.2) arc (0:30:1.5);
+    \node at (2.2, 0.2) {$30^\circ$};
+    \draw[dashed] (0, -0.2) -- (4, -0.2);
+    
+    \node[left] at (-0.4, -0.2) {$A$};
+    \node[above left] at (6.93, 4) {$B$};
+    \node[below right] at (2.77, 1.4) {$C$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Geométrico y Fuerzas}
+La barra tiene una longitud total $L$. El punto de apoyo $C$ se encuentra a una distancia de $B$ igual a $BC = 0.6L$. 
+Por lo tanto, la distancia desde el pasador $A$ hasta el apoyo $C$ es:
+$$AC = L - 0.6L = 0.4L$$
+
+Al ser una barra uniforme, su peso ($W_B$) actúa en su centro de gravedad, ubicado exactamente a la mitad de su longitud ($0.5L$ medido desde $A$).
+
+Calculamos los pesos involucrados ($g=10 \, \si{m/s^2}$):
+$$W_B = m_{barra} \cdot g = 30(10) = 300 \, \si{N}$$
+$$W_m = m \cdot g = 60(10) = 600 \, \si{N}$$
+
+\subsubsection*{2. Diagrama de Cuerpo Libre (Python)}
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+import numpy as np
+
+def draw_dcl_bar():
+    fig, ax = plt.subplots(figsize=(8, 6))
+    ax.set_xlim(-1, 10)
+    ax.set_ylim(-5, 6)
+    ax.axis('off')
+    
+    L = 8.66 
+    theta = np.radians(30)
+    
+    x_bar = [0, L * np.cos(theta)]
+    y_bar = [0, L * np.sin(theta)]
+    ax.plot(x_bar, y_bar, lw=5, color='black')
+    
+    ax.plot(0, 0, 'ko', markersize=8)
+    ax.text(-0.5, 0.2, 'A', fontsize=12)
+    
+    xc = 0.4 * L * np.cos(theta)
+    yc = 0.4 * L * np.sin(theta)
+    
+    N_mag = 2.5
+    Nx = -N_mag * np.sin(theta)
+    Ny = N_mag * np.cos(theta)
+    ax.arrow(xc, yc, Nx, Ny, head_width=0.2, fc='green', ec='green')
+    ax.text(xc - 0.5, yc + Ny + 0.2, '$N_C$', color='green', fontsize=12)
+    
+    xw = 0.5 * L * np.cos(theta)
+    yw = 0.5 * L * np.sin(theta)
+    ax.arrow(xw, yw, 0, -2, head_width=0.2, fc='red', ec='red')
+    ax.text(xw + 0.2, yw - 1, '$W_B=300$ N', color='red', fontsize=12)
+    
+    xm = L * np.cos(theta)
+    ym = L * np.sin(theta)
+    ax.arrow(xm, ym, 0, -2.5, head_width=0.2, fc='blue', ec='blue')
+    ax.text(xm + 0.2, ym - 1.5, '$T=600$ N', color='blue', fontsize=12)
+    
+    ax.arrow(0, 0, 1.5, 0, head_width=0.2, fc='gray', ec='gray')
+    ax.text(1.6, 0.2, '$R_x$', color='gray')
+    ax.arrow(0, 0, 0, 1.5, head_width=0.2, fc='gray', ec='gray')
+    ax.text(-0.5, 1.6, '$R_y$', color='gray')
+
+    plt.tight_layout()
+    plt.show()
+
+draw_dcl_bar()
+\end{lstlisting}
+
+\subsubsection*{3. Equilibrio Rotacional}
+Para determinar la normal $N_C$ sin que las reacciones en $A$ interfieran, aplicamos sumatoria de torques respecto al pasador $A$.
+$$\sum \tau_A = 0$$
+
+Las fuerzas que generan torque respecto a $A$ son:
+\begin{itemize}
+    \item La normal $N_C$: Actúa perpendicularmente a la barra a una distancia de $0.4L$. Genera torque antihorario (positivo).
+    \item El peso de la barra $W_B$: Actúa verticalmente hacia abajo a una distancia de $0.5L$ a lo largo de la barra. Su componente perpendicular a la barra es $W_B \cos(30^\circ)$. Genera torque horario (negativo).
+    \item La tensión del bloque $W_m$: Actúa verticalmente hacia abajo en el extremo $L$. Su componente perpendicular a la barra es $W_m \cos(30^\circ)$. Genera torque horario (negativo).
+\end{itemize}
+
+Planteamos la ecuación:
+$$N_C (0.4L) - W_B \cos(30^\circ) (0.5L) - W_m \cos(30^\circ) (L) = 0$$
+
+\subsubsection*{4. Resolución}
+Podemos simplificar la longitud $L$ dividiendo toda la ecuación para $L$:
+$$0.4 N_C - 300(0.5)\cos(30^\circ) - 600(1)\cos(30^\circ) = 0$$
+$$0.4 N_C - 150 \cos(30^\circ) - 600 \cos(30^\circ) = 0$$
+$$0.4 N_C - 750 \cos(30^\circ) = 0$$
+$$0.4 N_C = 750 \left( \frac{\sqrt{3}}{2} \right)$$
+$$0.4 N_C = 375 \sqrt{3}$$
+$$N_C = \frac{375 \sqrt{3}}{0.4}$$
+$$N_C \approx 1623.8 \, \si{N}$$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $N_C = 1623.8 \, \si{N}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+La barra uniforme, de masa $30 \, \si{kg}$ y de longitud $L$, se encuentra en reposo, como se indica en la figura. Si $BC = 0.6 L$ y la masa colgante es $m = 60 \, \si{kg}$, determine la reacción total en el pasador $A$, expresada de forma vectorial. Conoce que la fuerza normal en $C$ es $N_C = 1623.8 \, \si{N}$. (Considere $g = 10 \, \si{m/s^2}$).
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    \draw[thick, fill=gray!20] (-0.5, -2) rectangle (0, 3);
+    
+    \draw[thick] (0, 0) -- (6.93, 4);
+    \draw[thick] (0, -0.4) -- (6.93, 3.6);
+    \draw[thick] (6.93, 4) -- (6.93, 3.6);
+    \draw[fill=white] (0, -0.2) circle (0.3);
+    \fill (0, -0.2) circle (0.1);
+    
+    \draw[thick] (2.77, 1.4) -- (2.77, -2);
+    \draw[thick] (2.77, 1.6) -- (2.5, 1.6) -- (2.5, 1.4);
+    
+    \draw[thick] (6.93, 3.8) -- (6.93, 1.5);
+    \draw[thick, fill=white] (6.13, 1.5) rectangle (7.73, 0) node[midway] {$m$};
+    
+    \draw (2.77, 1.6) arc (180:210:1);
+    \draw (1.5, -0.2) arc (0:30:1.5);
+    \node at (2.2, 0.2) {$30^\circ$};
+    \draw[dashed] (0, -0.2) -- (4, -0.2);
+    
+    \node[left] at (-0.4, -0.2) {$A$};
+    \node[above left] at (6.93, 4) {$B$};
+    \node[below right] at (2.77, 1.4) {$C$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Descomposición de la Fuerza Normal}
+La reacción en el pasador $A$ tiene dos componentes rectangulares: $R_x$ y $R_y$. Para calcularlas mediante las condiciones de equilibrio traslacional, primero debemos descomponer la fuerza Normal $N_C$ en los ejes $x$ e $y$.
+
+La barra está inclinada $30^\circ$ respecto a la horizontal. Como la Normal es perpendicular a la barra, formará un ángulo de $30^\circ$ con la vertical (eje $y$). Su dirección es hacia arriba y hacia la izquierda.
+$$N_{Cx} = -N_C \sin(30^\circ)$$
+$$N_{Cy} = N_C \cos(30^\circ)$$
+
+Calculamos los valores:
+$$N_{Cx} = -1623.8(0.5) = -811.9 \, \si{N}$$
+$$N_{Cy} = 1623.8\left( \frac{\sqrt{3}}{2} \right) \approx 1406.25 \, \si{N}$$
+
+\subsubsection*{2. Diagrama de Cuerpo Libre (Python)}
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+import numpy as np
+
+def draw_components():
+    fig, ax = plt.subplots(figsize=(6, 5))
+    ax.set_xlim(-3, 3)
+    ax.set_ylim(-1, 4)
+    ax.axis('off')
+    
+    ax.plot([-3, 3], [0, 0], 'k--', alpha=0.3)
+    ax.plot([0, 0], [-1, 4], 'k--', alpha=0.3)
+    
+    theta = np.radians(30)
+    ax.plot([-2, 2], [-2*np.tan(theta), 2*np.tan(theta)], 'k-', lw=2)
+    
+    N_mag = 3
+    Nx = -N_mag * np.sin(theta)
+    Ny = N_mag * np.cos(theta)
+    
+    ax.arrow(0, 0, Nx, Ny, head_width=0.15, fc='green', ec='green')
+    ax.text(Nx - 0.5, Ny + 0.1, '$N_C$', color='green', fontsize=12)
+    
+    ax.arrow(0, 0, Nx, 0, head_width=0.1, fc='blue', ec='blue', linestyle='--')
+    ax.text(Nx/2, -0.3, '$N_{Cx}$', color='blue', fontsize=12)
+    
+    ax.arrow(0, 0, 0, Ny, head_width=0.1, fc='blue', ec='blue', linestyle='--')
+    ax.text(0.1, Ny/2, '$N_{Cy}$', color='blue', fontsize=12)
+    
+    theta_arc = np.linspace(np.pi/2, np.pi/2 + theta, 50)
+    ax.plot(1.5 * np.cos(theta_arc), 1.5 * np.sin(theta_arc), 'r-')
+    ax.text(-0.5, 1.8, '$30^\\circ$', color='red')
+
+    plt.tight_layout()
+    plt.show()
+
+draw_components()
+\end{lstlisting}
+
+\subsubsection*{3. Equilibrio Traslacional}
+Aplicamos la sumatoria de fuerzas en el eje horizontal ($x$) y en el eje vertical ($y$).
+
+\textbf{Eje X:}
+$$\sum F_x = 0$$
+$$R_x + N_{Cx} = 0$$
+$$R_x - 811.9 = 0$$
+$$R_x = 811.9 \, \si{N}$$
+
+\textbf{Eje Y:}
+$$\sum F_y = 0$$
+$$R_y + N_{Cy} - W_B - W_m = 0$$
+$$R_y + 1406.25 - 300 - 600 = 0$$
+$$R_y + 1406.25 - 900 = 0$$
+$$R_y = 900 - 1406.25$$
+$$R_y = -506.25 \, \si{N}$$
+El signo negativo indica que la componente vertical de la reacción apunta hacia abajo.
+
+\subsubsection*{4. Vector Reacción Final}
+Construimos el vector de la reacción en $A$ uniendo sus componentes:
+$$\vec{R}_A = R_x \hat{i} + R_y \hat{j}$$
+$$\vec{R}_A = (811.9 \hat{i} - 506.25 \hat{j}) \, \si{N}$$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{R}_A = 811.9 \hat{i} - 506.25 \hat{j} \, \si{N}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+La viga uniforme, de $100 \, \si{kg}$ y longitud $L$, se encuentra en reposo debido a la acción de la fuerza $\vec{F}$, como se indica en la figura. Determine la magnitud de $\vec{F}$. (Considere $g=10\,\si{m/s^2}$).
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2, >=Latex]
+    \draw[thick] (0, 0.5) -- (0, -4);
+    
+    \draw[thick, double distance=4pt] (0, 0) -- (3.46, -2);
+    
+    \draw[fill=white] (0, 0) circle (0.2);
+    \fill (0, 0) circle (0.05);
+    \node[left] at (-0.3, 0) {$A$};
+    
+    \node[right] at (3.5, -2) {$B$};
+    
+    \draw (0, -1) arc (270:330:1);
+    \node at (0.4, -1.3) {$60^\circ$};
+    
+    \draw[dashed] (0, -2) -- (4, -2);
+    \draw (2.5, -2) arc (0:30:1.04);
+    \node at (2.8, -1.8) {$30^\circ$};
+    
+    \draw[->, thick] (3.46, -2) -- +(60:2) node[right] {$\vec{F}$};
+    
+    \draw (3.46, -2) ++(150:0.3) -- ++(60:0.3) -- ++(-30:0.3);
+    
+    \draw[thick] (3.46, -2) -- (3.46, -3);
+    \draw[thick, fill=white] (2.86, -3) rectangle (4.06, -3.8) node[midway] {$20\,\si{kg}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Físico y Datos}
+La viga se encuentra inclinada. El ángulo que forma con la pared vertical es de $60^\circ$, lo que implica que el ángulo que forma con la horizontal es de $30^\circ$ ($90^\circ - 60^\circ = 30^\circ$).
+La fuerza $\vec{F}$ es perpendicular a la viga, como lo indica el símbolo de ángulo recto en la figura.
+
+Calculamos los pesos actuantes en el sistema ($g = 10 \, \si{m/s^2}$):
+$$W_v = m_v \cdot g = 100(10) = 1000 \, \si{N}$$
+$$W_m = m \cdot g = 20(10) = 200 \, \si{N}$$
+
+Como la viga es uniforme, su peso ($W_v$) actúa en su punto medio, es decir, a una distancia de $L/2$ desde el pasador $A$. El peso del bloque ($W_m$) actúa en el extremo $B$, a una distancia $L$.
+
+\subsubsection*{2. Diagrama de Cuerpo Libre (Python)}
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def draw_dcl_torques():
+    fig, ax = plt.subplots(figsize=(8, 6))
+    ax.set_xlim(-1, 5)
+    ax.set_ylim(-4, 3)
+    ax.axis('off')
+    
+    L = 4
+    theta = np.radians(-30)
+    
+    ax.plot([0, L*np.cos(theta)], [0, L*np.sin(theta)], lw=4, color='black')
+    
+    ax.plot(0, 0, 'ko', markersize=8)
+    ax.text(-0.3, 0.2, 'A', fontsize=12)
+    
+    xw = (L/2)*np.cos(theta)
+    yw = (L/2)*np.sin(theta)
+    ax.arrow(xw, yw, 0, -1.5, head_width=0.15, fc='red', ec='red')
+    ax.text(xw - 1, yw - 1.2, '$W_v=1000$ N', color='red', fontsize=12)
+    
+    ax.arrow(L*np.cos(theta), L*np.sin(theta), 0, -1.5, head_width=0.15, fc='blue', ec='blue')
+    ax.text(L*np.cos(theta) + 0.1, L*np.sin(theta) - 1.2, '$W_m=200$ N', color='blue', fontsize=12)
+    
+    angle_F = np.radians(60)
+    Fx = 1.5 * np.cos(angle_F)
+    Fy = 1.5 * np.sin(angle_F)
+    ax.arrow(L*np.cos(theta), L*np.sin(theta), Fx, Fy, head_width=0.15, fc='green', ec='green')
+    ax.text(L*np.cos(theta) + Fx + 0.1, L*np.sin(theta) + Fy, '$F$', color='green', fontsize=12)
+    
+    ax.plot([0, L*np.cos(theta)], [0, 0], 'k--', alpha=0.3)
+    
+    plt.tight_layout()
+    plt.show()
+
+draw_dcl_torques()
+\end{lstlisting}
+
+\subsubsection*{3. Equilibrio Rotacional}
+Para determinar la magnitud de $\vec{F}$ evitamos las fuerzas de reacción en el pasador aplicando la sumatoria de torques respecto al punto $A$:
+$$\sum \tau_A = 0$$
+
+Determinamos los brazos de palanca y el sentido de los torques:
+\begin{itemize}
+    \item La fuerza $\vec{F}$ es perpendicular a la viga en el extremo $L$, por lo que su torque es directo: $+F \cdot L$ (antihorario).
+    \item El peso de la viga ($W_v$) actúa verticalmente. La distancia perpendicular desde $A$ a su línea de acción es $\frac{L}{2} \cos(30^\circ)$. Genera torque horario: $-W_v \left( \frac{L}{2} \cos(30^\circ) \right)$.
+    \item El peso del bloque ($W_m$) actúa verticalmente. La distancia perpendicular desde $A$ a su línea de acción es $L \cos(30^\circ)$. Genera torque horario: $-W_m (L \cos(30^\circ))$.
+\end{itemize}
+
+Planteamos la ecuación:
+$$F \cdot L - W_v \left( \frac{L}{2} \cos(30^\circ) \right) - W_m (L \cos(30^\circ)) = 0$$
+
+Dividimos toda la ecuación para $L$:
+$$F - \frac{W_v}{2} \cos(30^\circ) - W_m \cos(30^\circ) = 0$$
+
+\subsubsection*{4. Resolución}
+Sustituimos los valores numéricos:
+$$F - \frac{1000}{2} \cos(30^\circ) - 200 \cos(30^\circ) = 0$$
+$$F - 500 \left( \frac{\sqrt{3}}{2} \right) - 200 \left( \frac{\sqrt{3}}{2} \right) = 0$$
+$$F = 250\sqrt{3} + 100\sqrt{3}$$
+$$F = 350\sqrt{3} \, \si{N}$$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $F = 350\sqrt{3} \, \si{N}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+La viga uniforme, de $100 \, \si{kg}$ y longitud $L$, se encuentra en reposo debido a la acción de la fuerza $\vec{F}$, como se indica en la figura. Determine la reacción total en el extremo $A$ de la viga. Se conoce que $F = 350\sqrt{3} \, \si{N}$. (Considere $g=10\,\si{m/s^2}$).
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2, >=Latex]
+    \draw[thick] (0, 0.5) -- (0, -4);
+    
+    \draw[thick, double distance=4pt] (0, 0) -- (3.46, -2);
+    
+    \draw[fill=white] (0, 0) circle (0.2);
+    \fill (0, 0) circle (0.05);
+    \node[left] at (-0.3, 0) {$A$};
+    
+    \node[right] at (3.5, -2) {$B$};
+    
+    \draw (0, -1) arc (270:330:1);
+    \node at (0.4, -1.3) {$60^\circ$};
+    
+    \draw[dashed] (0, -2) -- (4, -2);
+    \draw (2.5, -2) arc (0:30:1.04);
+    \node at (2.8, -1.8) {$30^\circ$};
+    
+    \draw[->, thick] (3.46, -2) -- +(60:2) node[right] {$\vec{F}$};
+    
+    \draw (3.46, -2) ++(150:0.3) -- ++(60:0.3) -- ++(-30:0.3);
+    
+    \draw[thick] (3.46, -2) -- (3.46, -3);
+    \draw[thick, fill=white] (2.86, -3) rectangle (4.06, -3.8) node[midway] {$20\,\si{kg}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Descomposición de la Fuerza F}
+Para aplicar las condiciones de equilibrio traslacional, necesitamos las componentes rectangulares de $\vec{F}$.
+Como la viga está inclinada $30^\circ$ por debajo de la horizontal y la fuerza es perpendicular a la viga apuntando hacia arriba y a la izquierda, el ángulo que forma la fuerza con la horizontal positiva (eje X) es de $180^\circ - 60^\circ = 120^\circ$. Trabajando con el ángulo agudo respecto al eje X negativo, el ángulo es de $60^\circ$.
+
+Calculamos las componentes:
+$$F_x = -F \cos(60^\circ) = -350\sqrt{3} \cdot 0.5 = -175\sqrt{3} \approx -303.11 \, \si{N}$$
+$$F_y = F \sin(60^\circ) = 350\sqrt{3} \left( \frac{\sqrt{3}}{2} \right) = \frac{350 \cdot 3}{2} = 525 \, \si{N}$$
+
+\subsubsection*{2. Diagrama de Cuerpo Libre (Python)}
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def draw_dcl_forces():
+    fig, ax = plt.subplots(figsize=(8, 6))
+    ax.set_xlim(-2, 5)
+    ax.set_ylim(-4, 3)
+    ax.axis('off')
+    
+    L = 4
+    theta = np.radians(-30)
+    
+    ax.plot([0, L*np.cos(theta)], [0, L*np.sin(theta)], lw=4, color='black', alpha=0.3)
+    ax.plot(0, 0, 'ko', markersize=8)
+    
+    ax.arrow(0, 0, -1.5, 0, head_width=0.15, fc='purple', ec='purple')
+    ax.text(-1.8, 0.2, '$R_x$', color='purple', fontsize=12)
+    ax.arrow(0, 0, 0, 1.5, head_width=0.15, fc='purple', ec='purple')
+    ax.text(0.1, 1.6, '$R_y$', color='purple', fontsize=12)
+    
+    xw = (L/2)*np.cos(theta)
+    yw = (L/2)*np.sin(theta)
+    ax.arrow(xw, yw, 0, -1.5, head_width=0.15, fc='red', ec='red')
+    ax.text(xw + 0.1, yw - 1.2, '$W_v=1000$ N', color='red', fontsize=12)
+    
+    xb = L*np.cos(theta)
+    yb = L*np.sin(theta)
+    ax.arrow(xb, yb, 0, -1.5, head_width=0.15, fc='blue', ec='blue')
+    ax.text(xb + 0.1, yb - 1.2, '$W_m=200$ N', color='blue', fontsize=12)
+    
+    ax.arrow(xb, yb, -1.5, 0, head_width=0.15, fc='green', ec='green')
+    ax.text(xb - 2, yb + 0.2, '$F_x=-303.11$', color='green', fontsize=12)
+    ax.arrow(xb, yb, 0, 1.5, head_width=0.15, fc='green', ec='green')
+    ax.text(xb + 0.2, yb + 1.2, '$F_y=525$', color='green', fontsize=12)
+
+    plt.tight_layout()
+    plt.show()
+
+draw_dcl_forces()
+\end{lstlisting}
+
+\subsubsection*{3. Equilibrio Traslacional}
+Planteamos la sumatoria de fuerzas en el eje X y en el eje Y.
+
+\textbf{Eje X:}
+$$\sum F_x = 0$$
+$$R_x + F_x = 0$$
+$$R_x - 175\sqrt{3} = 0$$
+$$R_x = 175\sqrt{3} \approx -303.11 \, \si{N}$$
+(Nota: El valor numérico de la componente es negativo, indicando dirección hacia la izquierda, por lo que su representación vectorial lleva el signo).
+
+\textbf{Eje Y:}
+$$\sum F_y = 0$$
+$$R_y + F_y - W_v - W_m = 0$$
+$$R_y + 525 - 1000 - 200 = 0$$
+$$R_y + 525 - 1200 = 0$$
+$$R_y = 1200 - 525$$
+$$R_y = 675 \, \si{N}$$
+
+\subsubsection*{4. Vector Reacción Final}
+La reacción total en el extremo $A$ se expresa como un vector con sus componentes $\hat{i}$ y $\hat{j}$:
+$$\vec{R}_A = R_x \hat{i} + R_y \hat{j}$$
+$$\vec{R}_A = (-175\sqrt{3} \hat{i} + 675 \hat{j}) \, \si{N} \approx (-303.11 \hat{i} + 675 \hat{j}) \, \si{N}$$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{R}_A = -303.11 \hat{i} + 675 \hat{j} \, \si{N}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una varilla homogénea, de longitud $L$ y masa $m$, se dobla en un ángulo de $90^\circ$ y se suspende en una cuerda, como se indica en la figura. Determine el valor del ángulo $\theta$, cuando la varilla está en equilibrio.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.5, >=Latex]
+    \draw[ultra thick] (-1, 1) -- (1, 1);
+    \node[above] at (0, 1) {$O$};
+    
+    \draw[thick] (0, 1) -- (0, 0) node[midway, right] {$T$};
+    
+    \draw[thick, double distance=3pt] (0, 0) -- (-0.63, -1.90);
+    \draw[thick, double distance=3pt] (-0.63, -1.90) -- (1.27, -2.53);
+    
+    \draw[dashed] (0, 0) -- (0, -2);
+    \draw (0, -0.7) arc (270:251.5:0.7);
+    \node at (-0.2, -0.9) {$\theta$};
+    
+    \draw (-0.50, -1.52) -- (-0.12, -1.65) -- (-0.25, -2.03);
+    
+    \node[left] at (-0.73, -1.90) {$A$};
+    \node[left] at (-0.31, -0.95) {$L/2$};
+    \node[below left] at (0.32, -2.21) {$L/2$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis de Masas y Fuerzas}
+La varilla es homogénea y tiene una masa total $m$ y longitud $L$. Al estar doblada exactamente por la mitad, podemos dividirla en dos segmentos rectos de longitud $L/2$. Cada segmento tendrá una masa equivalente a la mitad de la masa total:
+$$m_1 = m_2 = \frac{m}{2}$$
+
+El peso de cada segmento actúa en su respectivo centro de gravedad, el cual se ubica en el punto medio geométrico del segmento. Como cada segmento mide $L/2$, sus centros de gravedad se encuentran a una distancia de $L/4$ medidos desde el vértice (punto $A$).
+$$W_1 = W_2 = \frac{m \cdot g}{2}$$
+
+Por equilibrio traslacional en el eje vertical ($\sum F_y = 0$), la tensión $T$ de la cuerda debe soportar el peso total de la varilla:
+$$T = W_{total} = m \cdot g$$
+
+\subsubsection*{2. Diagrama de Cuerpo Libre (Python)}
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def draw_dcl_bent_rod():
+    fig, ax = plt.subplots(figsize=(6, 6))
+    ax.set_xlim(-2, 2)
+    ax.set_ylim(-3.5, 1)
+    ax.axis('off')
+    
+    theta = np.arctan(1/3)
+    L_half = 2.0
+    
+    Ax = -L_half * np.sin(theta)
+    Ay = -L_half * np.cos(theta)
+    Bx = Ax + L_half * np.cos(theta)
+    By = Ay - L_half * np.sin(theta)
+    
+    ax.plot([0, Ax], [0, Ay], lw=5, color='gray')
+    ax.plot([Ax, Bx], [Ay, By], lw=5, color='gray')
+    
+    ax.plot(0, 0, 'ko', markersize=6)
+    ax.plot(Ax, Ay, 'ks', markersize=6)
+    ax.text(Ax - 0.3, Ay, 'A', fontsize=12)
+    
+    cg1x = Ax / 2
+    cg1y = Ay / 2
+    cg2x = Ax + (L_half / 2) * np.cos(theta)
+    cg2y = Ay - (L_half / 2) * np.sin(theta)
+    
+    ax.arrow(cg1x, cg1y, 0, -1.0, head_width=0.1, fc='red', ec='red')
+    ax.text(cg1x - 0.8, cg1y - 1.2, '$W_1 = mg/2$', color='red', fontsize=12)
+    
+    ax.arrow(cg2x, cg2y, 0, -1.0, head_width=0.1, fc='blue', ec='blue')
+    ax.text(cg2x + 0.1, cg2y - 0.5, '$W_2 = mg/2$', color='blue', fontsize=12)
+    
+    ax.arrow(0, 0, 0, 0.8, head_width=0.1, fc='green', ec='green')
+    ax.text(0.1, 0.6, '$T = mg$', color='green', fontsize=12)
+    
+    ax.plot([0, 0], [0, -1.5], 'k--', alpha=0.5)
+    ax.text(-0.2, -0.8, r'$\theta$', fontsize=12)
+
+    plt.tight_layout()
+    plt.show()
+
+draw_dcl_bent_rod()
+\end{lstlisting}
+
+\subsubsection*{3. Equilibrio Rotacional}
+Para determinar el ángulo $\theta$, aplicamos la condición de equilibrio rotacional tomando como eje de giro el vértice $A$.
+$$\sum \tau_A = 0$$
+
+Definimos los torques generados por cada fuerza, recordando que $\tau = F \cdot d_{\perp}$ (donde $d_{\perp}$ es el brazo de palanca horizontal respecto al punto $A$):
+
+\begin{itemize}
+    \item \textbf{Tensión $T$}: Genera un torque antihorario (positivo). La distancia horizontal desde $A$ hasta la línea de acción de $T$ (el eje Y) es la proyección del primer segmento: $d_T = \frac{L}{2} \sin\theta$.
+    \item \textbf{Peso $W_1$}: Genera un torque horario (negativo). Se ubica en el centro del segmento superior, por lo que su brazo de palanca es $d_1 = \frac{L}{4} \sin\theta$.
+    \item \textbf{Peso $W_2$}: Genera un torque horario (negativo). El segmento inferior forma un ángulo de $90^\circ$ con el superior, por lo que su ángulo respecto a la horizontal es $\theta$. Su brazo de palanca (distancia horizontal desde $A$) es $d_2 = \frac{L}{4} \cos\theta$.
+\end{itemize}
+
+Planteamos la ecuación general:
+$$T \left( \frac{L}{2} \sin\theta \right) - W_1 \left( \frac{L}{4} \sin\theta \right) - W_2 \left( \frac{L}{4} \cos\theta \right) = 0$$
+
+\subsubsection*{4. Resolución}
+Reemplazamos $T = mg$ y $W_1 = W_2 = \frac{mg}{2}$:
+$$(mg) \frac{L}{2} \sin\theta - \left( \frac{mg}{2} \right) \frac{L}{4} \sin\theta - \left( \frac{mg}{2} \right) \frac{L}{4} \cos\theta = 0$$
+
+$$mg \frac{L}{2} \sin\theta - mg \frac{L}{8} \sin\theta - mg \frac{L}{8} \cos\theta = 0$$
+
+Dividimos toda la ecuación entre el término común $mgL$:
+$$\frac{1}{2} \sin\theta - \frac{1}{8} \sin\theta - \frac{1}{8} \cos\theta = 0$$
+
+Agrupamos los términos con la función seno:
+$$\left( \frac{4}{8} - \frac{1}{8} \right) \sin\theta = \frac{1}{8} \cos\theta$$
+
+$$\frac{3}{8} \sin\theta = \frac{1}{8} \cos\theta$$
+
+Multiplicamos por 8 y reordenamos usando la identidad $\tan\theta = \frac{\sin\theta}{\cos\theta}$:
+$$3 \sin\theta = \cos\theta$$
+$$\frac{\sin\theta}{\cos\theta} = \frac{1}{3}$$
+$$\tan\theta = \frac{1}{3}$$
+
+Despejamos el ángulo calculando el arcotangente:
+$$\theta = \arctan\left(\frac{1}{3}\right)$$
+$$\theta \approx 18.43^\circ$$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\theta = 18.43^\circ$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una escalera homogénea, de masa $10 \, \si{kg}$ y longitud $8 \, \si{m}$, se arrima contra una pared vertical lisa, y queda inclinada $60^\circ$ sobre el suelo horizontal rugoso. Un niño de $35 \, \si{kg}$ sube por la escalera. Si el coeficiente de rozamiento estático entre la escalera y el piso es $0.4$, determine la máxima altura $h$ sobre el suelo a la que puede subir el niño antes de que la escalera resbale. (Considere $g=10\,\si{m/s^2}$).
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Latex]
+    \draw[thick, fill=gray!20] (-0.5, 0) rectangle (0, 8);
+    \draw[thick, fill=gray!20] (-0.5, -0.5) rectangle (6, 0);
+    
+    \draw[thick, double distance=4pt, fill=white] (4, 0) -- (0, 6.93);
+    
+    \node[below right] at (4, 0) {$A$};
+    \node[left] at (0, 6.93) {$B$};
+    
+    \draw (3.2, 0) arc (180:120:0.8);
+    \node at (3.4, 0.5) {$60^\circ$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Físico y Datos}
+El sistema se encuentra en un estado de equilibrio inminente, es decir, a punto de resbalar. En este instante, la fuerza de rozamiento estático alcanza su valor máximo ($f_r = \mu_s N_A$).
+
+La pared vertical es lisa, lo que significa que no hay fuerza de fricción en el punto $B$; la pared solo ejerce una fuerza Normal ($N_B$) horizontal. El suelo es rugoso, por lo que en el punto $A$ actúan tanto la Normal ($N_A$) hacia arriba como la fricción ($f_r$) oponiéndose al posible deslizamiento (hacia la izquierda).
+
+Calculamos los pesos ($g=10\,\si{m/s^2}$):
+$$W_E = m_E \cdot g = 10(10) = 100 \, \si{N}$$
+$$W_N = m_N \cdot g = 35(10) = 350 \, \si{N}$$
+
+Al ser homogénea, el peso de la escalera actúa en su punto medio, a $4 \, \si{m}$ de los extremos. El niño se encuentra a una altura vertical $h$.
+
+\subsubsection*{2. Diagrama de Cuerpo Libre (Python)}
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def draw_dcl_ladder():
+    fig, ax = plt.subplots(figsize=(6, 6))
+    ax.set_xlim(-1, 5)
+    ax.set_ylim(-1, 8)
+    ax.axis('off')
+
+    L = 8
+    theta = np.radians(60)
+    xA = L * np.cos(theta)
+    yB = L * np.sin(theta)
+
+    ax.plot([xA, 0], [0, yB], lw=4, color='black', alpha=0.5)
+
+    ax.plot([-0.5, 5], [0, 0], 'k-')
+    ax.plot([0, 0], [-0.5, 8], 'k-')
+
+    ax.text(xA + 0.2, -0.3, 'A', fontsize=12)
+    ax.text(-0.3, yB, 'B', fontsize=12)
+
+    ax.arrow(xA, 0, 0, 1.5, head_width=0.15, fc='green', ec='green')
+    ax.text(xA + 0.1, 1.6, '$N_A$', color='green', fontsize=12)
+
+    ax.arrow(xA, 0, -1.5, 0, head_width=0.15, fc='purple', ec='purple')
+    ax.text(xA - 1.8, 0.2, '$f_r$', color='purple', fontsize=12)
+
+    ax.arrow(0, yB, 1.5, 0, head_width=0.15, fc='green', ec='green')
+    ax.text(1.6, yB + 0.1, '$N_B$', color='green', fontsize=12)
+
+    xw = (L/2) * np.cos(theta)
+    yw = (L/2) * np.sin(theta)
+    ax.arrow(xw, yw, 0, -1.5, head_width=0.15, fc='red', ec='red')
+    ax.text(xw + 0.1, yw - 1.5, '$W_E=100$ N', color='red', fontsize=12)
+
+    h_val = 5.18
+    d_val = h_val / np.tan(theta)
+    ax.arrow(d_val, h_val, 0, -2.0, head_width=0.15, fc='blue', ec='blue')
+    ax.text(d_val + 0.1, h_val - 2.0, '$W_N=350$ N', color='blue', fontsize=12)
+
+    plt.tight_layout()
+    plt.show()
+
+draw_dcl_ladder()
+\end{lstlisting}
+
+\subsubsection*{3. Equilibrio Traslacional}
+Aplicamos sumatoria de fuerzas en ambos ejes para hallar el valor de las normales.
+
+\textbf{Eje Y:}
+$$\sum F_y = 0$$
+$$N_A - W_E - W_N = 0$$
+$$N_A = 100 + 350 = 450 \, \si{N}$$
+
+Sabiendo $N_A$, calculamos la fuerza de rozamiento máxima:
+$$f_r = \mu_s N_A = 0.4(450) = 180 \, \si{N}$$
+
+\textbf{Eje X:}
+$$\sum F_x = 0$$
+$$N_B - f_r = 0$$
+$$N_B = 180 \, \si{N}$$
+
+\subsubsection*{4. Equilibrio Rotacional}
+Para determinar la altura máxima, aplicamos sumatoria de torques respecto al punto de contacto con el suelo (punto $A$). Esto anula los torques de $N_A$ y $f_r$.
+$$\sum \tau_A = 0$$
+
+Determinamos los brazos de palanca (distancias perpendiculares) desde el punto $A$:
+\begin{itemize}
+    \item Normal en B ($N_B$): Genera torque antihorario (positivo). Su brazo es la altura total $8 \sin(60^\circ)$.
+    \item Peso de escalera ($W_E$): Genera torque horario (negativo). Se encuentra a $4 \, \si{m}$ a lo largo de la escalera, su brazo horizontal es $4 \cos(60^\circ)$.
+    \item Peso del niño ($W_N$): Genera torque horario (negativo). Si el niño está a una altura $h$, la relación trigonométrica nos dice que $\tan(60^\circ) = \frac{h}{d}$, por lo que su brazo de palanca horizontal es $d = \frac{h}{\tan(60^\circ)} = \frac{h}{\sqrt{3}}$.
+\end{itemize}
+
+Planteamos la ecuación general:
+$$N_B (8 \sin 60^\circ) - W_E (4 \cos 60^\circ) - W_N \left( \frac{h}{\tan 60^\circ} \right) = 0$$
+
+Sustituimos los valores:
+$$180 \left( 8 \frac{\sqrt{3}}{2} \right) - 100 \left( 4(0.5) \right) - 350 \left( \frac{h}{\sqrt{3}} \right) = 0$$
+$$180 (4\sqrt{3}) - 100(2) - \frac{350h}{\sqrt{3}} = 0$$
+$$720\sqrt{3} - 200 - \frac{350h}{\sqrt{3}} = 0$$
+
+\subsubsection*{5. Resolución Matemática}
+Despejamos la altura $h$:
+$$\frac{350h}{\sqrt{3}} = 720\sqrt{3} - 200$$
+$$350h = \sqrt{3}(720\sqrt{3} - 200)$$
+$$350h = 720(3) - 200\sqrt{3}$$
+$$350h = 2160 - 200\sqrt{3}$$
+$$h = \frac{2160 - 200\sqrt{3}}{350}$$
+
+Sustituyendo $\sqrt{3} \approx 1.732$:
+$$h = \frac{2160 - 346.41}{350}$$
+$$h = \frac{1813.59}{350}$$
+$$h \approx 5.18 \, \si{m}$$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $h = 5.18 \, \si{m}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un bloque plano rectangular uniforme se apoya sobre su arista $A$ y está sostenido por una cuerda horizontal, como se indica en la figura. El coeficiente de rozamiento estático entre el piso y el bloque es $0.2$. Determine el valor mínimo de $\theta$ para el instante en que el bloque esté a punto de deslizarse.
+
+\begin{center}
+\begin{tikzpicture}[scale=3, >=Latex]
+    \coordinate (A) at (0,0);
+    \coordinate (TR) at (41.63:2);
+    \coordinate (BL) at (131.63:1);
+    \coordinate (TL) at ($(TR)+(BL)$);
+    
+    \draw[thick] (-1.5, 0) -- (2.5, 0);
+    
+    \draw[thick, fill=white] (A) -- (TR) -- (TL) -- (BL) -- cycle;
+    
+    \node[below] at (A) {$A$};
+    
+    \draw[->, thick] (TL) -- ++(-1.5, 0) node[above left] {$T$};
+    
+    \draw (0.5, 0) arc (0:41.63:0.5);
+    \node at (20:0.7) {$\theta$};
+    
+    \draw[dashed, gray] (A) -- (TL);
+    \node[gray] at (0.3, 0.9) {$d$};
+    
+    \node[above right] at ($(TR)!0.5!(TL)$) {$0.5 \, \si{m}$};
+    \node[above left] at ($(BL)!0.5!(TL)$) {$1 \, \si{m}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Geométrico}
+El bloque es un rectángulo de longitud $L = 1 \, \si{m}$ y ancho $w = 0.5 \, \si{m}$.
+El pivote se encuentra en la arista inferior derecha, la cual llamaremos $A$.
+La diagonal $d$ del bloque que conecta $A$ con la esquina superior izquierda se calcula mediante el teorema de Pitágoras:
+$$d = \sqrt{1^2 + 0.5^2} = \sqrt{1.25} = \frac{\sqrt{5}}{2} \, \si{m}$$
+
+El ángulo $\alpha$ que forma esta diagonal $d$ con el lado de longitud $1 \, \si{m}$ es:
+$$\tan \alpha = \frac{0.5}{1} = 0.5$$
+$$\alpha = \arctan(0.5) \approx 26.57^\circ$$
+
+Del gráfico, sabemos que el lado de $1 \, \si{m}$ está inclinado un ángulo $\theta$ respecto a la horizontal. Por lo tanto, el ángulo total $\gamma$ que forma la diagonal $d$ con la horizontal es:
+$$\gamma = \theta + \alpha$$
+
+\subsubsection*{2. Diagrama de Cuerpo Libre (Python)}
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+import numpy as np
+
+def draw_dcl_block():
+    fig, ax = plt.subplots(figsize=(6, 6))
+    ax.set_xlim(-1.5, 2.5)
+    ax.set_ylim(-0.5, 3.5)
+    ax.axis('off')
+
+    theta_rad = np.radians(41.63)
+    TR = np.array([2 * np.cos(theta_rad), 2 * np.sin(theta_rad)])
+    BL = np.array([-1 * np.sin(theta_rad), 1 * np.cos(theta_rad)])
+    TL = TR + BL
+
+    polygon = patches.Polygon([[0, 0], TR, TL, BL], closed=True, fill=white, edgecolor='black', linewidth=1.5)
+    ax.add_patch(polygon)
+
+    ax.plot([-1.5, 2.5], [0, 0], 'k-', linewidth=1)
+
+    ax.plot(0, 0, 'ko', markersize=5)
+    ax.text(0.1, -0.2, 'A', fontsize=12)
+
+    CG = TL / 2
+    ax.plot(CG[0], CG[1], 'ko', markersize=4)
+    ax.text(CG[0] + 0.1, CG[1] + 0.1, 'CG', fontsize=10)
+
+    ax.arrow(CG[0], CG[1], 0, -1.2, head_width=0.1, fc='red', ec='red')
+    ax.text(CG[0] + 0.1, CG[1] - 1.0, '$W_B$', color='red', fontsize=12)
+
+    ax.arrow(TL[0], TL[1], -1.0, 0, head_width=0.1, fc='blue', ec='blue')
+    ax.text(TL[0] - 0.8, TL[1] + 0.1, '$T$', color='blue', fontsize=12)
+
+    ax.arrow(0, 0, 0, 1.2, head_width=0.1, fc='green', ec='green')
+    ax.text(-0.3, 1.0, '$N$', color='green', fontsize=12)
+
+    ax.arrow(0, 0, 0.8, 0, head_width=0.1, fc='purple', ec='purple')
+    ax.text(0.6, 0.1, '$f_r$', color='purple', fontsize=12)
+    
+    ax.plot([0, TL[0]], [0, TL[1]], 'k--', alpha=0.5)
+
+    plt.tight_layout()
+    plt.show()
+
+draw_dcl_block()
+\end{lstlisting}
+
+\subsubsection*{3. Equilibrio Traslacional}
+Aplicamos la sumatoria de fuerzas en el instante de deslizamiento inminente. El coeficiente estático es $\mu_s = 0.2$.
+
+\textbf{Eje Vertical:}
+$$\sum F_y = 0$$
+$$N - W_B = 0 \Rightarrow N = W_B$$
+
+\textbf{Eje Horizontal:}
+La tensión $T$ empuja el bloque hacia la izquierda, por lo que la fricción $f_r$ debe oponerse apuntando a la derecha.
+$$\sum F_x = 0$$
+$$T - f_r = 0 \Rightarrow T = f_r$$
+
+Sustituimos el valor máximo de la fricción estática:
+$$T = \mu_s N$$
+$$T = 0.2 W_B = \frac{1}{5} W_B$$
+
+\subsubsection*{4. Equilibrio Rotacional}
+Calculamos la sumatoria de torques respecto al pivote $A$:
+$$\sum \tau_A = 0$$
+
+\begin{itemize}
+    \item La tensión $T$ actúa en la esquina superior izquierda a una distancia de la diagonal $d$. Su brazo de palanca vertical es $d \sin \gamma$. Genera un torque antihorario (positivo).
+    \item El peso $W_B$ actúa en el centro de gravedad, el cual se ubica a la mitad de la diagonal ($d/2$). Su brazo de palanca horizontal respecto a $A$ es $\frac{d}{2} \cos \gamma$. Genera un torque horario (negativo).
+\end{itemize}
+
+$$T (d \sin \gamma) - W_B \left( \frac{d}{2} \cos \gamma \right) = 0$$
+
+Reemplazamos $T = \frac{1}{5} W_B$:
+$$\left( \frac{1}{5} W_B \right) d \sin \gamma - W_B \frac{d}{2} \cos \gamma = 0$$
+
+Dividimos toda la ecuación para $W_B \cdot d$:
+$$\frac{1}{5} \sin \gamma - \frac{1}{2} \cos \gamma = 0$$
+
+\subsubsection*{5. Resolución}
+Despejamos el ángulo $\gamma$:
+$$\frac{1}{5} \sin \gamma = \frac{1}{2} \cos \gamma$$
+$$\frac{\sin \gamma}{\cos \gamma} = \frac{5}{2}$$
+$$\tan \gamma = 2.5$$
+$$\gamma = \arctan(2.5) \approx 68.198^\circ$$
+
+Finalmente, utilizamos la relación geométrica obtenida al inicio para encontrar $\theta$:
+$$\gamma = \theta + \alpha$$
+$$\theta = \gamma - \alpha$$
+$$\theta = 68.198^\circ - 26.565^\circ$$
+$$\theta = 41.633^\circ$$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\theta = 41.63^\circ$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Sobre el disco de la figura, de radio $15 \, \si{cm}$ que pesa $200 \, \si{N}$, actúa una fuerza $\vec{F}$, cuya línea de acción pasa por el centro del disco y forma con la horizontal $30^\circ$. ¿Cuál es la magnitud de la fuerza para que el disco esté a punto de girar sobre el obstáculo de altura $h = 10 \, \si{cm}$?
+
+\begin{center}
+\begin{tikzpicture}[scale=1.5, >=Latex]
+    \draw[thick] (-1.5, 0) -- (3, 0);
+    \draw[thick, fill=gray!10] (1, 0) rectangle (2.5, 0.67);
+    \node[right] at (2.5, 0.33) {$h$};
+    
+    \draw[thick] (0, 1) circle (1);
+    \fill (0, 1) circle (0.05);
+    
+    \draw[->, thick] (0, 1) -- +(30:2) node[above right] {$\vec{F}$};
+    \draw[dashed] (0, 1) -- (2, 1);
+    \draw (0.5, 1) arc (0:30:0.5);
+    \node at (0.7, 1.15) {$30^\circ$};
+    
+    \draw[dashed, gray] (0, 1) -- (1, 0.67);
+    \node[below] at (0.5, 0.8) {$R$};
+    
+    \node[below] at (1, 0.67) {$A$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Geométrico}
+El disco tiene un radio $R = 15 \, \si{cm}$. El punto crítico sobre el cual el disco intentará rotar es la esquina del obstáculo, que llamaremos punto $A$.
+Necesitamos determinar los brazos de palanca de las fuerzas respecto al punto $A$. Para ello, analizamos las distancias vertical y horizontal desde el centro del disco hasta el punto $A$:
+
+\begin{itemize}
+    \item \textbf{Distancia vertical ($y$)}: El centro está a una altura $R=15$ y el punto $A$ a una altura $h=10$.
+    $$y = R - h = 15 - 10 = 5 \, \si{cm}$$
+    \item \textbf{Distancia horizontal ($d_1$)}: Se obtiene por Pitágoras usando el radio como hipotenusa.
+    $$d_1 = \sqrt{R^2 - y^2} = \sqrt{15^2 - 5^2} = \sqrt{225 - 25} = \sqrt{200} = 10\sqrt{2} \, \si{cm}$$
+\end{itemize}
+
+\subsubsection*{2. Diagrama de Cuerpo Libre (Python)}
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def draw_dcl_disk():
+    fig, ax = plt.subplots(figsize=(6, 6))
+    ax.set_xlim(-2, 3)
+    ax.set_ylim(-1, 3)
+    ax.axis('off')
+
+    # Disco y obstaculo
+    circle = plt.Circle((0, 1.5), 1.5, color='gray', fill=False, lw=2)
+    ax.add_patch(circle)
+    ax.plot([1, 1, 3], [0, 1, 1], 'k-', lw=2) # Obstaculo h=10 (escala 1 unit = 10cm)
+    
+    # Punto A
+    ax.plot(1, 1, 'ko')
+    ax.text(1.1, 1.1, 'A', fontsize=12)
+
+    # Centro
+    ax.plot(0, 1.5, 'ko')
+    
+    # Fuerzas
+    # Peso
+    ax.arrow(0, 1.5, 0, -1.2, head_width=0.1, fc='red', ec='red')
+    ax.text(0.1, 0.5, '$W=200$ N', color='red', fontsize=12)
+    
+    # Fuerza F descompuesta
+    angle = np.radians(30)
+    ax.arrow(0, 1.5, 1.5*np.cos(angle), 1.5*np.sin(angle), head_width=0.1, fc='blue', ec='blue')
+    ax.text(1.2, 2.3, '$F$', color='blue', fontsize=12)
+
+    # Distancias al punto A
+    ax.plot([0, 1], [1.5, 1.5], 'k--', alpha=0.3)
+    ax.plot([1, 1], [1.5, 1], 'k--', alpha=0.3)
+    ax.text(0.5, 1.6, '$d_1=10\\sqrt{2}$', fontsize=10, ha='center')
+    ax.text(1.1, 1.25, '$y=5$', fontsize=10)
+
+    plt.tight_layout()
+    plt.show()
+
+draw_dcl_disk()
+\end{lstlisting}
+
+\subsubsection*{3. Equilibrio Rotacional}
+En el instante en que el disco está \textbf{"a punto de girar"}, la fuerza normal del suelo sobre el disco se hace cero. El único punto de contacto efectivo es $A$. Aplicamos la sumatoria de torques respecto a $A$:
+$$\sum \tau_A = 0$$
+
+Descomponemos la fuerza $F$ en sus componentes horizontal ($F \cos 30^\circ$) y vertical ($F \sin 30^\circ$):
+\begin{itemize}
+    \item \textbf{Componente horizontal ($F \cos 30^\circ$)}: Actúa a una distancia vertical $y = 5 \, \si{cm}$ sobre el punto $A$. Genera un torque antihorario (positivo).
+    \item \textbf{Componente vertical ($F \sin 30^\circ$)}: Actúa a una distancia horizontal $d_1 = 10\sqrt{2} \, \si{cm}$ a la izquierda del punto $A$. Genera un torque antihorario (positivo).
+    \item \textbf{Peso ($W$)}: Actúa a una distancia horizontal $d_1 = 10\sqrt{2} \, \si{cm}$ a la izquierda del punto $A$. Genera un torque horario (negativo).
+\end{itemize}
+
+Ecuación de torques:
+$$(F \cos 30^\circ) \cdot 5 + (F \sin 30^\circ) \cdot 10\sqrt{2} - W \cdot 10\sqrt{2} = 0$$
+
+\subsubsection*{4. Resolución}
+Factorizamos $F$ y sustituimos $W = 200$:
+$$F (5 \cos 30^\circ + 10\sqrt{2} \sin 30^\circ) = 200 \cdot 10\sqrt{2}$$
+$$F (5 \cdot \frac{\sqrt{3}}{2} + 10\sqrt{2} \cdot \frac{1}{2}) = 2000\sqrt{2}$$
+$$F (4.33 + 7.071) \approx 2828.43$$
+$$F (11.401) \approx 2828.43$$
+$$F = \frac{2828.43}{11.401}$$
+$$F \approx 248.08 \, \si{N}$$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $F = 248.08 \, \si{N}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+¿Cuál debe ser el máximo peso $P$ en la figura, para que el cilindro esté en equilibrio? El coeficiente de rozamiento entre las superficies en contacto es igual a $0.3$; el peso del cilindro es de $800 \, \si{N}$, $r = 0.20 \, \si{m}$ y $R = 0.50 \, \si{m}$.
+
+\begin{center}
+\begin{tikzpicture}[scale=2, >=Latex]
+    \draw[thick] (-1, 0) -- (1.5, 0) -- (1.5, 2);
+    
+    \draw[thick] (0.5, 1) circle (1);
+    \draw[thick] (0.5, 1) circle (0.4);
+    
+    \node at (0.5, 1.1) {$O$};
+    \fill (0.5, 1) circle (0.03);
+    
+    \draw[->] (0.5, 1) -- +(190:1) node[midway, above] {$R$};
+    \draw[->] (0.5, 1) -- +(240:0.4) node[midway, left] {$r$};
+    
+    \draw[thick] (0.9, 1) -- (0.9, -0.5);
+    \draw[thick, fill=white] (0.7, -0.5) rectangle (1.1, -1) node[midway] {$P$};
+    
+    \draw[->, gray] (1.5, 1.5) -- (1.5, 1.8) node[right] {$f_{r2}$};
+    \draw[->, gray] (1.3, 1) -- (1.1, 1) node[below] {$N_2$};
+    \draw[->, gray] (0.5, 0.2) -- (0.5, 0.4) node[right] {$N_1$};
+    \draw[->, gray] (1, 0) -- (1.3, 0) node[below] {$f_{r1}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis de Fuerzas y Rozamiento Inminente}
+Para que el peso $P$ sea máximo, el cilindro debe estar a punto de girar en sentido horario. En este estado de equilibrio inminente, las fuerzas de rozamiento en el suelo (punto 1) y en la pared (punto 2) alcanzan sus valores máximos:
+$$f_{r1} = \mu N_1 \quad \text{y} \quad f_{r2} = \mu N_2$$
+
+Donde $\mu = 0.3$. Las direcciones de las fuerzas de fricción se oponen al deslizamiento: $f_{r1}$ actúa hacia la derecha y $f_{r2}$ actúa hacia arriba.
+
+\subsubsection*{2. Diagrama de Cuerpo Libre (Python)}
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+def draw_dcl_cylinder():
+    fig, ax = plt.subplots(figsize=(6, 6))
+    ax.set_xlim(-1.5, 2.5)
+    ax.set_ylim(-1.5, 2.5)
+    ax.axis('off')
+
+    c1 = patches.Circle((0, 0.5), 1.0, fill=False, lw=2, color='black')
+    c2 = patches.Circle((0, 0.5), 0.4, fill=False, lw=1, color='black')
+    ax.add_patch(c1)
+    ax.add_patch(c2)
+
+    ax.arrow(0, 0.5, 0, -1.0, head_width=0.1, fc='red', ec='red')
+    ax.text(0.1, 0, '$W_c=800$ N', color='red')
+
+    ax.arrow(0, -0.5, 0, 0.8, head_width=0.1, fc='green', ec='green')
+    ax.text(0.1, -0.4, '$N_1$', color='green')
+    ax.arrow(0, -0.5, 0.8, 0, head_width=0.1, fc='purple', ec='purple')
+    ax.text(0.5, -0.7, '$f_{r1}$', color='purple')
+
+    ax.arrow(1, 0.5, -0.8, 0, head_width=0.1, fc='green', ec='green')
+    ax.text(0.4, 0.6, '$N_2$', color='green')
+    ax.arrow(1, 0.5, 0, 0.8, head_width=0.1, fc='purple', ec='purple')
+    ax.text(1.1, 0.9, '$f_{r2}$', color='purple')
+
+    ax.arrow(0.4, 0.5, 0, -1.5, head_width=0.1, fc='blue', ec='blue')
+    ax.text(0.5, -0.8, '$P$', color='blue', fontsize=12)
+
+    plt.tight_layout()
+    plt.show()
+
+draw_dcl_cylinder()
+\end{lstlisting}
+
+\subsubsection*{3. Ecuaciones de Equilibrio Traslacional}
+Planteamos las sumatorias de fuerzas para relacionar las normales entre sí.
+
+\textbf{Eje X:}
+$$\sum F_x = 0 \Rightarrow f_{r1} - N_2 = 0$$
+$$\mu N_1 = N_2 \quad \text{(Ec. 1)}$$
+
+\textbf{Eje Y:}
+$$\sum F_y = 0 \Rightarrow N_1 + f_{r2} - W_c - P = 0$$
+$$N_1 + \mu N_2 = P + 800$$
+Sustituyendo la (Ec. 1) en esta ecuación:
+$$N_1 + \mu(\mu N_1) = P + 800 \Rightarrow N_1(1 + \mu^2) = P + 800$$
+$$N_1 = \frac{P + 800}{1 + 0.3^2} = \frac{P + 800}{1.09} \quad \text{(Ec. 2)}$$
+
+\subsubsection*{4. Equilibrio Rotacional}
+Aplicamos sumatoria de torques respecto al centro $O$ del cilindro. El peso del cilindro no genera torque por actuar en el centro.
+$$\sum \tau_O = 0$$
+$$f_{r1}(R) + f_{r2}(R) - P(r) = 0$$
+
+Sustituimos las fricciones por sus definiciones ($\mu N_1$ y $\mu N_2$):
+$$\mu N_1 (R) + \mu N_2 (R) = P(r)$$
+Sustituimos $N_2$ usando la (Ec. 1):
+$$\mu N_1 (R) + \mu (\mu N_1) (R) = P(r)$$
+$$N_1 (\mu R + \mu^2 R) = P(r)$$
+$$N_1 [R(\mu + \mu^2)] = P(r)$$
+
+\subsubsection*{5. Resolución}
+Sustituimos $N_1$ de la (Ec. 2) en la ecuación de torques:
+$$\left( \frac{P + 800}{1.09} \right) [0.5(0.3 + 0.09)] = P(0.2)$$
+$$\left( \frac{P + 800}{1.09} \right) [0.5(0.39)] = 0.2P$$
+$$\left( \frac{P + 800}{1.09} \right) 0.195 = 0.2P$$
+$$(P + 800) \cdot 0.17889 \approx 0.2P$$
+$$0.17889P + 143.11 = 0.2P$$
+$$143.11 = 0.2P - 0.17889P$$
+$$143.11 = 0.0211P$$
+$$P = \frac{143.11}{0.0211} \approx 6782.6 \, \si{N}$$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $P = 6782.6 \, \si{N}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un cilindro homogéneo, de peso $50 \, \si{N}$ y radio $30 \, \si{cm}$, se encuentra frente a un escalón de $12 \, \si{cm}$ de altura, como se indica en la figura. Si se aplica una fuerza horizontal $\vec{F}$ en el punto $B$ del cilindro, de tal manera que se encuentra a punto de girar sobre el escalón. Determine la magnitud de la fuerza $F$.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.08, >=Latex]
+    \draw[thick] (-40, 0) -- (15, 0);
+    \draw[thick] (15, 0) -- (15, 12) -- (45, 12);
+    
+    \draw[thick] (0, 30) circle (30);
+    \fill (0, 30) circle (1.5);
+    
+    \draw[->, thick] (0, 60) -- (20, 60) node[right] {$\vec{F}$};
+    \node[above left] at (0, 60) {$B$};
+    
+    \node[above right] at (15, 12) {$A$};
+    
+    \draw[->, thick] (0, 30) -- (-21.2, 8.8) node[midway, above left] {$R$};
+    
+    \draw[dashed, gray] (0, 30) -- (0, 0);
+    \draw[dashed, gray] (0, 30) -- (15, 30);
+    \draw[dashed, gray] (15, 30) -- (15, 12);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Geométrico}
+Sea $R = 30 \, \si{cm}$ el radio del cilindro y $h = 12 \, \si{cm}$ la altura del escalón.
+Calculamos las distancias desde el centro del cilindro hasta el punto $A$ (pivote).
+La distancia vertical desde el centro hasta la altura del escalón es:
+$$y = R - h = 30 - 12 = 18 \, \si{cm}$$
+
+La distancia horizontal $x$ desde el centro hasta el punto $A$ se calcula por el teorema de Pitágoras, sabiendo que la hipotenusa (distancia del centro a $A$) es el radio $R$:
+$$x = \sqrt{R^2 - y^2} = \sqrt{30^2 - 18^2} = \sqrt{900 - 324} = \sqrt{576} = 24 \, \si{cm}$$
+
+\subsubsection*{2. Equilibrio Rotacional}
+Dado que el cilindro está a punto de girar, pierde el contacto con el suelo. La fuerza normal del suelo se hace cero, y todo el contacto se concentra en la arista del escalón (punto $A$).
+Aplicamos la sumatoria de torques respecto al pivote $A$:
+$$\sum \tau_A = 0$$
+
+La fuerza $F$ se aplica horizontalmente en el punto más alto del cilindro ($B$). Su brazo de palanca (distancia vertical a $A$) es la suma del radio $R$ y la distancia $y$:
+$$d_F = R + y = 30 + 18 = 48 \, \si{cm}$$
+Esta fuerza genera un torque horario (negativo): $-F(48)$.
+
+El peso $W = 50 \, \si{N}$ actúa en el centro del cilindro. Su brazo de palanca (distancia horizontal a $A$) es $x = 24 \, \si{cm}$.
+Este peso genera un torque antihorario (positivo): $+W(24)$.
+
+$$W(24) - F(48) = 0$$
+$$50(24) - F(48) = 0$$
+$$1200 - 48F = 0$$
+$$48F = 1200$$
+$$F = \frac{1200}{48}$$
+$$F = 25 \, \si{N}$$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $F = 25 \, \si{N}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Un cilindro homogéneo, de peso $50 \, \si{N}$ y radio $30 \, \si{cm}$, se encuentra frente a un escalón de $12 \, \si{cm}$ de altura, como se indica en la figura. Si se aplica una fuerza horizontal $\vec{F} = 25 \, \si{N}$ en el punto $B$ del cilindro, de tal manera que se encuentra a punto de girar sobre el escalón. Determine la magnitud de la reacción en el punto $A$.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.08, >=Latex]
+    \draw[thick] (-40, 0) -- (15, 0);
+    \draw[thick] (15, 0) -- (15, 12) -- (45, 12);
+    
+    \draw[thick] (0, 30) circle (30);
+    \fill (0, 30) circle (1.5);
+    
+    \draw[->, thick] (0, 60) -- (20, 60) node[right] {$\vec{F}$};
+    \node[above left] at (0, 60) {$B$};
+    
+    \node[above right] at (15, 12) {$A$};
+    
+    \draw[->, thick] (0, 30) -- (-21.2, 8.8) node[midway, above left] {$R$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis de Fuerzas}
+En la condición de rotación inminente, el cilindro solo tiene contacto con el punto $A$. Las fuerzas que actúan sobre el cilindro son:
+\begin{itemize}
+    \item La fuerza horizontal aplicada $\vec{F} = 25 \, \si{N}$ en el punto $B$ (hacia la derecha).
+    \item El peso $\vec{W} = 50 \, \si{N}$ en el centro geométrico (hacia abajo).
+    \item La fuerza de reacción en la arista $A$, que podemos descomponer en $R_x$ y $R_y$.
+\end{itemize}
+
+\subsubsection*{2. Equilibrio Traslacional}
+Aplicamos las condiciones de equilibrio de fuerzas en los ejes $X$ e $Y$.
+
+Eje X:
+$$\sum F_x = 0$$
+$$F - R_x = 0$$
+$$R_x = F = 25 \, \si{N}$$
+
+Eje Y:
+$$\sum F_y = 0$$
+$$R_y - W = 0$$
+$$R_y = W = 50 \, \si{N}$$
+
+El vector reacción en el punto $A$ es $\vec{R}_A = 25\hat{i} + 50\hat{j} \, \si{N}$.
+
+\subsubsection*{3. Cálculo de la Magnitud}
+La magnitud de la reacción se obtiene calculando el módulo del vector:
+$$|\vec{R}_A| = \sqrt{R_x^2 + R_y^2}$$
+$$|\vec{R}_A| = \sqrt{25^2 + 50^2}$$
+$$|\vec{R}_A| = \sqrt{625 + 2500}$$
+$$|\vec{R}_A| = \sqrt{3125}$$
+$$|\vec{R}_A| = \sqrt{625 \cdot 5}$$
+$$|\vec{R}_A| = 25\sqrt{5} \approx 55.90 \, \si{N}$$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $R_A = 55.90 \, \si{N}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+La figura muestra una placa rectangular homogénea, de masa $40 \, \si{kg}$ y de lados $1 \, \si{m}$ y $0.6 \, \si{m}$, que bajo la acción de la fuerza $\vec{F}$ de módulo $200 \, \si{N}$, está a punto de deslizar y a punto de rotar. Determine el coeficiente de rozamiento estático entre el bloque y la superficie horizontal. (Considere $g=10\,\si{m/s^2}$).
+
+\begin{center}
+\begin{tikzpicture}[scale=3, >=Latex]
+    \draw[thick] (-0.3, 0) -- (1.2, 0);
+    \draw[thick, fill=white] (0, 0) rectangle (0.6, 1);
+    
+    \node[below] at (0, 0) {$A$};
+    
+    \draw[<->] (0, 1.1) -- (0.6, 1.1) node[midway, above] {$0.6 \, \si{m}$};
+    
+    \draw[<->] (-0.2, 0) -- (-0.2, 1) node[midway, left] {$1 \, \si{m}$};
+    
+    \draw[<->] (0.8, 0) -- (0.8, 0.4) node[midway, right] {$0.4 \, \si{m}$};
+    
+    \draw[dashed] (0.6, 0.4) -- (1.0, 0.4);
+    
+    \draw[->, thick] (0.6, 0.4) -- +(36.87:0.6) node[right] {$\vec{F}$};
+    
+    \draw (0.8, 0.4) arc (0:36.87:0.2);
+    \node at (0.9, 0.48) {\scriptsize $36.87^\circ$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Descomposición de Fuerzas}
+Calculamos el peso de la placa homogénea:
+$$W = m \cdot g = 40(10) = 400 \, \si{N}$$
+
+Descomponemos la fuerza $\vec{F}$ en sus componentes rectangulares:
+$$F_x = F \cos(36.87^\circ) = 200(0.8) = 160 \, \si{N}$$
+$$F_y = F \sin(36.87^\circ) = 200(0.6) = 120 \, \si{N}$$
+
+\subsubsection*{2. Equilibrio Traslacional (Eje Vertical)}
+Para encontrar la fuerza Normal ($N$), aplicamos la sumatoria de fuerzas en el eje Y:
+$$\sum F_y = 0$$
+$$N - W + F_y = 0$$
+$$N = W - F_y$$
+$$N = 400 - 120 = 280 \, \si{N}$$
+
+\subsubsection*{3. Equilibrio Traslacional (Eje Horizontal) y Rozamiento}
+Para que el bloque esté a punto de deslizar, la fuerza de rozamiento estático ($f_r$) debe alcanzar su valor máximo y contrarrestar exactamente la componente horizontal de la fuerza aplicada.
+$$\sum F_x = 0$$
+$$F_x - f_r = 0$$
+$$f_r = F_x = 160 \, \si{N}$$
+
+Aplicamos la fórmula del rozamiento estático inminente:
+$$f_r = \mu_s N$$
+$$160 = \mu_s (280)$$
+$$\mu_s = \frac{160}{280}$$
+$$\mu_s \approx 0.571$$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\mu_s = 0.571$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+La figura muestra una placa rectangular homogénea, de masa $40 \, \si{kg}$ y de lados $1 \, \si{m}$ y $0.6 \, \si{m}$, que bajo la acción de la fuerza $\vec{F}$ de módulo $200 \, \si{N}$, está a punto de deslizar y a punto de rotar. Determine la posición de la normal de contacto respecto al punto $A$. (Considere $g=10\,\si{m/s^2}$).
+
+\begin{center}
+\begin{tikzpicture}[scale=3, >=Latex]
+    \draw[thick] (-0.3, 0) -- (1.2, 0);
+    \draw[thick, fill=white] (0, 0) rectangle (0.6, 1);
+    
+    \node[below] at (0, 0) {$A$};
+    
+    \draw[<->] (0, 1.1) -- (0.6, 1.1) node[midway, above] {$0.6 \, \si{m}$};
+    
+    \draw[<->] (-0.2, 0) -- (-0.2, 1) node[midway, left] {$1 \, \si{m}$};
+    
+    \draw[<->] (0.8, 0) -- (0.8, 0.4) node[midway, right] {$0.4 \, \si{m}$};
+    
+    \draw[dashed] (0.6, 0.4) -- (1.0, 0.4);
+    
+    \draw[->, thick] (0.6, 0.4) -- +(36.87:0.6) node[right] {$\vec{F}$};
+    
+    \draw (0.8, 0.4) arc (0:36.87:0.2);
+    \node at (0.9, 0.48) {\scriptsize $36.87^\circ$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis de Fuerzas y Diagrama de Cuerpo Libre (Python)}
+Como la placa está "a punto de rotar", la fuerza Normal no se aplica en el centro de la base, sino que se desplaza una distancia $d$ desde el punto $A$ para contrarrestar el torque generado por las demás fuerzas.
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+def draw_dcl_plate():
+    fig, ax = plt.subplots(figsize=(6, 6))
+    ax.set_xlim(-0.2, 1.0)
+    ax.set_ylim(-0.2, 1.2)
+    ax.axis('off')
+
+    rect = patches.Rectangle((0, 0), 0.6, 1.0, linewidth=1.5, edgecolor='black', facecolor='none')
+    ax.add_patch(rect)
+
+    ax.plot(0, 0, 'ko')
+    ax.text(-0.05, -0.05, 'A', fontsize=12)
+
+    ax.arrow(0.3, 0.5, 0, -0.4, head_width=0.03, fc='red', ec='red')
+    ax.text(0.32, 0.2, '$W=400$ N', color='red', fontsize=12)
+
+    ax.arrow(0.6, 0.4, 0.3, 0, head_width=0.03, fc='blue', ec='blue')
+    ax.text(0.7, 0.32, '$F_x=160$', color='blue', fontsize=12)
+    ax.arrow(0.6, 0.4, 0, 0.3, head_width=0.03, fc='blue', ec='blue')
+    ax.text(0.4, 0.6, '$F_y=120$', color='blue', fontsize=12)
+
+    ax.arrow(0.4, 0, 0, 0.4, head_width=0.03, fc='green', ec='green')
+    ax.text(0.3, 0.4, '$N=280$ N', color='green', fontsize=12)
+
+    ax.annotate('', xy=(0, -0.1), xytext=(0.4, -0.1), arrowprops=dict(arrowstyle='<->', color='green'))
+    ax.text(0.2, -0.15, '$d$', color='green', fontsize=12, ha='center')
+
+    plt.tight_layout()
+    plt.show()
+
+draw_dcl_plate()
+\end{lstlisting}
+
+\subsubsection*{2. Equilibrio Rotacional}
+Aplicamos la sumatoria de torques respecto al punto de origen $A$:
+$$\sum \tau_A = 0$$
+
+Evaluamos los brazos de palanca y el sentido de rotación (antihorario es positivo):
+\begin{itemize}
+    \item La Normal ($N=280 \, \si{N}$) genera torque positivo: $+ N \cdot d$
+    \item El Peso ($W=400 \, \si{N}$) en el centro $x=0.3 \, \si{m}$ genera torque negativo: $- 400(0.3)$
+    \item La componente vertical de la fuerza ($F_y=120 \, \si{N}$) aplicada en $x=0.6 \, \si{m}$ genera torque positivo: $+ 120(0.6)$
+    \item La componente horizontal de la fuerza ($F_x=160 \, \si{N}$) aplicada en $y=0.4 \, \si{m}$ genera torque negativo: $- 160(0.4)$
+\end{itemize}
+
+Planteamos la ecuación:
+$$N(d) - W(0.3) + F_y(0.6) - F_x(0.4) = 0$$
+$$280(d) - 400(0.3) + 120(0.6) - 160(0.4) = 0$$
+$$280d - 120 + 72 - 64 = 0$$
+$$280d - 112 = 0$$
+$$280d = 112$$
+$$d = \frac{112}{280}$$
+$$d = 0.4 \, \si{m}$$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $d = 0.4 \, \si{m}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una viga homogénea, de masa $10 \, \si{kg}$ y $4 \, \si{m}$ de longitud, soporta un bloque de masa $m$ igual a $20 \, \si{kg}$, como se indica en la figura. Determine la tensión en el cable $BC$. (Considere $g=10\,\si{m/s^2}$).
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2, >=Latex]
+    \draw[thick] (0, 5) -- (0, -1);
+    
+    \draw[thick, double distance=4pt] (0, 0) -- (3.2, 2.4);
+    
+    \draw[fill=white] (0, 0) circle (0.2);
+    \fill (0, 0) circle (0.05);
+    
+    \draw[thick] (3.2, 2.4) -- (0, 4.25);
+    
+    \draw[thick] (3.2, 2.4) -- (3.2, 1);
+    \draw[thick, fill=white] (2.8, 1) rectangle (3.6, 0.2) node[midway] {$m$};
+    
+    \node[left] at (-0.2, 0) {$A$};
+    \node[right] at (3.3, 2.5) {$B$};
+    \node[left] at (-0.2, 4.25) {$C$};
+    
+    \draw (0, 3.5) arc (270:330:0.75);
+    \node at (0.4, 3.8) {$60^\circ$};
+    
+    \draw (0, 1) arc (90:37:1);
+    \node at (0.5, 1.3) {$53^\circ$};
+    
+    \draw[dashed, gray] (0, 0) -- (4, 0);
+    \draw[dashed, gray] (0, 2.4) -- (4, 2.4);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Físico y Datos}
+La viga homogénea tiene una masa de $10 \, \si{kg}$, por lo que su peso es $W_v = 100 \, \si{N}$ y actúa en su centro de gravedad, a $2 \, \si{m}$ del pasador $A$. 
+El bloque tiene una masa de $20 \, \si{kg}$, su peso es $W_m = 200 \, \si{N}$ y actúa en el extremo $B$, a $4 \, \si{m}$ del pasador $A$.
+
+La viga forma un ángulo de $53^\circ$ con la pared vertical. 
+El cable $BC$ forma un ángulo de $60^\circ$ con la pared vertical, lo que significa que forma un ángulo de $30^\circ$ con la horizontal. Las componentes de la tensión $T$ son:
+$$T_x = T \cos(30^\circ) \quad \text{(hacia la izquierda)}$$
+$$T_y = T \sin(30^\circ) \quad \text{(hacia arriba)}$$
+
+\subsubsection*{2. Diagrama de Cuerpo Libre (Python)}
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def draw_dcl_beam_a():
+    fig, ax = plt.subplots(figsize=(6, 6))
+    ax.set_xlim(-1, 4)
+    ax.set_ylim(-1, 5)
+    ax.axis('off')
+    
+    theta_beam = np.radians(37)
+    L = 4
+    xB = L * np.cos(theta_beam)
+    yB = L * np.sin(theta_beam)
+    
+    ax.plot([0, xB], [0, yB], lw=4, color='black', alpha=0.5)
+    ax.plot(0, 0, 'ko', markersize=8)
+    ax.text(-0.3, 0, 'A', fontsize=12)
+    
+    xw = (L/2) * np.cos(theta_beam)
+    yw = (L/2) * np.sin(theta_beam)
+    ax.arrow(xw, yw, 0, -1, head_width=0.1, fc='red', ec='red')
+    ax.text(xw + 0.1, yw - 0.5, '$W_v=100$ N', color='red')
+    
+    ax.arrow(xB, yB, 0, -1.5, head_width=0.1, fc='blue', ec='blue')
+    ax.text(xB + 0.1, yB - 1, '$W_m=200$ N', color='blue')
+    
+    angle_T = np.radians(150)
+    Tx = 1.5 * np.cos(angle_T)
+    Ty = 1.5 * np.sin(angle_T)
+    ax.arrow(xB, yB, Tx, Ty, head_width=0.1, fc='green', ec='green')
+    ax.text(xB + Tx - 0.5, yB + Ty + 0.1, '$T$', color='green')
+    
+    ax.plot([0, 0], [0, yB+1], 'k--', alpha=0.3)
+
+    plt.tight_layout()
+    plt.show()
+
+draw_dcl_beam_a()
+\end{lstlisting}
+
+\subsubsection*{3. Equilibrio Rotacional}
+Para determinar la tensión sin involucrar las reacciones en $A$, aplicamos sumatoria de torques respecto al pasador $A$.
+$$\sum \tau_A = 0$$
+
+Determinamos los brazos de palanca y el sentido de giro para cada fuerza:
+\begin{itemize}
+    \item Peso de la viga ($W_v$): Brazo horizontal es $2 \sin(53^\circ)$. Torque horario (negativo).
+    \item Peso del bloque ($W_m$): Brazo horizontal es $4 \sin(53^\circ)$. Torque horario (negativo).
+    \item Componente $T_x$: Actúa a una altura vertical de $4 \cos(53^\circ)$ empujando hacia la izquierda. Genera un torque antihorario (positivo).
+    \item Componente $T_y$: Actúa a una distancia horizontal de $4 \sin(53^\circ)$ tirando hacia arriba. Genera un torque antihorario (positivo).
+\end{itemize}
+
+Planteamos la ecuación:
+$$-W_v (2 \sin 53^\circ) - W_m (4 \sin 53^\circ) + T_x (4 \cos 53^\circ) + T_y (4 \sin 53^\circ) = 0$$
+
+Sustituimos los valores y componentes de $T$:
+$$-100 (2 \sin 53^\circ) - 200 (4 \sin 53^\circ) + T \cos(30^\circ) (4 \cos 53^\circ) + T \sin(30^\circ) (4 \sin 53^\circ) = 0$$
+
+Agrupamos los términos conocidos y factorizamos $4T$:
+$$-200 \sin(53^\circ) - 800 \sin(53^\circ) + 4T \left( \cos 30^\circ \cos 53^\circ + \sin 30^\circ \sin 53^\circ \right) = 0$$
+$$-1000 \sin(53^\circ) + 4T \cos(53^\circ - 30^\circ) = 0$$
+
+\subsubsection*{4. Resolución}
+$$4T \cos(23^\circ) = 1000 \sin(53^\circ)$$
+$$T = \frac{1000 \sin(53^\circ)}{4 \cos(23^\circ)}$$
+$$T = \frac{250 (0.7986)}{0.9205}$$
+$$T \approx 216.9 \, \si{N}$$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $T = 216.9 \, \si{N}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una viga homogénea, de masa $10 \, \si{kg}$ y $4 \, \si{m}$ de longitud, soporta un bloque de masa $m$ igual a $20 \, \si{kg}$, como se indica en la figura. Determine la fuerza que hace el pasador en el extremo $A$ de la viga. Se conoce que la tensión en el cable es $T = 216.9 \, \si{N}$. (Considere $g=10\,\si{m/s^2}$).
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2, >=Latex]
+    \draw[thick] (0, 5) -- (0, -1);
+    
+    \draw[thick, double distance=4pt] (0, 0) -- (3.2, 2.4);
+    
+    \draw[fill=white] (0, 0) circle (0.2);
+    \fill (0, 0) circle (0.05);
+    
+    \draw[thick] (3.2, 2.4) -- (0, 4.25);
+    
+    \draw[thick] (3.2, 2.4) -- (3.2, 1);
+    \draw[thick, fill=white] (2.8, 1) rectangle (3.6, 0.2) node[midway] {$m$};
+    
+    \node[left] at (-0.2, 0) {$A$};
+    \node[right] at (3.3, 2.5) {$B$};
+    \node[left] at (-0.2, 4.25) {$C$};
+    
+    \draw (0, 3.5) arc (270:330:0.75);
+    \node at (0.4, 3.8) {$60^\circ$};
+    
+    \draw (0, 1) arc (90:37:1);
+    \node at (0.5, 1.3) {$53^\circ$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Descomposición de la Tensión}
+La fuerza en el pasador $A$ tiene dos componentes de reacción: $R_x$ y $R_y$. Para encontrarlas, aplicamos las condiciones de equilibrio traslacional. 
+Primero calculamos los valores de las componentes de la tensión ($T = 216.9 \, \si{N}$), sabiendo que actúa a $30^\circ$ con la horizontal hacia la izquierda y arriba:
+$$T_x = T \cos(30^\circ) = 216.9 \left( \frac{\sqrt{3}}{2} \right) \approx 187.84 \, \si{N}$$
+$$T_y = T \sin(30^\circ) = 216.9 \left( 0.5 \right) \approx 108.45 \, \si{N}$$
+
+\subsubsection*{2. Diagrama de Cuerpo Libre (Python)}
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+
+def draw_dcl_reactions():
+    fig, ax = plt.subplots(figsize=(6, 5))
+    ax.set_xlim(-2, 4)
+    ax.set_ylim(-2, 4)
+    ax.axis('off')
+    
+    ax.plot([0, 3.2], [0, 2.4], lw=4, color='black', alpha=0.3)
+    ax.plot(0, 0, 'ko', markersize=8)
+    
+    ax.arrow(0, 0, 1.5, 0, head_width=0.15, fc='purple', ec='purple')
+    ax.text(1.6, 0.2, '$R_x$', color='purple', fontsize=12)
+    ax.arrow(0, 0, 0, 1.5, head_width=0.15, fc='purple', ec='purple')
+    ax.text(0.2, 1.6, '$R_y$', color='purple', fontsize=12)
+    
+    ax.arrow(1.6, 1.2, 0, -1.5, head_width=0.15, fc='red', ec='red')
+    ax.text(1.7, -0.2, '$W_v=100$', color='red')
+    
+    ax.arrow(3.2, 2.4, 0, -2, head_width=0.15, fc='blue', ec='blue')
+    ax.text(3.3, 0.5, '$W_m=200$', color='blue')
+    
+    ax.arrow(3.2, 2.4, -1.5, 0, head_width=0.15, fc='green', ec='green')
+    ax.text(1.2, 2.5, '$T_x=187.84$', color='green')
+    ax.arrow(3.2, 2.4, 0, 1.0, head_width=0.15, fc='green', ec='green')
+    ax.text(3.3, 3.2, '$T_y=108.45$', color='green')
+
+    plt.tight_layout()
+    plt.show()
+
+draw_dcl_reactions()
+\end{lstlisting}
+
+\subsubsection*{3. Equilibrio Traslacional}
+Aplicamos la sumatoria de fuerzas en ambos ejes.
+
+\textbf{Eje Horizontal (X):}
+$$\sum F_x = 0$$
+$$R_x - T_x = 0$$
+$$R_x = T_x$$
+$$R_x = 187.84 \, \si{N}$$
+
+\textbf{Eje Vertical (Y):}
+$$\sum F_y = 0$$
+$$R_y + T_y - W_v - W_m = 0$$
+$$R_y + 108.45 - 100 - 200 = 0$$
+$$R_y + 108.45 - 300 = 0$$
+$$R_y = 300 - 108.45$$
+$$R_y = 191.55 \, \si{N}$$
+
+\subsubsection*{4. Expresión Vectorial}
+Finalmente, expresamos la fuerza total de reacción en el pasador como un vector con sus componentes rectangulares:
+$$\vec{R}_A = R_x \hat{i} + R_y \hat{j}$$
+$$\vec{R}_A = (187.84 \hat{i} + 191.55 \hat{j}) \, \si{N}$$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\vec{R}_A = 187.84 \hat{i} + 191.55 \hat{j} \, \si{N}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+En la figura las barras son homogéneas, perpendiculares y de $5 \, \si{kg}$ de masa cada una. Determine la magnitud de la fuerza de rozamiento que actúa sobre el bloque $B$, para que el sistema se mantenga en equilibrio. (Considere $g=10\,\si{m/s^2}$).
+
+\begin{center}
+\begin{tikzpicture}[scale=1.5, >=Latex]
+    \draw[thick] (-2.5, 0) -- (1, 0);
+    \draw[thick] (1, 0) -- +(330:4);
+    
+    \draw[thick, double distance=4pt] (0, 0) -- (-1.5, 0);
+    \draw[thick, double distance=4pt] (0, 0) -- (0, 2.5);
+    \draw[fill=white] (0, 0) circle (0.2);
+    \fill (0, 0) circle (0.05);
+    
+    \draw[thick] (-1.5, 0) -- (-1.5, -0.8);
+    \draw[thick, fill=white] (-1.9, -0.8) rectangle (-1.1, -1.6) node[midway] {$A$};
+    
+    \draw[dashed, gray] (0, 2.5) -- (2, 2.5);
+    \draw[dashed, gray] (1, 0) -- (2, 0);
+    
+    \begin{scope}[shift={(2.5, -0.866)}, rotate=-30]
+        \draw[thick, fill=white] (-0.6, 0) rectangle (0.6, 0.8) node[midway] {$B$};
+        \coordinate (B_left) at (-0.6, 0.4);
+    \end{scope}
+    
+    \draw[thick] (0, 2.5) -- (B_left);
+    
+    \draw (0.6, 2.5) arc (0:-30:0.6);
+    \node at (0.9, 2.2) {$30^\circ$};
+    
+    \draw (1.5, 0) arc (0:-30:0.5);
+    \node at (1.8, -0.15) {$30^\circ$};
+    
+    \draw[<->] (-1.5, 0.3) -- (0, 0.3) node[midway, above] {$0.4 \, \si{m}$};
+    \draw[<->] (-0.3, 0) -- (-0.3, 2.5) node[midway, left] {$0.8 \, \si{m}$};
+    
+    \node at (1, -1.5) {$m_A = 10 \, \si{kg}, \quad m_B = 15 \, \si{kg}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis del Sistema de Barras y Cálculo de Tensión}
+El sistema de barras perpendiculares se encuentra en equilibrio rotacional respecto al pasador en su vértice. Calculamos los pesos que actúan sobre este subsistema:
+$$W_A = m_A \cdot g = 10(10) = 100 \, \si{N}$$
+$$W_{bh} = m_b \cdot g = 5(10) = 50 \, \si{N} \quad \text{(Peso barra horizontal)}$$
+$$W_{bv} = m_b \cdot g = 5(10) = 50 \, \si{N} \quad \text{(Peso barra vertical)}$$
+
+Al ser homogéneas, el peso de cada barra se ubica en su centro geométrico.
+Aplicamos sumatoria de torques respecto al pasador ($\sum \tau_O = 0$):
+\begin{itemize}
+    \item El peso del bloque $A$ genera torque antihorario (positivo): $+ W_A (0.4)$
+    \item El peso de la barra horizontal genera torque antihorario (positivo): $+ W_{bh} (0.2)$
+    \item El peso de la barra vertical no genera torque porque su línea de acción pasa por el pasador.
+    \item La tensión $T$ tira de la barra vertical desde una altura de $0.8 \, \si{m}$ con un ángulo de $30^\circ$ por debajo de la horizontal. Su componente horizontal ($T \cos 30^\circ$) genera un torque horario (negativo): $- T \cos(30^\circ)(0.8)$.
+\end{itemize}
+
+$$100(0.4) + 50(0.2) - T \cos(30^\circ)(0.8) = 0$$
+$$40 + 10 = T \left( \frac{\sqrt{3}}{2} \right) (0.8)$$
+$$50 = T (0.4\sqrt{3})$$
+$$T = \frac{50}{0.4\sqrt{3}} = \frac{125}{\sqrt{3}} \approx 72.17 \, \si{N}$$
+
+\subsubsection*{2. Diagramas de Cuerpo Libre (Python)}
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+import matplotlib.patches as patches
+
+def draw_dcls():
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 5))
+    
+    ax1.set_title("DCL Barras Perpendiculares")
+    ax1.set_xlim(-0.6, 0.4)
+    ax1.set_ylim(-0.3, 1.0)
+    ax1.axis('off')
+    
+    ax1.plot([0, -0.4], [0, 0], lw=5, color='gray')
+    ax1.plot([0, 0], [0, 0.8], lw=5, color='gray')
+    ax1.plot(0, 0, 'ko', markersize=8)
+    
+    ax1.arrow(-0.2, 0, 0, -0.15, head_width=0.03, fc='red', ec='red')
+    ax1.text(-0.35, -0.25, '$W_{bh}=50$', color='red')
+    
+    ax1.arrow(-0.4, 0, 0, -0.15, head_width=0.03, fc='red', ec='red')
+    ax1.text(-0.55, -0.25, '$W_A=100$', color='red')
+    
+    Tx = 0.2 * np.cos(np.radians(30))
+    Ty = -0.2 * np.sin(np.radians(30))
+    ax1.arrow(0, 0.8, Tx, Ty, head_width=0.03, fc='blue', ec='blue')
+    ax1.text(0.1, 0.8, '$T=72.17$', color='blue')
+    
+    ax2.set_title("DCL Bloque B")
+    ax2.set_xlim(-1, 1)
+    ax2.set_ylim(-1, 1)
+    ax2.axis('off')
+    
+    theta = np.radians(30)
+    ax2.plot([-0.8*np.cos(theta), 0.8*np.cos(theta)], [0.8*np.sin(theta), -0.8*np.sin(theta)], 'k-', lw=2)
+    
+    rect = patches.Rectangle((-0.3, 0), 0.6, 0.4, angle=-30, linewidth=1.5, edgecolor='black', facecolor='white')
+    ax2.add_patch(rect)
+    
+    ax2.arrow(0, 0, 0, -0.6, head_width=0.05, fc='red', ec='red')
+    ax2.text(0.1, -0.5, '$W_B=150$', color='red')
+    
+    ax2.arrow(0, 0, 0.4*np.cos(theta), -0.4*np.sin(theta), head_width=0.05, fc='blue', ec='blue')
+    ax2.text(0.4, -0.1, '$T$', color='blue')
+    
+    ax2.arrow(0, 0, -0.3*np.cos(theta), 0.3*np.sin(theta), head_width=0.05, fc='green', ec='green')
+    ax2.text(-0.4, 0.2, '$f_r$', color='green')
+    
+    ax2.arrow(0, 0, 0.4*np.sin(theta), 0.4*np.cos(theta), head_width=0.05, fc='purple', ec='purple')
+    ax2.text(0.2, 0.4, '$N_B$', color='purple')
+    
+    plt.tight_layout()
+    plt.show()
+
+draw_dcls()
+\end{lstlisting}
+
+\subsubsection*{3. Análisis del Bloque B y Fuerza de Rozamiento}
+Aislamos el bloque $B$ sobre el plano inclinado. El peso del bloque es:
+$$W_B = m_B \cdot g = 15(10) = 150 \, \si{N}$$
+
+Descomponemos el peso de $B$ en la dirección paralela al plano inclinado (eje X local):
+$$W_{Bx} = W_B \sin(30^\circ) = 150(0.5) = 75 \, \si{N}$$
+
+Observamos que la componente del peso que intenta deslizar el bloque hacia abajo ($75 \, \si{N}$) es mayor que la tensión que lo jala hacia arriba ($72.17 \, \si{N}$). Por lo tanto, el bloque tiende a deslizarse hacia abajo, y la fuerza de rozamiento ($f_r$) debe actuar hacia arriba del plano para mantener el equilibrio.
+
+Aplicamos sumatoria de fuerzas en el eje paralelo al plano:
+$$\sum F_x = 0$$
+$$T + f_r - W_{Bx} = 0$$
+$$f_r = W_{Bx} - T$$
+$$f_r = 75 - 72.17$$
+$$f_r = 2.83 \, \si{N}$$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $f_r = 2.83 \, \si{N}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+La barra homogénea de la figura tiene una longitud de $2 \, \si{m}$ y una masa de $20 \, \si{kg}$. El coeficiente de rozamiento, entre las superficies en contacto, es $0.4$. Determine el valor del ángulo $\theta$, cuando la viga está a punto de deslizar hacia la izquierda. (Considere $g=10\,\si{m/s^2}$).
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2, >=Latex]
+    \draw[thick] (-1, 0) -- (5, 0);
+    \draw[thick, fill=gray!20] (-1.2, 1.5) rectangle (-1, 3.5);
+    
+    \coordinate (A) at (4, 0);
+    \coordinate (B) at (0.54, 2);
+    
+    \draw[thick, double distance=4pt] (A) -- (B);
+    
+    \draw[->, thick] (B) -- (-1, 3.2) node[midway, above right] {$T$};
+    
+    \draw[dashed, gray] (B) -- (-1, 2);
+    \draw (B) ++(-0.6, 0) arc (180:142:0.6);
+    \node at (-0.3, 2.25) {$\theta$};
+    
+    \draw[dashed, gray] (A) -- (0.54, 0);
+    \draw (A) ++(-1, 0) arc (180:150:1);
+    \node at (2.5, 0.3) {$30^\circ$};
+    
+    \draw[<->] (0.6, 2.2) -- (4.1, 0.2) node[midway, above right] {$2 \, \si{m}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis de Fuerzas}
+El peso de la barra homogénea es:
+$$W = m \cdot g = 20(10) = 200 \, \si{N}$$
+Al ser homogénea, su centro de gravedad se encuentra a $1 \, \si{m}$ de sus extremos.
+
+En el extremo inferior de la barra actúan la fuerza Normal ($N$) y la fuerza de rozamiento estático ($f_r$). Como la barra está a punto de deslizar hacia la izquierda, la fuerza de rozamiento se opone al movimiento apuntando hacia la derecha y alcanza su valor máximo:
+$$f_r = \mu N = 0.4 N$$
+
+En el extremo superior actúa la tensión $T$ de la cuerda, la cual descomponemos en los ejes rectangulares:
+$$T_x = T \cos\theta \quad \text{(hacia la izquierda)}$$
+$$T_y = T \sin\theta \quad \text{(hacia arriba)}$$
+
+\subsubsection*{2. Diagrama de Cuerpo Libre (Python)}
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def draw_dcl_rod():
+    fig, ax = plt.subplots(figsize=(8, 5))
+    ax.set_xlim(-2, 5)
+    ax.set_ylim(-1, 3)
+    ax.axis('off')
+    
+    theta_rod = np.radians(30)
+    L = 4
+    xB = L * np.cos(theta_rod)
+    yB = L * np.sin(theta_rod)
+    
+    ax.plot([xB, 0], [0, yB], lw=4, color='black', alpha=0.5)
+    
+    ax.arrow(xB, 0, 0, 1.5, head_width=0.15, fc='green', ec='green')
+    ax.text(xB + 0.1, 1.6, '$N$', color='green', fontsize=12)
+    
+    ax.arrow(xB, 0, 1.5, 0, head_width=0.15, fc='purple', ec='purple')
+    ax.text(xB + 1.6, 0.1, '$f_r$', color='purple', fontsize=12)
+    
+    xw = (L/2) * np.cos(theta_rod)
+    yw = (L/2) * np.sin(theta_rod)
+    ax.arrow(xw, yw, 0, -1.5, head_width=0.15, fc='red', ec='red')
+    ax.text(xw + 0.1, yw - 1.5, '$W=200$ N', color='red', fontsize=12)
+    
+    ax.arrow(0, yB, -1.2, 0, head_width=0.15, fc='blue', ec='blue')
+    ax.text(-1.4, yB + 0.1, '$T_x$', color='blue', fontsize=12)
+    
+    ax.arrow(0, yB, 0, 1.2, head_width=0.15, fc='blue', ec='blue')
+    ax.text(0.1, yB + 1.3, '$T_y$', color='blue', fontsize=12)
+    
+    plt.tight_layout()
+    plt.show()
+
+draw_dcl_rod()
+\end{lstlisting}
+
+\subsubsection*{3. Equilibrio Traslacional}
+Aplicamos sumatoria de fuerzas en ambos ejes.
+
+\textbf{Eje Y:}
+$$\sum F_y = 0$$
+$$N + T_y - W = 0$$
+$$N + T \sin\theta = 200$$
+$$T \sin\theta = 200 - N \quad \text{(Ec. 1)}$$
+
+\textbf{Eje X:}
+$$\sum F_x = 0$$
+$$f_r - T_x = 0$$
+$$0.4 N - T \cos\theta = 0$$
+$$T \cos\theta = 0.4 N \quad \text{(Ec. 2)}$$
+
+\subsubsection*{4. Equilibrio Rotacional}
+Aplicamos sumatoria de torques respecto al extremo inferior de la barra (punto de apoyo) para anular los torques de $N$ y $f_r$:
+$$\sum \tau_{\text{apoyo}} = 0$$
+
+Determinamos los brazos de palanca y el sentido de giro:
+\begin{itemize}
+    \item Peso ($W$): Torque positivo (antihorario). Brazo $= 1 \cdot \cos 30^\circ$.
+    \item $T_x$: Torque positivo (antihorario). Brazo $= 2 \cdot \sin 30^\circ$.
+    \item $T_y$: Torque negativo (horario). Brazo $= 2 \cdot \cos 30^\circ$.
+\end{itemize}
+
+$$W (1 \cos 30^\circ) + T_x (2 \sin 30^\circ) - T_y (2 \cos 30^\circ) = 0$$
+$$200 \left( \frac{\sqrt{3}}{2} \right) + T \cos\theta \left( 2 \cdot \frac{1}{2} \right) - T \sin\theta \left( 2 \cdot \frac{\sqrt{3}}{2} \right) = 0$$
+$$100\sqrt{3} + T \cos\theta - \sqrt{3} T \sin\theta = 0$$
+
+\subsubsection*{5. Resolución Matemática}
+Sustituimos las equivalencias de (Ec. 1) y (Ec. 2) en la ecuación de torques:
+$$100\sqrt{3} + 0.4 N - \sqrt{3} (200 - N) = 0$$
+$$100\sqrt{3} + 0.4 N - 200\sqrt{3} + \sqrt{3} N = 0$$
+$$N (0.4 + \sqrt{3}) = 100\sqrt{3}$$
+$$N = \frac{100\sqrt{3}}{0.4 + \sqrt{3}} \approx 81.24 \, \si{N}$$
+
+Ahora, dividimos la (Ec. 1) entre la (Ec. 2) para despejar el ángulo $\theta$:
+$$\frac{T \sin\theta}{T \cos\theta} = \frac{200 - N}{0.4 N}$$
+$$\tan\theta = \frac{200 - 81.24}{0.4(81.24)}$$
+$$\tan\theta = \frac{118.76}{32.496}$$
+$$\tan\theta \approx 3.6546$$
+$$\theta = \arctan(3.6546) \approx 74.7^\circ$$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\theta = 74.7^\circ$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Encuentre la relación $F_1/F_2$, de modo que la tabla de la figura, de lados $2 \, \si{m} \times 1 \, \si{m}$, se encuentre en equilibrio rotacional respecto al punto central $O$. La tabla se encuentra sobre una superficie horizontal lisa.
+
+\begin{center}
+\begin{tikzpicture}[scale=2, >=Latex]
+    \draw[thick] (-1, -0.5) rectangle (1, 0.5);
+    
+    \draw[dashed] (-1.5, 0) -- (1.5, 0);
+    \draw[dashed] (0, -1) -- (0, 1);
+    
+    \node[below left] at (0, 0) {$O$};
+    \fill (0, 0) circle (0.03);
+    
+    \draw[->, thick] (1, 0.5) -- +(300:1) node[right] {$\vec{F}_1$};
+    \draw[dashed] (1, 0.5) -- (1, -0.5);
+    \draw (1, 0.1) arc (270:300:0.4);
+    \node at (1.15, 0.2) {\scriptsize $30^\circ$};
+    
+    \draw[->, thick] (-1, 0) -- +(240:1) node[left] {$\vec{F}_2$};
+    \draw[dashed] (-1, 0) -- (-1, -1);
+    \draw (-1, -0.4) arc (270:240:0.4);
+    \node at (-1.15, -0.4) {\scriptsize $30^\circ$};
+    
+    \node[above] at (-0.5, 0.5) {$1 \, \si{m}$};
+    \node[above] at (0.5, 0.5) {$1 \, \si{m}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Descomposición Vectorial}
+Dado que el sistema está sobre una superficie horizontal, analizamos las fuerzas en el plano de la mesa (vista superior). El peso y la normal no generan torque en este eje de rotación.
+
+Descomponemos las fuerzas $\vec{F}_1$ y $\vec{F}_2$ en sus componentes rectangulares ($x$ e $y$). Tomamos como referencia los ángulos de $30^\circ$ que forman con la vertical:
+
+Fuerza $\vec{F}_1$ (esquina superior derecha):
+$$F_{1x} = F_1 \sin(30^\circ) \quad \text{(hacia la derecha)}$$
+$$F_{1y} = F_1 \cos(30^\circ) \quad \text{(hacia abajo)}$$
+
+Fuerza $\vec{F}_2$ (borde central izquierdo):
+$$F_{2x} = F_2 \sin(30^\circ) \quad \text{(hacia la izquierda)}$$
+$$F_{2y} = F_2 \cos(30^\circ) \quad \text{(hacia abajo)}$$
+
+\subsubsection*{2. Diagrama de Cuerpo Libre (Python)}
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def draw_dcl_table():
+    fig, ax = plt.subplots(figsize=(8, 4))
+    ax.set_xlim(-2, 2)
+    ax.set_ylim(-1.5, 1.5)
+    ax.axis('off')
+
+    ax.plot([-1, 1, 1, -1, -1], [-0.5, -0.5, 0.5, 0.5, -0.5], 'k-', lw=2)
+    ax.plot([-1.5, 1.5], [0, 0], 'k--', alpha=0.5)
+    ax.plot([0, 0], [-1, 1], 'k--', alpha=0.5)
+    ax.plot(0, 0, 'ko', markersize=6)
+    ax.text(-0.1, -0.2, 'O', fontsize=12)
+
+    F1x = 0.8 * np.sin(np.radians(30))
+    F1y = -0.8 * np.cos(np.radians(30))
+    ax.arrow(1, 0.5, F1x, F1y, head_width=0.05, fc='blue', ec='blue')
+    ax.text(1 + F1x + 0.1, 0.5 + F1y, '$\\vec{F}_1$', color='blue', fontsize=12)
+
+    ax.arrow(1, 0.5, F1x, 0, head_width=0.03, fc='cyan', ec='cyan')
+    ax.text(1 + F1x/2, 0.55, '$F_{1x}$', color='cyan', fontsize=10)
+    ax.arrow(1, 0.5, 0, F1y, head_width=0.03, fc='cyan', ec='cyan')
+    ax.text(1.05, 0.5 + F1y/2, '$F_{1y}$', color='cyan', fontsize=10)
+
+    F2x = -0.8 * np.sin(np.radians(30))
+    F2y = -0.8 * np.cos(np.radians(30))
+    ax.arrow(-1, 0, F2x, F2y, head_width=0.05, fc='red', ec='red')
+    ax.text(-1 + F2x - 0.2, F2y, '$\\vec{F}_2$', color='red', fontsize=12)
+
+    ax.arrow(-1, 0, 0, F2y, head_width=0.03, fc='orange', ec='orange')
+    ax.text(-0.9, F2y/2, '$F_{2y}$', color='orange', fontsize=10)
+
+    plt.tight_layout()
+    plt.show()
+
+draw_dcl_table()
+\end{lstlisting}
+
+\subsubsection*{3. Equilibrio Rotacional}
+Para mantener el equilibrio rotacional, la sumatoria de torques respecto al centro $O$ debe ser cero.
+$$\sum \tau_O = 0$$
+
+Evaluamos el torque producido por cada componente. Definimos el sentido antihorario como positivo:
+\begin{itemize}
+    \item $F_{1x}$ actúa a una distancia perpendicular $y = 0.5 \, \si{m}$ por encima de $O$. Produce torque horario (negativo): $-F_{1x}(0.5)$
+    \item $F_{1y}$ actúa a una distancia perpendicular $x = 1 \, \si{m}$ a la derecha de $O$. Produce torque horario (negativo): $-F_{1y}(1)$
+    \item $F_{2x}$ actúa en la línea de acción $y = 0 \, \si{m}$ que pasa exactamente por $O$. No produce torque: $0$
+    \item $F_{2y}$ actúa a una distancia perpendicular $x = 1 \, \si{m}$ a la izquierda de $O$. Produce torque antihorario (positivo): $+F_{2y}(1)$
+\end{itemize}
+
+Planteamos la ecuación:
+$$-F_{1x}(0.5) - F_{1y}(1) + F_{2y}(1) = 0$$
+
+Sustituimos las componentes trigonométricas:
+$$-F_1 \sin(30^\circ)(0.5) - F_1 \cos(30^\circ)(1) + F_2 \cos(30^\circ)(1) = 0$$
+
+\subsubsection*{4. Resolución Matemática}
+Agrupamos los términos con $F_1$ en un lado y los de $F_2$ en el otro:
+$$F_2 \cos(30^\circ) = F_1 \sin(30^\circ)(0.5) + F_1 \cos(30^\circ)$$
+$$F_2 \cos(30^\circ) = F_1 \left( 0.5 \sin(30^\circ) + \cos(30^\circ) \right)$$
+
+Sustituimos los valores trigonométricos ($\sin 30^\circ = 1/2$, $\cos 30^\circ = \sqrt{3}/2$):
+$$F_2 \left( \frac{\sqrt{3}}{2} \right) = F_1 \left( \frac{1}{2} \cdot \frac{1}{2} + \frac{\sqrt{3}}{2} \right)$$
+$$F_2 \left( \frac{\sqrt{3}}{2} \right) = F_1 \left( \frac{1}{4} + \frac{\sqrt{3}}{2} \right)$$
+
+Buscamos un denominador común dentro del paréntesis:
+$$F_2 \left( \frac{\sqrt{3}}{2} \right) = F_1 \left( \frac{1 + 2\sqrt{3}}{4} \right)$$
+
+Despejamos la relación $\frac{F_1}{F_2}$:
+$$\frac{F_1}{F_2} = \frac{\frac{\sqrt{3}}{2}}{\frac{1 + 2\sqrt{3}}{4}}$$
+$$\frac{F_1}{F_2} = \frac{4\sqrt{3}}{2(1 + 2\sqrt{3})}$$
+$$\frac{F_1}{F_2} = \frac{2\sqrt{3}}{1 + 2\sqrt{3}}$$
+
+Sustituyendo $\sqrt{3} \approx 1.732$ para obtener el valor decimal:
+$$\frac{F_1}{F_2} = \frac{2(1.732)}{1 + 2(1.732)}$$
+$$\frac{F_1}{F_2} = \frac{3.464}{1 + 3.464}$$
+$$\frac{F_1}{F_2} = \frac{3.464}{4.464}$$
+$$\frac{F_1}{F_2} \approx 0.776$$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\frac{F_1}{F_2} = 0.776$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+Una barra uniforme, de masa $m$ y longitud $L$, se encuentra en equilibrio apoyada sobre los planos lisos de la figura. Determine el ángulo $\theta$.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.5, >=Latex]
+    \draw[thick] (-2.5, 0) -- (2.5, 0);
+    
+    \draw[thick] (0, 0) -- (-2, 1.155);
+    \draw[thick] (0, 0) -- (1.5, 2.598);
+    
+    \draw[thick, double distance=4pt, fill=white] (-1.5, 0.866) -- (1.5, 2.598);
+    
+    \node[below] at (0, 0) {$O$};
+    
+    \draw (-1.2, 0) arc (180:150:1.2);
+    \node at (-1.5, 0.25) {$30^\circ$};
+    
+    \draw (0.6, 0) arc (0:60:0.6);
+    \node at (0.9, 0.4) {$60^\circ$};
+    
+    \draw (-1.1, 0.635) arc (-30:30:0.4);
+    \node at (-0.8, 0.8) {$\theta$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Geométrico y Fuerzas}
+Al ser los planos lisos, no existe fuerza de rozamiento. Las únicas fuerzas de contacto son las normales ($N_A$ en el plano izquierdo y $N_B$ en el plano derecho), las cuales son perpendiculares a sus respectivas superficies.
+El peso de la barra uniforme ($W = mg$) actúa verticalmente hacia abajo desde su centro de gravedad ($L/2$).
+
+Analizamos los ángulos respecto a la horizontal:
+\begin{itemize}
+    \item El plano izquierdo tiene una inclinación de $30^\circ$. La normal $N_A$ es perpendicular a este plano, por lo que forma un ángulo de $90^\circ - 30^\circ = 60^\circ$ con la horizontal (apunta hacia arriba y a la derecha).
+    \item El plano derecho tiene una inclinación de $60^\circ$. La normal $N_B$ es perpendicular a este plano, por lo que forma un ángulo de $90^\circ - 60^\circ = 30^\circ$ con la horizontal (apunta hacia arriba y a la izquierda).
+    \item Sea $\phi$ el ángulo que forma la barra con la horizontal.
+\end{itemize}
+
+De la geometría en el punto de apoyo izquierdo, la línea horizontal, el plano inclinado y la barra forman los ángulos. El plano desciende hacia la derecha con un ángulo de $30^\circ$ bajo la horizontal, y la barra asciende hacia la derecha con un ángulo $\phi$ sobre la horizontal. 
+Por lo tanto, el ángulo $\theta$ entre el plano y la barra es la suma de ambos:
+$$\theta = 30^\circ + \phi$$
+
+\subsubsection*{2. Diagrama de Cuerpo Libre (Python)}
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def draw_dcl_inclines():
+    fig, ax = plt.subplots(figsize=(8, 6))
+    ax.set_xlim(-2.5, 2.5)
+    ax.set_ylim(-0.5, 3.5)
+    ax.axis('off')
+
+    ax.plot([-2.5, 2.5], [0, 0], 'k-', lw=1)
+    ax.plot([0, -2.5], [0, 2.5*np.tan(np.radians(30))], 'k--', alpha=0.5)
+    ax.plot([0, 2], [0, 2*np.tan(np.radians(60))], 'k--', alpha=0.5)
+
+    xA = -1.5
+    yA = 1.5 * np.tan(np.radians(30))
+    xB = 1.5
+    yB = 1.5 * np.tan(np.radians(60))
+
+    ax.plot([xA, xB], [yA, yB], lw=5, color='black', alpha=0.6)
+    
+    ax.plot(xA, yA, 'ko', markersize=6)
+    ax.text(xA - 0.2, yA - 0.2, 'A', fontsize=12)
+    ax.plot(xB, yB, 'ko', markersize=6)
+    ax.text(xB + 0.2, yB, 'B', fontsize=12)
+
+    NA_x = 1.0 * np.cos(np.radians(60))
+    NA_y = 1.0 * np.sin(np.radians(60))
+    ax.arrow(xA, yA, NA_x, NA_y, head_width=0.1, fc='green', ec='green')
+    ax.text(xA + NA_x - 0.1, yA + NA_y + 0.1, '$N_A$', color='green', fontsize=12)
+
+    NB_x = -1.0 * np.cos(np.radians(30))
+    NB_y = 1.0 * np.sin(np.radians(30))
+    ax.arrow(xB, yB, NB_x, NB_y, head_width=0.1, fc='blue', ec='blue')
+    ax.text(xB + NB_x - 0.3, yB + NB_y + 0.1, '$N_B$', color='blue', fontsize=12)
+
+    xC = (xA + xB) / 2
+    yC = (yA + yB) / 2
+    ax.arrow(xC, yC, 0, -1.2, head_width=0.1, fc='red', ec='red')
+    ax.text(xC + 0.1, yC - 1.0, '$W=mg$', color='red', fontsize=12)
+
+    ax.plot([xA, xA + 1], [yA, yA], 'k:', alpha=0.5)
+    ax.text(xA + 0.5, yA + 0.1, '$\\phi$', fontsize=12)
+
+    plt.tight_layout()
+    plt.show()
+
+draw_dcl_inclines()
+\end{lstlisting}
+
+\subsubsection*{3. Equilibrio Traslacional}
+Aplicamos sumatoria de fuerzas en los ejes cartesianos para relacionar las normales y el peso.
+
+\textbf{Eje Horizontal (X):}
+$$\sum F_x = 0$$
+$$N_A \cos(60^\circ) - N_B \cos(30^\circ) = 0$$
+$$N_A \left( \frac{1}{2} \right) = N_B \left( \frac{\sqrt{3}}{2} \right)$$
+$$N_A = \sqrt{3} N_B \quad \text{(Ec. 1)}$$
+
+\textbf{Eje Vertical (Y):}
+$$\sum F_y = 0$$
+$$N_A \sin(60^\circ) + N_B \sin(30^\circ) - mg = 0$$
+$$\left( \sqrt{3} N_B \right) \left( \frac{\sqrt{3}}{2} \right) + N_B \left( \frac{1}{2} \right) = mg$$
+$$\frac{3}{2} N_B + \frac{1}{2} N_B = mg$$
+$$2 N_B = mg$$
+$$N_B = \frac{mg}{2}$$
+
+\subsubsection*{4. Equilibrio Rotacional}
+Aplicamos sumatoria de torques respecto al extremo inferior $A$ para hallar el ángulo $\phi$. Tomamos el sentido antihorario como positivo.
+$$\sum \tau_A = 0$$
+
+Determinamos los brazos de palanca y los torques:
+\begin{itemize}
+    \item El peso $mg$ actúa a una distancia a lo largo de la barra de $L/2$. Su brazo de palanca horizontal respecto a $A$ es $\frac{L}{2} \cos\phi$. Genera torque horario (negativo): $-mg \left( \frac{L}{2} \cos\phi \right)$.
+    \item La normal $N_B$ actúa en el extremo $B$ a una distancia $L$. Descomponemos $N_B$ en componentes relativas al punto $A$: $N_{Bx} = -N_B \cos(30^\circ)$ y $N_{By} = N_B \sin(30^\circ)$.
+    \item El torque de $N_B$ se calcula con sus componentes: $N_{By} (L \cos\phi) - N_{Bx} (L \sin\phi)$. 
+    $$ \tau_{N_B} = N_B \sin(30^\circ) (L \cos\phi) - (-N_B \cos(30^\circ)) (L \sin\phi) $$
+    $$ \tau_{N_B} = N_B L \left( \sin 30^\circ \cos\phi + \cos 30^\circ \sin\phi \right) $$
+\end{itemize}
+
+Planteamos la ecuación general:
+$$N_B L \left( \sin 30^\circ \cos\phi + \cos 30^\circ \sin\phi \right) - mg \frac{L}{2} \cos\phi = 0$$
+
+Sustituimos $N_B = \frac{mg}{2}$:
+$$\left( \frac{mg}{2} \right) L \left( \sin 30^\circ \cos\phi + \cos 30^\circ \sin\phi \right) - mg \frac{L}{2} \cos\phi = 0$$
+
+\subsubsection*{5. Resolución Matemática}
+Dividimos toda la ecuación para el término común $\frac{mgL}{2}$:
+$$\sin 30^\circ \cos\phi + \cos 30^\circ \sin\phi - \cos\phi = 0$$
+
+Sustituimos los valores trigonométricos de $30^\circ$:
+$$\frac{1}{2} \cos\phi + \frac{\sqrt{3}}{2} \sin\phi - \cos\phi = 0$$
+$$\frac{\sqrt{3}}{2} \sin\phi - \frac{1}{2} \cos\phi = 0$$
+$$\frac{\sqrt{3}}{2} \sin\phi = \frac{1}{2} \cos\phi$$
+
+Multiplicamos por 2 y despejamos:
+$$\sqrt{3} \sin\phi = \cos\phi$$
+$$\frac{\sin\phi}{\cos\phi} = \frac{1}{\sqrt{3}}$$
+$$\tan\phi = \frac{1}{\sqrt{3}}$$
+
+Por lo tanto, $\phi = \arctan\left(\frac{1}{\sqrt{3}}\right) = 30^\circ$.
+
+Finalmente, hallamos el ángulo solicitado $\theta$:
+$$\theta = 30^\circ + \phi$$
+$$\theta = 30^\circ + 30^\circ$$
+$$\theta = 60^\circ$$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\theta = 60^\circ$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+En la figura, la masa del bloque es $100 \, \si{kg}$, la de la viga uniforme es de $60 \, \si{kg}$. Si $AB = 3 \, \si{m}$ y $BC = 1 \, \si{m}$. Calcule el valor de la tensión de la cuerda $CD$. (Considere $g=10\,\si{m/s^2}$).
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2, >=Latex]
+    \draw[thick] (-1.5, 3) -- (6, 3);
+    
+    \draw[line width=4pt] (0, 0) -- (4, 0);
+    
+    \draw[thick, ->] (0, 0) -- (-1.5, 3) node[midway, left] {$T_2$};
+    \draw[thick, ->] (4, 0) -- (5.73, 3) node[midway, right] {$T_1$};
+    
+    \draw[dashed] (-1.5, 0) -- (5.5, 0);
+    
+    \draw (0, 0) ++(-0.5, 0) arc (180:116.5:0.5);
+    \node at (-0.6, 0.4) {$\theta$};
+    
+    \draw (5.73, 3) ++(-1, 0) arc (180:210:1);
+    \node at (4.3, 2.7) {$30^\circ$};
+    
+    \draw (4, 0) ++(0.7, 0) arc (0:30:0.7);
+    \node at (4.9, 0.2) {$30^\circ$};
+    
+    \node[below] at (0, -0.1) {$A$};
+    \node[above] at (3, 0.1) {$B$};
+    \node[below] at (4, -0.1) {$C$};
+    \node[above right] at (5.73, 3) {$D$};
+    
+    \draw[thick] (3, 0) -- (3, -0.8);
+    \draw[thick, fill=white] (2.5, -0.8) rectangle (3.5, -1.6) node[midway] {$100 \, \si{kg}$};
+    
+    \draw[<->] (0, 0.4) -- (3, 0.4) node[midway, above] {$3 \, \si{m}$};
+    \draw[<->] (3, 0.4) -- (4, 0.4) node[midway, above] {$1 \, \si{m}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis Físico y Fuerzas}
+La longitud total de la viga es $L = AB + BC = 3 + 1 = 4 \, \si{m}$.
+Al ser una viga uniforme, su centro de gravedad se encuentra en el punto medio de su longitud, es decir, a $2 \, \si{m}$ del extremo $A$.
+
+Calculamos los pesos del bloque ($W_B$) y de la viga ($W_v$) con $g = 10 \, \si{m/s^2}$:
+$$W_B = m_B \cdot g = 100(10) = 1000 \, \si{N}$$
+$$W_v = m_v \cdot g = 60(10) = 600 \, \si{N}$$
+
+\subsubsection*{2. Diagrama de Cuerpo Libre (Python)}
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def draw_dcl_beam_tension():
+    fig, ax = plt.subplots(figsize=(8, 4))
+    ax.set_xlim(-2, 6)
+    ax.set_ylim(-3.5, 3)
+    ax.axis('off')
+    
+    ax.plot([0, 4], [0, 0], lw=6, color='black')
+    ax.plot(0, 0, 'ko', markersize=8)
+    ax.text(-0.3, 0.2, 'A', fontsize=12)
+    
+    ax.arrow(2, 0, 0, -1.5, head_width=0.15, fc='red', ec='red')
+    ax.text(2.1, -1.5, '$W_v=600$ N', color='red', fontsize=12)
+    
+    ax.arrow(3, 0, 0, -2.5, head_width=0.15, fc='blue', ec='blue')
+    ax.text(3.1, -2.5, '$W_B=1000$ N', color='blue', fontsize=12)
+    
+    T1_len = 2.5
+    T1x = T1_len * np.cos(np.radians(30))
+    T1y = T1_len * np.sin(np.radians(30))
+    ax.arrow(4, 0, T1x, T1y, head_width=0.15, fc='green', ec='green')
+    ax.text(4 + T1x, T1y + 0.2, '$T_{CD}$', color='green', fontsize=12)
+    
+    T2x = -1.5
+    T2y = 2.0
+    ax.arrow(0, 0, T2x, T2y, head_width=0.15, fc='purple', ec='purple')
+    ax.text(T2x - 0.5, T2y, '$T_2$', color='purple', fontsize=12)
+
+    plt.tight_layout()
+    plt.show()
+
+draw_dcl_beam_tension()
+\end{lstlisting}
+
+\subsubsection*{3. Equilibrio Rotacional}
+Para calcular directamente la tensión de la cuerda $CD$ (que llamaremos $T_{CD}$ o $T_1$) sin involucrar la tensión $T_2$ del extremo $A$, aplicamos la condición de equilibrio rotacional respecto al punto $A$:
+$$\sum \tau_A = 0$$
+
+Evaluamos el brazo de palanca y el torque de cada fuerza:
+\begin{itemize}
+    \item Peso de la viga ($W_v$): Actúa a $2 \, \si{m}$ de $A$. Genera torque horario (negativo): $-600(2)$.
+    \item Peso del bloque ($W_B$): Actúa en el punto $B$, a $3 \, \si{m}$ de $A$. Genera torque horario (negativo): $-1000(3)$.
+    \item Tensión de la cuerda $CD$ ($T_{CD}$): Actúa en el punto $C$, a $4 \, \si{m}$ de $A$. Solo su componente vertical $T_{CD} \sin(30^\circ)$ genera torque respecto a $A$, produciendo un giro antihorario (positivo): $+T_{CD} \sin(30^\circ) \cdot (4)$.
+\end{itemize}
+
+Planteamos la ecuación general:
+$$T_{CD} \sin(30^\circ)(4) - W_v(2) - W_B(3) = 0$$
+
+\subsubsection*{4. Resolución Matemática}
+Sustituimos los valores y operamos:
+$$T_{CD} (0.5)(4) - 600(2) - 1000(3) = 0$$
+$$2 T_{CD} - 1200 - 3000 = 0$$
+$$2 T_{CD} - 4200 = 0$$
+$$2 T_{CD} = 4200$$
+$$T_{CD} = \frac{4200}{2}$$
+$$T_{CD} = 2100 \, \si{N}$$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $T_{CD} = 2100 \, \si{N}$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+En la figura, la masa del bloque es $100 \, \si{kg}$, la de la viga uniforme es de $60 \, \si{kg}$. Si $AB = 3 \, \si{m}$ y $BC = 1 \, \si{m}$. Conociendo que la tensión de la cuerda $CD$ es de $2100 \, \si{N}$, calcule el ángulo $\theta$ que forma la cuerda en el extremo $A$ con la horizontal. (Considere $g=10\,\si{m/s^2}$).
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2, >=Latex]
+    \draw[thick] (-1.5, 3) -- (6, 3);
+    
+    \draw[line width=4pt] (0, 0) -- (4, 0);
+    
+    \draw[thick, ->] (0, 0) -- (-1.5, 3) node[midway, left] {$T_2$};
+    \draw[thick, ->] (4, 0) -- (5.73, 3) node[midway, right] {$T_1 = 2100 \, \si{N}$};
+    
+    \draw[dashed] (-1.5, 0) -- (5.5, 0);
+    
+    \draw (0, 0) ++(-0.5, 0) arc (180:116.5:0.5);
+    \node at (-0.6, 0.4) {$\theta$};
+    
+    \draw (4, 0) ++(0.7, 0) arc (0:30:0.7);
+    \node at (4.9, 0.2) {$30^\circ$};
+    
+    \node[below] at (0, -0.1) {$A$};
+    \node[above] at (3, 0.1) {$B$};
+    \node[below] at (4, -0.1) {$C$};
+    
+    \draw[thick] (3, 0) -- (3, -0.8);
+    \draw[thick, fill=white] (2.5, -0.8) rectangle (3.5, -1.6) node[midway] {$100 \, \si{kg}$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Descomposición de las Tensiones}
+Tenemos dos cuerdas en el sistema, $T_1$ aplicada en $C$ y $T_2$ aplicada en $A$.
+Descomponemos $T_1 = 2100 \, \si{N}$ (ángulo de $30^\circ$):
+$$T_{1x} = 2100 \cos(30^\circ) = 2100 \left( \frac{\sqrt{3}}{2} \right) = 1050\sqrt{3} \, \si{N} \quad \text{(hacia la derecha)}$$
+$$T_{1y} = 2100 \sin(30^\circ) = 2100(0.5) = 1050 \, \si{N} \quad \text{(hacia arriba)}$$
+
+Descomponemos $T_2$ (ángulo $\theta$ en el segundo cuadrante):
+$$T_{2x} = T_2 \cos\theta \quad \text{(hacia la izquierda)}$$
+$$T_{2y} = T_2 \sin\theta \quad \text{(hacia arriba)}$$
+
+\subsubsection*{2. Equilibrio Traslacional}
+Aplicamos la sumatoria de fuerzas en los ejes $X$ e $Y$.
+
+\textbf{Eje Horizontal (X):}
+$$\sum F_x = 0$$
+$$-T_{2x} + T_{1x} = 0$$
+$$T_2 \cos\theta = 1050\sqrt{3} \quad \text{(Ec. 1)}$$
+
+\textbf{Eje Vertical (Y):}
+Los pesos hacia abajo son $W_v = 600 \, \si{N}$ y $W_B = 1000 \, \si{N}$.
+$$\sum F_y = 0$$
+$$T_{2y} + T_{1y} - W_v - W_B = 0$$
+$$T_2 \sin\theta + 1050 - 600 - 1000 = 0$$
+$$T_2 \sin\theta + 1050 - 1600 = 0$$
+$$T_2 \sin\theta - 550 = 0$$
+$$T_2 \sin\theta = 550 \quad \text{(Ec. 2)}$$
+
+\subsubsection*{3. Cálculo del Ángulo}
+Para encontrar el ángulo $\theta$, dividimos la (Ec. 2) entre la (Ec. 1), lo que nos permite eliminar la variable $T_2$:
+$$\frac{T_2 \sin\theta}{T_2 \cos\theta} = \frac{550}{1050\sqrt{3}}$$
+$$\tan\theta = \frac{55}{105\sqrt{3}}$$
+
+Simplificamos la fracción dividiendo para 5:
+$$\tan\theta = \frac{11}{21\sqrt{3}}$$
+$$\tan\theta \approx \frac{11}{36.373}$$
+$$\tan\theta \approx 0.3024$$
+
+Aplicamos la función inversa de la tangente:
+$$\theta = \arctan(0.3024)$$
+$$\theta \approx 16.83^\circ$$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\theta = 16.83^\circ$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+En la figura, la masa de la viga es de $20 \, \si{kg}$, su longitud es $2 \, \si{m}$ y $\mu$ es $0.4$, entre la viga y el suelo, y entre el bloque y el plano. Determine el ángulo $\theta$, si la viga está a punto de deslizar hacia la izquierda. (Considere $g=10\,\si{m/s^2}$).
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2, >=Latex]
+    \draw[thick] (0, 0) -- (3, 0) -- (3, 1.732) -- cycle;
+    \draw (0.6, 0) arc (0:30:0.6);
+    \node at (0.9, 0.25) {$30^\circ$};
+    
+    \draw[thick] (3, 1.732) circle (0.2);
+    
+    \begin{scope}[shift={(1, 0.577)}, rotate=30]
+        \draw[thick, fill=white] (-0.4, 0) rectangle (0.4, 0.6);
+        \node at (0, 0.3) {$B$};
+        \draw[thick, ->] (0.4, 0.3) -- (2.3, 0.3) node[midway, above] {$T$};
+    \end{scope}
+    
+    \draw[thick] (3.5, 0) -- (8, 0);
+    
+    \coordinate (BeamEnd) at (7.5, 0);
+    \coordinate (BeamTop) at (5.768, 1);
+    \draw[thick, double distance=4pt] (BeamEnd) -- (BeamTop);
+    
+    \draw[dashed, gray] (BeamEnd) -- (5.768, 0);
+    \draw (7, 0) arc (180:150:0.5);
+    \node at (6.6, 0.25) {$30^\circ$};
+    
+    \draw[thick, <-] (BeamTop) -- (3.17, 1.83);
+    
+    \draw[dashed, gray] (BeamTop) -- (4.768, 1);
+    \draw (5.268, 1) arc (180:162:0.5);
+    \node at (5.0, 1.2) {$\theta$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Análisis de Fuerzas en la Viga}
+El problema nos pide el ángulo $\theta$ bajo la condición de que la viga está a punto de deslizar hacia la izquierda. En esta parte, podemos aislar el análisis a la viga, cuyo comportamiento es idéntico a un sistema aislado en equilibrio inminente.
+El peso de la viga homogénea es:
+$$W_v = m_v \cdot g = 20(10) = 200 \, \si{N}$$
+Al ser homogénea, su centro de gravedad está a $1 \, \si{m}$ de sus extremos.
+
+En el extremo inferior actúa la Normal ($N_v$) y la fricción máxima ($f_{rv}$). Al tender a deslizar a la izquierda, la fricción apunta a la derecha:
+$$f_{rv} = \mu N_v = 0.4 N_v$$
+
+En el extremo superior actúa la tensión $T$, con componentes:
+$$T_x = T \cos\theta \quad \text{(izquierda)}$$
+$$T_y = T \sin\theta \quad \text{(arriba)}$$
+
+\subsubsection*{2. Diagrama de Cuerpo Libre de la Viga (Python)}
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+
+def draw_dcl_beam_theta():
+    fig, ax = plt.subplots(figsize=(8, 5))
+    ax.set_xlim(-2, 5)
+    ax.set_ylim(-1, 3)
+    ax.axis('off')
+    
+    theta_rod = np.radians(30)
+    L = 4
+    xB = L * np.cos(theta_rod)
+    yB = L * np.sin(theta_rod)
+    
+    ax.plot([xB, 0], [0, yB], lw=4, color='black', alpha=0.5)
+    
+    ax.arrow(xB, 0, 0, 1.5, head_width=0.15, fc='green', ec='green')
+    ax.text(xB + 0.1, 1.6, '$N_v$', color='green', fontsize=12)
+    
+    ax.arrow(xB, 0, 1.5, 0, head_width=0.15, fc='purple', ec='purple')
+    ax.text(xB + 1.6, 0.1, '$f_{rv}$', color='purple', fontsize=12)
+    
+    xw = (L/2) * np.cos(theta_rod)
+    yw = (L/2) * np.sin(theta_rod)
+    ax.arrow(xw, yw, 0, -1.5, head_width=0.15, fc='red', ec='red')
+    ax.text(xw + 0.1, yw - 1.5, '$W_v=200$ N', color='red', fontsize=12)
+    
+    ax.arrow(0, yB, -1.2, 0, head_width=0.15, fc='blue', ec='blue')
+    ax.text(-1.4, yB + 0.1, '$T_x$', color='blue', fontsize=12)
+    
+    ax.arrow(0, yB, 0, 1.2, head_width=0.15, fc='blue', ec='blue')
+    ax.text(0.1, yB + 1.3, '$T_y$', color='blue', fontsize=12)
+    
+    plt.tight_layout()
+    plt.show()
+
+draw_dcl_beam_theta()
+\end{lstlisting}
+
+\subsubsection*{3. Equilibrio de la Viga}
+\textbf{Eje Y:}
+$$\sum F_y = 0 \Rightarrow N_v + T_y - W_v = 0$$
+$$N_v + T \sin\theta = 200 \Rightarrow T \sin\theta = 200 - N_v \quad \text{(Ec. 1)}$$
+
+\textbf{Eje X:}
+$$\sum F_x = 0 \Rightarrow f_{rv} - T_x = 0$$
+$$0.4 N_v - T \cos\theta = 0 \Rightarrow T \cos\theta = 0.4 N_v \quad \text{(Ec. 2)}$$
+
+\textbf{Torques respecto al apoyo:}
+$$\sum \tau = 0$$
+$$W_v (1 \cos 30^\circ) + T_x (2 \sin 30^\circ) - T_y (2 \cos 30^\circ) = 0$$
+$$200 \left( \frac{\sqrt{3}}{2} \right) + T \cos\theta (1) - T \sin\theta (\sqrt{3}) = 0$$
+$$100\sqrt{3} + T \cos\theta - \sqrt{3} T \sin\theta = 0$$
+
+\subsubsection*{4. Resolución Matemática}
+Sustituimos (Ec. 1) y (Ec. 2):
+$$100\sqrt{3} + 0.4 N_v - \sqrt{3} (200 - N_v) = 0$$
+$$100\sqrt{3} + 0.4 N_v - 200\sqrt{3} + \sqrt{3} N_v = 0$$
+$$N_v (0.4 + \sqrt{3}) = 100\sqrt{3}$$
+$$N_v = \frac{100\sqrt{3}}{0.4 + \sqrt{3}} \approx 81.24 \, \si{N}$$
+
+Dividimos (Ec. 1) para (Ec. 2):
+$$\frac{T \sin\theta}{T \cos\theta} = \frac{200 - N_v}{0.4 N_v}$$
+$$\tan\theta = \frac{200 - 81.24}{0.4(81.24)} = \frac{118.76}{32.496} \approx 3.6546$$
+$$\theta = \arctan(3.6546) \approx 74.7^\circ$$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $\theta = 74.7^\circ$
+\end{tcolorbox}
+
+\newpage
+
+\subsection*{Enunciado}
+En la figura, la masa de la viga es de $20 \, \si{kg}$, su longitud es $2 \, \si{m}$ y $\mu$ es $0.4$, entre la viga y el suelo, y entre el bloque y el plano. Determine el peso del bloque, cuando este está a punto de deslizar hacia abajo. (Considere que para este estado, la tensión en la cuerda está dada por las componentes $T_x = 32.496 \, \si{N}$ y $T_y = 118.76 \, \si{N}$ calculadas en el equilibrio de la viga y $g=10\,\si{m/s^2}$).
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2, >=Latex]
+    \draw[thick] (0, 0) -- (3, 0) -- (3, 1.732) -- cycle;
+    \draw (0.6, 0) arc (0:30:0.6);
+    \node at (0.9, 0.25) {$30^\circ$};
+    
+    \draw[thick] (3, 1.732) circle (0.2);
+    
+    \begin{scope}[shift={(1, 0.577)}, rotate=30]
+        \draw[thick, fill=white] (-0.4, 0) rectangle (0.4, 0.6);
+        \node at (0, 0.3) {$B$};
+        \draw[thick, ->] (0.4, 0.3) -- (2.3, 0.3) node[midway, above] {$T$};
+    \end{scope}
+    
+    \draw[thick] (3.5, 0) -- (8, 0);
+    
+    \coordinate (BeamEnd) at (7.5, 0);
+    \coordinate (BeamTop) at (5.768, 1);
+    \draw[thick, double distance=4pt] (BeamEnd) -- (BeamTop);
+    
+    \draw[dashed, gray] (BeamEnd) -- (5.768, 0);
+    \draw (7, 0) arc (180:150:0.5);
+    \node at (6.6, 0.25) {$30^\circ$};
+    
+    \draw[thick, <-] (BeamTop) -- (3.17, 1.83);
+    
+    \draw[dashed, gray] (BeamTop) -- (4.768, 1);
+    \draw (5.268, 1) arc (180:162:0.5);
+    \node at (5.0, 1.2) {$\theta$};
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Solución}
+
+\subsubsection*{1. Cálculo de la Tensión de la Cuerda}
+Del análisis previo del equilibrio de la viga, conocemos las componentes de la tensión transmitida por la cuerda:
+$$T_x = 32.496 \, \si{N}$$
+$$T_y = 118.76 \, \si{N}$$
+
+Calculamos la magnitud de la tensión total $T$, que es la misma en toda la cuerda ideal:
+$$T = \sqrt{T_x^2 + T_y^2}$$
+$$T = \sqrt{(32.496)^2 + (118.76)^2}$$
+$$T = \sqrt{1056 + 14104} = \sqrt{15160} \approx 123.13 \, \si{N}$$
+
+\subsubsection*{2. Diagrama de Cuerpo Libre del Bloque (Python)}
+
+\begin{lstlisting}
+import matplotlib.pyplot as plt
+import numpy as np
+import matplotlib.patches as patches
+
+def draw_dcl_block_b():
+    fig, ax = plt.subplots(figsize=(6, 6))
+    ax.set_xlim(-2, 2)
+    ax.set_ylim(-2, 2)
+    ax.axis('off')
+    
+    theta = np.radians(30)
+    ax.plot([-2*np.cos(theta), 2*np.cos(theta)], [2*np.sin(theta), -2*np.sin(theta)], 'k-', lw=2)
+    
+    rect = patches.Rectangle((-0.5, 0), 1.0, 0.6, angle=-30, linewidth=1.5, edgecolor='black', facecolor='white')
+    ax.add_patch(rect)
+    
+    ax.arrow(0, 0, 0, -1.2, head_width=0.08, fc='red', ec='red')
+    ax.text(0.1, -1.1, '$W_B$', color='red', fontsize=12)
+    
+    ax.arrow(0, 0, 1.0*np.cos(theta), -1.0*np.sin(theta), head_width=0.08, fc='blue', ec='blue')
+    ax.text(1.0, -0.3, '$T=123.13$ N', color='blue', fontsize=12)
+    
+    ax.arrow(0, 0, 0.6*np.cos(theta), -0.6*np.sin(theta), head_width=0.08, fc='purple', ec='purple')
+    ax.text(0.5, 0.1, '$f_r$', color='purple', fontsize=12)
+    
+    ax.arrow(0, 0, 0.8*np.sin(theta), 0.8*np.cos(theta), head_width=0.08, fc='green', ec='green')
+    ax.text(0.5, 0.8, '$N_B$', color='green', fontsize=12)
+    
+    plt.tight_layout()
+    plt.show()
+
+draw_dcl_block_b()
+\end{lstlisting}
+
+\subsubsection*{3. Equilibrio Traslacional del Bloque}
+El bloque está a punto de deslizar hacia abajo por el plano inclinado ($30^\circ$). Por tanto, la fuerza de rozamiento ($f_{rB}$) actuará hacia arriba del plano.
+Rotamos los ejes para que el eje X sea paralelo al plano inclinado y el eje Y sea perpendicular.
+
+\textbf{Eje Y perpendicular:}
+$$\sum F_y = 0 \Rightarrow N_B - W_B \cos(30^\circ) = 0$$
+$$N_B = W_B \cos(30^\circ) = W_B \left( \frac{\sqrt{3}}{2} \right)$$
+
+Fricción máxima:
+$$f_{rB} = \mu N_B = 0.4 W_B \left( \frac{\sqrt{3}}{2} \right) = 0.2\sqrt{3} W_B$$
+
+\textbf{Eje X paralelo:}
+Hacia abajo actúan la componente del peso, y hacia arriba la Tensión y la fricción.
+$$\sum F_x = 0$$
+$$W_B \sin(30^\circ) - T - f_{rB} = 0$$
+$$W_B (0.5) - 123.13 - 0.2\sqrt{3} W_B = 0$$
+
+\subsubsection*{4. Resolución}
+Agrupamos los términos con $W_B$:
+$$W_B (0.5 - 0.2\sqrt{3}) = 123.13$$
+
+Sustituimos $\sqrt{3} \approx 1.73205$:
+$$W_B (0.5 - 0.2(1.73205)) = 123.13$$
+$$W_B (0.5 - 0.34641) = 123.13$$
+$$W_B (0.15359) = 123.13$$
+$$W_B = \frac{123.13}{0.15359} \approx 801.68 \, \si{N}$$
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=Respuesta Final]
+\centering \Large $W_B = 801.68 \, \si{N}$
+\end{tcolorbox}
+
+\end{document}
