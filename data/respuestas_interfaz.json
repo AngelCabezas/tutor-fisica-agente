@@ -1,0 +1,71 @@
+{
+  "saludo": {
+    "patrones": [
+      "hola",
+      "hey",
+      "buenos dias",
+      "buenas tardes",
+      "buenas noches",
+      "como estas",
+      "que tal"
+    ],
+    "respuesta": "Hola. Soy el Tutor de Física EPN. Puedes escribirme un ejercicio o una pregunta de Física."
+  },
+  "identidad": {
+    "patrones": [
+      "como te llamas",
+      "cual es tu nombre",
+      "quien eres",
+      "que eres"
+    ],
+    "respuesta": "Soy el Tutor de Física EPN, un asistente especializado en resolver ejercicios y explicar conceptos de Física paso a paso."
+  },
+  "creador_sistema": {
+    "patrones": [
+      "quien te creo",
+      "quien es tu creador",
+      "quien fue tu creador",
+      "quien te hizo",
+      "quien te desarrollo",
+      "como fuiste creado",
+      "como funcionas"
+    ],
+    "respuesta": "Fui configurado como una interfaz de tutoría de Física. Uso un modelo local, una skill pedagógica, una base semántica RAG y reglas de formato para apoyar la resolución de ejercicios y preguntas de Física."
+  },
+  "agradecimiento": {
+    "patrones": [
+      "gracias",
+      "muchas gracias",
+      "ok gracias",
+      "listo gracias",
+      "perfecto gracias"
+    ],
+    "respuesta": "Con gusto. Cuando tengas otro ejercicio o pregunta de Física, lo revisamos paso a paso."
+  },
+  "ayuda": {
+    "patrones": [
+      "que puedes hacer",
+      "en que me puedes ayudar",
+      "como me puedes ayudar",
+      "que sabes hacer",
+      "ayuda"
+    ],
+    "respuesta": "Puedo ayudarte con ejercicios de Física, explicación de conceptos, leyes físicas, unidades, procedimientos paso a paso y diagramas de apoyo cuando sean necesarios."
+  },
+  "fuera_dominio": {
+    "patrones": [
+      "java",
+      "angular",
+      "programacion",
+      "tecnologia",
+      "probabilidad",
+      "dado",
+      "historia",
+      "biologia",
+      "quimica",
+      "economia",
+      "politica"
+    ],
+    "respuesta": "Esta interfaz está especializada en tutoría de Física. Puedo ayudarte con ejercicios, conceptos, leyes físicas, unidades, diagramas y procedimientos paso a paso."
+  }
+}

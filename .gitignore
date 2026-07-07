@@ -1,0 +1,39 @@
+# Entornos virtuales
+entorno_gui/
+entorno_llamacpp/
+rag_fisica/entorno_rag/
+venv/
+.env/
+.venv/
+
+# Repositorio externo
+llama.cpp/
+
+# Modelos grandes
+*.gguf
+*.safetensors
+*.bin
+*.pt
+*.pth
+*.ckpt
+*.onnx
+
+# RAG pesado o generado
+rag_fisica/bd_semantica_fisica/
+rag_fisica/libro_hewitt/
+rag_fisica/*.jsonl
+rag_fisica/registro_teoria_fisica.json
+rag_fisica/registro_ejercicios_fisica.json
+
+# Temporales
+*.save
+*.swp
+*.swo
+__pycache__/
+*.pyc
+
+# Historiales locales
+data/historial_interfaz_streamlit.jsonl
+
+# Streamlit secretos
+.streamlit/secrets.toml
